@@ -1,18 +1,21 @@
 /*global Modernizr*/
 define([
     'angular',
-    'auth/services/token'
+    'auth/services/token',
+    'auth/services/googleSignIn'
 ], function(
     angular,
-    authToken
+    authToken,
+    googleSignIn
 ) {
 'use strict';
 
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdAuthToken', authToken)
-    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope',
-        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope) {
-
+    .factory('wdcGoogleSignIn',googleSignIn)
+    .controller('portalController',
+        ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope','wdcGoogleSignIn',
+        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdcGoogleSignIn) {
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
         $scope.authCode = wdDev.query('ac') || wdAuthToken.getToken() || '';
@@ -169,6 +172,10 @@ angular.module('wdAuth', ['wdCommon'])
                 $scope.submit($scope.authCode);
             }, 0);
         }
-    }]);
 
+        //调用Google账号登陆
+        window.wdcGoogleSignIn = wdcGoogleSignIn;
+        wdcGoogleSignIn.init();
+
+    }]);
 });

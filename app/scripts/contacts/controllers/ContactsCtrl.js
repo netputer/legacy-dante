@@ -1091,6 +1091,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
     $scope.protocolMap = G_protocol;
     $scope.showContacts = showContacts;
     window.wdcContacts = wdcContacts;
+
     wdKey.$apply('up', 'contacts', function() {
         for (var i = 0 , l = G_pageList.length ; i < l ; i += 1 ){
             if( (i - 1 >= 0) && G_pageList[i]['clicked'] ){

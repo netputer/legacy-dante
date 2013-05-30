@@ -129,7 +129,7 @@ angular.module('wdApp', ['wdCommon', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMess
             return {
                 request: function(config) {
                     // Using realtime data source url.
-                    if (config.url) {
+                    if (config.url && !/^(http|https):/.test(config.url)) {
                         config.url = wdDev.wrapURL(config.url);
                     }
                     // Global timeout

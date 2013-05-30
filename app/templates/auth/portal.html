@@ -4,7 +4,15 @@
             <div class="container" ng-switch-when="true">
                 <h1>{{$root.DICT.portal.H1}}</h1>
                 <p>{{$root.DICT.portal.H1_P}}</p>
-                <form ng-submit="submit(authCode)" class="form-inline">
+
+                <!-- google signin -->
+                <button class="btn google-btn">
+                    <i class="icon-google-btn"></i>
+                    Sign in with Google
+                </button>
+                <!-- google signin end -->
+
+ <!--                <form ng-submit="submit(authCode)" class="form-inline">
                     <input type="text" class="" ng-model="authCode" wd-auto-focus placeholder="{{$root.DICT.portal.PASSCODE_PLACEHOLDER}}" ng-change="userInput()" ng-disabled="state != 'standby'">
                     &nbsp;&nbsp;
                     <button type="submit" class="btn btn-primary btn-large" ng-switch on="state" ng-disabled="state != 'standby'">
@@ -22,7 +30,7 @@
                 <p>
                     <span class="btn-safari" ng-click="safariHelp()" ng-show="isSafari">{{$root.DICT.portal.SAFARI}}<br></span>
                     <span class="btn-getstarted" ng-click="openHelp();$root.GA('login:help')">{{$root.DICT.portal.GET_STARTED}}</span>
-                </p>
+                </p> -->
             </div>
             <div class="container" ng-switch-when="false">
                 <h1>{{$root.DICT.portal.UNSUPPORTED_H1}}</h1>
@@ -74,3 +82,12 @@
     </div>
     <div class="wd-loading" ng-switch-when="true" data-visible="true"></div>
 </div>
+<script type="text/javascript">
+//Google account sign in
+function googleSigninCallback(authResult) {
+    wdcGoogleSignIn.callback(authResult);
+}
+function googleSigninOnload() {
+    wdcGoogleSignIn.render();
+}
+</script>
