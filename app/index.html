@@ -35,19 +35,18 @@
     </script>
 
     <!-- build:js scripts/framework.js -->
-    <script src="scripts/vendor/jquery.min.js"></script>
+    <script src="components/jquery/jquery.js"></script>
     <script src="scripts/vendor/textext.js"></script>
     <script src="components/angular-unstable/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-ui/common/module.js"></script>
     <script src="components/angular-ui/modules/directives/if/if.js"></script>
-    <script src="components/angular-ui/modules/directives/event/event.js"></script>
     <script src="components/angular-ui/modules/directives/animate/animate.js"></script>
     <script src="scripts/vendor/angular/elastic.js"></script>
     <script src="components/socket.io-client/dist/socket.io.js"></script>
     <!-- endbuild -->
-    <!-- build:js scripts/amd-app.js -->
-    <script data-main="scripts/main" src="scripts/vendor/require.js"></script>
-    <!-- endbuild -->
+
+    <script data-main="scripts/main" src="components/requirejs/require.js"></script>
+
 </body>
 </html>

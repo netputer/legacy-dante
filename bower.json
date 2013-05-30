@@ -8,6 +8,11 @@
     "angular-resource": "~1.0.6",
     "socket.io-client": "~0.9.11",
     "angular-unstable": "~1.1.4",
-    "animate.css": "latest"
+    "animate.css": "latest",
+    "requirejs": "~2.1.6",
+    "requirejs-text": "~2.0.6",
+    "requirejs-i18n": "~2.0.2",
+    "jquery": "~2.0.1",
+    "underscore": "~1.4.4"
   }
 }

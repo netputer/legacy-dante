@@ -8,7 +8,7 @@
   paths: {
     // lib
     jquery: 'vendor/jquery.wrapper',
-    underscore: 'vendor/underscore',
+    underscore: '../components/underscore/underscore',
     angular: 'vendor/angular/angular.wrapper',
     keymaster: 'vendor/keymaster.amd',
     bootstrap: 'vendor/bootstrap',
@@ -16,9 +16,8 @@
     moment: '../components/moment/moment',
     io: 'vendor/socket.io.wrapper',
     // requirejs plugins
-    text: 'vendor/requirejs-plugins/text',
-    cs: 'vendor/requirejs-plugins/cs',
-    i18n: 'vendor/requirejs-plugins/i18n',
+    text: '../components/requirejs-text/text',
+    i18n: '../components/requirejs-i18n/i18n',
     // prefix
     templates: '../templates'
   }

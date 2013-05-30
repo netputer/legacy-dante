@@ -160,21 +160,31 @@ module.exports = function (grunt) {
         },
         requirejs: {
             dist: {
-                // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    // `name` and `out` is set by grunt-usemin
-                    baseUrl: yeomanConfig.app + '/scripts',
+                    almond: true,
+                    replaceRequireScript: [{
+                        files: [yeomanConfig.dist + '/index.html'],
+                        module: 'main'
+                    }],
+
+                    appDir: yeomanConfig.app + '/scripts',
+                    baseUrl: './',
+                    dir: yeomanConfig.tmp + '/scripts',
+                    mainConfigFile: yeomanConfig.app + '/scripts/main.js',
+                    modules: [{name: 'main'}],
                     optimize: 'none',
-                    // TODO: Figure out how to make sourcemaps work with grunt-usemin
-                    // https://github.com/yeoman/grunt-usemin/issues/30
-                    //generateSourceMaps: true,
-                    // required to support SourceMaps
-                    // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
                     // wrap: true
-                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
                 }
+            }
+        },
+        uglify: {
+            dist: {
+                files: [{
+                    src: ['<%= yeoman.tmp %>/scripts/main.js'],
+                    dest: '<%= yeoman.dist %>/scripts/main.js'
+                }]
             }
         },
         rev: {
@@ -368,7 +378,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'jshint',
-        'test',
+        // 'test',
         'build'
     ]);
 };
