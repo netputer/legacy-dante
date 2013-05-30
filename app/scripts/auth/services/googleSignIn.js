@@ -5,9 +5,10 @@ define( [
 ) {
     'use strict';
 
-return [ '$http', function ( $http ) {
+return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
   var global = {
-    authResult : {}
+    authResult : {},
+    defer : $q.defer()
   };
 
   var result = {
@@ -29,6 +30,7 @@ return [ '$http', function ( $http ) {
        po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
        var s = document.getElementsByTagName('script')[0];
        s.parentNode.insertBefore(po, s);
+       return global.defer.promise;
     },
 
     //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
@@ -39,7 +41,8 @@ return [ '$http', function ( $http ) {
             gapi.signin.render(eles[i], {
               'callback': 'googleSigninCallback',
               'clientid': '592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-              'cookiepolicy': 'http://snappea.com',
+              // 'cookiepolicy': 'http://snappea.com',
+              'cookiepolicy': 'http://localhost:3501',
               'data-apppackagename': 'com.snappea',
               'scope': 'https://www.googleapis.com/auth/plus.login'
             });
@@ -50,8 +53,10 @@ return [ '$http', function ( $http ) {
       if (authResult['access_token']) {
         // Successfully authorized
         this.authResult(authResult);
-        console.log(authResult['access_token']);
         //TODO:调用旭东的接口
+
+        global.defer.resolve(authResult['access_token']);
+        $rootScope.$apply();
 
       } else if (authResult['error']) {
         // There was an error.

@@ -45,11 +45,13 @@ angular.module('wdAuth', ['wdCommon'])
             }
             $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
         };
-        $scope.submit = function(authCode) {
-            if (!authCode) {
-                GA('login:enter_authcode:empty');
-                return;
-            }
+
+        $scope.submit = function(data) {
+        // $scope.submit = function(authCode) {
+            // if (!authCode) {
+            //     GA('login:enter_authcode:empty');
+            //     return;
+            // }
             if ($scope.autoAuth) {
                 GA('login:auto');
             }
@@ -57,19 +59,20 @@ angular.module('wdAuth', ['wdCommon'])
                 acFromInput = true;
             }
             // Parse data source.
-            var ip = wdAuthToken.parse(authCode);
+            // var ip = wdAuthToken.parse(authCode);
+            var ip = data['ip'];
             var port = 10208;
 
             var keeper = null;
 
             // Valid auth code.
             if (ip) {
-                if ($scope.autoAuth) {
-                    GA('login:auto_authcode:valid');
-                }
-                else {
-                    GA('login:enter_authcode:valid');
-                }
+                // if ($scope.autoAuth) {
+                //     GA('login:auto_authcode:valid');
+                // }
+                // else {
+                //     GA('login:enter_authcode:valid');
+                // }
                 // Send auth request.
                 $scope.state = 'loading';
                 wdDev.setServer(ip, port);
@@ -80,7 +83,7 @@ angular.module('wdAuth', ['wdCommon'])
                     url: '/directive/auth',
                     timeout: 5000,
                     params: {
-                        authcode: authCode,
+                        // authcode: authCode,
                         'client_time': (new Date()).getTime(),
                         'client_name': 'Browser',
                         'client_type': 3
@@ -92,7 +95,7 @@ angular.module('wdAuth', ['wdCommon'])
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_SUCCESS;
                     // TODO: Maybe expiration?
-                    wdAuthToken.setToken(authCode);
+                    // wdAuthToken.setToken(authCode);
                     wdAuthToken.startSignoutDetection();
                     wdDev.setMetaData(response);
                     $location.url($route.current.params.ref || '/');
@@ -175,7 +178,9 @@ angular.module('wdAuth', ['wdCommon'])
 
         //调用Google账号登陆
         window.wdcGoogleSignIn = wdcGoogleSignIn;
-        wdcGoogleSignIn.init();
+        wdcGoogleSignIn.init().then(function(data){
+            $scope.submit(data);
+        });
 
     }]);
 });
