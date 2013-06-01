@@ -3,7 +3,7 @@ define([], function() {
 return function() {
     var self = this;
     self.$get = ['$window', '$location', 'wdDev', '$rootScope',
-        function($window, $location, wdDev, $rootScope) {
+        function($window, $location, wdDev, $rootScope ) {
         var valid = false;
         var signoutDetectionTimer = null;
         return {

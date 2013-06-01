@@ -6,12 +6,16 @@ define( [
     'use strict';
 
 return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
+
   var global = {
     authResult : {},
     defer : $q.defer()
   };
 
   var result = {
+    init : function(){
+        return global.defer.promise;
+    },
 
     //取得或者设置authResult
     authResult : function (data) {
@@ -20,17 +24,6 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
       }else{
         return global.authResult;
       }
-    },
-
-    //初始化按钮并异步加载Google sign in
-    init : function () {
-       var po = document.createElement('script');
-       po.type = 'text/javascript';
-       po.async = true;
-       po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
-       var s = document.getElementsByTagName('script')[0];
-       s.parentNode.insertBefore(po, s);
-       return global.defer.promise;
     },
 
     //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
@@ -53,10 +46,31 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
       if (authResult['access_token']) {
         // Successfully authorized
         this.authResult(authResult);
-        //TODO:调用旭东的接口
+        console.log(authResult['access_token']);
 
-        global.defer.resolve(authResult['access_token']);
-        $rootScope.$apply();
+        //调用服务器端接口
+        var url = 'http://192.168.108.5:8080/apppush/limbo?google_token=' + authResult['access_token'];
+        $.ajax({
+            type: 'GET',
+            url: url,
+            async: false,
+            contentType: 'application/json',
+            dataType: 'jsonp',
+            success: function(data) {
+                global.defer.resolve(data);
+                global.defer = $q.defer();
+                // 客户取消了关联，据此执行相应操作
+                // 回应始终为未定义。
+                $rootScope.$apply();
+            },
+            error: function(e) {
+                console.log(e);
+              // 处理错误
+              // console.log(e);
+              // 如果失败，您可以引导用户手动取消关联
+              // https://plus.google.com/apps
+            }
+        });
 
       } else if (authResult['error']) {
         // There was an error.
@@ -66,6 +80,11 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
         // console.log('There was an error: ' + authResult['error']);
       }
     },
+
+    signIn : function () {
+        this.callback(global.authResult);
+    },
+
     signOut : function () {
       var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
       $.ajax({
@@ -89,6 +108,5 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
   };
 
   return result;
-
 }];
 });

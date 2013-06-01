@@ -6,7 +6,7 @@
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn">
+                <button class="btn google-btn" ng-click="googleSigIn()">
                     <i class="icon-google-btn"></i>
                     Sign in with Google
                 </button>
@@ -82,12 +82,3 @@
     </div>
     <div class="wd-loading" ng-switch-when="true" data-visible="true"></div>
 </div>
-<script type="text/javascript">
-//Google account sign in
-function googleSigninCallback(authResult) {
-    wdcGoogleSignIn.callback(authResult);
-}
-function googleSigninOnload() {
-    wdcGoogleSignIn.render();
-}
-</script>

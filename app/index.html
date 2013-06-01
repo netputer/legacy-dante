@@ -24,11 +24,30 @@
     <div bs-modal wd-alert></div>
 
     <script>
-        var _gaq=[['_setAccount','UA-15790641-36'],['_trackPageview']];
-        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g,s)}(document,'script'));
+    var _gaq=[['_setAccount','UA-15790641-36'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
+    <script type="text/javascript">
+    (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+    //Google account sign in
+    function googleSigninCallback(authResult) {
+        wdcGoogleSignIn.callback(authResult);
+    }
+    function googleSigninOnload() {
+        if (typeof wdcGoogleSignIn === 'undefined') {
+            setTimeout(googleSigninOnload,16);
+        }else{
+            wdcGoogleSignIn.render();
+        }
+    }
+    </script>
+    <!-- build:js scripts/framework.js -->
     <script src="scripts/vendor/jquery.min.js"></script>
     <script src="scripts/vendor/textext.js"></script>
     <script src="components/angular-unstable/angular.js"></script>
