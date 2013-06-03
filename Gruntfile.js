@@ -46,9 +46,11 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%= yeoman.app %>/*.html',
+                    'Gruntfile.js',
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '{.tmp,<%= yeoman.app %>}/templates/{,*/}*.html',
+                    // '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
@@ -154,7 +156,7 @@ module.exports = function (grunt) {
             dist: {},
             server: {
                 options: {
-                    debugInfo: true
+                    // debugInfo: true
                 }
             }
         },
