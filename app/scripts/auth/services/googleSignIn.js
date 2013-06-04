@@ -44,12 +44,13 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
 
     callback : function (authResult) {
       if (authResult['access_token']) {
+        console.log('连接旭东ing...');
         // Successfully authorized
         this.authResult(authResult);
         console.log(authResult['access_token']);
 
         //调用服务器端接口
-        var url = 'http://192.168.108.5:8080/apppush/limbo?google_token=' + authResult['access_token'];
+        var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
         $.ajax({
             type: 'GET',
             url: url,
@@ -57,6 +58,8 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
             contentType: 'application/json',
             dataType: 'jsonp',
             success: function(data) {
+                console.log('连接成功！');
+                console.log(data);
                 global.defer.resolve(data);
                 global.defer = $q.defer();
                 // 客户取消了关联，据此执行相应操作

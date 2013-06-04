@@ -146,32 +146,5 @@ $auth-spacing: 4px;
         }
     }
 }
-.wd-portal-getstarted {
-    // @import "auth/*.png";
-    $width: auth-sprite-width("step1") * 3 + 20px * 3;
-    width: $width;
-    margin-left: -$width/2 - 1px;
-    @for $i from 1 through 3 {
-        .step#{$i} {
-            .figure {
-                $name: "step#{$i}";
-                @include auth-sprite($name);
-                display: block;
-                width: auth-sprite-width($name);
-                height: auth-sprite-height($name);
-                margin: 0 auto;
-            }
-            p {
-                margin-top: 10px;
-                font-size: 12px;
-                a {
-                    color: #6eb800;
-                }
-            }
-        }
-    }
-    .modal-footer {
-        display: none;
-    }
-}
 
+@import "devices"

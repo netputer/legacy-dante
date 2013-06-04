@@ -137,7 +137,7 @@ console.log('authtoken', wdAuthToken.valid());
                     }
                     // Global timeout
                     if (angular.isUndefined(config.timeout)) {
-                        config.timeout = 60 * 1000;
+                        config.timeout = 20 * 1000;
                     }
                     // By default, all request using withCredentials to support cookies in CORS.
                     if (angular.isUndefined(config.withCredentials)) {

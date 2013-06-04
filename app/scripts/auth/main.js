@@ -25,6 +25,12 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.state = 'standby';
         $scope.showHelp = false;
 
+        //设备的数量
+        $scope.deviceNum = -1;
+
+        //设备列表
+        $scope.devicesList = [];
+
         var acFromQuery = !!wdDev.query('ac');
         var acFromInput = false;
         var acFromCache = !!wdAuthToken.getToken();
@@ -181,8 +187,26 @@ angular.module('wdAuth', ['wdCommon'])
 
         window.wdcGoogleSignIn = wdcGoogleSignIn;
         wdcGoogleSignIn.init().then(function(list){
-            $scope.submit(list[0]);
+            console.log(list);
+            $scope.deviceNum = list.length;
+            switch(list.length){
+                case 1:
+                    $scope.submit(list[0]);
+                break;
+                default:
+                    $scope.devicesList = list;
+                break;
+            }
         });
+
+        $scope.connectPhone = function (item) {
+            $scope.submit(item);
+        };
+
+        $scope.googleSigOut = function () {
+            wdcGoogleSignIn.signOut();
+            $scope.deviceNum = -1;
+        };
 
 
     }]);
