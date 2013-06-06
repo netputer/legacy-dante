@@ -31,6 +31,8 @@ angular.module('wdAuth', ['wdCommon'])
         //设备列表
         $scope.devicesList = [];
 
+        $scope.accountEmail = '';
+
         var acFromQuery = !!wdDev.query('ac');
         var acFromInput = false;
         var acFromCache = !!wdAuthToken.getToken();
@@ -181,23 +183,29 @@ angular.module('wdAuth', ['wdCommon'])
             }, 0);
         }
 
+        function googleInit() {
+            wdcGoogleSignIn.init().then(function(list){
+                if(typeof list !== 'undefined'){
+                    wdcGoogleSignIn.getAccount().then(function(data){
+                        $scope.accountEmail = data;
+                    });
+                    console.log(list);
+                    $scope.deviceNum = list.length;
+                    switch(list.length){
+                        case 1:
+                            $scope.submit(list[0]);
+                        break;
+                        default:
+                            $scope.devicesList = list;
+                        break;
+                    }
+                }
+            });
+        }
+
         $scope.googleSigIn = function () {
             wdcGoogleSignIn.signIn();
         };
-
-        window.wdcGoogleSignIn = wdcGoogleSignIn;
-        wdcGoogleSignIn.init().then(function(list){
-            console.log(list);
-            $scope.deviceNum = list.length;
-            switch(list.length){
-                case 1:
-                    $scope.submit(list[0]);
-                break;
-                default:
-                    $scope.devicesList = list;
-                break;
-            }
-        });
 
         $scope.connectPhone = function (item) {
             $scope.submit(item);
@@ -205,9 +213,16 @@ angular.module('wdAuth', ['wdCommon'])
 
         $scope.googleSigOut = function () {
             wdcGoogleSignIn.signOut();
+            googleInit();
             $scope.deviceNum = -1;
         };
 
+        $scope.showSignInPhone = function () {
+            $scope.deviceNum = 0;
+        };
+
+        window.wdcGoogleSignIn = wdcGoogleSignIn;
+        googleInit();
 
     }]);
 });

@@ -11,26 +11,6 @@
                     Sign in with Google
                 </button>
                 <!-- google signin end -->
-
- <!--                <form ng-submit="submit(authCode)" class="form-inline">
-                    <input type="text" class="" ng-model="authCode" wd-auto-focus placeholder="{{$root.DICT.portal.PASSCODE_PLACEHOLDER}}" ng-change="userInput()" ng-disabled="state != 'standby'">
-                    &nbsp;&nbsp;
-                    <button type="submit" class="btn btn-primary btn-large" ng-switch on="state" ng-disabled="state != 'standby'">
-                        <span ng-switch-when="loading" class="wd-loading wd-loading-inline" data-visible="true"></span>
-                        <span ng-switch-when="standby">{{buttonText}}</span>
-                    </button>
-                </form>
-                <div class="error" ng-show="error">{{$root.DICT.portal.AUTH_ERROR_TITLE}}
-                    <ul>
-                        <li>{{$root.DICT.portal.AUTH_ERROR_TIP_1}}</li>
-                        <li>{{$root.DICT.portal.AUTH_ERROR_TIP_2}}</li>
-                    </ul>
-                    <div style="text-align:right;"><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web-">{{$root.DICT.portal.AUTH_ERROR_LINK}} &#187;</a></div>
-                 </div>
-                <p>
-                    <span class="btn-safari" ng-click="safariHelp()" ng-show="isSafari">{{$root.DICT.portal.SAFARI}}<br></span>
-                    <span class="btn-getstarted" ng-click="openHelp();$root.GA('login:help')">{{$root.DICT.portal.GET_STARTED}}</span>
-                </p> -->
             </div>
             <div class="container" ng-switch-when="false">
                 <h1>{{$root.DICT.portal.UNSUPPORTED_H1}}</h1>
@@ -59,27 +39,6 @@
             </div>
         </div>
     </div>
-<!--     <div class="bs-modal wd-portal-getstarted"
-        data-toggle="showHelp"
-        data-ok="showHelp=false"
-        data-cancel="showHelp=false"
-        data-header="Where's my passcode?"
-        >
-        <div class="row-fluid">
-            <div class="span4 step1">
-                <div class="figure"></div>
-                <p>1. Install SnapPea from <a href="https://play.google.com/store/apps/details?id=com.snappea" target="_blank" ng-click="$root.GA('login:to_play')">Google Play</a>.</p>
-            </div>
-            <div class="span4 step2">
-                <div class="figure"></div>
-                <p>2. Open SnapPea on your phone.</p>
-            </div>
-            <div class="span4 step3">
-                <div class="figure"></div>
-                <p>3. Passcode is on the start page.</p>
-            </div>
-        </div>
-    </div> -->
 
     <div class="wd-loading" ng-switch-when="true" data-visible="true"></div>
 </div>
@@ -105,7 +64,7 @@
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>3.Sign in with wangxiao@wandoujia.com</dd>
+                <dd>3.Sign in with {{accountEmail}}</dd>
             </dl>
             <p>Make sure your computer and phone are on the <a href="http://snappea.zendesk.com/entries/23341488--Official-Signing-in-to-the-web-version"><span> same Wi-Fi network </span> </a>. If you didn't find a sign in button on your phone,please <a href="https://play.google.com/store/apps/details?id=com.snappea">update you SnapPea to the latest version</a>.</p>
         </div>
@@ -120,9 +79,14 @@
             <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
                 <p>{{item.model}}</p>
             </div>
-            <p><a href="">Or you wish to connect another phone?</a></p>
+            <p><a ng-click="showSignInPhone()" href="">Or you wish to connect another phone?</a></p>
         </div>
     </div>
     <!-- select devices end -->
 
 </div>
+
+<!-- <div class="loading-google">
+    <div class="wd-loading" data-visible="true"></div>
+</div>
+ -->

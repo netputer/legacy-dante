@@ -147,4 +147,17 @@ $auth-spacing: 4px;
     }
 }
 
+.google-btn{
+    height: 40px;
+}
+
+.loading-google{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FFF;
+    @include ui-layer-top;
+}
 @import "devices"

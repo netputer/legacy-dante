@@ -40,12 +40,10 @@ angular.module('wdApp', ['wdCommon', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMess
         var validateToken = ['$q', 'wdAuthToken', '$location',
             function($q, wdAuthToken, $location) {
 
-console.log('authtoken', wdAuthToken.valid());
             if (wdAuthToken.valid()) {
                 return true;
             }
             else {
-                return true;
                 // Auth invalid, jump to portal
                 $location.url('/portal?ref=' + encodeURIComponent($location.url()));
                 return $q.reject('Authentication failed.');
