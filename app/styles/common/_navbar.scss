@@ -38,24 +38,33 @@
 
         .nav-settings {
             @include position(absolute, 0 0px 0px 0px);
+
             a {
                 color: #fff;
-                font-size: 10px;
+                &:hover, &:focus {
+                    text-decoration: none;
+                }
             }
-            .signout {
+
+            > li, .signout {
                 border-top: 1px solid #1d1d1d;
                 @include box-shadow(inset 0 1px 0 rgba(#fff, 0.05));
             }
 
-            li:not(:last-of-type) a {
-                font-family: Arial;
-                opacity: 0.3;
-                &:hover, &:focus {
-                    opacity: 1;
-                }
-                &:active {
-                    opacity: 0.5;
-                }
+            > li {
+                margin: 0;
+            }
+
+            > li > a {
+                padding: 15px 0;
+                height: 20px;
+            }
+
+            .menu {
+                @include nowrap;
+            }
+            .menu a {
+                display: block;
             }
 
             @media screen and (max-height: 600px) {
@@ -98,7 +107,7 @@
             opacity: 0.5;
         }
     }
-    @each $icon in "app", "contact", "img", "sms", "signout" {
+    @each $icon in "app", "contact", "img", "sms" {
         i.icon-#{$icon} {
             width: icon-width($icon);
             $height: icon-height($icon);
