@@ -14,6 +14,10 @@ $wd-loading-foreground-color: #000;
     opacity: 0.6;
     @include transform(scale(0.6));
 
+    &.wd-loading-local {
+        @include position(absolute);
+    }
+
     &.wd-loading-inline {
         $scale: 20/48;
         @include position(static);

@@ -1,0 +1,27 @@
+@mixin ng-directive($name, $prefix: nil, $display: block) {
+    @if $prefix != nil {
+        [#{$prefix}-#{$name}],
+        [#{$prefix}\:#{$name}],
+        .#{$prefix}-#{$name},
+        #{$prefix}-#{$name},
+        #{$prefix}\:#{$name} {
+            display: $display;
+            @content;
+        }
+    }
+    @else {
+        [#{$name}],
+        .#{$name},
+        #{$name} {
+            display: $display;
+            @content;
+        }
+
+    }
+}
+
+@mixin wd-directive($name, $display: block) {
+    @include ng-directive($name, "wd", unquote($display)) {
+        @content;
+    }
+}

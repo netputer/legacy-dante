@@ -16,6 +16,10 @@ return [function() {
                 delay: { show: 200, hide: 0 }
             }, $scope.$eval(attributes.options)));
 
+            element.on('click', function() {
+                element.tooltip('hide');
+            });
+
             attributes.$observe('disabled', function(value) {
                 if (value) {
                     element.tooltip('hide');
