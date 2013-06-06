@@ -11,7 +11,8 @@ define([
     'common/language',
     'messages/main',
     'contacts/main',
-    'applications/main'
+    'applications/main',
+    'ui/main'
 ], function(
     angular,
     auth,
@@ -25,11 +26,12 @@ define([
     language,
     messages,
     contacts,
-    applications
+    applications,
+    ui
 ) {
 'use strict';
 
-angular.module('wdApp', ['wdCommon', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
+angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
 

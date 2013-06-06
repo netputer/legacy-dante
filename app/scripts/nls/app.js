@@ -10,6 +10,7 @@ return {
         NAVBAR_APPS_TIP: 'Apps',
         NAVBAR_FEEDBACK_TIP: 'Feedback',
         NAVBAR_HELP_TIP: 'Help',
+        NAVBAR_SETTING_TIP: 'Setting',
 
         NAVBAR_SIGNOUT_TIP: 'Sign out',
 

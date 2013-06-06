@@ -1,0 +1,42 @@
+@include wd-directive("menu") {
+    @include position;
+}
+@include wd-directive("menu-popover") {
+    $bg-color: #2b2b2b;
+    $bd-color: #000;
+    // @include ui-layer-top;
+    background: $bg-color;
+    border: 1px solid #000;
+    border-radius: 4px;
+    @include position(absolute);
+    padding: 4px;
+    color: #fff;
+    font-size: 12px;
+
+
+    // cue
+    > i {
+        $width: 5px;
+        @include position(absolute);
+        width: 0px;
+        height: 0px;
+        border: $width solid $bd-color;
+        border-color: transparent $bd-color transparent transparent;
+        left: -$width * 2;
+        top: 50%;
+
+        > i {
+            @include position(absolute, -($width - 1px) (-$width) 0 0);
+            width: 0px;
+            height: 0px;
+            border: ($width - 1px) solid $bg-color;
+            border-color: transparent $bg-color transparent transparent;
+        }
+    }
+}
+
+@include wd-directive("menu-item") {
+    padding: 5px 10px;
+    @include button-effect;
+    cursor: pointer;
+}

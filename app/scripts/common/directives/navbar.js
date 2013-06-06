@@ -14,6 +14,14 @@ return [function() {
         function($scope,   wdAuthToken,   $route,   wdSocket) {
             $scope.messageNotification = false;
 
+            $scope.open = function() {
+                $scope.xxx = true;
+                setTimeout(function() {
+                    $scope.xxx = false;
+                    $scope.$apply();
+                }, 2000);
+            };
+
             $scope.signout = function() {
                 wdAuthToken.signout();
             };

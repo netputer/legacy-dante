@@ -28,13 +28,43 @@
             </li>
         </ul>
         <ul class="nav nav-settings">
-            <li><a target="_blank" href="http://snappea.wufoo.com/forms/snappea-feedback-survey/"><i class="icon-feedback"></i><br>{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}</a></li>
-            <li><a target="_blank" href="http://snappea.zendesk.com/forums/21871852-Web-version"><i class="icon-help"></i><br>{{$root.DICT.app.NAVBAR_HELP_TIP}}</a></li>
-            <li>
+            <li wd-menu>
+                <a href="" wd-menu-trigger ng-click="open()">
+                    <i class="icon-phoneswitch"></i>
+                </a>
+                <div wd-menu-popover placement="right" loading="xxx">
+                    <div wd-menu-item ng-hide="xxx">11111</div>
+                    <div wd-menu-item ng-hide="xxx">11111</div>
+                    <div wd-menu-item ng-hide="xxx">11111</div>
+                    <div wd-menu-item ng-hide="xxx">11111</div>
+                    <div wd-menu-item ng-hide="xxx">11111</div>
+                </div>
+            </li>
+            <li wd-menu>
                 <a href="" class="signout"
-                    bs-tooltip="{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}"
+                    bs-tooltip="{{$root.DICT.app.NAVBAR_SETTING_TIP}}"
                     data-options="{placement: 'right'}"
-                    ng-click="signout();$root.GA('navbar:signout');"><i class="icon-signout"></i></a>
+                    wd-menu-trigger><i class="icon-setting"></i></a>
+                <div class="menu"
+                    wd-menu-popover
+                    placement="right">
+                    <div wd-menu-item>
+                        <a target="_blank"
+                            href="http://snappea.wufoo.com/forms/snappea-feedback-survey/">
+                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
+                        </a>
+                    </div>
+                    <div wd-menu-item>
+                        <a target="_blank"
+                            href="http://snappea.zendesk.com/forums/21871852-Web-version">
+                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_HELP_TIP}}
+                        </a>
+                    </div>
+                    <div wd-menu-item class="signout"
+                        ng-click="signout();$root.GA('navbar:signout');">
+                        <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
