@@ -10,7 +10,8 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
     var global = {
         authResult : {},
         defer : $q.defer(),
-        account : ''
+        account : '',
+        currentDevice : {}
     };
 
     var result = {
@@ -26,6 +27,15 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
           }else{
             return global.authResult;
           }
+        },
+
+        //取得或者设置currentDevice
+        currentDevice : function (data) {
+            if(!data){
+                return global.currentDevice;
+            }else{
+                global.currentDevice = data;
+            }
         },
 
         //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
@@ -86,16 +96,10 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                     defer.resolve(data);
                     global.defer.resolve(data);
                     global.defer = $q.defer();
-                    // 客户取消了关联，据此执行相应操作
-                    // 回应始终为未定义。
                     $rootScope.$apply();
                 },
                 error: function(e) {
                     console.log(e);
-                  // 处理错误
-                  // console.log(e);
-                  // 如果失败，您可以引导用户手动取消关联
-                  // https://plus.google.com/apps
                 }
             });
 
@@ -132,11 +136,13 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
             contentType: 'application/json',
             dataType: 'jsonp',
             success: function(nullResponse) {
+
               // 客户取消了关联，据此执行相应操作
               // 回应始终为未定义。
               global.authResult = {};
             },
             error: function(e) {
+
               // 处理错误
               // console.log(e);
               // 如果失败，您可以引导用户手动取消关联

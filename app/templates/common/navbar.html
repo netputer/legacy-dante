@@ -32,12 +32,8 @@
                 <a href="" wd-menu-trigger ng-click="open()">
                     <i class="icon-phoneswitch"></i>
                 </a>
-                <div wd-menu-popover placement="right" loading="xxx">
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
+                <div wd-menu-popover placement="right" loading="loadDevices">
+                    <div ng-repeat="item in devicesList" wd-menu-item ng-hide="loadDevices">{{item.model}}</div>
                 </div>
             </li>
             <li wd-menu>

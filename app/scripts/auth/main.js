@@ -30,7 +30,7 @@ angular.module('wdAuth', ['wdCommon'])
 
         //设备列表
         $scope.devicesList = [];
-
+        $scope.isLoadingAuth = true;
         $scope.accountEmail = '';
 
         var acFromQuery = !!wdDev.query('ac');
@@ -119,6 +119,7 @@ angular.module('wdAuth', ['wdCommon'])
                     $rootScope.$broadcast('signin');
                 })
                 .error(function(reason, status) {
+                    $scope.isLoadingAuth = false;
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_FAILED;
@@ -185,6 +186,7 @@ angular.module('wdAuth', ['wdCommon'])
 
         function googleInit() {
             wdcGoogleSignIn.init().then(function(list){
+                $scope.isLoadingAuth = false;
                 if(typeof list !== 'undefined'){
                     wdcGoogleSignIn.getAccount().then(function(data){
                         $scope.accountEmail = data;
@@ -192,7 +194,11 @@ angular.module('wdAuth', ['wdCommon'])
                     console.log(list);
                     $scope.deviceNum = list.length;
                     switch(list.length){
+                        case 0:
+                            loopGetDevices();
+                        break;
                         case 1:
+                            wdcGoogleSignIn.currentDevice(list[0]);
                             $scope.submit(list[0]);
                         break;
                         default:
@@ -203,11 +209,28 @@ angular.module('wdAuth', ['wdCommon'])
             });
         }
 
+        function loopGetDevices() {
+            setTimeout(function(){
+                wdcGoogleSignIn.getDevices().then(function(list){
+                    if(list.length === 0){
+                        loopGetDevices();
+                    }else{
+                        wdcGoogleSignIn.currentDevice(list[0]);
+                        $scope.submit(list[0]);
+                    }
+                },function(){
+                    loopGetDevices();
+                });
+            },3000);
+        }
+
         $scope.googleSigIn = function () {
             wdcGoogleSignIn.signIn();
         };
 
         $scope.connectPhone = function (item) {
+            $scope.isLoadingAuth = true;
+            wdcGoogleSignIn.currentDevice(item);
             $scope.submit(item);
         };
 
@@ -220,6 +243,17 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.showSignInPhone = function () {
             $scope.deviceNum = 0;
         };
+
+        //当用户从其他设备中退出到当前页面时
+        if(!!wdcGoogleSignIn.authResult().access_token){
+            $scope.isLoadingAuth = true;
+            var item = wdcGoogleSignIn.currentDevice();
+            console.log('currentDevice');
+            console.log(item);
+            if(!!item.ip){
+                 $scope.submit(item);
+            }
+        }
 
         window.wdcGoogleSignIn = wdcGoogleSignIn;
         googleInit();

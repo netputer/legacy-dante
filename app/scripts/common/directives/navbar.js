@@ -10,19 +10,25 @@ return [function() {
         replace: true,
         template: template,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket',
-        function($scope,   wdAuthToken,   $route,   wdSocket) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdcGoogleSignIn',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdcGoogleSignIn) {
             $scope.messageNotification = false;
 
             $scope.open = function() {
-                $scope.xxx = true;
-                setTimeout(function() {
-                    $scope.xxx = false;
+                $scope.loadDevices = true;
+                wdcGoogleSignIn.getDevices().then(function(list){
+                    $scope.loadDevices = false;
+                    $scope.devicesList = list;
                     $scope.$apply();
-                }, 2000);
+                });
             };
 
             $scope.signout = function() {
+                wdAuthToken.signout();
+            };
+
+            $scope.changeDevice = function (item) {
+                wdcGoogleSignIn.currentDevice(item);
                 wdAuthToken.signout();
             };
 
@@ -47,6 +53,7 @@ return [function() {
                     }
                 }
             });
+
         }]
     };
 }];

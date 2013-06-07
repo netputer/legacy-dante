@@ -11,6 +11,7 @@
                     Sign in with Google
                 </button>
                 <!-- google signin end -->
+
             </div>
             <div class="container" ng-switch-when="false">
                 <h1>{{$root.DICT.portal.UNSUPPORTED_H1}}</h1>
@@ -86,7 +87,7 @@
 
 </div>
 
-<!-- <div class="loading-google">
+<div class="loading-google" ng-show="isLoadingAuth">
     <div class="wd-loading" data-visible="true"></div>
 </div>
- -->
+
