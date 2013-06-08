@@ -33,19 +33,20 @@
     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
-    <!-- build:js scripts/framework.js -->
-    <script src="components/jquery/jquery.js"></script>
+
     <script type="text/javascript">
     (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
     })();
+
     //Google account sign in
     function googleSigninCallback(authResult) {
         wdcGoogleSignIn.callback(authResult);
         $('.loading-google').hide();
     }
+
     function googleSigninOnload() {
         if (typeof wdcGoogleSignIn === 'undefined') {
             setTimeout(googleSigninOnload,16);
@@ -54,6 +55,9 @@
         }
     }
     </script>
+
+    <!-- build:js scripts/framework.js -->
+    <script src="components/jquery/jquery.js"></script>
     <script src="scripts/vendor/textext.js"></script>
     <script src="components/angular-unstable/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>

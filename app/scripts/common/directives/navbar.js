@@ -28,8 +28,10 @@ return [function() {
             };
 
             $scope.changeDevice = function (item) {
-                wdcGoogleSignIn.currentDevice(item);
-                wdAuthToken.signout();
+                if(item['ip'] !== wdcGoogleSignIn.currentDevice().ip){
+                    wdcGoogleSignIn.currentDevice(item);
+                    wdAuthToken.signout();
+                }
             };
 
             $scope.$on('$routeChangeSuccess', function(e, current) {

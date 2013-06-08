@@ -44,7 +44,6 @@ return {
         REC_ADD_TO_CHROME: 'Add to Chrome',
         REC_MORE_INFO: 'Learn more'
 
-    },
-    'zh-cn': true
+    }
 };
 });

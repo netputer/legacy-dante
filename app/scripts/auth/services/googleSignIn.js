@@ -100,6 +100,7 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                 },
                 error: function(e) {
                     console.log(e);
+                    global.defer.reject(e);
                 }
             });
 

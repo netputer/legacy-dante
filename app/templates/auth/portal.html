@@ -73,7 +73,7 @@
     <!-- no device end -->
 
     <!-- select devices start -->
-    <div class="select-device" ng-show="deviceNum>1">
+    <div class="select-device" ng-show="deviceNum>=1">
         <h1>Select a phone.</h1>
         <p>We find <span>{{deviceNum}}</span> phones under your account.</p>
         <div class="list">
@@ -91,3 +91,6 @@
     <div class="wd-loading" data-visible="true"></div>
 </div>
 
+<div class="loading-google" ng-show="isLoadingDevices">
+    <div class="wd-loading" data-visible="true"></div>
+</div>

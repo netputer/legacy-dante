@@ -11,14 +11,20 @@ return function() {
                 return valid;
             },
             getToken: function() {
-                return $window.localStorage.getItem('token');
+                var data = {
+                    authcode : $window.localStorage.getItem('authcode'),
+                    ip : $window.localStorage.getItem('ip')
+                };
+                return data;
             },
-            setToken: function(newToken) {
-                $window.localStorage.setItem('token', newToken);
+            setToken: function(data) {
+                $window.localStorage.setItem('authcode', data['authcode']);
+                $window.localStorage.setItem('ip', data['ip']);
                 valid = true;
             },
             clearToken: function() {
-                $window.localStorage.removeItem('token');
+                $window.localStorage.removeItem('authcode');
+                $window.localStorage.removeItem('ip');
                 valid = false;
             },
             signout: function() {
@@ -35,7 +41,7 @@ return function() {
             startSignoutDetection: function() {
                 var self = this;
                 signoutDetectionTimer = setInterval(function() {
-                    if (!self.getToken()) {
+                    if (!self.getToken().ip) {
                         self.stopSignoutDetection();
                         $rootScope.$apply(function() {
                             self.signout();
@@ -49,6 +55,7 @@ return function() {
             parse: getIp
         };
     }];
+
     var getIp = function(num){
       num = String(num);
 
