@@ -33,7 +33,8 @@
                     <i class="icon-phoneswitch"></i>
                 </a>
                 <div wd-menu-popover placement="right" loading="loadDevices">
-                    <div ng-repeat="item in devicesList" wd-menu-item ng-hide="loadDevices">{{item.model}}</div>
+                    <div ng-repeat="item in devicesList" wd-menu-item ng-hide="loadDevices" ng-click="changeDevice(item)">{{item.model}}</div>
+                    <div wd-menu-item ng-hide="loadDevices">Another phone</div>
                 </div>
             </li>
             <li wd-menu>

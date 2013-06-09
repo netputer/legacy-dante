@@ -11,6 +11,7 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
         authResult : {},
         defer : $q.defer(),
         account : '',
+        changeToDevice : {},
         currentDevice : {}
     };
 
@@ -23,8 +24,12 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
         authResult : function (data) {
           if(!!data) {
             console.log(data);
+            window.localStorage.setItem('google_token', data['access_token']);
             global.authResult = data;
           }else{
+            if(!global.authResult['access_token']){
+                global.authResult['access_token'] = window.localStorage.getItem('google_token');
+            }
             return global.authResult;
           }
         },
@@ -35,6 +40,15 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
+            }
+        },
+
+        //取得或者设置changeToDevice
+        changeToDevice : function (data) {
+            if(!data){
+                return global.changeToDevice;
+            }else{
+                global.changeToDevice = data;
             }
         },
 
@@ -95,12 +109,14 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                     console.log(data);
                     defer.resolve(data);
                     global.defer.resolve(data);
-                    global.defer = $q.defer();
                     $rootScope.$apply();
+                    global.defer = $q.defer();
                 },
                 error: function(e) {
+                    console.log('连接失败！');
                     console.log(e);
-                    global.defer.reject(e);
+                    // global.defer.reject(e);
+                    // $rootScope.$apply();
                 }
             });
 
@@ -129,6 +145,10 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
 
         signOut : function () {
           global.defer = $q.defer();
+          var defer = $q.defer();
+          this.currentDevice({});
+          this.changeToDevice({});
+          window.localStorage.setItem('google_token','');
           var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
           $.ajax({
             type: 'GET',
@@ -137,19 +157,20 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
             contentType: 'application/json',
             dataType: 'jsonp',
             success: function(nullResponse) {
-
               // 客户取消了关联，据此执行相应操作
               // 回应始终为未定义。
               global.authResult = {};
+              defer.resolve('signOut');
+              $rootScope.$apply();
             },
             error: function(e) {
-
               // 处理错误
               // console.log(e);
               // 如果失败，您可以引导用户手动取消关联
               // https://plus.google.com/apps
             }
           });
+          return defer.promise;
         }
     };
 

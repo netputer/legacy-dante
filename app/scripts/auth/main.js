@@ -56,13 +56,13 @@ angular.module('wdAuth', ['wdCommon'])
             $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
         };
 
-        $scope.submit = function(data) {
-            data = data || wdAuthToken.getToken();
-            var authCode = data['authcode'];
-            if (!authCode) {
-                GA('login:enter_authcode:empty');
-                return;
-            }
+        $scope.submit = function(deviceData) {
+            deviceData = deviceData || wdAuthToken.getToken();
+            var authCode = deviceData['authcode'];
+            // if (!authCode) {
+            //     GA('login:enter_authcode:empty');
+            //     return;
+            // }
             if ($scope.autoAuth) {
                 GA('login:auto');
             }
@@ -71,7 +71,7 @@ angular.module('wdAuth', ['wdCommon'])
             }
             // Parse data source.
             //var ip = wdAuthToken.parse(authCode);
-            var ip = data['ip'];
+            var ip = deviceData['ip'];
             var port = 10208;
 
             var keeper = null;
@@ -103,11 +103,14 @@ angular.module('wdAuth', ['wdCommon'])
                     disableErrorControl: !$scope.autoAuth
                 })
                 .success(function(response) {
+                    wdcGoogleSignIn.currentDevice(deviceData);
+                    $scope.isLoadingAuth = false;
+                    $scope.isLoadingDevices = false;
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_SUCCESS;
                     // TODO: Maybe expiration?
-                    wdAuthToken.setToken(data);
+                    wdAuthToken.setToken(deviceData);
                     wdAuthToken.startSignoutDetection();
                     wdDev.setMetaData(response);
                     $location.url($route.current.params.ref || '/');
@@ -126,6 +129,7 @@ angular.module('wdAuth', ['wdCommon'])
                 .error(function(reason, status) {
                     $scope.isLoadingAuth = false;
                     $scope.isLoadingDevices = false;
+                    loopGetDevices();
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_FAILED;
@@ -195,6 +199,7 @@ angular.module('wdAuth', ['wdCommon'])
         function googleInit() {
             wdcGoogleSignIn.init().then(function(list){
                 $scope.isLoadingAuth = false;
+                console.log('googleInit');
                 if(typeof list !== 'undefined'){
                     wdcGoogleSignIn.getAccount().then(function(data){
                         $scope.accountEmail = data;
@@ -206,7 +211,6 @@ angular.module('wdAuth', ['wdCommon'])
                             loopLinkDevices();
                         break;
                         case 1:
-                            wdcGoogleSignIn.currentDevice(list[0]);
                             $scope.devicesList = list;
                             $scope.submit(list[0]);
                         break;
@@ -216,6 +220,9 @@ angular.module('wdAuth', ['wdCommon'])
                         break;
                     }
                 }
+                $scope.$apply();
+            },function(error){
+                console.log('google sigin error');
             });
         }
 
@@ -237,7 +244,7 @@ angular.module('wdAuth', ['wdCommon'])
                 function(){
                     loopGetDevices();
                 });
-            },3000);
+            },10000);
         }
 
         //轮询获取设备列表，如果有一个设备则登录
@@ -247,14 +254,13 @@ angular.module('wdAuth', ['wdCommon'])
                     if(list.length === 0){
                         loopLinkDevices();
                     }else{
-                        wdcGoogleSignIn.currentDevice(list[0]);
                         $scope.submit(list[0]);
                     }
                 },
                 function(){
                     loopLinkDevices();
                 });
-            },3000);
+            },5000);
         }
 
         $scope.googleSigIn = function () {
@@ -263,14 +269,19 @@ angular.module('wdAuth', ['wdCommon'])
 
         $scope.connectPhone = function (item) {
             $scope.isLoadingDevices = true;
-            wdcGoogleSignIn.currentDevice(item);
             $scope.submit(item);
         };
 
         $scope.googleSigOut = function () {
-            wdcGoogleSignIn.signOut();
-            googleInit();
-            $scope.deviceNum = -1;
+            $scope.isLoadingDevices = true;
+            wdcGoogleSignIn.signOut().then(function(){
+                wdcGoogleSignIn.render();
+                googleInit();
+                $scope.deviceNum = -1;
+                $scope.isLoadingDevices = false;
+            },function(){
+                window.location.reload();
+            });
         };
 
         $scope.showSignInPhone = function () {
@@ -281,19 +292,34 @@ angular.module('wdAuth', ['wdCommon'])
         if(!!wdcGoogleSignIn.authResult().access_token){
             $scope.isLoadingAuth = false;
             $scope.isLoadingDevices = true;
-            wdcGoogleSignIn.getDevices().then(function(list){
-                console.log(list);
-                $scope.isLoadingDevices = false;
-                switch(list.length){
-                    case 0:
-                    break;
-                    default:
-                        $scope.deviceNum = list.length;
-                        $scope.devicesList = list;
-                        loopGetDevices();
-                    break;
-                }
-            });
+
+            //用户是想要切换到另一个设备
+            var item = wdcGoogleSignIn.changeToDevice();
+            console.log(item);
+            if(!!item.status && item.status === 'signout'){
+                $scope.googleSigOut();
+                return;
+            }
+
+            if(!!item.ip){
+                $scope.submit(item);
+            }else{
+                wdcGoogleSignIn.getDevices().then(function(list){
+                    console.log(list);
+                    $scope.isLoadingDevices = false;
+                    switch(list.length){
+                        case 0:
+                            loopGetDevices();
+                        break;
+                        default:
+                            $scope.deviceNum = list.length;
+                            $scope.devicesList = list;
+                            loopGetDevices();
+                        break;
+                    }
+                });
+            }
+
         }else{
             googleInit();
         }

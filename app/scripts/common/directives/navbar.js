@@ -24,12 +24,14 @@ return [function() {
             };
 
             $scope.signout = function() {
+                wdcGoogleSignIn.changeToDevice({status:'signout'});
                 wdAuthToken.signout();
             };
 
             $scope.changeDevice = function (item) {
+                console.log(item);
                 if(item['ip'] !== wdcGoogleSignIn.currentDevice().ip){
-                    wdcGoogleSignIn.currentDevice(item);
+                    wdcGoogleSignIn.changeToDevice(item);
                     wdAuthToken.signout();
                 }
             };
