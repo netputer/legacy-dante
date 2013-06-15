@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $log ) {
+return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $log ) {
 
     var global = {
         authResult : {},
@@ -22,20 +22,15 @@ return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $lo
         //取得或者设置authResult
         authResult : function (data) {
           if(!!data) {
-            $log.log('Google authResult');
             $log.log(data);
-            window.localStorage.setItem('googleToken', data.access_token);
+            window.localStorage.setItem('google_token', data['access_token']);
             global.authResult = data;
           }else{
-            if(!global.authResult.access_token){
-                global.authResult.access_token = window.localStorage.getItem('googleToken');
+            if(!global.authResult['access_token']){
+                global.authResult['access_token'] = window.localStorage.getItem('google_token');
             }
             return global.authResult;
           }
-        },
-
-        getToken : function () {
-            return gapi.auth.getToken();
         },
 
         //取得或者设置currentDevice
@@ -71,7 +66,7 @@ return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $lo
                 gapi.client.load('oauth2', 'v2', function() {
                   var request = gapi.client.oauth2.userinfo.get();
                   request.execute(function(obj){
-                    global.account = obj.email;
+                    global.account = obj['email'];
                     defer.resolve(global.account);
                     $rootScope.$apply();
                   });
@@ -85,14 +80,14 @@ return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $lo
 
         getDevices : function () {
 
-            $log.log('Connecting for geting devices...');
+            $log.log('connecting for geting devices...');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
-            $log.log(authResult.access_token);
+            $log.log(authResult['access_token']);
 
             //调用服务器端接口
-            var url = 'http://192.168.100.24:8081/apppush/limbo?googleToken=' + authResult.access_token;
+            var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -118,11 +113,11 @@ return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $lo
         },
 
         callback : function (authResult) {
-            if (authResult.access_token) {
+            if (authResult['access_token']) {
                 this.authResult(authResult);
                 this.getAccount();
                 this.getDevices();
-            } else if (authResult.error) {
+            } else if (authResult['error']) {
                 //global.defer.resolve();
                 // There was an error.
                 // Possible error codes:
@@ -141,7 +136,7 @@ return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $lo
           global.defer = $q.defer();
           var defer = $q.defer();
           this.currentDevice({});
-          window.localStorage.setItem('googleToken','');
+          window.localStorage.setItem('google_token','');
           var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
           $.ajax({
             type: 'GET',
