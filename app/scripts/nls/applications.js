@@ -11,7 +11,7 @@ return {
             COMPLETE:'Complete'
         },
         CONFIRMS:{
-            INSTALL:'Confirm install on your phone.',
+            INSTALL:'Confirm installation on your phone.',
             UNINSTALL:'Confirm uninstall on your phone.',
             UNKNOWNTIPS:'Installation tips',
             INSTALL_COMPLETE:'Installation complete'

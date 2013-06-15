@@ -43,15 +43,15 @@
 
     //Google account sign in
     function googleSigninCallback(authResult) {
-        wdcGoogleSignIn.callback(authResult);
+        wdGoogleSignIn.callback(authResult);
         $('.loading-google').hide();
     }
 
     function googleSigninOnload() {
-        if (typeof wdcGoogleSignIn === 'undefined') {
+        if (typeof wdGoogleSignIn === 'undefined') {
             setTimeout(googleSigninOnload,16);
         }else{
-            wdcGoogleSignIn.render();
+            wdGoogleSignIn.render();
         }
     }
     </script>

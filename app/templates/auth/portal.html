@@ -75,7 +75,7 @@
     <!-- select devices start -->
     <div class="select-device" ng-show="deviceNum>=1">
         <h1>Select a phone.</h1>
-        <p>We find <span>{{deviceNum}}</span> phones under your account.</p>
+        <p>We found <span>{{deviceNum}}</span> phones in your account.</p>
         <div class="list">
             <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
                 <p>{{item.model}}</p>

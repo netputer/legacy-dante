@@ -10,28 +10,27 @@ return [function() {
         replace: true,
         template: template,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdcGoogleSignIn',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdcGoogleSignIn) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn) {
             $scope.messageNotification = false;
 
             $scope.open = function() {
-                $scope.loadDevices = true;
-                wdcGoogleSignIn.getDevices().then(function(list){
-                    $scope.loadDevices = false;
+                $scope.isLoadDevices = true;
+                wdGoogleSignIn.getDevices().then(function(list){
+                    $scope.isLoadDevices = false;
                     $scope.devicesList = list;
                     $scope.$apply();
                 });
             };
 
             $scope.signout = function() {
-                wdcGoogleSignIn.changeToDevice({status:'signout'});
+                wdGoogleSignIn.currentDevice({status:'signout'});
                 wdAuthToken.signout();
             };
 
             $scope.changeDevice = function (item) {
-                console.log(item);
-                if(item['ip'] !== wdcGoogleSignIn.currentDevice().ip){
-                    wdcGoogleSignIn.changeToDevice(item);
+                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
+                    wdGoogleSignIn.currentDevice(item);
                     wdAuthToken.signout();
                 }
             };

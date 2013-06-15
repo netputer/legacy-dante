@@ -5,13 +5,12 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
+return [ '$http','$q','$rootScope','$log', function ( $http, $q, $rootScope, $log ) {
 
     var global = {
         authResult : {},
         defer : $q.defer(),
         account : '',
-        changeToDevice : {},
         currentDevice : {}
     };
 
@@ -23,15 +22,20 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
         //取得或者设置authResult
         authResult : function (data) {
           if(!!data) {
-            console.log(data);
-            window.localStorage.setItem('google_token', data['access_token']);
+            $log.log('Google authResult');
+            $log.log(data);
+            window.localStorage.setItem('googleToken', data.access_token);
             global.authResult = data;
           }else{
-            if(!global.authResult['access_token']){
-                global.authResult['access_token'] = window.localStorage.getItem('google_token');
+            if(!global.authResult.access_token){
+                global.authResult.access_token = window.localStorage.getItem('googleToken');
             }
             return global.authResult;
           }
+        },
+
+        getToken : function () {
+            return gapi.auth.getToken();
         },
 
         //取得或者设置currentDevice
@@ -40,15 +44,6 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
-            }
-        },
-
-        //取得或者设置changeToDevice
-        changeToDevice : function (data) {
-            if(!data){
-                return global.changeToDevice;
-            }else{
-                global.changeToDevice = data;
             }
         },
 
@@ -76,7 +71,7 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                 gapi.client.load('oauth2', 'v2', function() {
                   var request = gapi.client.oauth2.userinfo.get();
                   request.execute(function(obj){
-                    global.account = obj['email'];
+                    global.account = obj.email;
                     defer.resolve(global.account);
                     $rootScope.$apply();
                   });
@@ -90,14 +85,14 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
 
         getDevices : function () {
 
-            console.log('连接旭东ing...');
+            $log.log('Connecting for geting devices...');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
-            console.log(authResult['access_token']);
+            $log.log(authResult.access_token);
 
             //调用服务器端接口
-            var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
+            var url = 'http://192.168.100.24:8081/apppush/limbo?googleToken=' + authResult.access_token;
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -105,18 +100,17 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 success: function(data) {
-                    console.log('连接成功！');
-                    console.log(data);
+                    $log.log('get devices success!');
+                    $log.log(data);
                     defer.resolve(data);
                     global.defer.resolve(data);
                     $rootScope.$apply();
                     global.defer = $q.defer();
                 },
                 error: function(e) {
-                    console.log('连接失败！');
-                    console.log(e);
-                    // global.defer.reject(e);
-                    // $rootScope.$apply();
+                    $log.error('get devices 403');
+                    global.defer.reject(e);
+                    $rootScope.$apply();
                 }
             });
 
@@ -124,11 +118,11 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
         },
 
         callback : function (authResult) {
-            if (authResult['access_token']) {
+            if (authResult.access_token) {
                 this.authResult(authResult);
                 this.getAccount();
                 this.getDevices();
-            } else if (authResult['error']) {
+            } else if (authResult.error) {
                 //global.defer.resolve();
                 // There was an error.
                 // Possible error codes:
@@ -147,8 +141,7 @@ return [ '$http','$q','$rootScope', function ( $http, $q, $rootScope ) {
           global.defer = $q.defer();
           var defer = $q.defer();
           this.currentDevice({});
-          this.changeToDevice({});
-          window.localStorage.setItem('google_token','');
+          window.localStorage.setItem('googleToken','');
           var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
           $.ajax({
             type: 'GET',

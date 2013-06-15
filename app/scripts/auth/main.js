@@ -3,18 +3,21 @@ define([
     'angular',
     'auth/services/token',
     'auth/services/googleSignIn'
+    // 'auth/directives/googleSignInBtn'
 ], function(
     angular,
     authToken,
     googleSignIn
+    // googleSignInBtn
 ) {
 'use strict';
 
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdAuthToken', authToken)
-    .factory('wdcGoogleSignIn',googleSignIn)
-    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdcGoogleSignIn',
-        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdcGoogleSignIn) {
+    .factory('wdGoogleSignIn',googleSignIn)
+    // .directive('googleSignInBtn',googleSignInBtn)
+    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log',
+        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log ) {
 
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -33,6 +36,10 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.isLoadingAuth = true;
         $scope.isLoadingDevices = false;
         $scope.accountEmail = '';
+
+        //轮询的timer
+        var loopGetDevicesTimer;
+        var loopLinkDevicesTimer;
 
         var acFromQuery = !!wdDev.query('ac');
         var acFromInput = false;
@@ -93,7 +100,7 @@ angular.module('wdAuth', ['wdCommon'])
                 $http({
                     method: 'get',
                     url: '/directive/auth',
-                    timeout: 5000,
+                    timeout: 10000,
                     params: {
                         authcode: authCode,
                         'client_time': (new Date()).getTime(),
@@ -103,7 +110,7 @@ angular.module('wdAuth', ['wdCommon'])
                     disableErrorControl: !$scope.autoAuth
                 })
                 .success(function(response) {
-                    wdcGoogleSignIn.currentDevice(deviceData);
+                    wdGoogleSignIn.currentDevice(deviceData);
                     $scope.isLoadingAuth = false;
                     $scope.isLoadingDevices = false;
                     keeper.done();
@@ -197,20 +204,21 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         function googleInit() {
-            wdcGoogleSignIn.init().then(function(list){
+            wdGoogleSignIn.init().then(function(list){
                 $scope.isLoadingAuth = false;
-                console.log('googleInit');
-                if(typeof list !== 'undefined'){
-                    wdcGoogleSignIn.getAccount().then(function(data){
+                $log.log('googleInit');
+                if( typeof list !== 'undefined' ){
+                    wdGoogleSignIn.getAccount().then(function(data){
                         $scope.accountEmail = data;
                     });
-                    console.log(list);
+                    $log.log(list);
                     $scope.deviceNum = list.length;
-                    switch(list.length){
+                    switch ( list.length ) {
                         case 0:
                             loopLinkDevices();
                         break;
                         case 1:
+                            $scope.isLoadingDevices = true;
                             $scope.devicesList = list;
                             $scope.submit(list[0]);
                         break;
@@ -220,16 +228,15 @@ angular.module('wdAuth', ['wdCommon'])
                         break;
                     }
                 }
-                $scope.$apply();
             },function(error){
-                console.log('google sigin error');
+                $scope.googleSigOut();
             });
         }
 
         //轮询获取设备列表
         function loopGetDevices() {
-            setTimeout(function(){
-                wdcGoogleSignIn.getDevices().then(function(list){
+            loopGetDevicesTimer = setTimeout(function(){
+                wdGoogleSignIn.getDevices().then(function(list){
                     $scope.deviceNum = list.length;
                     switch(list.length){
                         case 0:
@@ -244,13 +251,17 @@ angular.module('wdAuth', ['wdCommon'])
                 function(){
                     loopGetDevices();
                 });
-            },10000);
+            },15000);
+        }
+
+        function stopLoopGetDevices () {
+            clearTimeout(loopGetDevicesTimer);
         }
 
         //轮询获取设备列表，如果有一个设备则登录
         function loopLinkDevices() {
-            setTimeout(function(){
-                wdcGoogleSignIn.getDevices().then(function(list){
+            loopLinkDevicesTimer = setTimeout(function(){
+                wdGoogleSignIn.getDevices().then(function(list){
                     if(list.length === 0){
                         loopLinkDevices();
                     }else{
@@ -260,11 +271,15 @@ angular.module('wdAuth', ['wdCommon'])
                 function(){
                     loopLinkDevices();
                 });
-            },5000);
+            },10000);
+        }
+
+        function stopLoopLinkDevices () {
+            clearTimeout(loopLinkDevicesTimer);
         }
 
         $scope.googleSigIn = function () {
-            wdcGoogleSignIn.signIn();
+            wdGoogleSignIn.signIn();
         };
 
         $scope.connectPhone = function (item) {
@@ -274,8 +289,8 @@ angular.module('wdAuth', ['wdCommon'])
 
         $scope.googleSigOut = function () {
             $scope.isLoadingDevices = true;
-            wdcGoogleSignIn.signOut().then(function(){
-                wdcGoogleSignIn.render();
+            wdGoogleSignIn.signOut().then(function(){
+                wdGoogleSignIn.render();
                 googleInit();
                 $scope.deviceNum = -1;
                 $scope.isLoadingDevices = false;
@@ -289,13 +304,12 @@ angular.module('wdAuth', ['wdCommon'])
         };
 
         // 当用户从其他设备中退出到当前页面时
-        if(!!wdcGoogleSignIn.authResult().access_token){
+        if(!!wdGoogleSignIn.authResult().access_token){
             $scope.isLoadingAuth = false;
             $scope.isLoadingDevices = true;
 
             //用户是想要切换到另一个设备
-            var item = wdcGoogleSignIn.changeToDevice();
-            console.log(item);
+            var item = wdGoogleSignIn.currentDevice();
             if(!!item.status && item.status === 'signout'){
                 $scope.googleSigOut();
                 return;
@@ -304,8 +318,8 @@ angular.module('wdAuth', ['wdCommon'])
             if(!!item.ip){
                 $scope.submit(item);
             }else{
-                wdcGoogleSignIn.getDevices().then(function(list){
-                    console.log(list);
+                wdGoogleSignIn.getDevices().then(function(list){
+                    $log.log(list);
                     $scope.isLoadingDevices = false;
                     switch(list.length){
                         case 0:
@@ -324,9 +338,13 @@ angular.module('wdAuth', ['wdCommon'])
             googleInit();
         }
 
-        window.wdcGoogleSignIn = wdcGoogleSignIn;
-        window.wdAuthToken = wdAuthToken;
+        $scope.$on('$destroy', function() {
+            stopLoopLinkDevices();
+            stopLoopGetDevices();
+        });
 
+        window.wdGoogleSignIn = wdGoogleSignIn;
+        window.wdAuthToken = wdAuthToken;
 
     }]);
 });
