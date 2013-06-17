@@ -10,19 +10,34 @@ return [function() {
         replace: true,
         template: template,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn','wdKey',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn , wdKey ) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
-
+            var keyInfo;
             $scope.open = function() {
                 $scope.isLoadDevices = true;
                 wdGoogleSignIn.getDevices().then(function(list){
                     $scope.isLoadDevices = false;
-                    $scope.devicesList = list;
+
+                    //设备列表
+                    $scope.devicesList = getListData (list);
                     $scope.$apply();
                 });
             };
+
+            //处理原始的设备列表数据
+            function getListData (list) {
+                var ip = wdGoogleSignIn.currentDevice().ip;
+                for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
+                    if ( ip === list[i]['ip'] ) {
+                        list[i]['selected'] = true;
+                    }else{
+                        list[i]['selected'] = false;
+                    }
+                }
+                return list;
+            }
 
             $scope.signout = function() {
                 wdGoogleSignIn.currentDevice({status:'signout'});
@@ -60,11 +75,22 @@ return [function() {
 
             $scope.clickAddNewPhone = function () {
                 $scope.isChangeDevicesPopShow = true;
+                keyInfo = wdKey.push('navbar');
             };
 
             $scope.closeChangeDevicesPop = function () {
                 $scope.isChangeDevicesPopShow = false;
+                keyInfo = wdKey.done;
             };
+
+            wdKey.$apply('esc', 'navbar', function() {
+                $scope.closeChangeDevicesPop();
+            });
+
+            $scope.$on('$destroy', function() {
+                wdKey.deleteScope('navbar');
+            });
+
         }]
     };
 }];

@@ -33,8 +33,9 @@
                     <i class="icon-phoneswitch"></i>
                 </a>
                 <div wd-menu-popover placement="right" loading="isLoadDevices">
-                    <div ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">{{item.model}}</div>
-                    <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">+New phone</div>
+                    <div ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
+                        <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;&nbsp;{{item.model}}</div>
+                    <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">+&nbsp;New phone</div>
                 </div>
             </li>
             <li wd-menu>
@@ -67,8 +68,8 @@
     </div>
 
     <!-- change devices -->
-    <div class="change-devices-pop" ng-show="isChangeDevicesPopShow">
-        <div class="content">
+    <div class="change-devices-pop" ng-show="isChangeDevicesPopShow" ng-click="closeChangeDevicesPop();">
+        <div class="content" ng-click="$event.stopPropagation();">
             <h1>Connect a new phone.</h1>
             <p>Just 3 steps, and you will find your phone here.</p>
             <div class="step">
