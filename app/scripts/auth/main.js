@@ -33,9 +33,14 @@ angular.module('wdAuth', ['wdCommon'])
 
         //设备列表
         $scope.devicesList = [];
-        $scope.isLoadingAuth = true;
-        $scope.isLoadingDevices = false;
-        $scope.accountEmail = '';
+
+        //检测是否曾经登陆过
+        if(!!window.localStorage.getItem('google_token')){
+            $scope.isLoadingDevices = true;
+        }else{
+            $scope.isLoadingDevices = false;
+        }
+        $scope.accountEmail = 'your account';
 
         //轮询的timer
         var loopGetDevicesTimer;
@@ -64,6 +69,7 @@ angular.module('wdAuth', ['wdCommon'])
         };
 
         $scope.submit = function(deviceData) {
+            $scope.isLoadingDevices = true;
             deviceData = deviceData || wdAuthToken.getToken();
             var authCode = deviceData['authcode'];
             // if (!authCode) {
@@ -96,7 +102,6 @@ angular.module('wdAuth', ['wdCommon'])
                 wdDev.setServer(ip, port);
                 keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
                 var timeStart = (new Date()).getTime();
-                $scope.isLoadingAuth = false;
                 $http({
                     method: 'get',
                     url: '/directive/auth',
@@ -111,7 +116,6 @@ angular.module('wdAuth', ['wdCommon'])
                 })
                 .success(function(response) {
                     wdGoogleSignIn.currentDevice(deviceData);
-                    $scope.isLoadingAuth = false;
                     $scope.isLoadingDevices = false;
                     keeper.done();
                     $scope.state = 'standby';
@@ -121,21 +125,10 @@ angular.module('wdAuth', ['wdCommon'])
                     wdAuthToken.startSignoutDetection();
                     wdDev.setMetaData(response);
                     $location.url($route.current.params.ref || '/');
-                    if (acFromInput) {
-                        GA('login:success:user_input');
-                    }
-                    if (acFromQuery) {
-                        GA('login:success:query');
-                    }
-                    else if (acFromCache) {
-                        GA('login:success:cache');
-                    }
-                    GA('perf:auth_duration:success:' + ((new Date()).getTime() - timeStart));
                     $rootScope.$broadcast('signin');
                 })
                 .error(function(reason, status) {
-                    $scope.isLoadingAuth = false;
-                    $scope.isLoadingDevices = false;
+                    $scope.isLoadingDevices = true;
                     loopGetDevices();
 
                     //TODO: 应该是退到设备列表页面
@@ -154,7 +147,6 @@ angular.module('wdAuth', ['wdCommon'])
                     }
 
                     var action;
-
                     if (status === 0) {
                         action = 'timeout';
                     }
@@ -164,27 +156,10 @@ angular.module('wdAuth', ['wdCommon'])
                     else {
                         action = 'unknown_' + status;
                     }
-
-                    if (acFromInput) {
-                        GA('login:' + action + ':user_input');
-                    }
-                    else if (acFromQuery) {
-                        GA('login:' + action + ':query');
-                    }
-                    if (acFromCache) {
-                        GA('login:' + action + ':cache');
-                    }
-                    GA('perf:auth_duration:' + action + ':' + ((new Date()).getTime() - timeStart));
                 });
             }
             // Invalid auth code.
             else {
-                if ($scope.autoAuth) {
-                    GA('login:auto_authcode:invalid');
-                }
-                else {
-                    GA('login:enter_authcode:invalid');
-                }
                 $scope.error = true;
                 $timeout(function() {
                     $scope.error = false;
@@ -208,16 +183,13 @@ angular.module('wdAuth', ['wdCommon'])
 
         function googleInit() {
             wdGoogleSignIn.init().then(function(list){
-                $scope.isLoadingAuth = false;
                 $log.log('googleInit');
                 if( typeof list !== 'undefined' ){
-                    wdGoogleSignIn.getAccount().then(function(data){
-                        $scope.accountEmail = data;
-                    });
                     $log.log(list);
                     $scope.deviceNum = list.length;
                     switch ( list.length ) {
                         case 0:
+                            $scope.isLoadingDevices = false;
                             loopLinkDevices();
                         break;
                         case 1:
@@ -226,6 +198,7 @@ angular.module('wdAuth', ['wdCommon'])
                             $scope.submit(list[0]);
                         break;
                         default:
+                            $scope.isLoadingDevices = false;
                             $scope.devicesList = list;
                             loopGetDevices();
                         break;
@@ -241,11 +214,15 @@ angular.module('wdAuth', ['wdCommon'])
             loopGetDevicesTimer = setTimeout(function(){
                 wdGoogleSignIn.getDevices().then(function(list){
                     $scope.deviceNum = list.length;
+                    wdGoogleSignIn.getAccount().then(function(data){
+                        $scope.accountEmail = data;
+                    });
                     switch(list.length){
                         case 0:
                             loopLinkDevices();
                         break;
                         default:
+                            $scope.isLoadingDevices = false;
                             $scope.devicesList = list;
                             loopGetDevices();
                         break;
@@ -265,6 +242,9 @@ angular.module('wdAuth', ['wdCommon'])
         function loopLinkDevices() {
             loopLinkDevicesTimer = setTimeout(function(){
                 wdGoogleSignIn.getDevices().then(function(list){
+                    wdGoogleSignIn.getAccount().then(function(data){
+                        $scope.accountEmail = data;
+                    });
                     if(list.length === 0){
                         loopLinkDevices();
                     }else{
@@ -274,7 +254,7 @@ angular.module('wdAuth', ['wdCommon'])
                 function(){
                     loopLinkDevices();
                 });
-            },5000);
+            },3000);
         }
 
         function stopLoopLinkDevices () {
@@ -295,12 +275,13 @@ angular.module('wdAuth', ['wdCommon'])
             stopLoopLinkDevices();
             stopLoopGetDevices();
             wdGoogleSignIn.signOut().then(function(){
-                wdGoogleSignIn.render();
-                googleInit();
-                $scope.deviceNum = -1;
-                $scope.isLoadingDevices = false;
-            },function(){
+                // wdGoogleSignIn.render();
+                // googleInit();
+                // $scope.deviceNum = -1;
+                // $scope.isLoadingDevices = false;
                 window.location.reload();
+            },function(){
+                $scope.googleSigOut();
             });
         };
 
@@ -309,8 +290,7 @@ angular.module('wdAuth', ['wdCommon'])
         };
 
         // 当用户从其他设备中退出到当前页面时
-        if(!!wdGoogleSignIn.authResult().access_token){
-            $scope.isLoadingAuth = false;
+        if( wdGoogleSignIn.getIsLogin() ){
             $scope.isLoadingDevices = true;
 
             //用户是想要切换到另一个设备
@@ -325,7 +305,11 @@ angular.module('wdAuth', ['wdCommon'])
             }else{
                 wdGoogleSignIn.getDevices().then(function(list){
                     $log.log(list);
-                    $scope.isLoadingDevices = false;
+                    if($scope.autoAuth){
+                        $scope.isLoadingDevices = true;
+                    }else{
+                        $scope.isLoadingDevices = false;
+                    }
                     switch(list.length){
                         case 0:
                             loopGetDevices();

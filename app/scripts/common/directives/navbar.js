@@ -14,6 +14,8 @@ return [function() {
         function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn , wdKey ) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
+
+            //快捷键
             var keyInfo;
             $scope.open = function() {
                 $scope.isLoadDevices = true;
@@ -22,8 +24,13 @@ return [function() {
 
                     //设备列表
                     $scope.devicesList = getListData (list);
-                    $scope.$apply();
                 });
+
+                //取得账号
+                wdGoogleSignIn.getAccount().then(function(data){
+                    $scope.account = data;
+                });
+
             };
 
             //处理原始的设备列表数据

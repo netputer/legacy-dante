@@ -11,7 +11,10 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
         authResult : {},
         defer : $q.defer(),
         account : '',
-        currentDevice : {}
+        currentDevice : {},
+
+        //标记是否本次登陆了，用于检测是否是跳转过来的用户
+        isLogin : false
     };
 
     var result = {
@@ -22,6 +25,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
         //取得或者设置authResult
         authResult : function (data) {
           if(!!data) {
+            global.isLogin = true;
             $log.log(data);
             window.localStorage.setItem('google_token', data['access_token']);
             global.authResult = data;
@@ -60,6 +64,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
 
         getAccount : function () {
             var defer = $q.defer();
+            var gapi = window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
                 gapi.auth.setToken(authResult);
@@ -73,7 +78,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 });
             }else{
                 defer.resolve(global.account);
-                //$rootScope.$apply();
+                $rootScope.$apply();
             }
             return defer.promise;
         },
@@ -160,6 +165,11 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
             }
           });
           return defer.promise;
+        },
+
+        //是否本次登陆过，用于检测是否是跳转过来的设备
+        getIsLogin : function () {
+            return global.isLogin;
         }
     };
 

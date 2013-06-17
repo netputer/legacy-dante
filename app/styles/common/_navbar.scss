@@ -67,7 +67,7 @@
                 display: block;
             }
 
-            @media screen and (max-height: 600px) {
+            @media screen and (max-height: 500px) {
                 li:not(:last-of-type) {
                     display: none;
                 }

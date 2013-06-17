@@ -34,8 +34,8 @@
                 </a>
                 <div wd-menu-popover placement="right" loading="isLoadDevices">
                     <div ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
-                        <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;&nbsp;{{item.model}}</div>
-                    <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">+&nbsp;New phone</div>
+                        <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;{{item.model}}</div>
+                    <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">+&nbsp;&nbsp;&nbsp;New phone</div>
                 </div>
             </li>
             <li wd-menu>
@@ -83,7 +83,7 @@
                 </dl>
                 <dl class="step3">
                     <dt></dt>
-                    <dd>3.Sign in with your google account.</dd>
+                    <dd>3.Sign in with {{account}} . </dd>
                 </dl>
             </div>
             <span class="closePop" ng-click="closeChangeDevicesPop();">&times;</span>
