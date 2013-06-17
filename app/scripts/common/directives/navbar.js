@@ -13,6 +13,7 @@ return [function() {
                 '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
         function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn) {
             $scope.messageNotification = false;
+            $scope.isChangeDevicesPopShow = false;
 
             $scope.open = function() {
                 $scope.isLoadDevices = true;
@@ -57,6 +58,13 @@ return [function() {
                 }
             });
 
+            $scope.clickAddNewPhone = function () {
+                $scope.isChangeDevicesPopShow = true;
+            };
+
+            $scope.closeChangeDevicesPop = function () {
+                $scope.isChangeDevicesPopShow = false;
+            };
         }]
     };
 }];

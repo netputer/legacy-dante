@@ -137,6 +137,9 @@ angular.module('wdAuth', ['wdCommon'])
                     $scope.isLoadingAuth = false;
                     $scope.isLoadingDevices = false;
                     loopGetDevices();
+
+                    //TODO: 应该是退到设备列表页面
+
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_FAILED;
@@ -251,7 +254,7 @@ angular.module('wdAuth', ['wdCommon'])
                 function(){
                     loopGetDevices();
                 });
-            },15000);
+            },10000);
         }
 
         function stopLoopGetDevices () {
@@ -271,7 +274,7 @@ angular.module('wdAuth', ['wdCommon'])
                 function(){
                     loopLinkDevices();
                 });
-            },10000);
+            },5000);
         }
 
         function stopLoopLinkDevices () {
@@ -289,6 +292,8 @@ angular.module('wdAuth', ['wdCommon'])
 
         $scope.googleSigOut = function () {
             $scope.isLoadingDevices = true;
+            stopLoopLinkDevices();
+            stopLoopGetDevices();
             wdGoogleSignIn.signOut().then(function(){
                 wdGoogleSignIn.render();
                 googleInit();

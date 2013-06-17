@@ -1,7 +1,7 @@
 // Global Navbar.
 // Basic styles are modified in bootstrap submodule.
 
-
+@import "auth/*.png";
 .navigator {
     @include position(fixed, 0px 0 0px 0px);
     width: 60px;
@@ -130,4 +130,88 @@
         @include position(absolute, 10px 10px 0 0);
     }
 
+    .change-devices-pop{
+        position: fixed;
+        top : 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        background-color:rgba(0,0,0,0.8);
+
+        h1{
+            font-weight: normal;
+            font-size: 35px;
+        }
+        p{
+            color: #666;
+            font-size: 15px;
+        }
+        div.content{
+            width: 704px;
+            height: 379px;
+            background-color: #fff;
+            padding-top: 15px;
+            padding-left: 30px;
+            position: absolute;
+            top: 50%;
+            margin-top: -197px;
+            left: 50%;
+            margin-left: -367px;
+            span.closePop{
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 25px;
+                cursor: pointer;
+                color: #999;
+            }
+        }
+        div.step{
+            margin-top: 20px;
+            dl{
+                width: auth-sprite-width("step1");
+                height: 300px;
+                float: left;
+            }
+            dd{
+                margin-left: 0px;
+                font-size: 12px;
+                margin-top: 6px;
+            }
+            dl.step1{
+                dt{
+                    @include auth-sprite("step1");
+                    width: auth-sprite-width("step1");
+                    height: auth-sprite-height("step1");
+                    margin: 0 auto;
+                }
+            }
+            dl.step2{
+                margin-left: 35px;
+                dt{
+                    @include auth-sprite("step2");
+                    width: auth-sprite-width("step2");
+                    height: auth-sprite-height("step2");
+                    margin: 0 auto;
+                }
+            }
+            dl.step3{
+                margin-left: 35px;
+                dt{
+                    @include auth-sprite("step3");
+                    width: auth-sprite-width("step3");
+                    height: auth-sprite-height("step3");
+                    margin: 0 auto;
+                }
+            }
+            p{
+                float: left;
+            }
+            span{
+                background-color: #50a00b;
+                color: #FFF;
+            }
+        }
+
+    }
 }
