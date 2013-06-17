@@ -181,6 +181,27 @@ angular.module('wdAuth', ['wdCommon'])
             $scope.autoAuth = false;
         }
 
+        function pingDevice ( deviceData ) {
+            var ip =  deviceData['ip'];
+            var authCode = deviceData['authcode'];
+            $http({
+                method: 'get',
+                url: 'http://'+ip+':10208/api/v1/directive/auth',
+                timeout: 10000,
+                params: {
+                    authcode: authCode,
+                    'client_time': (new Date()).getTime(),
+                    'client_name': 'Browser',
+                    'client_type': 3
+                }
+            })
+            .success(function(response) {
+            })
+            .error(function(reason, status) {
+
+            });
+        }
+
         function googleInit() {
             wdGoogleSignIn.init().then(function(list){
                 $log.log('googleInit');
