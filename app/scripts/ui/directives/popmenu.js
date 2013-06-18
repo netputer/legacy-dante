@@ -25,6 +25,9 @@ var popover = ['$document', '$window', function($document, $window) {
         this.contentEl = this.element.children('div:last-of-type');
         this.handleOutsideClick = this.close.bind(this);
 
+        this.cachedDimensions = {};
+        this.cachedContentDimensions = null;
+
         this.element.on('click', function(e) {
             e.stopPropagation();
         });
@@ -34,9 +37,13 @@ var popover = ['$document', '$window', function($document, $window) {
         open: function() {
             if (this.element.is(':visible')) { return; }
             var handleOutsideClick = this.handleOutsideClick;
+
+            var self = this;
             _.defer(function() {
+                self.element.addClass('animate-enabled').css('opacity', 1);
                 $document.one('click', handleOutsideClick);
             });
+            this.element.css('opacity', 0);
             this.element.show();
             this.updateDimensions();
             this.updatePosition();
@@ -44,6 +51,7 @@ var popover = ['$document', '$window', function($document, $window) {
         },
         close: function() {
             $document.off('click', this.handleOutsideClick);
+            this.element.removeClass('animate-enabled');
             this.element.hide();
         },
         getViewportDimensions: function() {
@@ -70,45 +78,55 @@ var popover = ['$document', '$window', function($document, $window) {
         },
         updateDimensions: function() {
             // adjust dimensions according to content
+
+            // float makes contentEl stretch to it's max dimensions.
+            this.contentEl.css('float', 'left');
             var contentDimensions = this.getDimensions(this.contentEl);
-            this.element.width(Math.max(contentDimensions.width, 100));
-            this.element.height(Math.max(contentDimensions.height, 100));
+            // restore to none-float, makes contentEl stretch against container.
+            this.contentEl.css('float', 'none');
+
+            this.cachedDimensions.width = Math.max(contentDimensions.width, 100);
+            this.cachedDimensions.height = contentDimensions.height ? Math.max(contentDimensions.height, 20) : 100;
+
+            this.element.width(this.cachedDimensions.width);
+            this.element.height(this.cachedDimensions.height);
+
+            this.cachedDimensions.width += 10;
+            this.cachedDimensions.height += 10;
         },
         updateCuePosition: function() {
             // adjust cue's position
-            var dimensions = this.getDimensions(this.element);
             var refDimensions = this.getDimensions(this.getRefEl());
             var mainAxis = this.decideMainAxis(this.options.placement);
 
             var left, top;
             if (mainAxis === 'x') {
-                left = this.adjustSubAxis((refDimensions.left + refDimensions.right) / 2, 10, dimensions.left + 4, dimensions.right - 4);
+                left = this.adjustSubAxis((refDimensions.left + refDimensions.right) / 2, 10, this.cachedDimensions.left + 4, this.cachedDimensions.left + this.cachedDimensions.width - 4);
                 this.cueEl.css('left', left);
             }
             else {
-                top = this.adjustSubAxis((refDimensions.top + refDimensions.bottom) / 2, 10, dimensions.top + 4, dimensions.bottom - 4);
-                this.cueEl.css('top', top - dimensions.top);
+                top = this.adjustSubAxis((refDimensions.top + refDimensions.bottom) / 2, 10, this.cachedDimensions.top + 4, this.cachedDimensions.top + this.cachedDimensions.height - 4);
+                this.cueEl.css('top', top - this.cachedDimensions.top);
             }
         },
         updatePosition: function() {
             // adjust position in viewport
-            var dimensions = this.getDimensions(this.element);
             var viewportDimensions = this.getViewportDimensions();
             var refDimensions = this.getDimensions(this.getRefEl());
             var mainAxis = this.decideMainAxis(this.options.placement);
 
             var left, top;
             if (mainAxis === 'x') {
-                left = this.adjustSubAxis((refDimensions.left + refDimensions.right) / 2, dimensions.width, 5, viewportDimensions.width - 5);
+                left = this.adjustSubAxis((refDimensions.left + refDimensions.right) / 2, this.cachedDimensions.width, 5, viewportDimensions.width - 5);
                 top = this.options.placement === 'bottom' ?
                         refDimensions.bottom + 5 :
-                        refDimensions.top - dimensions.height - 5;
+                        refDimensions.top - this.cachedDimensions.height - 5;
             }
             else {
-                top = this.adjustSubAxis((refDimensions.top + refDimensions.bottom) / 2, dimensions.height, 5, viewportDimensions.height - 5);
+                top = this.adjustSubAxis((refDimensions.top + refDimensions.bottom) / 2, this.cachedDimensions.height, 5, viewportDimensions.height - 5);
                 left = this.options.placement === 'right' ?
                         refDimensions.right + 5 :
-                        refDimensions.left - dimensions.width - 5;
+                        refDimensions.left - this.cachedDimensions.width - 5;
             }
 
             top += viewportDimensions.top;
@@ -118,6 +136,9 @@ var popover = ['$document', '$window', function($document, $window) {
                 left: left,
                 top: top
             });
+
+            this.cachedDimensions.left = left;
+            this.cachedDimensions.top = top;
         },
         decideMainAxis: function(placement) {
             switch (placement) {

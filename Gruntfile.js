@@ -349,7 +349,7 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
-            'clean:server',
+            // 'clean:server',
             'concurrent:server',
             'connect:livereload',
             // 'open',
