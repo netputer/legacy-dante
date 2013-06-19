@@ -88,8 +88,12 @@
                 }
             }
 
+            div{
+                white-space: nowrap;
+            }
             .unselected{
                 visibility:hidden;
+
             }
             .selected{
                 visibility:visible;

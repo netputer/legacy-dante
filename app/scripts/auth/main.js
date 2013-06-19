@@ -34,13 +34,24 @@ angular.module('wdAuth', ['wdCommon'])
         //设备列表
         $scope.devicesList = [];
 
+        //显示的账号的名称
+        $scope.accountEmail = 'your account';
+
+        function loopSetToken() {
+            if ( !gapi || !gapi.auth || !gapi.auth.authorize ){
+                setTimeout(loopSetToken,16);
+            }else{
+                wdGoogleSignIn.setToken(true);
+            }
+        }
+
         //检测是否曾经登陆过
-        if(!!window.localStorage.getItem('google_token')){
+        if(!!window.localStorage.getItem('googleToken')){
             $scope.isLoadingDevices = true;
+            loopSetToken();
         }else{
             $scope.isLoadingDevices = false;
         }
-        $scope.accountEmail = 'your account';
 
         //轮询的timer
         var loopGetDevicesTimer;
@@ -283,7 +294,7 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         $scope.googleSigIn = function () {
-            wdGoogleSignIn.signIn();
+            wdGoogleSignIn.setToken();
         };
 
         $scope.connectPhone = function (item) {
@@ -320,7 +331,6 @@ angular.module('wdAuth', ['wdCommon'])
                 $scope.googleSigOut();
                 return;
             }
-
             if(!!item.ip){
                 $scope.submit(item);
             }else{
@@ -352,16 +362,6 @@ angular.module('wdAuth', ['wdCommon'])
             stopLoopLinkDevices();
             stopLoopGetDevices();
         });
-
-        window.googleSigninCallbackDefer.done(function(authResult){
-            wdGoogleSignIn.callback(authResult);
-        });
-
-        window.googleSigninOnloadDefer.done(function(){
-            wdGoogleSignIn.render();
-        });
-        // window.wdGoogleSignIn = wdGoogleSignIn;
-        // window.wdAuthToken = wdAuthToken;
 
     }]);
 });

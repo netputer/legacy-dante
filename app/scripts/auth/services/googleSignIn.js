@@ -27,11 +27,11 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
           if(!!data) {
             global.isLogin = true;
             $log.log(data);
-            window.localStorage.setItem('google_token', data['access_token']);
+            window.localStorage.setItem('googleToken', data['access_token']);
             global.authResult = data;
           }else{
             if(!global.authResult['access_token']){
-                global.authResult['access_token'] = window.localStorage.getItem('google_token');
+                global.authResult['access_token'] = window.localStorage.getItem('googleToken');
             }
             return global.authResult;
           }
@@ -46,20 +46,40 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
             }
         },
 
-        //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
-        render : function () {
-            var eles = $('.google-btn');
-            var gapi = window.gapi;
-            for(var i = 0 , l = eles.length ; i < l ; i += 1 ) {
-                gapi.signin.render(eles[i], {
-                  'callback': 'googleSigninCallback',
-                  'clientid': '592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-                  // 'cookiepolicy': 'http://snappea.com',
-                  'cookiepolicy': 'http://localhost:3501',
-                  'data-apppackagename': 'com.snappea',
-                  'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
-                });
+        // //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
+        // render : function () {
+        //     var eles = $('.google-btn');
+        //     var gapi = window.gapi;
+        //     for(var i = 0 , l = eles.length ; i < l ; i += 1 ) {
+        //         gapi.signin.render(eles[i], {
+        //           'callback': 'googleSigninCallback',
+        //           'clientid': '592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+        //           // 'cookiepolicy': 'http://snappea.com',
+        //           'cookiepolicy': 'http://localhost:3501',
+        //           'data-apppackagename': 'com.snappea',
+        //           'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+        //         });
+        //     }
+        // },
+
+        setToken : function ( immediate ) {
+            var defer = $q.defer();
+            if(typeof immediate === 'undefined') {
+                immediate = false;
+            }else{
+                immediate = true;
             }
+            var me = this;
+            window.gapi.auth.authorize({
+               'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+               'immediate':immediate,
+               'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+            },function(data){
+                me.callback(data);
+                defer.resolve(data);
+                $rootScope.$apply();
+            });
+            return defer;
         },
 
         getAccount : function () {
@@ -84,11 +104,11 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
         },
 
         getDevices : function () {
-
             $log.log('connecting for geting devices...');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
+            var me = this;
             $log.log(authResult['access_token']);
 
             //调用服务器端接口
@@ -110,8 +130,9 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 },
                 error: function(e) {
                     $log.error('get devices 403');
-                    global.defer.reject(e);
+                    defer.reject();
                     $rootScope.$apply();
+                    global.defer = $q.defer();
                 }
             });
 
@@ -119,18 +140,14 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
         },
 
         callback : function (authResult) {
-            if (authResult['access_token']) {
+            if (authResult && authResult['access_token']) {
                 this.authResult(authResult);
                 this.getAccount();
                 this.getDevices();
             } else if (authResult['error']) {
-                //global.defer.resolve();
-                // There was an error.
-                // Possible error codes:
-                //   "access_denied" - User denied access to your app
-                //   "immediate_failed" - Could not automatically log in the user
-                // console.log('There was an error: ' + authResult['error']);
-                //$rootScope.$apply();
+                global.defer.reject();
+                $rootScope.$apply();
+                global.defer = $q.defer();
             }
         },
 
@@ -142,7 +159,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
           global.defer = $q.defer();
           var defer = $q.defer();
           this.currentDevice({});
-          window.localStorage.setItem('google_token','');
+          window.localStorage.setItem('googleToken','');
           var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
           $.ajax({
             type: 'GET',

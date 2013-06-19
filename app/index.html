@@ -37,7 +37,7 @@
     <script type="text/javascript">
     (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
+    po.src = 'https://apis.google.com/js/client:plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
     })();
     </script>
@@ -54,23 +54,7 @@
     <script src="scripts/vendor/angular/elastic.js"></script>
     <script src="components/socket.io-client/dist/socket.io.js"></script>
     <!-- endbuild -->
-    <script type="text/javascript">
 
-    //Google account sign in
-    var googleSigninCallbackDefer = $.Deferred();
-    function googleSigninCallback(authResult) {
-        console.log('googleSigninCallback');
-        googleSigninCallbackDefer.resolve(authResult);
-        // wdGoogleSignIn.callback(authResult);
-    }
-
-    var googleSigninOnloadDefer = $.Deferred();
-    function googleSigninOnload() {
-        console.log('googleSigninOnloadDefer');
-        googleSigninOnloadDefer.resolve();
-        // wdGoogleSignIn.render();
-    }
-    </script>
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 
 </body>
