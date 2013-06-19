@@ -43,7 +43,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
-                window.localStorage.setItem('currentDevice', data);
+                window.localStorage.setItem('currentDevice', JSON.stringify(data));
             }
         },
 
@@ -157,32 +157,35 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
         },
 
         signOut : function () {
-          global.defer = $q.defer();
-          var defer = $q.defer();
-          this.currentDevice({});
-          window.localStorage.setItem('googleToken','');
-          var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
-          $.ajax({
-            type: 'GET',
-            url: revokeUrl,
-            async: false,
-            contentType: 'application/json',
-            dataType: 'jsonp',
-            success: function(nullResponse) {
-              // 客户取消了关联，据此执行相应操作
-              // 回应始终为未定义。
-              global.authResult = {};
-              defer.resolve('signOut');
-              $rootScope.$apply();
-            },
-            error: function(e) {
-              // 处理错误
-              // console.log(e);
-              // 如果失败，您可以引导用户手动取消关联
-              // https://plus.google.com/apps
-            }
-          });
-          return defer.promise;
+            global.defer = $q.defer();
+            var defer = $q.defer();
+            this.currentDevice({});
+            window.localStorage.removeItem('authcode');
+            window.localStorage.removeItem('ip');
+            window.localStorage.removeItem('currentDevice');
+            window.localStorage.removeItem('googleToken');
+            var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
+            $.ajax({
+                type: 'GET',
+                url: revokeUrl,
+                async: false,
+                contentType: 'application/json',
+                dataType: 'jsonp',
+                success: function(nullResponse) {
+                    // 客户取消了关联，据此执行相应操作
+                    // 回应始终为未定义。
+                    global.authResult = {};
+                    defer.resolve('signOut');
+                    $rootScope.$apply();
+                },
+                error: function(e) {
+                  // 处理错误
+                  // console.log(e);
+                  // 如果失败，您可以引导用户手动取消关联
+                  // https://plus.google.com/apps
+                }
+            });
+            return defer.promise;
         },
 
         //是否本次登陆过，用于检测是否是跳转过来的设备
