@@ -25,6 +25,7 @@ return function() {
             clearToken: function() {
                 $window.localStorage.removeItem('authcode');
                 $window.localStorage.removeItem('ip');
+                $window.localStorage.removeItem('currentDevice');
                 valid = false;
             },
             signout: function() {

@@ -43,6 +43,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
+                window.localStorage.setItem('currentDevice', data);
             }
         },
 

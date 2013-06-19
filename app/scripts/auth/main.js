@@ -38,7 +38,7 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.accountEmail = 'your account';
 
         function loopSetToken() {
-            if ( !gapi || !gapi.auth || !gapi.auth.authorize ){
+            if ( typeof(gapi) === 'undefined' || typeof(gapi.auth) === 'undefined' || typeof(gapi.auth.authorize) === 'undefined' ){
                 setTimeout(loopSetToken,16);
             }else{
                 wdGoogleSignIn.setToken(true);
@@ -261,7 +261,9 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 },
                 function(){
-                    loopGetDevices();
+                    wdGoogleSignIn.setToken().then(function(){
+                        loopGetDevices();
+                    });
                 });
             },10000);
         }
@@ -284,7 +286,9 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 },
                 function(){
-                    loopLinkDevices();
+                    wdGoogleSignIn.setToken().then(function(){
+                        loopLinkDevices();
+                    });
                 });
             },3000);
         }
@@ -351,6 +355,8 @@ angular.module('wdAuth', ['wdCommon'])
                             loopGetDevices();
                         break;
                     }
+                },function(){
+                    wdGoogleSignIn.setToken();
                 });
             }
 

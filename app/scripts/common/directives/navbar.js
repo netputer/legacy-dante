@@ -24,6 +24,10 @@ return [function() {
 
                     //设备列表
                     $scope.devicesList = getListData (list);
+                },function(){
+                    wdGoogleSignIn.setToken().then(function(){
+                        $scope.open();
+                    });
                 });
 
                 //取得账号
