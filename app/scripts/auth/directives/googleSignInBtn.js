@@ -2,8 +2,6 @@
 // 'use strict';
 // return [function() {
 //     return function(scope, element, attrs) {
-//       console.log('12312312');
-//       console.log(element);
 //       var gapi = window.gapi;
 //       gapi.signin.render(element, {
 //         'callback': 'googleSigninCallback',

@@ -41,7 +41,6 @@
                 cursor: pointer;
                 width: 200px;
                 height: 190px;
-                line-height: 190px;
                 background-color: #f1f1f1;
                 float: left;
                 margin-right: 25px;
@@ -49,7 +48,7 @@
                 border-radius: 5px;
                 text-align: center;
                 p{
-                    width: auto;
+                    width: 200px;
                     float: none;
                     overflow: hidden;
                     font-size: 16px;
@@ -57,7 +56,21 @@
                     line-height: 20px;
                     text-overflow: ellipsis;
                     display: inline-block;
-                    margin: 0;
+                    margin: 70px 0 0 0;
+                }
+
+                span.wifi{
+                    width: 200px;
+                    line-height: 22px;
+                    display: inline-block;
+                    margin-top: 10px;
+                    p{
+                        margin: 0 0 0 8px;
+                        width: auto;
+                        color: #9f9f9f;
+                        font-size: 12px;
+                        text-overflow: ellipsis;
+                    }
                 }
             }
             p{

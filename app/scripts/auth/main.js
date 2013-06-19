@@ -16,8 +16,8 @@ angular.module('wdAuth', ['wdCommon'])
     .provider('wdAuthToken', authToken)
     .factory('wdGoogleSignIn',googleSignIn)
     // .directive('googleSignInBtn',googleSignInBtn)
-    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log',
-        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log ) {
+    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window',
+        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window) {
 
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -181,26 +181,26 @@ angular.module('wdAuth', ['wdCommon'])
             $scope.autoAuth = false;
         }
 
-        function pingDevice ( deviceData ) {
-            var ip =  deviceData['ip'];
-            var authCode = deviceData['authcode'];
-            $http({
-                method: 'get',
-                url: 'http://'+ip+':10208/api/v1/directive/auth',
-                timeout: 10000,
-                params: {
-                    authcode: authCode,
-                    'client_time': (new Date()).getTime(),
-                    'client_name': 'Browser',
-                    'client_type': 3
-                }
-            })
-            .success(function(response) {
-            })
-            .error(function(reason, status) {
+        // function pingDevice ( deviceData ) {
+        //     var ip =  deviceData['ip'];
+        //     var authCode = deviceData['authcode'];
+        //     $http({
+        //         method: 'get',
+        //         url: 'http://'+ip+':10208/api/v1/directive/auth',
+        //         timeout: 10000,
+        //         params: {
+        //             authcode: authCode,
+        //             'client_time': (new Date()).getTime(),
+        //             'client_name': 'Browser',
+        //             'client_type': 3
+        //         }
+        //     })
+        //     .success(function(response) {
+        //     })
+        //     .error(function(reason, status) {
 
-            });
-        }
+        //     });
+        // }
 
         function googleInit() {
             wdGoogleSignIn.init().then(function(list){
@@ -353,8 +353,15 @@ angular.module('wdAuth', ['wdCommon'])
             stopLoopGetDevices();
         });
 
-        window.wdGoogleSignIn = wdGoogleSignIn;
-        window.wdAuthToken = wdAuthToken;
+        window.googleSigninCallbackDefer.done(function(authResult){
+            wdGoogleSignIn.callback(authResult);
+        });
+
+        window.googleSigninOnloadDefer.done(function(){
+            wdGoogleSignIn.render();
+        });
+        // window.wdGoogleSignIn = wdGoogleSignIn;
+        // window.wdAuthToken = wdAuthToken;
 
     }]);
 });

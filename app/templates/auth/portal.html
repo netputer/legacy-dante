@@ -79,8 +79,10 @@
         <div class="list">
             <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
                 <p>{{item.model}}</p>
+                <span class="wifi"><i class="icon-wifi"></i><p>wangxiao</p></span>
+                <!-- <div class="wd-loading phone-loading" data-visible="true"></div> -->
             </div>
-            <p><a ng-click="showSignInPhone()" href="">Or you wish to connect another phone?</a></p>
+            <p><a ng-click="showSignInPhone()" href=""> + Connect a new phone</a></p>
         </div>
     </div>
     <!-- select devices end -->
