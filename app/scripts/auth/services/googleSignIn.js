@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $log ) {
+return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $rootScope, $log, $window ) {
 
     var global = {
         authResult : {},
@@ -27,11 +27,11 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
           if(!!data) {
             global.isLogin = true;
             $log.log(data);
-            window.localStorage.setItem('googleToken', data['access_token']);
+            $window.localStorage.setItem('googleToken', data['access_token']);
             global.authResult = data;
           }else{
             if(!global.authResult['access_token']){
-                global.authResult['access_token'] = window.localStorage.getItem('googleToken');
+                global.authResult['access_token'] = $window.localStorage.getItem('googleToken');
             }
             return global.authResult;
           }
@@ -43,14 +43,14 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
-                window.localStorage.setItem('currentDevice', JSON.stringify(data));
+                $window.localStorage.setItem('currentDevice', JSON.stringify(data));
             }
         },
 
         // //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
         // render : function () {
         //     var eles = $('.google-btn');
-        //     var gapi = window.gapi;
+        //     var gapi = $window.gapi;
         //     for(var i = 0 , l = eles.length ; i < l ; i += 1 ) {
         //         gapi.signin.render(eles[i], {
         //           'callback': 'googleSigninCallback',
@@ -71,7 +71,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 immediate = true;
             }
             var me = this;
-            window.gapi.auth.authorize({
+            $window.gapi.auth.authorize({
                'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                'immediate':immediate,
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
@@ -85,7 +85,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
 
         getAccount : function () {
             var defer = $q.defer();
-            var gapi = window.gapi;
+            var gapi = $window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
                 gapi.auth.setToken(authResult);
@@ -146,7 +146,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 this.getAccount();
                 this.getDevices();
             } else if (!authResult || authResult['error']) {
-                window.localStorage.removeItem('googleToken');
+                $window.localStorage.removeItem('googleToken');
                 global.defer.reject();
                 $rootScope.$apply();
                 global.defer = $q.defer();
@@ -161,10 +161,7 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
             global.defer = $q.defer();
             var defer = $q.defer();
             this.currentDevice({});
-            window.localStorage.removeItem('authcode');
-            window.localStorage.removeItem('ip');
-            window.localStorage.removeItem('currentDevice');
-            window.localStorage.removeItem('googleToken');
+            $window.localStorage.removeItem('googleToken');
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({
                 type: 'GET',

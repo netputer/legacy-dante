@@ -3,8 +3,8 @@ define([
     'underscore'
 ], function(fineuploader,_){
 
-return ['$scope','wdAlert','wdDev','$route','GA','wdcContacts', '$timeout','wdKey','$location',
-function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,wdKey,$location){
+return ['$scope','wdAlert','wdDev','$route','GA','wdcContacts', '$timeout','wdKey','$location', '$window',
+function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,wdKey,$location,$window){
 
     //存储当前联系人的数据列表
     var G_contacts = [];
@@ -1090,7 +1090,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
     $scope.typeMap = G_typeMap;
     $scope.protocolMap = G_protocol;
     $scope.showContacts = showContacts;
-    window.wdcContacts = wdcContacts;
+    $window.wdcContacts = wdcContacts;
 
     wdKey.$apply('up', 'contacts', function() {
         for (var i = 0 , l = G_pageList.length ; i < l ; i += 1 ){

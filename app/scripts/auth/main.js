@@ -208,7 +208,7 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 }
             },function(error){
-                window.localStorage.removeItem('googleToken');
+                $window.localStorage.removeItem('googleToken');
                 $scope.googleSignOut();
             });
         }
@@ -290,8 +290,9 @@ angular.module('wdAuth', ['wdCommon'])
                 // googleInit();
                 // $scope.deviceNum = -1;
                 // $scope.isLoadingDevices = false;
-                window.localStorage.removeItem('googleToken');
-                window.location.reload();
+                wdAuthToken.clearToken();
+                $window.localStorage.removeItem('googleToken');
+                $window.location.reload();
             },function(){
                 $scope.googleSignOut();
             });
