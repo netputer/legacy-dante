@@ -72,9 +72,12 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             template: PortalTemplate,
             controller: 'portalController'
         });
-        $routeProvider.when('/signout', {
+        $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdAuthToken', '$q', function(wdAuthToken, $q) {
+                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn' , function(wdAuthToken, $q, wdGoogleSignIn) {
+                    window.localStorage.removeItem('currentDevice');
+                    window.localStorage.removeItem('ip');
+                    window.localStorage.removeItem('authcode');
                     wdAuthToken.signout();
                     return $q.reject('signout');
                 }]

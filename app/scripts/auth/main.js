@@ -21,7 +21,7 @@ angular.module('wdAuth', ['wdCommon'])
 
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
-        $scope.auth = wdDev.query('ac') || wdAuthToken.getToken() || '';
+        $scope.auth = wdAuthToken.getToken() || '';
         $scope.autoAuth = !!$scope.auth;
         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
         $scope.error = '';
@@ -57,10 +57,6 @@ angular.module('wdAuth', ['wdCommon'])
         var loopGetDevicesTimer;
         var loopLinkDevicesTimer;
 
-        var acFromQuery = !!wdDev.query('ac');
-        var acFromInput = false;
-        var acFromCache = !!wdAuthToken.getToken();
-
         if (!$scope.isSupport) {
             GA('login:not_support');
         }
@@ -89,12 +85,6 @@ angular.module('wdAuth', ['wdCommon'])
             //     GA('login:enter_authcode:empty');
             //     return;
             // }
-            if ($scope.autoAuth) {
-                GA('login:auto');
-            }
-            else {
-                acFromInput = true;
-            }
             // Parse data source.
             //var ip = wdAuthToken.parse(authCode);
             var ip = deviceData['ip'];
@@ -143,7 +133,7 @@ angular.module('wdAuth', ['wdCommon'])
                 .error(function(reason, status) {
                     // $scope.isLoadingDevices = false;
                     deviceData['loading'] = false;
-                    wdAlert.alert('Connect failed', 'Please check your network and your phone and computer are on the same Wi-Fi network.More help>>', 'OK').then(function(){
+                    wdAlert.alert('Connect failed', 'Please check your network and your phone and computer are on the same Wi-Fi network.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', 'OK').then(function(){
                         loopGetDevices();
                     });
                     console.log('tests');
@@ -156,10 +146,6 @@ angular.module('wdAuth', ['wdCommon'])
                         $scope.error = false;
                     }, 5000);
                     wdAuthToken.clearToken();
-                    if ($scope.autoAuth) {
-                        $route.reload();
-                    }
-
                     var action;
                     if (status === 0) {
                         action = 'timeout';
@@ -222,6 +208,7 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 }
             },function(error){
+                window.localStorage.removeItem('googleToken');
                 $scope.googleSignOut();
             });
         }
@@ -303,6 +290,7 @@ angular.module('wdAuth', ['wdCommon'])
                 // googleInit();
                 // $scope.deviceNum = -1;
                 // $scope.isLoadingDevices = false;
+                window.localStorage.removeItem('googleToken');
                 window.location.reload();
             },function(){
                 $scope.googleSignOut();

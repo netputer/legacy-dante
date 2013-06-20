@@ -146,9 +146,12 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 this.getAccount();
                 this.getDevices();
             } else if (authResult['error']) {
+                window.localStorage.removeItem('googleToken');
                 global.defer.reject();
                 $rootScope.$apply();
                 global.defer = $q.defer();
+            } else {
+                window.localStorage.removeItem('googleToken');
             }
         },
 

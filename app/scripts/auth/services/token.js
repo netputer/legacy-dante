@@ -11,10 +11,7 @@ return function() {
                 return valid;
             },
             getToken: function() {
-                var data = {
-                    authcode : $window.localStorage.getItem('authcode'),
-                    ip : $window.localStorage.getItem('ip')
-                };
+                var data = JSON.parse($window.localStorage.getItem('currentDevice'));
                 return data;
             },
             setToken: function(data) {
