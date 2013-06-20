@@ -145,13 +145,11 @@ return [ '$http','$q','$rootScope', '$log', function ( $http, $q, $rootScope, $l
                 this.authResult(authResult);
                 this.getAccount();
                 this.getDevices();
-            } else if (authResult['error']) {
+            } else if (!authResult || authResult['error']) {
                 window.localStorage.removeItem('googleToken');
                 global.defer.reject();
                 $rootScope.$apply();
                 global.defer = $q.defer();
-            } else {
-                window.localStorage.removeItem('googleToken');
             }
         },
 
