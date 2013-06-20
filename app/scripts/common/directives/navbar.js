@@ -9,6 +9,7 @@ return [function() {
         restrict: 'EAC',
         replace: true,
         template: template,
+        scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn','wdKey',
         function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn , wdKey ) {
@@ -85,18 +86,8 @@ return [function() {
             });
 
             $scope.clickAddNewPhone = function () {
-                $scope.isChangeDevicesPopShow = true;
-                keyInfo = wdKey.push('navbar');
+                $scope.isShowChangeDevicesPop = true;
             };
-
-            $scope.closeChangeDevicesPop = function () {
-                $scope.isChangeDevicesPopShow = false;
-                keyInfo = wdKey.done;
-            };
-
-            wdKey.$apply('esc', 'navbar', function() {
-                $scope.closeChangeDevicesPop();
-            });
 
             $scope.$on('$destroy', function() {
                 wdKey.deleteScope('navbar');

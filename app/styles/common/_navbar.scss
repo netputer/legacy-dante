@@ -1,7 +1,6 @@
 // Global Navbar.
 // Basic styles are modified in bootstrap submodule.
 
-@import "auth/*.png";
 .navigator {
     @include position(fixed, 0px 0 0px 0px);
     width: 60px;
@@ -155,14 +154,18 @@
         @include position(absolute, 10px 10px 0 0);
     }
 
+    $auth-spacing: 4px;
+    @import "auth/*.png";
     .change-devices-pop{
-        position: fixed;
-        top : 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        background-color:rgba(0,0,0,0.8);
-
+        width: 770px;
+        margin-left: -385px;
+        div.modal-footer{
+            display: none;
+        }
+        div.modal-body{
+            height: 370px;
+            overflow: hidden;
+        }
         h1{
             font-weight: normal;
             font-size: 35px;
@@ -171,25 +174,10 @@
             color: #666;
             font-size: 15px;
         }
+
         div.content{
-            width: 704px;
-            height: 379px;
             background-color: #fff;
-            padding-top: 15px;
             padding-left: 30px;
-            position: absolute;
-            top: 50%;
-            margin-top: -197px;
-            left: 50%;
-            margin-left: -367px;
-            span.closePop{
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                font-size: 25px;
-                cursor: pointer;
-                color: #999;
-            }
         }
         div.step{
             margin-top: 20px;
@@ -239,4 +227,5 @@
         }
 
     }
+
 }

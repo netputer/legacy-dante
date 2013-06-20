@@ -68,28 +68,28 @@
         </ul>
     </div>
 
-    <!-- change devices -->
-    <div class="change-devices-pop" ng-show="isChangeDevicesPopShow" ng-click="closeChangeDevicesPop();">
-        <div class="content" ng-click="$event.stopPropagation();">
-            <h1>Connect a new phone.</h1>
-            <p>Just 3 steps, and you will find your phone here.</p>
-            <div class="step">
-                <dl class="step1">
-                    <dt></dt>
-                    <dd>1.Install SnapPea from <a href="https://play.google.com/store/apps/details?id=com.snappea">Google play</a>.</dd>
-                </dl>
-                <dl class="step2">
-                    <dt></dt>
-                    <dd>2.Open SnapPea on your phone.</dd>
-                </dl>
-                <dl class="step3">
-                    <dt></dt>
-                    <dd>3.Sign in with {{account}} . </dd>
-                </dl>
-            </div>
-            <span class="closePop" ng-click="closeChangeDevicesPop();">&times;</span>
+<!-- connect new phone pop start -->
+<!-- data-ok 是事件 -->
+<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
+    <div class="content">
+        <h1>Connect a new phone.</h1>
+        <p>Just 3 steps, and you will find your phone here.</p>
+        <div class="step">
+            <dl class="step1">
+                <dt></dt>
+                <dd>1.Install SnapPea from <a href="https://play.google.com/store/apps/details?id=com.snappea">Google play</a>.</dd>
+            </dl>
+            <dl class="step2">
+                <dt></dt>
+                <dd>2.Open SnapPea on your phone.</dd>
+            </dl>
+            <dl class="step3">
+                <dt></dt>
+                <dd>3.Sign in with {{account}} . </dd>
+            </dl>
         </div>
     </div>
-    <!-- change devices end -->
+</div>
+<!-- connect new phone pop end -->
 
 </div>
