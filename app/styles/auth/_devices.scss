@@ -152,3 +152,76 @@
         }
     }
 }
+
+@import "auth/*.png";
+.change-devices-pop{
+    width: 770px;
+    margin-left: -385px;
+    div.modal-footer{
+        display: none;
+    }
+    div.modal-body{
+        height: 370px;
+        overflow: hidden;
+    }
+    h1{
+        font-weight: normal;
+        font-size: 35px;
+    }
+    p{
+        color: #666;
+        font-size: 15px;
+    }
+
+    div.content{
+        background-color: #fff;
+        padding-left: 30px;
+    }
+    div.step{
+        margin-top: 20px;
+        dl{
+            width: auth-sprite-width("step1");
+            height: 300px;
+            float: left;
+        }
+        dd{
+            margin-left: 0px;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+        dl.step1{
+            dt{
+                @include auth-sprite("step1");
+                width: auth-sprite-width("step1");
+                height: auth-sprite-height("step1");
+                margin: 0 auto;
+            }
+        }
+        dl.step2{
+            margin-left: 35px;
+            dt{
+                @include auth-sprite("step2");
+                width: auth-sprite-width("step2");
+                height: auth-sprite-height("step2");
+                margin: 0 auto;
+            }
+        }
+        dl.step3{
+            margin-left: 35px;
+            dt{
+                @include auth-sprite("step3");
+                width: auth-sprite-width("step3");
+                height: auth-sprite-height("step3");
+                margin: 0 auto;
+            }
+        }
+        p{
+            float: left;
+        }
+        span{
+            background-color: #50a00b;
+            color: #FFF;
+        }
+    }
+
+}

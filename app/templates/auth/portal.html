@@ -84,12 +84,38 @@
                 </span>
                 <div class="wd-loading phone-loading" data-visible="true" ng-show="item.loading"></div>
             </div>
-            <p><a ng-click="showSignInPhone()" href=""> + Connect a new phone</a></p>
+            <p><a ng-click="showConnectNewPhone()" href=""> + Connect a new phone</a></p>
         </div>
     </div>
     <!-- select devices end -->
 
+
+
 </div>
+
+<!-- connect new phone pop start -->
+<!-- data-ok 是事件 -->
+<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
+    <div class="content">
+        <h1>Connect a new phone.</h1>
+        <p>Just 3 steps, and you will find your phone here.</p>
+        <div class="step">
+            <dl class="step1">
+                <dt></dt>
+                <dd>1.Install SnapPea from <a href="https://play.google.com/store/apps/details?id=com.snappea">Google play</a>.</dd>
+            </dl>
+            <dl class="step2">
+                <dt></dt>
+                <dd>2.Open SnapPea on your phone.</dd>
+            </dl>
+            <dl class="step3">
+                <dt></dt>
+                <dd>3.Sign in with {{accountEmail}} . </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<!-- connect new phone pop end -->
 
 <div class="loading-google" ng-show="isLoadingDevices">
     <div class="wd-loading" data-visible="true"></div>

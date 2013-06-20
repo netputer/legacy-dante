@@ -27,6 +27,7 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.error = '';
         $scope.state = 'standby';
         $scope.showHelp = false;
+        $scope.isShowChangeDevicesPop = false;
 
         //设备的数量
         $scope.deviceNum = -1;
@@ -136,7 +137,6 @@ angular.module('wdAuth', ['wdCommon'])
                     wdAlert.alert('Connect failed', 'Please check your network and your phone and computer are on the same Wi-Fi network.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', 'OK').then(function(){
                         loopGetDevices();
                     });
-                    console.log('tests');
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_FAILED;
@@ -186,7 +186,7 @@ angular.module('wdAuth', ['wdCommon'])
                 $log.log('googleInit');
                 if( typeof list !== 'undefined' ){
                     $log.log(list);
-                    for ( var i = 0 , l = list.length ; i < l ; i ++ ) {
+                    for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
                         list[i]['loading'] = false;
                     }
                     $scope.deviceNum = list.length;
@@ -218,7 +218,7 @@ angular.module('wdAuth', ['wdCommon'])
             loopGetDevicesTimer = setTimeout(function(){
                 wdGoogleSignIn.getDevices().then(function(list){
                     $scope.deviceNum = list.length;
-                    for ( var i = 0 , l = list.length ; i < l ; i ++ ) {
+                    for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
                         list[i]['loading'] = false;
                     }
                     wdGoogleSignIn.getAccount().then(function(data){
@@ -297,8 +297,8 @@ angular.module('wdAuth', ['wdCommon'])
             });
         };
 
-        $scope.showSignInPhone = function () {
-            $scope.deviceNum = 0;
+        $scope.showConnectNewPhone = function () {
+            $scope.isShowChangeDevicesPop = true;
         };
 
         // 当用户从其他设备中退出到当前页面时
