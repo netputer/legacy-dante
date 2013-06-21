@@ -163,27 +163,33 @@
             display: none;
         }
         div.modal-body{
-            height: 370px;
+            height: 400px;
             overflow: hidden;
         }
         h1{
-            font-weight: normal;
+            font-weight: 300;
+            margin-top: 33px;
             font-size: 35px;
+            line-height: 22px;
+            color:#000;
         }
         p{
-            color: #666;
+            color: #999;
             font-size: 15px;
         }
 
         div.content{
             background-color: #fff;
             padding-left: 30px;
+            button{
+                display: block;
+                margin: 0 auto;
+            }
         }
+
         div.step{
-            margin-top: 20px;
             dl{
                 width: auth-sprite-width("step1");
-                height: 300px;
                 float: left;
             }
             dd{
@@ -225,7 +231,6 @@
                 color: #FFF;
             }
         }
-
     }
 
 }

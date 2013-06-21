@@ -36,7 +36,7 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.devicesList = [];
 
         //显示的账号的名称
-        $scope.accountEmail = 'your account';
+        $scope.accountEmail = 'the same account';
 
         function loopSetToken() {
             if ( typeof(gapi) === 'undefined' || typeof(gapi.auth) === 'undefined' || typeof(gapi.auth.authorize) === 'undefined' ){
@@ -240,7 +240,7 @@ angular.module('wdAuth', ['wdCommon'])
                         loopGetDevices();
                     });
                 });
-            },7000);
+            },5000);
         }
 
         function stopLoopGetDevices () {

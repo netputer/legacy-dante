@@ -12,12 +12,12 @@
         background-color: #e6e6e6;
         border-radius: 35px;
         display: inline-block;
-        width: 100px;
+        width: 95px;
         height: 27px;
         font-size: 12px;
         cursor: pointer;
         padding-top: 6px;
-        padding-left: 22px;
+        padding-left: 30px;
         position: absolute;
         right: 20px;
         top: 20px;
@@ -63,7 +63,7 @@
                     font-size: 16px;
                     height: 20px;
                     line-height: 20px;
-                    color: #666;
+                    color: #000;
                     text-overflow: ellipsis;
                     display: inline-block;
                     margin: 70px 0 0 0;
@@ -75,7 +75,7 @@
                     display: inline-block;
                     margin-top: 10px;
                     p{
-                        margin: 0 0 0 8px;
+                        margin: 0 0 0 5px;
                         width: auto;
                         color: #999;
                         font-size: 12px;
@@ -153,10 +153,12 @@
             }
             p{
                 float: left;
+                font-size: 12px;
             }
             span{
-                background-color: #50a00b;
                 color: #FFF;
+                font-weight: bold;
+                font-style: italic;
             }
         }
     }
@@ -170,12 +172,15 @@
         display: none;
     }
     div.modal-body{
-        height: 370px;
+        height: 400px;
         overflow: hidden;
     }
     h1{
         font-weight: 300;
+        margin-top: 33px;
         font-size: 35px;
+        line-height: 22px;
+        color:#000;
     }
     p{
         color: #999;
@@ -185,12 +190,18 @@
     div.content{
         background-color: #fff;
         padding-left: 30px;
+        button{
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+        }
+
     }
+
     div.step{
         margin-top: 20px;
         dl{
             width: auth-sprite-width("step1");
-            height: 300px;
             float: left;
         }
         dd{
@@ -231,6 +242,6 @@
             background-color: #50a00b;
             color: #FFF;
         }
-    }
 
+    }
 }
