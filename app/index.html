@@ -37,9 +37,12 @@
     <script type="text/javascript">
     (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/client:plusone.js';
+    po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
     })();
+    function googleSigninOnload(){
+        $('.google-btn').prop('disabled',false);
+    }
     </script>
 
     <!-- build:js scripts/framework.js -->
