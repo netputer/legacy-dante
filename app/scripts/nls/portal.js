@@ -18,7 +18,7 @@ return {
         H1: 'Manage your Android phone from the web.',
         H1_P: 'Your photos, messages, contacts and apps in your web browser.',
         H2: 'New to SnapPea?',
-        H2_P: 'To get your passcode, <a href="https://play.google.com/store/apps/details?id=com.snappea" target="_blank" style="color:#3c7800">install SnapPea</a> on your phone. It\'s free.',
+        H2_P: 'To get started, <a href="https://play.google.com/store/apps/details?id=com.snappea" target="_blank" style="color:#3c7800">install SnapPea</a> on your phone. It\'s free.',
         GP_ALT: 'SnapPea on Google Play',
         KEEPER: 'Still sending passcode. If you reload now, sign in will be cancelled.',
 
