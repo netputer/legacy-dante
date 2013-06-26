@@ -395,7 +395,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             var delBack;
             for(var i = 0 , l = $scope.pageList.length ; i < l ; i ++){
                 if($scope.pageList[i]['id'] === delId[0]){
-                    delBack = $scope.pageList[i-1];
+                    delBack = $scope.pageList[i + 1];
                 }
             };
 

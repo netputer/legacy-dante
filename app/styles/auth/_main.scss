@@ -5,10 +5,35 @@ $auth-spacing: 4px;
     @include ui-layer-top;
     background: #6eb800;
 
+    .announcement {
+        font-size: 12px;
+        color: #333;
+        padding: 4px 0 4px 20px;
+        border-radius: 3px;
+        background-color: #fff;
+        position: relative;
+        @include box-shadow(0 1px 1px rgba(0, 0, 0, .2));
+        @include text-shadow(0 1px 0 rgba(#fff, 0.4));
+
+        a {
+            margin-left: 5px;
+        }
+
+        .close-announcement {
+            @include position(absolute, 0 20px 0 0);
+            @extend .icon-close;
+            &:hover {
+                @extend .icon-close-h;
+            }
+            &:active {
+                @extend .icon-close-p;
+            }
+        }
+    }
     .a:before {
         content: "";
         // $name: "icon_logo_white";
-        @include position(fixed, 20px 0 0 30px);
+        @include position(fixed, 27px 0 0 30px);
         // @include auth-sprite($name);
         // width: auth-sprite-width($name);
         // height: auth-sprite-height($name);

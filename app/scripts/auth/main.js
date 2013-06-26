@@ -10,8 +10,8 @@ define([
 
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdAuthToken', authToken)
-    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope',
-        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope) {
+    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', '$window',
+        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, $window) {
 
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -29,6 +29,14 @@ angular.module('wdAuth', ['wdCommon'])
         if (!$scope.isSupport) {
             GA('login:not_support');
         }
+
+    /*Start: remove after a week*/
+        $scope.isShowAnnouncement = !$window.localStorage.getItem('closeAnnouncement');
+        $scope.closeAnnouncement = function() {
+            $window.localStorage.setItem('closeAnnouncement', 1);
+            $scope.isShowAnnouncement = false;
+        }
+    /*End: remove after a week*/
 
         $scope.openHelp = function() {
             $scope.showHelp = true;
