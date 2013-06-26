@@ -22,11 +22,12 @@
         position: fixed;
         overflow-y : auto;
         top:100px;
-        width: 428px;
+        width: 429px;
         display: block;
-        padding-left: 1px;
-        margin-left: -1px;
         bottom: 0px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
 
         li.no-contacts{
             height: 64px;

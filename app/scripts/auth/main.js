@@ -10,8 +10,8 @@ define([
 
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdAuthToken', authToken)
-    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope',
-        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope) {
+    .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', '$window',
+        function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, $window) {
 
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -21,6 +21,7 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.error = '';
         $scope.state = 'standby';
         $scope.showHelp = false;
+        $scope.isShowAnnoucement = !$window.localStorage.getItem('closeAnnoucement');
 
         var acFromQuery = !!wdDev.query('ac');
         var acFromInput = false;
@@ -28,6 +29,11 @@ angular.module('wdAuth', ['wdCommon'])
 
         if (!$scope.isSupport) {
             GA('login:not_support');
+        }
+
+        $scope.closeAnnoucement = function() {
+            $window.localStorage.setItem('closeAnnoucement', 1);
+            $scope.isShowAnnoucement = false;
         }
 
         $scope.openHelp = function() {
