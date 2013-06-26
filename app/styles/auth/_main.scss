@@ -19,7 +19,7 @@ $auth-spacing: 4px;
             margin-left: 5px;
         }
 
-        .close-annoucement {
+        .close-announcement {
             @include position(absolute, 0 20px 0 0);
             @extend .icon-close;
             &:hover {

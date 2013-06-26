@@ -21,7 +21,7 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.error = '';
         $scope.state = 'standby';
         $scope.showHelp = false;
-        $scope.isShowAnnoucement = !$window.localStorage.getItem('closeAnnoucement');
+        $scope.isShowAnnouncement = !$window.localStorage.getItem('closeAnnouncement');
 
         var acFromQuery = !!wdDev.query('ac');
         var acFromInput = false;
@@ -31,9 +31,9 @@ angular.module('wdAuth', ['wdCommon'])
             GA('login:not_support');
         }
 
-        $scope.closeAnnoucement = function() {
-            $window.localStorage.setItem('closeAnnoucement', 1);
-            $scope.isShowAnnoucement = false;
+        $scope.closeAnnouncement = function() {
+            $window.localStorage.setItem('closeAnnouncement', 1);
+            $scope.isShowAnnouncement = false;
         }
 
         $scope.openHelp = function() {
