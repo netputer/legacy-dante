@@ -20,6 +20,7 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
             method: 'get',
             url: '/resource/apps?length=9999'
         }).success(function(data) {
+            global.appsList = [];
             for( var i = 0,l = data.length ; i<l; i+=1 ){
                 global.appsList.push(result.changeInfo(data[i]));
             }
