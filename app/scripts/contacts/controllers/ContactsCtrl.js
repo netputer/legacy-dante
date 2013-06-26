@@ -43,7 +43,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
     var G_status = ''; // “edit” 正在编辑，“new” 正在新建
 
     //默认头像
-    var G_defaultPhoto = '../../images/contacts/default.png';
+    // var G_defaultPhoto = '../../images/contacts/default.png';
 
     //各个type字段映射表
     var G_typeMap = $scope.$root.DICT.contacts.TYPE_MAP;
@@ -86,7 +86,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         var id = data.id || '';
         var name = (data.name && data.name.display_name) || $scope.$root.DICT.contacts.NO_NAME;
         var phone = (data.phone[0] && data.phone[0].number) || (data.email[0] && data.email[0].address) ||'';
-        var photo = data.photo_path || G_defaultPhoto;
+        var photo = data.photo_path || "";
         var obj = {
             id : id,
             name : name,
@@ -98,9 +98,9 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         };
 
         //修正默认头像
-        if (!data.photo_path){
-            data.photo_path = G_defaultPhoto;
-        };
+        // if (!data.photo_path){
+        //     data.photo_path = G_defaultPhoto;
+        // };
 
         for (var i = 0, l = G_checkedIds.length ; i < l ; i++ ){
             if(id === G_checkedIds[i]){
@@ -790,7 +790,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         $('.wdj-contacts .wd-blank').hide();
         $scope.isRightLoadShow = false;
         var wrap = $('.contacts-edit .info');
-        $('.contacts-edit img.photo').attr('src',G_defaultPhoto);
+        $('.contacts-edit img.photo').attr('src',"");
         //$scope.searchText = '';
 
         //获取用户账户
@@ -807,7 +807,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         var obj = {
             account_name:'',
             account_type:'',
-            photo_path:G_defaultPhoto,
+            photo_path:"",
             IM:[{protocol:'AIM',custom_protocol:'',data:'',label:'',type:''}],
             address:[{type:'Home',city:'',country:'',formatted_address:'',label:'',neightborhood:'',pobox:'',post_code:'',region:'',street:''}],
             email:[{type:'Home',address:'',display_name:'',label:''}],
@@ -825,7 +825,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             id : "",
             name : "New contact",
             phone : "",
-            photo : G_defaultPhoto,
+            photo : "",
             clicked : true
         };
         $scope.pageList.unshift(G_clicked);

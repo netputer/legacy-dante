@@ -15,7 +15,7 @@ return [function() {
         function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn , wdKey ) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
-
+            $scope.account = 'the same account';
             //快捷键
             var keyInfo;
             $scope.open = function() {

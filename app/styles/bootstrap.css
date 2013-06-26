@@ -4454,6 +4454,7 @@ input[type="submit"].btn.btn-mini {
 .modal-footer .btn + .btn {
   margin-bottom: 0;
   margin-left: 5px;
+  width: 50px;
 }
 
 .modal-footer .btn-group .btn + .btn {

@@ -96,10 +96,11 @@ angular.module('wdAuth', ['wdCommon'])
             // Valid auth code.
             if (ip) {
                 if ($scope.autoAuth) {
-                    GA('login:auto_authcode:valid');
+                    // GA('login:auto_authcode:valid');
+                    GA('user_sign_in:auto_sign_in:google_sign_in');
                 }
                 else {
-                    GA('login:enter_authcode:valid');
+                    // GA('login:enter_authcode:valid');
                 }
                 // Send auth request.
                 $scope.state = 'loading';
@@ -134,9 +135,9 @@ angular.module('wdAuth', ['wdCommon'])
                 .error(function(reason, status) {
                     // $scope.isLoadingDevices = false;
                     deviceData['loading'] = false;
-                    wdAlert.alert('Connect failed', 'Please check your network and your phone and computer are on the same Wi-Fi network.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', 'OK').then(function(){
-                        loopGetDevices();
-                    });
+                    wdAlert.alert('Connect failed', 'Please check your network and your phone and computer are on the same Wi-Fi network.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', 'OK').then(function(){});
+                    wdAuthToken.clearToken();
+                    loopGetDevices();
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_FAILED;
@@ -240,7 +241,7 @@ angular.module('wdAuth', ['wdCommon'])
                         loopGetDevices();
                     });
                 });
-            },5000);
+            },3000);
         }
 
         function stopLoopGetDevices () {
