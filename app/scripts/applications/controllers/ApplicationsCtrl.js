@@ -448,6 +448,7 @@ define([
                         uploadApk($('.installApp'));
                     },300);
                 };
+                showToolbar();
             });
 
         wdKey.$apply('esc', 'applications', function() {
