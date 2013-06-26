@@ -3,7 +3,6 @@ define([
     'angular',
     'auth/services/token',
     'auth/services/googleSignIn'
-    // 'auth/directives/googleSignInBtn'
 ], function(
     angular,
     authToken,
@@ -15,7 +14,6 @@ define([
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdAuthToken', authToken)
     .factory('wdGoogleSignIn',googleSignIn)
-    // .directive('googleSignInBtn',googleSignInBtn)
     .controller('portalController', ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window',
         function($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window) {
 
@@ -47,10 +45,13 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         //检测是否曾经登陆过
-        if(!!window.localStorage.getItem('googleToken')){
+        GA('user_sign_in:check_sign_in:total_visits');
+        if( window.localStorage.getItem('googleToken') ){
             $scope.isLoadingDevices = true;
+            GA('user_sign_in:auto_sign_in:google_sign_in');
             loopSetToken();
         }else{
+            GA('user_sign_in:no_sign_in');
             $scope.isLoadingDevices = false;
         }
 
@@ -97,7 +98,6 @@ angular.module('wdAuth', ['wdCommon'])
             if (ip) {
                 if ($scope.autoAuth) {
                     // GA('login:auto_authcode:valid');
-                    GA('user_sign_in:auto_sign_in:google_sign_in');
                 }
                 else {
                     // GA('login:enter_authcode:valid');
@@ -174,19 +174,21 @@ angular.module('wdAuth', ['wdCommon'])
                 $scope.showHelp = true;
             }, 0);
         }
+        //自动进入之前的设备
         else if ($scope.auth.ip) {
             $timeout(function() {
+                GA('device_sign_in:check_all_devices:device_sign_in');
                 $scope.submit($scope.auth);
             }, 0);
         }else if (!$scope.auth.ip){
+            GA('device_sign_in:check_all_devices:device_not_sign_in');
             $scope.autoAuth = false;
         }
 
         function googleInit() {
             wdGoogleSignIn.init().then(function(list){
-                $log.log('googleInit');
+                GA('user_sign_in:return_from_sign_in:google_sign_in');
                 if( typeof list !== 'undefined' ){
-                    $log.log(list);
                     for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
                         list[i]['loading'] = false;
                     }
@@ -274,6 +276,7 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         $scope.googleSigIn = function () {
+            GA('user_sign_in:click_sign_in:google_sign_in');
             wdGoogleSignIn.setToken();
         };
 

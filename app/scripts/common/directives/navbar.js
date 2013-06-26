@@ -11,13 +11,12 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn','wdKey',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn , wdKey ) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn ) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = 'the same account';
-            //快捷键
-            var keyInfo;
+
             $scope.open = function() {
                 $scope.isLoadDevices = true;
                 wdGoogleSignIn.getDevices().then(function(list){
@@ -88,10 +87,6 @@ return [function() {
             $scope.clickAddNewPhone = function () {
                 $scope.isShowChangeDevicesPop = true;
             };
-
-            $scope.$on('$destroy', function() {
-                wdKey.deleteScope('navbar');
-            });
 
         }]
     };

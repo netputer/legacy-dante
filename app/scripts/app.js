@@ -74,19 +74,14 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn' , function(wdAuthToken, $q, wdGoogleSignIn) {
+                signout: ['wdAuthToken', '$q', function(wdAuthToken, $q ) {
                     wdAuthToken.signout();
                     return $q.reject('signout');
                 }]
             }
         });
         $routeProvider.when('/signout', {
-            resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn' , function(wdAuthToken, $q, wdGoogleSignIn) {
-                    wdAuthToken.signout();
-                    return $q.reject('signout');
-                }]
-            }
+            redirectTo: '/devices'
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
@@ -94,12 +89,11 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                     wdAlert.confirm(
                         'Signout',
                         'Do you want to signout?',
-                        "Yes",
-                        "Cancel"
+                        'Yes',
+                        'Cancel'
                     ).then(function(){
                         wdAuthToken.signout();
                         wdGoogleSignIn.currentDevice({status:'signout'});
-                        $scope.$apply();
                     },function(){
 
                     });

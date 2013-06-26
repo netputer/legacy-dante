@@ -33,7 +33,7 @@
                     <i class="icon-phoneswitch"></i>
                 </a>
                 <div wd-menu-popover placement="right" loading="isLoadDevices">
-                    <div ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
+                    <div class="menu-item-div" ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
                         <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;{{item.model}}&nbsp;&nbsp;&nbsp;</div>
                     <div wd-menu-sep></div>
                     <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">+&nbsp;&nbsp;&nbsp;New phone</div>

@@ -26,7 +26,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         authResult : function (data) {
           if(!!data) {
             global.isLogin = true;
-            $log.log(data);
             $window.localStorage.setItem('googleToken', data['access_token']);
             global.authResult = data;
           }else{
@@ -46,22 +45,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 $window.localStorage.setItem('currentDevice', JSON.stringify(data));
             }
         },
-
-        // //渲染按钮(注意：需要等init中的异步脚本onload之后触发)
-        // render : function () {
-        //     var eles = $('.google-btn');
-        //     var gapi = $window.gapi;
-        //     for(var i = 0 , l = eles.length ; i < l ; i += 1 ) {
-        //         gapi.signin.render(eles[i], {
-        //           'callback': 'googleSigninCallback',
-        //           'clientid': '592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-        //           // 'cookiepolicy': 'http://snappea.com',
-        //           'cookiepolicy': 'http://localhost:3501',
-        //           'data-apppackagename': 'com.snappea',
-        //           'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
-        //         });
-        //     }
-        // },
 
         setToken : function ( immediate ) {
             var defer = $q.defer();
@@ -99,7 +82,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 });
             }else{
                 defer.resolve(global.account);
-                $rootScope.$apply();
             }
             return defer.promise;
         },
@@ -152,10 +134,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 $rootScope.$apply();
                 global.defer = $q.defer();
             }
-        },
-
-        signIn : function () {
-            this.callback(global.authResult);
         },
 
         signOut : function () {
