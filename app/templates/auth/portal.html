@@ -1,6 +1,11 @@
 <div ng-switch on="autoAuth">
     <div class="wd-portal" ng-switch-when="false" ng-show="deviceNum<0">
         <div class="a" ng-switch on="isSupport">
+            <div class="announcement" ng-show="isShowAnnouncement">
+                Heya SnapPea user, Version 1.5 is here! Sign in is now faster, more reliable, and more secure with your Google account.
+                <a href="http://snappea.zendesk.com/entries/24375503--Official-Version-1-5-Now-with-Google-Sign-In" target="_blank">Learn More »</a>
+                <a href="javascript:void(0)" class="close-announcement" ng-click="closeAnnouncement()"></a>
+            </div>
             <div class="container" ng-switch-when="true">
                 <h1>{{$root.DICT.portal.H1}}</h1>
                 <p>{{$root.DICT.portal.H1_P}}</p>
