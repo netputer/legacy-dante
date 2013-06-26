@@ -25,9 +25,7 @@
         width: 429px;
         display: block;
         bottom: 0px;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
+        @include user-select(none);
 
         li.no-contacts{
             height: 64px;
