@@ -1,5 +1,6 @@
 .wdj-messages {
-    @import "flex";
+    // @import "flex";
+    $flex-legacy-enabled: true;
 
     @include position(fixed, 0px 0px 0px $global-left-offset);
     font-size: 12px;
