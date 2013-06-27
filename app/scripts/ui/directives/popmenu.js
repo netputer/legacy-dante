@@ -85,8 +85,8 @@ var popover = ['$document', '$window', function($document, $window) {
             // restore to none-float, makes contentEl stretch against container.
             this.contentEl.css('float', 'none');
 
-            this.cachedDimensions.width = Math.max(contentDimensions.width, 100);
-            this.cachedDimensions.height = contentDimensions.height ? Math.max(contentDimensions.height, 20) : 100;
+            this.cachedDimensions.width = Math.max(contentDimensions.width, 120);
+            this.cachedDimensions.height = Math.max(contentDimensions.height, 60);
 
             this.element.width(this.cachedDimensions.width);
             this.element.height(this.cachedDimensions.height);
