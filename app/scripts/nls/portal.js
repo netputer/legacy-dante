@@ -13,7 +13,7 @@ return {
         AUTH_ERROR_LINK: 'More help',
         PASSCODE_PLACEHOLDER: 'Passcode',
         GET_STARTED: 'Where\'s my passcode?',
-        SAFARI: 'Safari users need to change cookie settings for SnapPea to function normally.',
+        SAFARI: 'Safari users: Change your cookie settings to let SnapPea work.',
         SAFARI_TITLE: 'Change your Safari settings',
         SAFARI_CONTENT: 'Go to Settings > Privacy > Block cookies and select "Never".',
         H1: 'Manage your Android phone from the web.',
@@ -21,7 +21,7 @@ return {
         H2: 'New to SnapPea?',
         H2_P: 'To get started, <a href="https://play.google.com/store/apps/details?id=com.snappea" target="_blank" style="color:#3c7800">install SnapPea</a> on your phone. It\'s free.',
         GP_ALT: 'SnapPea on Google Play',
-        KEEPER: 'Still sending passcode. If you reload now, sign in will be cancelled.',
+        KEEPER: 'Sending passcode. If you reload now, sign in will be cancelled.',
 
 
         LINK_COPYRIGHT: 'Copyright © 2013 SnapPea',
@@ -29,8 +29,8 @@ return {
         LINK_TERMS: 'Terms',
         LINK_PRIVACY: 'Privacy',
 
-        UNSUPPORTED_H1: 'SnapPea don\'t support your browser.',
-        UNSUPPORTED_H1_P: 'Sorry, SnapPea current don\'t support your browser. We strongly recommend you use Google Chrome.',
+        UNSUPPORTED_H1: 'SnapPea doesn\'t support your browser.',
+        UNSUPPORTED_H1_P: 'Sorry, SnapPea doesn\'t support your browser. We strongly recommend that you use Chrome.',
         DOWNLOAD_CHROME: 'Download Chrome',
 
         //Google sign in words
@@ -41,7 +41,7 @@ return {
             content: 'Make sure phone and computer are on the same Wi-Fi network.',
             button: 'OK'
         },
-        ANNOUNCEMENT: 'Heya SnapPea user, Version 1.5 is here! Sign in is now faster, more reliable, and more secure with your Google account.',
+        ANNOUNCEMENT: 'Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.',
         NO_DEVICES:{
             h1 : 'Sign in on your phone.',
             h2 : 'Your photos, messages, contacts and apps will be shown here.',

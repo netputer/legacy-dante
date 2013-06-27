@@ -39,7 +39,7 @@ return function() {
             startSignoutDetection: function() {
                 var self = this;
                 signoutDetectionTimer = setInterval(function() {
-                    if (!self.getToken().ip) {
+                    if (!!self.getToken() && !self.getToken().ip) {
                         self.stopSignoutDetection();
                         $rootScope.$apply(function() {
                             self.signout();

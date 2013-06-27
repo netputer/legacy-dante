@@ -2,7 +2,7 @@ define([], function() {
 'use strict';
 return {
     root: {
-        UNLOAD_NETWORK_TIP: 'Still recieving data from your phone. Do you want to wait for that?',
+        UNLOAD_NETWORK_TIP: 'Loading phone data. Do you want to wait?', 
 
         NAVBAR_PHOTOS_TIP: 'Photos',
         NAVBAR_MESSAGES_TIP: 'Messages',
@@ -21,9 +21,9 @@ return {
         CHANGE_DEVICES_POP : {
             h1 : 'Connect a new phone.',
             h2 : 'Just 3 steps, and you will find your phone here.',
-            step1 : '1. Install SnapPea from',
-            step2 : '2. Open SnapPea on your phone.',
-            step3 : '3. Sign in with',
+            step1 : '1.  Install SnapPea from',
+            step2 : '2.  Open SnapPea on your phone.',
+            step3 : '3.  Sign in with',
             button : 'Got it'
         },
         NAVBAR_NEW_PHONE_TIP : 'New phone',

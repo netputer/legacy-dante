@@ -35,7 +35,7 @@
                 <div wd-menu-popover placement="right" loading="isLoadDevices">
                     <div class="menu-item-div" ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
                         <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;{{item.model}}&nbsp;&nbsp;&nbsp;</div>
-                    <div wd-menu-sep></div>
+                    <div wd-menu-sep ng-if="!isLoadDevices"></div>
                     <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">
                         <i class="icon-add"></i>&nbsp;{{$root.DICT.app.NAVBAR_NEW_PHONE_TIP}}</div>
                 </div>

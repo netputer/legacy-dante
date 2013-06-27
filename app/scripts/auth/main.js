@@ -58,9 +58,9 @@ angular.module('wdAuth', ['wdCommon'])
             $scope.isLoadingDevices = false;
         }
 
-        //轮询的timer
-        var loopGetDevicesTimer;
-        var loopLinkDevicesTimer;
+        //轮询的timer，为false的时候可以执行轮询
+        var loopGetDevicesTimer = false;
+        var loopLinkDevicesTimer = false;
 
         if (!$scope.isSupport) {
             GA('login:not_support');
@@ -130,6 +130,8 @@ angular.module('wdAuth', ['wdCommon'])
                 })
                 .success(function(response) {
                     GA('connect_device:connect:success');
+                    stopLoopGetDevices();
+                    stopLoopLinkDevices();
                     wdGoogleSignIn.setIsLogin();
                     wdGoogleSignIn.currentDevice(deviceData);
                     $scope.isLoadingDevices = false;
@@ -149,7 +151,13 @@ angular.module('wdAuth', ['wdCommon'])
                     deviceData['loading'] = false;
                     if( !$scope.autoAuth ){
                         $scope.autoAuth = false;
-                        wdAlert.alert($scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title, $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content+'<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button ).then(function(){});
+                        wdAlert.alert(
+                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
+                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content+'<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>',
+                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button
+                        ).then(function(){
+                            // $scope.isLoadingDevices = false;
+                        });
                     }
                     wdAuthToken.clearToken();
                     loopGetDevices();
@@ -197,7 +205,7 @@ angular.module('wdAuth', ['wdCommon'])
 
         //通过点击按钮登陆的逻辑
         function googleInit() {
-            wdGoogleSignIn.init().then(function(list){
+            wdGoogleSignIn.ready().then(function(list){
                 GA('user_sign_in:return_from_sign_in:google_sign_in');
                 if( typeof list !== 'undefined' ){
                     for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
@@ -231,15 +239,16 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 }
             },function(error){
-                $window.localStorage.removeItem('googleToken');
                 $scope.googleSignOut();
             });
         }
 
         //轮询获取设备列表
         function loopGetDevices() {
-            loopGetDevicesTimer = setTimeout(function(){
+            loopGetDevicesTimer = false;
+            $timeout(function(){
                 wdGoogleSignIn.getDevices().then(function(list){
+                    if(loopGetDevicesTimer){return;}
                     if( $scope.deviceNum < list.length ){
                         GA('device_sign_in:add_new_device:new_device_page');
                     }
@@ -270,13 +279,15 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         function stopLoopGetDevices () {
-            clearTimeout(loopGetDevicesTimer);
+            loopGetDevicesTimer = true;
         }
 
         //轮询获取设备列表，如果有一个设备则登录
         function loopLinkDevices() {
-            loopLinkDevicesTimer = setTimeout(function(){
+            $timeout(function(){
+                loopLinkDevicesTimer = false;
                 wdGoogleSignIn.getDevices().then(function(list){
+                    if (loopLinkDevicesTimer) {return;}
                     if( $scope.deviceNum < list.length ){
                         GA('device_sign_in:add_new_device:new_device_page');
                     }
@@ -300,7 +311,7 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         function stopLoopLinkDevices () {
-            clearTimeout(loopLinkDevicesTimer);
+            loopLinkDevicesTimer = true;
         }
 
         $scope.googleSigIn = function () {
@@ -324,7 +335,6 @@ angular.module('wdAuth', ['wdCommon'])
                 // $scope.deviceNum = -1;
                 // $scope.isLoadingDevices = false;
                 wdAuthToken.clearToken();
-                $scope.isLoadingDevices = false;
                 $window.localStorage.removeItem('googleToken');
                 //这要重新刷新浏览器，就是因为登陆整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
                 $window.location.reload();
@@ -351,7 +361,6 @@ angular.module('wdAuth', ['wdCommon'])
                 $scope.submit(item);
             }else{
                 wdGoogleSignIn.getDevices().then(function(list){
-                    $log.log(list);
                     if($scope.autoAuth){
                         $scope.isLoadingDevices = true;
                     }else{

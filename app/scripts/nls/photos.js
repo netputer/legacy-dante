@@ -18,7 +18,7 @@ return {
         UPLOAD_FAILED: 'Failed to add.',
         UPLOAD_RETRY: 'Retry',
         UPLOAD_CANCEL: 'Cancel',
-        UPLOAD_RELOAD: 'The files are being uploaded, if you reload now the upload will be canceled.',
+        UPLOAD_RELOAD: 'Files are being uploaded. Reloading now will cancel the upload.',
         SLIDES_NEXT: 'Next',
         SLIDES_PREV: 'Previous',
         SLIDES_PLAY: 'Slideshow',
@@ -39,8 +39,8 @@ return {
         CONFIRM_DELETE_OK: 'Delete',
         CONFIRM_DELETE_CANCEL: 'Cancel',
 
-        REC_TITLE: 'Access your photos faster!',
-        REC_CONTENT: 'Our Chrome extension makes it even easier to view the photos on your phone. ',
+        REC_TITLE: 'Access to your photos just got faster.',
+        REC_CONTENT: 'Install the Chrome Extension to see your photos in just one click.',
         REC_ADD_TO_CHROME: 'Add to Chrome',
         REC_MORE_INFO: 'Learn more'
 

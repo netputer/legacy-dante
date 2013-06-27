@@ -21,7 +21,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
     };
 
     var result = {
-        init : function(){
+        ready : function(){
             return global.defer.promise;
         },
 
@@ -61,11 +61,11 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                'immediate':immediate,
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(data){
-                me.callback(data);
+                me.callDevicesAccountData(data);
                 defer.resolve(data);
                 $rootScope.$apply();
             });
-            return defer;
+            return defer.promise;
         },
 
         getAccount : function () {
@@ -99,7 +99,8 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             //调用服务器端接口
             // var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
             //var url = 'https://test.wandoujia.com/apppush/limbo?google_token=' + authResult['access_token'];
-            var url = 'https://limbo-push.wandoujia.com/apppush/limbo?google_token=' + authResult['access_token'];
+            var url = 'https://limbo-push.wandoujia.com/apppush/limbo?google_token=' + encodeURIComponent(authResult['access_token']);
+
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -116,22 +117,38 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 },
                 error: function(e) {
                     $log.error('get devices 403');
+                    me.setToken();
                     defer.reject();
                     $rootScope.$apply();
                     global.defer = $q.defer();
                 }
             });
 
+            // $http({
+            //     method : 'JSONP',
+            //     url : url
+            // }).success(function(data){
+            //     $log.log('get devices success!');
+            //     $log.log(data);
+            //     defer.resolve(data);
+            //     global.defer.resolve(data);
+            //     global.defer = $q.defer();
+            // }).error(function(e){
+            //     $log.error('get devices 403');
+            //     me.setToken();
+            //     defer.reject();
+            //     global.defer = $q.defer();
+            // });
+
             return defer.promise;
         },
 
-        callback : function (authResult) {
+        callDevicesAccountData : function (authResult) {
             if (authResult && authResult['access_token']) {
                 this.authResult(authResult);
                 this.getAccount();
                 this.getDevices();
             } else if (!authResult || authResult['error']) {
-                $window.localStorage.removeItem('googleToken');
                 global.defer.reject();
                 $rootScope.$apply();
                 global.defer = $q.defer();

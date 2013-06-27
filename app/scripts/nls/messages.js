@@ -16,7 +16,7 @@ return {
 
         SEARCH_PLACEHOLDER: 'Search Messages',
         SEARCH_BLANK_TIP: 'No conversations matched your search.',
-        SEARCH_TIP: 'Search messages include "$$"...',
+        SEARCH_TIP: 'Search messages include "$$"...', 
         SEARCH_RESULTS_TIP: '$1$ of $2$ messages include "$3$"',
 
         BTN_SEND_TIP: 'Send (Enter)',
