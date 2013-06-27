@@ -12,7 +12,7 @@
     padding: 4px 0;
     color: #fff;
     font-size: 12px;
-
+    @include box-shadow(inset 0px 1px rgba(#fff, 0.1));
 
     // cue
     > i {
