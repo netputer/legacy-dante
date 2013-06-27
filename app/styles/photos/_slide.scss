@@ -84,7 +84,7 @@
     }
     .action-close {
         @extend %wdp-slide-action;
-        @include position(absolute, -10px -10px auto auto);
+        @include position(absolute, -3px -10px auto auto);
         padding: 20px;
     }
 }
