@@ -8,9 +8,8 @@ $auth-spacing: 4px;
     .announcement {
         font-size: 12px;
         color: #333;
-        padding: 4px 0 4px 20px;
-        border-radius: 3px;
-        background-color: #fff;
+        padding: 4px 0 4px 10px;
+        background-color: rgba(255, 255, 255, 0.7);
         position: relative;
         @include box-shadow(0 1px 1px rgba(0, 0, 0, .2));
         @include text-shadow(0 1px 0 rgba(#fff, 0.4));
@@ -20,7 +19,7 @@ $auth-spacing: 4px;
         }
 
         .close-announcement {
-            @include position(absolute, 0 20px 0 0);
+            @include position(absolute, 0 10px 0 0);
             @extend .icon-close;
             &:hover {
                 @extend .icon-close-h;
