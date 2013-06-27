@@ -204,9 +204,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         function($window,   $rootScope,   wdKeeper,   GA,   wdWordTable,   wdSocket,
              wdTitleNotification,   wdDev) {
         // Tip users when leaving.
-        $window.onbeforeunload = function () {
-            return wdKeeper.getTip();
-        };
+        // 提醒用户是否重新加载数据
+        // $window.onbeforeunload = function () {
+        //     return wdKeeper.getTip();
+        // };
 
         (function(keeper) {
             $rootScope.$on('ajaxStart', function() {

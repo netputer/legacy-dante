@@ -37,14 +37,9 @@
     <script type="text/javascript">
     (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSigninOnload';
+    po.src = 'https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
     })();
-    function googleSigninOnload(){
-        gapi.auth.init(function(){
-            $('.google-btn').prop('disabled',false);
-        });
-    }
     </script>
 
     <!-- build:js scripts/framework.js -->
@@ -59,7 +54,12 @@
     <script src="scripts/vendor/angular/elastic.js"></script>
     <script src="components/socket.io-client/dist/socket.io.js"></script>
     <!-- endbuild -->
-
+    <script type="text/javascript">
+    var googleSignInOnloadDefer = $.Deferred();
+    function googleSignInOnload(){
+        googleSignInOnloadDefer.resolve();
+    }
+    </script>
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 
 </body>
