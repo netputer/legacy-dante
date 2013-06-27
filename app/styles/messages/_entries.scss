@@ -97,7 +97,7 @@
     .wdmer-c {
         @include flex(0 0 auto);
         @include nowrap;
-        min-width: 22px;
+        // min-width: 22px;
         color: #a0a0a0;
         margin: 0;
     }
