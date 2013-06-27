@@ -36,7 +36,9 @@
                 <label class="selected" ng-model="item.checked" ng-click="$event.stopPropagation();">
                     <input class="selected" type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="clickChecked($event,item);" bs-tooltip="{{item.tooltip}}">
                 </label>
-                <img class="photo" ng-src="{{item.photo}}">
+                <div class="photo">
+                    <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
+                </div>
                 <div class="info">
                     <p class="name">{{item.name}}</p>
                     <p class="phone">{{item.phone}}</p>
@@ -66,7 +68,9 @@
 
         <!-- 查看和编辑用户信息 -->
         <div class="contacts-edit" ng-show="isContactsEditShow">
-            <img class="photo" ng-src="{{contact.photo_path}}">
+            <div class="photo">
+                <img ng-if="contact.photo_path" class="photo" ng-src="{{contact.photo_path}}">
+            </div>
 
             <!-- 上传图片遮罩 start -->
             <div class="photoUpload" ng-show='isPhotoUploadShow'>

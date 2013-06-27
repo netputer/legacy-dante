@@ -44,12 +44,12 @@ return {
         ANNOUNCEMENT: 'Heya SnapPea user, Version 1.5 is here! Sign in is now faster, more reliable, and more secure with your Google account.',
         NO_DEVICES:{
             h1 : 'Sign in on your phone.',
-            h2 : 'And your photos, messages, contacts and apps will be shown here.',
+            h2 : 'Your photos, messages, contacts and apps will be shown here.',
             step1 : '1. Install SnapPea from',
             step2 : '2. Open SnapPea on your phone.',
             step3 : '3. Sign in with',
-            foot : 'If you didn\'t find a sign in button on your phone,please ',
-            foot_updata : 'update you SnapPea to the latest version of SnapPea.'
+            foot : 'If you don\'t see a sign in button on your phone, please ',
+            foot_updata : 'update to the latest version of SnapPea.'
         },
         SELECT_DEVICES : {
             h1 : 'Select a phone.',

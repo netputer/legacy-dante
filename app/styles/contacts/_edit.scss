@@ -5,11 +5,15 @@
     right: 0px;
     left: 514px;
 
-    img.photo{
+    div.photo{
         margin-top: 25px;
         width: 127px;
         height: 127px;
-        @include contacts-sprite("default");
+        @include use-sprite("profile128");
+        img{
+            width: 127px;
+            height: 127px;
+        }
     }
 
     .photoUpload{
