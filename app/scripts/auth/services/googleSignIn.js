@@ -13,6 +13,9 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         account : '',
         currentDevice : {},
 
+        //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
+        forceShowDevices : false,
+
         //标记是否本次登陆了，用于检测是否是跳转过来的用户
         isLogin : false
     };
@@ -25,7 +28,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         //取得或者设置authResult
         authResult : function (data) {
           if(!!data) {
-            global.isLogin = true;
             $window.localStorage.setItem('googleToken', data['access_token']);
             global.authResult = data;
           }else{
@@ -168,6 +170,16 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         //是否本次登陆过，用于检测是否是跳转过来的设备
         getIsLogin : function () {
             return global.isLogin;
+        },
+        setIsLogin : function () {
+            global.isLogin = true;
+        },
+        setForceShowDevices : function ( flag ) {
+            global.forceShowDevices = flag;
+        },
+
+        getForceShowDevices : function () {
+            return global.forceShowDevices;
         }
     };
 

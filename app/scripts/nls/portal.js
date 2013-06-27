@@ -3,6 +3,7 @@ define([], function() {
 return {
     root: {
         SIGN_IN: 'Sign in',
+        SIGN_OUT: 'Sign out',
         AUTH_SUCCESS: 'Successful',
         AUTH_FAILED: 'Failed',
         AUTH_ERROR_TITLE: 'Sign in failed!',
@@ -30,7 +31,40 @@ return {
 
         UNSUPPORTED_H1: 'SnapPea don\'t support your browser.',
         UNSUPPORTED_H1_P: 'Sorry, SnapPea current don\'t support your browser. We strongly recommend you use Google Chrome.',
-        DOWNLOAD_CHROME: 'Download Chrome'
+        DOWNLOAD_CHROME: 'Download Chrome',
+
+        //Google sign in words
+        GOOGLE_BUTTON: 'Sign in with Google',
+        SHOW_ACCOUNT_NAME_DEFAULT: 'the same account',
+        CONNECT_DEVICE_FAILED_POP: {
+            title: 'Connection failed',
+            content: 'Make sure phone and computer are on the same Wi-Fi network.',
+            button: 'OK'
+        },
+        ANNOUNCEMENT: 'Heya SnapPea user, Version 1.5 is here! Sign in is now faster, more reliable, and more secure with your Google account.',
+        NO_DEVICES:{
+            h1 : 'Sign in on your phone.',
+            h2 : 'And your photos, messages, contacts and apps will be shown here.',
+            step1 : '1. Install SnapPea from',
+            step2 : '2. Open SnapPea on your phone.',
+            step3 : '3. Sign in with',
+            foot : 'If you didn\'t find a sign in button on your phone,please ',
+            foot_updata : 'update you SnapPea to the latest version of SnapPea.'
+        },
+        SELECT_DEVICES : {
+            h1 : 'Select a phone.',
+            h2_1 : 'We found',
+            h2_2 : 'phone(s) in your account.',
+            new_phone : 'Connect a new phone'
+        },
+        CHANGE_DEVICES_POP : {
+            h1 : 'Connect a new phone.',
+            h2 : 'Just 3 steps, and you will find your phone here.',
+            step1 : '1. Install SnapPea from',
+            step2 : '2. Open SnapPea on your phone.',
+            step3 : '3. Sign in with',
+            button : 'Got it'
+        }
     }
 };
 });

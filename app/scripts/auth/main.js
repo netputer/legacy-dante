@@ -34,7 +34,7 @@ angular.module('wdAuth', ['wdCommon'])
         $scope.devicesList = [];
 
         //显示的账号的名称
-        $scope.accountEmail = 'the same account';
+        $scope.accountEmail = $scope.$root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT;
         $scope.signInBtnDisabled = false;
 
         googleSignInOnloadDefer.done(function(){
@@ -43,20 +43,16 @@ angular.module('wdAuth', ['wdCommon'])
             });
         });
 
-        function loopSetToken() {
-            if ( typeof(gapi) === 'undefined' || typeof(gapi.auth) === 'undefined' || typeof(gapi.auth.authorize) === 'undefined' ){
-                setTimeout(loopSetToken,16);
-            }else{
-                wdGoogleSignIn.setToken(true);
-            }
-        }
-
         //检测是否曾经登陆过
         GA('user_sign_in:check_sign_in:total_visits');
         if( window.localStorage.getItem('googleToken') ){
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
-            loopSetToken();
+            googleSignInOnloadDefer.done(function(){
+                gapi.auth.init(function(){
+                    wdGoogleSignIn.setToken(true);
+                });
+            });
         }else{
             GA('user_sign_in:no_sign_in');
             $scope.isLoadingDevices = false;
@@ -94,17 +90,20 @@ angular.module('wdAuth', ['wdCommon'])
 
         $scope.submit = function(deviceData) {
             GA('connect_device:enter_snappea:'+ deviceData['model']);
-            //$scope.isLoadingDevices = true;
+            // $scope.isLoadingDevices = true;
             stopLoopGetDevices();
             stopLoopLinkDevices();
+
+            //检测下是否是从url跳转过来的
+            if ( wdGoogleSignIn.getForceShowDevices()) {
+                wdGoogleSignIn.setForceShowDevices(false);
+                // $scope.isLoadingDevices = false;
+                loopGetDevices();
+                return;
+            }
+
             deviceData = deviceData || wdAuthToken.getToken();
             var authCode = deviceData['authcode'];
-            // if (!authCode) {
-            //     GA('login:enter_authcode:empty');
-            //     return;
-            // }
-            // Parse data source.
-            //var ip = wdAuthToken.parse(authCode);
             var ip = deviceData['ip'];
             var port = 10208;
 
@@ -131,6 +130,7 @@ angular.module('wdAuth', ['wdCommon'])
                 })
                 .success(function(response) {
                     GA('connect_device:connect:success');
+                    wdGoogleSignIn.setIsLogin();
                     wdGoogleSignIn.currentDevice(deviceData);
                     $scope.isLoadingDevices = false;
                     keeper.done();
@@ -148,7 +148,8 @@ angular.module('wdAuth', ['wdCommon'])
                     // $scope.isLoadingDevices = false;
                     deviceData['loading'] = false;
                     if( !$scope.autoAuth ){
-                        wdAlert.alert('Connect failed', 'Please check your network and your phone and computer are on the same Wi-Fi network.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', 'OK').then(function(){});
+                        $scope.autoAuth = false;
+                        wdAlert.alert($scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title, $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content+'<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>', $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button ).then(function(){});
                     }
                     wdAuthToken.clearToken();
                     loopGetDevices();
@@ -184,16 +185,17 @@ angular.module('wdAuth', ['wdCommon'])
         };
 
         //自动进入之前的设备
-        if ( $scope.autoAuth && $scope.auth.ip ) {
+        if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
             $timeout(function() {
                 GA('device_sign_in:check_last_device:device_signed_in');
                 $scope.submit($scope.auth);
             }, 0);
         }else{
-            GA('device_sign_in:check_last_device:device_signed_in');
+            GA('device_sign_in:check_last_device:device_not_signed_in');
             $scope.autoAuth = false;
         }
 
+        //通过点击按钮登陆的逻辑
         function googleInit() {
             wdGoogleSignIn.init().then(function(list){
                 GA('user_sign_in:return_from_sign_in:google_sign_in');
@@ -213,10 +215,13 @@ angular.module('wdAuth', ['wdCommon'])
                             loopLinkDevices();
                         break;
                         case 1:
-                            $scope.isLoadingDevices = true;
-                            $scope.devicesList = list;
                             GA('device_sign_in:check_first_device:device_signed_in');
-                            $scope.submit(list[0]);
+                            //防止已经登陆在某手机中，又被登陆一次。
+                            if ( !wdGoogleSignIn.getIsLogin() ) {
+                                $scope.isLoadingDevices = true;
+                                $scope.submit(list[0]);
+                            }
+                            $scope.devicesList = list;
                         break;
                         default:
                             $scope.isLoadingDevices = false;
@@ -319,7 +324,9 @@ angular.module('wdAuth', ['wdCommon'])
                 // $scope.deviceNum = -1;
                 // $scope.isLoadingDevices = false;
                 wdAuthToken.clearToken();
+                $scope.isLoadingDevices = false;
                 $window.localStorage.removeItem('googleToken');
+                //这要重新刷新浏览器，就是因为登陆整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
                 $window.location.reload();
             },function(){
                 $scope.googleSignOut();
@@ -334,14 +341,13 @@ angular.module('wdAuth', ['wdCommon'])
         // 当用户从其他设备中退出到当前页面时
         if( wdGoogleSignIn.getIsLogin() ){
             $scope.isLoadingDevices = true;
-
             //用户是想要切换到另一个设备
             var item = wdGoogleSignIn.currentDevice();
             if(!!item.status && item.status === 'signout'){
                 $scope.googleSignOut();
                 return;
             }
-            if(!!item.ip){
+            if(!!item && !!item.ip){
                 $scope.submit(item);
             }else{
                 wdGoogleSignIn.getDevices().then(function(list){

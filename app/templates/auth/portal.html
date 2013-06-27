@@ -2,7 +2,7 @@
     <div class="wd-portal" ng-switch-when="false" ng-show="deviceNum<0">
         <div class="a" ng-switch on="isSupport">
             <div class="announcement" ng-show="isShowAnnouncement">
-                Heya SnapPea user, Version 1.5 is here! Sign in is now faster, more reliable, and more secure with your Google account.
+                {{$root.DICT.portal.ANNOUNCEMENT}}
                 <a href="http://snappea.zendesk.com/entries/24375503--Official-Version-1-5-Now-with-Google-Sign-In" target="_blank">Learn More »</a>
                 <a href="javascript:void(0)" class="close-announcement" ng-click="closeAnnouncement()"></a>
             </div>
@@ -13,7 +13,7 @@
                 <!-- google signin -->
                 <button class="btn google-btn" ng-click="googleSigIn()" ng-disabled="">
                     <i class="icon-google-btn"></i>
-                    Sign in with Google
+                    {{$root.DICT.portal.GOOGLE_BUTTON}}
                 </button>
                 <!-- google signin end -->
 
@@ -52,35 +52,35 @@
 <div class="devices-tpl" ng-show="deviceNum>=0">
     <div class="sign-out" ng-click="googleSignOut();">
         <i class="icon-signoutdark"></i>
-        Sign out
+        {{$root.DICT.portal.SIGN_OUT}}
     </div>
 
     <!-- no device start -->
     <div class="no-device" ng-show="deviceNum==0">
-        <h1>Sign in on your phone.</h1>
-        <p>And your photos,messages,contacts and apps will be shown here.</p>
+        <h1>{{$root.DICT.portal.NO_DEVICES.h1}}</h1>
+        <p>{{$root.DICT.portal.NO_DEVICES.h2}}</p>
         <div class="step">
             <dl class="step1">
                 <dt></dt>
-                <dd>1.Install SnapPea from <a href="https://play.google.com/store/apps/details?id=com.snappea">Google play</a>.</dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
             </dl>
             <dl class="step2">
                 <dt></dt>
-                <dd>2.Open SnapPea on your phone.</dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step2}}</dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>3.Sign in with <span>{{accountEmail}}</span></dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step3}} <span>{{accountEmail}}</span></dd>
             </dl>
-            <p>If you didn't find a sign in button on your phone,please <a href="https://play.google.com/store/apps/details?id=com.snappea">update you SnapPea to the latest version</a>.</p>
+            <p>{{$root.DICT.portal.NO_DEVICES.foot}}<a href="https://play.google.com/store/apps/details?id=com.snappea">{{$root.DICT.portal.NO_DEVICES.foot_updata}}</a>.</p>
         </div>
     </div>
     <!-- no device end -->
 
     <!-- select devices start -->
     <div class="select-device" ng-show="deviceNum>=1">
-        <h1>Select a phone.</h1>
-        <p>We found <span>{{deviceNum}}</span> phones in your account.</p>
+        <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
+        <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
         <div class="list">
             <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
                 <p>{{item.model}}</p>
@@ -89,7 +89,7 @@
                 </span>
                 <div class="wd-loading phone-loading" data-visible="true" ng-show="item.loading"></div>
             </div>
-            <p><a ng-click="showConnectNewPhone()" href=""> + Connect a new phone</a></p>
+            <p><a ng-click="showConnectNewPhone()" href=""> + {{$root.DICT.portal.SELECT_DEVICES.new_phone}}</a></p>
         </div>
     </div>
     <!-- select devices end -->
@@ -102,23 +102,23 @@
 <!-- data-ok 是事件 -->
 <div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
     <div class="content">
-        <h1>Connect a new phone.</h1>
-        <p>Just 3 steps, and you will find your phone here.</p>
+        <h1>{{$root.DICT.portal.CHANGE_DEVICES_POP.h1}}</h1>
+        <p>{{$root.DICT.portal.CHANGE_DEVICES_POP.h2}}</p>
         <div class="step">
             <dl class="step1">
                 <dt></dt>
-                <dd>1.Install SnapPea from <a href="https://play.google.com/store/apps/details?id=com.snappea">Google play</a>.</dd>
+                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
             </dl>
             <dl class="step2">
                 <dt></dt>
-                <dd>2.Open SnapPea on your phone.</dd>
+                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step2}}</dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>3.Sign in with <span>{{accountEmail}}</span> . </dd>
+                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step3}} <span>{{accountEmail}}</span> . </dd>
             </dl>
         </div>
-        <button class="btn btn-primary" bs-modal-cancel>Got it</button>
+        <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.portal.CHANGE_DEVICES_POP.button}}</button>
     </div>
 </div>
 <!-- connect new phone pop end -->

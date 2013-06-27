@@ -74,8 +74,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdAuthToken', '$q', function(wdAuthToken, $q ) {
+                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', function(wdAuthToken, $q, wdGoogleSignIn ) {
                     wdAuthToken.signout();
+                    wdGoogleSignIn.setForceShowDevices(true);
                     return $q.reject('signout');
                 }]
             }
@@ -85,12 +86,12 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', 'wdAlert', function(wdAuthToken, $q, wdGoogleSignIn, wdAlert) {
+                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', 'wdAlert', '$rootScope', function(wdAuthToken, $q, wdGoogleSignIn, wdAlert ,$rootScope) {
                     wdAlert.confirm(
-                        'Signout',
-                        'Do you want to signout?',
-                        'Yes',
-                        'Cancel'
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
                         wdAuthToken.signout();
                         wdGoogleSignIn.currentDevice({status:'signout'});
@@ -98,7 +99,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
 
                     });
                 }]
-            }
+            },
+            redirectTo: '/portal'
         });
         $routeProvider.when('/', {
             redirectTo: '/' + (localStorage.getItem('lastModule') || 'photos')
