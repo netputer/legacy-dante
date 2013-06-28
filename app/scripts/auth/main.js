@@ -250,7 +250,6 @@ angular.module('wdAuth', ['wdCommon'])
         function loopGetDevices() {
             loopGetDevicesTimer = $timeout(function(){
                 wdGoogleSignIn.getDevices().then(function(list){
-                    if(loopGetDevicesTimer){return;}
                     if( $scope.deviceNum < list.length ){
                         GA('device_sign_in:add_new_device:new_device_page');
                     }
@@ -287,9 +286,7 @@ angular.module('wdAuth', ['wdCommon'])
         //轮询获取设备列表，如果有一个设备则登录
         function loopLinkDevices() {
             loopLinkDevicesTimer = $timeout(function(){
-                loopLinkDevicesTimer = false;
                 wdGoogleSignIn.getDevices().then(function(list){
-                    if (loopLinkDevicesTimer) {return;}
                     if( $scope.deviceNum < list.length ){
                         GA('device_sign_in:add_new_device:new_device_page');
                     }
