@@ -3,7 +3,7 @@
 
 
 .navigator {
-    @include position(fixed, 0px 0 0px 0px);
+    @include position(absolute, 0px 0 0px 0px);
     width: 60px;
 
     & > .navigator-inner {
