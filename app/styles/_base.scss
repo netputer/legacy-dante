@@ -78,6 +78,9 @@ input[type=checkbox] {
     .modal-body {
         color: #999;
     }
+    .modal-footer .btn + .btn {
+        min-width: 50px;
+    }
 }
 .close {
     @include button-effect-light;

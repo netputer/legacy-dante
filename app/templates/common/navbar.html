@@ -29,15 +29,15 @@
         </ul>
         <ul class="nav nav-settings">
             <li wd-menu>
-                <a href="" wd-menu-trigger ng-click="open()">
+                <a href="" wd-menu-trigger bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}" ng-click="open()" data-options="{placement: 'right'}">
                     <i class="icon-phoneswitch"></i>
                 </a>
-                <div wd-menu-popover placement="right" loading="xxx">
-                    <div wd-menu-item ng-hide="xxx">11111111111111111111111111111111111111111111111111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
-                    <div wd-menu-item ng-hide="xxx">11111</div>
+                <div wd-menu-popover placement="right" loading="isLoadDevices">
+                    <div class="menu-item-div" ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
+                        <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;{{item.model}}&nbsp;&nbsp;&nbsp;</div>
+                    <div wd-menu-sep ng-if="!isLoadDevices"></div>
+                    <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">
+                        <i class="icon-add"></i>&nbsp;{{$root.DICT.app.NAVBAR_NEW_PHONE_TIP}}</div>
                 </div>
             </li>
             <li wd-menu>
@@ -50,14 +50,14 @@
                     placement="right">
                     <div wd-menu-item>
                         <a target="_blank"
-                            href="http://snappea.wufoo.com/forms/snappea-feedback-survey/">
-                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
+                            href="http://snappea.zendesk.com/forums/21871852-Web-version">
+                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_HELP_TIP}}
                         </a>
                     </div>
                     <div wd-menu-item>
                         <a target="_blank"
-                            href="http://snappea.zendesk.com/forums/21871852-Web-version">
-                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_HELP_TIP}}
+                            href="http://snappea.wufoo.com/forms/snappea-feedback-survey/">
+                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
                         </a>
                     </div>
                     <div wd-menu-sep></div>
@@ -69,4 +69,30 @@
             </li>
         </ul>
     </div>
+
+<!-- connect new phone pop start -->
+<!-- data-ok 是事件 -->
+<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
+    <div class="content">
+        <h1>{{$root.DICT.app.CHANGE_DEVICES_POP.h1}}</h1>
+        <p>{{$root.DICT.app.CHANGE_DEVICES_POP.h2}}</p>
+        <div class="step">
+            <dl class="step1">
+                <dt></dt>
+                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
+            </dl>
+            <dl class="step2">
+                <dt></dt>
+                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step2}}</dd>
+            </dl>
+            <dl class="step3">
+                <dt></dt>
+                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3}} <span>{{account || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span> . </dd>
+            </dl>
+        </div>
+        <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.app.CHANGE_DEVICES_POP.button}}</button>
+    </div>
+</div>
+<!-- connect new phone pop end -->
+
 </div>

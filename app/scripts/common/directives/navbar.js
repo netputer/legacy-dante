@@ -9,21 +9,57 @@ return [function() {
         restrict: 'EAC',
         replace: true,
         template: template,
+        scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket',
-        function($scope,   wdAuthToken,   $route,   wdSocket) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn ) {
             $scope.messageNotification = false;
+            $scope.isChangeDevicesPopShow = false;
+            $scope.account = '';
 
             $scope.open = function() {
-                $scope.xxx = true;
-                setTimeout(function() {
-                    $scope.xxx = false;
-                    $scope.$apply();
-                }, 2000);
+                $scope.isLoadDevices = true;
+                wdGoogleSignIn.getDevices().then(function(list){
+                    $scope.isLoadDevices = false;
+
+                    //设备列表
+                    $scope.devicesList = getListData (list);
+                },function(){
+                    wdGoogleSignIn.setToken().then(function(){
+                        $scope.open();
+                    });
+                });
+
+                //取得账号
+                wdGoogleSignIn.getAccount().then(function(data){
+                    $scope.account = data;
+                });
+
             };
 
+            //处理原始的设备列表数据
+            function getListData (list) {
+                var ip = wdGoogleSignIn.currentDevice().ip;
+                for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
+                    if ( ip === list[i]['ip'] ) {
+                        list[i]['selected'] = true;
+                    }else{
+                        list[i]['selected'] = false;
+                    }
+                }
+                return list;
+            }
+
             $scope.signout = function() {
+                wdGoogleSignIn.currentDevice({status:'signout'});
                 wdAuthToken.signout();
+            };
+
+            $scope.changeDevice = function (item) {
+                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
+                    wdGoogleSignIn.currentDevice(item);
+                    wdAuthToken.signout();
+                }
             };
 
             $scope.$on('$routeChangeSuccess', function(e, current) {
@@ -47,6 +83,11 @@ return [function() {
                     }
                 }
             });
+
+            $scope.clickAddNewPhone = function () {
+                $scope.isShowChangeDevicesPop = true;
+            };
+
         }]
     };
 }];

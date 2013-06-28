@@ -170,31 +170,22 @@ $auth-spacing: 4px;
         }
     }
 }
-.wd-portal-getstarted {
-    // @import "auth/*.png";
-    $width: auth-sprite-width("step1") * 3 + 20px * 3;
-    width: $width;
-    margin-left: -$width/2 - 1px;
-    @for $i from 1 through 3 {
-        .step#{$i} {
-            .figure {
-                $name: "step#{$i}";
-                @include auth-sprite($name);
-                display: block;
-                width: auth-sprite-width($name);
-                height: auth-sprite-height($name);
-                margin: 0 auto;
-            }
-            p {
-                margin-top: 10px;
-                font-size: 12px;
-                a {
-                    color: #6eb800;
-                }
-            }
-        }
-    }
-    .modal-footer {
-        display: none;
-    }
+
+.google-btn{
+    height: 48px;
+    width: 170px;
+    margin-top: 20px;
+    border: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
+
+.loading-google{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FFF;
+    @include ui-layer-top;
+}
+@import "devices"

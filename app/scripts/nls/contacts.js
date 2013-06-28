@@ -44,7 +44,7 @@ return {
              'nickname' : {
                  'CN_DEFAULT' :'Default',
                  'CN_OTHER_NAME' :'Other name',
-                 'CN_MAINDEN_NAME' :'Mainden name',
+                 'CN_MAINDEN_NAME' :'Maiden name',
                  'CN_SHORT_NAME' :'Short name',
                  'CN_INITIALS' :'Initials'  //首字母、缩写
               },

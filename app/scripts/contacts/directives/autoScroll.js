@@ -10,7 +10,6 @@ return {
 link: function(scope, element) {
 
     scope.$on('wdc:intoView', function() {
-        console.log(123);
         _.defer(function() {
             var activeElement = element.find('.clicked');
             if (!activeElement.size()) { return; }

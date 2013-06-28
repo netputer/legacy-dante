@@ -3,7 +3,7 @@ define([], function() {
 return function() {
     var self = this;
     self.$get = ['$window', '$location', 'wdDev', '$rootScope',
-        function($window, $location, wdDev, $rootScope) {
+        function($window, $location, wdDev, $rootScope ) {
         var valid = false;
         var signoutDetectionTimer = null;
         return {
@@ -11,14 +11,18 @@ return function() {
                 return valid;
             },
             getToken: function() {
-                return $window.localStorage.getItem('token');
+                var data = JSON.parse($window.localStorage.getItem('currentDevice'));
+                return data;
             },
-            setToken: function(newToken) {
-                $window.localStorage.setItem('token', newToken);
+            setToken: function(data) {
+                $window.localStorage.setItem('authcode', data['authcode']);
+                $window.localStorage.setItem('ip', data['ip']);
                 valid = true;
             },
             clearToken: function() {
-                $window.localStorage.removeItem('token');
+                $window.localStorage.removeItem('authcode');
+                $window.localStorage.removeItem('ip');
+                $window.localStorage.removeItem('currentDevice');
                 valid = false;
             },
             signout: function() {
@@ -35,7 +39,7 @@ return function() {
             startSignoutDetection: function() {
                 var self = this;
                 signoutDetectionTimer = setInterval(function() {
-                    if (!self.getToken()) {
+                    if (!!self.getToken() && !self.getToken().ip) {
                         self.stopSignoutDetection();
                         $rootScope.$apply(function() {
                             self.signout();
@@ -47,38 +51,9 @@ return function() {
                 clearInterval(signoutDetectionTimer);
             },
             parse: getIp
-            // function (input) {
-            //     var type = parseInt(input.slice(0, 1), 10);
-            //     var encryptedIp = parseInt(input.slice(3, input.length), 10);
-            //     var ip;
-            //     switch (type) {
-            //     case 2:
-            //         ip = '192.168.' + [
-            //             Math.floor(encryptedIp / 256),
-            //             encryptedIp % 256
-            //         ].join('.');
-            //         break;
-            //     case 3:
-            //         ip = '172.' + [
-            //             Math.floor(encryptedIp / Math.pow(256, 2)),
-            //             Math.floor((encryptedIp % Math.pow(256, 2)) / 256),
-            //             encryptedIp % 256
-            //         ].join('.');
-            //         break;
-            //     case 4:
-            //         ip = [
-            //             Math.floor(encryptedIp / Math.pow(256, 3)),
-            //             Math.floor((encryptedIp % Math.pow(256, 3)) / Math.pow(256, 2)),
-            //             Math.floor((encryptedIp % Math.pow(256, 2)) / 256),
-            //             encryptedIp % 256
-            //         ].join('.');
-            //         break;
-            //     }
-
-            //     return ip;
-            // }
         };
     }];
+
     var getIp = function(num){
       num = String(num);
 

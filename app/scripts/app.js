@@ -41,6 +41,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         // Used for filter route changing which need auth.
         var validateToken = ['$q', 'wdAuthToken', '$location',
             function($q, wdAuthToken, $location) {
+
             if (wdAuthToken.valid()) {
                 return true;
             }
@@ -71,13 +72,35 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             template: PortalTemplate,
             controller: 'portalController'
         });
-        $routeProvider.when('/signout', {
+        $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdAuthToken', '$q', function(wdAuthToken, $q) {
+                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', function(wdAuthToken, $q, wdGoogleSignIn ) {
                     wdAuthToken.signout();
+                    wdGoogleSignIn.setForceShowDevices(true);
                     return $q.reject('signout');
                 }]
             }
+        });
+        $routeProvider.when('/signout', {
+            redirectTo: '/devices'
+        });
+        $routeProvider.when('/extension-signout', {
+            resolve: {
+                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', 'wdAlert', '$rootScope', function(wdAuthToken, $q, wdGoogleSignIn, wdAlert ,$rootScope) {
+                    wdAlert.confirm(
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
+                        $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
+                    ).then(function(){
+                        wdAuthToken.signout();
+                        wdGoogleSignIn.currentDevice({status:'signout'});
+                    },function(){
+
+                    });
+                }]
+            },
+            redirectTo: '/portal'
         });
         $routeProvider.when('/', {
             redirectTo: '/' + (localStorage.getItem('lastModule') || 'photos')
@@ -131,12 +154,12 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             return {
                 request: function(config) {
                     // Using realtime data source url.
-                    if (config.url) {
+                    if (config.url && !/^(http|https):/.test(config.url)) {
                         config.url = wdDev.wrapURL(config.url);
                     }
                     // Global timeout
                     if (angular.isUndefined(config.timeout)) {
-                        config.timeout = 60 * 1000;
+                        config.timeout = 20 * 1000;
                     }
                     // By default, all request using withCredentials to support cookies in CORS.
                     if (angular.isUndefined(config.withCredentials)) {
@@ -179,13 +202,14 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdWordTable', 'wdSocket',
-            'wdTitleNotification', 'wdDev',
+            'wdTitleNotification', 'wdDev', '$q',
         function($window,   $rootScope,   wdKeeper,   GA,   wdWordTable,   wdSocket,
-             wdTitleNotification,   wdDev) {
+             wdTitleNotification,   wdDev,   $q) {
         // Tip users when leaving.
-        $window.onbeforeunload = function () {
-            return wdKeeper.getTip();
-        };
+        // 提醒用户是否重新加载数据
+        // $window.onbeforeunload = function () {
+        //     return wdKeeper.getTip();
+        // };
 
         (function(keeper) {
             $rootScope.$on('ajaxStart', function() {
