@@ -15,7 +15,7 @@ return [function() {
         function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn ) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
-            $scope.account = 'the same account';
+            $scope.account = '';
 
             $scope.open = function() {
                 $scope.isLoadDevices = true;

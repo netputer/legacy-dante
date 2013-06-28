@@ -87,7 +87,7 @@
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3}} <span>{{account}}</span> . </dd>
+                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3}} <span>{{account || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span> . </dd>
             </dl>
         </div>
         <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.app.CHANGE_DEVICES_POP.button}}</button>

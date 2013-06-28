@@ -202,9 +202,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdWordTable', 'wdSocket',
-            'wdTitleNotification', 'wdDev',
+            'wdTitleNotification', 'wdDev', '$q',
         function($window,   $rootScope,   wdKeeper,   GA,   wdWordTable,   wdSocket,
-             wdTitleNotification,   wdDev) {
+             wdTitleNotification,   wdDev,   $q) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {

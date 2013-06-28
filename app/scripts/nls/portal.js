@@ -38,7 +38,7 @@ return {
         SHOW_ACCOUNT_NAME_DEFAULT: 'the same account',
         CONNECT_DEVICE_FAILED_POP: {
             title: 'Connection failed',
-            content: 'Make sure phone and computer are on the same Wi-Fi network.',
+            content: 'Make sure your computer is on the Wi-Fi network of ',
             button: 'OK'
         },
         ANNOUNCEMENT: 'Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.',

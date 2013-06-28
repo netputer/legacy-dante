@@ -27,28 +27,31 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
         //取得或者设置authResult
         authResult : function (data) {
-          if(!!data) {
-            $window.localStorage.setItem('googleToken', data['access_token']);
-            global.authResult = data;
-          }else{
+            var me = this;
+            if(!!data) {
+                me.setStorageItem('googleToken', data['access_token']);
+                global.authResult = data;
+            }else{
             if(!global.authResult['access_token']){
-                global.authResult['access_token'] = $window.localStorage.getItem('googleToken');
+                global.authResult['access_token'] = me.getStorageItem('googleToken');
             }
             return global.authResult;
-          }
+            }
         },
 
         //取得或者设置currentDevice
         currentDevice : function (data) {
+            var me = this;
             if(!data){
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
-                $window.localStorage.setItem('currentDevice', JSON.stringify(data));
+                me.setStorageItem('currentDevice', JSON.stringify(data));
             }
         },
 
-        setToken : function ( immediate ) {
+        //刷新Google token
+        refreshToken : function ( immediate ) {
             var defer = $q.defer();
             if(typeof immediate === 'undefined') {
                 immediate = false;
@@ -79,7 +82,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                   request.execute(function(obj){
                     global.account = obj['email'];
                     defer.resolve(global.account);
-                    $rootScope.$apply();
                   });
                 });
             }else{
@@ -116,17 +118,15 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 },
                 error: function(e) {
                     $log.error('get devices 403');
-                    me.setToken();
+                    me.refreshToken();
                     defer.reject();
                     $rootScope.$apply();
                     global.defer = $q.defer();
                 }
             });
 
-            // $http({
-            //     method : 'JSONP',
-            //     url : url
-            // }).success(function(data){
+            // $http.jsonp(url).success(function(data){
+            //     console.log(123123);
             //     $log.log('get devices success!');
             //     $log.log(data);
             //     defer.resolve(data);
@@ -134,7 +134,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             //     global.defer = $q.defer();
             // }).error(function(e){
             //     $log.error('get devices 403');
-            //     me.setToken();
+            //     me.refreshToken();
             //     defer.reject();
             //     global.defer = $q.defer();
             // });
@@ -149,7 +149,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 this.getDevices();
             } else if (!authResult || authResult['error']) {
                 global.defer.reject();
-                $rootScope.$apply();
                 global.defer = $q.defer();
             }
         },
@@ -158,7 +157,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             global.defer = $q.defer();
             var defer = $q.defer();
             this.currentDevice({});
-            $window.localStorage.removeItem('googleToken');
+            this.removeStorageItem('googleToken');
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({
                 type: 'GET',
@@ -196,6 +195,18 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
         getForceShowDevices : function () {
             return global.forceShowDevices;
+        },
+
+        removeStorageItem : function ( name ) {
+            $window.localStorage.removeItem( name );
+        },
+
+        setStorageItem : function ( name , data ) {
+            $window.localStorage.setItem( name , data );
+        },
+
+        getStorageItem : function ( name ) {
+            $window.localStorage.getItem( name );
         }
     };
 

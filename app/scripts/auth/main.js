@@ -33,24 +33,25 @@ angular.module('wdAuth', ['wdCommon'])
         //设备列表
         $scope.devicesList = [];
 
-        //显示的账号的名称
-        $scope.accountEmail = $scope.$root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT;
-        $scope.signInBtnDisabled = false;
+        //显示的账号的名称，在dom中有默认的名称
+        $scope.accountEmail = '';
+        $scope.signInBtnDisabled = true;
 
         googleSignInOnloadDefer.done(function(){
             gapi.auth.init(function(){
-                $scope.signInBtnDisabled = true;
+                $scope.signInBtnDisabled = false;
+                $scope.$apply();
             });
         });
 
         //检测是否曾经登陆过
         GA('user_sign_in:check_sign_in:total_visits');
-        if( window.localStorage.getItem('googleToken') ){
+        if( wdGoogleSignIn.getStorageItem('googleToken') ){
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
             googleSignInOnloadDefer.done(function(){
                 gapi.auth.init(function(){
-                    wdGoogleSignIn.setToken(true);
+                    wdGoogleSignIn.refreshToken(true);
                 });
             });
         }else{
@@ -59,17 +60,17 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         //轮询的timer，为false的时候可以执行轮询
-        var loopGetDevicesTimer = false;
-        var loopLinkDevicesTimer = false;
+        var loopGetDevicesTimer ;
+        var loopLinkDevicesTimer ;
 
         if (!$scope.isSupport) {
             GA('login:not_support');
         }
 
     /*Start: remove after a week*/
-        $scope.isShowAnnouncement = !$window.localStorage.getItem('closeAnnouncement');
+        $scope.isShowAnnouncement = !wdGoogleSignIn.getStorageItem('closeAnnouncement');
         $scope.closeAnnouncement = function() {
-            $window.localStorage.setItem('closeAnnouncement', 1);
+            wdGoogleSignIn.setStorageItem('closeAnnouncement', 1);
             $scope.isShowAnnouncement = false;
         }
     /*End: remove after a week*/
@@ -153,7 +154,7 @@ angular.module('wdAuth', ['wdCommon'])
                         $scope.autoAuth = false;
                         wdAlert.alert(
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content+'<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>',
+                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content + deviceData['attributes']['ssid'] + '.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>',
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button
                         ).then(function(){
                             // $scope.isLoadingDevices = false;
@@ -245,8 +246,7 @@ angular.module('wdAuth', ['wdCommon'])
 
         //轮询获取设备列表
         function loopGetDevices() {
-            loopGetDevicesTimer = false;
-            $timeout(function(){
+            loopGetDevicesTimer = $timeout(function(){
                 wdGoogleSignIn.getDevices().then(function(list){
                     if(loopGetDevicesTimer){return;}
                     if( $scope.deviceNum < list.length ){
@@ -271,7 +271,7 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 },
                 function(){
-                    wdGoogleSignIn.setToken().then(function(){
+                    wdGoogleSignIn.refreshToken().then(function(){
                         loopGetDevices();
                     });
                 });
@@ -279,12 +279,12 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         function stopLoopGetDevices () {
-            loopGetDevicesTimer = true;
+            $timeout.cancel( loopGetDevicesTimer );
         }
 
         //轮询获取设备列表，如果有一个设备则登录
         function loopLinkDevices() {
-            $timeout(function(){
+            loopLinkDevicesTimer = $timeout(function(){
                 loopLinkDevicesTimer = false;
                 wdGoogleSignIn.getDevices().then(function(list){
                     if (loopLinkDevicesTimer) {return;}
@@ -303,7 +303,7 @@ angular.module('wdAuth', ['wdCommon'])
                     }
                 },
                 function(){
-                    wdGoogleSignIn.setToken().then(function(){
+                    wdGoogleSignIn.refreshToken().then(function(){
                         loopLinkDevices();
                     });
                 });
@@ -311,12 +311,12 @@ angular.module('wdAuth', ['wdCommon'])
         }
 
         function stopLoopLinkDevices () {
-            loopLinkDevicesTimer = true;
+            $timeout.cancel( loopLinkDevicesTimer );
         }
 
         $scope.googleSigIn = function () {
             GA('user_sign_in:click_sign_in:google_sign_in');
-            wdGoogleSignIn.setToken();
+            wdGoogleSignIn.refreshToken();
         };
 
         $scope.connectPhone = function (item) {
@@ -335,7 +335,7 @@ angular.module('wdAuth', ['wdCommon'])
                 // $scope.deviceNum = -1;
                 // $scope.isLoadingDevices = false;
                 wdAuthToken.clearToken();
-                $window.localStorage.removeItem('googleToken');
+                wdGoogleSignIn.removeStorageItem('googleToken');
                 //这要重新刷新浏览器，就是因为登陆整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
                 $window.location.reload();
             },function(){
@@ -377,7 +377,7 @@ angular.module('wdAuth', ['wdCommon'])
                         break;
                     }
                 },function(){
-                    wdGoogleSignIn.setToken();
+                    wdGoogleSignIn.refreshToken();
                 });
             }
 
