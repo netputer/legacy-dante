@@ -205,7 +205,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         getStorageItem : function ( name ) {
-            $window.localStorage.getItem( name );
+            return $window.localStorage.getItem( name );
         }
     };
 

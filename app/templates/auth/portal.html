@@ -70,7 +70,7 @@
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step3}} <span>{{accountEmail}}</span></dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span></dd>
             </dl>
             <p>{{$root.DICT.portal.NO_DEVICES.foot}}<a href="https://play.google.com/store/apps/details?id=com.snappea">{{$root.DICT.portal.NO_DEVICES.foot_updata}}</a>.</p>
         </div>

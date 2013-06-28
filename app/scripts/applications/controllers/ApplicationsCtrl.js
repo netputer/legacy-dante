@@ -370,6 +370,7 @@ define([
 
         function showToolbar() {
             $scope.selectedNum = 0;
+
             var eles = $('.apps-list .old-list');
             for (var i = 0 , l = $scope.list.length ; i < l ; i += 1) {
                 if($scope.list[i]['checked']){
@@ -384,6 +385,13 @@ define([
                 $scope.isDeleteBtnShow = false;
                 $scope.isDeselectBtnShow = false;
             }
+            var newListEles = $('.apps-list .new-list');
+            for (var i = 0 , l = $scope.newList.length ; i < l ; i += 1) {
+                if($scope.newList[i]['confirmTipShow']){
+                    newListEles.eq(i).find('dd.confirm').css('opacity',1);
+                }
+            }
+
             $scope.$apply();
         }
 
