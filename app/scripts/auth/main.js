@@ -40,6 +40,7 @@ angular.module('wdAuth', ['wdCommon'])
         googleSignInOnloadDefer.done(function(){
             gapi.auth.init(function(){
                 $scope.signInBtnDisabled = false;
+                //异步需要apply()
                 $scope.$apply();
             });
         });

@@ -78,12 +78,12 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 var authResult = global.authResult;
                 gapi.auth.setToken(authResult);
                 gapi.client.load('oauth2', 'v2', function() {
-                  var request = gapi.client.oauth2.userinfo.get();
-                  request.execute(function(obj){
-                    global.account = obj['email'];
-                    defer.resolve(global.account);
-                  });
-                  $rootScope.$apply();
+                    var request = gapi.client.oauth2.userinfo.get();
+                    request.execute(function(obj){
+                        global.account = obj['email'];
+                        defer.resolve(global.account);
+                        $rootScope.$apply();
+                    });
                 });
             }else{
                 defer.resolve(global.account);
