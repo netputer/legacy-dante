@@ -89,7 +89,6 @@ define([
                     $('dd.confirm').css('opacity',0.8);
                 },500);
             },function(){
-
             });
         };
 
@@ -111,6 +110,7 @@ define([
                     };
                 };
                 $scope.isDeleteBtnShow = false;
+                $scope.selectedNum = 0;
                 setTimeout(function(){
                     $('dd.toolbar').css('opacity','');
                     $('dd.confirm').css('opacity',0.8);
