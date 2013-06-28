@@ -32,10 +32,10 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 me.setStorageItem('googleToken', data['access_token']);
                 global.authResult = data;
             }else{
-            if(!global.authResult['access_token']){
-                global.authResult['access_token'] = me.getStorageItem('googleToken');
-            }
-            return global.authResult;
+                if(!global.authResult['access_token']){
+                    global.authResult['access_token'] = me.getStorageItem('googleToken');
+                }
+                return global.authResult;
             }
         },
 
@@ -83,6 +83,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     global.account = obj['email'];
                     defer.resolve(global.account);
                   });
+                  $rootScope.$apply();
                 });
             }else{
                 defer.resolve(global.account);
@@ -96,7 +97,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             var authResult = this.authResult();
             var defer = $q.defer();
             var me = this;
-            $log.log(authResult['access_token']);
 
             //调用服务器端接口
             // var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
@@ -109,8 +109,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 success: function(data) {
-                    $log.log('get devices success!');
-                    $log.log(data);
+                    $log.log('get devices success!',data);
                     defer.resolve(data);
                     global.defer.resolve(data);
                     $rootScope.$apply();

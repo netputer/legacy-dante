@@ -941,7 +941,8 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                         //显示为base64
                         reader.onload = function(e){
                             base64 = e.target.result;
-                            $('.contacts-edit img.photo').attr('src',base64);
+                            $scope.contact.photo_path = base64;
+                            $scope.$apply();
                         };
                     };
                 },
