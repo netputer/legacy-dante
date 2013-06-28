@@ -53,6 +53,7 @@ angular.module('wdAuth', ['wdCommon'])
             googleSignInOnloadDefer.done(function(){
                 gapi.auth.init(function(){
                     wdGoogleSignIn.refreshToken(true);
+                    $scope.$apply();
                 });
             });
         }else{
