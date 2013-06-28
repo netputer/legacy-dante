@@ -98,8 +98,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
             //调用服务器端接口
             // var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
-            //var url = 'https://test.wandoujia.com/apppush/limbo?google_token=' + authResult['access_token'];
-            var url = 'https://limbo-push.wandoujia.com/apppush/limbo?google_token=' + encodeURIComponent(authResult['access_token']);
+            var url = 'https://push.snappea.com/apppush/limbo?google_token=' + encodeURIComponent(authResult['access_token']);
 
             $.ajax({
                 type: 'GET',
