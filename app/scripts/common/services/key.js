@@ -11,19 +11,16 @@ return ['$rootScope', '$log', '$q', function($rootScope, $log, $q) {
     var key = keymaster.key;
 
     key.push = function(scope) {
-        var deferred = $q.defer();
         stack.unshift(scope);
         key.setScope(scope);
         $log.log('Shortcuts scope changed to: ' + key.getScope() + '. Total ' + stack.length);
-        deferred.promise.then(function() {
-            stack.shift();
-            var scope = stack[0] || 'all';
-            key.setScope(scope);
-            $log.log('Shortcuts scope changed to: ' + key.getScope() + '. Total ' + stack.length);
-        });
+
         return {
             done: function() {
-                deferred.resolve();
+                stack.shift();
+                var scope = stack[0] || 'all';
+                key.setScope(scope);
+                $log.log('Shortcuts scope changed to: ' + key.getScope() + '. Total ' + stack.length);
             }
         };
     };
