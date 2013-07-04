@@ -243,6 +243,15 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
     }]);
 
+// Add language indication classes on HTML element, to aid css i18n solution.
+var languageSegments = window.navigator.language.toLowerCase().split('-');
+var languageClassNames = [];
+while (languageSegments.length) {
+    languageClassNames.push(languageSegments.join('-'));
+    languageSegments.pop();
+}
+angular.element(window.document.documentElement).addClass(languageClassNames.join(' '));
+
 angular.bootstrap(document, ['wdApp']);
 
 (function() {})(common, language, photos, auth, messages, contacts);
