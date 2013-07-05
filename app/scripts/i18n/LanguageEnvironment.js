@@ -1,19 +1,23 @@
 define([
     'underscore',
-    'jquery'
+    'jquery',
+    'i18n/root/dict',
+    'i18n/root/config'
 ], function(
     _,
-    jQuery
+    jQuery,
+    rootDict,
+    rootConfig
 ) {
 'use strict';
 
 var dictionaryCache = {
-    root: {},
+    root: rootDict,
     'zh-cn': {},
     'zh-tw': {}
 };
 var configCache = {
-    root: {},
+    root: rootConfig,
     'zh-cn': {}
 };
 
