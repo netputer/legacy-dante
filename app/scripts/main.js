@@ -17,7 +17,6 @@
     io: 'vendor/socket.io.wrapper',
     // requirejs plugins
     text: '../components/requirejs-text/text',
-    i18n: '../components/requirejs-i18n/i18n',
     // prefix
     templates: '../templates'
   }
