@@ -1,30 +1,33 @@
 define([
     'angular',
-    'i18n!nls/photos',
-    'i18n!nls/app',
-    'i18n!nls/portal',
-    'i18n!nls/contacts',
-    'i18n!nls/messages',
-    'i18n!nls/applications'
+    'i18n/LanguageEnvironment'
 ], function(
     angular,
-    photosDict,
-    appDict,
-    portalDict,
-    contactsDict,
-    messagesDict,
-    applicationsDict
+    LanguageEnvironment
 ) {
 'use strict';
 angular.module('wdLanguage', [])
-    .factory('wdWordTable', [function() {
+    .factory('wdLanguageEnviroment', ['$window', '$rootScope', '$document', function($window, $rootScope, $document) {
+        var currentLanguageEnvironment = null;
+        var previousLanguageClassNames = '';
+
         return {
-            app: appDict,
-            portal: portalDict,
-            photos: photosDict,
-            messages: messagesDict,
-            contacts: contactsDict,
-            applications: applicationsDict
+            apply: function(language) {
+                if (!language) {
+                    language = $window.localStorage.getItem('preferredLanguage') || $window.navigator.language;
+                }
+                currentLanguageEnvironment = LanguageEnvironment.prepare(language);
+                $window.localStorage.setItem('preferredLanguage', language);
+                $rootScope.DICT = currentLanguageEnvironment.getDictionary();
+                $rootScope.CONFIG = currentLanguageEnvironment.getConfig();
+
+                var currentLanguageClassNames = currentLanguageEnvironment.languagePath.join(' ');
+                $document.find('html').removeClass(previousLanguageClassNames).addClass(currentLanguageClassNames);
+                previousLanguageClassNames = currentLanguageClassNames;
+            },
+            getCurrentLanguageEnvironment: function() {
+                return currentLanguageEnvironment;
+            }
         };
     }]);
 });

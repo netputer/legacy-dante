@@ -201,9 +201,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             }
         }
     }])
-    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdWordTable', 'wdSocket',
+    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnviroment', 'wdSocket',
             'wdTitleNotification', 'wdDev', '$q',
-        function($window,   $rootScope,   wdKeeper,   GA,   wdWordTable,   wdSocket,
+        function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnviroment,   wdSocket,
              wdTitleNotification,   wdDev,   $q) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
@@ -223,9 +223,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         // GA support
         $rootScope.GA = GA;
 
-        // i18n word table
-        $rootScope.DICT = wdWordTable;
-
+        // i18n
+        wdLanguageEnviroment.apply();
 
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);
