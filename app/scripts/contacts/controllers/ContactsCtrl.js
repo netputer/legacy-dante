@@ -289,10 +289,10 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             case 'new':
                 if(!wdcContacts.checkBlank($scope.contact)){
                     wdAlert.confirm(
-                        'Save Contact',
-                        'Save changes to this contact? ',
-                        "Save",
-                        "Don't Save"
+                        $scope.$root.DICT.contacts.DIALOG.SAVE_NEW_CONTACT.TITLE,
+                        $scope.$root.DICT.contacts.DIALOG.SAVE_NEW_CONTACT.CONTENT,
+                        $scope.$root.DICT.contacts.DIALOG.SAVE_NEW_CONTACT.OK,
+                        $scope.$root.DICT.contacts.DIALOG.SAVE_NEW_CONTACT.CANCEL
                     ).then(function(){
                         $scope.saveContact($scope.contact.id);
                         show();
@@ -309,10 +309,10 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                 break;
             case 'edit':
                 wdAlert.confirm(
-                    'Save Contact',
-                    'Save changes to this contact? ',
-                    "Save",
-                    "Don't Save"
+                    $scope.$root.DICT.contacts.DIALOG.SAVE_EDIT_CONTACT.TITLE,
+                    $scope.$root.DICT.contacts.DIALOG.SAVE_EDIT_CONTACT.CONTENT,
+                    $scope.$root.DICT.contacts.DIALOG.SAVE_EDIT_CONTACT.OK,
+                    $scope.$root.DICT.contacts.DIALOG.SAVE_EDIT_CONTACT.CANCEL
                 ).then(function(){
                     $scope.saveContact($scope.contact.id);
                     show();
@@ -353,9 +353,9 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             };
         }
 
-        var alertTpl = '<p>Delete the selected '+word+' from your phone?</p>';
+        var alertTpl = '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.ASK+'</p>';
         if(read_only.length > 0){
-            alertTpl += '<p>Those are read-only contacts,can not be deleted:</p><ul>'
+            alertTpl += '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.READ_ONLY+'</p><ul>'
             for(var i = 0 , l = read_only.length; i < l ; i++ ){
                 alertTpl += ('<li>'+read_only[i]+'</li>');
             };
@@ -367,10 +367,10 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         },300);
 
         wdAlert.confirm(
-            'Delete '+word,
-            'Delete the selected '+word+' from your phone?',
-            'Delete',
-            'Cancel'
+            $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.TITLE,
+            $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.CONTENT,
+            $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.OK,
+            $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.CANCEL
         ).then(function() {
             $('.modal-body').html('');
             $('.modal-backdrop').html('');
@@ -454,7 +454,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
 
             wdcContacts.delContacts(delId).success(function(){
             }).error(function(){
-                wdAlert.alert('Failed to delete selected contacts', '', 'OK').then(function(){$('.modal-backdrop').html('');location.reload();});
+                wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.OK).then(function(){$('.modal-backdrop').html('');location.reload();});
             });
 
         //then最后的括号
@@ -599,7 +599,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
 
         //检查是否用户没有填入信息
         if(wdcContacts.checkBlank($scope.contact)){
-            wdAlert.alert('Please enter the contact','','OK');
+            wdAlert.alert($scope.$root.DICT.contacts.DIALOG.ENTER_CONTACT.TITLE,'',$scope.$root.DICT.contacts.DIALOG.ENTER_CONTACT.OK);
             return;
         };
 
@@ -636,7 +636,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                     showContacts(data['id']);
                     G_uploader.uploadStoredFiles();
                 }).error(function(){
-                    wdAlert.alert('Failed to save edits', '', 'OK').then(function(){showContacts($scope.contact.id);});
+                    wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_EDIT.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_EDIT.OK).then(function(){showContacts($scope.contact.id);});
                     GA('Web Contacts:save the editing contact failed');
                 });
             break;
@@ -655,7 +655,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                     $('ul.contacts-list')[0].scrollTop = 0;
                     G_uploader.uploadStoredFiles();
                 }).error(function(){
-                    wdAlert.alert('Failed to save new contact', '', 'OK').then(function(){showContacts(G_showingContact[id]);});
+                    wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_NEW.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_NEW.OK).then(function(){showContacts(G_showingContact[id]);});
                     $scope.pageList.shift();
                     showContacts(G_showingContact['id']);
                     G_status = '';
@@ -823,7 +823,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         G_clicked['clicked'] = false;
         G_clicked = {
             id : "",
-            name : "New contact",
+            name : $scope.$root.DICT.contacts.BUTTONS.newContact,
             phone : "",
             photo : "",
             clicked : true

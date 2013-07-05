@@ -2,41 +2,41 @@ define([], function() {
 'use strict';
 return {
     root: {
-        BUTTONS:{
-            INSTALL_APPS:'Install apk',
-            SELECT_ALL:'Select all',
-            DESELECT:'Deselect',
-            UNINSTALL:'Uninstall',
-            REINSTALL:'Reinstall',
-            COMPLETE:'Complete'
+       "BUTTONS": {
+            "INSTALL_APPS": "Install apk",
+            "SELECT_ALL": "Select all",
+            "DESELECT": "Deselect",
+            "UNINSTALL": "Uninstall",
+            "REINSTALL": "Reinstall",
+            "COMPLETE": "Complete"
         },
-        CONFIRMS:{
-            INSTALL:'Confirm installation on your phone.',
-            UNINSTALL:'Confirm uninstallation on your phone.',
-            UNKNOWNTIPS:'Installation tips',
-            INSTALL_COMPLETE:'Installation complete'
+        "CONFIRMS": {
+            "INSTALL": "Confirm installation on your phone.",
+            "UNINSTALL": "Confirm uninstallation on your phone.",
+            "UNKNOWNTIPS": "Installation tips",
+            "INSTALL_COMPLETE": "Installation complete"
         },
-        NOAPP:'No apps on your phone.',
-        UPGRADE_TIP:'Update SnapPea to manage your apps from the web.',
-        DEL_ONE_APP:{
-            TITLE:'Uninstall app',
-            CONTENT:'Uninstall the selected app from your phone?',
-            AGREE:'Uninstall',
-            CANCEL:'Cancel'
+        "NOAPP": "No apps on your phone.",
+        "UPGRADE_TIP": "Update SnapPea to manage your apps from the web.",
+        "DEL_ONE_APP": {
+            "TITLE": "Uninstall app",
+            "CONTENT": "Uninstall the selected app from your phone?",
+            "AGREE": "Uninstall",
+            "CANCEL": "Cancel"
         },
-        DEL_MORE_APPS:{
-            TITLE:'Uninstall apps',
-            CONTENT:'Uninstall the selected apps from your phone?',
-            AGREE:'Uninstall',
-            CANCEL:'Cancel'
+        "DEL_MORE_APPS": {
+            "TITLE": "Uninstall apps",
+            "CONTENT": "Uninstall the selected apps from your phone?",
+            "AGREE": "Uninstall",
+            "CANCEL": "Cancel"
         },
-        WORDS:{
-            SIZE:'Size',
-            INSTALLATION:'Installation',
-            VERSION:'Version',
-            PERMISSIONS:'Permissions'
+        "WORDS": {
+            "SIZE": "Size",
+            "INSTALLATION": "Installation",
+            "VERSION": "Version",
+            "PERMISSIONS": "Permissions"
         },
-        PERMISSIONS:{
+        "PERMISSIONS":{
             "android.permission.SEND_SMS": "Send SMS messages",
             "android.permission.SEND_SMS_NO_CONFIRMATION": "Send SMS messages with no confirmation",
             "android.permission.CALL_PHONE": "Directly call phone numbers",
