@@ -23,7 +23,7 @@ angular.module('wdLanguage', [])
 
                 var currentLanguageClassNames = currentLanguageEnvironment.languagePath.join(' ');
                 $document.find('html').removeClass(previousLanguageClassNames).addClass(currentLanguageClassNames);
-                previousLanguageClassNames = currentLanguageEnvironment.languagePath.join(' ');
+                previousLanguageClassNames = currentLanguageClassNames;
             },
             getCurrentLanguageEnvironment: function() {
                 return currentLanguageEnvironment;
