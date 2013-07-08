@@ -11,10 +11,9 @@
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn" ng-click="googleSigIn()">
-                    <i class="icon-google-btn"></i>
-                    {{$root.DICT.portal.GOOGLE_BUTTON}}
-                </button>
+                <a href="https://account.wandoujia.com/v1/user/?do=login&callback=http://localhost:3501/" class="btn google-btn">
+                    豌豆荚账号登陆
+                </a>
                 <!-- google signin end -->
 
             </div>
@@ -50,9 +49,10 @@
 </div>
 
 <div class="devices-tpl" ng-show="deviceNum>=0">
-    <div class="sign-out" ng-click="googleSignOut();">
-        <i class="icon-signoutdark"></i>
-        {{$root.DICT.portal.SIGN_OUT}}
+    <div class="sign-out">
+        <a href="https://account.wandoujia.com/v1/user/?do=logout&callback=http://localhost:3501/">
+            退出豌豆荚账号
+        </a>
     </div>
 
     <!-- no device start -->

@@ -1,7 +1,7 @@
 define([
 ], function(){
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window',
-function chineseCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window) {
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', 'wandoujiaSignIn', '$log', '$window',
+function chineseCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, wandoujiaSignIn, $log, $window) {
 
         $scope.isSupport = Modernizr.cors && Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -381,6 +381,8 @@ function chineseCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthTo
                 GA('device_sign_in:leave_page:new_device_page');
             }
         }
+
+        $window.wandoujiaSignIn = wandoujiaSignIn;
 
 //return的最后括号
 }];
