@@ -16,8 +16,10 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
     var result;
 
     function getAppListData() {
+        console.log('abcde');
         return $http({
             method: 'get',
+            // http://sync.wandoujia.com/resource/apps?cursor=0&length=10&order=DESC)
             url: '/resource/apps?length=9999'
         }).success(function(data) {
             global.appsList = [];
@@ -26,6 +28,22 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
             }
         }).error(function(){
         });
+            // $.ajax({
+            //     type: 'GET',
+            //     url: url,
+            //     async: false,
+            //     contentType: 'application/json',
+            //     dataType: 'jsonp',
+            //     success: function( data ) {
+            //         defer.resolve( data );
+            //         $rootScope.$apply();
+            //     },
+            //     error: function(e) {
+            //         $log.error('需要登陆豌豆荚');
+            //         defer.reject();
+            //         $rootScope.$apply();
+            //     }
+            // });
     }
 
     $rootScope.$on('signout', function() {

@@ -19,10 +19,12 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 dataType: 'jsonp',
                 success: function( data ) {
                     defer.resolve( data );
+                    $rootScope.$apply();
                 },
                 error: function(e) {
-                    $log.error('需要重新登陆');
+                    $log.error('需要登陆豌豆荚');
                     defer.reject();
+                    $rootScope.$apply();
                 }
             });
             return defer.promise;
