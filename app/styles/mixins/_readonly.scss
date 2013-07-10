@@ -1,0 +1,11 @@
+@mixin readonly() {
+    html.readonly & {
+        @content;
+    }
+}
+
+@mixin not-readonly() {
+    html:not(.readonly) & {
+        @content;
+    }
+}

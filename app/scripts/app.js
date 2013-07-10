@@ -208,9 +208,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnviroment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q',
+            'wdTitleNotification', 'wdDev', '$q', '$document',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnviroment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q) {
+             wdTitleNotification,   wdDev,   $q,   $document) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -231,6 +231,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
 
         // i18n
         wdLanguageEnviroment.apply();
+
+        $rootScope.READ_ONLY_FLAG = false;
+        // $rootScope.READ_ONLY_FLAG = true;
+        // $document.children('html').addClass('readonly');
 
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);
