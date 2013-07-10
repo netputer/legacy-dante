@@ -5,14 +5,14 @@ define([
     'auth/services/googleSignIn',
     'auth/services/wandoujiaSignIn',
     // 'auth/controllers/internationalCtrl',
-    'auth/controllers/chineseCtrl'
+    'auth/controllers/cloudDataCtrl'
 ], function(
     angular,
     authToken,
     googleSignIn,
     wandoujiaSignIn,
     // internationalCtrl,
-    chineseCtrl
+    cloudDataCtrl
 ) {
 'use strict';
 
@@ -21,8 +21,5 @@ angular.module('wdAuth', ['wdCommon'])
     .factory('wdGoogleSignIn', googleSignIn)
     .factory('wandoujiaSignIn', wandoujiaSignIn)
     // .controller('internationalController', internationalCtrl)
-    .controller('chineseController', chineseCtrl);
-
-
-
+    .controller('cloudDataController', cloudDataCtrl);
 });

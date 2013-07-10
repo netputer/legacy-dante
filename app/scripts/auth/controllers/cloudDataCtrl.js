@@ -1,7 +1,7 @@
 define([
 ], function(){
 return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaSignIn', '$log', '$window',
-function chineseCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
+function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
 
     $scope.isSupport = Modernizr.cors && Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
@@ -35,6 +35,9 @@ function chineseCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthTo
             keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
             var timeStart = (new Date()).getTime();
             GA('connect_device:connect:success');
+            wdDev.setMetaData({
+                version_code : 9999
+            });
             keeper.done();
             $scope.state = 'standby';
             // TODO: Maybe expiration?

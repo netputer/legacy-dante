@@ -3,7 +3,7 @@ define([
     'auth/main',
     'photos/main',
     // 'text!templates/auth/international.html',
-    'text!templates/auth/chinese.html',
+    'text!templates/auth/cloudData.html',
     'text!templates/photos/gallery.html',
     'text!templates/contacts/index.html',
     'text!templates/applications/index.html',
@@ -19,7 +19,7 @@ define([
     auth,
     photos,
     // InternationalTemplate,
-    ChineseTemplate,
+    cloudDataTemplate,
     PhotosTemplate,
     ContactsTemplate,
     ApplicationsTemplate,
@@ -75,8 +75,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         //     controller: 'internationalController'
         // });
         $routeProvider.when('/portal', {
-            template: ChineseTemplate,
-            controller: 'chineseController'
+            template: cloudDataTemplate,
+            controller: 'cloudDataController'
         });
         $routeProvider.when('/devices', {
             resolve: {
