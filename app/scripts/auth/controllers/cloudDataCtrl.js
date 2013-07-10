@@ -11,9 +11,9 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     $scope.state = 'standby';
     $scope.showHelp = false;
 
-    if (!$scope.isSupport) {
-        GA('login:not_support');
-    }
+    // if (!$scope.isSupport) {
+    //     GA('login:not_support');
+    // }
 
     $scope.openHelp = function() {
         $scope.showHelp = true;
@@ -34,7 +34,8 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
             wdDev.setServer( host, port );
             keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
             var timeStart = (new Date()).getTime();
-            GA('connect_device:connect:success');
+
+            //设置一个比较大的版本号，强制关掉版本控制
             wdDev.setMetaData({
                 version_code : 9999
             });
@@ -44,7 +45,6 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
             wdAuthToken.setToken({ip:host});
             $location.url($route.current.params.ref || '/');
             $rootScope.$broadcast('signin');
-
         }
         // Invalid auth code.
         else {
@@ -76,7 +76,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
         };
         $scope.submit(item);
     },function(){
-
+        wdAuthToken.signout();
     });
 
 //return的最后括号

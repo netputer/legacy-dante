@@ -1,5 +1,5 @@
-<div ng-switch on="autoAuth">
-    <div class="wd-portal" ng-switch-when="false" ng-show="deviceNum<0">
+<div>
+    <div class="wd-portal">
         <div class="a" ng-switch on="isSupport">
             <div class="announcement" ng-show="isShowAnnouncement">
                 {{$root.DICT.portal.ANNOUNCEMENT}}
@@ -44,85 +44,4 @@
             </div>
         </div>
     </div>
-
-    <div class="wd-loading" ng-switch-when="true" data-visible="true"></div>
-</div>
-
-<div class="devices-tpl" ng-show="deviceNum>=0">
-    <div class="sign-out">
-        <a href="https://account.wandoujia.com/v1/user/?do=logout&callback=http://web.wandoujia.com:3501/">
-            退出豌豆荚账号
-        </a>
-    </div>
-
-    <!-- no device start -->
-    <div class="no-device" ng-show="deviceNum==0">
-        <h1>{{$root.DICT.portal.NO_DEVICES.h1}}</h1>
-        <p>{{$root.DICT.portal.NO_DEVICES.h2}}</p>
-        <div class="step">
-            <dl class="step1">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
-            </dl>
-            <dl class="step2">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step2}}</dd>
-            </dl>
-            <dl class="step3">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span></dd>
-            </dl>
-            <p>{{$root.DICT.portal.NO_DEVICES.foot}}<a href="https://play.google.com/store/apps/details?id=com.snappea">{{$root.DICT.portal.NO_DEVICES.foot_updata}}</a>.</p>
-        </div>
-    </div>
-    <!-- no device end -->
-
-    <!-- select devices start -->
-    <div class="select-device" ng-show="deviceNum>=1">
-        <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
-        <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
-        <div class="list">
-            <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
-                <p>{{item.model}}</p>
-                <span class="wifi" ng-show="!item.loading">
-                    <i class="icon-wifi"></i><p>{{item.attributes.ssid}}</p>
-                </span>
-                <div class="wd-loading phone-loading" data-visible="true" ng-show="item.loading"></div>
-            </div>
-            <p><a ng-click="showConnectNewPhone()" href=""> + {{$root.DICT.portal.SELECT_DEVICES.new_phone}}</a></p>
-        </div>
-    </div>
-    <!-- select devices end -->
-
-
-
-</div>
-
-<!-- connect new phone pop start -->
-<!-- data-ok 是事件 -->
-<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
-    <div class="content">
-        <h1>{{$root.DICT.portal.CHANGE_DEVICES_POP.h1}}</h1>
-        <p>{{$root.DICT.portal.CHANGE_DEVICES_POP.h2}}</p>
-        <div class="step">
-            <dl class="step1">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
-            </dl>
-            <dl class="step2">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step2}}</dd>
-            </dl>
-            <dl class="step3">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span> . </dd>
-            </dl>
-        </div>
-        <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.portal.CHANGE_DEVICES_POP.button}}</button>
-    </div>
-</div>
-<!-- connect new phone pop end -->
-
-<div class="loading-google" ng-show="isLoadingDevices">
-    <div class="wd-loading" data-visible="true"></div>
 </div>

@@ -232,8 +232,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         // i18n
         wdLanguageEnviroment.apply();
 
-        $rootScope.READ_ONLY_FLAG = false;
-        // $rootScope.READ_ONLY_FLAG = true;
+        // $rootScope.READ_ONLY_FLAG = false;
+        $rootScope.READ_ONLY_FLAG = true;
         // $document.children('html').addClass('readonly');
 
         $rootScope.notifyNewMessage = function() {
