@@ -5,6 +5,9 @@
 
     .wdp-timeline-container {
         padding: 50px 0px 10px;
+        @include readonly {
+            padding-top: 10px;
+        }
     }
     @import "showcase"; // showcase consists of group of photos
     @import "block";    // each photos is contained in a block

@@ -36,7 +36,7 @@
     $action-width: icon-width("slideplay") + $action-padding;
 
     %wdp-slide-action {
-        @include position(absolute, 0 0 20px 50%);
+        // @include position(absolute, 0 0 20px 50%);
         padding: $action-padding;
         @include button-effect;
     }
@@ -60,28 +60,33 @@
         }
     }
 
-    $action-space : $action-width + $action-margin * 2;
-    $position-left: $action-margin - ($action-space) * 2;
+    .sc-a {
+        @include position(absolute, 0 0 30px 50%);
+        @include transform(translateX(-50%));
+    }
+
+
     .action-play {
         @extend %wdp-slide-action;
-        margin-left: $position-left + $action-space * 0;
+        margin-right: 10px;
     }
     .action-rotate {
         @extend %wdp-slide-action;
-        margin-left: $position-left + $action-space * 1;
+        margin-right: 10px;
     }
     .action-delete {
         @extend %wdp-slide-action;
-        margin-left: $position-left + $action-space * 2;
+        margin-right: 10px;
     }
     .action-download {
         @extend %wdp-slide-action;
-        margin-left: $position-left + $action-space * 3;
+        margin-right: 10px;
     }
     .action-share {
         @extend %wdp-slide-action;
-        margin-left: $position-left + $action-space * 4;
+        margin-right: 10px;
     }
+
     .action-close {
         @extend %wdp-slide-action;
         @include position(absolute, -3px -10px auto auto);

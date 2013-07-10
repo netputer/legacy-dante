@@ -12,6 +12,12 @@
     }
 }
 
+.wdm-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
 .wdm-search {
     @include display-flex;
     @include align-content(center);

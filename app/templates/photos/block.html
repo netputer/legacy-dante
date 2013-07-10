@@ -3,6 +3,7 @@
         ng-click="preview(photo);$root.GA('photos:photo:click')"></div>
     <div class="actions">
         <label class="action-select checkbox inline"
+            ng-if="!$root.READ_ONLY_FLAG"
             ng-click="select(photo, $event.shiftKey)"
             bs-tooltip="{{checkboxTipText}}">
             <input type="checkbox"
@@ -19,6 +20,7 @@
             ng-click="download(photo);$root.GA('photos:photo:download')"
             ><i class="icon-down"></i></a>
         <a class="action-delete" href=""
+            ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
             ng-click="delete(photo);$root.GA('photos:photo:delete')"
             ><i class="icon-delete"></i></a>
