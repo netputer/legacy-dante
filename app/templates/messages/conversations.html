@@ -1,19 +1,23 @@
 <section class="wdj-messages">
     <div class="wdm-layout">
         <section class="wdm-sub">
-            <section class="wdm-actions">
+            <section class="wdm-actions" ng-switch on="$root.READ_ONLY_FLAG">
                 <button class="btn btn-primary"
+                    ng-switch-when="false"
                     ng-disabled="cvsListFirstLoading"
                     ng-click="createConversation();$root.GA('messages:create')"><i class="icon-add"></i> {{$root.DICT.messages.ACTION_NEW}}</button>
                 <button class="btn"
+                    ng-switch-when="false"
                     ng-click="deselectAll();$root.GA('messages:deselect_all')"
                     ng-show="selectedCount() && !cvsListFirstLoading">
                     <i class="icon-sel-toolbar"></i>
                     {{$root.DICT.messages.ACTION_DESELECT_ALL}} ({{selectedCount()}})
                 </button>
                 <button class="btn"
+                    ng-switch-when="true"
                     ng-click="removeSelected();$root.GA('messages:delete_conversation')"
                     ng-show="selectedCount()"><i class="icon-del-toolbar"></i> {{$root.DICT.messages.ACTION_DELETE}}</button>
+                <span class="wdm-title">{{$root.DICT.messages.TITLE}}</span>
             </section>
             <div class="wdm-search">
                 <div class="wdms-container">
@@ -92,6 +96,7 @@
                     <textarea wdm-receiver rows="1"></textarea>
                 </div>
                 <div class="btn wdmct-d"
+                    ng-if="!$root.READ_ONLY_FLAG"
                     ng-show="activeConversation"
                     bs-tooltip="{{ $root.DICT.messages.ACTION_DELETE }}"
                     data-options="{ placement: 'bottom' }"
@@ -136,7 +141,7 @@
                                 <div ui-if="m.isMMS" class="wdmer-a-b" style="color:#999;">{{ $root.DICT.messages.MMS_WARNING }}</div>
                             </div>
                             <div class="wdmer-b">
-                                <span ui-if="m.isError"><i class="icon-failed"></i> {{$root.DICT.messages.ERROR_SEND_FAILED}} <a href="" ng-click="resendMessage(activeConversation, m)">{{$root.DICT.messages.ACTION_RETRY}}</a></span>
+                                <span ui-if="m.isError"><i class="icon-failed"></i> {{$root.DICT.messages.ERROR_SEND_FAILED}} <a href="" ng-click="resendMessage(activeConversation, m)" ng-if="!$root.readonly">{{$root.DICT.messages.ACTION_RETRY}}</a></span>
                             </div>
                             <div class="wdmer-c">
                                 <i ui-if="m.isPending" class="icon-sending"></i>
@@ -159,7 +164,9 @@
                     </div>
                 </div>
             </section>
-            <section class="wdm-editor" ng-hide="cvsChanging || cvsListFirstLoading || !activeConversation">
+            <section class="wdm-editor"
+                ng-if="!$root.READ_ONLY_FLAG"
+                ng-hide="cvsChanging || cvsListFirstLoading || !activeConversation">
                 <form ng-submit="sendMessage(activeConversation)">
                     <div class="wdme-ta">
                         <textarea

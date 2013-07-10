@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="wdp-actionbar"></div>
+        <div class="wdp-actionbar" ng-if="!$root.READ_ONLY_FLAG"></div>
         <div class="wd-loading" data-visible="!firstScreenLoaded"></div>
     </div>
     <div wdp-slides
@@ -29,6 +29,7 @@
     <div class="wd-blank" ui-if="!photos.length && firstScreenLoaded">
         <p>{{$root.DICT.photos.BLANK_TIP}}<p>
         <div class="btn btn-primary"
+            ng-if="!$root.READ_ONLY"
             wdp-uploader
             ng-click="$root.GA('photos:toolbar:add_photo')"
             ><i class="icon-add"></i> {{$root.DICT.photos.ACTIONBAR_ADD_PHOTOS}}</div>

@@ -109,19 +109,20 @@
         padding-right: 3px;
     }
 
-    &:hover {
-        .wdmer-b-date {
-            display: none;
-        }
-        .wdmer-b-del {
-            display: inline-block;
+    @include not-readonly {
+        &:hover {
+            .wdmer-b-date {
+                display: none;
+            }
+            .wdmer-b-del {
+                display: inline-block;
+            }
         }
     }
 }
 .wdme-row-self {
     @extend .wdme-row;
     @include flex-direction(row-reverse);
-    @include flex-wrap(wrap-reverse);
     -webkit-box-pack: end; // for safafi
     .wdmer-a {
         background: #c7eea0;
