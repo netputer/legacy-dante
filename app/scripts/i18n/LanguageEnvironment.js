@@ -2,23 +2,27 @@ define([
     'underscore',
     'jquery',
     'i18n/root/dict',
-    'i18n/root/config'
+    'i18n/root/config',
+    'i18n/zh-cn/dict',
+    'i18n/zh-cn/config',
 ], function(
     _,
     jQuery,
     rootDict,
-    rootConfig
+    rootConfig,
+    zhcnDict,
+    zhcnConfig
 ) {
 'use strict';
 
 var dictionaryCache = {
     root: rootDict,
-    'zh-cn': {},
+    'zh-cn': zhcnDict,
     'zh-tw': {}
 };
 var configCache = {
     root: rootConfig,
-    'zh-cn': {}
+    'zh-cn': zhcnConfig
 };
 
 function LanguageEnvironment(language) {

@@ -11,7 +11,7 @@
         "change_photo": "Change Photo"
     },
     "INPUT_DEFAULT": {
-        "search": "Search contacts...",
+        "search": "搜索联系人...",
         "first_name": "First name",
         "middle_name": "Middle name",
         "last_name": "Last name",

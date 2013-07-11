@@ -4,7 +4,7 @@
     <div class="left">
 
         <div class="wd-loading" data-visible="true" ng-show="isLeftLoadingShow"></div>
-        <div ng-show="$root.READ_ONLY_FLAG">
+        <div ng-show="$root.READ_ONLY_FLAG" class="module-title">
             {{$root.DICT.contacts.TITLE}}
         </div>
         <div class="btn-all">
@@ -35,7 +35,7 @@
 
             <!-- 每个联系人的模板 -->
             <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked,checked:item.checked}">
-                <label class="selected" ng-model="item.checked" ng-click="$event.stopPropagation();">
+                <label class="selected" ng-model="item.checked" ng-click="$event.stopPropagation();" ng-show="!$root.READ_ONLY_FLAG">
                     <input class="selected" type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="clickChecked($event,item);" bs-tooltip="{{item.tooltip}}">
                 </label>
                 <div class="photo">
@@ -122,7 +122,7 @@
                         <p class="detail dn">{{item.number}}</p>
                         <input class="detail dn" type="text" ng-model="item.number"  placeholder="{{$root.DICT.contacts.INPUT_DEFAULT.phone_number}}">
                         <span class="delete dn" ng-click="delItem('phone',item)">&times;</span>
-                        <i class="icon-sendsms" bs-tooltip="Send message" ng-show="isSendMessageShow" ng-click="sendMessageTo(item.number,contact.name.display_name)"></i>
+                        <i class="icon-sendsms" bs-tooltip="Send message" ng-show="isSendMessageShow && !$root.READ_ONLY_FLAG" ng-click="sendMessageTo(item.number,contact.name.display_name)"></i>
                     </dd>
 
                     <!-- 新增一个item start -->

@@ -234,7 +234,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
 
         // $rootScope.READ_ONLY_FLAG = false;
         $rootScope.READ_ONLY_FLAG = true;
-        // $document.children('html').addClass('readonly');
+        $document.children('html').addClass('readonly');
 
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);

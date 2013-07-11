@@ -2,6 +2,7 @@
     position: relative;
     border-bottom: 1px solid #ebebeb;
     overflow: hidden;
+    height: 64px;
     @include transition(background-color,0.1s);
 
 	div.photo{
@@ -11,6 +12,9 @@
         display: inline-block;
         position: absolute;
         top: 8px;
+        @include readonly {
+            left : 10px;
+        }
 	}
     label{
         margin-bottom: 0px;
@@ -30,6 +34,9 @@
 	div.info{
         position: absolute;
         left: 90px;
+        @include readonly {
+            left : 63px;
+        }
         top: 13px;
         p{
             margin: 0px;

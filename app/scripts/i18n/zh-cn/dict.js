@@ -1,10 +1,10 @@
 define([
-    'text!i18n/root/app.json',
-    'text!i18n/root/applications.json',
-    'text!i18n/root/contacts.json',
-    'text!i18n/root/messages.json',
-    'text!i18n/root/photos.json',
-    'text!i18n/root/portal.json'
+    'text!i18n/zh-cn/app.json',
+    'text!i18n/zh-cn/applications.json',
+    'text!i18n/zh-cn/contacts.json',
+    'text!i18n/zh-cn/messages.json',
+    'text!i18n/zh-cn/photos.json',
+    'text!i18n/zh-cn/portal.json'
 ], function(
     appJSON,
     applicationsJSON,

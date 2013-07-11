@@ -164,6 +164,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
 
     //显示对应的联系人
     function showContacts(id,data){
+
         var show = function(){
 
             $scope.isRightLoadShow = false;
@@ -174,7 +175,6 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             };
             G_contacts = wdcContacts.getContacts();
             var data = data || getContactsById(id,G_contacts) || getContactsById(id,G_search);
-
             if(!data){
                 data = G_contacts[0];
                 $('ul.contacts-list')[0].scrollTop = 0;
