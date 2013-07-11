@@ -4,6 +4,7 @@
     "NAVBAR_MESSAGES_TIP": "Messages",
     "NAVBAR_CONTACTS_TIP": "Contacts",
     "NAVBAR_APPS_TIP": "Apps",
+    "NAVBAR_LANGUAGE_TIP": "Language",
     "NAVBAR_FEEDBACK_TIP": "Feedback",
     "NAVBAR_CONNECT_FACEBOOK_TIP": "Connect Facebook",
     "NAVBAR_DISCONNECT_FACEBOOK_TIP" : "Disconnect Facebook",
@@ -27,5 +28,6 @@
         "content": "Signing out of the Chrome Extension will sign you out of SnapPea Web too.",
         "button_ok": "Sign Out",
         "button_cancel": "Cancel"
-    }
+    },
+    "LANGUAGE_MODAL_TITLE": "Change language"
 }

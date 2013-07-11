@@ -48,6 +48,7 @@ return function() {
         return {
             wrapURL: self.wrapURL,
             setServer: self.setServer,
+            getServer: self.getServer,
             setMetaData: self.setMetaData,
             getMetaData: self.getMetaData,
             getSocketServer: self.getSocketServer,

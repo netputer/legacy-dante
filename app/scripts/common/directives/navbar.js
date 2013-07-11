@@ -14,9 +14,12 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn ) {
+                'wdLanguageEnviroment',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn,
+                 wdLanguageEnviroment) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
+            $scope.shownLanguageModal = false;
             $scope.account = '';
 
             $scope.open = function() {
@@ -37,6 +40,10 @@ return [function() {
                     $scope.account = data;
                 });
 
+            };
+
+            $scope.applyLanguage = function(language) {
+                wdLanguageEnviroment.apply(language);
             };
 
             //处理原始的设备列表数据

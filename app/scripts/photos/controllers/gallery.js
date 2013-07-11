@@ -84,18 +84,19 @@ $scope.preview = function(photo) {
 };
 
 $scope.download = function(photo) {
-    var f = $window.document.createElement('iframe');
-    f.style.width = '1px';
-    f.style.height = '1px';
-    f.style.margin = '0 -1px -1px 0';
-    f.style.visibility = 'hidden';
-    $window.document.body.appendChild(f);
-    setTimeout(function() {
-        $window.document.body.removeChild(f);
-        f = f.src = null;
-    }, 2000);
-    f.src = photo.path;
+    // var f = $window.document.createElement('iframe');
+    // f.style.width = '1px';
+    // f.style.height = '1px';
+    // f.style.margin = '0 -1px -1px 0';
+    // f.style.visibility = 'hidden';
+    // $window.document.body.appendChild(f);
+    // setTimeout(function() {
+    //     $window.document.body.removeChild(f);
+    //     f = f.src = null;
+    // }, 2000);
+    // f.src = photo.path;
     // $window.open(photo.path, '_self');
+    $window.location = photo.path;
 };
 $scope['delete'] = function(photo) {
     return wdAlert.confirm(
