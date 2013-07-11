@@ -83,7 +83,7 @@ controller: ['$scope', 'GA', 'wdAlert', 'wdDev', function($scope, GA, wdAlert, w
         var form = document.createElement('form');
         form.method = 'POST';
         form.action = wdDev.getServer() + '/static/photos';
-        form.target = '_blank';
+        form.target = '_self';
         var path = document.createElement('input');
         path.type = 'text';
         path.name = 'ids';
