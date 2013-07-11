@@ -9,21 +9,22 @@
             <input type="checkbox"
                 ng-model="photo.selected">
         </label>
-<!--
-        <a class="action-share" href=""
-            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
-            ng-click="share(photo)"
-            ><i class="icon-share"></i></a>
- -->
+
         <a class="action-download" href=""
             bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
             ng-click="download(photo);$root.GA('photos:photo:download')"
             ><i class="icon-down"></i></a>
+
         <a class="action-delete" href=""
             ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
             ng-click="delete(photo);$root.GA('photos:photo:delete')"
             ><i class="icon-delete"></i></a>
+
+        <a class="action-share" href=""
+            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
+            ng-click="share(photo);$root.GA('photos:photo:share')""
+            ><i class="icon-facebooklight"></i></a>
     </div>
     <div class="wdp-progress"></div>
 </div>

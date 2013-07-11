@@ -1,6 +1,8 @@
 define([
+        'facebook',
         'text!templates/common/navbar.html'
     ], function(
+        Facebook,
         template
     ) {
 'use strict';
@@ -87,6 +89,39 @@ return [function() {
             $scope.clickAddNewPhone = function () {
                 $scope.isShowChangeDevicesPop = true;
             };
+
+            //facebook
+            $scope.isConnectedFacebok = false;
+            Facebook.init({
+                appId      : '265004820250785'//,
+                //channelUrl : '//yourdomain.com/channel.html'
+            });
+
+            function setConnectFacebookFlag(response) {
+                $scope.$apply(function() {
+                    if (response.status === 'connected') {
+                        $scope.isConnectedFacebok = true;
+                    } else {
+                        $scope.isConnectedFacebok = false;
+                    }
+                });
+            }
+
+            Facebook.getLoginStatus(function(response) {
+                setConnectFacebookFlag(response);
+            });
+
+            $scope.handleFacebookConnect = function() {
+                if ($scope.isConnectedFacebok) {
+                    Facebook.logout(function(response) {
+                        setConnectFacebookFlag(response);
+                    });
+                } else {
+                    Facebook.login(function(response) {
+                        setConnectFacebookFlag(response);
+                    });
+                }
+            }
 
         }]
     };

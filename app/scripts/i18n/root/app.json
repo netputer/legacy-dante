@@ -5,6 +5,8 @@
     "NAVBAR_CONTACTS_TIP": "Contacts",
     "NAVBAR_APPS_TIP": "Apps",
     "NAVBAR_FEEDBACK_TIP": "Feedback",
+    "NAVBAR_CONNECT_FACEBOOK_TIP": "Connect Facebook",
+    "NAVBAR_DISCONNECT_FACEBOOK_TIP" : "Disconnect Facebook",
     "NAVBAR_HELP_TIP": "Help",
     "NAVBAR_SETTING_TIP": "Setting",
     "NAVBAR_SELECT_DEVICES_TIP": "Select phone",

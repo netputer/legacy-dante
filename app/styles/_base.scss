@@ -27,7 +27,9 @@ body {
 a, a:hover {
     color: #3c7800;
 }
-
+img {
+    max-width: none;
+}
 input[type=checkbox] {
     // WebKit-only hacks
     @media screen and (-webkit-min-device-pixel-ratio:0) {
