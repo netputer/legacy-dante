@@ -240,4 +240,18 @@
         }
     }
 
+    .language-modal {
+        .language-list {
+            @include clearfix;
+            > li {
+                float: left;
+                width: 50%;
+                margin: 5px 0;
+            }
+        }
+        .modal-footer {
+            display: none;
+        }
+    }
+
 }
