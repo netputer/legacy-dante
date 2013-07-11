@@ -35,6 +35,9 @@
 		bottom: 0px;
 		overflow-y:auto;
 		padding-top: 50px;
+        @include readonly {
+            padding-top: 10px;
+        }
 
 		dl{
 			float: left;
@@ -101,8 +104,23 @@
                     opacity: 0.5;
                     @include transition(opacity 0.4s);
                 }
-                .icon-del:hover{
-
+                .btn-icon-download{
+                    width: 20px;
+                    height: 22px;
+                    padding-top: 3px;
+                    padding-right: 1px;
+                    display: inline-block;
+                    float: right;
+                    opacity: 0.65;
+                    cursor: pointer;
+                }
+                .btn-icon-download:hover{
+                    opacity: 1;
+                    @include transition(opacity 0.4s);
+                }
+                .btn-icon-download:active{
+                    opacity: 0.5;
+                    @include transition(opacity 0.4s);
                 }
             }
 
