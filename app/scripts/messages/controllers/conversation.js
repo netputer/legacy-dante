@@ -157,6 +157,7 @@ $scope.nextResults = function(c) {
 // };
 
 $scope.conversations.on('update.wdm', function(e, c) {
+    $scope.conversations.sort();
     if (c === $scope.activeConversation) {
         scrollIntoView();
     }
@@ -206,6 +207,8 @@ $scope.sendMessage = function(c) {
     }, function() {
         GA('messages:send_failed');
     });
+
+    $scope.conversations.sort();
 
     scrollIntoView();
 

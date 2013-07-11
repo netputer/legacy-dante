@@ -14,10 +14,11 @@
                     {{$root.DICT.messages.ACTION_DESELECT_ALL}} ({{selectedCount()}})
                 </button>
                 <button class="btn"
-                    ng-switch-when="true"
+                    ng-switch-when="false"
                     ng-click="removeSelected();$root.GA('messages:delete_conversation')"
                     ng-show="selectedCount()"><i class="icon-del-toolbar"></i> {{$root.DICT.messages.ACTION_DELETE}}</button>
-                <span class="wdm-title">{{$root.DICT.messages.TITLE}}</span>
+                <span class="wdm-title"
+                    ng-switch-when="true">{{$root.DICT.messages.TITLE}}</span>
             </section>
             <div class="wdm-search">
                 <div class="wdms-container">

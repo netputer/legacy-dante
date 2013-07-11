@@ -5,8 +5,10 @@
     background: rgba(#fff, 0.9);
     .btn {
         font-size: 12px;
-        margin-right: 5px;
         min-width: 80px;
+    }
+    > .btn {
+        margin-right: 5px;
     }
     .btn.action-select {
     }
