@@ -22,7 +22,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     $rootScope.$apply();
                 },
                 error: function(e) {
-                    $log.error('需要登陆豌豆荚');
+                    $log.log('需要登陆豌豆荚');
                     defer.reject();
                     $rootScope.$apply();
                 }
