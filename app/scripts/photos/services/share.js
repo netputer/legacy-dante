@@ -21,7 +21,6 @@ define([
                     var formData = new FormData();
                     formData.append('name', data);
 
-                    //var postMSG = $scope.shareText;
                     var shareUrl = 'https://graph.facebook.com/photos?access_token=' + shareInfo.accessToken + 
                                     '&message=' + shareInfo.message + '&created_time=' + new Date();
                     $.ajax({
@@ -33,41 +32,9 @@ define([
                         type : 'POST',
                         success : function(r) {
                             defer.reslove(r);
-
-                            // $scope.$apply(function() {
-                            //     $scope.visibleLoading = false;
-                            //     $scope.isShowSuccessTip = true;
-                            // });
-
-                            // $timeout(function() {
-                            //     $scope.isShowShareModal = false;
-                            // }, 3000);
-                           
                         },
                         error : function(r) {
                             defer.reject(r.responseJSON);
-                            // var resp = r.responseJSON;
-                            // if (resp.error && resp.error.error_subcode === 466) {
-                            //     // Error validating access token
-                            //     $scope.$apply(function() {
-                            //         $scope.visibleLoading = false;
-                            //         $scope.isShowExpiredTip = true;
-                            //     });
-
-                            // } else {
-                            //     if (retryUploadPhotoTimes) {
-                            //         uploadPhoto(data);
-
-                            //         retryUploadPhotoTimes -= 1;
-                            //     } else {
-                            //         $scope.$apply(function() {
-                            //             $scope.visibleLoading = false;
-                            //             $scope.isShowFaildTip = true;
-                            //         });
-
-                            //     }
-                            // }
-                            
                         }
                     });
 
