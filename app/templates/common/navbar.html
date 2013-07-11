@@ -48,6 +48,10 @@
                 <div class="menu"
                     wd-menu-popover
                     placement="right">
+                    <div wd-menu-item
+                        ng-click="$parent.shownLanguageModal=true">
+                        <i class="icon-i18n"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_LANGUAGE_TIP}}
+                    </div>
                     <div wd-menu-item>
                         <a target="_blank"
                             href="http://snappea.zendesk.com/forums/21871852-Web-version">
@@ -94,5 +98,16 @@
     </div>
 </div>
 <!-- connect new phone pop end -->
+
+<div bs-modal class="language-modal" data-toggle="shownLanguageModal" data-ok="shownLanguageModal=false" data-cancel="shownLanguageModal=false" data-header="{{$root.DICT.app.LANGUAGE_MODAL_TITLE}}">
+    <ul class="unstyled language-list">
+        <li><a href="" bs-modal-ok ng-click="applyLanguage('en')">English</a></li>
+        <li><a href="" bs-modal-ok ng-click="applyLanguage('de')">Deutsch</a></li>
+        <li><a href="" bs-modal-ok ng-click="applyLanguage('pt-br')">Português (Brasil)</a></li>
+        <li><a href="" bs-modal-ok ng-click="applyLanguage('zh-tw')">中文 (繁體)</a></li>
+        <li><a href="" bs-modal-ok ng-click="applyLanguage('es')">Español</a></li>
+        <li><a href="" bs-modal-ok ng-click="applyLanguage('zh-cn')">中文 (简体)</a></li>
+    </ul>
+</div>
 
 </div>

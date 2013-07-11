@@ -8,7 +8,7 @@ return [function() {
 return {
 
 scope: true,
-controller: ['$scope', 'GA', 'wdAlert', function($scope, GA, wdAlert) {
+controller: ['$scope', 'GA', 'wdAlert', 'wdDev', function($scope, GA, wdAlert, wdDev) {
     // Selection logic.
     $scope.lastSelectedPhoto = null;
 
@@ -77,6 +77,19 @@ controller: ['$scope', 'GA', 'wdAlert', function($scope, GA, wdAlert) {
         return confirm().then(function() {
             $scope.removePhotos($scope.selectedPhotos());
         });
+    };
+
+    $scope.downloadSelected = function() {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = wdDev.getServer() + '/static/photos';
+        form.target = '_blank';
+        var path = document.createElement('input');
+        path.type = 'text';
+        path.name = 'ids';
+        path.value = $scope.selectedPhotos().map(function(p) { return p.id; }).join(',');
+        form.appendChild(path);
+        form.submit();
     };
 
     // Utils
