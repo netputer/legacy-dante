@@ -1,47 +1,36 @@
-<div>
-    <div class="wd-portal">
-        <div class="a" ng-switch on="isSupport">
-            <div class="announcement" ng-show="isShowAnnouncement">
-                {{$root.DICT.portal.ANNOUNCEMENT}}
-                <a href="http://snappea.zendesk.com/entries/24375503--Official-Version-1-5-Now-with-Google-Sign-In" target="_blank">Learn More »</a>
-                <a href="javascript:void(0)" class="close-announcement" ng-click="closeAnnouncement()"></a>
+<div class="wrapper">
+    <div class="wandou-signin">
+        <div class="header">
+            <div class="logo">
+                <i class="icon-wandou-logo"></i>
             </div>
-            <div class="container" ng-switch-when="true">
-                <h1>{{$root.DICT.portal.H1}}</h1>
-                <p>{{$root.DICT.portal.H1_P}}</p>
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="introduce"></div>
+            </div>
+            <div class="right">
+                <p class="title">豌豆荚云服务</p>
+                <p class="des">轻松智能的帮您管理豌豆荚的各个云端数据，让您的手机各项数据永不丢失并且方便管理。</p>
 
-                <!-- google signin -->
-                <a href="https://account.wandoujia.com/v1/user/?do=login&callback=http://web.wandoujia.com:3501/" class="btn google-btn">
-                    豌豆荚账号登陆
+                <!-- wandou sign in -->
+                <a href="https://account.wandoujia.com/v1/user/?do=login&callback=http://web.wandoujia.com:3501/" class="wandou-signin-btn">
+                    进入云服务
                 </a>
-                <!-- google signin end -->
+                <!-- wandou sign in end -->
 
-            </div>
-            <div class="container" ng-switch-when="false">
-                <h1>{{$root.DICT.portal.UNSUPPORTED_H1}}</h1>
-                <p>{{$root.DICT.portal.UNSUPPORTED_H1_P}}</p>
-                <a href="http://www.google.com/chrome/" ng-click="$root.GA('login:to_chrome')" target="_blank" class="btn btn-primary btn-large" style="margin-top: 60px;">{{$root.DICT.portal.DOWNLOAD_CHROME}}</a>
-            </div>
-        </div>
-        <div class="b">
-            <div class="container">
-                <div class="row">
-                    <div class="span6">
-                        <h2>{{$root.DICT.portal.H2}}</h2>
-                        <p ng-bind-html-unsafe="$root.DICT.portal.H2_P"></p>
-                    </div>
-                    <div class="span5">
-                        <a href="https://play.google.com/store/apps/details?id=com.snappea" class="link-to-gp" target="_blank"></a>
-                        <a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web"></a>
-                    </div>
+                <div class="icons">
+                    <i class="icon-android"></i>
+                    <i class="icon-iphone"></i>
+                    <i class="icon-wphone"></i>
                 </div>
-                <ul class="inline">
-                    <li>{{$root.DICT.portal.LINK_COPYRIGHT}}</li>
-                    <li><a href="http://www.snappea.com/about.html">{{$root.DICT.portal.LINK_ABOUT}}</a></li>
-                    <li><a href="http://www.snappea.com/terms.html">{{$root.DICT.portal.LINK_TERMS}}</a></li>
-                    <li><a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web">{{$root.DICT.portal.LINK_PRIVACY}}</a></li>
-                </ul>
             </div>
+
         </div>
+        <div class="footer">
+            <p>&copy;2010 - 2013 豌豆荚实验室 北京卓易迅畅科技有限公司</p>
+        </div>
+
+        <!-- <div class="wd-loading" data-visible="true"></div> -->
     </div>
 </div>
