@@ -330,10 +330,8 @@ $scope.connectFacebook = function(photo) {
 }
 
 function uploadPhotoSuccessFun(resp) {
-    $scope.$apply(function() {
-        $scope.visibleLoading = false;
-        $scope.isShowSuccessTip = true;
-    });
+    $scope.visibleLoading = false;
+    $scope.isShowSuccessTip = true;
 
     $timeout(function() {
         $scope.isShowShareModal = false;
@@ -343,10 +341,8 @@ function uploadPhotoSuccessFun(resp) {
 function uploadPhotosFaildFun(resp, data) {
     if (resp.error && resp.error.error_subcode === 466) {
         // Error validating access token
-        $scope.$apply(function() {
-            $scope.visibleLoading = false;
-            $scope.isShowExpiredTip = true;
-        });
+        $scope.visibleLoading = false;
+        $scope.isShowExpiredTip = true;
 
     } else {
         if (retryUploadPhotoTimes) {
@@ -355,11 +351,8 @@ function uploadPhotosFaildFun(resp, data) {
 
             retryUploadPhotoTimes -= 1;
         } else {
-            $scope.$apply(function() {
-                $scope.visibleLoading = false;
-                $scope.isShowFaildTip = true;
-            });
-
+            $scope.visibleLoading = false;
+            $scope.isShowFaildTip = true;
         }
     }
 }
