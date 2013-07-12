@@ -9,10 +9,10 @@ define([
 ) {
 'use strict';
 return [
-        '$scope', '$window', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
-        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification',
-function($scope,  $window,    Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
-         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification) {
+        '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
+        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdpShare',
+function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
+         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdpShare) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -21,6 +21,8 @@ $scope.loaded = false;
 $scope.allLoaded = false;
 $scope.layout = null;
 $scope.previewPhoto = null;
+
+
 
 // A temp solution.
 // Delegate '$scope.photos' to 'wdpPhotos.photos'
@@ -78,6 +80,7 @@ $scope.preview = function(photo) {
         $scope.previewPhoto = photo;
     }
 };
+
 $scope.download = function(photo) {
     // var f = $window.document.createElement('iframe');
     // f.style.width = '1px';
@@ -261,10 +264,162 @@ function exclude(collection, item) {
     return collection.splice(_.indexOf(collection, item), 1);
 }
 
-
 $scope.installChromeExtension = function() {
     $window.chrome.webstore.install();
 };
+
+//share facebook
+$scope.isShowShareModal = false;
+
+var getPhotoBlobDeferred;
+var shareInfo = {};
+var retryUploadPhotoTimes = 3;
+
+function initShareModalStatus() {
+    wdpShare.recoverRetryGetPhotoBlobTimes();
+    retryUploadPhotoTimes = 3;
+
+    $scope.shareBtnDisabled = true;
+    $scope.textareaReadonly = true;
+    $scope.visibleLoading = false;
+    $scope.isShowShareModal = true;
+    $scope.isShowCheckingFBTip = true;
+    $scope.isShowSuccessTip = false;
+    $scope.isShowFaildTip = false;
+    $scope.isShowExpiredTip = false;
+    $scope.isShowFooter = true;
+    $scope.shareText = '';
+   
+}
+
+function readyToShare() {
+    $scope.shareBtnDisabled = false;
+    $scope.textareaReadonly = false;
+    $scope.isShowCheckingFBTip = false;
+    $scope.visibleLoading = false;
+    $scope.isShowExpiredTip = false;
+    $scope.isShowFooter = true;
+}
+
+$scope.share = function(photo) {
+    initShareModalStatus();
+    facebookInitDefer.done(function(Facebook) {
+        Facebook.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                readyToShare();
+
+                showShareModal(response.authResponse, photo);
+            } else {
+                $scope.connectFacebook(photo);
+            }
+        });
+    });
+};
+
+$scope.connectFacebook = function(photo) {
+    var data = photo || shareInfo.photo;
+    facebookInitDefer.done(function(Facebook) {
+        Facebook.login(function(response) {
+            if (response.status === 'connected') {
+                readyToShare();
+
+                showShareModal(response.authResponse, data);
+            }
+        });
+    });
+}
+
+function uploadPhotoSuccessFun(resp) {
+    $scope.$apply(function() {
+        $scope.visibleLoading = false;
+        $scope.isShowSuccessTip = true;
+    });
+
+    $timeout(function() {
+        $scope.isShowShareModal = false;
+    }, 3000);
+}
+
+function uploadPhotosFaildFun(resp, data) {
+    if (resp.error && resp.error.error_subcode === 466) {
+        // Error validating access token
+        $scope.$apply(function() {
+            $scope.visibleLoading = false;
+            $scope.isShowExpiredTip = true;
+        });
+
+    } else {
+        if (retryUploadPhotoTimes) {
+            wdpShare.uploadPhoto(data, shareInfo)
+                    .then(uploadPhotoSuccessFun, uploadPhotosFaildFun);
+
+            retryUploadPhotoTimes -= 1;
+        } else {
+            $scope.$apply(function() {
+                $scope.visibleLoading = false;
+                $scope.isShowFaildTip = true;
+            });
+
+        }
+    }
+}
+
+$scope.uploadAndSharePhoto = function(isRetry) {
+    $scope.shareBtnDisabled = true;
+    $scope.textareaReadonly = true;
+    $scope.visibleLoading = true;
+    $scope.isShowFooter = false;
+    $scope.isShowFaildTip = false;
+
+    if (isRetry && shareInfo.photo) {
+        getPhotoBlobDeferred = wdpShare.getPhotoBlob(shareInfo.photo);
+    }
+    getPhotoBlobDeferred.then(function(data) {
+
+        shareInfo.message = $scope.shareText;
+
+        wdpShare.uploadPhoto(data, shareInfo)
+                .then(uploadPhotoSuccessFun, uploadPhotosFaildFun);
+
+    }, function() {
+        $scope.isShowFooter = false;
+        $scope.visibleLoading = false;
+        $scope.isShowFaildTip = true;
+    });
+}
+
+$scope.hideShareModal = function() {
+    $scope.isShowShareModal = false;
+};
+
+function showShareModal(authResponse, photo) {
+    facebookInitDefer.done(function(Facebook) {
+        Facebook.api('/me', function(response) {
+            $scope.$apply(function() {
+                $scope.facebookUserName = response.name;
+            });
+        }); 
+    });
+    
+
+    var boxConst = 120;
+    var bottom = parseInt((photo.thumbnail_height - boxConst) / 2, 10) * -1;
+    var left = parseInt((photo.thumbnail_width - boxConst) / 2, 10) * -1;
+    $scope.thumbnailSource = photo.thumbnail_path;
+    $scope.thumbnailStyle = {
+        margin: '0 0 ' + bottom + 'px ' + left + 'px',
+        width: photo.thumbnail_width,
+        height: photo.thumbnail_height
+    }
+
+    shareInfo = {
+        id : authResponse.userID,
+        accessToken : authResponse.accessToken,
+        'photo' : photo
+    }
+
+    getPhotoBlobDeferred = wdpShare.getPhotoBlob(photo);
+}
 
 }];
 });

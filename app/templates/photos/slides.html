@@ -31,7 +31,11 @@
             data-options="{container: ''}"
             ng-click="download({photo: current});$root.GA('photos:slide:download')"
             ><i class="icon-slidedown"></i></a>
-        <!-- <a href="" class="action-share" ng-click="share({photo: current})"><i class="icon-slideshare"></i></a> -->
+        <a href="" class="action-share"
+            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
+            data-options="{container: ''}"
+            ng-click="share({photo: current});$root.GA('photos:slide:share')"
+            ><i class="icon-facebook"></i></a>
     </div>
     <a href="" class="action-close"
         ng-click="close();$root.GA('photos:slide:close')"

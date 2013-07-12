@@ -56,11 +56,22 @@
     <script src="scripts/vendor/angular/elastic.js"></script>
     <script src="components/socket.io-client/dist/socket.io.js"></script>
     <!-- endbuild -->
+    
     <script type="text/javascript">
-    var googleSignInOnloadDefer = $.Deferred();
-    function googleSignInOnload(){
-        googleSignInOnloadDefer.resolve();
-    }
+        var googleSignInOnloadDefer = $.Deferred();
+        function googleSignInOnload(){
+            googleSignInOnloadDefer.resolve();
+        }
+
+        var facebookInitDefer = $.Deferred();
+        $.getScript('http://connect.facebook.net/en_UK/all.js', function(){
+            FB.init({
+                appId: '265004820250785'//,
+               // channelUrl: 'http://www.snappea.com/FB/channel.html',
+            }); 
+
+            facebookInitDefer.resolve(FB); 
+        });
     </script>
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 

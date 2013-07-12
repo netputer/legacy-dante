@@ -64,6 +64,10 @@
                             <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
                         </a>
                     </div>
+                    <div wd-menu-item ng-click="handleFacebookConnect()">
+                            <i class="icon-facebooklight"></i>&nbsp;&nbsp;
+                            {{isConnectedFacebok ? $root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP : $root.DICT.app.NAVBAR_CONNECT_FACEBOOK_TIP}}
+                    </div>
                     <div wd-menu-sep></div>
                     <div wd-menu-item class="signout"
                         ng-click="signout();$root.GA('navbar:signout');">
