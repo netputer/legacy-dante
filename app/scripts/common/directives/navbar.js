@@ -124,7 +124,7 @@ return [function() {
                     } else {
                         Facebook.login(function(response) {
                             setConnectFacebookFlag(response);
-                        });
+                        }, {scope : 'user_photos,publish_stream'});
                     }
                 });
             }

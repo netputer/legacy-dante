@@ -325,7 +325,7 @@ $scope.connectFacebook = function(photo) {
 
                 showShareModal(response.authResponse, data);
             }
-        });
+        }, {scope : 'user_photos,publish_stream'});
     });
 }
 
