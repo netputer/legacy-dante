@@ -3,8 +3,8 @@ define([
     ) {
     'use strict';
 
-    return ['$q', '$http',
-        function($q, $http) {
+    return ['$q', '$http', '$rootScope',
+        function($q, $http, $rootScope) {
             var constNum = 3;
             var retryGetPhotoBlobTimes = constNum;
 
@@ -29,10 +29,14 @@ define([
                         data : formData,
                         type : 'POST',
                         success : function(r) {
-                            defer.resolve(r);
+                            $rootScope.$apply(function() {
+                                defer.resolve(r);
+                            });
                         },
                         error : function(r) {
-                            defer.reject(r.responseJSON, data);
+                            $rootScope.$apply(function() {
+                                defer.reject(r.responseJSON, data);
+                            });
                         }
                     });
 
