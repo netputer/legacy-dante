@@ -20,7 +20,7 @@ define([
                     formData.append('name', data);
 
                     var shareUrl = 'https://graph.facebook.com/photos?access_token=' + shareInfo.accessToken + 
-                                    '&message=' + shareInfo.message + '&created_time=' + new Date();
+                                    '&message=' + encodeURIComponent(shareInfo.message) + '&created_time=' + new Date();
                     $.ajax({
                         url : shareUrl,
                         cache: false,
