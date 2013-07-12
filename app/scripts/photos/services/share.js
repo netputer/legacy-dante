@@ -32,7 +32,7 @@ define([
                             defer.resolve(r);
                         },
                         error : function(r) {
-                            defer.reject(r.responseJSON);
+                            defer.reject(r.responseJSON, data);
                         }
                     });
 

@@ -329,6 +329,41 @@ $scope.connectFacebook = function(photo) {
     });
 }
 
+function uploadPhotoSuccessFun(resp) {
+    $scope.$apply(function() {
+        $scope.visibleLoading = false;
+        $scope.isShowSuccessTip = true;
+    });
+
+    $timeout(function() {
+        $scope.isShowShareModal = false;
+    }, 3000);
+}
+
+function uploadPhotosFaildFun(resp, data) {
+    if (resp.error && resp.error.error_subcode === 466) {
+        // Error validating access token
+        $scope.$apply(function() {
+            $scope.visibleLoading = false;
+            $scope.isShowExpiredTip = true;
+        });
+
+    } else {
+        if (retryUploadPhotoTimes) {
+            wdpShare.uploadPhoto(data, shareInfo)
+                    .then(uploadPhotoSuccessFun, uploadPhotosFaildFun);
+
+            retryUploadPhotoTimes -= 1;
+        } else {
+            $scope.$apply(function() {
+                $scope.visibleLoading = false;
+                $scope.isShowFaildTip = true;
+            });
+
+        }
+    }
+}
+
 $scope.uploadAndSharePhoto = function(isRetry) {
     $scope.shareBtnDisabled = true;
     $scope.textareaReadonly = true;
@@ -343,37 +378,8 @@ $scope.uploadAndSharePhoto = function(isRetry) {
 
         shareInfo.message = $scope.shareText;
 
-        wdpShare.uploadPhoto(data, shareInfo).then(function(resp) {
-            $scope.$apply(function() {
-                $scope.visibleLoading = false;
-                $scope.isShowSuccessTip = true;
-            });
-
-            $timeout(function() {
-                $scope.isShowShareModal = false;
-            }, 3000);
-        }, function(resp) {
-            if (resp.error && resp.error.error_subcode === 466) {
-                // Error validating access token
-                $scope.$apply(function() {
-                    $scope.visibleLoading = false;
-                    $scope.isShowExpiredTip = true;
-                });
-
-            } else {
-                if (retryUploadPhotoTimes) {
-                    wdpShare.uploadPhoto(data, shareInfo);
-
-                    retryUploadPhotoTimes -= 1;
-                } else {
-                    $scope.$apply(function() {
-                        $scope.visibleLoading = false;
-                        $scope.isShowFaildTip = true;
-                    });
-
-                }
-            }
-        });
+        wdpShare.uploadPhoto(data, shareInfo)
+                .then(uploadPhotoSuccessFun, uploadPhotosFaildFun);
 
     }, function() {
         $scope.isShowFooter = false;
