@@ -1,13 +1,11 @@
 define([
     'underscore',
     'text!templates/photos/extension-notification.html',
-    'angular',
-    'facebook'
+    'angular'
 ], function(
     _,
     extensionNotificationTemplate,
-    angular,
-    Facebook
+    angular
 ) {
 'use strict';
 return [
@@ -305,26 +303,29 @@ function readyToShare() {
 
 $scope.share = function(photo) {
     initShareModalStatus();
+    facebookInitDefer.done(function(Facebook) {
+        Facebook.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                readyToShare();
 
-    Facebook.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
-            readyToShare();
-
-            showShareModal(response.authResponse, photo);
-        } else {
-            $scope.connectFacebook(photo);
-        }
+                showShareModal(response.authResponse, photo);
+            } else {
+                $scope.connectFacebook(photo);
+            }
+        });
     });
 };
 
 $scope.connectFacebook = function(photo) {
     var data = photo || shareInfo.photo;
-    Facebook.login(function(response) {
-        if (response.status === 'connected') {
-            readyToShare();
+    facebookInitDefer.done(function(Facebook) {
+        Facebook.login(function(response) {
+            if (response.status === 'connected') {
+                readyToShare();
 
-            showShareModal(response.authResponse, data);
-        }
+                showShareModal(response.authResponse, data);
+            }
+        });
     });
 }
 
@@ -386,11 +387,14 @@ $scope.hideShareModal = function() {
 };
 
 function showShareModal(authResponse, photo) {
-    Facebook.api('/me', function(response) {
-        $scope.$apply(function() {
-            $scope.facebookUserName = response.name;
-        });
+    facebookInitDefer.done(function(Facebook) {
+        Facebook.api('/me', function(response) {
+            $scope.$apply(function() {
+                $scope.facebookUserName = response.name;
+            });
+        }); 
     });
+    
 
     var boxConst = 120;
     var bottom = parseInt((photo.thumbnail_height - boxConst) / 2, 10) * -1;

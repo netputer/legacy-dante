@@ -1,8 +1,6 @@
 define([
-        'facebook',
         'text!templates/common/navbar.html'
     ], function(
-        Facebook,
         template
     ) {
 'use strict';
@@ -99,10 +97,6 @@ return [function() {
 
             //facebook
             $scope.isConnectedFacebok = false;
-            Facebook.init({
-                appId      : '265004820250785'//,
-                //channelUrl : '//yourdomain.com/channel.html'
-            });
 
             function setConnectFacebookFlag(response) {
                 $scope.$apply(function() {
@@ -114,20 +108,25 @@ return [function() {
                 });
             }
 
-            Facebook.getLoginStatus(function(response) {
-                setConnectFacebookFlag(response);
+            facebookInitDefer.done(function(Facebook) {
+                Facebook.getLoginStatus(function(response) {
+                    setConnectFacebookFlag(response);
+                });
             });
+            
 
             $scope.handleFacebookConnect = function() {
-                if ($scope.isConnectedFacebok) {
-                    Facebook.logout(function(response) {
-                        setConnectFacebookFlag(response);
-                    });
-                } else {
-                    Facebook.login(function(response) {
-                        setConnectFacebookFlag(response);
-                    });
-                }
+                facebookInitDefer.done(function(Facebook) {
+                    if ($scope.isConnectedFacebok) {
+                        Facebook.logout(function(response) {
+                            setConnectFacebookFlag(response);
+                        });
+                    } else {
+                        Facebook.login(function(response) {
+                            setConnectFacebookFlag(response);
+                        });
+                    }
+                });
             }
 
         }]

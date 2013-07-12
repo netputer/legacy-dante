@@ -1,7 +1,5 @@
 define([
-    'facebook'
 ], function(
-    Facebook
     ) {
     'use strict';
 

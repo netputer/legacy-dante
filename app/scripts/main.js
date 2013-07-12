@@ -2,9 +2,6 @@ require.config({
     shim: {
         'underscore': {
             exports: '_'
-        },
-        'facebook' : {
-            exports : 'FB'
         }
     },
     locale: 'en_us',
@@ -21,9 +18,7 @@ require.config({
         // requirejs plugins
         text: '../components/requirejs-text/text',
         // prefix
-        templates: '../templates',
-        // facebook
-        facebook : 'http://connect.facebook.net/en_US/all'
+        templates: '../templates'
     }
 });
 
