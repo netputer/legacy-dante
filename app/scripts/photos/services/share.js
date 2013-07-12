@@ -29,7 +29,7 @@ define([
                         data : formData,
                         type : 'POST',
                         success : function(r) {
-                            defer.reslove(r);
+                            defer.resolve(r);
                         },
                         error : function(r) {
                             defer.reject(r.responseJSON);
