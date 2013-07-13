@@ -26,22 +26,6 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
             }
         }).error(function(){
         });
-            // $.ajax({
-            //     type: 'GET',
-            //     url: url,
-            //     async: false,
-            //     contentType: 'application/json',
-            //     dataType: 'jsonp',
-            //     success: function( data ) {
-            //         defer.resolve( data );
-            //         $rootScope.$apply();
-            //     },
-            //     error: function(e) {
-            //         $log.error('需要登陆豌豆荚');
-            //         defer.reject();
-            //         $rootScope.$apply();
-            //     }
-            // });
     }
 
     $rootScope.$on('signout', function() {

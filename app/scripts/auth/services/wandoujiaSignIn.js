@@ -18,13 +18,15 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 success: function( data ) {
-                    defer.resolve( data );
-                    $rootScope.$apply();
+                    $rootScope.$apply(function(){
+                        defer.resolve( data );
+                    });
                 },
                 error: function(e) {
-                    $log.log('需要登陆豌豆荚');
-                    defer.reject();
-                    $rootScope.$apply();
+                    $log.log('Need login in wandoujia.');
+                    $rootScope.$apply(function(){
+                        defer.reject();
+                    });
                 }
             });
             return defer.promise;

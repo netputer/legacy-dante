@@ -26,33 +26,21 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
         var host = 'sync.wandoujia.com';
         var port = 80;
         var keeper = null;
+        $scope.state = 'loading';
+        wdDev.setServer( host, port );
+        keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
+        var timeStart = (new Date()).getTime();
 
-        // Valid auth code.
-        if ( host ) {
-            // Send auth request.
-            $scope.state = 'loading';
-            wdDev.setServer( host, port );
-            keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
-            var timeStart = (new Date()).getTime();
-
-            //设置一个比较大的版本号，强制关掉版本控制
-            wdDev.setMetaData({
-                version_code : 9999
-            });
-            keeper.done();
-            $scope.state = 'standby';
-            // TODO: Maybe expiration?
-            wdAuthToken.setToken({ip:host});
-            $location.url($route.current.params.ref || '/');
-            $rootScope.$broadcast('signin');
-        }
-        // Invalid auth code.
-        else {
-            $scope.error = true;
-            $timeout(function() {
-                $scope.error = false;
-            }, 5000);
-        }
+        //设置一个比较大的版本号，强制关掉版本控制
+        wdDev.setMetaData({
+            version_code : 9999
+        });
+        keeper.done();
+        $scope.state = 'standby';
+        // TODO: Maybe expiration?
+        wdAuthToken.setToken({ip:host});
+        $location.url($route.current.params.ref || '/');
+        $rootScope.$broadcast('signin');
     };
 
     // //自动进入之前的设备

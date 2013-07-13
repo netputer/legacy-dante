@@ -1,0 +1,77 @@
+.wandou-signin-wrapper{
+    @include position(fixed, 0px 0px 0px 0px);
+    @include ui-layer-top;
+    background: #ffffff;
+}
+
+.wandou-signin{
+    width: 960px;
+    margin: 0px auto;
+    .header{
+        height: 30px;
+        .logo{
+            margin-top: 17px;
+        }
+    }
+
+    .content{
+        height: 580px;
+        .left{
+            .introduce{
+                @include auth-sprite("introduce");
+                width: auth-sprite-width("introduce");
+                height: auth-sprite-height("introduce");
+            }
+            float: left;
+        }
+        .right{
+            width: 370px;
+            float: left;
+            margin-top: 160px;
+            .title{
+                font-size: 35px;
+                font-weight: 500;
+                height: 40px;
+                line-height: 40px;
+            }
+            .des{
+                color: #999;
+            }
+
+            .wandou-signin-btn{
+                background-color: #3baa24;
+                color: #ffffff;
+                width: 150px;
+                height: 40px;
+                display: block;
+                line-height: 40px;
+                text-align: center;
+                font-size: 15px;
+                font-weight: 300;
+                margin: 30px 0px 40px 0px;
+            }
+
+            .icons{
+                i{
+                    opacity: 0.7;
+                    @include transition(opacity $global-transition-duration);
+                }
+                i:hover{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .footer{
+        border-top: 1px solid #eeeeee;
+        text-align: center;
+        color: #eeeeee;
+        display: block;
+        width: 960px;
+        float: left;
+        font-size: 13px;
+        padding-top: 30px;
+    }
+
+}
