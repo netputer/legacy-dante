@@ -13,7 +13,7 @@
     "BLOCK_SHARE_FB": "Share on Facebook",
     "BLOCK_SHARE" : "Share",
     "SHARE_SUCCESS_TIP" : "Your photo has been shared!",
-    "SHARE_FAIL_TIP" : "Share faild.",
+    "SHARE_FAIL_TIP" : "Share failed.",
     "SHARE_RETRY" : "Retry",
     "CHECKING_FACEBOOK_TIP" : "Checking Facebook...",
     "FB_CONNECTION_EXPIRED_TIP" : "Your Facebook connection is expired.",
