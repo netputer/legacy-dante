@@ -2,7 +2,7 @@ define([
     'angular',
     'auth/main',
     'photos/main',
-    // 'text!templates/auth/international.html',
+    'text!templates/auth/international.html',
     'text!templates/auth/cloudData.html',
     'text!templates/photos/gallery.html',
     'text!templates/contacts/index.html',
@@ -13,12 +13,13 @@ define([
     'messages/main',
     'contacts/main',
     'applications/main',
-    'ui/main'
+    'ui/main',
+    'jquery'
 ], function(
     angular,
     auth,
     photos,
-    // InternationalTemplate,
+    InternationalTemplate,
     cloudDataTemplate,
     PhotosTemplate,
     ContactsTemplate,
@@ -29,9 +30,18 @@ define([
     messages,
     contacts,
     applications,
-    ui
+    ui,
+    jQuery
 ) {
 'use strict';
+
+var READ_ONLY_FLAG = true;
+//>>excludeStart("readonly", pragmas.cloudBased);
+READ_ONLY_FLAG = false;
+//>>excludeEnd("readonly");
+//>>includeStart("debug", pragmas.debug);
+READ_ONLY_FLAG = window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
+//>>includeEnd("debug");
 
 angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
@@ -70,14 +80,19 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $routeProvider.when('/portal/:help', {
             redirectTo: '/portal'
         });
-        // $routeProvider.when('/portal', {
-        //     template: InternationalTemplate,
-        //     controller: 'internationalController'
-        // });
-        $routeProvider.when('/portal', {
-            template: cloudDataTemplate,
-            controller: 'cloudDataController'
-        });
+
+        if (READ_ONLY_FLAG) {
+            $routeProvider.when('/portal', {
+                template: cloudDataTemplate,
+                controller: 'cloudDataController'
+            });
+        }
+        else {
+            $routeProvider.when('/portal', {
+                template: InternationalTemplate,
+                controller: 'internationalController'
+            });
+        }
         $routeProvider.when('/devices', {
             resolve: {
                 signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', function(wdAuthToken, $q, wdGoogleSignIn ) {
@@ -232,7 +247,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         // i18n
         wdLanguageEnviroment.apply();
 
-        $rootScope.READ_ONLY_FLAG = $window.localStorage.getItem('WD_READ_ONLY_FLAG') || false;
+        $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);
@@ -242,13 +257,37 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         };
 
         $rootScope.$on('signin', function() {
-            wdSocket.connect();
+            if (!$rootScope.READ_ONLY_FLAG) {
+                wdSocket.connect();
+            }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
         });
         $rootScope.$on('signout', function() {
-            wdSocket.close();
+            if (!$rootScope.READ_ONLY_FLAG) {
+                wdSocket.close();
+            }
         });
     }]);
+
+
+window.googleSignInOnloadDefer = jQuery.Deferred();
+window.facebookInitDefer = jQuery.Deferred();
+
+if (!READ_ONLY_FLAG) {
+    window.googleSignInOnload = function() {
+        window.googleSignInOnloadDefer.resolve();
+    };
+
+    jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
+        window.FB.init({
+            appId: '265004820250785'
+        });
+        window.facebookInitDefer.resolve(window.FB);
+    });
+
+    jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
+}
+
 
 angular.bootstrap(document, ['wdApp']);
 

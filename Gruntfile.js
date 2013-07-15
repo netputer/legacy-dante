@@ -161,23 +161,29 @@ module.exports = function (grunt) {
             }
         },
         requirejs: {
-            dist: {
-                options: {
-                    almond: true,
-                    replaceRequireScript: [{
-                        files: [yeomanConfig.dist + '/index.html'],
-                        module: 'main'
-                    }],
+            options: {
+                almond: true,
+                replaceRequireScript: [{
+                    files: [yeomanConfig.dist + '/index.html'],
+                    module: 'main'
+                }],
 
-                    appDir: yeomanConfig.app + '/scripts',
-                    baseUrl: './',
-                    dir: yeomanConfig.tmp + '/scripts',
-                    mainConfigFile: yeomanConfig.app + '/scripts/main.js',
-                    modules: [{name: 'main'}],
-                    optimize: 'none',
-                    preserveLicenseComments: false,
-                    useStrict: true,
-                    // wrap: true
+                appDir: yeomanConfig.app + '/scripts',
+                baseUrl: './',
+                dir: yeomanConfig.tmp + '/scripts',
+                mainConfigFile: yeomanConfig.app + '/scripts/main.js',
+                modules: [{name: 'main'}],
+                optimize: 'none',
+                preserveLicenseComments: false,
+                useStrict: true,
+                // wrap: true
+            },
+            dist: {},
+            cloud: {
+                options: {
+                    pragmas: {
+                        cloudBased: true
+                    }
                 }
             }
         },
@@ -345,7 +351,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
-            return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
+            return grunt.task.run(['build:dist', 'open', 'connect:dist:keepalive']);
+        }
+
+        if (target === 'cloud') {
+            return grunt.task.run(['build:cloud', 'open', 'connect:dist:keepalive']);
         }
 
         grunt.task.run([
@@ -363,20 +373,39 @@ module.exports = function (grunt) {
         'connect:test'
     ]);
 
-    grunt.registerTask('build', [
-        'clean:dist',
-        'useminPrepare',
-        'compass:dist',
-        'concurrent:dist',
-        'requirejs',
-        'copy:tmp',
-        'cssmin',
-        'concat',
-        'uglify',
-        'copy:dist',
-        'rev',
-        'usemin'
-    ]);
+    grunt.registerTask('build', function(target) {
+        if (target === 'cloud') {
+            return grunt.task.run([
+                'clean:dist',
+                'useminPrepare',
+                'compass:dist',
+                'concurrent:dist',
+                'requirejs:cloud',
+                'copy:tmp',
+                'cssmin',
+                'concat',
+                'uglify',
+                'copy:dist',
+                'rev',
+                'usemin'
+            ]);
+        }
+
+        return grunt.task.run([
+            'clean:dist',
+            'useminPrepare',
+            'compass:dist',
+            'concurrent:dist',
+            'requirejs:dist',
+            'copy:tmp',
+            'cssmin',
+            'concat',
+            'uglify',
+            'copy:dist',
+            'rev',
+            'usemin'
+        ]);
+    });
 
     grunt.registerTask('default', [
         'jshint',

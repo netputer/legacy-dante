@@ -55,14 +55,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('login:not_support');
         }
 
-    /*Start: remove after a week*/
-        $scope.isShowAnnouncement = !wdGoogleSignIn.getStorageItem('closeAnnouncement');
-        $scope.closeAnnouncement = function() {
-            wdGoogleSignIn.setStorageItem('closeAnnouncement', 1);
-            $scope.isShowAnnouncement = false;
-        }
-    /*End: remove after a week*/
-
         $scope.openHelp = function() {
             $scope.showHelp = true;
         };
