@@ -50,6 +50,12 @@ return ['wdKey', function(wdKey) {
             attrs.$observe('buttonCancelText', function(cancel) {
                 $buttonCancel.text(cancel);
             });
+            attrs.$observe('buttonOkDisabled', function(flag) {
+                flag == 'true' ? $buttonOk.attr('disabled', true) : $buttonOk.removeAttr('disabled');
+            });
+            attrs.$observe('buttonCancelDisabled', function(flag) {
+                flag == 'true' ? $buttonCancel.attr('disabled', true) : $buttonCancel.removeAttr('disabled');
+            });
 
             $scope.$watch(attrs.toggle, function(value, oldValue) {
                 if (value === oldValue) {
@@ -90,6 +96,7 @@ return ['wdKey', function(wdKey) {
                 }
                 wdKey.deleteScope(uid);
             });
+
         }
     };
 }];

@@ -95,6 +95,40 @@ return [function() {
                 $scope.isShowChangeDevicesPop = true;
             };
 
+            //facebook
+            $scope.isConnectedFacebok = false;
+
+            function setConnectFacebookFlag(response) {
+                $scope.$apply(function() {
+                    if (response.status === 'connected') {
+                        $scope.isConnectedFacebok = true;
+                    } else {
+                        $scope.isConnectedFacebok = false;
+                    }
+                });
+            }
+
+            facebookInitDefer.done(function(Facebook) {
+                Facebook.getLoginStatus(function(response) {
+                    setConnectFacebookFlag(response);
+                });
+            });
+            
+
+            $scope.handleFacebookConnect = function() {
+                facebookInitDefer.done(function(Facebook) {
+                    if ($scope.isConnectedFacebok) {
+                        Facebook.logout(function(response) {
+                            setConnectFacebookFlag(response);
+                        });
+                    } else {
+                        Facebook.login(function(response) {
+                            setConnectFacebookFlag(response);
+                        }, {scope : 'user_photos,publish_stream'});
+                    }
+                });
+            }
+
         }]
     };
 }];

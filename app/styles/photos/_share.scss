@@ -1,0 +1,76 @@
+.wdp-share-modal {
+    width: 536px;
+    height: 270px;
+    margin-left: -268px;
+
+    .modal-header {
+        padding: 9px 20px 0;
+    }
+    .modal-body {
+        height: 208px;
+        padding: 13px 20px 10px;
+        margin: auto;
+        text-align: center;
+    }
+    .modal-footer {
+        display: none;
+    }
+    .footer-button-wrapper {
+        @include position(absolute, 0 20px 19px 0);
+
+        a {
+            margin-right: 5px;
+        }
+    }
+    .facebook-user-name {
+        height: 20px;
+        margin-bottom: 8px;
+        text-align: left;
+    }
+    .thumbnail-wrapper {
+        width: 120px;
+        height: 120px;
+        float : left;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid #ccc;
+
+        .share-thumbnail {
+            @include position(absolute, 0 0 0px 0px );
+        }
+    }
+    
+    .share-textarea {
+        width: 350px;
+        height: 112px;
+        resize : none;
+    }
+    .share-tip-wrapper {
+        height: 32px;
+        margin-top: 8px;
+        .share-tip {
+            padding: 5px 19px;
+            color: #FFF;
+            display: inline-block;
+
+            &.share-success-tip {
+                background: #60CB00;
+                border: 1px solid #A1E068;
+            }
+            &.share-faild-tip {
+               background: rgb(255, 141, 0);
+               border: 1px solid rgb(255, 219, 176); 
+
+               a {
+                    color : #fff;   
+                    text-decoration: underline;
+               }
+            }
+        }
+        .checking-facebook-tip {
+            display: inline-block;
+            margin-top: 8px;
+        }
+    }
+    
+}
