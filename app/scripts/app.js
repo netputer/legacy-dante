@@ -222,7 +222,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             }
         }
     }])
-    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnviroment', 'wdSocket',
+    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
             'wdTitleNotification', 'wdDev', '$q', '$document',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnviroment,   wdSocket,
              wdTitleNotification,   wdDev,   $q,   $document) {
@@ -246,6 +246,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
 
         // i18n
         wdLanguageEnviroment.apply();
+
+        $rootScope.applyLanguage = function(language) {
+            wdLanguageEnviroment.apply(language);
+        };
 
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
