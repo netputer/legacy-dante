@@ -7,7 +7,7 @@ define([
 ) {
 'use strict';
 angular.module('wdLanguage', [])
-    .factory('wdLanguageEnviroment', ['$window', '$rootScope', '$document', function($window, $rootScope, $document) {
+    .factory('wdLanguageEnvironment', ['$window', '$rootScope', '$document', function($window, $rootScope, $document) {
         var currentLanguageEnvironment = null;
         var previousLanguageClassNames = '';
 
@@ -27,6 +27,12 @@ angular.module('wdLanguage', [])
             },
             getCurrentLanguageEnvironment: function() {
                 return currentLanguageEnvironment;
+            },
+            getCurrentLanguageName: function() {
+                return currentLanguageEnvironment.getLanguageName();
+            },
+            currentLanguageBelongsTo: function(language) {
+                return currentLanguageEnvironment.languagePath.indexOf(language) >= 0;
             }
         };
     }]);

@@ -1,17 +1,12 @@
 <div ng-switch on="autoAuth">
     <div class="wd-portal" ng-switch-when="false" ng-show="deviceNum<0">
         <div class="a" ng-switch on="isSupport">
-            <div class="announcement" ng-show="isShowAnnouncement">
-                {{$root.DICT.portal.ANNOUNCEMENT}}
-                <a href="http://snappea.zendesk.com/entries/24375503--Official-Version-1-5-Now-with-Google-Sign-In" target="_blank">Learn More »</a>
-                <a href="javascript:void(0)" class="close-announcement" ng-click="closeAnnouncement()"></a>
-            </div>
             <div class="container" ng-switch-when="true">
                 <h1>{{$root.DICT.portal.H1}}</h1>
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn" ng-click="googleSigIn()" ng-disabled="signInBtnDisabled">
+                <button class="btn google-btn" ng-click="googleSigIn()">
                     <i class="icon-google-btn"></i>
                     {{$root.DICT.portal.GOOGLE_BUTTON}}
                 </button>
@@ -36,12 +31,23 @@
                         <a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web"></a>
                     </div>
                 </div>
-                <ul class="inline">
-                    <li>{{$root.DICT.portal.LINK_COPYRIGHT}}</li>
-                    <li><a href="http://www.snappea.com/about.html">{{$root.DICT.portal.LINK_ABOUT}}</a></li>
-                    <li><a href="http://www.snappea.com/terms.html">{{$root.DICT.portal.LINK_TERMS}}</a></li>
-                    <li><a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web">{{$root.DICT.portal.LINK_PRIVACY}}</a></li>
-                </ul>
+                <div class="row b-a">
+                    <ul class="inline b-a-a">
+                        <li><a ng-class="{'current': selectedLanguage('en')}" href="" ng-click="$root.applyLanguage('en')">English</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('de')}" href="" ng-click="$root.applyLanguage('de')">Deutsch</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('pt-br')}" href="" ng-click="$root.applyLanguage('pt-br')">Português (Brasil)</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('zh-tw')}" href="" ng-click="$root.applyLanguage('zh-tw')">中文 (繁體)</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('es')}" href="" ng-click="$root.applyLanguage('es')">Español</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('zh-cn')}" href="" ng-click="$root.applyLanguage('zh-cn')">中文 (简体)</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('th')}" href="" ng-click="$root.applyLanguage('th')">ภาษาไทย</a></li>
+                    </ul>
+                    <ul class="inline b-a-b">
+                        <li><a href="http://www.snappea.com/about.html">{{$root.DICT.portal.LINK_ABOUT}}</a></li>
+                        <li><a href="http://www.snappea.com/terms.html">{{$root.DICT.portal.LINK_TERMS}}</a></li>
+                        <li><a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web">{{$root.DICT.portal.LINK_PRIVACY}}</a></li>
+                        <li>{{$root.DICT.portal.LINK_COPYRIGHT}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

@@ -143,30 +143,35 @@ $auth-spacing: 4px;
             width: icon-width($name);
             height: icon-height($name);
         }
-        ul.inline {
+        .b-a {
             margin-top: 50px;
+            border-top: 1px solid #f0f0f0;
+            @include clearfix;
+        }
+        ul.inline {
             padding-top: 15px;
-            text-align: center;
             font-size: 11px;
             color: #999;
-            border-top: 1px solid #f0f0f0;
             li {
                 line-height: 14px;
             }
-            li:first-child {
-                display: block;
-            }
-            li a {
+        }
+        .b-a-a {
+            float: left;
+            li a.current {
                 padding-right: 0;
                 color: #999;
                 &:hover {
-                    color: #6db800;
+                    color: #999;
                     text-decoration: none;
                 }
                 &:active {
-                    color: #3c7800;
+                    color: #999;
                 }
             }
+        }
+        .b-a-b {
+            float: right;
         }
     }
 }
@@ -188,4 +193,5 @@ $auth-spacing: 4px;
     background-color: #FFF;
     @include ui-layer-top;
 }
-@import "devices"
+@import "devices";
+@import "wandoujia-sign-in";

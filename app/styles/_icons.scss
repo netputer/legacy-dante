@@ -1,5 +1,6 @@
 $global-icons: "add",
 "app",
+"android",
 "check",
 "check-h",
 "checked",
@@ -28,6 +29,7 @@ $global-icons: "add",
 "help",
 "i18n",
 "img",
+"iphone",
 "logo-white",
 "logo64",
 "noapps",
@@ -62,8 +64,10 @@ $global-icons: "add",
 "sliderotate",
 "slideshare",
 "sms",
-"update",
-"wifi";
+"wifi",
+"wphone",
+"wandou-logo",
+"update";
 
 @each $name in $global-icons {
     .icon-#{$name} {

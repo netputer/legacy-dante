@@ -28,7 +28,7 @@
             </li>
         </ul>
         <ul class="nav nav-settings">
-            <li wd-menu>
+            <li wd-menu ng-show="!$root.READ_ONLY_FLAG">
                 <a href="" wd-menu-trigger bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}" ng-click="open()" data-options="{placement: 'right'}">
                     <i class="icon-phoneswitch"></i>
                 </a>
@@ -69,9 +69,14 @@
                             {{isConnectedFacebok ? $root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP : $root.DICT.app.NAVBAR_CONNECT_FACEBOOK_TIP}}
                     </div>
                     <div wd-menu-sep></div>
-                    <div wd-menu-item class="signout"
+                    <div wd-menu-item class="signout" ng-show="!$root.READ_ONLY_FLAG"
                         ng-click="signout();$root.GA('navbar:signout');">
                         <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
+                    </div>
+                    <div wd-menu-item class="signout" ng-show="$root.READ_ONLY_FLAG">
+                        <a href="https://account.wandoujia.com/v1/user/?do=logout&callback=http://web.wandoujia.com:3000/">
+                            <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
+                        </a>
                     </div>
                 </div>
             </li>
@@ -105,13 +110,13 @@
 
 <div bs-modal class="language-modal" data-toggle="shownLanguageModal" data-ok="shownLanguageModal=false" data-cancel="shownLanguageModal=false" data-header="{{$root.DICT.app.LANGUAGE_MODAL_TITLE}}">
     <ul class="unstyled language-list">
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('en')">English</a></li>
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('de')">Deutsch</a></li>
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('pt-br')">Português (Brasil)</a></li>
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('zh-tw')">中文 (繁體)</a></li>
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('es')">Español</a></li>
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('zh-cn')">中文 (简体)</a></li>
-        <li><a href="" bs-modal-ok ng-click="applyLanguage('th')">ภาษาไทย</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('en')">English</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('de')">Deutsch</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('pt-br')">Português (Brasil)</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('zh-tw')">中文 (繁體)</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('es')">Español</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('zh-cn')">中文 (简体)</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('th')">ภาษาไทย</a></li>
     </ul>
 </div>
 

@@ -116,7 +116,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     global.defer = $q.defer();
                 },
                 error: function(e) {
-                    $log.error('get devices 403');
+                    $log.error('get devices failed');
                     me.refreshToken();
                     defer.reject();
                     $rootScope.$apply();

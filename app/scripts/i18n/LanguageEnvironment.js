@@ -2,23 +2,27 @@ define([
     'underscore',
     'jquery',
     'i18n/root/dict',
-    'i18n/root/config'
+    'i18n/root/config',
+    'i18n/zh-cn/dict',
+    'i18n/zh-cn/config',
 ], function(
     _,
     jQuery,
     rootDict,
-    rootConfig
+    rootConfig,
+    zhcnDict,
+    zhcnConfig
 ) {
 'use strict';
 
 var dictionaryCache = {
     root: rootDict,
-    'zh-cn': {},
+    'zh-cn': zhcnDict,
     'zh-tw': {}
 };
 var configCache = {
     root: rootConfig,
-    'zh-cn': {}
+    'zh-cn': zhcnConfig
 };
 
 function LanguageEnvironment(language) {
@@ -33,7 +37,7 @@ _.extend(LanguageEnvironment.prototype, {
         return language.toLowerCase().split('-').reduce(function(path, segment, index, segments) {
             path.push(segments.slice(0, index + 1).join('-'));
             return path;
-        }, []);
+        }, []).reverse();
     },
     getDictionary: function() {
         return generateByPath(dictionaryCache, this.languagePath);
@@ -44,7 +48,7 @@ _.extend(LanguageEnvironment.prototype, {
 });
 
 function generateByPath(cache, path) {
-    return path.reverse().reduce(function(result, languageName) {
+    return path.reduce(function(result, languageName) {
         if (languageName in cache) {
             deepCopy(result, cache[languageName]);
         }

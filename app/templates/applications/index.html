@@ -27,11 +27,14 @@
             <dt><img ng-src="{{item.icon}}"></dt>
             <dd class="title" title="{{item.name}}">{{item.name}}</dd>
             <dd class="toolbar" ng-click="$event.stopPropagation();">
-                <span class="btn-icon-check" bs-tooltip="Select">
+                <span class="btn-icon-check" bs-tooltip="Select" ng-show="!$root.READ_ONLY_FLAG">
                     <input type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="checkedApp($event,item)">
                 </span>
-                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall">
+                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall" ng-show="!$root.READ_ONLY_FLAG">
                     <i class="icon-delete"></i>
+                </span>
+                <span class="btn-icon-download" bs-tooltip="Download" ng-show="$root.READ_ONLY_FLAG">
+                    <a href="{{item.download_url}}"><i class="icon-down"></i></a>
                 </span>
             </dd>
 
@@ -55,7 +58,7 @@
     <!-- 应用列表 end -->
 
     <!-- header -->
-    <div class="header">
+    <div class="header" ng-show="!$root.READ_ONLY_FLAG">
         <div class="btn btn-primary installApp" ng-click="clickInstallApk()" ng-disabled="isInstallBtnDisable">
             <i class="icon-add"></i>
             {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}
@@ -87,7 +90,7 @@
                     <p class="title">{{$root.DICT.applications.WORDS.SIZE}}:</p>
                     <p class="detail">{{info.apk_size}} M</p>
                 </dd>
-                <dd>
+                <dd ng-show="!$root.READ_ONLY_FLAG">
                     <p class="title">{{$root.DICT.applications.WORDS.INSTALLATION}}:</p>
                     <p class="detail">{{info.installed_location}}</p>
                 </dd>
@@ -95,7 +98,7 @@
                     <p class="title">{{$root.DICT.applications.WORDS.VERSION}}:</p>
                     <p class="detail">{{info.version_name}}</p>
                 </dd>
-                <dd>
+                <dd ng-show="!$root.READ_ONLY_FLAG">
                     <p class="title">{{$root.DICT.applications.WORDS.PERMISSIONS}}:</p>
                     <ul class="detail">
                         <li ng-repeat="item2 in info.requested_permission">
