@@ -37,7 +37,7 @@ _.extend(LanguageEnvironment.prototype, {
         return language.toLowerCase().split('-').reduce(function(path, segment, index, segments) {
             path.push(segments.slice(0, index + 1).join('-'));
             return path;
-        }, []);
+        }, []).reverse();
     },
     getDictionary: function() {
         return generateByPath(dictionaryCache, this.languagePath);
@@ -48,7 +48,7 @@ _.extend(LanguageEnvironment.prototype, {
 });
 
 function generateByPath(cache, path) {
-    return path.reverse().reduce(function(result, languageName) {
+    return path.reduce(function(result, languageName) {
         if (languageName in cache) {
             deepCopy(result, cache[languageName]);
         }

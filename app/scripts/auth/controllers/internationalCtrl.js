@@ -1,9 +1,11 @@
 define([
 ], function(){
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window',
-function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window) {
+'use strict';
 
-        $scope.isSupport = Modernizr.cors && Modernizr.websockets;
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment',
+function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment) {
+
+        $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
         $scope.auth = wdAuthToken.getToken() || '';
         $scope.autoAuth = !!$scope.auth;
@@ -12,6 +14,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.state = 'standby';
         $scope.showHelp = false;
         $scope.isShowChangeDevicesPop = false;
+
 
         //设备的数量
         $scope.deviceNum = -1;
@@ -23,8 +26,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.accountEmail = '';
         // $scope.signInBtnDisabled = true;
 
-        googleSignInOnloadDefer.done(function(){
-            gapi.auth.init(function(){
+        $window.googleSignInOnloadDefer.done(function(){
+            $window.gapi.auth.init(function(){
                 // $scope.signInBtnDisabled = false;
                 //异步需要apply()
                 $scope.$apply();
@@ -36,8 +39,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         if( wdGoogleSignIn.getStorageItem('googleToken') ){
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
-            googleSignInOnloadDefer.done(function(){
-                gapi.auth.init(function(){
+            $window.googleSignInOnloadDefer.done(function(){
+                $window.gapi.auth.init(function(){
                     wdGoogleSignIn.refreshToken(true);
                     $scope.$apply();
                 });
@@ -362,6 +365,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             googleInit();
         }
 
+        $scope.selectedLanguage = function(language) {
+            return wdLanguageEnvironment.currentLanguageBelongsTo(language);
+        };
+
         $scope.$on('$destroy', function() {
             stopLoopLinkDevices();
             stopLoopGetDevices();
@@ -372,7 +379,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if( $scope.deviceNum > 0 ){
                 GA('device_sign_in:leave_page:new_device_page');
             }
-        }
+        };
 
 //return的最后括号
 }];

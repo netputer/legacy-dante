@@ -12,9 +12,7 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
-                'wdLanguageEnviroment',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn,
-                 wdLanguageEnviroment) {
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -38,10 +36,6 @@ return [function() {
                     $scope.account = data;
                 });
 
-            };
-
-            $scope.applyLanguage = function(language) {
-                wdLanguageEnviroment.apply(language);
             };
 
             //处理原始的设备列表数据
@@ -108,15 +102,15 @@ return [function() {
                 });
             }
 
-            facebookInitDefer.done(function(Facebook) {
+            window.facebookInitDefer.done(function(Facebook) {
                 Facebook.getLoginStatus(function(response) {
                     setConnectFacebookFlag(response);
                 });
             });
-            
+
 
             $scope.handleFacebookConnect = function() {
-                facebookInitDefer.done(function(Facebook) {
+                window.facebookInitDefer.done(function(Facebook) {
                     if ($scope.isConnectedFacebok) {
                         Facebook.logout(function(response) {
                             setConnectFacebookFlag(response);
@@ -127,7 +121,7 @@ return [function() {
                         }, {scope : 'user_photos,publish_stream'});
                     }
                 });
-            }
+            };
 
         }]
     };

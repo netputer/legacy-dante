@@ -222,9 +222,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             }
         }
     }])
-    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnviroment', 'wdSocket',
+    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
             'wdTitleNotification', 'wdDev', '$q', '$document',
-        function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnviroment,   wdSocket,
+        function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
              wdTitleNotification,   wdDev,   $q,   $document) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
@@ -245,7 +245,11 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $rootScope.GA = GA;
 
         // i18n
-        wdLanguageEnviroment.apply();
+        wdLanguageEnvironment.apply();
+
+        $rootScope.applyLanguage = function(language) {
+            wdLanguageEnvironment.apply(language);
+        };
 
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
