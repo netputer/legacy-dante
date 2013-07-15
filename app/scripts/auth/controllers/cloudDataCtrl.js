@@ -10,6 +10,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     $scope.error = '';
     $scope.state = 'standby';
     $scope.showHelp = false;
+    $scope.authCallbackURL = encodeURIComponent($window.location.href);
 
     // if (!$scope.isSupport) {
     //     GA('login:not_support');
