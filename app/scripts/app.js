@@ -2,7 +2,8 @@ define([
     'angular',
     'auth/main',
     'photos/main',
-    'text!templates/auth/portal.html',
+    // 'text!templates/auth/international.html',
+    'text!templates/auth/cloudData.html',
     'text!templates/photos/gallery.html',
     'text!templates/contacts/index.html',
     'text!templates/applications/index.html',
@@ -17,7 +18,8 @@ define([
     angular,
     auth,
     photos,
-    PortalTemplate,
+    // InternationalTemplate,
+    cloudDataTemplate,
     PhotosTemplate,
     ContactsTemplate,
     ApplicationsTemplate,
@@ -68,9 +70,13 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $routeProvider.when('/portal/:help', {
             redirectTo: '/portal'
         });
+        // $routeProvider.when('/portal', {
+        //     template: InternationalTemplate,
+        //     controller: 'internationalController'
+        // });
         $routeProvider.when('/portal', {
-            template: PortalTemplate,
-            controller: 'portalController'
+            template: cloudDataTemplate,
+            controller: 'cloudDataController'
         });
         $routeProvider.when('/devices', {
             resolve: {

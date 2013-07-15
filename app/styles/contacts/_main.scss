@@ -1,5 +1,4 @@
-    @import "icon";
-
+@import "icon";
 .wdj-contacts{
 
     .pf{
@@ -22,6 +21,9 @@
         position: fixed;
         overflow-y : auto;
         top:100px;
+        @include readonly {
+            top : 90px;
+        }
         width: 429px;
         display: block;
         bottom: 0px;
@@ -86,6 +88,9 @@
         min-width: 350px;
         width: 428px;
         height: 90px;
+        @include readonly {
+            height : 50px;
+        }
         border-bottom: 1px solid #e7e7e7;
         padding-top: 10px;
 
@@ -106,6 +111,9 @@
 
         border-top: 1px solid #e7e7e7;
         margin-top: 10px;
+        @include readonly {
+            margin-top: 0px;
+        }
         padding-left: 10px;
         padding-top: 9px;
         cursor: pointer;
@@ -114,6 +122,9 @@
             position: absolute;
             left: 17px;
             top: 66px;
+            @include readonly {
+                top: 56px;
+            }
         }
 
         input::-ms-clear {
@@ -167,6 +178,15 @@
         top: 0px;
         bottom: 0px;
         border-right: 1px solid #E7E7E7;
+
+        @include readonly {
+            .module-title{
+                font-size: 19px;
+                font-weight: 500;
+                padding-left: 15px;
+                padding-top: 10px;
+            }
+        }
 
         .wd-loading{
             left : 280px;

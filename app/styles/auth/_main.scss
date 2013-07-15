@@ -188,4 +188,5 @@ $auth-spacing: 4px;
     background-color: #FFF;
     @include ui-layer-top;
 }
-@import "devices"
+@import "devices";
+@import "wandoujia-sign-in";
