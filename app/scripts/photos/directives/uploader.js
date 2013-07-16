@@ -84,7 +84,7 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA',
             });
 
             var dnd = new fineuploader.DragAndDrop({
-                dropArea: document.body,
+                dropArea: jQuery('.wdj-photos')[0],
                 multiple: true,
                 hideDropzones: false,
                 callbacks: {
