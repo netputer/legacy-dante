@@ -12,9 +12,9 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert',
+                'wdAlert', '$window',
         function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert) {
+                 wdAlert,   $window) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -95,7 +95,7 @@ return [function() {
             //facebook
             $scope.isConnectedFacebook = function() {
                 return wdShare.getIsConnectedFacebook();
-            }
+            };
 
             wdShare.getFacebookLoginStatus();
 
