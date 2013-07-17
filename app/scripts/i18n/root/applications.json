@@ -204,5 +204,5 @@
       "android.permission.SERIAL_PORT": "Access serial ports",
       "android.permission.ACCESS_CONTENT_PROVIDERS_EXTERNALLY": "Access content providers externally",
       "android.permission.UPDATE_LOCK": "Discourage automatic device updates"
-  }
+    }
 }
