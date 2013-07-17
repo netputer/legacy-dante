@@ -1,0 +1,29 @@
+{
+	"UNLOAD_NETWORK_TIP":"Carregando dados do celular. Deseja aguardar?",
+	"NAVBAR_PHOTOS_TIP":"Fotos",
+	"NAVBAR_MESSAGES_TIP":"Mensagens",
+	"NAVBAR_CONTACTS_TIP":"Contatos",
+	"NAVBAR_APPS_TIP":"Aplicativos",
+	"NAVBAR_FEEDBACK_TIP":"Comentários",
+	"NAVBAR_HELP_TIP":"Ajuda",
+	"NAVBAR_SETTING_TIP":"Configuração",
+	"NAVBAR_SELECT_DEVICES_TIP":"Selecione o celular",
+	"NAVBAR_SIGNOUT_TIP":"Sair",
+	"MESSAGE_NOTIFICATION_TITLE":"Nova(s) mensagem(ns)",
+	"UPGRADE_BTN_TEXT":"Baixe a última versão no Google Play",
+	"CHANGE_DEVICES_POP":{
+		"h1":"Conectar um novo celular.",
+		"h2":"Apenas 3 passos e você encontrará seu celular aqui.",
+		"step1":"1. Instale o SnapPea de",
+		"step2":"2. Abra o SnapPea em seu celular.",
+		"step3":"3. Entre com",
+		"button":"Entendi"
+	},
+	"NAVBAR_NEW_PHONE_TIP":"Novo celular",
+	"EXTENSION_SIGN_OUT":{
+		"title":"Confirmar Saída",
+		"content":"Sair da Extensão do Chrome também provocará a saída do SnapPea Web.",
+		"button_ok":"Sair",
+		"button_cancel":"Cancelar"
+	}
+}

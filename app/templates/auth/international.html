@@ -6,11 +6,16 @@
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn" ng-click="googleSigIn()">
-                    <i class="icon-google-btn"></i>
-                    {{$root.DICT.portal.GOOGLE_BUTTON}}
+                <button class="btn google-btn" ng-click="googleSigIn()" ng-disabled="signInBtnDisabled">
+                    <i class="icon-google-btn" ng-show="!signInBtnDisabled"></i>
+                    <p class="google-btn-word" ng-show="!signInBtnDisabled">
+                        {{$root.DICT.portal.GOOGLE_BUTTON}}
+                    </p>
+                    <div class="wd-loading" data-visible="true" ng-show="signInBtnDisabled"></div>
                 </button>
                 <!-- google signin end -->
+
+                <span class="btn-safari" ng-click="safariHelp()" ng-show="isSafari">{{$root.DICT.portal.SAFARI}}<br></span>
 
             </div>
             <div class="container" ng-switch-when="false">
@@ -36,9 +41,8 @@
                         <li><a ng-class="{'current': selectedLanguage('en')}" href="" ng-click="$root.applyLanguage('en')">English</a></li>
                         <li><a ng-class="{'current': selectedLanguage('de')}" href="" ng-click="$root.applyLanguage('de')">Deutsch</a></li>
                         <li><a ng-class="{'current': selectedLanguage('pt-br')}" href="" ng-click="$root.applyLanguage('pt-br')">Português (Brasil)</a></li>
-                        <li><a ng-class="{'current': selectedLanguage('zh-tw')}" href="" ng-click="$root.applyLanguage('zh-tw')">中文 (繁體)</a></li>
+                        <li><a ng-class="{'current': selectedLanguage('zh-tw')}" href="" ng-click="$root.applyLanguage('zh-tw')">中文 (正體)</a></li>
                         <li><a ng-class="{'current': selectedLanguage('es')}" href="" ng-click="$root.applyLanguage('es')">Español</a></li>
-                        <li><a ng-class="{'current': selectedLanguage('zh-cn')}" href="" ng-click="$root.applyLanguage('zh-cn')">中文 (简体)</a></li>
                         <li><a ng-class="{'current': selectedLanguage('th')}" href="" ng-click="$root.applyLanguage('th')">ภาษาไทย</a></li>
                     </ul>
                     <ul class="inline b-a-b">

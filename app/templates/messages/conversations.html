@@ -20,10 +20,10 @@
                 <span class="wdm-title"
                     ng-switch-when="true">{{$root.DICT.messages.TITLE}}</span>
             </section>
-            <div class="wdm-search">
+            <div class="wdm-search" ng-if="!$root.READ_ONLY_FLAG">
                 <div class="wdms-container">
                     <i class="icon-search"></i>
-                    <input type="text" placeholder="{{$root.DICT.messages.SEARCH_PLACEHOLDER}}..." ng-model="searchQuery">
+                    <input type="text" placeholder="{{$root.DICT.messages.SEARCH_PLACEHOLDER}}..." ng-model="$parent.searchQuery">
                     <span class="clear" ng-show="searchQuery" ng-click="clearSearch();$root.GA('messages:search:clear')"></span>
                 </div>
             </div>

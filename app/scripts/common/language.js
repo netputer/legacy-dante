@@ -13,8 +13,9 @@ angular.module('wdLanguage', [])
 
         return {
             apply: function(language) {
+                language = language || $window.localStorage.getItem('preferredLanguage');
                 if (!language) {
-                    language = $window.localStorage.getItem('preferredLanguage') || $window.navigator.language;
+                    return;
                 }
                 currentLanguageEnvironment = LanguageEnvironment.prepare(language);
                 $window.localStorage.setItem('preferredLanguage', language);
