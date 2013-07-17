@@ -334,7 +334,7 @@ function uploadPhotoSuccessFun(resp) {
 }
 
 function uploadPhotosFaildFun(resp, data) {
-    if (resp.error && resp.error.error_subcode === 466) {
+    if (resp.error && resp.error.code === 190) {
         // Error validating access token
         $scope.visibleLoading = false;
         $scope.isShowExpiredTip = true;
