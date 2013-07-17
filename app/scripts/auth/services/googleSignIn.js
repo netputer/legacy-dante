@@ -59,15 +59,20 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 immediate = true;
             }
             var me = this;
-            $window.gapi.auth.authorize({
-               'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-               'immediate':immediate,
-               'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
-            },function(data){
-                me.callDevicesAccountData(data);
-                defer.resolve(data);
-                $rootScope.$apply();
-            });
+            try {
+                $window.gapi.auth.authorize({
+                   'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+                   'immediate':immediate,
+                   'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+                },function(data){
+                    me.callDevicesAccountData(data);
+                    defer.resolve(data);
+                    $rootScope.$apply();
+                });
+            }
+            catch (err) {
+                defer.reject();
+            }
             return defer.promise;
         },
 
