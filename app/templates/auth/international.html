@@ -15,6 +15,8 @@
                 </button>
                 <!-- google signin end -->
 
+                <span class="btn-safari" ng-click="safariHelp()" ng-show="isSafari">{{$root.DICT.portal.SAFARI}}<br></span>
+
             </div>
             <div class="container" ng-switch-when="false">
                 <h1>{{$root.DICT.portal.UNSUPPORTED_H1}}</h1>
