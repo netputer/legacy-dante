@@ -1,0 +1,29 @@
+{
+	"UNLOAD_NETWORK_TIP":"Cargando los datos del teléfono. ¿Quieres esperar?",
+	"NAVBAR_PHOTOS_TIP":"Fotos",
+	"NAVBAR_MESSAGES_TIP":"Mensajes",
+	"NAVBAR_CONTACTS_TIP":"Contactos",
+	"NAVBAR_APPS_TIP":"Aplicaciones",
+	"NAVBAR_FEEDBACK_TIP":"Opiniones",
+	"NAVBAR_HELP_TIP":"Ayuda",
+	"NAVBAR_SETTING_TIP":"Configuración",
+	"NAVBAR_SELECT_DEVICES_TIP":"Seleccionar el teléfono",
+	"NAVBAR_SIGNOUT_TIP":"Desconectar",
+	"MESSAGE_NOTIFICATION_TITLE":"Mensaje(s) nuevo(s)",
+	"UPGRADE_BTN_TEXT":"Consigue la última versión en Google Play",
+	"CHANGE_DEVICES_POP":{
+		"h1":"Conectar otro teléfono.",
+		"h2":"Solo 3 pasos y podrás encontrar aquí tu teléfono.",
+		"step1":"1. Instalar SnapPea desde",
+		"step2":"2. Abrir SnapPea en tu teléfono.",
+		"step3":"3. Iniciar sesión con",
+		"button":"Lo tengo"
+	},
+	"NAVBAR_NEW_PHONE_TIP":"Teléfono nuevo",
+	"EXTENSION_SIGN_OUT":{
+		"title":"Confirmar desconexión",
+		"content":"Si te desconectas de la extensión de Chrome, te desconectaras también de la web de SnapPea.",
+		"button_ok":"Desconectar",
+		"button_cancel":"Cancelar"
+	}
+}

@@ -1,0 +1,60 @@
+{
+	"SIGN_IN":"Iniciar sesión",
+	"SIGN_OUT":"Desconectar",
+	"AUTH_SUCCESS":"Logrado",
+	"AUTH_FAILED":"Error",
+	"AUTH_ERROR_TITLE":"¡Error al iniciar sesión!",
+	"AUTH_ERROR_TIP":"xxx",
+	"AUTH_ERROR_TIP_1":"Re-enter your passcode.",
+	"AUTH_ERROR_TIP_2":"Asegúrate de que tu teléfono y tu ordenador están en la misma red de Wi-Fi.",
+	"AUTH_ERROR_LINK":"Más ayuda",
+	"PASSCODE_PLACEHOLDER":"Passcode",
+	"GET_STARTED":"¿Dónde está mi código de acceso?",
+	"SAFARI":"Usuarios de Safari: Cambiar la configuración de las cookies para que SnapPea funcione.",
+	"SAFARI_TITLE":"Cambia tu configuración de Safari",
+	"SAFARI_CONTENT":"Ir a configuración>Privacidad>Bloquear cookies y elige \"Nunca\".",
+	"H1":"Controla tu teléfono Android desde la web.",
+	"H1_P":"Tus fotos, mensajes, contactos y aplicaciones en tu navegador web.",
+	"H2":"¿Nuevo en SnapPea?",
+	"H2_P":"Para empezar, <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\" style=\"color:#3c7800\">instala SnapPea<\/a> en tu teléfono. Es gratis.",
+	"GP_ALT":"SnapPea en Google Play",
+	"KEEPER":"Sending passcode. If you reload now, sign in will be cancelled.",
+	"LINK_COPYRIGHT":"SnapPea copyright © 2013",
+	"LINK_ABOUT":"Acerca de",
+	"LINK_TERMS":"Términos",
+	"LINK_PRIVACY":"Privacidad",
+	"UNSUPPORTED_H1":"SnapPea no funciona con tu navegador.",
+	"UNSUPPORTED_H1_P":"Lo sentimos, SnapPea no funciona con tu navegador. Te recomendamos encarecidamente que uses Chrome.",
+	"DOWNLOAD_CHROME":"Descargar Chrome",
+	"GOOGLE_BUTTON":"Iniciar sesión con Google",
+	"SHOW_ACCOUNT_NAME_DEFAULT":"la misma cuenta",
+	"CONNECT_DEVICE_FAILED_POP":{
+		"title":"Falló la conexión",
+		"content":"Asegúrate de que tu ordenador esté en la red Wi-Fi de ",
+		"button":"ACEPTAR"
+	},
+	"ANNOUNCEMENT":"Oye, usuario de SnapPea: ¡La versión 1.5 ha llegado! Inscribirse es ahora más rápido y más seguro con tu cuenta de Google.",
+	"NO_DEVICES":{
+		"h1":"Iniciar sesión en tu teléfono.",
+		"h2":"Aquí se mostrarán tus fotos, mensajes, contactos y aplicaciones.",
+		"step1":"1. Instalar SnapPea desde",
+		"step2":"2. Abrir SnapPea en tu teléfono.",
+		"step3":"3. Iniciar sesión con",
+		"foot":"Si no ves un botón para iniciar sesión en tu teléfono, por favor, ",
+		"foot_updata":"Actualizar a la última versión de SnapPea."
+	},
+	"SELECT_DEVICES":{
+		"h1":"Seleccionar un teléfono.",
+		"h2_1":"Encontramos",
+		"h2_2":"teléfono(s) en tu cuenta.",
+		"new_phone":"Conectar otro teléfono"
+	},
+	"CHANGE_DEVICES_POP":{
+		"h1":"Conectar otro teléfono.",
+		"h2":"Solo 3 pasos y podrás encontrar aquí tu teléfono.",
+		"step1":"1. Instalar SnapPea desde",
+		"step2":"2. Abrir SnapPea en tu teléfono.",
+		"step3":"3. Iniciar sesión con",
+		"button":"Lo tengo"
+	}
+}
