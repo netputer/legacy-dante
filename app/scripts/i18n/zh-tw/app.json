@@ -1,0 +1,29 @@
+{
+	"UNLOAD_NETWORK_TIP":"載入手機數據。你是否希望等待？",
+	"NAVBAR_PHOTOS_TIP":"照片",
+	"NAVBAR_MESSAGES_TIP":"短訊",
+	"NAVBAR_CONTACTS_TIP":"聯絡人",
+	"NAVBAR_APPS_TIP":"應用",
+	"NAVBAR_FEEDBACK_TIP":"用户反映",
+	"NAVBAR_HELP_TIP":"幫助",
+	"NAVBAR_SETTING_TIP":"設定",
+	"NAVBAR_SELECT_DEVICES_TIP":"選擇手機",
+	"NAVBAR_SIGNOUT_TIP":"註銷",
+	"MESSAGE_NOTIFICATION_TITLE":"新短訊",
+	"UPGRADE_BTN_TEXT":"在Google Play 上獲取最新版本",
+	"CHANGE_DEVICES_POP":{
+		"h1":"連接一部新手機。",
+		"h2":"只需3個步驟，你便會在這裡找到你的手機。",
+		"step1":"1.安裝SnapPea，通过",
+		"step2":"在你的手機上打開SnapPea。",
+		"step3":"3.登入時，使用",
+		"button":"成功啦"
+	},
+	"NAVBAR_NEW_PHONE_TIP":"新手機",
+	"EXTENSION_SIGN_OUT":{
+		"title":"確認註銷",
+		"content":"登出 Chrome 擴展，也將會從SnapPea登出。",
+		"button_ok":"登出",
+		"button_cancel":"取消"
+	}
+}

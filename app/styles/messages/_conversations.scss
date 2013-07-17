@@ -71,6 +71,10 @@
     text-align: center;
     height: 100%;
     line-height: 62px;
+
+    @include readonly {
+        display: none;
+    }
 }
 
 .wdmcr-b {
@@ -83,6 +87,10 @@
     &.multiple {
         @include use-sprite("group48");
         cursor: default;
+    }
+
+    @include readonly {
+        margin-left: 10px;
     }
 
     img {

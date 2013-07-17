@@ -25,6 +25,9 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
 
     $scope.submit = function() {
         var host = 'sync.wandoujia.com';
+        //>>includeStart("debug", pragmas.debug);
+        host = 'sync-test.wandoujia.com';
+        //>>includeEnd("debug");
         var port = 80;
         var keeper = null;
         $scope.state = 'loading';

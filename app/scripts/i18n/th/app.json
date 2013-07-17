@@ -1,0 +1,29 @@
+{
+	"UNLOAD_NETWORK_TIP":"กำลังโหลดข้อมูลโทรศัพท์ คุณต้องการรอหรือไม่?",
+	"NAVBAR_PHOTOS_TIP":"รูปถ่าย",
+	"NAVBAR_MESSAGES_TIP":"ข้อความ",
+	"NAVBAR_CONTACTS_TIP":"รายชื่อ",
+	"NAVBAR_APPS_TIP":"แอพ",
+	"NAVBAR_FEEDBACK_TIP":"ข้อเสนอแนะ",
+	"NAVBAR_HELP_TIP":"ความช่วยเหลือ",
+	"NAVBAR_SETTING_TIP":"การตั้งค่า",
+	"NAVBAR_SELECT_DEVICES_TIP":"เลือกโทรศัพท์",
+	"NAVBAR_SIGNOUT_TIP":"ลงชื่อออก",
+	"MESSAGE_NOTIFICATION_TITLE":"ข้อความใหม่",
+	"UPGRADE_BTN_TEXT":"รับรุ่นใหม่ล่าสุดบนกูเกิล เพลย์",
+	"CHANGE_DEVICES_POP":{
+		"h1":"เชื่อมต่อกับโทรศัพท์ใหม่",
+		"h2":"เพียงแค่ 3 ขั้นตอน แล้วคุณจะพบโทรศัพท์ของคุณที่นี่",
+		"step1":"1. ติดตั้ง SnapPea จาก",
+		"step2":"2.   เปิด SnapPea บนโทรศัพท์ของคุณ",
+		"step3":"3. ลงชื่อเข้าใช้กับ",
+		"button":"ได้แล้ว"
+	},
+	"NAVBAR_NEW_PHONE_TIP":"โทรศัพท์ใหม่",
+	"EXTENSION_SIGN_OUT":{
+		"title":"ยืนยันการลงชื่อออก",
+		"content":"การลงชื่อออกจากส่วนขยายโครม (Chrome Extension) จะเป็นการลงชื่อออกจากระบบ SnapPea Web ด้วยเช่นกัน",
+		"button_ok":"ลงชื่อออก",
+		"button_cancel":"ยกเลิก"
+	}
+}
