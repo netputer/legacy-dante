@@ -11,8 +11,8 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn', 'wdShare',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn,  wdShare) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn', 'wdShare', 'wdAlert',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn,  wdShare, wdAlert) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -98,16 +98,16 @@ return [function() {
 
             $scope.handleFacebookConnect = function() {
                 if (wdShare.getIsConnectedFacebook()) {
-                    $scope.shownDisconnectFacebookModal = true;
+                    wdAlert.confirm(
+                        $scope.$root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP,
+                        $scope.$root.DICT.app.DISCONNECT_FACEBOOK_INFO,
+                        $scope.$root.DICT.app.DISCONNECT
+                    ).then(function() {
+                        wdShare.disconnectFacebook();
+                    });
                 } else {
                     wdShare.connectFacebook();
                 }
-            };
-
-            $scope.disconnectFacebook = function() {
-                wdShare.disconnectFacebook();
-
-                $scope.shownDisconnectFacebookModal = false;
             };
 
         }]
