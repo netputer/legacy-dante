@@ -176,10 +176,12 @@ $scope.createConversation = function() {
     return c;
 };
 
-$scope.showConversation = function(c) {
+$scope.showConversation = function(c, withoutKeepVisible) {
     if (!c) { return; }
     var promise = activeConversation(c);
-    $scope.$broadcast('wdm:conversations:intoView');
+    if (withoutKeepVisible !== false) {
+        $scope.$broadcast('wdm:conversations:intoView');
+    }
     promise.then(function() {
         _.defer(function() {
             $scope.$broadcast('wdm:autoscroll:flip');
@@ -243,10 +245,10 @@ $scope.remove = function(c) {
         }
 
         if ($scope.cvs().indexOf($scope.activeConversation) === -1) {
-            $scope.showConversation($scope.cvs()[0]);
+            $scope.showConversation($scope.cvs()[0], false);
         }
         else {
-            $scope.showConversation($scope.activeConversation);
+            $scope.showConversation($scope.activeConversation, false);
         }
     });
 };
@@ -276,10 +278,10 @@ $scope.removeSelected = function() {
         $scope.conversationsCache.remove(selected);
 
         if ($scope.cvs().indexOf($scope.activeConversation) === -1) {
-            $scope.showConversation($scope.cvs()[0]);
+            $scope.showConversation($scope.cvs()[0], false);
         }
         else {
-            $scope.showConversation($scope.activeConversation);
+            $scope.showConversation($scope.activeConversation, false);
         }
 
     });

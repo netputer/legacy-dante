@@ -185,7 +185,7 @@ define([
                 });
 
                 var dnd = new fineuploader.DragAndDrop({
-                    dropArea: document.body,
+                    dropArea: $(".wdj-applications")[0],
                     multiple: true,
                     hideDropzones: false,
                     callbacks: {

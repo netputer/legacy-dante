@@ -1,4 +1,5 @@
 {
+    "TITLE" : "Contacts",
     "BUTTONS": {
         "newContact": "New contact",
         "deselect": "Deselect",
@@ -45,104 +46,104 @@
     },
     "TYPE_MAP": {
         "address": {
-            "CA_CUSTOM": "Custom",
-            "CA_HOME": "Home",
-            "CA_WORK": "Work",
-            "CA_OTHER": "Other"
+            "0": "Custom",
+            "1": "Home",
+            "2": "Work",
+            "3": "Other"
         },
         "event": {
-            "CE_ANNIVERSARY": "Anniversary",
-            "CE_OTHER": "Other",
-            "CE_BIRTHDAY": "Birthday"
+            "1": "Anniversary",
+            "2": "Other",
+            "3": "Birthday"
         },
         "nickname": {
-            "CN_DEFAULT": "Default",
-            "CN_OTHER_NAME": "Other name",
-            "CN_MAINDEN_NAME": "Maiden name",
-            "CN_SHORT_NAME": "Short name",
-            "CN_INITIALS": "Initials"
+            "1": "Default",
+            "2": "Other name",
+            "3": "Maiden name",
+            "4": "Short name",
+            "5": "Initials"
         },
         "organization": {
-            "CO_CUSTOM": "Custom",
-            "CO_WORK": "Work",
-            "CO_OTHER": "Other"
+            "0": "Custom",
+            "1": "Work",
+            "2": "Other"
         },
         "website": {
-            "CW_HOMEPAGE": "Homepage",
-            "CW_BLOG": "Blog",
-            "CW_PROFILE": "Profile",
-            "CW_HOME": "Home",
-            "CW_WORK": "Work",
-            "CW_FTP": "FTP",
-            "CW_OTHER": "Other"
+            "1": "Homepage",
+            "2": "Blog",
+            "3": "Profile",
+            "4": "Home",
+            "5": "Work",
+            "6": "FTP",
+            "7": "Other"
         },
         "IM": {
-            "CI_TYPE_CUSTOM": "Custom",
-            "CI_HOME": "Home",
-            "CI_WORK": "Work",
-            "CI_OTHER": "Other"
+            "0": "Custom",
+            "1": "Home",
+            "2": "Work",
+            "3": "Other"
         },
         "relation": {
-            "CR_ASSISTANT": "Assistant",
-            "CR_BROTHER": "Brother",
-            "CR_CHILD": "Child",
-            "CR_DOMESTIC_PARTNER": "Partner",
-            "CR_FATHER": "Father",
-            "CR_FRIEND": "Friend",
-            "CR_MANAGER": "Manager",
-            "CR_MOTHER": "Mother",
-            "CR_PARENT": "Parent",
-            "CR_PARTNER": "Partner",
-            "CR_REFERRED_BY": "Referred by",
-            "CR_RELATIVE": "Relative",
-            "CR_SISTER": "Sister",
-            "CR_SPOUSE": "Spouse"
+            "1": "Assistant",
+            "2": "Brother",
+            "3": "Child",
+            "4": "Partner",
+            "5": "Father",
+            "6": "Friend",
+            "7": "Manager",
+            "8": "Mother",
+            "9": "Parent",
+            "10": "Partner",
+            "11": "Referred by",
+            "12": "Relative",
+            "13": "Sister",
+            "14": "Spouse"
         },
         "phone": {
-            "CP_CUSTOM": "Custom",
-            "CP_HOME": "Home",
-            "CP_MOBILE": "Mobile",
-            "CP_WORK": "Work",
-            "CP_FAX_WORK": "Fax Work",
-            "CP_FAX_HOME": "Fax Home",
-            "CP_PAGER": "Pager",
-            "CP_OTHER": "Other",
-            "CP_CALLBACK": "Callback",
-            "CP_CAR": "Car",
-            "CP_COMPANY_MAIN": "Company main",
-            "CP_ISDN": "ISDN",
-            "CP_MAIN": "Main",
-            "CP_OTHER_FAX": "Other Fax",
-            "CP_RADIO": "Radio",
-            "CP_TELEX": "Telex",
-            "CP_TTY_TDD": "TTY TDD",
-            "CP_WORK_MOBILE": "Work Mobile",
-            "CP_WORK_PAGER": "Work Pager",
-            "CP_ASSISTANT": "Assistant",
-            "CP_MMS": "MMS"
+            "0": "Custom",
+            "1": "Home",
+            "2": "Mobile",
+            "3": "Work",
+            "4": "Fax Work",
+            "5": "Fax Home",
+            "6": "Pager",
+            "7": "Other",
+            "8": "Callback",
+            "9": "Car",
+            "10": "Company main",
+            "11": "ISDN",
+            "12": "Main",
+            "13": "Other Fax",
+            "14": "Radio",
+            "15": "Telex",
+            "16": "TTY TDD",
+            "17": "Work Mobile",
+            "18": "Work Pager",
+            "19": "Assistant",
+            "20": "MMS"
         },
         "email": {
-            "CE_CUSTOM": "Custom",
-            "CE_HOME": "Home",
-            "CE_WORK": "Work",
-            "CE_OTHER": "Other",
-            "CE_MOBILE": "Mobile"
+            "0": "Custom",
+            "1": "Home",
+            "2": "Work",
+            "3": "Other",
+            "4": "Mobile"
         },
         "note": {
             "Default": "Default"
         }
     },
     "IM_PROTOCOL": {
-        "CI_PROTOCOL_CUSTOM": "Custom",
-        "CI_AIM": "AIM",
-        "CI_MSN": "MSN",
-        "CI_YAHOO": "Yahoo",
-        "CI_SKYPE": "Skype",
-        "CI_QQ": "QQ",
-        "CI_GOOGLE_TALK": "Gtalk",
-        "CI_ICQ": "ICQ",
-        "CI_JABBER": "Jabber",
-        "CI_NETMEETING": "Netmeeting"
+        "-1": "Custom",
+        "0": "AIM",
+        "1": "MSN",
+        "2": "Yahoo",
+        "3": "Skype",
+        "4": "QQ",
+        "5": "Gtalk",
+        "6": "ICQ",
+        "7": "Jabber",
+        "8": "Netmeeting"
     },
     "DIALOG": {
         "SAVE_NEW_CONTACT": {
