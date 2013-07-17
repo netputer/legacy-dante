@@ -162,7 +162,8 @@
                         <select class="des dn" ng-model="item.type" ng-options="value for (key , value) in typeMap.address"></select>
                         <input class="label dn" ng-model="item.label" type="text" placeholder="{{$root.DICT.contacts.INPUT_DEFAULT.custom_label}}">
                         <p class="detail dn">
-                            <a target="_blank" href="http://maps.google.com/maps?q={{item.formatted_address}}">{{item.formatted_address}}</a>
+                            <a target="_blank" ng-show="!$root.READ_ONLY_FLAG" href="http://maps.google.com/maps?q={{item.formatted_address}}">{{item.formatted_address}}</a>
+                            <a target="_blank" ng-show="$root.READ_ONLY_FLAG" href="http://map.baidu.com/?s=s%26wd%3D{{item.formatted_address}}">{{item.formatted_address}}</a>
                         </p>
                         <input class="detail dn" type="text" ng-model="item.formatted_address" placeholder="{{$root.DICT.contacts.INPUT_DEFAULT.address}}">
                         <span class="delete dn" ng-click="delItem('address',item)">&times;</span>
