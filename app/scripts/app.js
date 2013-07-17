@@ -249,7 +249,13 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             wdLanguageEnvironment.apply('zh-cn');
         }
         else {
-            wdLanguageEnvironment.apply();
+            var language = ($window.navigator.language || $window.navigator.browserLanguage).toLowerCase();
+            if (language === 'zh-cn') {
+                wdLanguageEnvironment.apply('en');
+            }
+            else {
+                wdLanguageEnvironment.apply(language);
+            }
         }
 
         $rootScope.applyLanguage = function(language) {
