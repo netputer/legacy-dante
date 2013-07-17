@@ -24,11 +24,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //显示的账号的名称，在dom中有默认的名称
         $scope.accountEmail = '';
-        // $scope.signInBtnDisabled = true;
+        $scope.signInBtnDisabled = true;
 
         $window.googleSignInOnloadDefer.done(function(){
             $window.gapi.auth.init(function(){
-                // $scope.signInBtnDisabled = false;
+                $scope.signInBtnDisabled = false;
                 //异步需要apply()
                 $scope.$apply();
             });
