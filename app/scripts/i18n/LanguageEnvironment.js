@@ -5,24 +5,35 @@ define([
     'i18n/root/config',
     'i18n/zh-cn/dict',
     'i18n/zh-cn/config',
+    'i18n/zh-tw/dict',
+    'i18n/zh-tw/config',
+    'i18n/de/dict',
+    'i18n/de/config',
 ], function(
     _,
     jQuery,
     rootDict,
     rootConfig,
     zhcnDict,
-    zhcnConfig
+    zhcnConfig,
+    zhtwDict,
+    zhtwConfig,
+    deDict,
+    deConfig
 ) {
 'use strict';
 
 var dictionaryCache = {
     root: rootDict,
     'zh-cn': zhcnDict,
-    'zh-tw': {}
+    'zh-tw': zhtwDict,
+    'de': deDict
 };
 var configCache = {
     root: rootConfig,
-    'zh-cn': zhcnConfig
+    'zh-cn': zhcnConfig,
+    'zh-tw': zhtwConfig,
+    'de': deConfig
 };
 
 function LanguageEnvironment(language) {
