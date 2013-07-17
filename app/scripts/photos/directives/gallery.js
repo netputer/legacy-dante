@@ -89,6 +89,8 @@ controller: ['$scope', 'GA', 'wdAlert', 'wdDev', function($scope, GA, wdAlert, w
         path.name = 'ids';
         path.value = $scope.selectedPhotos().map(function(p) { return p.id; }).join(',');
         form.appendChild(path);
+        form.style.display = 'none';
+        document.body.appendChild(form);
         form.submit();
     };
 

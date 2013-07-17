@@ -1,0 +1,60 @@
+{
+	"SIGN_IN":"Entrar",
+	"SIGN_OUT":"Sair",
+	"AUTH_SUCCESS":"Sucesso",
+	"AUTH_FAILED":"Falha",
+	"AUTH_ERROR_TITLE":"Falha ao entrar!",
+	"AUTH_ERROR_TIP":"xxx",
+	"AUTH_ERROR_TIP_1":"Re-enter your passcode.",
+	"AUTH_ERROR_TIP_2":"Certifique-se de que seu celular e computador estejam na mesma rede Wi-Fi.",
+	"AUTH_ERROR_LINK":"Mais ajuda",
+	"PASSCODE_PLACEHOLDER":"Passcode",
+	"GET_STARTED":"Onde está minha senha?",
+	"SAFARI":"Usuários do Safari: alterem suas configurações de cookie para permitir que o SnapPea funcione.",
+	"SAFARI_TITLE":"Altere suas configurações do Safari",
+	"SAFARI_CONTENT":"Vá até Configurações > Privacidade > Bloquear cookies e selecione \"Nunca\".",
+	"H1":"Gerencie seu celular Android pela internet.",
+	"H1_P":"Suas fotos, mensagens, contatos e aplicativos em seu navegador.",
+	"H2":"Novo no SnapPea?",
+	"H2_P":"Para começar, <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\" style=\"color:#3c7800\">instale o SnapPea<\/a> em seu celular. É gratuito.",
+	"GP_ALT":"SnapPea no Google Play",
+	"KEEPER":"Sending passcode. If you reload now, sign in will be cancelled.",
+	"LINK_COPYRIGHT":"Copyright © 2013 SnapPea",
+	"LINK_ABOUT":"Sobre",
+	"LINK_TERMS":"Termos",
+	"LINK_PRIVACY":"Privacidade",
+	"UNSUPPORTED_H1":"O SnapPea não é compatível com seu navegador.",
+	"UNSUPPORTED_H1_P":"Desculpe-nos, mas o SnapPea não é compatível com seu navegador. É altamente recomendado que você use o Chrome.",
+	"DOWNLOAD_CHROME":"Baixar Chrome",
+	"GOOGLE_BUTTON":"Entrar com o Google",
+	"SHOW_ACCOUNT_NAME_DEFAULT":"a mesma conta",
+	"CONNECT_DEVICE_FAILED_POP":{
+		"title":"Falha na conexão",
+		"content":"Certifique-se de que seu computador esteja na rede Wi-Fi de ",
+		"button":"OK"
+	},
+	"ANNOUNCEMENT":"E aí usuário SnapPea: a versão 1.5 chegou! O acesso agora é mais rápido e mais seguro com sua conta Google.",
+	"NO_DEVICES":{
+		"h1":"Entre com seu celular.",
+		"h2":"Suas fotos, mensagens, contatos e aplicativos serão exibidos aqui.",
+		"step1":"1. Instale o SnapPea de",
+		"step2":"2. Abra o SnapPea em seu celular.",
+		"step3":"3. Entre com",
+		"foot":"Caso não veja um botão \"entrar\" em seu celular, por favor ",
+		"foot_updata":"atualize para a versão mais recente do SnapPea."
+	},
+	"SELECT_DEVICES":{
+		"h1":"Selecione um celular.",
+		"h2_1":"Encontramos",
+		"h2_2":"celular(es) em sua conta.",
+		"new_phone":"Conectar um novo celular"
+	},
+	"CHANGE_DEVICES_POP":{
+		"h1":"Conecte um novo celular.",
+		"h2":"Apenas 3 passos e você encontrará seu celular aqui.",
+		"step1":"1. Instale o SnapPea de",
+		"step2":"2. Abra o SnapPea em seu celular.",
+		"step3":"3. Entre com",
+		"button":"Entendi"
+	}
+}
