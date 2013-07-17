@@ -112,6 +112,8 @@ $auth-spacing: 4px;
             cursor: pointer;
             text-decoration: underline;
             opacity: 0.7;
+            display: block;
+            margin-top: 3px;
             &:hover {
                 opacity: 0.95;
             }
@@ -182,6 +184,18 @@ $auth-spacing: 4px;
     margin-top: 20px;
     border: none;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    position: relative;
+    p.google-btn-word{
+        color: #333;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 300;
+        font-size: 12px;
+    }
+    .wd-loading{
+        position: absolute;
+        @include transform(scale(0.4));
+    }
 }
 
 .loading-google{
