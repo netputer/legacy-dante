@@ -1,0 +1,36 @@
+{
+	"BUTTONS":{
+		"INSTALL_APPS":"安裝apk",
+		"SELECT_ALL":"全選",
+		"DESELECT":"取消選擇",
+		"UNINSTALL":"卸載",
+		"REINSTALL":"重新安裝",
+		"COMPLETE":"完成"
+	},
+	"CONFIRMS":{
+		"INSTALL":"確定在你的手機上安裝。",
+		"UNINSTALL":"確定從你的手機上卸載。",
+		"UNKNOWNTIPS":"安装提示",
+		"INSTALL_COMPLETE":"卸載完成"
+	},
+	"NOAPP":"你的手機上無應用。",
+	"UPGRADE_TIP":"更新SnapPea，從網路上管理你的應用。",
+	"DEL_ONE_APP":{
+		"TITLE":"卸載應用",
+		"CONTENT":"從你的手機上卸載所選應用？",
+		"AGREE":"卸載",
+		"CANCEL":"取消"
+	},
+	"DEL_MORE_APPS":{
+		"TITLE":"卸載應用",
+		"CONTENT":"從你的手機上卸載所選應用？",
+		"AGREE":"卸載",
+		"CANCEL":"取消"
+	},
+	"WORDS":{
+		"SIZE":"大小",
+		"INSTALLATION":"安裝",
+		"VERSION":"版本",
+		"PERMISSIONS":"許可"
+	}
+}
