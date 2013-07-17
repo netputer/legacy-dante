@@ -21,6 +21,7 @@ define([
     'common/directives/navbar',
     'common/services/emitter',
     'common/services/socket',
+    'common/services/share',
     'common/directives/auto-stretch-textarea'
 ], function(
     angular,
@@ -45,6 +46,7 @@ define([
     navbar,
     emitter,
     socket,
+    share,
     autoStretchTextarea
 ) {
 // jshint unused:false
@@ -67,6 +69,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdSocket', socket)
     .factory('wdBrowser', browser)
     .factory('wdViewport', viewport)
+    .factory('wdShare', share)
     .factory('wdSharing', sharing)
     .factory('wdKey', key)
     .factory('wdAlert', alert)

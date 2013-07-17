@@ -66,7 +66,7 @@
                     </div>
                     <div wd-menu-item ng-click="handleFacebookConnect()">
                             <i class="icon-facebooklight"></i>&nbsp;&nbsp;
-                            {{isConnectedFacebok ? $root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP : $root.DICT.app.NAVBAR_CONNECT_FACEBOOK_TIP}}
+                            {{isConnectedFacebook() ? $root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP : $root.DICT.app.NAVBAR_CONNECT_FACEBOOK_TIP}}
                     </div>
                     <div wd-menu-sep></div>
                     <div wd-menu-item class="signout" ng-show="!$root.READ_ONLY_FLAG"
@@ -118,6 +118,10 @@
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('zh-cn')">中文 (简体)</a></li>
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('th')">ภาษาไทย</a></li>
     </ul>
+</div>
+
+<div bs-modal class="disconnect-facebook-modal" data-toggle="shownDisconnectFacebookModal" data-button-ok-text="{{$root.DICT.app.DISCONNECT}}" data-ok="disconnectFacebook()" data-cancel="shownDisconnectFacebookModal=false" data-header="{{$root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP}}">
+    {{$root.DICT.app.DISCONNECT_FACEBOOK_INFO}}
 </div>
 
 </div>

@@ -11,8 +11,8 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn', 'wdShare',
+        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn,  wdShare) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -90,37 +90,24 @@ return [function() {
             };
 
             //facebook
-            $scope.isConnectedFacebok = false;
-
-            function setConnectFacebookFlag(response) {
-                $scope.$apply(function() {
-                    if (response.status === 'connected') {
-                        $scope.isConnectedFacebok = true;
-                    } else {
-                        $scope.isConnectedFacebok = false;
-                    }
-                });
+            $scope.isConnectedFacebook = function() {
+                return wdShare.getIsConnectedFacebook();
             }
 
-            window.facebookInitDefer.done(function(Facebook) {
-                Facebook.getLoginStatus(function(response) {
-                    setConnectFacebookFlag(response);
-                });
-            });
-
+            wdShare.getFacebookLoginStatus();
 
             $scope.handleFacebookConnect = function() {
-                window.facebookInitDefer.done(function(Facebook) {
-                    if ($scope.isConnectedFacebok) {
-                        Facebook.logout(function(response) {
-                            setConnectFacebookFlag(response);
-                        });
-                    } else {
-                        Facebook.login(function(response) {
-                            setConnectFacebookFlag(response);
-                        }, {scope : 'user_photos,publish_stream'});
-                    }
-                });
+                if (wdShare.getIsConnectedFacebook()) {
+                    $scope.shownDisconnectFacebookModal = true;
+                } else {
+                    wdShare.connectFacebook();
+                }
+            };
+
+            $scope.disconnectFacebook = function() {
+                wdShare.disconnectFacebook();
+
+                $scope.shownDisconnectFacebookModal = false;
             };
 
         }]

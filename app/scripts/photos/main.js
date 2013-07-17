@@ -11,7 +11,6 @@ define([
     'photos/directives/repeat',
     'photos/services/image-helper',
     'photos/services/message-pusher',
-    'photos/services/share',
     'photos/controllers/gallery',
     'photos/directives/gallery',
     'common/main',
@@ -30,7 +29,6 @@ define([
     repeat,
     imageHelper,
     messagePusher,
-    share,
     galleryController,
     gallery,
     common,
@@ -56,7 +54,6 @@ angular.module('wdPhotos', ['wdCommon', 'wdResources'])
     .factory('wdpPhotos', photos)
     .factory('wdpImageHelper', imageHelper)
     .factory('wdpMessagePusher', messagePusher)
-    .factory('wdpShare', share)
     .controller('galleryController', galleryController);
 
 });

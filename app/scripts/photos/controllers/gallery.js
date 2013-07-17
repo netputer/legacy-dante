@@ -10,9 +10,9 @@ define([
 'use strict';
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
-        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdpShare',
+        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
-         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdpShare) {
+         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -276,7 +276,7 @@ var shareInfo = {};
 var retryUploadPhotoTimes = 3;
 
 function initShareModalStatus() {
-    wdpShare.recoverRetryGetPhotoBlobTimes();
+    wdShare.recoverRetryGetPhotoBlobTimes();
     retryUploadPhotoTimes = 3;
 
     $scope.shareBtnDisabled = true;
@@ -303,29 +303,24 @@ function readyToShare() {
 
 $scope.share = function(photo) {
     initShareModalStatus();
-    facebookInitDefer.done(function(Facebook) {
-        Facebook.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                readyToShare();
 
-                showShareModal(response.authResponse, photo);
-            } else {
-                $scope.connectFacebook(photo);
-            }
-        });
+    wdShare.getFacebookLoginStatus().then(function(authResponse) {
+        readyToShare();
+        showShareModal(authResponse, photo);
+    }, function() {
+        $scope.connectFacebook(photo);
     });
 };
 
 $scope.connectFacebook = function(photo) {
     var data = photo || shareInfo.photo;
-    facebookInitDefer.done(function(Facebook) {
-        Facebook.login(function(response) {
-            if (response.status === 'connected') {
-                readyToShare();
 
-                showShareModal(response.authResponse, data);
-            }
-        }, {scope : 'user_photos,publish_stream'});
+    wdShare.connectFacebook().then(function(authResponse) {
+        readyToShare();
+
+        showShareModal(authResponse, data);
+    }, function() {
+        $scope.hideShareModal();
     });
 }
 
@@ -346,7 +341,7 @@ function uploadPhotosFaildFun(resp, data) {
 
     } else {
         if (retryUploadPhotoTimes) {
-            wdpShare.uploadPhoto(data, shareInfo)
+            wdShare.uploadPhoto(data, shareInfo)
                     .then(uploadPhotoSuccessFun, uploadPhotosFaildFun);
 
             retryUploadPhotoTimes -= 1;
@@ -365,13 +360,13 @@ $scope.uploadAndSharePhoto = function(isRetry) {
     $scope.isShowFaildTip = false;
 
     if (isRetry && shareInfo.photo) {
-        getPhotoBlobDeferred = wdpShare.getPhotoBlob(shareInfo.photo);
+        getPhotoBlobDeferred = wdShare.getPhotoBlob(shareInfo.photo);
     }
     getPhotoBlobDeferred.then(function(data) {
 
         shareInfo.message = $scope.shareText;
 
-        wdpShare.uploadPhoto(data, shareInfo)
+        wdShare.uploadPhoto(data, shareInfo)
                 .then(uploadPhotoSuccessFun, uploadPhotosFaildFun);
 
     }, function() {
@@ -411,7 +406,7 @@ function showShareModal(authResponse, photo) {
         'photo' : photo
     }
 
-    getPhotoBlobDeferred = wdpShare.getPhotoBlob(photo);
+    getPhotoBlobDeferred = wdShare.getPhotoBlob(photo);
 }
 
 }];

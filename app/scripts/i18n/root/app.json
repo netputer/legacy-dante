@@ -29,5 +29,7 @@
         "button_ok": "Sign Out",
         "button_cancel": "Cancel"
     },
-    "LANGUAGE_MODAL_TITLE": "Change language"
+    "LANGUAGE_MODAL_TITLE": "Change language",
+    "DISCONNECT_FACEBOOK_INFO" : "Disconnect your Facebook you will no longer be able to share your photos on Facebook.",
+    "DISCONNECT" : "Disconnect"
 }
