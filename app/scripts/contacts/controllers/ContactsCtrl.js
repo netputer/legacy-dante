@@ -808,7 +808,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             account_name:'',
             account_type:'',
             photo_path:"",
-            IM:[{protocol:'AIM',custom_protocol:'',data:'',label:'',type:''}],
+            IM:[{protocol:'AIM',custom_protocol:'',data:'',label:'',type:'Home'}],
             address:[{type:'Home',city:'',country:'',formatted_address:'',label:'',neightborhood:'',pobox:'',post_code:'',region:'',street:''}],
             email:[{type:'Home',address:'',display_name:'',label:''}],
             name:{display_name:'',family_name:'',given_name:'',middle_name:'',phonetic_family_name:'',phonetic_given_name:'',phonetic_middle_name:'',prefix:'',suffix:''},

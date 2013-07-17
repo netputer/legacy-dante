@@ -8,12 +8,17 @@
 	div.photo{
 	    width: 48px;
 	    height: 48px;
+        overflow: hidden;
         @include use-sprite("profile48");
         display: inline-block;
         position: absolute;
         top: 8px;
         @include readonly {
             left : 10px;
+        }
+        img{
+            width: 48px;
+            height: 48px;
         }
 	}
     label{

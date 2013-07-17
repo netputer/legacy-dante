@@ -11,12 +11,15 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket','wdGoogleSignIn', 'wdShare', 'wdAlert',
-        function($scope,   wdAuthToken,   $route,   wdSocket , wdGoogleSignIn,  wdShare, wdAlert) {
+                '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
+                'wdAlert',
+        function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
+                 wdAlert) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
             $scope.account = '';
+            $scope.authCallbackURL = encodeURIComponent($window.location.href);
 
             $scope.open = function() {
                 $scope.isLoadDevices = true;
