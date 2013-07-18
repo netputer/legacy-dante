@@ -245,18 +245,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $rootScope.GA = GA;
 
         // i18n
-        if (READ_ONLY_FLAG) {
-            wdLanguageEnvironment.apply('zh-cn');
-        }
-        else {
-            var language = ($window.navigator.language || $window.navigator.browserLanguage).toLowerCase();
-            if (language === 'zh-cn') {
-                wdLanguageEnvironment.apply('en');
-            }
-            else {
-                wdLanguageEnvironment.apply(language);
-            }
-        }
+        wdLanguageEnvironment.apply();
 
         $rootScope.applyLanguage = function(language) {
             wdLanguageEnvironment.apply(language);

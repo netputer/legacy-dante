@@ -14,9 +14,9 @@
 	"CHANGE_DEVICES_POP":{
 		"h1":"เชื่อมต่อกับโทรศัพท์ใหม่",
 		"h2":"เพียงแค่ 3 ขั้นตอน แล้วคุณจะพบโทรศัพท์ของคุณที่นี่",
-		"step1":"1. ติดตั้ง SnapPea จาก",
+		"step1":"1. ติดตั้ง SnapPea จาก <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a>.",
 		"step2":"2.   เปิด SnapPea บนโทรศัพท์ของคุณ",
-		"step3":"3. ลงชื่อเข้าใช้กับ",
+		"step3":"3. ลงชื่อเข้าใช้กับ $$.",
 		"button":"ได้แล้ว"
 	},
 	"NAVBAR_NEW_PHONE_TIP":"โทรศัพท์ใหม่",

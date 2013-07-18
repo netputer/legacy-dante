@@ -4,7 +4,7 @@
 	"NAVBAR_MESSAGES_TIP":"短訊",
 	"NAVBAR_CONTACTS_TIP":"聯絡人",
 	"NAVBAR_APPS_TIP":"應用",
-	"NAVBAR_FEEDBACK_TIP":"用户反映",
+	"NAVBAR_FEEDBACK_TIP":"意見反映",
 	"NAVBAR_HELP_TIP":"幫助",
 	"NAVBAR_SETTING_TIP":"設定",
 	"NAVBAR_SELECT_DEVICES_TIP":"選擇手機",
@@ -14,9 +14,9 @@
 	"CHANGE_DEVICES_POP":{
 		"h1":"連接一部新手機。",
 		"h2":"只需3個步驟，你便會在這裡找到你的手機。",
-		"step1":"1.安裝SnapPea，通过",
+		"step1":"1.通过 <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a> 安裝SnapPea.",
 		"step2":"在你的手機上打開SnapPea。",
-		"step3":"3.登入時，使用",
+		"step3":"3.使用 $$ 登入.",
 		"button":"成功啦"
 	},
 	"NAVBAR_NEW_PHONE_TIP":"新手機",
