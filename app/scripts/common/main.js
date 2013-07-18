@@ -22,7 +22,8 @@ define([
     'common/services/emitter',
     'common/services/socket',
     'common/services/share',
-    'common/directives/auto-stretch-textarea'
+    'common/directives/auto-stretch-textarea',
+    'common/directives/temporary-disabled'
 ], function(
     angular,
     loading,
@@ -47,7 +48,8 @@ define([
     emitter,
     socket,
     share,
-    autoStretchTextarea
+    autoStretchTextarea,
+    temporaryDisabled
 ) {
 // jshint unused:false
 'use strict';
@@ -63,6 +65,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdNotification', notificationDirective)
     .directive('wdBlank', blankDirective)
     .directive('wdUpgradeWarning', upgradeWarningDirective)
+    .directive('wdTemporaryDisabled', temporaryDisabled)
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
