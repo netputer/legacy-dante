@@ -10,9 +10,9 @@ define([
 'use strict';
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
-        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
+        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare', 'wdSharing',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
-         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare) {
+         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare, wdSharing) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -289,7 +289,7 @@ function initShareModalStatus() {
     $scope.isShowExpiredTip = false;
     $scope.isShowFooter = true;
     $scope.shareText = '';
-   
+
 }
 
 function readyToShare() {
@@ -312,6 +312,10 @@ $scope.share = function(photo) {
     });
 };
 
+$scope.shareToWeibo = function(photo) {
+    wdSharing.weibo(photo);
+};
+
 $scope.connectFacebook = function(photo) {
     var data = photo || shareInfo.photo;
 
@@ -322,7 +326,7 @@ $scope.connectFacebook = function(photo) {
     }, function() {
         $scope.hideShareModal();
     });
-}
+};
 
 function uploadPhotoSuccessFun(resp) {
     $scope.visibleLoading = false;
@@ -374,21 +378,21 @@ $scope.uploadAndSharePhoto = function(isRetry) {
         $scope.visibleLoading = false;
         $scope.isShowFaildTip = true;
     });
-}
+};
 
 $scope.hideShareModal = function() {
     $scope.isShowShareModal = false;
 };
 
 function showShareModal(authResponse, photo) {
-    facebookInitDefer.done(function(Facebook) {
+    $window.facebookInitDefer.done(function(Facebook) {
         Facebook.api('/me', function(response) {
             $scope.$apply(function() {
                 $scope.facebookUserName = response.name;
             });
-        }); 
+        });
     });
-    
+
 
     var boxConst = 120;
     var bottom = parseInt((photo.thumbnail_height - boxConst) / 2, 10) * -1;
@@ -398,13 +402,13 @@ function showShareModal(authResponse, photo) {
         margin: '0 0 ' + bottom + 'px ' + left + 'px',
         width: photo.thumbnail_width,
         height: photo.thumbnail_height
-    }
+    };
 
     shareInfo = {
         id : authResponse.userID,
         accessToken : authResponse.accessToken,
         'photo' : photo
-    }
+    };
 
     getPhotoBlobDeferred = wdShare.getPhotoBlob(photo);
 }

@@ -16,7 +16,6 @@
             ><i class="icon-down"></i></a>
 
         <a class="action-delete" href=""
-            ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
             ng-click="delete(photo);$root.GA('photos:photo:delete')"
             ><i class="icon-delete"></i></a>
@@ -26,6 +25,12 @@
             bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
             ng-click="share(photo);$root.GA('photos:photo:show_share_modal')"
             ><i class="icon-facebooklight"></i></a>
+
+        <a class="action-share" href=""
+            ng-if="$root.READ_ONLY_FLAG"
+            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
+            ng-click="shareToWeibo(photo);$root.GA('photos:photo:share')"
+            ><i class="icon-share"></i></a>
     </div>
     <div class="wdp-progress"></div>
 </div>

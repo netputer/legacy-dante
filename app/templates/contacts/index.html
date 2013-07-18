@@ -272,7 +272,7 @@
     <!-- 为空检测 -->
     <div class="wd-blank dn">
         <p>{{$root.DICT.contacts.NO_CONTACT}}<p>
-        <div class="btn btn-primary"
+        <div ng-if="!$root.READ_ONLY_FLAG" class="btn btn-primary"
             ng-click="addNewContact();"><i class="icon-add"></i>{{$root.DICT.contacts.BUTTONS.newContact}}</div>
     </div>
     <!-- 为空检测 end -->
