@@ -26,7 +26,7 @@
     "UNSUPPORTED_H1": "SnapPea不支持你的浏览器。",
     "UNSUPPORTED_H1_P": "抱歉，SnapPea不支持你的浏览器。我们强烈推荐你安装Chrome。",
     "DOWNLOAD_CHROME": "下载Chrome",
-    "GOOGLE_BUTTON": "通过Google账号登陆",
+    "GOOGLE_BUTTON": "通过Google账号登录",
     "SHOW_ACCOUNT_NAME_DEFAULT": "同一账号",
     "CONNECT_DEVICE_FAILED_POP": {
         "title": "连接失败",
@@ -54,7 +54,7 @@
         "h2": "只需3步，就能在这里找到你的手机。",
         "step1": "1. 点击这里安装SnapPea",
         "step2": "2. 在手机上打开SnapPea",
-        "step3": "3. 登陆",
+        "step3": "3. 登录",
         "button": "好啦"
     }
 }

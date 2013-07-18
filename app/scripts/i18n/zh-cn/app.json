@@ -8,7 +8,7 @@
     "NAVBAR_HELP_TIP": "帮助",
     "NAVBAR_SETTING_TIP": "设置",
     "NAVBAR_SELECT_DEVICES_TIP": "选择手机",
-    "NAVBAR_SIGNOUT_TIP": "退出登陆",
+    "NAVBAR_SIGNOUT_TIP": "退出登录",
     "MESSAGE_NOTIFICATION_TITLE": "新信息",
     "UPGRADE_BTN_TEXT": "在Google Play上获取最新版本",
     "CHANGE_DEVICES_POP": {
@@ -16,7 +16,7 @@
         "h2": "只需3步，就能在这里找到你的手机。",
         "step1": "1. 点击这里安装SnapPea",
         "step2": "2. 在手机上打开SnapPea.",
-        "step3": "3. 登陆",
+        "step3": "3. 登录",
         "button": "好了"
     },
     "NAVBAR_NEW_PHONE_TIP": "新手机",
