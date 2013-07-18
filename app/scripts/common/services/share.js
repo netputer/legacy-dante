@@ -3,8 +3,8 @@ define([
     ) {
     'use strict';
 
-    return ['$q', '$http', '$rootScope',
-        function($q, $http, $rootScope) {
+    return ['$q', '$http', '$rootScope', 'GA',
+        function($q, $http, $rootScope, GA) {
             var constNum = 3;
             var retryGetPhotoBlobTimes = constNum;
             var isConnectedFacebook = false;
@@ -45,12 +45,16 @@ define([
 
                                     defer.resolve(response.authResponse);
                                 });
+
+                                GA('share:facebook_login:success');
                             } else {
                                 $rootScope.$apply(function() {
                                     isConnectedFacebook = false;
 
                                     defer.reject(response);
                                 });
+
+                                GA('share:facebook_login:fail');
                             }
                         }, {scope : 'user_photos,publish_stream'});
                     });
@@ -69,13 +73,16 @@ define([
 
                                     isConnectedFacebook = false;
                                 });
-                                
+
+                                GA('share:facebook_logout:success');
                             } else {
                                 $rootScope.$apply(function() {
                                     defer.reject(response);
 
                                     isConnectedFacebook = true;
                                 });
+
+                                GA('share:facebook_logout:fail');
                             }
                         });
                     });
@@ -107,11 +114,15 @@ define([
                             $rootScope.$apply(function() {
                                 defer.resolve(r);
                             });
+
+                            GA('share:facebook_share:success');
                         },
                         error : function(r) {
                             $rootScope.$apply(function() {
                                 defer.reject(r.responseJSON, data);
                             });
+
+                            GA('share:facebook_share:fail');
                         }
                     });
 
@@ -123,8 +134,12 @@ define([
                     return $http.get(photo.path, {
                         responseType: 'arraybuffer'
                     }).then(function(response) {
+                        GA('share:get_photo_from_device:success');
+
                         return response.data;
                     }, function() {
+                        GA('share:get_photo_from_device:fail');
+
                         if (retryGetPhotoBlobTimes) {
                             retryGetPhotoBlobTimes -= 1;
 

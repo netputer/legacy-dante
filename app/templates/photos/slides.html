@@ -34,7 +34,7 @@
             ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
             data-options="{container: ''}"
-            ng-click="share({photo: current});$root.GA('photos:slide:share')"
+            ng-click="share({photo: current});$root.GA('photos:slide:show_share_modal')"
             ><i class="icon-facebook"></i></a>
         <a href="" class="action-share"
             ng-if="$root.READ_ONLY_FLAG"

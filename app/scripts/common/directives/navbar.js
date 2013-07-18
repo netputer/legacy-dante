@@ -12,9 +12,9 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window',
+                'wdAlert', '$window', 'GA',
         function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window) {
+                 wdAlert,   $window, GA) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -108,8 +108,12 @@ return [function() {
                     ).then(function() {
                         wdShare.disconnectFacebook();
                     });
+
+                    GA('navbar:facebook_logout');
                 } else {
                     wdShare.connectFacebook();
+
+                    GA('navbar:facebook_login');
                 }
             };
 
