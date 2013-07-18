@@ -90,8 +90,9 @@ define([
                 uploadPhoto : function(data, shareInfo) {
                     var defer = $q.defer();
 
+                    var blob = new Blob([data]);
                     var formData = new FormData();
-                    formData.append('name', data);
+                    formData.append('name', blob);
 
                     var shareUrl = 'https://graph.facebook.com/photos?access_token=' + shareInfo.accessToken + 
                                     '&message=' + encodeURIComponent(shareInfo.message) + '&created_time=' + new Date();
@@ -120,7 +121,7 @@ define([
                 getPhotoBlob : function(photo) {
 
                     return $http.get(photo.path, {
-                        responseType: 'blob'
+                        responseType: 'arraybuffer'
                     }).then(function(response) {
                         return response.data;
                     }, function() {

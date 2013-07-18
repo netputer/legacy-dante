@@ -249,7 +249,13 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             wdLanguageEnvironment.apply('zh-cn');
         }
         else {
-            wdLanguageEnvironment.apply();
+            var language = ($window.navigator.language || $window.navigator.browserLanguage).toLowerCase();
+            if (language === 'zh-cn') {
+                wdLanguageEnvironment.apply('en');
+            }
+            else {
+                wdLanguageEnvironment.apply(language);
+            }
         }
 
         $rootScope.applyLanguage = function(language) {
@@ -296,6 +302,15 @@ if (!READ_ONLY_FLAG) {
 
     jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
 }
+
+var GA_ID = READ_ONLY_FLAG ? 'UA-15790641-1' : 'UA-15790641-36';
+
+window._gaq=[['_setAccount', GA_ID],['_trackPageview']];
+(function(d,t){
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'===location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s);
+}(document,'script'));
 
 
 angular.bootstrap(document, ['wdApp']);

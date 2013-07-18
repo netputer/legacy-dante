@@ -50,7 +50,7 @@
                     placement="right">
                     <div wd-menu-item
                         ng-if="!$root.READ_ONLY_FLAG"
-                        ng-click="$parent.shownLanguageModal=true">
+                        ng-click="$parent.$parent.shownLanguageModal=true">
                         <i class="icon-i18n"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_LANGUAGE_TIP}}
                     </div>
                     <div wd-menu-item>
@@ -111,12 +111,12 @@
 
 <div bs-modal
     ng-if="!$root.READ_ONLY_FLAG"
-    class="language-modal" data-toggle="shownLanguageModal" data-ok="shownLanguageModal=false" data-cancel="shownLanguageModal=false" data-header="{{$root.DICT.app.LANGUAGE_MODAL_TITLE}}">
+    class="language-modal" data-toggle="shownLanguageModal" data-ok="$parent.shownLanguageModal=false" data-cancel="$parent.shownLanguageModal=false" data-header="{{$root.DICT.app.LANGUAGE_MODAL_TITLE}}">
     <ul class="unstyled language-list">
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('en')">English</a></li>
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('de')">Deutsch</a></li>
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('pt-br')">Português (Brasil)</a></li>
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('zh-tw')">中文 (繁體)</a></li>
+        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('zh-tw')">中文 (正體)</a></li>
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('es')">Español</a></li>
         <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('th')">ภาษาไทย</a></li>
     </ul>
