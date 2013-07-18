@@ -21,7 +21,6 @@
             ng-click="rotate();$root.GA('photos:slide:rotate')"
             ><i class="icon-sliderotate"></i></a>
         <a href="" class="action-delete"
-            ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.SLIDES_DELETE}}"
             data-options="{container: ''}"
             ng-click="remove();$root.GA('photos:slide:delete')"
@@ -37,6 +36,12 @@
             data-options="{container: ''}"
             ng-click="share({photo: current});$root.GA('photos:slide:share')"
             ><i class="icon-facebook"></i></a>
+        <a href="" class="action-share"
+            ng-if="$root.READ_ONLY_FLAG"
+            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
+            data-options="{container: ''}"
+            ng-click="share({photo: current});$root.GA('photos:slide:share')"
+            ><i class="icon-share"></i></a>
     </div>
     <a href="" class="action-close"
         ng-click="close();$root.GA('photos:slide:close')"
