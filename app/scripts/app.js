@@ -232,6 +232,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         //     return wdKeeper.getTip();
         // };
 
+        $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
+
         (function(keeper) {
             $rootScope.$on('ajaxStart', function() {
                 keeper = wdKeeper.push($rootScope.DICT.app.UNLOAD_NETWORK_TIP);
@@ -251,7 +253,6 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             wdLanguageEnvironment.apply(language);
         };
 
-        $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);
