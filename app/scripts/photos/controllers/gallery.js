@@ -282,7 +282,7 @@ function initShareModalStatus() {
     $scope.shareBtnDisabled = true;
     $scope.textareaReadonly = true;
     $scope.visibleLoading = false;
-    $scope.isShowShareModal = true;
+    $scope.isShowShareModal = false;
     $scope.isShowCheckingFBTip = true;
     $scope.isShowSuccessTip = false;
     $scope.isShowFaildTip = false;
@@ -293,6 +293,7 @@ function initShareModalStatus() {
 }
 
 function readyToShare() {
+    $scope.isShowShareModal = true;
     $scope.shareBtnDisabled = false;
     $scope.textareaReadonly = false;
     $scope.isShowCheckingFBTip = false;
@@ -324,7 +325,6 @@ $scope.connectFacebook = function(photo) {
 
         showShareModal(authResponse, data);
     }, function() {
-        $scope.hideShareModal();
     });
 };
 
