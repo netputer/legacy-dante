@@ -13,10 +13,16 @@ angular.module('wdLanguage', [])
 
         return {
             apply: function(language) {
-                language = language || $window.localStorage.getItem('preferredLanguage');
-                if (!language) {
-                    return;
+                if ($rootScope.READ_ONLY_FLAG) {
+                    language = 'zh-cn';
                 }
+                else {
+                    language = (language || $window.localStorage.getItem('preferredLanguage') || $window.navigator.language || $window.navigator.browserLanguage).toLowerCase();
+                    if (language === 'zh-cn') {
+                        language = 'en';
+                    }
+                }
+
                 currentLanguageEnvironment = LanguageEnvironment.prepare(language);
                 $window.localStorage.setItem('preferredLanguage', language);
                 $rootScope.DICT = currentLanguageEnvironment.getDictionary();
