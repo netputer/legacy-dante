@@ -24,7 +24,7 @@
         data-photos="photos"
         data-on-delete="delete(photo)"
         data-on-download="download(photo)"
-        data-on-share="share(photo)"
+        data-on-share="$root.READ_ONLY_FLAG ? shareToWeibo(photo) : share(photo)"
         >
     </div>
 
