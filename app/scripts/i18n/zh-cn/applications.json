@@ -5,7 +5,8 @@
       "DESELECT": "取消选择",
       "UNINSTALL": "卸载",
       "REINSTALL": "重新安装",
-      "COMPLETE": "完成"
+      "COMPLETE": "完成",
+      "DOWNLOAD" : "下载"
   },
   "CONFIRMS": {
       "INSTALL": "确认在手机上安装.",

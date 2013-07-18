@@ -33,7 +33,7 @@
                 <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall" ng-show="!$root.READ_ONLY_FLAG">
                     <i class="icon-delete"></i>
                 </span>
-                <span class="btn-icon-download" bs-tooltip="Download" ng-show="$root.READ_ONLY_FLAG">
+                <span class="btn-icon-download" bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}" ng-show="$root.READ_ONLY_FLAG">
                     <a href="{{item.download_url}}"><i class="icon-down"></i></a>
                 </span>
             </dd>
@@ -111,7 +111,10 @@
                 <i class="icon-info-del"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
             </div>
             <div class="buttons" ng-show="$root.READ_ONLY_FLAG">
-                <a href="{{info.download_url}}"><i class="icon-down"></i></a>
+                <a href="{{info.download_url}}">
+                    <i class="icon-down-toolbar"></i>
+                    <p>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</p>
+                </a>
             </div>
         </dl>
         <!-- 显示应用信息 end -->
