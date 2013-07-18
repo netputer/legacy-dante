@@ -65,7 +65,7 @@
                             <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
                         </a>
                     </div>
-                    <div wd-menu-item ng-click="handleFacebookConnect()">
+                    <div ng-if="!$root.READ_ONLY_FLAG" wd-menu-item ng-click="handleFacebookConnect()">
                             <i class="icon-facebooklight"></i>&nbsp;&nbsp;
                             {{isConnectedFacebook() ? $root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP : $root.DICT.app.NAVBAR_CONNECT_FACEBOOK_TIP}}
                     </div>

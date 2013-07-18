@@ -25,7 +25,9 @@
         data-on-delete="delete(photo)"
         data-on-download="download(photo)"
         data-on-share="share(photo)"
-        ></div>
+        >
+    </div>
+
     <div bs-modal toggle="isShowShareModal" data-header="{{$root.DICT.photos.BLOCK_SHARE_FB}}" class="wdp-share-modal" cancel="hideShareModal()">
         <div class="facebook-user-name">
             <i class="icon-facebookblue"></i>
@@ -39,7 +41,7 @@
             <div class="wd-loading wd-loading-inline share-loading in-footer" data-visible="visibleLoading"></div>
             <span class="share-success-tip share-tip" ng-show="isShowSuccessTip">{{$root.DICT.photos.SHARE_SUCCESS_TIP}}</span>
             <span class="share-faild-tip share-tip" ng-show="isShowFaildTip">
-                {{$root.DICT.photos.SHARE_FAIL_TIP}} 
+                {{$root.DICT.photos.SHARE_FAIL_TIP}}
                 <a href="" ng-click="uploadAndSharePhoto(true)">{{$root.DICT.photos.SHARE_RETRY}}<a/>
             </span>
             <span class="share-faild-tip share-tip" ng-show="isShowExpiredTip">
