@@ -40,7 +40,7 @@ var READ_ONLY_FLAG = true;
 READ_ONLY_FLAG = false;
 //>>excludeEnd("readonly");
 //>>includeStart("debug", pragmas.debug);
-READ_ONLY_FLAG = window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
+READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
 //>>includeEnd("debug");
 
 angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
