@@ -1,37 +1,37 @@
 {
  "BUTTONS": {
-      "INSTALL_APPS": "Install apk",
-      "SELECT_ALL": "Select all",
-      "DESELECT": "Deselect",
-      "UNINSTALL": "Uninstall",
-      "REINSTALL": "Reinstall",
-      "COMPLETE": "Complete"
+      "INSTALL_APPS": "安装apk",
+      "SELECT_ALL": "选择所有",
+      "DESELECT": "取消选择",
+      "UNINSTALL": "卸载",
+      "REINSTALL": "重新安装",
+      "COMPLETE": "完成"
   },
   "CONFIRMS": {
-      "INSTALL": "Confirm installation on your phone.",
-      "UNINSTALL": "Confirm uninstallation on your phone.",
-      "UNKNOWNTIPS": "Installation tips",
-      "INSTALL_COMPLETE": "Installation complete"
+      "INSTALL": "确认在手机上安装.",
+      "UNINSTALL": "确认在手机上卸载.",
+      "UNKNOWNTIPS": "安装提示",
+      "INSTALL_COMPLETE": "安装完成"
   },
-  "NOAPP": "No apps on your phone.",
+  "NOAPP": "手机上没有应用程序.",
   "UPGRADE_TIP": "Update SnapPea to manage your apps from the web.",
   "DEL_ONE_APP": {
-      "TITLE": "Uninstall app",
-      "CONTENT": "Uninstall the selected app from your phone?",
-      "AGREE": "Uninstall",
-      "CANCEL": "Cancel"
+      "TITLE": "卸载应用程序",
+      "CONTENT": "从手机中卸载选中的程序吗？",
+      "AGREE": "卸载",
+      "CANCEL": "取消"
   },
   "DEL_MORE_APPS": {
-      "TITLE": "Uninstall apps",
-      "CONTENT": "Uninstall the selected apps from your phone?",
-      "AGREE": "Uninstall",
-      "CANCEL": "Cancel"
+      "TITLE": "卸载应用程序",
+      "CONTENT": "从手机中卸载选中的程序吗？",
+      "AGREE": "卸载",
+      "CANCEL": "取消"
   },
   "WORDS": {
-      "SIZE": "Size",
-      "INSTALLATION": "Installation",
-      "VERSION": "Version",
-      "PERMISSIONS": "Permissions"
+      "SIZE": "大小",
+      "INSTALLATION": "安装位置",
+      "VERSION": "版本号",
+      "PERMISSIONS": "许可"
   },
   "PERMISSIONS":{
         "android.permission.SEND_SMS": "发送短信",

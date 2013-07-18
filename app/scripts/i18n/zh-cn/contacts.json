@@ -1,140 +1,140 @@
 {
     "TITLE" : "通讯录",
     "BUTTONS": {
-        "newContact": "New contact",
-        "deselect": "Deselect",
-        "delete": "Delete",
-        "addNewItem": "Add new item",
-        "edit": "Edit",
-        "save": "Save",
-        "cancel": "Cancel",
-        "change_photo": "Change Photo"
+        "newContact": "新联系人",
+        "deselect": "取消选择",
+        "delete": "删除",
+        "addNewItem": "添加新的项目",
+        "edit": "编辑",
+        "save": "保存",
+        "cancel": "取消",
+        "change_photo": "更改照片"
     },
     "INPUT_DEFAULT": {
         "search": "搜索联系人...",
-        "first_name": "First name",
-        "middle_name": "Middle name",
-        "last_name": "Last name",
-        "company": "Company",
-        "title": "Title",
-        "custom_label": "Custom label",
-        "phone_number": "Phone number",
-        "email_address": "Email address",
-        "address": "Address",
-        "im": "IM",
-        "website": "Website",
-        "relationship": "Relationship",
-        "note": "Note"
+        "first_name": "名",
+        "middle_name": "中间名",
+        "last_name": "姓",
+        "company": "公司",
+        "title": "职称",
+        "custom_label": "自定义标签",
+        "phone_number": "电话号码",
+        "email_address": "电子邮箱",
+        "address": "地址",
+        "im": "即时聊天工具",
+        "website": "网站",
+        "relationship": "关系",
+        "note": "备注"
     },
-    "NO_CONTACT_TIPS": "No contacts matched your search.",
-    "UPGRADE_TIP": "Update SnapPea to manage your contacts from the web.",
-    "NO_CONTACT": "No contacts on your phone. Your friends are waiting!",
-    "NO_NAME": "No Name",
-    "LOAD_MORE": "Load more",
+    "NO_CONTACT_TIPS": "没有符合要求的搜索结果.",
+    "UPGRADE_TIP": "升级豌豆荚，可以在网页上管理联系人噢Update SnapPea to manage your contacts from the web.",
+    "NO_CONTACT": "手机内没有联系人。快添加一些朋友吧！",
+    "NO_NAME": "没有姓名",
+    "LOAD_MORE": "载入更多",
     "WORDS": {
-        "account": "Account",
-        "nameOrganization": "Name & Organization",
-        "phone": "Phone",
-        "email": "E-mail",
-        "address": "Address",
+        "account": "账户",
+        "nameOrganization": "姓名和机构",
+        "phone": "手机",
+        "email": "邮箱",
+        "address": "地址",
         "IM": "IM",
-        "website": "Website",
-        "relationship": "Relationship",
-        "note": "Note",
-        "select": "Select",
-        "deselect": "Deselect"
+        "website": "网站",
+        "relationship": "关系",
+        "note": "备注",
+        "select": "选择",
+        "deselect": "取消选择"
     },
     "TYPE_MAP": {
         "address": {
-            "CA_CUSTOM": "Custom",
-            "CA_HOME": "Home",
-            "CA_WORK": "Work",
-            "CA_OTHER": "Other"
+            "CA_CUSTOM": "自定义",
+            "CA_HOME": "住宅",
+            "CA_WORK": "工作",
+            "CA_OTHER": "其他"
         },
         "event": {
-            "CE_ANNIVERSARY": "Anniversary",
-            "CE_OTHER": "Other",
-            "CE_BIRTHDAY": "Birthday"
+            "CE_ANNIVERSARY": "纪念日",
+            "CE_OTHER": "其他",
+            "CE_BIRTHDAY": "生日"
         },
         "nickname": {
-            "CN_DEFAULT": "Default",
-            "CN_OTHER_NAME": "Other name",
-            "CN_MAINDEN_NAME": "Maiden name",
-            "CN_SHORT_NAME": "Short name",
-            "CN_INITIALS": "Initials"
+            "CN_DEFAULT": "默认",
+            "CN_OTHER_NAME": "其他姓名",
+            "CN_MAINDEN_NAME": "中间名",
+            "CN_SHORT_NAME": "昵称",
+            "CN_INITIALS": "首字母"
         },
         "organization": {
-            "CO_CUSTOM": "Custom",
-            "CO_WORK": "Work",
-            "CO_OTHER": "Other"
+            "CO_CUSTOM": "自定义",
+            "CO_WORK": "工作",
+            "CO_OTHER": "其他"
         },
         "website": {
-            "CW_HOMEPAGE": "Homepage",
-            "CW_BLOG": "Blog",
-            "CW_PROFILE": "Profile",
-            "CW_HOME": "Home",
-            "CW_WORK": "Work",
+            "CW_HOMEPAGE": "主页",
+            "CW_BLOG": "博客",
+            "CW_PROFILE": "个人资料",
+            "CW_HOME": "住宅",
+            "CW_WORK": "工作",
             "CW_FTP": "FTP",
-            "CW_OTHER": "Other"
+            "CW_OTHER": "其他"
         },
         "IM": {
-            "CI_TYPE_CUSTOM": "Custom",
-            "CI_HOME": "Home",
-            "CI_WORK": "Work",
-            "CI_OTHER": "Other"
+            "CI_TYPE_CUSTOM": "自定义",
+            "CI_HOME": "住宅",
+            "CI_WORK": "工作",
+            "CI_OTHER": "其他"
         },
         "relation": {
-            "CR_ASSISTANT": "Assistant",
-            "CR_BROTHER": "Brother",
-            "CR_CHILD": "Child",
-            "CR_DOMESTIC_PARTNER": "Partner",
-            "CR_FATHER": "Father",
-            "CR_FRIEND": "Friend",
-            "CR_MANAGER": "Manager",
-            "CR_MOTHER": "Mother",
-            "CR_PARENT": "Parent",
-            "CR_PARTNER": "Partner",
-            "CR_REFERRED_BY": "Referred by",
-            "CR_RELATIVE": "Relative",
-            "CR_SISTER": "Sister",
-            "CR_SPOUSE": "Spouse"
+            "CR_ASSISTANT": "助理",
+            "CR_BROTHER": "兄弟",
+            "CR_CHILD": "子女",
+            "CR_DOMESTIC_PARTNER": "同居伴侣",
+            "CR_FATHER": "父亲",
+            "CR_FRIEND": "朋友",
+            "CR_MANAGER": "经理",
+            "CR_MOTHER": "母亲",
+            "CR_PARENT": "父母",
+            "CR_PARTNER": "合作伙伴",
+            "CR_REFERRED_BY": "介绍人",
+            "CR_RELATIVE": "亲属",
+            "CR_SISTER": "姐妹",
+            "CR_SPOUSE": "配偶"
         },
         "phone": {
-            "CP_CUSTOM": "Custom",
-            "CP_HOME": "Home",
-            "CP_MOBILE": "Mobile",
-            "CP_WORK": "Work",
-            "CP_FAX_WORK": "Fax Work",
-            "CP_FAX_HOME": "Fax Home",
-            "CP_PAGER": "Pager",
-            "CP_OTHER": "Other",
+            "CP_CUSTOM": "自定义",
+            "CP_HOME": "住宅",
+            "CP_MOBILE": "手机",
+            "CP_WORK": "工作",
+            "CP_FAX_WORK": "单位传真",
+            "CP_FAX_HOME": "住宅传真",
+            "CP_PAGER": "传呼机",
+            "CP_OTHER": "其他",
             "CP_CALLBACK": "Callback",
             "CP_CAR": "Car",
             "CP_COMPANY_MAIN": "Company main",
             "CP_ISDN": "ISDN",
             "CP_MAIN": "Main",
-            "CP_OTHER_FAX": "Other Fax",
+            "CP_OTHER_FAX": "其他传真",
             "CP_RADIO": "Radio",
             "CP_TELEX": "Telex",
             "CP_TTY_TDD": "TTY TDD",
-            "CP_WORK_MOBILE": "Work Mobile",
-            "CP_WORK_PAGER": "Work Pager",
-            "CP_ASSISTANT": "Assistant",
+            "CP_WORK_MOBILE": "工作手机",
+            "CP_WORK_PAGER": "工作传呼机",
+            "CP_ASSISTANT": "助理",
             "CP_MMS": "MMS"
         },
         "email": {
-            "CE_CUSTOM": "Custom",
-            "CE_HOME": "Home",
-            "CE_WORK": "Work",
-            "CE_OTHER": "Other",
-            "CE_MOBILE": "Mobile"
+            "CE_CUSTOM": "自定义",
+            "CE_HOME": "住宅",
+            "CE_WORK": "工作",
+            "CE_OTHER": "其他",
+            "CE_MOBILE": "手机"
         },
         "note": {
-            "Default": "Default"
+            "Default": "默认"
         }
     },
     "IM_PROTOCOL": {
-        "CI_PROTOCOL_CUSTOM": "Custom",
+        "CI_PROTOCOL_CUSTOM": "自定义",
         "CI_AIM": "AIM",
         "CI_MSN": "MSN",
         "CI_YAHOO": "Yahoo",
@@ -147,40 +147,40 @@
     },
     "DIALOG": {
         "SAVE_NEW_CONTACT": {
-            "TITLE": "Save Contact",
-            "CONTENT": "Save changes to this contact? ",
-            "OK": "Save",
-            "CANCEL": "Don't Save"
+            "TITLE": "保存联系人t",
+            "CONTENT": "保存对这个联系人的编辑内容吗？",
+            "OK": "保存",
+            "CANCEL": "不保存"
         },
         "SAVE_EDIT_CONTACT": {
-            "TITLE": "Save Contact",
-            "CONTENT": "Save changes to this contact? ",
-            "OK": "Save",
-            "CANCEL": "Don't Save"
+            "TITLE": "保存联系人",
+            "CONTENT": "保存对这个联系人的编辑内容吗？ ",
+            "OK": "保存",
+            "CANCEL": "不保存"
         },
         "DELETE_CONTACT": {
-            "TITLE": "Delete contact(s)",
-            "CONTENT": "Delete the selected contact(s) from your phone?",
-            "OK": "Delete",
-            "CANCEL": "Cancel",
-            "ASK": "Delete the selected contact(s) from your phone?",
-            "READ_ONLY": "Those are read-only contact(s),can not be deleted:"
+            "TITLE": "删除联系人",
+            "CONTENT": "删除选定的联系人吗？",
+            "OK": "删除",
+            "CANCEL": "取消",
+            "ASK": "从手机中删除选定的联系人吗？",
+            "READ_ONLY": "这些是只读的联系人，无法删除："
         },
         "FAILED_DELETE": {
-            "TITLE": "Failed to delete selected contacts",
-            "OK": "OK"
+            "TITLE": "删除选中联系人失败",
+            "OK": "确认"
         },
         "FAILED_SAVE_EDIT": {
-            "TITLE": "Failed to save edits",
-            "OK": "OK"
+            "TITLE": "保存编辑内容失败",
+            "OK": "确认"
         },
         "FAILED_SAVE_NEW": {
-            "TITLE": "Failed to save new contact",
-            "OK": "OK"
+            "TITLE": "创建新联系人失败",
+            "OK": "确认"
         },
         "ENTER_CONTACT": {
-            "TITLE": "Please enter the contact",
-            "OK": "OK"
+            "TITLE": "请输入联系人",
+            "OK": "确认"
         }
     }
 }
