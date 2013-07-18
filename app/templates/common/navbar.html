@@ -54,14 +54,22 @@
                         <i class="icon-i18n"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_LANGUAGE_TIP}}
                     </div>
                     <div wd-menu-item>
-                        <a target="_blank"
+                        <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
                             href="http://snappea.zendesk.com/forums/21871852-Web-version">
+                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_HELP_TIP}}
+                        </a>
+                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
+                            href="http://help.wandoujia.com/home">
                             <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_HELP_TIP}}
                         </a>
                     </div>
                     <div wd-menu-item>
-                        <a target="_blank"
+                        <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
                             href="http://snappea.wufoo.com/forms/snappea-feedback-survey/">
+                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
+                        </a>
+                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
+                            href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
                             <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
                         </a>
                     </div>

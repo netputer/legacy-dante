@@ -11,6 +11,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     $scope.state = 'standby';
     $scope.showHelp = false;
     $scope.authCallbackURL = encodeURIComponent($window.location.href);
+    $scope.isCheckingLogin = true;
 
     var HOST = 'sync.wandoujia.com';
     //>>includeStart("debug", pragmas.debug);
@@ -70,6 +71,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
         };
         $scope.submit(item);
     },function(){
+        $scope.isCheckingLogin = false;
         wdAuthToken.signout();
     });
 

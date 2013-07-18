@@ -31,6 +31,8 @@
             <p>&copy;{{$root.DICT.cloudDataSignIn.COPY_INFO}}</p>
         </div>
 
-        <!-- <div class="wd-loading" data-visible="true"></div> -->
+        <div class="loading" ng-show="isCheckingLogin">
+            <div class="wd-loading" data-visible="true"></div>
+        </div>
     </div>
 </div>
