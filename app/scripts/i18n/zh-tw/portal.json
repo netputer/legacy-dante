@@ -27,13 +27,13 @@
 	"UNSUPPORTED_H1_P":"對不起，SnapPea不支援你的流覽器，我們強烈建議你使用Chrome。",
 	"DOWNLOAD_CHROME":"下載Chrome",
 	"GOOGLE_BUTTON":"利用Google登錄",
-	"SHOW_ACCOUNT_NAME_DEFAULT":"相同帳戶",
+	"SHOW_ACCOUNT_NAME_DEFAULT":"相同賬號",
 	"CONNECT_DEVICE_FAILED_POP":{
 		"title":"連接失敗",
 		"content":"請確保你的電腦在  該Wi-Fi網路上",
 		"button":"確定"
 	},
-	"ANNOUNCEMENT":"SnapPea用戶：1.5版就在這裡！登錄利用你的Google帳戶更快、更安全地登錄。",
+	"ANNOUNCEMENT":"SnapPea用戶：1.5版就在這裡！登錄利用你的Google賬號更快、更安全地登錄。",
 	"NO_DEVICES":{
 		"h1":"在你的手機上登錄。",
 		"h2":"此處將會顯示你的照片、短訊、聯絡人和應用。",
@@ -45,7 +45,7 @@
 	},
 	"SELECT_DEVICES":{
 		"h1":"選擇一部手機。",
-		"h2_1":"我們在你的帳戶中",
+		"h2_1":"我們在你的賬號中",
 		"h2_2":"發現手機",
 		"new_phone":"連接一部新手機"
 	},

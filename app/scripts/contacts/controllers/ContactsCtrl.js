@@ -46,10 +46,10 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
     // var G_defaultPhoto = '../../images/contacts/default.png';
 
     //各个type字段映射表
-    var G_typeMap = $scope.$root.DICT.contacts.TYPE_MAP;
+    var G_typeMap = $scope.$root.DICT.contactType.TYPE_MAP;
 
     //IM中使用的字段
-    var G_protocol = $scope.$root.DICT.contacts.IM_PROTOCOL;
+    var G_protocol = $scope.$root.DICT.contactType.IM_PROTOCOL;
 
     //最后一个选择的元素
     var G_lastChecked;

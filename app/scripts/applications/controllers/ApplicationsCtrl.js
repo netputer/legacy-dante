@@ -55,7 +55,7 @@ define([
             for(var i = 0 , l = data.length; i<l;i++ ){
                 if(data[i]['package_name'] == package_name){
                     for(var m = 0 , n = data[i]['requested_permission'].length; m < n; m++ ){
-                        data[i]['requested_permission'][m] = $scope.$root.DICT.applications.PERMISSIONS[data[i]['requested_permission'][m]] || data[i]['requested_permission'][m];
+                        data[i]['requested_permission'][m] = $scope.$root.DICT.permissions.PERMISSIONS[data[i]['requested_permission'][m]] || data[i]['requested_permission'][m];
                     };
 
                     return data[i];
