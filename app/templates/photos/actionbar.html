@@ -14,8 +14,9 @@
         <div class="btn"
             ng-click="deleteSelected();$root.GA('photos:delete_selected')"
             ><i class="icon-del-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DELETE}}</div>
-        <div class="btn"
+        <button class="btn"
+            wd-temporary-disabled
             ng-click="downloadSelected();$root.GA('photos:download_selected')"
-            ><i class="icon-down-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DOWNLOAD}}</div>
+            ><i class="icon-down-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DOWNLOAD}}</button>
     </div>
 </div>
