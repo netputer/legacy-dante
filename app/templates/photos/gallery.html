@@ -26,7 +26,7 @@
         data-on-download="download(photo)"
         data-on-share="share(photo)"
         ></div>
-    <div bs-modal toggle="isShowShareModal" data-header="{{$root.DICT.photos.BLOCK_SHARE_FB}}" class="wdp-share-modal" cancel="hideShareModal()">
+    <div bs-modal toggle="isShowShareModal" data-header="{{$root.DICT.photos.BLOCK_SHARE_FB}}" class="wdp-share-modal" cancel="hideShareModal();$root.GA('share:cancel_share_facebook')">
         <div class="facebook-user-name">
             <i class="icon-facebookblue"></i>
             {{facebookUserName}}
@@ -40,17 +40,17 @@
             <span class="share-success-tip share-tip" ng-show="isShowSuccessTip">{{$root.DICT.photos.SHARE_SUCCESS_TIP}}</span>
             <span class="share-faild-tip share-tip" ng-show="isShowFaildTip">
                 {{$root.DICT.photos.SHARE_FAIL_TIP}} 
-                <a href="" ng-click="uploadAndSharePhoto(true)">{{$root.DICT.photos.SHARE_RETRY}}<a/>
+                <a href="" ng-click="uploadAndSharePhoto(true);$root.GA('share:retry_share_facebook')">{{$root.DICT.photos.SHARE_RETRY}}<a/>
             </span>
             <span class="share-faild-tip share-tip" ng-show="isShowExpiredTip">
                 {{$root.DICT.photos.FB_CONNECTION_EXPIRED_TIP}}
-                <a href="" ng-click="connectFacebook()">{{$root.DICT.photos.RECONNECT}}</a>
+                <a href="" ng-click="connectFacebook();$root.GA('share:facebook_expired_and_connect')">{{$root.DICT.photos.RECONNECT}}</a>
             </span>
             <span class="checking-facebook-tip" ng-show="isShowCheckingFBTip">{{$root.DICT.photos.CHECKING_FACEBOOK_TIP}}</span>
         </div>
         <div class="footer-button-wrapper" ng-show="isShowFooter">
-            <a href="" class="btn" ng-click="hideShareModal()">Cancel</a>
-            <a href="" class="btn btn-primary" ng-click="uploadAndSharePhoto()" ng-disabled="shareBtnDisabled">Share</a>
+            <a href="" class="btn" ng-click="hideShareModal();$root.GA('share:cancel_share_facebook')">Cancel</a>
+            <a href="" class="btn btn-primary" ng-click="uploadAndSharePhoto();$root.GA('share:facebook_share')" ng-disabled="shareBtnDisabled">Share</a>
         </div>
     </div>
     <div class="wd-blank" ui-if="!photos.length && firstScreenLoaded">
