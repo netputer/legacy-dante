@@ -14,9 +14,9 @@
 	"CHANGE_DEVICES_POP":{
 		"h1":"Conectar otro teléfono.",
 		"h2":"Solo 3 pasos y podrás encontrar aquí tu teléfono.",
-		"step1":"1. Instalar SnapPea desde",
+		"step1":"1. Instalar SnapPea desde <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a>.",
 		"step2":"2. Abrir SnapPea en tu teléfono.",
-		"step3":"3. Iniciar sesión con",
+		"step3":"3. Iniciar sesión con $$.",
 		"button":"Lo tengo"
 	},
 	"NAVBAR_NEW_PHONE_TIP":"Teléfono nuevo",

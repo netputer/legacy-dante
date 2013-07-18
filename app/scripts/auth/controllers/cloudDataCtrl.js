@@ -12,6 +12,11 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     $scope.showHelp = false;
     $scope.authCallbackURL = encodeURIComponent($window.location.href);
 
+    var HOST = 'sync.wandoujia.com';
+    //>>includeStart("debug", pragmas.debug);
+    HOST = 'sync-test.wandoujia.com';
+    //>>includeEnd("debug");
+
     // if (!$scope.isSupport) {
     //     GA('login:not_support');
     // }
@@ -24,10 +29,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     };
 
     $scope.submit = function() {
-        var host = 'sync.wandoujia.com';
-        //>>includeStart("debug", pragmas.debug);
-        host = 'sync-test.wandoujia.com';
-        //>>includeEnd("debug");
+        var host = HOST;
         var port = 80;
         var keeper = null;
         $scope.state = 'loading';
@@ -64,7 +66,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     //进入系统的主逻辑
     wandoujiaSignIn.getAccount().then(function(data){
         var item = {
-            ip : 'sync.wandoujia.com'
+            ip : HOST
         };
         $scope.submit(item);
     },function(){

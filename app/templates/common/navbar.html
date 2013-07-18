@@ -93,7 +93,7 @@
         <div class="step">
             <dl class="step1">
                 <dt></dt>
-                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
+                <dd ng-bind-html-unsafe="$root.DICT.app.CHANGE_DEVICES_POP.step1"></dd>
             </dl>
             <dl class="step2">
                 <dt></dt>
@@ -101,7 +101,7 @@
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3}} <span>{{account || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span> . </dd>
+                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3.replace('$$', account || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT)}}</dd>
             </dl>
         </div>
         <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.app.CHANGE_DEVICES_POP.button}}</button>
