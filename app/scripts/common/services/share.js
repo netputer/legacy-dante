@@ -132,7 +132,8 @@ define([
                 getPhotoBlob : function(photo) {
 
                     return $http.get(photo.path, {
-                        responseType: 'arraybuffer'
+                        responseType: 'arraybuffer',
+                        cache: false
                     }).then(function(response) {
                         GA('share:get_photo_from_device:success');
 
