@@ -205,7 +205,6 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             }
 
             data = changeDataType(data);
-
             //备份数据到全局，以便之后cancel时使用
             G_showingContact = {};
             $.extend(true,G_showingContact,data);
