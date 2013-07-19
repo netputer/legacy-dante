@@ -205,6 +205,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             }
 
             data = changeDataType(data);
+
             //备份数据到全局，以便之后cancel时使用
             G_showingContact = {};
             $.extend(true,G_showingContact,data);
@@ -566,7 +567,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             var el = desEle.eq(i);
             var val = el.hide().text();
             var sel = el.nextAll('select').show();
-            if( sel.val().indexOf('CUSTOM') >= 0 ){
+            if( sel.val() == 0 ){
                 el.nextAll('input.label').show();
             };
         };
@@ -750,7 +751,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             var sel = wrap.find('select').show();
             var label = wrap.find('input.label');
             for(var i = 0, l = label.length ; i<l ; i++){
-                if( sel.eq(i).val().indexOf('CUSTOM') > 0 ){
+                if( sel.eq(i).val()==0 ){
                     label.eq(i).show();
                 };
             };
@@ -772,7 +773,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
         var label = wrap.find('input.label');
         wrap.on('change',function(e){
             var ele = $(e.target);
-            if(ele.val().indexOf('CUSTOM') >= 0){
+            if(ele.val()== 0){
                 ele.nextAll('input.label').show();
             }else{
                 ele.nextAll('input.label').val('').hide();
@@ -847,7 +848,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             //改变type
             if(!!data[k]['type'] && !!G_typeMap[k] && !!G_typeMap[k][data[k]['type']]){
                 data[k]['type'] = G_typeMap[k][data[k]['type']];
-            }else if( !!data[k][0] && !!G_typeMap[k] && !!data[k][0]['type']){
+            }else if( !!data[k][0] && !!G_typeMap[k] && data[k][0]['type']+'' ){
                 for(var i = 0 , l = data[k].length ; i < l ; i++ ){
                     data[k][i]['type'] = G_typeMap[k][data[k][i]['type']] || data[k][i]['type'];
                 };
