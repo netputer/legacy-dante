@@ -748,7 +748,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             wrap.find('p.des').hide();
             wrap.find('input.detail').show();
             wrap.find('span.delete').show();
-            var sel = wrap.find('select').show();
+            var sel = wrap.find('select.des').show();
             var label = wrap.find('input.label');
             for(var i = 0, l = label.length ; i<l ; i++){
                 if( sel.eq(i).val()==0 ){
