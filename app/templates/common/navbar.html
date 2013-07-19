@@ -1,8 +1,7 @@
 <div class="navigator">
     <div class="navigator-inner">
         <div class="brand">
-            <i class="icon-logo64" ng-if="!$root.READ_ONLY_FLAG"></i>
-            <i class="icon-logo64-no-word" ng-if="$root.READ_ONLY_FLAG"></i>
+            <i class="icon-logo64" ng-class="$root.READ_ONLY_FLAG ? 'icon-logo64-no-word' : 'icon-logo64'"></i>
         </div>
         <ul class="nav nav-modules">
             <li ng-class="{ active: currentModule == 'photos' }">
