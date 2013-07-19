@@ -380,8 +380,9 @@ $scope.uploadAndSharePhoto = function(isRetry) {
     });
 };
 
-$scope.hideShareModal = function() {
+$scope.cancelShare = function() {
     $scope.isShowShareModal = false;
+    wdShare.cancelUploadPhoto();
 };
 
 function showShareModal(authResponse, photo) {

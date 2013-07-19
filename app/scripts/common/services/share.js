@@ -8,6 +8,8 @@ define([
             var constNum = 3;
             var retryGetPhotoBlobTimes = constNum;
             var isConnectedFacebook = false;
+            var uploadPhotoXHR;
+            var getBlobDefer;
 
             var share = {
                 getIsConnectedFacebook : function() {
@@ -94,6 +96,16 @@ define([
                     retryGetPhotoBlobTimes = number == undefined ? constNum : number;
                 },
 
+                cancelUploadPhoto : function() {
+                    if (uploadPhotoXHR) {
+                        uploadPhotoXHR.abort();
+                    }
+
+                    if (getBlobDefer) {
+                        getBlobDefer.resolve();
+                    }
+                },
+
                 uploadPhoto : function(data, shareInfo) {
                     var defer = $q.defer();
 
@@ -103,7 +115,7 @@ define([
 
                     var shareUrl = 'https://graph.facebook.com/photos?access_token=' + shareInfo.accessToken + 
                                     '&message=' + encodeURIComponent(shareInfo.message) + '&created_time=' + new Date();
-                    $.ajax({
+                    uploadPhotoXHR = $.ajax({
                         url : shareUrl,
                         cache: false,
                         contentType: false,
@@ -118,30 +130,33 @@ define([
                             GA('share:facebook_share:success');
                         },
                         error : function(r) {
-                            $rootScope.$apply(function() {
-                                defer.reject(r.responseJSON, data);
-                            });
-
+                            if (r.status !== 0) {
+                                $rootScope.$apply(function() {
+                                    defer.reject(r.responseJSON, data);
+                                });
+                            }
+                            
                             GA('share:facebook_share:fail');
                         }
                     });
-
                     return defer.promise;
                 },
 
                 getPhotoBlob : function(photo) {
+                    getBlobDefer = $q.defer();
 
                     return $http.get(photo.path, {
                         responseType: 'arraybuffer',
-                        cache: false
+                        cache: false,
+                        timeout: getBlobDefer.promise
                     }).then(function(response) {
                         GA('share:get_photo_from_device:success');
 
                         return response.data;
-                    }, function() {
+                    }, function(response) {
                         GA('share:get_photo_from_device:fail');
 
-                        if (retryGetPhotoBlobTimes) {
+                        if (retryGetPhotoBlobTimes && response.status !== 0) {
                             retryGetPhotoBlobTimes -= 1;
 
                             return share.getPhotoBlob(photo);
