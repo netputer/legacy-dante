@@ -5,7 +5,9 @@ define([
     'text!i18n/root/messages.json',
     'text!i18n/root/photos.json',
     'text!i18n/root/portal.json',
-    'text!i18n/root/cloudDataSignIn.json'
+    'text!i18n/root/cloudDataSignIn.json',
+    'text!i18n/root/contactType.json',
+    'text!i18n/root/permissions.json'
 ], function(
     appJSON,
     applicationsJSON,
@@ -13,7 +15,9 @@ define([
     messagesJSON,
     photosJSON,
     portalJSON,
-    cloudDataSignInJSON
+    cloudDataSignInJSON,
+    contactTypeJSON,
+    permissionsJSON
 ) {
 'use strict';
 
@@ -24,7 +28,9 @@ return {
     messages: JSON.parse(messagesJSON),
     photos: JSON.parse(photosJSON),
     portal: JSON.parse(portalJSON),
-    cloudDataSignIn: JSON.parse(cloudDataSignInJSON)
+    cloudDataSignIn: JSON.parse(cloudDataSignInJSON),
+    contactType: JSON.parse(contactTypeJSON),
+    permissions: JSON.parse(permissionsJSON)
 };
 
 });

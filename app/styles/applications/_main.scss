@@ -129,7 +129,6 @@
                 position: absolute;
                 bottom: 0px;
                 background: #F38200;
-                height: 45px;
                 right: 0px;
                 left: 0px;
                 opacity: 0;
@@ -162,7 +161,7 @@
                 p{
                     margin-right: 0px;
                     margin-bottom: 0;
-                    height: 35px;
+                    min-height: 40px;
                     vertical-align: middle;
                     line-height: 16px;
                     margin: 5px 0 0 28px;

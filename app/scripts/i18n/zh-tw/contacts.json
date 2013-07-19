@@ -25,9 +25,9 @@
 		"relationship":"關係",
 		"note":"備注"
 	},
-	"NO_CONTACT_TIPS":"無聯絡人符合你的搜尋。",
-	"UPGRADE_TIP":"升級SnapPea在網頁上來管理你的聯絡人。",
-	"NO_CONTACT":"你的手機上無聯絡人。快添加一些好友吧！",
+	"NO_CONTACT_TIPS":"無聯絡人符合您的搜尋。",
+	"UPGRADE_TIP":"升級SnapPea在網頁上來管理您的聯絡人。",
+	"NO_CONTACT":"您的手機上無聯絡人。快添加一些好友吧！",
 	"NO_NAME":"無姓名",
 	"LOAD_MORE":"載入更多",
 	"WORDS":{
@@ -61,10 +61,10 @@
 		},
 		"DELETE_CONTACT":{
 			"TITLE":"刪除聯絡人",
-			"CONTENT":"從你的手機上刪除選定的聯絡人？",
+			"CONTENT":"從您的手機上刪除選定的聯絡人？",
 			"OK":"刪除",
 			"CANCEL":"取消",
-			"ASK":"從你的手機上刪除選定的聯絡人？",
+			"ASK":"從您的手機上刪除選定的聯絡人？",
 			"READ_ONLY":"這些為唯讀聯絡人，無法刪除："
 		},
 		"FAILED_DELETE":{

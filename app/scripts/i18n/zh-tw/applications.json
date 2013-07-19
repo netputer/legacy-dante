@@ -8,22 +8,22 @@
 		"COMPLETE":"完成"
 	},
 	"CONFIRMS":{
-		"INSTALL":"確定在你的手機上安裝。",
-		"UNINSTALL":"確定從你的手機上卸載。",
+		"INSTALL":"確定在您的手機上安裝。",
+		"UNINSTALL":"確定從您的手機上卸載。",
 		"UNKNOWNTIPS":"安装提示",
 		"INSTALL_COMPLETE":"卸載完成"
 	},
-	"NOAPP":"你的手機上無應用。",
-	"UPGRADE_TIP":"更新SnapPea，從網路上管理你的應用。",
+	"NOAPP":"您的手機上無應用。",
+	"UPGRADE_TIP":"更新SnapPea，從網路上管理您的應用。",
 	"DEL_ONE_APP":{
 		"TITLE":"卸載應用",
-		"CONTENT":"從你的手機上卸載所選應用？",
+		"CONTENT":"從您的手機上卸載所選應用？",
 		"AGREE":"卸載",
 		"CANCEL":"取消"
 	},
 	"DEL_MORE_APPS":{
 		"TITLE":"卸載應用",
-		"CONTENT":"從你的手機上卸載所選應用？",
+		"CONTENT":"從您的手機上卸載所選應用？",
 		"AGREE":"卸載",
 		"CANCEL":"取消"
 	},
