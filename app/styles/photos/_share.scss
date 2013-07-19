@@ -47,19 +47,18 @@
     }
     .share-tip-wrapper {
         height: 32px;
-        margin-top: 8px;
+        margin-top: 9px;
         .share-tip {
             padding: 5px 19px;
             color: #FFF;
             display: inline-block;
+            font-size: 12px;
 
             &.share-success-tip {
                 background: #60CB00;
-                border: 1px solid #A1E068;
             }
             &.share-faild-tip {
                background: rgb(255, 141, 0);
-               border: 1px solid rgb(255, 219, 176); 
 
                a {
                     color : #fff;   
