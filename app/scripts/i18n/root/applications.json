@@ -5,7 +5,8 @@
       "DESELECT": "Deselect",
       "UNINSTALL": "Uninstall",
       "REINSTALL": "Reinstall",
-      "COMPLETE": "Complete"
+      "COMPLETE": "Complete",
+      "DOWNLOAD" : "Download"
   },
   "CONFIRMS": {
       "INSTALL": "Confirm installation on your phone.",
