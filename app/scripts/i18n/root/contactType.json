@@ -1,0 +1,103 @@
+{
+    "TYPE_MAP": {
+        "address": {
+            "0": "Custom",
+            "1": "Home",
+            "2": "Work",
+            "3": "Other"
+        },
+        "event": {
+            "1": "Anniversary",
+            "2": "Other",
+            "3": "Birthday"
+        },
+        "nickname": {
+            "1": "Default",
+            "2": "Other name",
+            "3": "Maiden name",
+            "4": "Short name",
+            "5": "Initials"
+        },
+        "organization": {
+            "0": "Custom",
+            "1": "Work",
+            "2": "Other"
+        },
+        "website": {
+            "1": "Homepage",
+            "2": "Blog",
+            "3": "Profile",
+            "4": "Home",
+            "5": "Work",
+            "6": "FTP",
+            "7": "Other"
+        },
+        "IM": {
+            "0": "Custom",
+            "1": "Home",
+            "2": "Work",
+            "3": "Other"
+        },
+        "relation": {
+            "1": "Assistant",
+            "2": "Brother",
+            "3": "Child",
+            "4": "Partner",
+            "5": "Father",
+            "6": "Friend",
+            "7": "Manager",
+            "8": "Mother",
+            "9": "Parent",
+            "10": "Partner",
+            "11": "Referred by",
+            "12": "Relative",
+            "13": "Sister",
+            "14": "Spouse"
+        },
+        "phone": {
+            "0": "Custom",
+            "1": "Home",
+            "2": "Mobile",
+            "3": "Work",
+            "4": "Fax Work",
+            "5": "Fax Home",
+            "6": "Pager",
+            "7": "Other",
+            "8": "Callback",
+            "9": "Car",
+            "10": "Company main",
+            "11": "ISDN",
+            "12": "Main",
+            "13": "Other Fax",
+            "14": "Radio",
+            "15": "Telex",
+            "16": "TTY TDD",
+            "17": "Work Mobile",
+            "18": "Work Pager",
+            "19": "Assistant",
+            "20": "MMS"
+        },
+        "email": {
+            "0": "Custom",
+            "1": "Home",
+            "2": "Work",
+            "3": "Other",
+            "4": "Mobile"
+        },
+        "note": {
+            "Default": "Default"
+        }
+    },
+    "IM_PROTOCOL": {
+        "-1": "Custom",
+        "0": "AIM",
+        "1": "MSN",
+        "2": "Yahoo",
+        "3": "Skype",
+        "4": "QQ",
+        "5": "Gtalk",
+        "6": "ICQ",
+        "7": "Jabber",
+        "8": "Netmeeting"
+    }
+}

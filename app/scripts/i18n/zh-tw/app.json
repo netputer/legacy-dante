@@ -1,7 +1,7 @@
 {
-	"UNLOAD_NETWORK_TIP":"載入手機數據。你是否希望等待？",
+	"UNLOAD_NETWORK_TIP":"載入手機數據。您是否希望等待？",
 	"NAVBAR_PHOTOS_TIP":"照片",
-	"NAVBAR_MESSAGES_TIP":"短訊",
+	"NAVBAR_MESSAGES_TIP":"簡訊",
 	"NAVBAR_CONTACTS_TIP":"聯絡人",
 	"NAVBAR_APPS_TIP":"應用",
 	"NAVBAR_FEEDBACK_TIP":"意見反映",
@@ -9,13 +9,13 @@
 	"NAVBAR_SETTING_TIP":"設定",
 	"NAVBAR_SELECT_DEVICES_TIP":"選擇手機",
 	"NAVBAR_SIGNOUT_TIP":"註銷",
-	"MESSAGE_NOTIFICATION_TITLE":"新短訊",
+	"MESSAGE_NOTIFICATION_TITLE":"新簡訊",
 	"UPGRADE_BTN_TEXT":"在Google Play 上獲取最新版本",
 	"CHANGE_DEVICES_POP":{
 		"h1":"連接一部新手機。",
-		"h2":"只需3個步驟，你便會在這裡找到你的手機。",
+		"h2":"只需3個步驟，您便會在這裡找到您的手機。",
 		"step1":"1.通过 <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a> 安裝SnapPea.",
-		"step2":"在你的手機上打開SnapPea。",
+		"step2":"在您的手機上打開SnapPea。",
 		"step3":"3.使用 $$ 登入.",
 		"button":"成功啦"
 	},
