@@ -8,9 +8,9 @@
                 <!-- google signin -->
                 <button class="btn google-btn" ng-click="googleSigIn()" ng-disabled="signInBtnDisabled">
                     <i class="icon-google-btn" ng-show="!signInBtnDisabled"></i>
-                    <p class="google-btn-word" ng-show="!signInBtnDisabled">
+                    <span class="google-btn-word" ng-show="!signInBtnDisabled">
                         {{$root.DICT.portal.GOOGLE_BUTTON}}
-                    </p>
+                    </span>
                     <div class="wd-loading" data-visible="true" ng-show="signInBtnDisabled"></div>
                 </button>
                 <!-- google signin end -->
