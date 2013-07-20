@@ -144,7 +144,7 @@ define([
 
                 getPhotoBlob : function(photo) {
                     getBlobDefer = $q.defer();
-
+                    
                     return $http.get(photo.path + '&v=' + new Date().getTime(), {
                         responseType: 'arraybuffer',
                         cache: false,
