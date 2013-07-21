@@ -164,7 +164,6 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
 
     //显示对应的联系人
     function showContacts(id,data){
-
         var show = function(){
 
             $scope.isRightLoadShow = false;

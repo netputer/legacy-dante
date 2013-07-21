@@ -1,103 +1,103 @@
 {
     "TYPE_MAP": {
         "address": {
-            "CA_CUSTOM": "自定义",
-            "CA_HOME": "住宅",
-            "CA_WORK": "工作",
-            "CA_OTHER": "其他"
+            "0": "自定义",
+            "1": "住宅",
+            "2": "工作",
+            "3": "其他"
         },
         "event": {
-            "CE_ANNIVERSARY": "纪念日",
-            "CE_OTHER": "其他",
-            "CE_BIRTHDAY": "生日"
+            "1": "纪念日",
+            "2": "其他",
+            "3": "生日"
         },
         "nickname": {
-            "CN_DEFAULT": "默认",
-            "CN_OTHER_NAME": "其他姓名",
-            "CN_MAINDEN_NAME": "中间名",
-            "CN_SHORT_NAME": "昵称",
-            "CN_INITIALS": "首字母"
+            "1": "默认",
+            "2": "其他姓名",
+            "3": "中间名",
+            "4": "昵称",
+            "5": "首字母"
         },
         "organization": {
-            "CO_CUSTOM": "自定义",
-            "CO_WORK": "工作",
-            "CO_OTHER": "其他"
+            "0": "自定义",
+            "1": "工作",
+            "2": "其他"
         },
         "website": {
-            "CW_HOMEPAGE": "主页",
-            "CW_BLOG": "博客",
-            "CW_PROFILE": "个人资料",
-            "CW_HOME": "住宅",
-            "CW_WORK": "工作",
-            "CW_FTP": "FTP",
-            "CW_OTHER": "其他"
+            "1": "主页",
+            "2": "博客",
+            "3": "个人资料",
+            "4": "住宅",
+            "5": "工作",
+            "6": "FTP",
+            "7": "其他"
         },
         "IM": {
-            "CI_TYPE_CUSTOM": "自定义",
-            "CI_HOME": "住宅",
-            "CI_WORK": "工作",
-            "CI_OTHER": "其他"
+            "0": "自定义",
+            "1": "住宅",
+            "2": "工作",
+            "3": "其他"
         },
         "relation": {
-            "CR_ASSISTANT": "助理",
-            "CR_BROTHER": "兄弟",
-            "CR_CHILD": "子女",
-            "CR_DOMESTIC_PARTNER": "同居伴侣",
-            "CR_FATHER": "父亲",
-            "CR_FRIEND": "朋友",
-            "CR_MANAGER": "经理",
-            "CR_MOTHER": "母亲",
-            "CR_PARENT": "父母",
-            "CR_PARTNER": "合作伙伴",
-            "CR_REFERRED_BY": "介绍人",
-            "CR_RELATIVE": "亲属",
-            "CR_SISTER": "姐妹",
-            "CR_SPOUSE": "配偶"
+            "1": "助理",
+            "2": "兄弟",
+            "3": "子女",
+            "4": "同居伴侣",
+            "5": "父亲",
+            "6": "朋友",
+            "7": "经理",
+            "8": "母亲",
+            "9": "父母",
+            "10": "合作伙伴",
+            "11": "介绍人",
+            "12": "亲属",
+            "13": "姐妹",
+            "14": "配偶"
         },
         "phone": {
-            "CP_CUSTOM": "自定义",
-            "CP_HOME": "住宅",
-            "CP_MOBILE": "手机",
-            "CP_WORK": "工作",
-            "CP_FAX_WORK": "单位传真",
-            "CP_FAX_HOME": "住宅传真",
-            "CP_PAGER": "传呼机",
-            "CP_OTHER": "其他",
-            "CP_CALLBACK": "Callback",
-            "CP_CAR": "Car",
-            "CP_COMPANY_MAIN": "Company main",
-            "CP_ISDN": "ISDN",
-            "CP_MAIN": "Main",
-            "CP_OTHER_FAX": "其他传真",
-            "CP_RADIO": "Radio",
-            "CP_TELEX": "Telex",
-            "CP_TTY_TDD": "TTY TDD",
-            "CP_WORK_MOBILE": "工作手机",
-            "CP_WORK_PAGER": "工作传呼机",
-            "CP_ASSISTANT": "助理",
-            "CP_MMS": "MMS"
+            "0": "自定义",
+            "1": "住宅",
+            "2": "手机",
+            "3": "工作",
+            "4": "单位传真",
+            "5": "住宅传真",
+            "6": "传呼机",
+            "7": "其他",
+            "8": "Callback",
+            "9": "Car",
+            "10": "Company main",
+            "11": "ISDN",
+            "12": "Main",
+            "13": "其他传真",
+            "14": "Radio",
+            "15": "Telex",
+            "16": "TTY TDD",
+            "17": "工作手机",
+            "18": "工作传呼机",
+            "19": "助理",
+            "20": "MMS"
         },
         "email": {
-            "CE_CUSTOM": "自定义",
-            "CE_HOME": "住宅",
-            "CE_WORK": "工作",
-            "CE_OTHER": "其他",
-            "CE_MOBILE": "手机"
+            "0": "自定义",
+            "1": "住宅",
+            "2": "工作",
+            "3": "其他",
+            "4": "手机"
         },
         "note": {
             "Default": "默认"
         }
     },
     "IM_PROTOCOL": {
-        "CI_PROTOCOL_CUSTOM": "自定义",
-        "CI_AIM": "AIM",
-        "CI_MSN": "MSN",
-        "CI_YAHOO": "Yahoo",
-        "CI_SKYPE": "Skype",
-        "CI_QQ": "QQ",
-        "CI_GOOGLE_TALK": "Gtalk",
-        "CI_ICQ": "ICQ",
-        "CI_JABBER": "Jabber",
-        "CI_NETMEETING": "Netmeeting"
+        "-1": "自定义",
+        "0": "AIM",
+        "1": "MSN",
+        "2": "Yahoo",
+        "3": "Skype",
+        "4": "QQ",
+        "5": "Gtalk",
+        "6": "ICQ",
+        "7": "Jabber",
+        "8": "Netmeeting"
     }
 }

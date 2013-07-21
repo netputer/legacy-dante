@@ -25,7 +25,8 @@
             data-options="{container: ''}"
             ng-click="remove();$root.GA('photos:slide:delete')"
             ><i class="icon-slidedl"></i></a>
-        <a href="" class="action-download"
+        <a href="{{photo.path}}"
+            class="action-download"
             bs-tooltip="{{$root.DICT.photos.SLIDES_DOWNLOAD}}"
             data-options="{container: ''}"
             ng-click="download({photo: current});$root.GA('photos:slide:download')"
