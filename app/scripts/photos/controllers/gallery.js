@@ -58,6 +58,7 @@ if ($scope.serverMatchRequirement) {
     var chromeExtensionNotification;
     if ($window.chrome &&
         $window.chrome.webstore &&
+        !$scope.$root.READ_ONLY_FLAG &&
         !localStorage.getItem('photosExtensionInstalled') &&
         !angular.element($window.document.documentElement).hasClass('photos-extension-installed')) {
         chromeExtensionNotification = setTimeout(function() {
