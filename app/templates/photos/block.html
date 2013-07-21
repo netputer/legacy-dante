@@ -21,10 +21,9 @@
             ng-click="shareToWeibo(photo);$root.GA('photos:photo:share')"
             ><i class="icon-share"></i></a>
 
-        <a class="action-download" href="{{photo.path}}"
+        <a class="action-download"
             bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
-            ng-click="$root.GA('photos:photo:download')"
-            download="{{photo.display_name}}.jpg"
+            ng-click="download(photo);$root.GA('photos:photo:download')"
             ><i class="icon-down"></i></a>
 
         <a class="action-delete" href=""
