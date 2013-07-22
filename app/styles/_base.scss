@@ -24,6 +24,10 @@ body {
     background: #fff;
 }
 
+html.zh-cn body {
+    font-family: "Helvetica Neue", Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', sans-serif;
+}
+
 a, a:hover {
     color: #3c7800;
 }
