@@ -95,7 +95,7 @@ $scope.download = function(photo) {
     // }, 2000);
     // f.src = photo.path;
     // $window.open(photo.path, '_self');
-    $window.location = photo.path;
+    $window.location = photo.download_path || photo.path;
 };
 $scope['delete'] = function(photo) {
     return wdAlert.confirm(

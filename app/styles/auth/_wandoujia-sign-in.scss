@@ -18,9 +18,10 @@
         height: 580px;
         .left{
             .introduce{
-                @include auth-sprite("introduce");
-                width: auth-sprite-width("introduce");
-                height: auth-sprite-height("introduce");
+                $filename: "cloud-auth/introduce.png";
+                @include background-retina("cloud-auth/introduce.png", "cloud-auth/introduce-2x.png");
+                width: image-width($filename);
+                height: image-height($filename);
             }
             float: left;
         }
