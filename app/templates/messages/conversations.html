@@ -192,6 +192,9 @@
         <div class="btn btn-primary"
             ng-if="!$root.READ_ONLY_FLAG"
             ng-click="createConversation();$root.GA('messages:create')"><i class="icon-add"></i> {{$root.DICT.messages.ACTION_NEW}}</div>
+        <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
+            <a href="http://help.wandoujia.com/entries/21895693">{{$root.DICT.cloudDataSignIn.USER_HELP}} &gt;&gt;</a>
+        </div>        
     </div>
     <div ui-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.messages.UPGRADE_TIP}}"></div>
 </section>

@@ -20,7 +20,7 @@
     "LABEL_SEND_TO": "发送至",
     "RECEIVER_PLACEHOLDER": "添加联系人...",
     "ERROR_SEND_FAILED": "发送失败。",
-    "BLANK_TIP": "手机内没有短信。快和朋友们说说话吧！",
+    "BLANK_TIP": "您还没有在云端备份过短信。",
     "UPGRADE_TIP": "升级SnapPea，开始在网页上发短信吧！",
     "BTN_LOAD": "载入更多",
     "BTN_LOAD_MSG": "载入之前的信息",
