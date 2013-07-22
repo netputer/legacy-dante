@@ -22,7 +22,7 @@
         overflow-y : auto;
         top:100px;
         @include readonly {
-            top : 90px;
+            top : 102px;
         }
         width: 429px;
         display: block;
@@ -123,7 +123,7 @@
             left: 17px;
             top: 66px;
             @include readonly {
-                top: 56px;
+                top: 68px;
             }
         }
 
@@ -182,9 +182,11 @@
         @include readonly {
             .module-title{
                 font-size: 16px;
-                font-weight: 500;
-                padding-left: 15px;
-                padding-top: 10px;
+                font-weight: bold;
+                padding-left: 11px;
+                padding-top: 15px;
+                padding-bottom: 5px;
+                height: 21px;
             }
         }
 
