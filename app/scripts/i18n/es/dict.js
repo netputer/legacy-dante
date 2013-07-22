@@ -4,14 +4,16 @@ define([
     'text!i18n/es/contacts.json',
     'text!i18n/es/messages.json',
     'text!i18n/es/photos.json',
-    'text!i18n/es/portal.json'
+    'text!i18n/es/portal.json',
+    'text!i18n/es/permissions.json'
 ], function(
     appJSON,
     applicationsJSON,
     contactsJSON,
     messagesJSON,
     photosJSON,
-    portalJSON
+    portalJSON,
+    permissionsJSON
 ) {
 'use strict';
 
@@ -21,7 +23,8 @@ return {
     contacts: JSON.parse(contactsJSON),
     messages: JSON.parse(messagesJSON),
     photos: JSON.parse(photosJSON),
-    portal: JSON.parse(portalJSON)
+    portal: JSON.parse(portalJSON),
+    permissions: JSON.parse(permissionsJSON)
 };
 
 });

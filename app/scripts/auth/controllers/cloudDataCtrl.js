@@ -3,7 +3,7 @@ define([
 return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaSignIn', '$log', '$window',
 function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
 
-    $scope.isSupport = Modernizr.cors && Modernizr.websockets;
+    $scope.isSupport = Modernizr.cors;
     $scope.isSafari = wdBrowser.safari;
     $scope.auth = wdAuthToken.getToken() || '';
     $scope.autoAuth = !!$scope.auth;
@@ -21,10 +21,6 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     // if (!$scope.isSupport) {
     //     GA('login:not_support');
     // }
-
-    $scope.openHelp = function() {
-        $scope.showHelp = true;
-    };
     $scope.safariHelp = function() {
         wdAlert.alert($scope.$root.DICT.portal.SAFARI_TITLE, $scope.$root.DICT.portal.SAFARI_CONTENT);
     };
