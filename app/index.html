@@ -61,6 +61,45 @@
     </div>
     <!--<!(endif)-->
 
+    <!--(if target cloud)><!-->
+    <div class="wandou-signin-wrapper no-support-placeholder">
+        <div class="wandou-signin">
+            <div class="header">
+                <div class="logo">
+                    <i class="icon-wandou-logo"></i>
+                </div>
+            </div>
+            <div class="content">
+                <div class="left">
+                    <div class="introduce"></div>
+                </div>
+                <div class="right">
+                    <p class="title">豌豆荚云服务</p>
+                    <p class="des">现在，您可以随时随地在网页中查看备份到云端的照片、联系人、短信和应用。云服务不再单纯的储存您的手机数据，还可以查看数据或分享照片。</p>
+
+                    <!-- 不支持浏览器提示 -->
+                    <div class="no-support">
+                        <p>豌豆荚云服务不支持您的游览器，请尝试升级到最新版本。我们建议您使用 Chrome 游览器以获得最佳的游览体验。</p>
+                        <a ng-href="http://www.google.cn/intl/zh-CN/chrome/browser/" class="wandou-signin-btn btn btn-primary">
+                            下载 Chrome
+                        </a>
+                    </div>
+                    <!-- 不支持浏览器提示 end -->
+
+                </div>
+
+            </div>
+            <div class="footer">
+                <p>&copy;{{$root.DICT.cloudDataSignIn.COPY_INFO}}</p>
+            </div>
+
+            <div class="loading" ng-show="isCheckingLogin">
+                <div class="wd-loading" data-visible="true"></div>
+            </div>
+        </div>
+    </div>
+    <!--<!(endif)-->
+
     <!--[if (gte IE 9)|!(IE)]><!-->
 
     <div class="viewport ng-cloak" ng-view></div>
