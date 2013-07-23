@@ -35,6 +35,8 @@ define([
 ) {
 'use strict';
 
+jQuery('.no-support-placeholder').remove();
+
 var READ_ONLY_FLAG = true;
 //>>excludeStart("readonly", pragmas.cloudBased);
 READ_ONLY_FLAG = false;

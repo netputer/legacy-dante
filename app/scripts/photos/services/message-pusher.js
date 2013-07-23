@@ -33,7 +33,7 @@ function startHeartbeat() {
         channels.one('connection_pong', function(e, msg) {
             $timeout.cancel(timer);
             retryCount = 0;  // reset retry.
-            timer = $timeout(beat, INIT_TIMEOUT. false);
+            timer = $timeout(beat, INIT_TIMEOUT);
             if (msg.data.id) {
                 guid = msg.data.id;
             }

@@ -5,11 +5,16 @@ $global-left-offset: 60px;
 
 
 // http://docs.angularjs.org/api/ng.directive:ngCloak
-[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
+[ng\:cloak], [ng-cloak] { display: none; }
+.ng-cloak { display: none; }
 
 html, body {
     height: 100%;
     overflow: hidden;
+}
+
+html.cors .no-support-placeholder {
+    display: none;
 }
 
 .viewport {
