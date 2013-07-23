@@ -62,6 +62,9 @@
             wdp-uploader
             ng-click="$root.GA('photos:toolbar:add_photo')"
             ><i class="icon-add"></i> {{$root.DICT.photos.ACTIONBAR_ADD_PHOTOS}}</div>
+        <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
+            <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} &gt;&gt;</a>
+        </div>        
     </div>
     <div ui-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.photos.UPGRADE_TIP}}"></div>
 </div>

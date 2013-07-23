@@ -14,7 +14,7 @@
       "UNKNOWNTIPS": "安装提示",
       "INSTALL_COMPLETE": "安装完成"
   },
-  "NOAPP": "手机上没有应用程序.",
+  "NOAPP": "您还没有在云端备份过应用。",
   "UPGRADE_TIP": "Update SnapPea to manage your apps from the web.",
   "DEL_ONE_APP": {
       "TITLE": "卸载应用程序",
