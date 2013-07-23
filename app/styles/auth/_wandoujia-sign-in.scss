@@ -2,6 +2,7 @@
     @include position(fixed, 0px 0px 0px 0px);
     @include ui-layer-top;
     background: #ffffff;
+    overflow-y: auto;
 }
 
 .wandou-signin{
@@ -10,7 +11,7 @@
     .header{
         height: 30px;
         .logo{
-            margin-top: 17px;
+            margin-top: 34px;
         }
     }
 
@@ -38,6 +39,7 @@
             }
             .des{
                 color: #999;
+                font-size: 12px;
             }
 
             .wandou-signin-btn{
@@ -61,14 +63,17 @@
     }
 
     .footer{
-        border-top: 1px solid #eeeeee;
+        border-top: 1px solid #999;
         text-align: center;
-        color: #eeeeee;
+        color: #999;
         display: block;
         width: 960px;
         float: left;
         font-size: 13px;
-        padding-top: 20px;
+        padding-top: 30px;
+        a{
+            color: #999;
+        }
     }
 
     .loading{
