@@ -28,7 +28,7 @@
     "UPGRADE_TIP": "升级SnapPea，开始在网页上浏览照片吧。",
     "BTN_LOAD": "载入更多...",
     "CONFIRM_DELETE_TITLE": "删除照片",
-    "CONFIRM_DELETE_CONTENT": "从手机上删除所选的照片吗？",
+    "CONFIRM_DELETE_CONTENT": "从备份数据中删除所选的照片吗？",
     "CONFIRM_DELETE_OK": "删除",
     "CONFIRM_DELETE_CANCEL": "取消",
     "REC_TITLE": "可以更快速的查看您的照片了噢！",
