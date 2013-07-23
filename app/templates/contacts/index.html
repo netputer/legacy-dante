@@ -7,7 +7,7 @@
         <div ng-show="$root.READ_ONLY_FLAG" class="module-title">
             {{$root.DICT.contacts.TITLE}}
         </div>
-        <div class="btn-all">
+        <div class="btn-all" wd-strip>
             <button class="btn btn-primary btn-new" type="button" ng-click="addNewContact()" ng-disabled="isNewContactDisable" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-add"></i>
                 {{$root.DICT.contacts.BUTTONS.newContact}}
@@ -49,7 +49,7 @@
             <!-- 每个联系人的模板 end -->
 
             <!-- 增加load more -->
-            <li class="load-more" ng-show="isLoadMoreBtnShow" ng-click="loadMore();">{{$root.DICT.contacts.LOAD_MORE}}</li>
+            <li class="load-more" ng-show="isLoadMoreBtnShow" ng-click="loadMore();">{{$root.DICT.contacts.LOAD_MORE}}...</li>
             <!-- 增加load more end -->
 
             <!-- 增加loading -->

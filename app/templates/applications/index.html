@@ -58,7 +58,7 @@
     <!-- 应用列表 end -->
 
     <!-- header -->
-    <div class="header" ng-show="!$root.READ_ONLY_FLAG">
+    <div class="header" ng-show="!$root.READ_ONLY_FLAG" wd-strip>
         <div class="btn btn-primary installApp" ng-click="clickInstallApk()" ng-disabled="isInstallBtnDisable">
             <i class="icon-add"></i>
             {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}

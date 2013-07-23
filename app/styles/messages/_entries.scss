@@ -3,6 +3,7 @@
     .load-more {
         display: inline-block;
         @include nowrap;
+        font-size: 12px;
     }
 }
 .wdme-block {

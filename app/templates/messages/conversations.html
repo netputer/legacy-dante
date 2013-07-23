@@ -1,7 +1,7 @@
 <section class="wdj-messages">
     <div class="wdm-layout">
         <section class="wdm-sub">
-            <section class="wdm-actions" ng-switch on="$root.READ_ONLY_FLAG">
+            <section class="wdm-actions" ng-switch on="$root.READ_ONLY_FLAG" wd-strip>
                 <button class="btn btn-primary"
                     ng-switch-when="false"
                     ng-disabled="cvsListFirstLoading"
