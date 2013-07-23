@@ -18,11 +18,43 @@
     <script src="scripts/vendor/modernizr.min.js"></script>
     <!-- endbuild -->
 </head>
-<body ng-cloak>
+<body>
 
-    <div class="viewport" ng-view></div>
-    <div wd-navbar></div>
-    <div bs-modal wd-alert></div>
+    <div class="wd-portal no-support-placeholder">
+        <div class="a">
+            <div class="container">
+                <h1>SnapPea doesn't support your browser.</h1>
+                <p>Sorry, SnapPea doesn't support your browser. We strongly recommend that you use Chrome.</p>
+                <a href="http://www.google.com/chrome/" target="_blank" class="btn btn-primary btn-large" style="margin-top: 60px;">Download Chrome</a>
+            </div>
+        </div>
+        <div class="b">
+            <div class="container">
+                <div class="row">
+                    <div class="span6">
+                        <h2>New to SnapPea?</h2>
+                        <p>Your photos, messages, contacts and apps in your web browser.</p>
+                    </div>
+                    <div class="span5">
+                        <a href="https://play.google.com/store/apps/details?id=com.snappea" class="link-to-gp" target="_blank"></a>
+                        <a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web"></a>
+                    </div>
+                </div>
+                <div class="row b-a">
+                    <ul class="inline b-a-b">
+                        <li><a href="http://www.snappea.com/about.html">About</a></li>
+                        <li><a href="http://www.snappea.com/terms.html">Terms</a></li>
+                        <li><a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web">Privacy</a></li>
+                        <li>Copyright © 2013 SnapPea</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="viewport ng-cloak" ng-view></div>
+    <div class="ng-cloak" wd-navbar></div>
+    <div class="ng-cloak" bs-modal wd-alert></div>
 
     <!-- build:js scripts/framework.js -->
     <script src="components/jquery/jquery.js"></script>
@@ -37,7 +69,9 @@
     <script src="components/socket.io-client/dist/socket.io.js"></script>
     <!-- endbuild -->
 
-    <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script data-main="scripts/main" src="components/requirejs/require.js"></script>
+    <!--<![endif]-->
 </body>
 </html>
