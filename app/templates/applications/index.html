@@ -111,7 +111,7 @@
                 <i class="icon-info-del"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
             </div>
             <div class="buttons" ng-show="$root.READ_ONLY_FLAG">
-                <a href="{{info.download_url}}">
+                <a href="{{info.download_url}}" download="{{info.name}}.apk">
                     <i class="icon-down-toolbar"></i>
                     <p>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</p>
                 </a>
@@ -141,7 +141,13 @@
     <!-- 为空检测 -->
     <div class="wd-blank" ui-if="dataLoaded && !(list.length+newList.length)">
         <p>{{$root.DICT.applications.NOAPP}}<p>
-        <div ng-if="!$root.READ_ONLY_FLAG" class="btn btn-primary installApp" ng-click="clickInstallApk();"><i class="icon-add"></i>{{$root.DICT.applications.BUTTONS.INSTALL_APPS}}</div>
+        <div ng-if="!$root.READ_ONLY_FLAG" class="btn btn-primary installApp" ng-click="clickInstallApk();">
+            <i class="icon-add"></i>
+            {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}
+        </div>
+        <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
+            <a href="http://help.wandoujia.com/entries/21895693" target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} &gt;&gt;</a>
+        </div>        
     </div>
     <!-- 为空检测 end -->
 

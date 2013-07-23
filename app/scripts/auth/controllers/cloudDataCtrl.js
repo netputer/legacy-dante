@@ -3,7 +3,7 @@ define([
 return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaSignIn', '$log', '$window',
 function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
 
-    $scope.isSupport = Modernizr.cors;
+    $scope.isSupport = Modernizr.cors && Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
     $scope.auth = wdAuthToken.getToken() || '';
     $scope.autoAuth = !!$scope.auth;

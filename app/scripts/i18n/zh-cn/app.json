@@ -1,7 +1,7 @@
 {
     "UNLOAD_NETWORK_TIP": "正在载入手机数据。您愿意等待吗？",
     "NAVBAR_PHOTOS_TIP": "照片",
-    "NAVBAR_MESSAGES_TIP": "信息",
+    "NAVBAR_MESSAGES_TIP": "短信",
     "NAVBAR_CONTACTS_TIP": "联系人",
     "NAVBAR_APPS_TIP": "应用程序",
     "NAVBAR_FEEDBACK_TIP": "反馈",
@@ -9,7 +9,7 @@
     "NAVBAR_SETTING_TIP": "设置",
     "NAVBAR_SELECT_DEVICES_TIP": "选择手机",
     "NAVBAR_SIGNOUT_TIP": "退出登录",
-    "MESSAGE_NOTIFICATION_TITLE": "新信息",
+    "MESSAGE_NOTIFICATION_TITLE": "新短信",
     "UPGRADE_BTN_TEXT": "在Google Play上获取最新版本",
     "CHANGE_DEVICES_POP": {
         "h1": "连接一个新手机.",
