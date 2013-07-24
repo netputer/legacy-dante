@@ -162,11 +162,12 @@ define([
 
                     }
 
-                    path += path.indexOf('?') !== -1 ? '&' : '?';
-                    path += ('width=' + width + '&height=' + height);
-                    path += ('&v=' + new Date().getTime());
-
                     return $http.get(path, {
+                        params : {
+                            width: width,
+                            height: height,
+                            v: new Date().getTime()
+                        },
                         responseType: 'arraybuffer',
                         cache: false,
                         timeout: getBlobDefer.promise
