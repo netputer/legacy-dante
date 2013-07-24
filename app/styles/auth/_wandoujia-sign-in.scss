@@ -9,14 +9,18 @@
     width: 960px;
     margin: 0px auto;
     .header{
-        height: 30px;
+        height: 40px;
         .logo{
             margin-top: 34px;
+            height: 40px;
         }
     }
 
     .content{
         height: 580px;
+        position: absolute;
+        top: 50%;
+        margin-top: -280px;
         .left{
             .introduce{
                 $filename: "cloud-auth/introduce.png";
@@ -69,8 +73,10 @@
         display: block;
         width: 960px;
         float: left;
-        font-size: 13px;
+        font-size: 12px;
         padding-top: 30px;
+        position: absolute;
+        bottom: 20px;
         a{
             color: #999;
         }
