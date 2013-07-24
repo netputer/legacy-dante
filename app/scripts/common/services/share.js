@@ -163,7 +163,7 @@ define([
                     }
 
                     path += path.indexOf('?') !== -1 ? '&' : '?';
-                    path += encodeURIComponent('width=' + width + '&height=' + height);
+                    path += ('width=' + width + '&height=' + height);
                     path += ('&v=' + new Date().getTime());
 
                     return $http.get(path, {
