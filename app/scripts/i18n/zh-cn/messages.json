@@ -23,7 +23,7 @@
     "BLANK_TIP": "您还没有在云端备份过短信。",
     "UPGRADE_TIP": "升级SnapPea，开始在网页上发短信吧！",
     "BTN_LOAD": "载入更多...",
-    "BTN_LOAD_MSG": "载入之前的短信",
+    "BTN_LOAD_MSG": "载入更早的短信...",
     "CONFIRM_DELETE_TITLE": "删除短信",
     "CONFIRM_DELETE_CONTENT": "从手机中删除选定的短信？",
     "CONFIRM_DELETE_OK": "删除",

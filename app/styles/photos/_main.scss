@@ -9,6 +9,9 @@
             padding-top: 10px;
         }
     }
+    .user-help a{
+        font-size: 12px;
+    }
     @import "showcase"; // showcase consists of group of photos
     @import "block";    // each photos is contained in a block
 
