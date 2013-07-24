@@ -3,11 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>SnapPea</title>
-    <!-- <meta name="viewport" content="width=device-width"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--(if target dist)><!-->
+    <title>SnapPea</title>
+    <!--<!(endif)-->
+    <!--(if target cloud)><!-->
+    <title>豌豆荚云服务</title>
+    <!--<!(endif)-->
+
+    <!--(if target dist)><!-->
     <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/epindigjbiphgfhnmlpcocaiafjgbabe">
     <link href='http://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
+    <!--<!(endif)-->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="components/animate.css/animate.css">
@@ -18,11 +26,94 @@
     <script src="scripts/vendor/modernizr.min.js"></script>
     <!-- endbuild -->
 </head>
-<body ng-cloak>
+<body>
+    <!--(if target dist)><!-->
+    <div class="wd-portal no-support-placeholder">
+        <div class="a">
+            <div class="container">
+                <h1>SnapPea doesn't support your browser.</h1>
+                <p>Sorry, SnapPea doesn't support your browser. We strongly recommend that you use Chrome.</p>
+                <a href="http://www.google.com/chrome/" target="_blank" class="btn btn-primary btn-large" style="margin-top: 60px;">Download Chrome</a>
+            </div>
+        </div>
+        <div class="b">
+            <div class="container">
+                <div class="row">
+                    <div class="span6">
+                        <h2>New to SnapPea?</h2>
+                        <p>Your photos, messages, contacts and apps in your web browser.</p>
+                    </div>
+                    <div class="span5">
+                        <a href="https://play.google.com/store/apps/details?id=com.snappea" class="link-to-gp" target="_blank"></a>
+                        <a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web"></a>
+                    </div>
+                </div>
+                <div class="row b-a">
+                    <ul class="inline b-a-b">
+                        <li><a href="http://www.snappea.com/about.html">About</a></li>
+                        <li><a href="http://www.snappea.com/terms.html">Terms</a></li>
+                        <li><a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web">Privacy</a></li>
+                        <li>Copyright © 2013 SnapPea</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<!(endif)-->
 
-    <div class="viewport" ng-view></div>
-    <div wd-navbar></div>
-    <div bs-modal wd-alert></div>
+    <!--(if target cloud)><!-->
+    <div class="wandou-signin-wrapper no-support-placeholder">
+        <div class="wandou-signin">
+            <div class="header">
+                <div class="logo">
+                    <i class="icon-wandou-logo"></i>
+                </div>
+            </div>
+            <div class="content">
+                <div class="left">
+                    <div class="introduce"></div>
+                </div>
+                <div class="right">
+                    <p class="title">豌豆荚云服务</p>
+                    <p class="des">现在，您可以随时随地在网页中查看备份到云端的照片、联系人、短信和应用。云服务不再单纯的储存您的手机数据，还可以查看数据或分享照片。</p>
+
+                    <!-- 不支持浏览器提示 -->
+                    <div class="no-support">
+                        <p>豌豆荚云服务不支持您的浏览器，请尝试升级到最新版本。我们建议您使用 Chrome 浏览器器以获得最佳的游览体验。</p>
+                        <a ng-href="http://www.google.cn/intl/zh-CN/chrome/browser/" class="wandou-signin-btn btn btn-primary">
+                            下载 Chrome
+                        </a>
+                    </div>
+                    <!-- 不支持浏览器提示 end -->
+
+                </div>
+
+            </div>
+            <div class="footer">
+                <p class="copyright">&copy; 2010 - 2013 豌豆实验室  北京卓易讯畅科技有限公司
+                </p>
+                <p class="intellectual">除非特别注明，应用程序由第三方市场提供，豌豆荚仅根据您的指令提供搜索结果链接，与出处无关，详情请参阅
+                    <a target="_blank" href="http://www.wandoujia.com/intellectual_property" rel="nofollow">知识产权保护声明</a>
+                </p>
+                <p class="useless">
+                    <a target="_blank" rel="nofollow"  href="http://www.miitbeian.gov.cn" class="meta">京ICP备11035207号-2</a>
+                    <span class="meta">・</span>
+                    <a target="_blank" rel="nofollow"  href="http://www.miitbeian.gov.cn" class="meta">京ICP证111039号</a>
+                    <span class="meta">・</span>
+                    <a target="_blank" rel="nofollow"  href="http://www.bjgaj.gov.cn/"  class="meta">京公网安备110102005683</a>
+                    <span class="meta">・</span>
+                    <a target="_blank" rel="nofollow"  href="javascript:;"  class="meta">京网文[2012]0895-295号</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--<!(endif)-->
+
+    <!--[if (gte IE 9)|!(IE)]><!-->
+
+    <div class="viewport ng-cloak" ng-view></div>
+    <div class="ng-cloak" wd-navbar></div>
+    <div class="ng-cloak" bs-modal wd-alert></div>
 
     <!-- build:js scripts/framework.js -->
     <script src="components/jquery/jquery.js"></script>
@@ -39,5 +130,6 @@
 
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 
+    <!--<![endif]-->
 </body>
 </html>

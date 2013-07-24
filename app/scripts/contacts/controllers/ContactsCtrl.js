@@ -164,7 +164,6 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
 
     //显示对应的联系人
     function showContacts(id,data){
-
         var show = function(){
 
             $scope.isRightLoadShow = false;
@@ -1021,6 +1020,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                 G_searchList.push(getListItem(data[i]));
             }
             if(!!G_searchList[0]){
+                G_keyContact = wdKey.push('contacts');
                 $scope.isNoContactsShow = false;
                 G_clicked['clicked'] = false;
                 $scope.pageList = G_searchList.slice(0,DATA_LENGTH_ONCE);
@@ -1101,12 +1101,26 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                 return false;
             }
         }
+        for (var i = 0 , l = G_searchList.length ; i < l ; i += 1 ){
+            if( (i - 1 >= 0) && G_searchList[i]['clicked'] ){
+                showContacts(G_searchList[i-1]['id']);
+                $scope.$broadcast('wdc:intoView');
+                return false;
+            }
+        }
     });
 
     wdKey.$apply('down', 'contacts', function() {
         for (var i = 0 , l = G_pageList.length ; i < l ; i += 1 ){
             if( (i + 1 < l) && G_pageList[i]['clicked'] ){
                 showContacts(G_pageList[i+1]['id']);
+                $scope.$broadcast('wdc:intoView');
+                return false;
+            }
+        }
+        for (var i = 0 , l = G_searchList.length ; i < l ; i += 1 ){
+            if( (i + 1 < l) && G_searchList[i]['clicked'] ){
+                showContacts(G_searchList[i+1]['id']);
                 $scope.$broadcast('wdc:intoView');
                 return false;
             }

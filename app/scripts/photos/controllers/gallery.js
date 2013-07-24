@@ -58,6 +58,7 @@ if ($scope.serverMatchRequirement) {
     var chromeExtensionNotification;
     if ($window.chrome &&
         $window.chrome.webstore &&
+        !$scope.$root.READ_ONLY_FLAG &&
         !localStorage.getItem('photosExtensionInstalled') &&
         !angular.element($window.document.documentElement).hasClass('photos-extension-installed')) {
         chromeExtensionNotification = setTimeout(function() {
@@ -94,7 +95,7 @@ $scope.download = function(photo) {
     // }, 2000);
     // f.src = photo.path;
     // $window.open(photo.path, '_self');
-    $window.location = photo.path;
+    $window.location = photo.download_path || photo.path;
 };
 $scope['delete'] = function(photo) {
     return wdAlert.confirm(

@@ -1,7 +1,7 @@
 <section class="wdj-messages">
     <div class="wdm-layout">
         <section class="wdm-sub">
-            <section class="wdm-actions" ng-switch on="$root.READ_ONLY_FLAG">
+            <section class="wdm-actions" ng-switch on="$root.READ_ONLY_FLAG" wd-strip>
                 <button class="btn btn-primary"
                     ng-switch-when="false"
                     ng-disabled="cvsListFirstLoading"
@@ -192,6 +192,9 @@
         <div class="btn btn-primary"
             ng-if="!$root.READ_ONLY_FLAG"
             ng-click="createConversation();$root.GA('messages:create')"><i class="icon-add"></i> {{$root.DICT.messages.ACTION_NEW}}</div>
+        <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
+            <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
+        </div>        
     </div>
     <div ui-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.messages.UPGRADE_TIP}}"></div>
 </section>

@@ -21,10 +21,6 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
     // if (!$scope.isSupport) {
     //     GA('login:not_support');
     // }
-
-    $scope.openHelp = function() {
-        $scope.showHelp = true;
-    };
     $scope.safariHelp = function() {
         wdAlert.alert($scope.$root.DICT.portal.SAFARI_TITLE, $scope.$root.DICT.portal.SAFARI_CONTENT);
     };

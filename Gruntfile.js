@@ -266,6 +266,24 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        targethtml: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: '*.html',
+                    dest: '<%= yeoman.dist %>'
+                }]
+            },
+            cloud: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: '*.html',
+                    dest: '<%= yeoman.dist %>'
+                }]
+            }
+        },
         // Put files not handled in other tasks here
         copy: {
             tmp: {
@@ -387,7 +405,8 @@ module.exports = function (grunt) {
                 'uglify',
                 'copy:dist',
                 'rev',
-                'usemin'
+                'usemin',
+                'targethtml:cloud'
             ]);
         }
 
@@ -403,7 +422,8 @@ module.exports = function (grunt) {
             'uglify',
             'copy:dist',
             'rev',
-            'usemin'
+            'usemin',
+            'targethtml:dist'
         ]);
     });
 

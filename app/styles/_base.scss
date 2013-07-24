@@ -5,11 +5,16 @@ $global-left-offset: 60px;
 
 
 // http://docs.angularjs.org/api/ng.directive:ngCloak
-[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
+[ng\:cloak], [ng-cloak] { display: none; }
+.ng-cloak { display: none; }
 
 html, body {
     height: 100%;
     overflow: hidden;
+}
+
+html.cors .no-support-placeholder {
+    display: none;
 }
 
 .viewport {
@@ -22,6 +27,10 @@ html, body {
 
 body {
     background: #fff;
+}
+
+html.zh-cn body {
+    font-family: "Helvetica Neue", Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', sans-serif;
 }
 
 a, a:hover {

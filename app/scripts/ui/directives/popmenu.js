@@ -16,7 +16,7 @@ var popover = ['$document', '$window', function($document, $window) {
             element: null,
             getRefEl: function() {},
             distance: 5,
-            placement: 'bottom',
+            placement: 'bottom'
         });
 
         this.element = options.element;
