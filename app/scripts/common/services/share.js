@@ -144,26 +144,26 @@ define([
 
                 getPhotoBlob : function(photo) {
                     getBlobDefer = $q.defer();
-                    
+
                     var path = photo.thumbnail_custom ? photo.thumbnail_custom : photo.path;
                     var maxLength = Math.max(photo.width, photo.height);
-                    var constNum = 1200;
+                    var MAX = 1200;
                     var width = photo.width;
                     var height = photo.height;
 
-                    if (maxLength > 1200) {
+                    if (maxLength > MAX) {
                         if (photo.width > photo.height) {
-                            width = constNum;
-                            height = parseInt(constNum / photo.width * photo.height, 10);
+                            width = MAX;
+                            height = parseInt(MAX / photo.width * photo.height, 10);
                         } else {
-                            height = constNum;
-                            width = parseInt(constNum / photo.height * photo.width, 10);
+                            height = MAX;
+                            width = parseInt(MAX / photo.height * photo.width, 10);
                         }
 
                     }
 
-                    path += path.indexOf('?') != -1 ? '&' : '?';
-                    path += ('width=' + width + '&height=' + height);
+                    path += path.indexOf('?') !== -1 ? '&' : '?';
+                    path += encodeURIComponent('width=' + width + '&height=' + height);
                     path += ('&v=' + new Date().getTime());
 
                     return $http.get(path, {
