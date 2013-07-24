@@ -107,14 +107,14 @@
                     </ul>
                 </dd>
             </div>
-            <div class="buttons" ng-show="!$root.READ_ONLY_FLAG" ng-click="delApp(info.package_name);clickInfoUninstall();">
-                <i class="icon-info-del"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
-            </div>
             <div class="buttons" ng-show="$root.READ_ONLY_FLAG">
                 <a href="{{info.download_url}}" download="{{info.name}}.apk">
                     <i class="icon-down-toolbar"></i>
                     <p>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</p>
                 </a>
+            </div>
+            <div class="buttons" ng-show="!$root.READ_ONLY_FLAG" ng-click="delApp(info.package_name);clickInfoUninstall();">
+                <i class="icon-info-del"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
             </div>
         </dl>
         <!-- 显示应用信息 end -->
