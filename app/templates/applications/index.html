@@ -15,7 +15,7 @@
             <dd class="confirm" ng-show="item.confirmTipShow">
                 <i class="icon-phone"></i>
                 <p>{{$root.DICT.applications.CONFIRMS.INSTALL}}</p>
-                <i bs-tooltip="Cancel" class="icon-close" ng-click="closeUploadApp(item);"></i>
+                <i bs-tooltip="Cancel" class="icon-close-white" ng-click="closeUploadApp(item);"></i>
                 <i bs-tooltip="Reinstall" class="icon-retry" ng-click="reinstall(item)"></i>
             </dd>
             <!-- 确认提示 end -->
@@ -42,13 +42,13 @@
             <dd class="confirm" ng-show="item.confirmTipShow" ng-click="$event.stopPropagation();">
                 <i class="icon-phone"></i>
                 <p>{{$root.DICT.applications.CONFIRMS.UNINSTALL}}</p>
-                <i bs-tooltip="Cancel" class="icon-close" ng-click="closeConfirm(item,$event)"></i>
+                <i bs-tooltip="Cancel" class="icon-close-white" ng-click="closeConfirm(item,$event)"></i>
                 <i bs-tooltip="Uninstall" class="icon-retry" ng-click="delApp(item.package_name);clickRetryUninstall();"></i>
             </dd>
             <!-- 确认提示 end -->
 
             <!-- 安装完毕提示 -->
-            <dd class="done" ng-show="item.doneTipShow"><i class="icon-sel_white"></i><p>{{$root.DICT.applications.CONFIRMS.INSTALL_COMPLETE}}</p></dd>
+            <dd class="done" ng-show="item.doneTipShow"><i class="icon-sel-white"></i><p>{{$root.DICT.applications.CONFIRMS.INSTALL_COMPLETE}}</p></dd>
             <!-- 安装完毕提示 end -->
 
         </dl>
@@ -114,7 +114,7 @@
                 </a>
             </div>
             <div class="buttons" ng-show="!$root.READ_ONLY_FLAG" ng-click="delApp(info.package_name);clickInfoUninstall();">
-                <i class="icon-info-del"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
+                <i class="icon-del-toolbar"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
             </div>
         </dl>
         <!-- 显示应用信息 end -->
@@ -147,7 +147,7 @@
         </div>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
             <a href="http://help.wandoujia.com/entries/21895693" target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
-        </div>        
+        </div>
     </div>
     <!-- 为空检测 end -->
 
