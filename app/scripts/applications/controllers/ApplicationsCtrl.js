@@ -86,7 +86,17 @@ define([
                 var mask = $('.mask').css('opacity',0);
                 setTimeout(function(){
                     mask.hide().find('.info').hide();
-                    $('dd.confirm').css('opacity',0.8);
+                    if ( $scope.$root.READ_ONLY_FLAG ) {
+                        for(var i = 0,l = $scope.list.length; i < l; i++ ){
+                            if( $scope.list[i]['package_name'] == package_name ){
+                                $scope.list.splice(i,1);
+                                $scope.$apply();
+                                break;
+                            };
+                        };
+                    }else{
+                        $('dd.confirm').css('opacity',0.8);
+                    }
                 },500);
             },function(){
             });

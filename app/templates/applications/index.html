@@ -33,7 +33,7 @@
                 <span class="btn-icon-download" bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}">
                     <a href="{{item.download_url}}" download="{{item.name}}.apk"><i class="icon-down"></i></a>
                 </span>
-                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall" ng-show="!$root.READ_ONLY_FLAG">
+                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall">
                     <i class="icon-delete"></i>
                 </span>
             </dd>
