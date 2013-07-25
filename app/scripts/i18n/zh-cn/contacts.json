@@ -1,5 +1,5 @@
 {
-    "TITLE" : "通讯录",
+    "TITLE" : "联系人",
     "BUTTONS": {
         "newContact": "新联系人",
         "deselect": "取消选择",
