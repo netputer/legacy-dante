@@ -23,8 +23,8 @@
         margin-top: -280px;
         .left{
             .introduce{
-                $filename: "cloud-auth/introduce.png";
-                @include background-retina("cloud-auth/introduce.png", "cloud-auth/introduce-2x.png");
+                $filename: "isolate/introduce.png";
+                @include background-retina("isolate/introduce.png", "isolate/introduce-2x.png");
                 width: image-width($filename);
                 height: image-height($filename);
             }

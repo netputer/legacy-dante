@@ -145,7 +145,29 @@ define([
                 getPhotoBlob : function(photo) {
                     getBlobDefer = $q.defer();
 
-                    return $http.get(photo.path + '&v=' + new Date().getTime(), {
+                    var path = photo.thumbnail_custom ? photo.thumbnail_custom : photo.path;
+                    var maxLength = Math.max(photo.width, photo.height);
+                    var MAX = 1200;
+                    var width = photo.width;
+                    var height = photo.height;
+
+                    if (maxLength > MAX) {
+                        if (photo.width > photo.height) {
+                            width = MAX;
+                            height = parseInt(MAX / photo.width * photo.height, 10);
+                        } else {
+                            height = MAX;
+                            width = parseInt(MAX / photo.height * photo.width, 10);
+                        }
+
+                    }
+
+                    return $http.get(path, {
+                        params : {
+                            width: width,
+                            height: height,
+                            v: new Date().getTime()
+                        },
                         responseType: 'arraybuffer',
                         cache: false,
                         timeout: getBlobDefer.promise
