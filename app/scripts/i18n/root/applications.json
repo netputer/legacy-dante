@@ -32,6 +32,8 @@
       "SIZE": "Size",
       "INSTALLATION": "Installation",
       "VERSION": "Version",
-      "PERMISSIONS": "Permissions"
+      "PERMISSIONS": "Permissions",
+      "CANCEL": "Cancel",
+      "SELECT": "Select"
   }
 }

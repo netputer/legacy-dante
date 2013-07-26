@@ -15,7 +15,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.showHelp = false;
         $scope.isShowChangeDevicesPop = false;
 
-
         //设备的数量
         $scope.deviceNum = -1;
 

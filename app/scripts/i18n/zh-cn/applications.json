@@ -3,7 +3,7 @@
       "INSTALL_APPS": "安装apk",
       "SELECT_ALL": "选择所有",
       "DESELECT": "取消选择",
-      "UNINSTALL": "卸载",
+      "UNINSTALL": "删除",
       "REINSTALL": "重新安装",
       "COMPLETE": "完成",
       "DOWNLOAD" : "下载"
@@ -18,7 +18,7 @@
   "UPGRADE_TIP": "Update SnapPea to manage your apps from the web.",
   "DEL_ONE_APP": {
       "TITLE": "删除应用程序",
-      "CONTENT": "要从云备份中删除选中的程序吗？",
+      "CONTENT": "要从云备份中删除选中的应用吗？这不会在您的手机上进行删除。",
       "AGREE": "删除",
       "CANCEL": "取消"
   },
