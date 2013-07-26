@@ -522,6 +522,7 @@ define([
         $scope.closeConfirm = closeConfirm;
         $scope.checkedApp = checkedApp;
         $scope.delApp = delApp;
+        $scope.delCloudApp = delCloudApp;
         $scope.delMoreApps = delMoreApps;
         $scope.closeUploadApp = closeUploadApp;
         $scope.reinstall = reinstall;
