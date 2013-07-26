@@ -63,12 +63,12 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
             data['apk_size'] = Number(data['apk_size']/1024/1024).toFixed(2);
             switch(data['installed_location']){
                 case 1:
-                    data['installed_location'] = "Phone memory";
+                    data['installed_location'] = 'Phone memory';
                 break;
                 case 2:
-                    data['installed_location'] = "SD card";
+                    data['installed_location'] = 'SD card';
                 break;
-            };
+            }
 
             //是否显示提示
             data['confirmTipShow'] = false;

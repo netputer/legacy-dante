@@ -110,7 +110,7 @@ return ['wdpImageHelper', function(wdpImageHelper) {
             $scope.$on('open',   relayoutAll);
             $scope.$on('show', function() {
                 element.css('visibility', 'visible');
-            })
+            });
             $scope.$on('hide', function() {
                 element.css('visibility', 'hidden');
             });

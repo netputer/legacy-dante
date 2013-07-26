@@ -51,10 +51,20 @@ return ['wdKey', function(wdKey) {
                 $buttonCancel.text(cancel);
             });
             attrs.$observe('buttonOkDisabled', function(flag) {
-                flag == 'true' ? $buttonOk.attr('disabled', true) : $buttonOk.removeAttr('disabled');
+                if (flag === 'true') {
+                    $buttonOk.attr('disabled', true);
+                }
+                else {
+                    $buttonOk.removeAttr('disabled');
+                }
             });
             attrs.$observe('buttonCancelDisabled', function(flag) {
-                flag == 'true' ? $buttonCancel.attr('disabled', true) : $buttonCancel.removeAttr('disabled');
+                if (flag === 'true') {
+                    $buttonCancel.attr('disabled', true);
+                }
+                else {
+                    $buttonCancel.removeAttr('disabled');
+                }
             });
 
             $scope.$watch(attrs.toggle, function(value, oldValue) {

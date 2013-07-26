@@ -7,7 +7,7 @@ return ['$log', function($log) {
             params[3] = parseInt(params[3], 10);
         }
         $log.log('GA:', ['_trackEvent'].concat(params));
-        _gaq.push(['_trackEvent'].concat(params));
+        window._gaq.push(['_trackEvent'].concat(params));
     };
 }];
 });

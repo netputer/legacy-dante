@@ -36,10 +36,8 @@ link: function($scope, $element, $attributes) {
         var cache = $element[0].value;
         $element[0].value = '';
         var clearWidth = $element[0].scrollWidth;
-console.log(111, '   ', clearWidth);
         $element[0].value = cache;
 
-console.log(222, '   ', $element[0].scrollWidth)
         // while ($element[0].scrollWidth < clearWidth) {
         //     rowCount += 1;
         //     if (rowCount > 4) { break; }

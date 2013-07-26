@@ -80,7 +80,7 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
     });
 
     function deselectAll(){
-        for(var i = 0 , l = global.contacts.length ; i < l ; i ++ ){
+        for(var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
             global.contacts[i]['checked'] = false;
         }
     }

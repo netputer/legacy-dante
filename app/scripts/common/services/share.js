@@ -1,6 +1,8 @@
 define([
+    'jquery'
 ], function(
-    ) {
+    $
+) {
     'use strict';
 
     return ['$q', '$http', '$rootScope', 'GA',
@@ -93,7 +95,7 @@ define([
                 },
 
                 recoverRetryGetPhotoBlobTimes : function(number) {
-                    retryGetPhotoBlobTimes = number == undefined ? constNum : number;
+                    retryGetPhotoBlobTimes = typeof number === 'undefined' ? constNum : number;
                 },
 
                 cancelUploadPhoto : function() {
@@ -113,7 +115,7 @@ define([
                     var formData = new FormData();
                     formData.append('name', blob);
 
-                    var shareUrl = 'https://graph.facebook.com/photos?access_token=' + shareInfo.accessToken + 
+                    var shareUrl = 'https://graph.facebook.com/photos?access_token=' + shareInfo.accessToken +
                                     '&message=' + encodeURIComponent(shareInfo.message) + '&created_time=' + new Date();
                     uploadPhotoXHR = $.ajax({
                         url : shareUrl,
@@ -135,7 +137,7 @@ define([
                                     defer.reject(r.responseJSON, data);
                                 });
                             }
-                            
+
                             GA('share:facebook_share:fail');
                         }
                     });
@@ -188,7 +190,7 @@ define([
 
                     });
                 }
-            }
+            };
 
             return share;
         }
