@@ -33,7 +33,10 @@
                 <span class="btn-icon-download" bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}">
                     <a href="{{item.download_url}}" download="{{item.name}}.apk"><i class="icon-down"></i></a>
                 </span>
-                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall" ng-show="!$root.READ_ONLY_FLAG">
+                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall" ng-if="!$root.READ_ONLY_FLAG">
+                    <i class="icon-delete"></i>
+                </span>
+                <span class="btn-icon-del" ng-click="delCloudApp(item.package_name);clickHoverUninstall();" bs-tooltip="Uninstall" ng-if="$root.READ_ONLY_FLAG">
                     <i class="icon-delete"></i>
                 </span>
             </dd>
@@ -108,7 +111,10 @@
                 </dd>
             </div>
             <div class="buttons">
-                <div class="button-del" ng-click="delApp(info.package_name);clickInfoUninstall();">
+                <div class="button-del" ng-click="delApp(info.package_name);clickInfoUninstall();"  ng-if="!$root.READ_ONLY_FLAG">
+                    <i class="icon-del-toolbar"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
+                </div>
+                <div class="button-del" ng-click="delCloudApp(info.package_name);clickInfoUninstall();"  ng-if="$root.READ_ONLY_FLAG">
                     <i class="icon-del-toolbar"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
                 </div>
                 <div class="button-download">

@@ -63,6 +63,34 @@ define([
             };
         };
 
+        function delCloudApp(package_name) {
+            wdAlert.confirm(
+                $scope.$root.DICT.applications.DEL_ONE_APP.TITLE,
+                $scope.$root.DICT.applications.DEL_ONE_APP.CONTENT,
+                $scope.$root.DICT.applications.DEL_ONE_APP.AGREE,
+                $scope.$root.DICT.applications.DEL_ONE_APP.CANCEL
+            ).then(function(){
+                $http({
+                    method: 'delete',
+                    url: '/resource/apps/'+package_name
+                }).success(function(data) {
+                }).error(function(){
+                });
+                var mask = $('.mask').css('opacity',0);
+                setTimeout(function(){
+                    mask.hide().find('.info').hide();
+                    for(var i = 0,l = $scope.list.length; i < l; i++ ){
+                        if( $scope.list[i]['package_name'] == package_name ){
+                            $scope.list.splice(i,1);
+                            $scope.$apply();
+                            break;
+                        };
+                    };
+                },500);
+            },function(){
+            });
+        };
+
         //删除单个应用
         function delApp(package_name){
             wdAlert.confirm(

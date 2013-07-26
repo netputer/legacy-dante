@@ -17,15 +17,15 @@
   "NOAPP": "您还没有在云端备份过应用。",
   "UPGRADE_TIP": "Update SnapPea to manage your apps from the web.",
   "DEL_ONE_APP": {
-      "TITLE": "卸载应用程序",
-      "CONTENT": "从手机中卸载选中的程序吗？",
-      "AGREE": "卸载",
+      "TITLE": "删除应用程序",
+      "CONTENT": "要从云备份中删除选中的程序吗？",
+      "AGREE": "删除",
       "CANCEL": "取消"
   },
   "DEL_MORE_APPS": {
-      "TITLE": "卸载应用程序",
-      "CONTENT": "从手机中卸载选中的程序吗？",
-      "AGREE": "卸载",
+      "TITLE": "删除应用程序",
+      "CONTENT": "要从云备份中删除选中的程序吗？",
+      "AGREE": "删除",
       "CANCEL": "取消"
   },
   "WORDS": {
