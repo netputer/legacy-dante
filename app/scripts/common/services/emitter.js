@@ -25,6 +25,6 @@ function EventEmitter(obj, override) {
         };
         obj[fnName].delegate = delegate;
     });
-};
+}
 }];
 });

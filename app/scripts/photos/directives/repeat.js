@@ -66,6 +66,7 @@ var ngRepeatDirective = {
 
                 arrayLength = array.length;
 
+                /* jshint -W083 */
                 // we are not using forEach for perf reasons (trying to avoid #call)
                 for (index = 0, length = array.length; index < length; index += 1) {
                     key = (collection === array) ? index : array[index];

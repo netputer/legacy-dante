@@ -1,8 +1,10 @@
 define([
-        'text!templates/photos/progress.html'
-    ], function(
-        template
-    ) {
+    'text!templates/photos/progress.html',
+    'underscore'
+], function(
+    template,
+    _
+) {
 'use strict';
 return [function() {
     return {
