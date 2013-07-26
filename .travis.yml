@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-    - "0.10"
+  - "0.10"
 before_scripts:
-    - npm install -g grunt-cli
-    - npm install -g bower
-    - npm install compass --pre
-    - npm install
-    - bower install
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - gem install compass --pre
+  - npm install
+  - bower install
 notifications:
   email:
     - miaoziming@wandoujia.com
