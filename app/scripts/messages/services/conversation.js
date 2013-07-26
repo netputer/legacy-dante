@@ -28,7 +28,7 @@ function Conversation(data) {
         }
     });
 
-    instance.messages = wdmConversationMessagesCollection.createConversationMessagesCollection(instance),
+    instance.messages = wdmConversationMessagesCollection.createConversationMessagesCollection(instance);
 
     instance.draft = '';
 
