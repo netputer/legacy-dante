@@ -186,6 +186,9 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
+            options: {
+                preserveComments: 'some'
+            },
             dist: {
                 files: [{
                     src: ['<%= yeoman.tmp %>/scripts/main.js'],
