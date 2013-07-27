@@ -104,7 +104,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             var me = this;
 
             //调用服务器端接口
-            // var url = 'http://192.168.100.24:8081/apppush/limbo?google_token=' + authResult['access_token'];
             var url = 'https://push.snappea.com/apppush/limbo?google_token=' + encodeURIComponent(authResult['access_token']);
 
             $.ajax({
@@ -128,20 +127,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     global.defer = $q.defer();
                 }
             });
-
-            // $http.jsonp(url).success(function(data){
-            //     console.log(123123);
-            //     $log.log('get devices success!');
-            //     $log.log(data);
-            //     defer.resolve(data);
-            //     global.defer.resolve(data);
-            //     global.defer = $q.defer();
-            // }).error(function(e){
-            //     $log.error('get devices 403');
-            //     me.refreshToken();
-            //     defer.reject();
-            //     global.defer = $q.defer();
-            // });
 
             return defer.promise;
         },

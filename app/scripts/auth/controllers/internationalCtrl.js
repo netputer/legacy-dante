@@ -25,30 +25,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.accountEmail = '';
         $scope.signInBtnDisabled = true;
 
-        $window.googleSignInOnloadDefer.done(function(){
-            $window.gapi.auth.init(function(){
-                $scope.signInBtnDisabled = false;
-                //异步需要apply()
-                $scope.$apply();
-            });
-        });
-
-        //检测是否曾经登陆过
-        GA('user_sign_in:check_sign_in:total_visits');
-        if( wdGoogleSignIn.getStorageItem('googleToken') ){
-            $scope.isLoadingDevices = true;
-            GA('user_sign_in:auto_sign_in:google_sign_in');
-            $window.googleSignInOnloadDefer.done(function(){
-                $window.gapi.auth.init(function(){
-                    wdGoogleSignIn.refreshToken(true);
-                    $scope.$apply();
-                });
-            });
-        }else{
-            GA('user_sign_in:no_sign_in');
-            $scope.isLoadingDevices = false;
-        }
-
         //轮询的timer，为false的时候可以执行轮询
         var loopGetDevicesTimer ;
         var loopLinkDevicesTimer ;
@@ -60,6 +36,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.openHelp = function() {
             $scope.showHelp = true;
         };
+
         $scope.safariHelp = function() {
             wdAlert.alert($scope.$root.DICT.portal.SAFARI_TITLE, $scope.$root.DICT.portal.SAFARI_CONTENT);
         };
@@ -71,6 +48,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
         };
 
+        //进入某个设备
         $scope.submit = function(deviceData) {
             GA('connect_device:enter_snappea:'+ deviceData['model']);
             // $scope.isLoadingDevices = true;
@@ -175,57 +153,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             }
         };
 
-        //自动进入之前的设备
-        if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
-            $timeout(function() {
-                GA('device_sign_in:check_last_device:device_signed_in');
-                $scope.submit($scope.auth);
-            }, 0);
-        }else{
-            GA('device_sign_in:check_last_device:device_not_signed_in');
-            $scope.autoAuth = false;
-        }
-
-        //通过点击按钮登陆的逻辑
-        function googleInit() {
-            wdGoogleSignIn.ready().then(function(list){
-                GA('user_sign_in:return_from_sign_in:google_sign_in');
-                if( typeof list !== 'undefined' ){
-                    for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                        list[i]['loading'] = false;
-                    }
-                    $scope.deviceNum = list.length;
-                    if( $scope.deviceNum > 0 ){
-                        GA('device_sign_in:check_all_devices:device_signed_in');
-                    }
-                    switch ( list.length ) {
-                        case 0:
-                            GA('device_sign_in:check_first_device:device_not_signed_in');
-                            GA('device_sign_in:check_all_devices:device_not_signed_in');
-                            $scope.isLoadingDevices = false;
-                            loopLinkDevices();
-                        break;
-                        case 1:
-                            GA('device_sign_in:check_first_device:device_signed_in');
-                            //防止已经登陆在某手机中，又被登陆一次。
-                            if ( !wdGoogleSignIn.getIsLogin() ) {
-                                $scope.isLoadingDevices = true;
-                                $scope.submit(list[0]);
-                            }
-                            $scope.devicesList = list;
-                        break;
-                        default:
-                            $scope.isLoadingDevices = false;
-                            $scope.devicesList = list;
-                            loopGetDevices();
-                        break;
-                    }
-                }
-            },function(error){
-                $scope.googleSignOut();
-            });
-        }
-
         //轮询获取设备列表
         function loopGetDevices() {
             loopGetDevicesTimer = $timeout(function(){
@@ -293,11 +220,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $timeout.cancel( loopLinkDevicesTimer );
         }
 
-        $scope.googleSigIn = function () {
-            GA('user_sign_in:click_sign_in:google_sign_in');
-            wdGoogleSignIn.refreshToken();
-        };
-
         $scope.connectPhone = function (item) {
             item['loading'] = true;
             GA('device_sign_in:select_existing_device:select_device_page');
@@ -327,15 +249,112 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('device_sign_in:add_new_device:select_device_page');
         };
 
+        $scope.selectedLanguage = function(language) {
+            return wdLanguageEnvironment.currentLanguageBelongsTo(language);
+        };
+
+        $scope.googleSigIn = function () {
+            GA('user_sign_in:click_sign_in:google_sign_in');
+            wdGoogleSignIn.refreshToken();
+        };
+
+        //登陆并取得了设备列表后，会执行的逻辑。
+        function googleInit() {
+            wdGoogleSignIn.ready().then(function(list){
+                GA('user_sign_in:return_from_sign_in:google_sign_in');
+                if( typeof list !== 'undefined' ){
+                    for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
+                        list[i]['loading'] = false;
+                    }
+                    $scope.deviceNum = list.length;
+                    if( $scope.deviceNum > 0 ){
+                        GA('device_sign_in:check_all_devices:device_signed_in');
+                    }
+                    switch ( list.length ) {
+                        case 0:
+                            GA('device_sign_in:check_first_device:device_not_signed_in');
+                            GA('device_sign_in:check_all_devices:device_not_signed_in');
+                            $scope.isLoadingDevices = false;
+                            loopLinkDevices();
+                        break;
+                        case 1:
+                            GA('device_sign_in:check_first_device:device_signed_in');
+                            //防止已经登陆在某手机中，又被登陆一次。
+                            if ( !wdGoogleSignIn.getIsLogin() ) {
+                                $scope.isLoadingDevices = true;
+                                $scope.submit(list[0]);
+                            }
+                            $scope.devicesList = list;
+                        break;
+                        default:
+                            $scope.isLoadingDevices = false;
+                            $scope.devicesList = list;
+                            loopGetDevices();
+                        break;
+                    }
+                }
+            },function(error){
+                $scope.googleSignOut();
+            });
+        }
+
+        //加载按钮的逻辑
+        $window.googleSignInOnloadDefer.done(function(){
+            //防止被弹窗拦截，需要先调用gapi.auth.init方法
+            $window.gapi.auth.init(function(){
+                $scope.signInBtnDisabled = false;
+                //异步需要apply()
+                $scope.$apply();
+            });
+        });
+
+        GA('user_sign_in:check_sign_in:total_visits');
+
+        //检测是否曾经登陆过
+        if( wdGoogleSignIn.getStorageItem('googleToken') ){
+            $scope.isLoadingDevices = true;
+            GA('user_sign_in:auto_sign_in:google_sign_in');
+            $window.googleSignInOnloadDefer.done(function(){
+                $window.gapi.auth.init(function(){
+                    wdGoogleSignIn.refreshToken(true).then(function(){
+                        //重新获得token成功
+
+                    },function(){
+                        //重新获得token失败
+                        
+                    });
+                    $scope.$apply();
+                });
+            });
+        }else{
+            GA('user_sign_in:no_sign_in');
+            $scope.isLoadingDevices = false;
+        }
+
+        //自动进入之前的设备
+        if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
+            $timeout(function() {
+                GA('device_sign_in:check_last_device:device_signed_in');
+                $scope.submit( $scope.auth );
+            }, 0);
+            return true;
+        }else{
+            GA('device_sign_in:check_last_device:device_not_signed_in');
+            $scope.autoAuth = false;
+            return false;
+        }
+        
         // 当用户从其他设备中退出到当前页面时
         if( wdGoogleSignIn.getIsLogin() ){
             $scope.isLoadingDevices = true;
             //用户是想要切换到另一个设备
             var item = wdGoogleSignIn.currentDevice();
+            //判断用户是否在设备数据页面退出
             if(!!item.status && item.status === 'signout'){
                 $scope.googleSignOut();
                 return;
             }
+            //判断用户是否要切换设备
             if(!!item && !!item.ip){
                 $scope.submit(item);
             }else{
@@ -363,10 +382,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         }else{
             googleInit();
         }
-
-        $scope.selectedLanguage = function(language) {
-            return wdLanguageEnvironment.currentLanguageBelongsTo(language);
-        };
 
         $scope.$on('$destroy', function() {
             stopLoopLinkDevices();

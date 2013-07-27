@@ -193,7 +193,32 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
                                     });
                                 });
                             }
+                            return;
 
+                        //拼音搜索
+                        }else if( !!value['sort_key'] ) {
+                            
+                            var item = value['sort_key'].toLocaleLowerCase();
+                            var regexp = '';
+                            for( var i = 0 , l = query.length; i < l ; i += 1 ) {
+                                regexp = query[i]+'.*?';
+                            }
+                            regexp = '/' + regexp + '/g' ;
+                            if( item.match( regexp ) ) {
+                                list.push( value );
+                            }
+
+                            //给简版的逻辑
+                            if(options.sms){
+                                _.each(value[ 'phone' ],function(v){
+                                    smsList.push({
+                                        name:value['name'][ 'display_name' ],
+                                        phone:v['number']
+                                    });
+                                });
+                            }
+                            return;
+                            
                         }else{
 
                             //查找电话
