@@ -203,17 +203,18 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
                                 regstr = regstr + query[o]+'.*?';
                             }
                             var regexp = new RegExp(regstr,'g') ;
-                            if( item.match( regexp ) ) {
+                            if ( item.match( regexp ) ) {
                                 list.push( value );
-                            }
-                            //给简版的逻辑
-                            if(options.sms){
-                                _.each(value[ 'phone' ],function(v){
-                                    smsList.push({
-                                        name:value['name'][ 'display_name' ],
-                                        phone:v['number']
+
+                                //给简版的逻辑
+                                if (options.sms){
+                                    _.each(value[ 'phone' ],function(v){
+                                        smsList.push({
+                                            name:value['name'][ 'display_name' ],
+                                            phone:v['number']
+                                        });
                                     });
-                                });
+                                }
                             }
                             return;
 
