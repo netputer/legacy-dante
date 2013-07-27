@@ -197,17 +197,16 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
 
                         //拼音搜索
                         }else if( !!value['sort_key'] ) {
-                            
                             var item = value['sort_key'].toLocaleLowerCase();
-                            var regexp = '';
-                            for( var i = 0 , l = query.length; i < l ; i += 1 ) {
-                                regexp = query[i]+'.*?';
+                            var regstr = '';
+                            for( var o = 0 , p = query.length; o < p ; o += 1 ) {
+                                regstr = regstr + query[o]+'.*?';
                             }
-                            regexp = '/' + regexp + '/g' ;
+                            var regexp = new RegExp(regstr,'g') ;
+                            console.log(regexp);
                             if( item.match( regexp ) ) {
                                 list.push( value );
                             }
-
                             //给简版的逻辑
                             if(options.sms){
                                 _.each(value[ 'phone' ],function(v){
@@ -218,7 +217,7 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
                                 });
                             }
                             return;
-                            
+
                         }else{
 
                             //查找电话
