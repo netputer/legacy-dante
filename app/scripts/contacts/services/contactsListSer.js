@@ -203,7 +203,6 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
                                 regstr = regstr + query[o]+'.*?';
                             }
                             var regexp = new RegExp(regstr,'g') ;
-                            console.log(regexp);
                             if( item.match( regexp ) ) {
                                 list.push( value );
                             }
