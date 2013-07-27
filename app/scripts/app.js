@@ -296,11 +296,12 @@ if (!READ_ONLY_FLAG) {
 }
 
 var GA_ID = READ_ONLY_FLAG ? 'UA-15790641-1' : 'UA-15790641-36';
+var GA_SRC = READ_ONLY_FLAG ? 'http://s.wdjimg.com/googleanalytics/ga.js' : (('https:'===location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js');
 
 window._gaq=[['_setAccount', GA_ID],['_trackPageview']];
 (function(d,t){
     var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'===location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    g.src=GA_SRC;
     s.parentNode.insertBefore(g,s);
 }(document,'script'));
 
