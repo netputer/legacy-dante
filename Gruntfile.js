@@ -26,19 +26,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-            options: {
-                nospawn: true
-            },
             coffee: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
                 tasks: ['coffee:dist']
             },
             compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server'],
-                options: {
-                    nospawn: false
-                }
+                files: ['<%= yeoman.app %>/styles/**/*.scss'],
+                tasks: ['compass:server']
             },
             livereload: {
                 options: {
@@ -47,10 +41,9 @@ module.exports = function (grunt) {
                 files: [
                     '<%= yeoman.app %>/*.html',
                     'Gruntfile.js',
-                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
-                    '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
-                    '{.tmp,<%= yeoman.app %>}/templates/{,*/}*.html',
-                    // '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.tmp %>/styles/*.css',
+                    '<%= yeoman.app %>/scripts/**/*.js',
+                    '<%= yeoman.app %>/templates/**/*.html'
                 ]
             }
         },
@@ -173,8 +166,7 @@ module.exports = function (grunt) {
                 modules: [{name: 'main'}],
                 optimize: 'none',
                 preserveLicenseComments: false,
-                useStrict: true,
-                // wrap: true
+                useStrict: true
             },
             dist: {},
             cloud: {
