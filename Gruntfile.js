@@ -1,8 +1,9 @@
 // Generated on 2013-05-29 using generator-webapp 0.2.2
-'use strict';
+/*jshint node:true*/
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 var mountFolder = function (connect, dir) {
+    'use strict';
     return connect.static(require('path').resolve(dir));
 };
 
@@ -13,6 +14,7 @@ var mountFolder = function (connect, dir) {
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
+    'use strict';
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
@@ -277,6 +279,22 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        replace: {
+            cdn: {
+                src: ['<%= yeoman.dist %>/index.html'],
+                overwrite: true,
+                replacements: [
+                    {
+                        from: /<script(.+)src=['"]([^"']+)["']/gm,
+                        to: '<script$1src="http://s.wdjimg.com/me/$2"'
+                    },
+                    {
+                        from: /<link([^\>])+href=['"]([^"']+)["']/gm,
+                        to: '<link$1href="http://s.wdjimg.com/me/$2"'
+                    }
+                ]
+            }
+        },
         // Put files not handled in other tasks here
         copy: {
             tmp: {
@@ -399,7 +417,8 @@ module.exports = function (grunt) {
                 'copy:dist',
                 'rev',
                 'usemin',
-                'targethtml:cloud'
+                'targethtml:cloud',
+                'replace:cdn'
             ]);
         }
 
