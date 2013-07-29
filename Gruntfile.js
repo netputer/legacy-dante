@@ -282,7 +282,7 @@ module.exports = function (grunt) {
         replace: {
             cdn: {
                 src: ['<%= yeoman.dist %>/index.html'],
-                dest: ['<%= yeoman.dist %>/index.html'],
+                overwrite: true,
                 replacements: [
                     {
                         from: /<script(.+)src=['"]([^"']+)["']/gm,
