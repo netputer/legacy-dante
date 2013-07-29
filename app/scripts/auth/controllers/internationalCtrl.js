@@ -304,9 +304,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
                     $timeout(function() {
                         GA('device_sign_in:check_last_device:device_signed_in');
-                        list.forEach(function( value ) {
+                        list.forEach(function( value, index ) {
                             if ( value.id === $scope.auth.id) {
                                 $scope.submit( value );
+                            } else if ( index === (list.length - 1) ) {
+                                signInInit( list );
                             }
                         });
                     }, 0);
