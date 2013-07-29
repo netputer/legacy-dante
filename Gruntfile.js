@@ -289,7 +289,7 @@ module.exports = function (grunt) {
                         to: '<script$1src="http://s.wdjimg.com/me/$2"'
                     },
                     {
-                        from: /<link([^\>])+href=['"]([^"']+)["']/gm,
+                        from: /<link([^\>]+)href=['"]([^"']+)["']/gm,
                         to: '<link$1href="http://s.wdjimg.com/me/$2"'
                     }
                 ]
