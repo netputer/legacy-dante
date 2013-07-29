@@ -9,7 +9,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
     var global = {
         authResult : {},
-        defer : $q.defer(),
         account : '',
         currentDevice : {},
 
@@ -21,9 +20,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
     };
 
     var result = {
-        ready : function(){
-            return global.defer.promise;
-        },
 
         //取得或者设置authResult
         authResult : function (data) {
@@ -52,6 +48,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
         //刷新Google token
         refreshToken : function ( immediate ) {
+            $log.log('Refreshing google tokening...');
             var defer = $q.defer();
             if(typeof immediate === 'undefined') {
                 immediate = false;
@@ -59,20 +56,26 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 immediate = true;
             }
             var me = this;
-            try {
-                $window.gapi.auth.authorize({
-                   'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-                   'immediate':immediate,
-                   'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
-                },function(data){
-                    me.callDevicesAccountData(data);
-                    defer.resolve(data);
-                    $rootScope.$apply();
-                });
-            }
-            catch (err) {
-                defer.reject();
-            }
+            $window.gapi.auth.authorize({
+               'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+               'immediate':immediate,
+               'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+            },function(authResult){
+                if (authResult && authResult['access_token']) {
+                    me.authResult(authResult);
+                    $log.log('Getting google account informations...');
+                    me.getAccount().then(function(data){
+                        $log.log('All google login process have successed!');
+                        defer.resolve(data);
+                    },function(){
+                        $log.error('Get account failed!');
+                        defer.resolve(data);
+                    });
+                } else if (!authResult || authResult['error']) {
+                    $log.error('Google refresh error!');
+                    defer.reject();
+                }
+            });
             return defer.promise;
         },
 
@@ -97,7 +100,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         getDevices : function () {
-            $log.log('connecting for geting devices...');
+            $log.log('Connecting for geting devices...');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
@@ -113,37 +116,22 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 success: function(data) {
-                    $log.log('get devices success!',data);
+                    $log.log('Getting devices success!',data);
                     defer.resolve(data);
-                    global.defer.resolve(data);
                     $rootScope.$apply();
-                    global.defer = $q.defer();
                 },
                 error: function(e) {
-                    $log.error('get devices failed');
+                    $log.error('Getting devices failed');
                     me.refreshToken();
                     defer.reject();
                     $rootScope.$apply();
-                    global.defer = $q.defer();
                 }
             });
 
             return defer.promise;
         },
 
-        callDevicesAccountData : function (authResult) {
-            if (authResult && authResult['access_token']) {
-                this.authResult(authResult);
-                this.getAccount();
-                this.getDevices();
-            } else if (!authResult || authResult['error']) {
-                global.defer.reject();
-                global.defer = $q.defer();
-            }
-        },
-
         signOut : function () {
-            global.defer = $q.defer();
             var defer = $q.defer();
             this.currentDevice({});
             this.removeStorageItem('googleToken');
