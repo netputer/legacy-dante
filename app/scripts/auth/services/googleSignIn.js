@@ -67,9 +67,9 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     me.getAccount().then(function(data){
                         $log.log('All google login process have successed!');
                         defer.resolve(data);
-                    },function(){
+                    },function( data ){
                         $log.error('Get account failed!');
-                        defer.resolve(data);
+                        defer.resolve( data );
                     });
                 } else if (!authResult || authResult['error']) {
                     $log.error('Google refresh error!');
