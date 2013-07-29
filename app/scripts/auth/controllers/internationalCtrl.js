@@ -329,6 +329,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         autoAccess();
                     },function() {
                         //重新获得token失败
+                        wdGoogleSignIn.removeStorageItem('googleToken');
+                        $window.location.reload();
                     });
                 });
             });
@@ -389,7 +391,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         }
 
 // 登陆逻辑开始
-
         GA('user_sign_in:check_sign_in:total_visits');
 
         //检测是否曾经登陆过
