@@ -93,7 +93,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     GA('connect_device:connect:success');
                     stopLoopGetDevices();
                     stopLoopLinkDevices();
-                    wdGoogleSignIn.setIsLogin();
+                    wdGoogleSignIn.setHasAccessdDevice();
                     wdGoogleSignIn.currentDevice(deviceData);
                     $scope.isLoadingDevices = false;
                     keeper.done();
@@ -237,7 +237,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 // $scope.isLoadingDevices = false;
                 wdAuthToken.clearToken();
                 wdGoogleSignIn.removeStorageItem('googleToken');
-                //这要重新刷新浏览器，就是因为登陆整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
+                //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
                 $window.location.reload();
             },function() {
                 $scope.googleSignOut();
@@ -257,13 +257,13 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('user_sign_in:click_sign_in:google_sign_in');
             wdGoogleSignIn.refreshToken().then(function() {
                 wdGoogleSignIn.getDevices().then(function( list ) {
-                    signInInit( list );
+                    showDevicesList( list );
                 },function() {});
             },function() {});
         };
 
-        //登陆并取得了设备列表后，会执行的逻辑。
-        function signInInit( list ) {
+        //登录并取得了设备列表后，会执行的逻辑。
+        function showDevicesList( list ) {
             GA('user_sign_in:return_from_sign_in:google_sign_in');
             if ( typeof list !== 'undefined' ) {
                 for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
@@ -282,8 +282,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     break;
                     case 1:
                         GA('device_sign_in:check_first_device:device_signed_in');
-                        //防止已经登陆在某手机中，又被登陆一次。
-                        if ( !wdGoogleSignIn.getIsLogin() ) {
+                        //防止已经登录在某手机中，又被登录一次。
+                        if ( !wdGoogleSignIn.getHasAccessdDevice() ) {
                             $scope.isLoadingDevices = true;
                             $scope.submit(list[0]);
                         }
@@ -301,6 +301,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         //自动进入之前的设备
         function autoAccess() {
             wdGoogleSignIn.getDevices().then(function(list) {
+                if ( !list.length ) {
+                    showDevicesList( list );
+                    return;
+                }
                 if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
                     $timeout(function() {
                         GA('device_sign_in:check_last_device:device_signed_in');
@@ -308,19 +312,19 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             if ( value.id === $scope.auth.id) {
                                 $scope.submit( value );
                             } else if ( index === (list.length - 1) ) {
-                                signInInit( list );
+                                showDevicesList( list );
                             }
                         });
                     }, 0);
                 } else {
                     GA('device_sign_in:check_last_device:device_not_signed_in');
-                    signInInit( list );
+                    showDevicesList( list );
                     $scope.autoAuth = false;
                 }
             },function() {});
         }
 
-        //如果用户登陆过，自动去 Google 刷新一下token.
+        //如果用户登录过，自动去 Google 刷新一下token.
         function autoSignInGoogle() {
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
@@ -341,7 +345,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         function signOutFromDevices() {
 
             // 当用户从其他设备中退出到当前页面时
-            if ( wdGoogleSignIn.getIsLogin() ) {
+            if ( wdGoogleSignIn.getHasAccessdDevice() ) {
                 $scope.isLoadingDevices = true;
                 //用户是想要切换到另一个设备
                 var item = wdGoogleSignIn.currentDevice();
@@ -392,17 +396,17 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             });
         }
 
-// 登陆逻辑开始
+// 登录逻辑开始
         GA('user_sign_in:check_sign_in:total_visits');
 
-        //检测是否曾经登陆过
+        //检测是否曾经登录过
         if ( wdGoogleSignIn.getStorageItem('googleToken') ) {
             //是否是从其他设备退出准备切换设备
             if (!signOutFromDevices()) {
                 autoSignInGoogle();
             }
         } else {
-            // 显示登陆界面，点击按钮授权登陆
+            // 显示登录界面，点击按钮授权登录
             GA('user_sign_in:no_sign_in');
             googleBtnOnload();
             $scope.isLoadingDevices = false;

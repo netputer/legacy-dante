@@ -16,7 +16,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         forceShowDevices : false,
 
         //标记是否本次登陆了，用于检测是否是跳转过来的用户
-        isLogin : false
+        hasAccessdDevice : false
     };
 
     var result = {
@@ -160,11 +160,11 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         //是否本次登陆过，用于检测是否是跳转过来的设备
-        getIsLogin : function () {
-            return global.isLogin;
+        getHasAccessdDevice : function () {
+            return global.hasAccessdDevice;
         },
-        setIsLogin : function () {
-            global.isLogin = true;
+        setHasAccessdDevice : function () {
+            global.hasAccessdDevice = true;
         },
         setForceShowDevices : function ( flag ) {
             global.forceShowDevices = flag;
