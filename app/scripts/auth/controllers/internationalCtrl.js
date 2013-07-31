@@ -256,9 +256,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.googleSigIn = function () {
             GA('user_sign_in:click_sign_in:google_sign_in');
             wdGoogleSignIn.refreshToken().then(function() {
+                $scope.isLoadingDevices = true;
                 wdGoogleSignIn.getDevices().then(function( list ) {
                     showDevicesList( list );
-                },function() {});
+                },function() {
+                    $scope.isLoadingDevices = false;
+                });
             },function() {});
         };
 
