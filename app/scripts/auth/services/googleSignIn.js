@@ -75,7 +75,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     });
                 } else if (!authResult || authResult['error']) {
                     $log.error('Google refresh error!');
-                    defer.reject();
+                    defer.reject( authResult['error'] );
                 }
             });
             return defer.promise;
