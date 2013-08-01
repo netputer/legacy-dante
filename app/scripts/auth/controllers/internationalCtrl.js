@@ -338,8 +338,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         autoAccess();
                     },function() {
                         //重新获得token失败
-                        wdGoogleSignIn.removeStorageItem('googleToken');
-                        $window.location.reload();
+                        $scope.googleSignOut();
                     });
                 });
             });
