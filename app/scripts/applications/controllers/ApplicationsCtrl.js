@@ -54,7 +54,6 @@ define([
             var n = Math.floor( docWidth / ( 160 + 10 ) );
             var width = Math.floor( docWidth / n ) - 10 ;
             $scope.appBlockWidth = $scope.appBlockHeight = width;
-            console.log(width);
             $(window).one('resize',function(){
                 changeAppsBlock();
                 $scope.$apply();   
