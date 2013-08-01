@@ -50,6 +50,7 @@ define([
         var G_uploader;
 
         function changeAppsBlock(){
+            // 减去左边的黑条，再减去10px的左侧边距，再减去自定义滚动条的10px宽。
             var docWidth = $(document).width() - 60 - 10 - 10;
             var n = Math.floor( docWidth / ( 160 + 10 ) );
             var width = Math.floor( docWidth / n ) - 10 ;
