@@ -55,7 +55,7 @@ return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootSco
             });
 
             //数据未取完
-            if ( headers('WD-Need-More') === 'false' ) {
+            if ( headers('WD-Need-More') === 'true' ) {
 
                 //如果支持cursor打开这个接口，但是速度不如没有cursor的快
                 //getData(1,CONFIG.dataLengthOnce,data[l-1].id);
