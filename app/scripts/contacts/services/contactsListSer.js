@@ -6,7 +6,7 @@ define( [
     'use strict';
 
 //$q是promise
-return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
+return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootScope, $timeout ) {
 
     //配置项
     var CONFIG = {
@@ -48,14 +48,14 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
                 'cursor':cursor,
                 'offset':offset
             }
-        }).success( function( data ) {
+        }).success( function( data , status , headers ) {
 
             _.each( data, function( value ) {
                 global.contacts.push( value );
             });
 
             //数据未取完
-            if ( data.length === length ) {
+            if ( headers('WD-Need-More') === 'false' ) {
 
                 //如果支持cursor打开这个接口，但是速度不如没有cursor的快
                 //getData(1,CONFIG.dataLengthOnce,data[l-1].id);
@@ -72,6 +72,12 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
                 global.fun.call(me,data);
             }
 
+        }).error(function() {
+            $timeout(function() {
+                if ( !global.dataFinish ) {
+                    getData( global.contacts.length, CONFIG.dataLengthOnce, null );
+                }
+            }, 1000);
         });
     }
 
