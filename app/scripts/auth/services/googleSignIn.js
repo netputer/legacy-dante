@@ -126,7 +126,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 },
                 error: function(e) {
                     $log.error('Getting devices failed');
-                    me.refreshToken();
                     defer.reject();
                     $rootScope.$apply();
                 }

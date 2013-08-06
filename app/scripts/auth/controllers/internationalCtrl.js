@@ -179,8 +179,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }
                 },
                 function() {
-                    wdGoogleSignIn.refreshToken().then(function() {
+                    wdGoogleSignIn.refreshToken(true).then(function() {
                         loopGetDevices();
+                    },function(){
+                        $scope.googleSignOut();
                     });
                 });
             },7000);
@@ -209,8 +211,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }
                 },
                 function() {
-                    wdGoogleSignIn.refreshToken().then(function() {
+                    wdGoogleSignIn.refreshToken(true).then(function() {
                         loopLinkDevices();
+                    },function() {
+                        $scope.googleSignOut();
                     });
                 });
             },3000);
@@ -262,7 +266,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 },function() {
                     $scope.isLoadingDevices = false;
                 });
-            },function() {});
+            },function() {
+                //Google 登陆界面用户未操作
+            });
         };
 
         //登录并取得了设备列表后，会执行的逻辑。
@@ -377,7 +383,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             break;
                         }
                     },function() {
-                        wdGoogleSignIn.refreshToken();
+                        wdGoogleSignIn.refreshToken(true).then(function(){
+                            signOutFromDevices();
+                        },function(){
+                            $scope.googleSignOut();
+                        });
                     });
                 }
                 return true;
