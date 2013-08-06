@@ -48,7 +48,7 @@ return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootSco
                 'cursor':cursor,
                 'offset':offset
             }
-        }).success( function( data , status , headers ) {
+        }).success( function( data, status, headers ) {
 
             _.each( data, function( value ) {
                 global.contacts.push( value );
