@@ -63,20 +63,22 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                'immediate':immediate,
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
-                if (authResult && authResult['access_token']) {
-                    me.authResult(authResult);
-                    $log.log('Getting google account informations...');
-                    me.getAccount().then(function(data){
-                        $log.log('All google login process have successed!');
-                        defer.resolve(data);
-                    },function( data ){
-                        $log.error('Get account failed!');
-                        defer.resolve( data );
-                    });
-                } else if (!authResult || authResult['error']) {
-                    $log.error('Google refresh error!');
-                    defer.reject( authResult['error'] );
-                }
+                $rootScope.$apply(function() {
+                    if (authResult && authResult['access_token']) {
+                        me.authResult(authResult);
+                        $log.log('Getting google account informations...');
+                        me.getAccount().then(function(data){
+                            $log.log('All google login process have successed!');
+                            defer.resolve(data);
+                        },function( data ){
+                            $log.error('Get account failed!');
+                            defer.resolve( data );
+                        });
+                    } else if (!authResult || authResult['error']) {
+                        $log.error('Google refresh error!');
+                        defer.reject();
+                    }
+                });
             });
             return defer.promise;
         },
