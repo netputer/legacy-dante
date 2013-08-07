@@ -130,7 +130,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $
                     defer.resolve(data);
                 });                    
             }).fail(function(e, status ) {
-                GA('check_sign_in:get_devices:failed '+ status );
+                GA('check_sign_in:get_devices:failed_'+ status );
                 $rootScope.$apply(function() {
                     $log.error('Getting devices failed');
                     defer.reject();
