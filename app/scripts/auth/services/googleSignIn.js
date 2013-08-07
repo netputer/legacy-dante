@@ -104,7 +104,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         getDevices : function () {
-            $log.log('Connecting for geting devices...');
+            $log.log('Connecting for getting devices...');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
@@ -120,14 +120,16 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 success: function(data) {
-                    $log.log('Getting devices success!',data);
-                    defer.resolve(data);
-                    $rootScope.$apply();
+                    $rootScope.$apply(function() {
+                        $log.log('Getting devices success!',data);
+                        defer.resolve(data);
+                    });                    
                 },
                 error: function(e) {
-                    $log.error('Getting devices failed');
-                    defer.reject();
-                    $rootScope.$apply();
+                    $rootScope.$apply(function() {
+                        $log.error('Getting devices failed');
+                        defer.reject();
+                    });
                 }
             });
 
