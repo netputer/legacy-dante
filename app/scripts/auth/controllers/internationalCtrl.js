@@ -259,20 +259,18 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         $scope.googleSigIn = function () {
             GA('user_sign_in:click_sign_in:google_sign_in');
-            $window.gapi.auth.init(function() {
-                GA('check_sign_in:google_page:all');
-                wdGoogleSignIn.refreshToken().then(function() {
-                    GA('check_sign_in:google_page:success');
-                    $scope.isLoadingDevices = true;
-                    wdGoogleSignIn.getDevices().then(function( list ) {
-                        showDevicesList( list );
-                    },function() {
-                        $scope.isLoadingDevices = false;
-                    });
+            GA('check_sign_in:google_page:all');
+            wdGoogleSignIn.refreshToken().then(function() {
+                GA('check_sign_in:google_page:success');
+                $scope.isLoadingDevices = true;
+                wdGoogleSignIn.getDevices().then(function( list ) {
+                    showDevicesList( list );
                 },function() {
-                    //Google 登陆界面用户未操作
-                    GA('check_sign_in:google_page:fail');
+                    $scope.isLoadingDevices = false;
                 });
+            },function() {
+                //Google 登陆界面用户未操作
+                GA('check_sign_in:google_page:fail');
             });
         };
 
