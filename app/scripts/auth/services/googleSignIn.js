@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $rootScope, $log, $window ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $q, $rootScope, $log, $window, GA ) {
 
     var global = {
         authResult : {},
@@ -48,6 +48,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
         //刷新Google token
         refreshToken : function ( immediate ) {
+            GA('check_sign_in:refresh_token:all');
             $log.log('Refreshing google tokening...');
             var defer = $q.defer();
             if(typeof immediate === 'undefined') {
@@ -65,6 +66,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             },function(authResult){
                 $rootScope.$apply(function() {
                     if (authResult && authResult['access_token']) {
+                        GA('check_sign_in:refresh_token:success');
                         me.authResult(authResult);
                         $log.log('Getting google account informations...');
                         me.getAccount().then(function(data){
@@ -76,6 +78,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                         });
                     } else if (!authResult || authResult['error']) {
                         $log.error('Google refresh error!');
+                        GA('check_sign_in:refresh_token:fail');
                         defer.reject();
                     }
                 });
@@ -105,6 +108,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
         getDevices : function () {
             $log.log('Connecting for getting devices...');
+            GA('check_sign_in:get_devices:all');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
@@ -119,20 +123,20 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
-                success: function(data) {
-                    $rootScope.$apply(function() {
-                        $log.log('Getting devices success!',data);
-                        defer.resolve(data);
-                    });                    
-                },
-                error: function(e) {
-                    $rootScope.$apply(function() {
-                        $log.error('Getting devices failed');
-                        defer.reject();
-                    });
-                }
+                timeout: 10000
+            }).done(function( data ) {
+                GA('check_sign_in:get_devices:success');
+                $rootScope.$apply(function() {
+                    $log.log('Getting devices success!',data);
+                    defer.resolve(data);
+                });                    
+            }).fail(function(e, status ) {
+                GA('check_sign_in:get_devices:failed_'+ status );
+                $rootScope.$apply(function() {
+                    $log.error('Getting devices failed');
+                    defer.reject();
+                });
             });
-
             return defer.promise;
         },
 

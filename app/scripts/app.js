@@ -282,7 +282,9 @@ window.facebookInitDefer = jQuery.Deferred();
 
 if (!READ_ONLY_FLAG) {
     window.googleSignInOnload = function() {
-        window.googleSignInOnloadDefer.resolve();
+        window.gapi.auth.init(function() {
+            window.googleSignInOnloadDefer.resolve();
+        });
     };
 
     jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
