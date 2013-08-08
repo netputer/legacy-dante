@@ -123,6 +123,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
+                timeout: 10000
             }).done(function( data ) {
                 GA('check_sign_in:get_devices:success');
                 $rootScope.$apply(function() {
