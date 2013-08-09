@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $q, $rootScope, $log, $window, GA ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', function ( $http, $q, $rootScope, $log, $window, GA, $timeout ) {
 
     var global = {
         authResult : {},
@@ -91,15 +91,25 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $
             var gapi = $window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
-                gapi.auth.setToken(authResult);
+                var isTimeout;
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        global.account = obj['email'];
-                        defer.resolve(global.account);
-                        $rootScope.$apply();
+                        if( isTimeout !== true ) {
+                            isTimeout = false;
+                            global.account = obj['email'];
+                            defer.resolve(global.account);
+                            $rootScope.$apply();
+                        }
                     });
                 });
+                //超时处理
+                $timeout(function() {
+                    if(isTimeout !== false) {
+                        isTimeout = true;
+                        defer.reject();
+                    }
+                },10000);
             }else{
                 defer.resolve(global.account);
             }
