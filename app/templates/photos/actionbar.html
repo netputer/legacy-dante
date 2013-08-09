@@ -19,11 +19,4 @@
             ng-click="downloadSelected();$root.GA('photos:download_selected')"
             ><i class="icon-down-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DOWNLOAD}}</button>
     </div>
-    <div class="btn album-settings" 
-        ng-if="!$root.READ_ONLY_FLAG"
-        bs-tooltip="{{$root.DICT.photos.ALBUM_SETTINGS}}"
-        data-options="{placement: 'bottom'}"
-        ng-click="settingAlbums();$root.GA('photos:setting_album')">
-        <i class="icon-album-settings"></i>
-    </div>
 </div>

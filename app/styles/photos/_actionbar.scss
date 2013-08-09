@@ -10,9 +10,4 @@
     > .btn {
         margin-right: 5px;
     }
-    .album-settings {
-        min-width: 30px;
-        padding: 4px;
-        @include position(fixed, 10px 15px 0 0);
-    }
 }

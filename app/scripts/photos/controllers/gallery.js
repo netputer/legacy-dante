@@ -160,7 +160,7 @@ function loadScreen() {
 
         if ($scope.layout && $scope.layout.height - lastLayoutHeight >= viewportHeight) {
             defer.resolve();
-        }else {
+        } else {
             var photosLengthBeforeFetch = $scope.photos.length;
             fetchPhotos(30).then(function done(allLoaded) {
                 var newPhotosLength = $scope.photos.length - photosLengthBeforeFetch;
@@ -432,6 +432,7 @@ $scope.settingAlbums = function() {
 };
 $scope.hideAlbumSettings = function() {
     $scope.isShowAlbumSettings = false;
+    $scope.albumList = [];
 };
 
 }];
