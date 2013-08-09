@@ -77,19 +77,20 @@
         {{$root.DICT.photos.ALBUM_SETTINGS_INFO}}
         <div class="wd-loading wd-loading-local in-footer" data-visible="visibleAlbumLoading"></div>
         <ul class="albums-container">
-            <li ng-repeat="album in albumList" class="{{($index + 1) % 4 === 0 ? 'album-row-last-item' : ''}}">
-                <div class="thumbnail-container">
+            <li ng-repeat="album in albumList">
+                <div class="thumbnail-container" ng-click="selectAlbum(album, !album.visible)">
                     <img ng-if="album.thumbnail_path" ng-src="{{album.thumbnail_path}}" class="album-thumbnail">
                     <label class="action-select checkbox inline"
-                        ng-click="selectAlbum(album, selected)">
-                        <input type="checkbox" ng-checked="album.visible" ng-model="selected">
+                        bs-tooltip="{{album.visible ? $root.DICT.photos.BLOCK_DESELECT : $root.DICT.photos.BLOCK_SELECT}}"
+                        data-options="{container: false}">
+                        <input type="checkbox" ng-checked="album.visible" ng-model="selected" >
                     </label>
                 </div>
                 <span class="album-name">
                     {{album.bucket_name}}
                 </span>
                 <span class="photo-count">
-                    {{album.photo_count}} {{album.photo_count >= 1 ? $root.DICT.photos.PHOTOS_TEXT : $root.DICT.photos.PHOTOS_TEXT}}
+                    {{album.photo_count}} {{album.photo_count > 1 ? $root.DICT.photos.PHOTOS_TEXT : $root.DICT.photos.PHOTO_TEXT}}
                 </span>
             </li>
         </ul>
