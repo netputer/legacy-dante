@@ -91,7 +91,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $
             var gapi = $window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
-                gapi.auth.setToken(authResult);
+                // gapi.auth.setToken(authResult);
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
