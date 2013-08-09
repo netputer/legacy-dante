@@ -287,10 +287,18 @@ if (!READ_ONLY_FLAG) {
         });
     };
 
-    jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
+    jQuery.ajax({
+        dataType: 'script',
+        cache: true,
+        url: 'https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload'
+    });
 
-    jQuery(window).one('load', function() {    
-        jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
+    jQuery(window).one('load', function() {
+        jQuery.ajax({
+            dataType: 'script',
+            cache: true,
+            url: 'http://connect.facebook.net/en_UK/all.js'
+        }).done(function(){
             window.FB.init({
                 appId: '265004820250785'
             });
