@@ -1,4 +1,4 @@
-<div class="wdj-photos">
+<div class="wdj-photos" ng-controller="wdpAlbumsController">
     <div class="wdp-timeline-container" wdp-gallery>
         <div class="wdp-showcases-container">
             <div class="wdp-showcase">
@@ -17,6 +17,29 @@
             </div>
         </div>
         <div class="wdp-actionbar" ng-if="!$root.READ_ONLY_FLAG"></div>
+
+        <div bs-modal toggle="isShowAlbumSettings" class="album-settings-modal" data-header="{{$root.DICT.photos.ALBUM_SETTINGS}}" cancel="hideAlbumSettings()" ok="updateAlbums()">
+            {{$root.DICT.photos.ALBUM_SETTINGS_INFO}}
+            <div class="wd-loading wd-loading-local in-footer" data-visible="visibleAlbumLoading"></div>
+            <ul class="albums-container">
+                <li ng-repeat="album in albumList" class="{{($index + 1) % 4 === 0 ? 'album-row-last-item' : ''}}">
+                    <div class="thumbnail-container">
+                        <img ng-if="album.thumbnail_path" ng-src="{{album.thumbnail_path}}" class="album-thumbnail">
+                        <label class="action-select checkbox inline"
+                            ng-click="selectAlbum(album, selected)">
+                            <input type="checkbox" ng-checked="album.visible" ng-model="selected">
+                        </label>
+                    </div>
+                    <span class="album-name">
+                        {{album.bucket_name}}
+                    </span>
+                    <span class="photo-count">
+                        {{album.photo_count}} {{album.photo_count >= 1 ? $root.DICT.photos.PHOTOS_TEXT : $root.DICT.photos.PHOTOS_TEXT}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+
         <div class="wd-loading" data-visible="!firstScreenLoaded"></div>
     </div>
     <div wdp-slides
