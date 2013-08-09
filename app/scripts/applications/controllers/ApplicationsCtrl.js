@@ -26,6 +26,10 @@ define([
         //数据是否加载完毕
         $scope.dataLoaded = false;
 
+        //每块的宽和高
+        $scope.appBlockWidth = 0;
+        $scope.appBlockHeight = 0;
+
         //全局
         //应用数据列表
         var G_appList = [];
@@ -45,6 +49,18 @@ define([
         //上传的实例
         var G_uploader;
 
+        function changeAppsBlock(){
+            // 减去左边的黑条，再减去10px的左侧边距，再减去自定义滚动条的10px宽。
+            var docWidth = $(document).width() - 60 - 10 - 10;
+            var n = Math.floor( docWidth / ( 160 + 10 ) );
+            var width = Math.floor( docWidth / n ) - 10 ;
+            $scope.appBlockWidth = $scope.appBlockHeight = width;
+            $(window).one('resize',function(){
+                changeAppsBlock();
+                $scope.$apply();   
+            });
+        }
+
         function getAppListData(data){
             $scope.isLoadShow = false;
             $scope.dataLoaded = true;
@@ -55,7 +71,6 @@ define([
                 uploadApk($('.installApp'));
             },300);
         }
-
 
         //取得具体应用的数据信息
         function getAppInfo(data,package_name){
@@ -507,6 +522,7 @@ define([
         });
 
         //主程序
+        changeAppsBlock();
         $scope.isLoadShow = true;
         $scope.selectedNum = 0;
         $scope.isDeleteBtnShow = false;

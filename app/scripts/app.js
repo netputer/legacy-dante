@@ -282,17 +282,21 @@ window.facebookInitDefer = jQuery.Deferred();
 
 if (!READ_ONLY_FLAG) {
     window.googleSignInOnload = function() {
-        window.googleSignInOnloadDefer.resolve();
+        window.gapi.auth.init(function() {
+            window.googleSignInOnloadDefer.resolve();
+        });
     };
 
-    jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
-        window.FB.init({
-            appId: '265004820250785'
-        });
-        window.facebookInitDefer.resolve(window.FB);
-    });
-
     jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
+
+    jQuery(window).one('load', function() {    
+        jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
+            window.FB.init({
+                appId: '265004820250785'
+            });
+            window.facebookInitDefer.resolve(window.FB);
+        });
+    });
 }
 
 var GA_ID = READ_ONLY_FLAG ? 'UA-15790641-1' : 'UA-15790641-36';

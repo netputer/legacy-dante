@@ -6,7 +6,7 @@
     <div class="apps-list">
 
         <!-- 新安装的应用列表 -->
-        <dl class="new-list" ng-repeat="item in newList">
+        <dl class="new-list" ng-repeat="item in newList" ng-style="{width:appBlockWidth,height:appBlockHeight}">
             <dt><div class="new-app-image"></div></dt>
             <dd class="title" title="{{item.file_name}}">{{item.file_name}}</dd>
             <dd class="progress" ng-show="item.progressShow"><span style="width:{{item.progress}}"></span></dd>
@@ -23,7 +23,7 @@
         <!-- 新安装的应用列表 end -->
 
         <!-- 已安装的应用列表 -->
-        <dl class="old-list" ng-repeat="item in list" ng-click="showAppInfo(item.package_name);" ng-class="{'confirm':item.confirmTipShow}">
+        <dl class="old-list" ng-repeat="item in list" ng-click="showAppInfo(item.package_name);" ng-class="{'confirm':item.confirmTipShow}" ng-style="{width:appBlockWidth,height:appBlockHeight}">
             <dt><img ng-src="{{item.icon}}"></dt>
             <dd class="title" title="{{item.name}}">{{item.name}}</dd>
             <dd class="toolbar" ng-click="$event.stopPropagation();">

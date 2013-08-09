@@ -5,11 +5,10 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $rootScope, $log, $window ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $q, $rootScope, $log, $window, GA ) {
 
     var global = {
         authResult : {},
-        defer : $q.defer(),
         account : '',
         currentDevice : {},
 
@@ -17,13 +16,10 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         forceShowDevices : false,
 
         //标记是否本次登陆了，用于检测是否是跳转过来的用户
-        isLogin : false
+        hasAccessdDevice : false
     };
 
     var result = {
-        ready : function(){
-            return global.defer.promise;
-        },
 
         //取得或者设置authResult
         authResult : function (data) {
@@ -52,6 +48,8 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
 
         //刷新Google token
         refreshToken : function ( immediate ) {
+            GA('check_sign_in:refresh_token:all');
+            $log.log('Refreshing google tokening...');
             var defer = $q.defer();
             if(typeof immediate === 'undefined') {
                 immediate = false;
@@ -59,20 +57,32 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 immediate = true;
             }
             var me = this;
-            try {
-                $window.gapi.auth.authorize({
-                   'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-                   'immediate':immediate,
-                   'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
-                },function(data){
-                    me.callDevicesAccountData(data);
-                    defer.resolve(data);
-                    $rootScope.$apply();
+            
+            //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
+            $window.gapi.auth.authorize({
+               'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+               'immediate':immediate,
+               'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+            },function(authResult){
+                $rootScope.$apply(function() {
+                    if (authResult && authResult['access_token']) {
+                        GA('check_sign_in:refresh_token:success');
+                        me.authResult(authResult);
+                        $log.log('Getting google account informations...');
+                        me.getAccount().then(function(data){
+                            $log.log('All google login process have successed!');
+                            defer.resolve(data);
+                        },function( data ){
+                            $log.error('Get account failed!');
+                            defer.resolve( data );
+                        });
+                    } else if (!authResult || authResult['error']) {
+                        $log.error('Google refresh error!');
+                        GA('check_sign_in:refresh_token:fail');
+                        defer.reject();
+                    }
                 });
-            }
-            catch (err) {
-                defer.reject();
-            }
+            });
             return defer.promise;
         },
 
@@ -97,7 +107,8 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         getDevices : function () {
-            $log.log('connecting for geting devices...');
+            $log.log('Connecting for getting devices...');
+            GA('check_sign_in:get_devices:all');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
@@ -112,38 +123,24 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
-                success: function(data) {
-                    $log.log('get devices success!',data);
+                timeout: 10000
+            }).done(function( data ) {
+                GA('check_sign_in:get_devices:success');
+                $rootScope.$apply(function() {
+                    $log.log('Getting devices success!',data);
                     defer.resolve(data);
-                    global.defer.resolve(data);
-                    $rootScope.$apply();
-                    global.defer = $q.defer();
-                },
-                error: function(e) {
-                    $log.error('get devices failed');
-                    me.refreshToken();
+                });                    
+            }).fail(function(e, status ) {
+                GA('check_sign_in:get_devices:failed_'+ status );
+                $rootScope.$apply(function() {
+                    $log.error('Getting devices failed');
                     defer.reject();
-                    $rootScope.$apply();
-                    global.defer = $q.defer();
-                }
+                });
             });
-
             return defer.promise;
         },
 
-        callDevicesAccountData : function (authResult) {
-            if (authResult && authResult['access_token']) {
-                this.authResult(authResult);
-                this.getAccount();
-                this.getDevices();
-            } else if (!authResult || authResult['error']) {
-                global.defer.reject();
-                global.defer = $q.defer();
-            }
-        },
-
         signOut : function () {
-            global.defer = $q.defer();
             var defer = $q.defer();
             this.currentDevice({});
             this.removeStorageItem('googleToken');
@@ -172,11 +169,11 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         //是否本次登陆过，用于检测是否是跳转过来的设备
-        getIsLogin : function () {
-            return global.isLogin;
+        getHasAccessdDevice : function () {
+            return global.hasAccessdDevice;
         },
-        setIsLogin : function () {
-            global.isLogin = true;
+        setHasAccessdDevice : function () {
+            global.hasAccessdDevice = true;
         },
         setForceShowDevices : function ( flag ) {
             global.forceShowDevices = flag;
