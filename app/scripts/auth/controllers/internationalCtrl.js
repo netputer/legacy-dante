@@ -108,7 +108,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 })
                 .error(function(reason, status) {
                     GA('connect_device:connect:fail');
-                    // $scope.isLoadingDevices = false;
                     deviceData['loading'] = false;
                     if ( !$scope.autoAuth ) {
                         $scope.autoAuth = false;

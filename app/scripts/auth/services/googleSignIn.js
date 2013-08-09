@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $q, $rootScope, $log, $window, GA ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', function ( $http, $q, $rootScope, $log, $window, GA, $timeout ) {
 
     var global = {
         authResult : {},
@@ -91,15 +91,26 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', function ( $http, $
             var gapi = $window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
-                // gapi.auth.setToken(authResult);
+                // isTimeout 用来标识是否超时（ 这个API没有超时处理，只能手作了）， 0 未处理，1没有超时，-1超时。
+                var isTimeout = 0;
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        global.account = obj['email'];
-                        defer.resolve(global.account);
-                        $rootScope.$apply();
+                        if( isTimeout === 0 ) {
+                            isTimeout = 1;
+                            global.account = obj['email'];
+                            defer.resolve(global.account);
+                            $rootScope.$apply();
+                        }
                     });
                 });
+                //超时处理
+                $timeout(function() {
+                    if(isTimeout === 0) {
+                        isTimeout = -1;
+                        defer.reject();
+                    }
+                },10000);
             }else{
                 defer.resolve(global.account);
             }
