@@ -30,6 +30,7 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
 
     $rootScope.$on('signout', function() {
         global.appsList = [];
+        global.newAppList = [];
     });
 
     result = {
@@ -44,6 +45,9 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
             }else{
                 getAppListData().success(function(){
                     global.fun.call(this,global.appsList);
+                }).error(function() {
+                    //第一次取数据失败重试
+                    result.onchange(global.fun);
                 });
             }
         },
