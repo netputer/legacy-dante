@@ -10,9 +10,9 @@ define([
 'use strict';
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
-        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare', 'wdSharing',
+        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare', 'wdSharing', 'wdpAlbums',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
-         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare, wdSharing) {
+         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare, wdSharing, wdpAlbums) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -155,11 +155,12 @@ $scope.$on('$destroy', function() {
 function loadScreen() {
     $scope.loaded = false;
     (function fetchLoop(defer, viewportHeight, lastLayoutHeight) {
+        
         calculateLayout();
+
         if ($scope.layout && $scope.layout.height - lastLayoutHeight >= viewportHeight) {
             defer.resolve();
-        }
-        else {
+        } else {
             var photosLengthBeforeFetch = $scope.photos.length;
             fetchPhotos(30).then(function done(allLoaded) {
                 var newPhotosLength = $scope.photos.length - photosLengthBeforeFetch;
@@ -174,6 +175,7 @@ function loadScreen() {
                 defer.reject();
             });
         }
+        
         return defer.promise;
     })($q.defer(), wdViewport.height(), $scope.layout ? $scope.layout.height : 0)
     .then(function done() {
@@ -414,6 +416,24 @@ function showShareModal(authResponse, photo) {
 
     getPhotoBlobDeferred = wdShare.getPhotoBlob(photo);
 }
+
+// Albums
+$scope.isShowAlbumSettings = false;
+$scope.visibleAlbumLoading = true;
+$scope.settingAlbums = function() {
+    $scope.isShowAlbumSettings = true;
+
+    wdpAlbums.getData().then(function(response) {
+        $scope.visibleAlbumLoading = false;
+        $scope.albumList = response.data;
+    }, function() {
+        $scope.visibleAlbumLoading = false;
+    });
+};
+$scope.hideAlbumSettings = function() {
+    $scope.isShowAlbumSettings = false;
+    $scope.albumList = [];
+};
 
 }];
 });

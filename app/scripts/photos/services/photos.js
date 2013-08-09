@@ -22,6 +22,9 @@ var photos = {
         this.collection = _.uniq(photos, function(photo) {
             return photo.id;
         });
+    },
+    clear: function() {
+        this.collection = [];
     }
 };
 
