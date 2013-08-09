@@ -91,13 +91,12 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
             var gapi = $window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
-                // isTimeout 用来标识是否超时（ 这个API没有超时处理，只能手作了）， 0 未处理，1没有超时，-1超时。
-                var isTimeout = 0;
+                var isTimeout;
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        if( isTimeout === 0 ) {
-                            isTimeout = 1;
+                        if( isTimeout !== true ) {
+                            isTimeout = false;
                             global.account = obj['email'];
                             defer.resolve(global.account);
                             $rootScope.$apply();
@@ -106,8 +105,8 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 });
                 //超时处理
                 $timeout(function() {
-                    if(isTimeout === 0) {
-                        isTimeout = -1;
+                    if(isTimeout !== false) {
+                        isTimeout = true;
                         defer.reject();
                     }
                 },10000);

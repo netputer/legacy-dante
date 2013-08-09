@@ -10,7 +10,7 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
 
     var global = {
         appsList:[],
-        fun : undefined,
+        firstLoadFunction : undefined,
         newAppList : []
     };
     var result;
@@ -39,15 +39,15 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
         },
 
         onchange : function(fun){
-            global.fun = fun;
+            global.firstLoadFunction = fun;
             if(global.appsList.length){
-                global.fun.call(this,global.appsList);
+                global.firstLoadFunction.call(this,global.appsList);
             }else{
                 getAppListData().success(function(){
-                    global.fun.call(this,global.appsList);
+                    global.firstLoadFunction.call(this,global.appsList);
                 }).error(function() {
                     //第一次取数据失败重试
-                    result.onchange(global.fun);
+                    result.onchange(global.firstLoadFunction);
                 });
             }
         },
