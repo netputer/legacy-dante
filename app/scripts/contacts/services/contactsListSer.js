@@ -55,7 +55,10 @@ return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootSco
             });
 
             //数据未取完
-            if ( headers('WD-Need-More') === 'true' ) {
+            //兼容旧接口没有headers('WD-Need-More')
+            if ( !headers('WD-Need-More') && (data.length === length) ) {
+                getData( global.contacts.length, CONFIG.dataLengthOnce, null );
+            } else if ( headers('WD-Need-More') === 'true' ) {
 
                 //如果支持cursor打开这个接口，但是速度不如没有cursor的快
                 //getData(1,CONFIG.dataLengthOnce,data[l-1].id);
@@ -187,7 +190,7 @@ return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootSco
                     _.each( global.contacts, function( value ) {
 
                         //首先查找名字
-                        if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').indexOf( query ) >= 0 ) ){
+                        if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').match( new RegExp( '^' + query , 'g' ) ) ) ){
                             list.push( value );
 
                             //给简版的逻辑
@@ -204,7 +207,7 @@ return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootSco
                         //拼音搜索
                         }else if( !!value['sort_key'] ) {
                             var item = value['sort_key'].toLocaleLowerCase();
-                            var regstr = '';
+                            var regstr = '^';
                             for( var o = 0 , p = query.length; o < p ; o += 1 ) {
                                 regstr = regstr + query[o]+'.*?';
                             }
