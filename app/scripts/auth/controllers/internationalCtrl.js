@@ -108,7 +108,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 })
                 .error(function(reason, status) {
                     GA('connect_device:connect:fail');
-                    // $scope.isLoadingDevices = false;
                     deviceData['loading'] = false;
                     if ( !$scope.autoAuth ) {
                         $scope.autoAuth = false;
@@ -259,7 +258,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         $scope.googleSigIn = function () {
             GA('user_sign_in:click_sign_in:google_sign_in');
-            GA('check_sign_in:google_page:all');
+            GA('check_sign_in:google_page_all:all');
             wdGoogleSignIn.refreshToken().then(function() {
                 GA('check_sign_in:google_page:success');
                 $scope.isLoadingDevices = true;
