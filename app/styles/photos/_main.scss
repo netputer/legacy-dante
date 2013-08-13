@@ -59,6 +59,9 @@
         padding: 4px;
         @include position(fixed, 10px 15px 0 0);
     }
+    .wdp-blank-album-settings{
+        margin-left: 5px;
+    }
     @import "showcase"; // showcase consists of group of photos
     @import "block";    // each photos is contained in a block
 

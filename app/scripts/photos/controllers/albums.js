@@ -6,18 +6,18 @@ define([
 'use strict';
 
 return ['$scope', 'GA', 'wdpAlbums', '$route', 'wdpPhotos', function($scope, GA, wdpAlbums, $route, wdpPhotos) {
-    $scope.disabledOkButton = false;
+    $scope.albumDisabledOkButton = false;
 
     $scope.updateAlbums = function() {
-        $scope.disabledOkButton = true;
+        $scope.albumDisabledOkButton = true;
 
         wdpAlbums.updateData($scope.albumList).then(function() {
-            $scope.disabledOkButton = false;
+            $scope.albumDisabledOkButton = false;
             $scope.hideAlbumSettings();
             wdpPhotos.clear();
             $route.reload();
         }, function() {
-            $scope.disabledOkButton = false;
+            $scope.albumDisabledOkButton = false;
             // update albums error
         });
     };
