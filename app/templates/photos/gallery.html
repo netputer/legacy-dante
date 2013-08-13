@@ -17,6 +17,13 @@
             </div>
         </div>
         <div class="wdp-actionbar" ng-if="!$root.READ_ONLY_FLAG"></div>
+        <div class="btn album-settings" 
+        ng-if="!$root.READ_ONLY_FLAG"
+            bs-tooltip="{{$root.DICT.photos.ALBUM_SETTINGS}}"
+            data-options="{placement: 'bottom'}"
+            ng-click="settingAlbums();$root.GA('photos:setting_album')">
+            <i class="icon-album-settings"></i>
+        </div>
         <div class="wd-loading" data-visible="!firstScreenLoaded"></div>
     </div>
     <div wdp-slides
@@ -62,18 +69,12 @@
             wdp-uploader
             ng-click="$root.GA('photos:toolbar:add_photo')"
             ><i class="icon-add"></i> {{$root.DICT.photos.ACTIONBAR_ADD_PHOTOS}}</div>
+        <button class="btn btn-primary" ng-if="!$root.READ_ONLY_FLAG" ng-click="settingAlbums();$root.GA('photos:setting_album')">{{$root.DICT.photos.ALBUM_SETTINGS}}</button>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
             <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
         </div>        
     </div>
-    <div class="btn album-settings" 
-        ng-if="!$root.READ_ONLY_FLAG"
-        bs-tooltip="{{$root.DICT.photos.ALBUM_SETTINGS}}"
-        data-options="{placement: 'bottom'}"
-        ng-click="settingAlbums();$root.GA('photos:setting_album')">
-        <i class="icon-album-settings"></i>
-    </div>
-    <div bs-modal toggle="isShowAlbumSettings" class="album-settings-modal" data-header="{{$root.DICT.photos.ALBUM_SETTINGS}}" cancel="hideAlbumSettings()" ok="updateAlbums()">
+    <div bs-modal toggle="isShowAlbumSettings" class="album-settings-modal" data-header="{{$root.DICT.photos.ALBUM_SETTINGS}}" cancel="hideAlbumSettings()" ok="updateAlbums()" data-button-ok-disabled="{{disabledOkButton}}">
         {{$root.DICT.photos.ALBUM_SETTINGS_INFO}}
         <div class="wd-loading wd-loading-local in-footer" data-visible="visibleAlbumLoading"></div>
         <ul class="albums-container">
