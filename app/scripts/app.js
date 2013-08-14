@@ -134,7 +134,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('photos'),
-                versionSupport: minVersionRequirement(3819)
+                versionSupport: minVersionRequirement(3857)
             },
             reloadOnSearch: false
         });
