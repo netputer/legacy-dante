@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdEventEmitter', '$rootScope', 'wdSocket', 'Photos',
-function(wdEventEmitter,   $rootScope,   wdSocket,   Photos) {
+return ['wdEventEmitter', '$rootScope', 'wdSocket', 'Photos', '$route',
+function(wdEventEmitter,   $rootScope,   wdSocket,   Photos, $route) {
 
 var photos = {
     collection: [],
@@ -53,6 +53,9 @@ wdSocket.on('photos_add.wdp', function(e, message) {
             photos.trigger('remove', [photo]);
         }
     });
+}).on('refresh', function() {
+    photos.clear();
+    $route.reload();
 });
 
 return photos;

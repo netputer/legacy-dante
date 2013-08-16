@@ -6,7 +6,7 @@ define( [
     'use strict';
 
 //$q是promise
-return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
+return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q, $rootScope, $route, wdSocket) {
 
     var global = {
         appsList:[],
@@ -29,11 +29,20 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
     }
 
     $rootScope.$on('signout', function() {
-        global.appsList = [];
-        global.newAppList = [];
+        result.clear(); 
+    });
+
+    wdSocket.on('refresh', function() {
+        result.clear();
+        $route.reload();
     });
 
     result = {
+        clear: function() {
+            global.appsList = [];
+            global.newAppList = [];
+        },
+
         getApplications : function(){
             return global.appsList ;
         },
