@@ -13,7 +13,7 @@ return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q,
         firstLoadFunction : undefined,
         newAppList : []
     };
-    var result;
+    var apps;
 
     function getAppListData() {
         return $http({
@@ -22,22 +22,22 @@ return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q,
         }).success(function(data) {
             global.appsList = [];
             for( var i = 0,l = data.length ; i<l; i+=1 ){
-                global.appsList.push(result.changeInfo(data[i]));
+                global.appsList.push(apps.changeInfo(data[i]));
             }
         }).error(function(){
         });
     }
 
     $rootScope.$on('signout', function() {
-        result.clear(); 
+        apps.clear(); 
     });
 
     wdSocket.on('refresh', function() {
-        result.clear();
+        apps.clear();
         $route.reload();
     });
 
-    result = {
+    apps = {
         clear: function() {
             global.appsList = [];
             global.newAppList = [];
@@ -56,7 +56,7 @@ return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q,
                     global.firstLoadFunction.call(this,global.appsList);
                 }).error(function() {
                     //第一次取数据失败重试
-                    result.onchange(global.firstLoadFunction);
+                    apps.onchange(global.firstLoadFunction);
                 });
             }
         },
@@ -95,7 +95,7 @@ return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q,
 
     };
 
-    return result;
+    return apps;
 
 }];
 });
