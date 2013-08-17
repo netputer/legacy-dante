@@ -19,7 +19,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAXR_ECONNECTION_ATTEMPTS : 10,
+    MAX_RECONNECTION_ATTEMPTS : 10,
     /**
      * Destroy everything.
      */
@@ -40,7 +40,7 @@ Socket.prototype = {
                 'xhr-polling',
                 'jsonp-polling'
             ],
-            'max reconnection attempts': this.MAXR_ECONNECTION_ATTEMPTS
+            'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS
         });
 
         this._delegateEventListeners();
@@ -79,7 +79,7 @@ Socket.prototype = {
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
-            if (reconnectionAttempts === self.MAXR_ECONNECTION_ATTEMPTS) {
+            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
                 $log.error('Socket reconnect failed. Now start connect again.');
 
                 self._transport.socket.reconnect();

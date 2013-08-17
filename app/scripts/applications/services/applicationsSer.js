@@ -6,7 +6,7 @@ define( [
     'use strict';
 
 //$q是promise
-return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q, $rootScope, $route, wdSocket) {
+return [ '$http', '$q','$rootScope', 'wdSocket', function ( $http, $q, $rootScope, wdSocket) {
 
     var global = {
         appsList:[],
@@ -34,7 +34,6 @@ return [ '$http', '$q','$rootScope', '$route', 'wdSocket', function ( $http, $q,
 
     wdSocket.on('refresh', function() {
         apps.clear();
-        $route.reload();
     });
 
     apps = {

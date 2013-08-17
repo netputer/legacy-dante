@@ -225,9 +225,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document) {
+             wdTitleNotification,   wdDev,   $q,   $document, $route) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -273,6 +273,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
             }
+        });
+
+        wdSocket.on('refresh', function() {
+            $route.reload();
         });
     }]);
 

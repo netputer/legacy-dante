@@ -6,10 +6,10 @@ define([
 'use strict';
 return ['wdmExtendedConversationsCollection', 'wdmConversationsCollection',
         '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter',
-        'wdmSearchConversation', 'wdmMessage', '$route',
+        'wdmSearchConversation', 'wdmMessage',
 function(wdmExtendedConversationsCollection,   wdmConversationsCollection,
          $http,   $q,   $rootScope,   wdSocket,   wdEventEmitter,
-         wdmSearchConversation,   wdmMessage, $route) {
+         wdmSearchConversation,   wdmMessage) {
 
 var conversations = wdmExtendedConversationsCollection.createExtendedConversationsCollection();
 
@@ -35,7 +35,6 @@ wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
     }
 }).on('refresh', function(){
     conversations.clear();
-    $route.reload();
 });
 
 return {
