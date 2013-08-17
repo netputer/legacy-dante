@@ -6,7 +6,7 @@ define( [
     'use strict';
 
 //$q是promise
-return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootScope, $timeout ) {
+return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $q, $rootScope, $timeout, wdSocket) {
 
     //配置项
     var CONFIG = {
@@ -32,6 +32,10 @@ return [ '$http', '$q','$rootScope', '$timeout' , function ( $http, $q, $rootSco
         //临时存储onchange中触发的函数
         'fun' : undefined
     };
+
+    wdSocket.on('refresh', function() {
+        global.contacts = [];
+    });
 
     var me = this;
 

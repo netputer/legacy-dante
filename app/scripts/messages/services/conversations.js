@@ -33,6 +33,8 @@ wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
     else {
         conversations.fetch(cid);
     }
+}).on('refresh', function(){
+    conversations.clear();
 });
 
 return {

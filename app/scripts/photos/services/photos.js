@@ -53,6 +53,8 @@ wdSocket.on('photos_add.wdp', function(e, message) {
             photos.trigger('remove', [photo]);
         }
     });
+}).on('refresh', function() {
+    photos.clear();
 });
 
 return photos;
