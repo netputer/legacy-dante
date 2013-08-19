@@ -203,18 +203,30 @@ function fetchPhotos(amount) {
         params.cursor = lastPhoto.id;
         params.offset = 1;
     }
-    var timeStart = (new Date()).getTime();
-    Photos.query(
-        params,
-        function fetchSuccess(photos, headers) {
-            mergePhotos(photos);
-            GA('perf:photos_query_duration:success:' + ((new Date()).getTime() - timeStart));
-            defer.resolve(headers('WD-Need-More') === 'false');
-        },
-        function fetchError() {
-            GA('perf:photos_query_duration:fail:' + ((new Date()).getTime() - timeStart));
-            defer.reject();
-        });
+
+    var RETRY_TIMES = 3;
+
+    (function tick() {
+        var timeStart = (new Date()).getTime();
+        Photos.query(
+            params,
+            function fetchSuccess(photos, headers) {
+                mergePhotos(photos);
+                GA('perf:photos_query_duration:success:' + ((new Date()).getTime() - timeStart));
+                defer.resolve(headers('WD-Need-More') === 'false');
+            },
+            function fetchError() {
+                GA('perf:photos_query_duration:fail:' + ((new Date()).getTime() - timeStart));
+                
+                RETRY_TIMES -= 1;
+                if (!RETRY_TIMES) {
+                    defer.reject();
+                } else {
+                    tick();
+                }
+            });
+    })();
+    
     return defer.promise;
 }
 
