@@ -230,9 +230,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document, $route) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -271,14 +271,17 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $rootScope.$on('signin', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.connect();
+                wdDatabase.open(wdDev.getMetaData('phone_udid'));
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
         });
         $rootScope.$on('signout', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
+                wdDatabase.close();
             }
         });
+
 
         wdSocket.on('refresh', function() {
             $route.reload();
@@ -289,6 +292,11 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                 $rootScope.showSidebar = false;
             }
         };
+
+        $window.onbeforeunload = function() {
+            wdDatabase.close();
+        };
+
     }]);
 
 

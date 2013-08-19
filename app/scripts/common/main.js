@@ -24,7 +24,8 @@ define([
     'common/services/share',
     'common/directives/auto-stretch-textarea',
     'common/directives/temporary-disabled',
-    'common/directives/sidebar'
+    'common/directives/sidebar',
+    'common/services/db'
 ], function(
     angular,
     loading,
@@ -51,7 +52,8 @@ define([
     share,
     autoStretchTextarea,
     temporaryDisabled,
-    sidebar
+    sidebar,
+    db
 ) {
 // jshint unused:false
 'use strict';
@@ -82,5 +84,6 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdKeeper', keeper)
     .factory('GA', ga)
     .factory('wdNotification', notification)
-    .factory('wdTitleNotification', titleNotification);
+    .factory('wdTitleNotification', titleNotification)
+    .factory('wdDatabase', db);
 });
