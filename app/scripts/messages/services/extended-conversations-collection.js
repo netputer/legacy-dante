@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversationsCollection', '$q', '$http',
-function(wdmConversationsCollection,   $q,   $http) {
+return ['wdmConversationsCollection', '$q', '$http', 'GA', 
+function(wdmConversationsCollection,   $q,   $http,   GA) {
 
 var _super = wdmConversationsCollection.ConversationsCollection.prototype;
 
@@ -84,17 +84,34 @@ _.extend(ExtendedConversationsCollection.prototype, {
                 params.cursor = cursor;
                 params.offset = 1;
             }
-            return $http.get(
-                '/resource/conversations',
-                { params: params }
-            ).then(function success(response) {
-                var rawData = [].concat(response.data);
-                if (response.data.length) {
-                    this._cursor = response.data[response.data.length - 1].date;
-                }
-                this.loaded = response.headers('WD-Need-More') === 'false';
-                return this.add(rawData.map(this.create.bind(this)));
-            }.bind(this));
+
+            var RETRY_TIMES = 3;
+            var data = (function tick() {
+                var timeStart = (new Date()).getTime();
+
+                return $http.get(
+                    '/resource/conversations',
+                    { params: params }
+                ).then(function success(response) {
+                    GA('perf:conversations_fetch_duration:success:' + ((new Date()).getTime() - timeStart));
+
+                    var rawData = [].concat(response.data);
+                    if (response.data.length) {
+                        this._cursor = response.data[response.data.length - 1].date;
+                    }
+                    this.loaded = response.headers('WD-Need-More') === 'false';
+                    return this.add(rawData.map(this.create.bind(this)));
+                }.bind(this), function() {
+                    GA('perf:conversations_fetch_duration:fail:' + ((new Date()).getTime() - timeStart));
+
+                    RETRY_TIMES -= 1;
+                    if (RETRY_TIMES) {
+                        tick();
+                    }
+                });
+            }.bind(this))();
+
+            return data;
         }
     },
 
