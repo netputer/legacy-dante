@@ -83,9 +83,7 @@
     }
     .wdmer-a-b {
         white-space: pre-wrap;
-        word-break: break-all;
-        -webkit-hyphens: auto;
-        -o-hyphens: auto;
+        word-break: break-word;
     }
 
     .wdmer-b {
