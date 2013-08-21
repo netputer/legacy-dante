@@ -283,6 +283,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         wdSocket.on('refresh', function() {
             $route.reload();
         });
+
+        $rootScope.showSidebar = '';
     }]);
 
 

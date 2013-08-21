@@ -25,6 +25,12 @@ html.cors .no-support-placeholder {
     margin-left: $global-left-offset;
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: #fff;
+    @include transition(linear 0.5s);
+}
+
+.show-sidebar-wrapper .viewport {
+    @include transform(translateX(310px));
 }
 
 body {
