@@ -10,6 +10,7 @@
     "ACTIONBAR_FEEDBACK": "Feedback",
     "ALBUM_SETTINGS" : "Album settings",
     "ALBUM_SETTINGS_INFO" : "Select albums you wish to display in SnapPea.",
+    "ALBUM_BLANK_TIP": "No albums on your phone.",
     "BLOCK_SELECT": "Select",
     "BLOCK_DESELECT": "Deselect",
     "BLOCK_DELETE": "Delete",

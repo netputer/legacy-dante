@@ -18,6 +18,12 @@
             min-height: 380px;
             min-width: 428px;
         }
+        .albums-blank-tip {
+            text-align: center;
+            line-height: 350px;
+            font-size: 14px;
+            color: #333;
+        }
         ul {
             margin: 10px 0 0 0;
         }
@@ -45,6 +51,7 @@
             }
             span {
                 display: block;
+                line-height: 18px;
                 &.album-name {
                     width: 98px;
                     margin: 6px 0 1px 0;
