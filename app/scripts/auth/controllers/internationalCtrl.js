@@ -106,7 +106,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     $location.url($route.current.params.ref || '/');
                     $rootScope.$broadcast('signin');
                 })
-                .error(function(reason, status) {
+                .error(function(reason, status, headers, config) {
                     GA('connect_device:connect:fail');
                     deviceData['loading'] = false;
                     if ( !$scope.autoAuth ) {
@@ -132,15 +132,17 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }, 5000);
                     wdAuthToken.clearToken();
                     var action;
+                    var duration = Date.now() - timeStart;
                     if (status === 0) {
-                        action = 'timeout';
+                        action = (Math.floor(duration / 1000) * 1000 < config.timeout)  ? ('unreached:' + duration) : 'timeout';
                     }
                     else if (status === 401) {
-                        action = 'reject';
+                        action = 'reject:' + duration;
                     }
                     else {
-                        action = 'unknown_' + status;
+                        action = 'unknown_' + status + ':' + duration;
                     }
+                    GA('connect_device:connect:fail_' + action);
                 });
             }
             // Invalid auth code.
@@ -156,12 +158,15 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         function loopGetDevices() {
             loopGetDevicesTimer = $timeout(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
+                    if (!loopGetDevicesTimer) {
+                        return;
+                    }
                     if ( $scope.deviceNum < list.length ) {
                         GA('device_sign_in:add_new_device:new_device_page');
                     }
                     $scope.deviceNum = list.length;
                     for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                        list[i]['loading'] = false;
+                        list[i].loading = false;
                     }
                     wdGoogleSignIn.getAccount().then(function(data) {
                         $scope.accountEmail = data;
@@ -178,23 +183,30 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }
                 },
                 function() {
+                    if (!loopGetDevicesTimer) {
+                        return;
+                    }
                     wdGoogleSignIn.refreshToken(true).then(function() {
                         loopGetDevices();
                     },function(){
                         $scope.googleSignOut();
                     });
                 });
-            },7000);
+            }, 7000);
         }
 
         function stopLoopGetDevices () {
-            $timeout.cancel( loopGetDevicesTimer );
+            $timeout.cancel(loopGetDevicesTimer);
+            loopGetDevicesTimer = null;
         }
 
         //轮询获取设备列表，如果有一个设备则登录
         function loopLinkDevices() {
             loopLinkDevicesTimer = $timeout(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
+                    if (!loopLinkDevicesTimer) {
+                        return;
+                    }
                     if ( $scope.deviceNum < list.length ) {
                         GA('device_sign_in:add_new_device:new_device_page');
                     }
@@ -210,23 +222,39 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }
                 },
                 function() {
+                    if (!loopLinkDevicesTimer) {
+                        return;
+                    }
                     wdGoogleSignIn.refreshToken(true).then(function() {
                         loopLinkDevices();
                     },function() {
                         $scope.googleSignOut();
                     });
                 });
-            },3000);
+            }, 3000);
         }
 
         function stopLoopLinkDevices () {
-            $timeout.cancel( loopLinkDevicesTimer );
+            $timeout.cancel(loopLinkDevicesTimer);
+            loopLinkDevicesTimer = null;
         }
 
         $scope.connectPhone = function (item) {
             item['loading'] = true;
             GA('device_sign_in:select_existing_device:select_device_page');
             $scope.submit(item);
+        };
+
+        $scope.ping = function(item) {
+            if (!item.pingStatus) {
+                item.pingStatus = true;
+                wdDev.ping('//' + item.ip + ':10208').then(function() {
+                    item.pingStatus = true;
+                }, function() {
+                    item.pingStatus = false;
+                });
+            }
+            return item.pingStatus;
         };
 
         $scope.googleSignOut = function () {
