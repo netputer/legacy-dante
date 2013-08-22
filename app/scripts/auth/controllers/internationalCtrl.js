@@ -134,7 +134,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     var action;
                     var duration = Date.now() - timeStart;
                     if (status === 0) {
-                        action = (Math.floor(duration / 1000) * 1000 < config.timeout)  ? ('unreached:' + duration) : 'timeout';
+                        action = (Math.round(duration / 1000) * 1000 < config.timeout)  ? ('unreached:' + duration) : 'timeout';
                     }
                     else if (status === 401) {
                         action = 'reject:' + duration;

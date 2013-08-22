@@ -68,18 +68,23 @@ return function() {
                 var timeout = null;
 
                 url += '?_=' + Date.now();
-
-                image.onload = image.onerror = function() {
+                image.onload = image.onerror = function(e) {
                     $rootScope.$apply(function() {
                         $timeout.cancel(timeout);
-                        defer.resolve();
+                        if (e.type === 'error' &&
+                            $window.navigator.onLine === false) {
+                            defer.reject('offline');
+                        }
+                        else {
+                            defer.resolve();
+                        }
                     });
                 };
 
                 image.src = url;
 
                 timeout = $timeout(function() {
-                    defer.reject();
+                    defer.reject('timeout');
                     image.src = null;
                 }, 1500);
 
