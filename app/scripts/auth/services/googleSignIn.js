@@ -10,6 +10,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
     var global = {
         authResult : {},
         account : '',
+        profileInfo: '',
         currentDevice : {},
 
         //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
@@ -116,6 +117,44 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
             } else {
                 defer.resolve(global.account);
             }
+            return defer.promise;
+        },
+
+        getProfileInfo: function() {
+            var defer = $q.defer();
+            var gapi = $window.gapi;
+
+            if(!global.profileInfo) {
+                var authResult = global.authResult;
+                var isTimeout;
+
+                gapi.client.load('plus','v1', function() {
+                    var request = gapi.client.plus.people.get({
+                       'userId': 'me'
+                    });
+
+                    request.execute(function(obj) {
+                        if( isTimeout !== true ) {
+                            isTimeout = false;
+
+                            global.profileInfo = obj;
+                            defer.resolve(global.profileInfo);
+
+                            $rootScope.$apply();
+                        }
+                    });
+                });
+
+                $timeout(function() {
+                    if(isTimeout !== false) {
+                        isTimeout = true;
+                        defer.reject();
+                    }
+                },10000);
+            } else {
+                defer.resolve(global.profileInfo);
+            }
+
             return defer.promise;
         },
 

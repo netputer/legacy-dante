@@ -11,43 +11,107 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA', '$rootScope', '$q', 'wdToast',
-        function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA, $rootScope, $q,   wdToast) {
+                '$scope', 'wdAuthToken', 'wdGoogleSignIn', 'wdShare',
+                'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
+                '$q', 'wdToast',
+        function($scope,   wdAuthToken,   wdGoogleSignIn,   wdShare,
+                 wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
+                 $q,   wdToast) {
+            $scope.isChangeDevicesPopShow = false;
+            $scope.account = '';
+
+            function clearLayersStatus() {
+                $scope.devicesAnimate = false;
+                $scope.devicesDefault = false;
+                $scope.devicesHide = false;
+                $scope.currentDeviceLayer = false;
+
+                $scope.settingsAnimate = false;
+                $scope.settingsDefault = false;
+                $scope.settingsHide = false;
+                $scope.settingsHideImmediate = false;
+                $scope.currentSettingsLayer = false;
+            }
+
+            clearLayersStatus();
+
             $scope.closeSidebar = function() {
-                $rootScope.showSidebar = $rootScope.showSidebar.indexOf('show-settings-container') !== -1 ? 'show-settings-container' : '';
+                $rootScope.showSidebar = false;
             };
 
-
-            $scope.messageNotification = false;
-            $scope.isChangeDevicesPopShow = false;
-            $scope.shownLanguageModal = false;
-            $scope.account = '';
-            $scope.authCallbackURL = encodeURIComponent($window.location.href);
-
-            $scope.open = function() {
-                $scope.isLoadDevices = true;
-                wdGoogleSignIn.getDevices().then(function(list){
-                    $scope.isLoadDevices = false;
-
-                    //设备列表
-                    $scope.devicesList = getListData(list);
-                    $rootScope.showSidebar = 'show-sidebar-wrapper';
-                },function(){
-                    wdGoogleSignIn.setToken().then(function(){
-                        $scope.open();
-                    });
-                });
-
-                //取得账号
+            $rootScope.$on('sidebar:open', function() {
                 wdGoogleSignIn.getAccount().then(function(data){
                     $scope.account = data;
                 });
 
+                wdGoogleSignIn.getProfileInfo().then(function(data) {
+                    $scope.profileInfo = data;
+                });
+            });
+
+            $rootScope.$on('sidebar:close', function() {
+                $scope.closeSidebar();
+            });
+
+            $rootScope.$on('sidebar:devices:animate', function() {
+                refreshDevices();
+                clearLayersStatus();
+                $scope.settingsHide = true;
+                $scope.devicesAnimate = true;
+                $scope.currentDeviceLayer = true;
+            });
+
+            $rootScope.$on('sidebar:devices:default', function() {
+                refreshDevices();
+                clearLayersStatus();
+                $scope.settingsHideImmediate = true;
+                $scope.devicesDefault = true;
+            });
+
+            $rootScope.$on('sidebar:settings:animate', function() {
+                clearLayersStatus();
+                $scope.settingsAnimate = true;
+                $scope.devicesHide = true;
+                $scope.currentSettingsLayer = true;
+            });
+
+            $rootScope.$on('sidebar:settings:default', function() {
+                clearLayersStatus();
+                $scope.settingsDefault = true;
+                $scope.devicesHide = true;
+            });     
+
+            $scope.AddNewPhone = function () {
+                $scope.isShowChangeDevicesPop = true;
             };
 
-            //处理原始的设备列表数据
+            $scope.changeDevice = function (item) {
+                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
+                    wdGoogleSignIn.currentDevice(item);
+                    wdAuthToken.signout();
+                }
+            };
+
+            $scope.selectedLanguage = function(language) {
+                return wdLanguageEnvironment.currentLanguageBelongsTo(language);
+            };
+
+            function refreshDevices() {
+                $scope.isLoadingDevices = true;
+
+                (function getDevices() {
+                    wdGoogleSignIn.getDevices().then(function(list){
+                        $scope.isLoadingDevices = false;
+
+                        $scope.deviceList = getListData(list);
+                    },function(){
+                        wdGoogleSignIn.setToken().then(function(){
+                            getDevices();
+                        });
+                    });
+                })();
+            }
+
             function getListData(list) {
                 var ip = wdGoogleSignIn.currentDevice().ip;
                 for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
@@ -72,39 +136,6 @@ return [function() {
                 });
             };
 
-            $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
-                    wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
-                }
-            };
-
-            $scope.$on('$routeChangeSuccess', function(e, current) {
-                if (current.locals.nav == null) { return; }
-
-                $scope.currentModule = current.locals.nav;
-                localStorage.setItem('lastModule', $scope.currentModule);
-
-                if ($scope.currentModule === 'messages') {
-                    $scope.messageNotification = false;
-                    $scope.$root.restoreTitle();
-                }
-            });
-
-            wdSocket.on('messages_add.wdNavbar', function(e) {
-                if ($scope.currentModule !== 'messages') {
-                    $scope.messageNotification = true;
-                    if ($route.current.locals.nav != null &&
-                        $route.current.locals.nav !== 'messages') {
-                        $scope.$root.notifyNewMessage();
-                    }
-                }
-            });
-
-            $scope.clickAddNewPhone = function () {
-                $scope.isShowChangeDevicesPop = true;
-            };
-
             //facebook
             $scope.isConnectedFacebook = function() {
                 return wdShare.getIsConnectedFacebook();
@@ -115,7 +146,7 @@ return [function() {
             $scope.handleFacebookConnect = function() {
                 if (wdShare.getIsConnectedFacebook()) {
                     wdAlert.confirm(
-                        $scope.$root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP,
+                        $scope.$root.DICT.app.DISCONNECT_FACEBOOK,
                         $scope.$root.DICT.app.DISCONNECT_FACEBOOK_INFO,
                         $scope.$root.DICT.app.DISCONNECT
                     ).then(function() {

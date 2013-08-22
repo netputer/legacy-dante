@@ -26,10 +26,12 @@ html.cors .no-support-placeholder {
     overflow-x: hidden;
     overflow-y: auto;
     background-color: #fff;
-    @include transition(linear 0.5s);
+    /*@include transition(linear 0.3s);*/
+    @include transition(all 500ms cubic-bezier(0.265, 0.460, 0.475, 1.125));
+    @include transition-timing-function(cubic-bezier(0.265, 0.460, 0.475, 1.125));
 }
 
-.show-sidebar-wrapper .viewport {
+.open-sidebar .viewport {
     @include transform(translateX(310px));
 }
 
