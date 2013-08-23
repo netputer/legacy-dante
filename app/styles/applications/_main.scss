@@ -23,12 +23,11 @@
         list-style: none;
         margin: 0px;
     }
-    .apps-list{
-        position: fixed;
-        top: 0px;
-        bottom: 0px;
-        overflow-y:auto;
-        padding-top: 50px;
+
+	.apps-list{
+		@include position(absolute, 0 0 0 0);
+		overflow-y:auto;
+		padding-top: 50px;
         @include readonly {
             padding-top: 10px;
         }
