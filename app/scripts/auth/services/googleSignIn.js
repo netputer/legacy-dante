@@ -57,7 +57,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 immediate = true;
             }
             var me = this;
-            
+
             //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
             $window.gapi.auth.authorize({
                'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
@@ -93,7 +93,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
         getAccount : function () {
             var defer = $q.defer();
             var gapi = $window.gapi;
-            if(!global.account){
+            if (!global.account) {
                 var authResult = global.authResult;
                 var isTimeout;
                 gapi.client.load('oauth2', 'v2', function() {
@@ -114,7 +114,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                         defer.reject();
                     }
                 },10000);
-            }else{
+            } else {
                 defer.resolve(global.account);
             }
             return defer.promise;
@@ -143,7 +143,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 $rootScope.$apply(function() {
                     $log.log('Getting devices success!',data);
                     defer.resolve(data);
-                });                    
+                });
             }).fail(function( xhr ) {
                 GA('check_sign_in:get_devices:failed_'+ xhr.status );
                 $rootScope.$apply(function() {
