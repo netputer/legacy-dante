@@ -81,7 +81,9 @@
     <div bs-modal toggle="isShowAlbumSettings" class="album-settings-modal" data-header="{{$root.DICT.photos.ALBUM_SETTINGS}}" cancel="hideAlbumSettings()" ok="updateAlbums()" data-button-ok-disabled="{{albumDisabledOkButton}}">
         {{$root.DICT.photos.ALBUM_SETTINGS_INFO}}
         <div class="wd-loading wd-loading-local in-footer" data-visible="visibleAlbumLoading"></div>
-        <div class="albums-blank-tip" ng-if="albumList.length === 0">{{$root.DICT.photos.ALBUM_BLANK_TIP}}</div>
+        <div class="albums-blank-tip" ng-if="albumList.length === 0">
+            <p>{{$root.DICT.photos.ALBUM_BLANK_TIP}}</p>
+        </div>
         <ul class="albums-container">
             <li ng-repeat="album in albumList">
                 <div class="thumbnail-container" ng-click="selectAlbum(album, !album.visible)">
