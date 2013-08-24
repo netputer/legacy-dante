@@ -1,6 +1,8 @@
 define([
+        'jquery',
         'text!templates/common/sidebar.html'
     ], function(
+        $,
         template
     ) {
 'use strict';
@@ -46,6 +48,13 @@ return [function() {
 
                 wdGoogleSignIn.getProfileInfo().then(function(data) {
                     $scope.profileInfo = data;
+                });
+
+                $('body').click(function(e) {
+                    if (!$(e.target).parents('.sidebar').length && !$(e.target).parents('.nav-settings').length) {
+                        $scope.closeSidebar();
+                        $scope.$apply();
+                    }
                 });
             });
 
