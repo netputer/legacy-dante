@@ -3,7 +3,7 @@ $auth-spacing: 4px;
 .wd-portal {
     @include position(fixed, 0px 0px 0px 0px);
     @include ui-layer-top;
-    background: #6eb800;
+    background: $standard-green;
 
     .announcement {
         font-size: 12px;
@@ -52,7 +52,7 @@ $auth-spacing: 4px;
             @include position(absolute, 50% 0 0 50%);
             margin: -124px 0 0 -480px;
         }
-        h1, p, span {
+        h1, p {
             @include text-shadow(0 1px 0 rgba(#000, 0.2));
             color: #fff;
         }
@@ -114,6 +114,8 @@ $auth-spacing: 4px;
             opacity: 0.7;
             display: block;
             margin-top: 3px;
+            @include text-shadow(0 1px 0 rgba(#000, 0.2));
+            color: #fff;
             &:hover {
                 opacity: 0.95;
             }
@@ -188,7 +190,6 @@ $auth-spacing: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     position: relative;
     span.google-btn-word{
-        color: #333;
         display: inline-block;
         margin-left: 5px;
         margin-bottom: 0px;

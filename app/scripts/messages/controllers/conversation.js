@@ -202,6 +202,8 @@ $scope.sendMessage = function(c) {
 
     if (!c.addresses.length) { return; }
 
+    GA('messages:send');
+
     $scope.conversations.sendMessages(c).then(function(cc) {
         if (cc !== $scope.activeConversation) {
             $scope.showConversation(cc);
