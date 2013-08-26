@@ -19,10 +19,17 @@
             min-width: 428px;
         }
         .albums-blank-tip {
+            height: 350px;
             text-align: center;
-            line-height: 350px;
             font-size: 14px;
             color: #333;
+            @include background-retina("isolate/no-albums.png", "isolate/no-albums-2x.png");
+            background-repeat: no-repeat;
+            background-position: center;
+
+            p {
+                padding-top: 256px;
+            }
         }
         ul {
             width: 446px;
