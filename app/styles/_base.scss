@@ -3,6 +3,7 @@ $global-line-height: 20px;
 $global-transition-duration: 0.4s;
 $global-left-offset: 60px;
 
+$standard-green: #3baa24;
 
 // http://docs.angularjs.org/api/ng.directive:ngCloak
 [ng\:cloak], [ng-cloak] { display: none; }
@@ -34,7 +35,7 @@ html.zh-cn body {
 }
 
 a, a:hover {
-    color: #3c7800;
+    color: #2f7c2f;
 }
 img {
     max-width: none;
