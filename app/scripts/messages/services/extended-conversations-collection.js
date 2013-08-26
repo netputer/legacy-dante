@@ -4,7 +4,7 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversationsCollection', '$q', '$http', 'GA', 
+return ['wdmConversationsCollection', '$q', '$http', 'GA',
 function(wdmConversationsCollection,   $q,   $http,   GA) {
 
 var _super = wdmConversationsCollection.ConversationsCollection.prototype;
@@ -172,7 +172,8 @@ _.extend(ExtendedConversationsCollection.prototype, {
 
         config = {
             method: method,
-            url: url
+            url: url,
+            timeout: 6 * 1000
         };
         if (method === 'POST') {
             config.data = {
