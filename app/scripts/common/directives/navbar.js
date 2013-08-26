@@ -29,8 +29,10 @@ return [function() {
                     //设备列表
                     $scope.devicesList = getListData (list);
                 },function(){
-                    wdGoogleSignIn.setToken().then(function(){
+                    wdGoogleSignIn.refreshToken(true).then(function(){
                         $scope.open();
+                    }, function(){
+                        $scope.devicesList = [];
                     });
                 });
 
