@@ -4,7 +4,7 @@
         "newContact": "New contact",
         "deselect": "Deselect",
         "delete": "Delete",
-        "addNewItem": "Add new item",
+        "addNewItem": "Add new",
         "edit": "Edit",
         "save": "Save",
         "cancel": "Cancel",
@@ -29,7 +29,7 @@
     "NO_CONTACT_TIPS": "No contacts matched your search.",
     "UPGRADE_TIP": "Update SnapPea to manage your contacts from the web.",
     "NO_CONTACT": "No contacts on your phone. Your friends are waiting!",
-    "NO_NAME": "No Name",
+    "NO_NAME": "(No name)",
     "LOAD_MORE": "Load more",
     "WORDS": {
         "account": "Account",
@@ -63,7 +63,7 @@
             "OK": "Delete",
             "CANCEL": "Cancel",
             "ASK": "Delete the selected contact(s) from your phone?",
-            "READ_ONLY": "Those are read-only contact(s),can not be deleted:"
+            "READ_ONLY": "Those are read-only contact(s), so can't be deleted:"
         },
         "FAILED_DELETE": {
             "TITLE": "Failed to delete selected contacts",
