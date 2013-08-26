@@ -173,7 +173,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
 
         // Global exception handling.
-        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdAuthToken', function(wdDev, $rootScope, $q, $log, wdAuthToken) {
+        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdAuthToken', '$window', function(wdDev, $rootScope, $q, $log, wdAuthToken, $window) {
             return {
                 request: function(config) {
                     // Using realtime data source url.
@@ -199,6 +199,11 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                 responseError: function error(rejection) {
                     $log.warn(rejection.config.url, rejection.status);
                     popActiveRequest($rootScope);
+                    // 423 Locked
+                    if ($rootScope.READ_ONLY_FLAG && rejection.status === 423) {
+                        $window.alert($rootScope.DICT.app.ACCOUNT_LOCKED);
+                        $window.location = 'https://account.wandoujia.com/web/forgetpassword?callback=' + encodeURIComponent($window.location.href);
+                    }
                     // If auth error, always signout.
                     // 401 for auth invalid, 0 for server no response.
                     if (!rejection.config.disableErrorControl &&
@@ -287,7 +292,7 @@ if (!READ_ONLY_FLAG) {
 
     jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
 
-    jQuery(window).one('load', function() {    
+    jQuery(window).one('load', function() {
         jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
             window.FB.init({
                 appId: '265004820250785'
