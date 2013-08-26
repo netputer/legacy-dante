@@ -2614,7 +2614,7 @@ button.close {
 .btn:hover,
 .btn:focus {
   text-decoration: none;
-  background: #e7e9e9;
+  background: #edeff0;
   -webkit-transition: background-color 0.1s linear;
      -moz-transition: background-color 0.1s linear;
        -o-transition: background-color 0.1s linear;
@@ -2960,13 +2960,10 @@ input[type="submit"].btn.btn-mini {
 
 .btn-group > .btn {
   position: relative;
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
 }
 
 .btn-group > .btn + .btn {
-  margin-left: -1px;
+  margin-left: 1px;
 }
 
 .btn-group > .btn,
