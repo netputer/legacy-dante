@@ -173,7 +173,7 @@ _.extend(ExtendedConversationsCollection.prototype, {
         config = {
             method: method,
             url: url,
-            timeout: 6 * 1000
+            timeout: 60 * 1000
         };
         if (method === 'POST') {
             config.data = {
