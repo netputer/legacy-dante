@@ -4,16 +4,13 @@
         margin: 0px;
         font-weight: normal;
     }
-    .header{
-        position: fixed;
-        top: 0px;
-        left: 60px;
-        right: 0px;
-        height: 40px;
-        overflow: hidden;
-        padding-left: 10px;
-        padding-top: 10px;
-        background: rgba(255, 255, 255, 0.9);
+	.header{
+		@include position(fixed, 0 0 0 0);
+		height: 40px;
+		overflow: hidden;
+		padding-left: 10px;
+		padding-top: 10px;
+		background: rgba(255, 255, 255, 0.9);
 
         .btn{
             margin-right: 5px;
