@@ -1,6 +1,6 @@
 <div>
     <div class="sidebar-inner">
-        <div class="devices-container" ng-class="devicesAnimate">
+        <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'current-layer': currentDeviceLayer, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
             <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
             <h2 class="device-select-title">{{$root.DICT.app.SELECT_DEVICES_TIP}}</h2>
             <ul ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-hide="isLoadingDevices" class="device-list">
@@ -13,7 +13,7 @@
                 {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
             </a>
         </div>
-        <div class="settings-container" ng-class="settingsAnimate">
+        <div class="settings-container" ng-class="{'settings-animate': settingsAnimate, 'current-layer': currentSettingsLayer, 'settings-default': settingsDefault, 'settings-hide': settingsHide, 'settings-hide-immediate': settingsHideImmediate}">
             <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
             <div class="profile-info">
                 <img class="profile-img" ng-src="{{profileInfo.image.url}}"/>

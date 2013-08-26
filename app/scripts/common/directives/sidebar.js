@@ -65,6 +65,7 @@ return [function() {
             $rootScope.$on('sidebar:devices:animate', function() {
                 refreshDevices();
                 clearLayersStatus();
+
                 $scope.settingsHide = true;
                 $scope.devicesAnimate = true;
                 $scope.currentDeviceLayer = true;
@@ -73,8 +74,10 @@ return [function() {
             $rootScope.$on('sidebar:devices:default', function() {
                 refreshDevices();
                 clearLayersStatus();
-                $scope.settingsHideImmediate = true;
-                $scope.devicesDefault = true;
+
+               $scope.settingsHideImmediate = true;
+               $scope.devicesDefault = true;
+               $scope.currentDeviceLayer = true;
             });
 
             $rootScope.$on('sidebar:settings:animate', function() {
@@ -100,6 +103,21 @@ return [function() {
                     wdAuthToken.signout();
                 }
             };
+
+
+            $rootScope.$on('sidebar:settings:animate', function() {
+                clearLayersStatus();
+                $scope.settingsAnimate = true;
+                $scope.devicesHide = true;
+                $scope.currentSettingsLayer = true;
+            });
+
+            $rootScope.$on('sidebar:settings:default', function() {
+                clearLayersStatus();
+                $scope.settingsDefault = true;
+                $scope.devicesHide = true;
+                $scope.currentSettingsLayer = true;
+            });     
 
             $scope.selectedLanguage = function(language) {
                 return wdLanguageEnvironment.currentLanguageBelongsTo(language);
