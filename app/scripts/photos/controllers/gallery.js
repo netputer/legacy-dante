@@ -10,9 +10,9 @@ define([
 'use strict';
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
-        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare', 'wdSharing',
+        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare', 'wdSharing', 'wdpAlbums',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
-         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare, wdSharing) {
+         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare, wdSharing, wdpAlbums) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -155,11 +155,12 @@ $scope.$on('$destroy', function() {
 function loadScreen() {
     $scope.loaded = false;
     (function fetchLoop(defer, viewportHeight, lastLayoutHeight) {
+        
         calculateLayout();
+
         if ($scope.layout && $scope.layout.height - lastLayoutHeight >= viewportHeight) {
             defer.resolve();
-        }
-        else {
+        } else {
             var photosLengthBeforeFetch = $scope.photos.length;
             fetchPhotos(30).then(function done(allLoaded) {
                 var newPhotosLength = $scope.photos.length - photosLengthBeforeFetch;
@@ -174,6 +175,7 @@ function loadScreen() {
                 defer.reject();
             });
         }
+        
         return defer.promise;
     })($q.defer(), wdViewport.height(), $scope.layout ? $scope.layout.height : 0)
     .then(function done() {
@@ -201,18 +203,30 @@ function fetchPhotos(amount) {
         params.cursor = lastPhoto.id;
         params.offset = 1;
     }
-    var timeStart = (new Date()).getTime();
-    Photos.query(
-        params,
-        function fetchSuccess(photos, headers) {
-            mergePhotos(photos);
-            GA('perf:photos_query_duration:success:' + ((new Date()).getTime() - timeStart));
-            defer.resolve(headers('WD-Need-More') === 'false');
-        },
-        function fetchError() {
-            GA('perf:photos_query_duration:fail:' + ((new Date()).getTime() - timeStart));
-            defer.reject();
-        });
+
+    var RETRY_TIMES = 3;
+
+    (function tick() {
+        var timeStart = (new Date()).getTime();
+        Photos.query(
+            params,
+            function fetchSuccess(photos, headers) {
+                mergePhotos(photos);
+                GA('perf:photos_query_duration:success:' + ((new Date()).getTime() - timeStart));
+                defer.resolve(headers('WD-Need-More') === 'false');
+            },
+            function fetchError() {
+                GA('perf:photos_query_duration:fail:' + ((new Date()).getTime() - timeStart));
+                
+                RETRY_TIMES -= 1;
+                if (!RETRY_TIMES) {
+                    defer.reject();
+                } else {
+                    tick();
+                }
+            });
+    })();
+    
     return defer.promise;
 }
 
@@ -414,6 +428,44 @@ function showShareModal(authResponse, photo) {
 
     getPhotoBlobDeferred = wdShare.getPhotoBlob(photo);
 }
+
+// Albums
+$scope.isShowAlbumSettings = false;
+$scope.visibleAlbumLoading = true;
+$scope.settingAlbums = function() {
+    $scope.isShowAlbumSettings = true;
+
+    wdpAlbums.getData().then(function(response) {
+        $scope.visibleAlbumLoading = false;
+        $scope.albumList = response.data;
+    }, function() {
+        $scope.visibleAlbumLoading = false;
+    });
+};
+$scope.hideAlbumSettings = function() {
+    $scope.isShowAlbumSettings = false;
+    $scope.albumList = [];
+};
+
+$scope.albumDisabledOkButton = false;
+$scope.updateAlbums = function() {
+    $scope.albumDisabledOkButton = true;
+
+    wdpAlbums.updateData($scope.albumList).then(function() {
+        $scope.albumDisabledOkButton = false;
+        $scope.hideAlbumSettings();
+        wdpPhotos.clear();
+        $route.reload();
+    }, function() {
+        $scope.albumDisabledOkButton = false;
+        // update albums error
+    });
+};
+
+$scope.selectAlbum = function(album, selected) {
+    album.visible = selected;
+};
+
 
 }];
 });

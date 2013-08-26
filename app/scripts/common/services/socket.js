@@ -19,7 +19,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-
+    MAX_RECONNECTION_ATTEMPTS : 10,
     /**
      * Destroy everything.
      */
@@ -39,7 +39,8 @@ Socket.prototype = {
                 'xhr-multipart',
                 'xhr-polling',
                 'jsonp-polling'
-            ]
+            ],
+            'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS
         });
 
         this._delegateEventListeners();
@@ -51,6 +52,7 @@ Socket.prototype = {
         if (!this._transport) { return; }
 
         var self = this;
+        var lastTimestamp = 0;
 
         this._transport.on('message', function onMessage(message) {
             try {
@@ -61,6 +63,7 @@ Socket.prototype = {
                 return;
             }
             $log.log('socket: ', message);
+            lastTimestamp = message.timestamp;
             $rootScope.$apply(function() {
                 self.trigger(message.type.replace('.', '_'), [message]);
             });
@@ -70,18 +73,29 @@ Socket.prototype = {
             GA('socket:connect');
         });
 
-        // this._transport.on('disconnect', function disconnect() {
-        //     $log.error('Socket disconnected!');
-        // });
+        this._transport.on('disconnect', function disconnect() {
+            $log.error('Socket disconnected!');
+        });
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
-            // $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+            $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
+                $log.error('Socket reconnect failed. Now start connect again.');
+
+                self._transport.socket.reconnect();
+            }
         });
 
         this._transport.on('reconnect', function reconnect() {
-            // $log.log('Socket reconnected!');
+            $log.log('Socket reconnected!');
+
+            self._transport.emit({
+                type: 'notifications.request',
+                timestamp : lastTimestamp 
+            });
         });
 
+        // There is a bug in socket.io, reconnect_failed gets never fired.
         this._transport.on('reconnect_failed', function failed() {
             $log.warn('Socket server seems cold dead...');
             GA('socket:dead');

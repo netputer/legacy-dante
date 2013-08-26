@@ -108,7 +108,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 })
                 .error(function(reason, status) {
                     GA('connect_device:connect:fail');
-                    // $scope.isLoadingDevices = false;
                     deviceData['loading'] = false;
                     if ( !$scope.autoAuth ) {
                         $scope.autoAuth = false;
@@ -179,8 +178,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }
                 },
                 function() {
-                    wdGoogleSignIn.refreshToken().then(function() {
+                    wdGoogleSignIn.refreshToken(true).then(function() {
                         loopGetDevices();
+                    },function(){
+                        $scope.googleSignOut();
                     });
                 });
             },7000);
@@ -209,8 +210,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     }
                 },
                 function() {
-                    wdGoogleSignIn.refreshToken().then(function() {
+                    wdGoogleSignIn.refreshToken(true).then(function() {
                         loopLinkDevices();
+                    },function() {
+                        $scope.googleSignOut();
                     });
                 });
             },3000);
@@ -255,14 +258,19 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         $scope.googleSigIn = function () {
             GA('user_sign_in:click_sign_in:google_sign_in');
+            GA('check_sign_in:google_page_all:all');
             wdGoogleSignIn.refreshToken().then(function() {
+                GA('check_sign_in:google_page:success');
                 $scope.isLoadingDevices = true;
                 wdGoogleSignIn.getDevices().then(function( list ) {
                     showDevicesList( list );
                 },function() {
                     $scope.isLoadingDevices = false;
                 });
-            },function() {});
+            },function() {
+                //Google 登陆界面用户未操作
+                GA('check_sign_in:google_page:fail');
+            });
         };
 
         //登录并取得了设备列表后，会执行的逻辑。
@@ -338,8 +346,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         autoAccess();
                     },function() {
                         //重新获得token失败
-                        wdGoogleSignIn.removeStorageItem('googleToken');
-                        $window.location.reload();
+                        $scope.googleSignOut();
                     });
                 });
             });
@@ -378,7 +385,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             break;
                         }
                     },function() {
-                        wdGoogleSignIn.refreshToken();
+                        wdGoogleSignIn.refreshToken(true).then(function(){
+                            signOutFromDevices();
+                        },function(){
+                            $scope.googleSignOut();
+                        });
                     });
                 }
                 return true;

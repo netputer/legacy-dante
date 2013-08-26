@@ -134,7 +134,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('photos'),
-                versionSupport: minVersionRequirement(3819)
+                versionSupport: minVersionRequirement(3857)
             },
             reloadOnSearch: false
         });
@@ -230,9 +230,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document) {
+             wdTitleNotification,   wdDev,   $q,   $document, $route) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -279,6 +279,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                 wdSocket.close();
             }
         });
+
+        wdSocket.on('refresh', function() {
+            $route.reload();
+        });
     }]);
 
 
@@ -287,13 +291,23 @@ window.facebookInitDefer = jQuery.Deferred();
 
 if (!READ_ONLY_FLAG) {
     window.googleSignInOnload = function() {
-        window.googleSignInOnloadDefer.resolve();
+        window.gapi.auth.init(function() {
+            window.googleSignInOnloadDefer.resolve();
+        });
     };
 
-    jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
+    jQuery.ajax({
+        dataType: 'script',
+        cache: true,
+        url: 'https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload'
+    });
 
     jQuery(window).one('load', function() {
-        jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
+        jQuery.ajax({
+            dataType: 'script',
+            cache: true,
+            url: 'http://connect.facebook.net/en_UK/all.js'
+        }).done(function(){
             window.FB.init({
                 appId: '265004820250785'
             });

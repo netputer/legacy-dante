@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $rootScope, $log, $window ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', function ( $http, $q, $rootScope, $log, $window, GA, $timeout ) {
 
     var global = {
         authResult : {},
@@ -53,6 +53,7 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             if(typeof immediate === 'undefined') {
                 immediate = false;
             }else{
+                GA('check_sign_in:refresh_token_all:all');
                 immediate = true;
             }
             var me = this;
@@ -63,20 +64,28 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                'immediate':immediate,
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
-                if (authResult && authResult['access_token']) {
-                    me.authResult(authResult);
-                    $log.log('Getting google account informations...');
-                    me.getAccount().then(function(data){
-                        $log.log('All google login process have successed!');
-                        defer.resolve(data);
-                    },function( data ){
-                        $log.error('Get account failed!');
-                        defer.resolve( data );
-                    });
-                } else if (!authResult || authResult['error']) {
-                    $log.error('Google refresh error!');
-                    defer.reject();
-                }
+                $rootScope.$apply(function() {
+                    if (authResult && authResult['access_token']) {
+                        if( !immediate ) {
+                            GA('check_sign_in:refresh_token:success');
+                        }
+                        me.authResult(authResult);
+                        $log.log('Getting google account informations...');
+                        me.getAccount().then(function(data){
+                            $log.log('All google login process have successed!');
+                            defer.resolve(data);
+                        },function( data ){
+                            $log.error('Get account failed!');
+                            defer.resolve( data );
+                        });
+                    } else if (!authResult || authResult['error']) {
+                        $log.error('Google refresh error!');
+                        if( !immediate ) {
+                            GA('check_sign_in:refresh_token:fail');
+                        }
+                        defer.reject();
+                    }
+                });
             });
             return defer.promise;
         },
@@ -86,15 +95,25 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
             var gapi = $window.gapi;
             if(!global.account){
                 var authResult = global.authResult;
-                gapi.auth.setToken(authResult);
+                var isTimeout;
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        global.account = obj['email'];
-                        defer.resolve(global.account);
-                        $rootScope.$apply();
+                        if( isTimeout !== true ) {
+                            isTimeout = false;
+                            global.account = obj['email'];
+                            defer.resolve(global.account);
+                            $rootScope.$apply();
+                        }
                     });
                 });
+                //超时处理
+                $timeout(function() {
+                    if(isTimeout !== false) {
+                        isTimeout = true;
+                        defer.reject();
+                    }
+                },10000);
             }else{
                 defer.resolve(global.account);
             }
@@ -102,7 +121,8 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
         },
 
         getDevices : function () {
-            $log.log('Connecting for geting devices...');
+            $log.log('Connecting for getting devices...');
+            GA('check_sign_in:get_devices_all:all');
             // Successfully authorized
             var authResult = this.authResult();
             var defer = $q.defer();
@@ -117,19 +137,20 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
-                success: function(data) {
+                timeout: 10000
+            }).done(function( data ) {
+                GA('check_sign_in:get_devices:success');
+                $rootScope.$apply(function() {
                     $log.log('Getting devices success!',data);
                     defer.resolve(data);
-                    $rootScope.$apply();
-                },
-                error: function(e) {
+                });                    
+            }).fail(function( xhr ) {
+                GA('check_sign_in:get_devices:failed_'+ xhr.status );
+                $rootScope.$apply(function() {
                     $log.error('Getting devices failed');
-                    me.refreshToken();
                     defer.reject();
-                    $rootScope.$apply();
-                }
+                });
             });
-
             return defer.promise;
         },
 

@@ -14,8 +14,8 @@ define([
     'photos/controllers/gallery',
     'photos/directives/gallery',
     'common/main',
-    'common/resources',
-    'photos/services/photos'
+    'photos/services/photos',
+    'photos/services/albums'
 ], function(
     angular,
     showcase,
@@ -32,12 +32,12 @@ define([
     galleryController,
     gallery,
     common,
-    resources,
-    photos
+    photos,
+    albums
 ) {
 'use strict';
 // jshint unused:false
-angular.module('wdPhotos', ['wdCommon', 'wdResources'])
+angular.module('wdPhotos', ['wdCommon', 'ngResource'])
     .constant('WDP_LOAD_IMAGE_DELAY', 200)
     .constant('WDP_PRELOAD_IMAGE_OFFSET', 100)
     .constant('WDP_PLAYING_INTERVAL', 3000)
@@ -54,6 +54,10 @@ angular.module('wdPhotos', ['wdCommon', 'wdResources'])
     .factory('wdpPhotos', photos)
     .factory('wdpImageHelper', imageHelper)
     .factory('wdpMessagePusher', messagePusher)
+    .factory('Photos', ['$resource', function($resource) {
+        return $resource('/resource/photos/:id', {id: '@id'});
+    }])
+    .factory('wdpAlbums', albums)
     .controller('galleryController', galleryController);
 
 });

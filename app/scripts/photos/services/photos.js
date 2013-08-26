@@ -22,6 +22,9 @@ var photos = {
         this.collection = _.uniq(photos, function(photo) {
             return photo.id;
         });
+    },
+    clear: function() {
+        this.collection = [];
     }
 };
 
@@ -50,6 +53,8 @@ wdSocket.on('photos_add.wdp', function(e, message) {
             photos.trigger('remove', [photo]);
         }
     });
+}).on('refresh', function() {
+    photos.clear();
 });
 
 return photos;

@@ -8,7 +8,7 @@ return [function() {
 return {
 
 scope: true,
-controller: ['$scope', 'GA', 'wdAlert', 'wdDev', function($scope, GA, wdAlert, wdDev) {
+controller: ['$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', function($scope, GA, wdAlert, wdDev, wdpAlbums, $route) {
     // Selection logic.
     $scope.lastSelectedPhoto = null;
 
