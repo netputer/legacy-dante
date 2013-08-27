@@ -11,25 +11,21 @@ $sidebar-bg-color: #2b2b2b;
     .sidebar-inner {
         width: 100%;
         height: 100%;
-        @include box-shadow(inset -10px -2px 25px rgba(0, 0, 0, 0.2));
+        @include box-shadow(inset 6px 0 2px rgba(0, 0, 0, 0.03));
     }
 
     .devices-container,
     .settings-container {
         width: 273px;
         height: 100%;
-        padding-left: 37px;
+        margin-left: 37px;
         background-color: $sidebar-bg-color;
         @include position(absolute, 0 0 0 0);
         @include flex(1);
         @include display-flex;
         @include flex-direction(column);
-        @include box-shadow(inset -15px -2px 15px rgba(0, 0, 0, 0.08));
-        z-index: 0;
-
-        &.current-layer {
-            z-index: 1;
-        }
+        @include box-shadow(inset -5px 0px 2px rgba(0, 0, 0, 0.03));
+        opacity: 1;
 
         h2, h3 {
             font-weight: normal;
@@ -84,7 +80,8 @@ $sidebar-bg-color: #2b2b2b;
     .devices-container {
         &.devices-hide {
             left: -310px; 
-            @include transition(left 0 ease 500ms);
+            opacity: 0;
+            @include transition(left 0 ease 500ms, opacity 500ms ease);
         }
 
         &.devices-default {
@@ -103,7 +100,7 @@ $sidebar-bg-color: #2b2b2b;
             line-height: 24px;
             color: #999;
             padding-bottom: 30px;
-            margin-top: 52px;
+            margin: 40px 0 0 0;
             border-bottom: 1px solid $split-line-color;
         }
 
@@ -114,13 +111,14 @@ $sidebar-bg-color: #2b2b2b;
         }
 
         .device-list {
-            padding: 34px 0 26px 0;
+            padding: 26px 0;
+            margin-bottom: 0;
 
             li {
                 font-size: 14px;
                 color: #fff;
                 padding: 0;
-                margin-bottom: 16px;
+                margin: 8px 0;
                 list-style: none;
 
                 i {
@@ -155,7 +153,8 @@ $sidebar-bg-color: #2b2b2b;
     .settings-container { 
         &.settings-hide {
             left: -310px;
-            @include transition(left 0 ease 500ms);
+            opacity: 0;
+            @include transition(left 0 ease 500ms, opacity 500ms ease);
         }
 
         &.settings-hide-immediate {
@@ -172,11 +171,12 @@ $sidebar-bg-color: #2b2b2b;
             @include transition(left 500ms);
         }
         .profile-info {
-            margin-top: 52px;
-            padding-bottom: 46px;
+            @include position;
+            margin-top: 40px;
+            padding-bottom: 38px;
 
             & > div {
-                @include position(absolute, 56px 0 0 100px); 
+                @include position(absolute, 6px 0 0 63px); 
             }
             .profile-img {
                 width: 49px;
@@ -196,7 +196,7 @@ $sidebar-bg-color: #2b2b2b;
             }
         }
         .title {
-            font-size: 20px;
+            font-size: 18px;
             color: #999;
             margin: 0 0 16px 0;
             padding: 0;
@@ -204,7 +204,7 @@ $sidebar-bg-color: #2b2b2b;
         }
         .language {
             width: 236px;
-            padding-top: 30px;
+            padding-top: 20px;
             border-top: 1px solid $split-line-color;
             .language-list:last-child {
                 margin: 0;
@@ -218,14 +218,14 @@ $sidebar-bg-color: #2b2b2b;
                 }
             }
             .current a{
-                padding-left: 7px;
+                padding-left: 6px;
                 color: #999;
             }
         }
 
         .facebook {
             width: 236px;
-            padding: 26px 0 26px 0;
+            padding: 10px 0;
             border-bottom: 1px solid  $split-line-color;
 
             .connect-facebook-btn {
@@ -239,7 +239,7 @@ $sidebar-bg-color: #2b2b2b;
         }
 
         .others {
-            padding-top: 34px;
+            padding-top: 24px;
 
             a {
                 font-size: 14px;
@@ -255,7 +255,7 @@ $sidebar-bg-color: #2b2b2b;
             width: 144px;
             font-size: 14px;
             padding: 6px 0 6px 44px;
-            margin: 0 0 14px 46px;
+            margin: 14px 0 14px 46px;
             border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
         }
     }

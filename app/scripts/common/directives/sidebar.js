@@ -26,13 +26,11 @@ return [function() {
                 $scope.devicesAnimate = false;
                 $scope.devicesDefault = false;
                 $scope.devicesHide = false;
-                $scope.currentDeviceLayer = false;
 
                 $scope.settingsAnimate = false;
                 $scope.settingsDefault = false;
                 $scope.settingsHide = false;
                 $scope.settingsHideImmediate = false;
-                $scope.currentSettingsLayer = false;
             }
 
             clearLayersStatus();
@@ -75,9 +73,9 @@ return [function() {
                 refreshDevices();
                 clearLayersStatus();
 
-               $scope.settingsHideImmediate = true;
-               $scope.devicesDefault = true;
-               $scope.currentDeviceLayer = true;
+                $scope.settingsHideImmediate = true;
+                $scope.devicesDefault = true;
+                $scope.currentDeviceLayer = true;
             });
 
             $rootScope.$on('sidebar:settings:animate', function() {
@@ -106,17 +104,17 @@ return [function() {
 
 
             $rootScope.$on('sidebar:settings:animate', function() {
+                $('.devices-container').insertBefore('.settings-container');
+
                 clearLayersStatus();
                 $scope.settingsAnimate = true;
                 $scope.devicesHide = true;
-                $scope.currentSettingsLayer = true;
             });
 
             $rootScope.$on('sidebar:settings:default', function() {
                 clearLayersStatus();
                 $scope.settingsDefault = true;
                 $scope.devicesHide = true;
-                $scope.currentSettingsLayer = true;
             });     
 
             $scope.selectedLanguage = function(language) {

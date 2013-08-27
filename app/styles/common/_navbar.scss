@@ -4,7 +4,6 @@
 .navigator {
     @include position(absolute, 0px 0 0px 0px);
     width: 60px;
-    z-index: 2;
 
     & > .navigator-inner {
         @include position;
@@ -13,9 +12,7 @@
         background-color: #2b2b2b;
         border-right: 1px solid #222222;
         @include background-image(linear-gradient(right, #2a2a2a, #2c2c2c));
-        @include box-shadow(5px 0 15px rgba(0, 0, 0, 0.08));
-        /*@include box-shadow(inset -2px 0 2px rgba(#000, 0.2));*/
-
+    
         .brand {
             text-align: center;
             height: 92px;
@@ -112,6 +109,7 @@
         margin: $margin 0;
     }
     .nav > li > a {
+        width: 61px;
         @include transition(opacity $global-transition-duration,
                             background $global-transition-duration * 1.5);
         opacity: 0.65;

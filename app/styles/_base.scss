@@ -23,17 +23,14 @@ html.cors .no-support-placeholder {
     @include position;
     height: 100%;
     margin-left: $global-left-offset;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: #fff;
-    @include transform(translateX(0px));
     @include transition(linear, 0.35s);
-    z-index: 3;
 }
 
 .open-sidebar .viewport {
     pointer-events: none;
-    @include transform(translateX(310px));
+    left: 310px;
 }
 
 body {

@@ -1,7 +1,6 @@
 <div>
     <div class="sidebar-inner">
-        <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'current-layer': currentDeviceLayer, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
-            <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
+        <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
             <h2 class="device-select-title">{{$root.DICT.app.SELECT_DEVICES_TIP}}</h2>
             <ul ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-hide="isLoadingDevices" class="device-list">
                 <li ng-class="{'selected':item.selected}"><i class="icon-mark" ng-show="item.selected"></i>{{item.model}}</li>
@@ -13,16 +12,16 @@
                 {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
             </a>
         </div>
-        <div class="settings-container" ng-class="{'settings-animate': settingsAnimate, 'current-layer': currentSettingsLayer, 'settings-default': settingsDefault, 'settings-hide': settingsHide, 'settings-hide-immediate': settingsHideImmediate}">
-            <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
-            <div class="profile-info">
-                <img class="profile-img" ng-src="{{profileInfo.image.url}}"/>
-                <div>
-                    <span class="display-name">{{profileInfo.displayName}}</span>
-                    <span class="email">{{account}}</span>
-                </div>
-            </div>
+        <div class="settings-container" ng-class="{'settings-animate': settingsAnimate, 'settings-default': settingsDefault, 'settings-hide': settingsHide, 'settings-hide-immediate': settingsHideImmediate}">
             <div class="content-wrapper">
+                <div class="profile-info">
+                    <img class="profile-img" ng-src="{{profileInfo.image.url}}"/>
+                    <div>
+                        <span class="display-name">{{profileInfo.displayName}}</span>
+                        <span class="email">{{account}}</span>
+                    </div>
+                </div>
+            
                 <div class="language" ng-if="!$root.READ_ONLY_FLAG">
                     <h3 class="language-title title">{{$root.DICT.app.LANGUAGE_TIP}}</h3>
                     <ul class="unstyled language-list">
@@ -90,7 +89,7 @@
             <button class="btn btn-danger signout" ng-click="signout()">{{$root.DICT.app.SINGOUT}}</button>
         </div>
         <div class="mask" ng-class="maskAnimate"></div>
-
+        <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
         <!-- connect new phone pop start -->
         <!-- data-ok 是事件 -->
         <div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
