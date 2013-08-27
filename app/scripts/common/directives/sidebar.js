@@ -26,11 +26,13 @@ return [function() {
                 $scope.devicesAnimate = false;
                 $scope.devicesDefault = false;
                 $scope.devicesHide = false;
+                $scope.currentDeviceLayer = false;
 
                 $scope.settingsAnimate = false;
                 $scope.settingsDefault = false;
                 $scope.settingsHide = false;
                 $scope.settingsHideImmediate = false;
+                $scope.currentSettingsLayer = false;
             }
 
             clearLayersStatus();
@@ -104,11 +106,10 @@ return [function() {
 
 
             $rootScope.$on('sidebar:settings:animate', function() {
-                $('.devices-container').insertBefore('.settings-container');
-
                 clearLayersStatus();
                 $scope.settingsAnimate = true;
                 $scope.devicesHide = true;
+                $scope.currentSettingsLayer = true;
             });
 
             $rootScope.$on('sidebar:settings:default', function() {
