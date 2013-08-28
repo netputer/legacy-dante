@@ -1,5 +1,5 @@
 .wd-blank {
-    @include position(fixed, 0px 0px 0px $global-left-offset);
+    @include position(absolute, 0px 0px 0px 0px);
     background: #fff;
 
     .wdb-t {

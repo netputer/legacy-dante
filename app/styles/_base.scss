@@ -33,6 +33,10 @@ html.cors .no-support-placeholder {
     left: 310px;
 }
 
+.open-sidebar .navigator {
+    z-index: 2;
+}
+
 body {
     background: #fff;
 }

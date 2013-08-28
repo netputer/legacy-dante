@@ -1,5 +1,14 @@
 $split-line-color: rgba(255,255,255, 0.1);
 $sidebar-bg-color: #2b2b2b;
+$sidebar-animation-time: 500ms;
+
+.open-sidebar .current-layer {
+    z-index: 1;
+}
+
+.open-sidebar .close-sidebar {
+    z-index: 2;
+}
 
 .sidebar {
     width: 310px;
@@ -46,10 +55,6 @@ $sidebar-bg-color: #2b2b2b;
             width: 100%; // Firefox need a width to prevent flexbox turn into inline-block.
             height: 1px;   // Flexbox need a height as refer.
         }
-
-        .current-layer {
-            z-index: 1;
-        }
     }
     .mask {
         width: 100%;
@@ -83,7 +88,7 @@ $sidebar-bg-color: #2b2b2b;
         &.devices-hide {
             left: -310px; 
             opacity: 0;
-            @include transition(left 0 ease 500ms, opacity 500ms ease);
+            @include transition(left 0 ease $sidebar-animation-time, opacity $sidebar-animation-time ease);
         }
 
         &.devices-default {
@@ -92,7 +97,7 @@ $sidebar-bg-color: #2b2b2b;
 
         &.devices-animate {
             left: 0;
-            @include transition(left 500ms);
+            @include transition(left $sidebar-animation-time);
         }
 
 
@@ -156,7 +161,7 @@ $sidebar-bg-color: #2b2b2b;
         &.settings-hide {
             left: -310px;
             opacity: 0;
-            @include transition(left 0 ease 500ms, opacity 500ms ease);
+            @include transition(left 0 ease $sidebar-animation-time, opacity $sidebar-animation-time ease);
         }
 
         &.settings-hide-immediate {
@@ -170,7 +175,7 @@ $sidebar-bg-color: #2b2b2b;
 
         &.settings-animate {
             left: 0;
-            @include transition(left 500ms);
+            @include transition(left $sidebar-animation-time);
         }
         .profile-info {
             @include position;
