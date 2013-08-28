@@ -44,7 +44,8 @@ return function() {
         return server + prefix + url;
     };
 
-    self.$get = ['$window', function($window) {
+    self.$get = ['$window', '$q', '$rootScope', '$timeout',
+        function( $window,   $q,   $rootScope,   $timeout) {
         return {
             wrapURL: self.wrapURL,
             setServer: self.setServer,
@@ -60,6 +61,37 @@ return function() {
                     params[decodeURIComponent(query[0])] = decodeURIComponent(query[1]);
                 });
                 return key ? params[key] : params;
+            },
+            ping: function(url) {
+                var defer = $q.defer();
+                var image = new Image();
+                var timeout = null;
+
+                url += '?_=' + Date.now();
+                image.onload = image.onerror = function(e) {
+                    $rootScope.$apply(function() {
+                        $timeout.cancel(timeout);
+                        if (e.type === 'error' &&
+                            $window.navigator.onLine === false) {
+                            defer.reject('offline');
+                        }
+                        else {
+                            defer.resolve();
+                        }
+                    });
+                };
+
+                image.src = url;
+
+                timeout = $timeout(function() {
+                    defer.reject('timeout');
+                    image.src = null;
+                }, 1500);
+
+                return defer.promise;
+            },
+            pingServer: function() {
+                return this.ping(this.getServer());
             }
         };
     }];

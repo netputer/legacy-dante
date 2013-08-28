@@ -9,7 +9,8 @@
     "ACTIONBAR_SHARE": "Share",
     "ACTIONBAR_FEEDBACK": "Feedback",
     "ALBUM_SETTINGS" : "Album settings",
-    "ALBUM_SETTINGS_INFO" : "Select albums you wish to display in SnapPea.",
+    "ALBUM_SETTINGS_INFO" : "Select the albums you wish to display in SnapPea.",
+    "ALBUM_BLANK_TIP": "No albums on your phone.",
     "BLOCK_SELECT": "Select",
     "BLOCK_DESELECT": "Deselect",
     "BLOCK_DELETE": "Delete",
@@ -42,7 +43,7 @@
     "CONFIRM_DELETE_CONTENT": "Delete the selected photos from your phone?",
     "CONFIRM_DELETE_OK": "Delete",
     "CONFIRM_DELETE_CANCEL": "Cancel",
-    "REC_TITLE": "Access to your photos just got faster.",
+    "REC_TITLE": "Get faster access to your photos",
     "REC_CONTENT": "Install the Chrome Extension to see your photos in just one click.",
     "REC_ADD_TO_CHROME": "Add to Chrome",
     "REC_MORE_INFO": "Learn more"

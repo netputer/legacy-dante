@@ -112,15 +112,15 @@
             </div>
             <div class="buttons">
                 <div class="button-del" ng-click="delApp(info.package_name);clickInfoUninstall();"  ng-if="!$root.READ_ONLY_FLAG">
-                    <i class="icon-del-toolbar"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
+                    <i class="icon-del-toolbar"></i><span>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</span>
                 </div>
                 <div class="button-del" ng-click="delCloudApp(info.package_name);clickInfoUninstall();"  ng-if="$root.READ_ONLY_FLAG">
-                    <i class="icon-del-toolbar"></i><p>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</p>
+                    <i class="icon-del-toolbar"></i><span>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</span>
                 </div>
                 <div class="button-download">
                     <a href="{{info.download_url}}" download="{{info.name}}.apk">
                         <i class="icon-down-toolbar"></i>
-                        <p>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</p>
+                        <span>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</span>
                     </a>
                 </div>
             </div>

@@ -18,7 +18,21 @@
             min-height: 380px;
             min-width: 428px;
         }
+        .albums-blank-tip {
+            height: 350px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            @include background-retina("isolate/no-albums.png", "isolate/no-albums-2x.png");
+            background-repeat: no-repeat;
+            background-position: center;
+
+            p {
+                padding-top: 256px;
+            }
+        }
         ul {
+            width: 446px;
             margin: 10px 0 0 0;
         }
         li {
@@ -45,6 +59,7 @@
             }
             span {
                 display: block;
+                line-height: 18px;
                 &.album-name {
                     width: 98px;
                     margin: 6px 0 1px 0;

@@ -117,7 +117,7 @@
 
     .nav > .active > a {
         &, &:hover, &:focus {
-            background-color: #6db800;
+            background-color: $standard-green;
         }
         &, &:active {
             opacity: 1;
