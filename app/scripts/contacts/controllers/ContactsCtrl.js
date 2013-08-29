@@ -10,8 +10,8 @@ define([
 'use strict';
 /* jshint eqeqeq:false */
 /* jshint  -W041 */
-return ['$scope','wdAlert','wdDev','$route','GA','wdcContacts', '$timeout','wdKey','$location', '$window',
-function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,wdKey,$location,$window){
+return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q',
+function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q) {
 
     //存储当前联系人的数据列表
     var G_contacts = [];
@@ -622,12 +622,12 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
             return;
         }
 
-        //UI操作
-        var wrap = $('.contacts-edit');
-        var ele =  wrap.children('.info');
-        $scope.isContactsEditShow = false;
-        $scope.isRightLoadShow = true;
+        // $scope.isContactsEditShow = false;
+        // $scope.isRightLoadShow = true;
         $scope.isPhotoUploadShow = false;
+
+        var toastDefer = $q.defer();
+        toastDefer.promise.content = $scope.$root.DICT.contacts.SAVE_TOAST;
 
         var saveData = changeDataTypeBack($scope.contact);
         var editData;
@@ -637,7 +637,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                 editData = saveData;
                 wdcContacts.editContact(editData).success(function(data){
                     var i, l;
-                    for(i = 0 , l = $scope.pageList.length;i<l; i += 1 ){
+                    for(i = 0 , l = $scope.pageList.length; i < l; i += 1 ){
                         if(!!id && $scope.pageList[i]['id']===id){
                             $scope.pageList[i] = getListItem(data);
                         }
@@ -654,9 +654,10 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                     }
                     showContacts(data['id']);
                     G_uploader.uploadStoredFiles();
+                    toastDefer.resolve();
                 }).error(function(){
-                    wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_EDIT.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_EDIT.OK).then(function(){showContacts($scope.contact.id);});
                     GA('Web Contacts:save the editing contact failed');
+                    toastDefer.reject($scope.$root.DICT.contacts.SAVE_ERROR_TOAST);
                 });
             break;
             case 'new':
@@ -673,17 +674,20 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                     showContacts(data[0]);
                     $('ul.contacts-list')[0].scrollTop = 0;
                     G_uploader.uploadStoredFiles();
+                    toastDefer.resolve();
                 }).error(function(){
                     wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_NEW.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_NEW.OK).then(function(){showContacts(G_showingContact[id]);});
                     $scope.pageList.shift();
                     showContacts(G_showingContact['id']);
                     G_status = '';
                     GA('Web Contacts:save new contact failed');
+                    toastDefer.reject($scope.$root.DICT.contacts.SAVE_ERROR_TOAST);
                 });
 
             break;
         }
         G_status = '';
+        wdToast.apply(toastDefer.promise);
     };
 
     //取消编辑联系人

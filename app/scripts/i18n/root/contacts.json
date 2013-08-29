@@ -81,5 +81,7 @@
             "TITLE": "Please enter the contact",
             "OK": "OK"
         }
-    }
+    },
+    "SAVE_TOAST": "Connecting to your phone...",
+    "SAVE_ERROR_TOAST": "Connection failed."
 }
