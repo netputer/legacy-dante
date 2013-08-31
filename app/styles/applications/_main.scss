@@ -4,49 +4,49 @@
         margin: 0px;
         font-weight: normal;
     }
-	.header{
-		position: fixed;
-		top: 0px;
-		left: 60px;
-		right: 0px;
-		height: 40px;
-		overflow: hidden;
-		padding-left: 10px;
-		padding-top: 10px;
-		background: rgba(255, 255, 255, 0.95);
+    .header{
+        position: fixed;
+        top: 0px;
+        left: 60px;
+        right: 0px;
+        height: 40px;
+        overflow: hidden;
+        padding-left: 10px;
+        padding-top: 10px;
+        background: rgba(255, 255, 255, 0.9);
 
         .btn{
             margin-right: 5px;
         }
-	}
+    }
     ul{
         list-style: none;
         margin: 0px;
     }
-	.apps-list{
-		position: fixed;
-		top: 0px;
-		bottom: 0px;
-		overflow-y:auto;
-		padding-top: 50px;
+    .apps-list{
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        overflow-y:auto;
+        padding-top: 50px;
         @include readonly {
             padding-top: 10px;
         }
 
-		dl{
-			float: left;
-			background-color: #f5f5f5;
-			margin:0px 0px 10px 10px;
-			text-align: center;
+        dl{
+            float: left;
+            background-color: #f5f5f5;
+            margin:0px 0px 10px 10px;
+            text-align: center;
             position: relative;
             cursor: pointer;
 
-			img{
+            img{
                 margin-top: 22%;
                 margin-bottom: 8px;
                 width: 72px;
                 height: 72px;
-			}
+            }
 
             dd.title{
                 margin-left: 0px;
@@ -185,7 +185,7 @@
                     color: #FFF;
                 }
             }
-		}
+        }
 
         dl:hover{
             dd.toolbar{
@@ -255,7 +255,7 @@
 
         }
 
-	}
+    }
 
     .mask{
         opacity: 0;
@@ -392,14 +392,14 @@
                     display: inline-block;
                     margin: 0px;
                     font-size: 12px;
-                    color: #999;
+                    color: #000;
                 }
                 .icon-del{
                     margin-right: 4px;
                 }
                 .button-del{
                     text-align: center;
-                    padding-top: 5px;
+                    padding-top: 6px;
                     padding-left: 4px;
                     opacity: 0.75;
                     display: inline-block;
@@ -418,7 +418,7 @@
                     width: 190px;
                     height: 34px;
                     text-align: center;
-                    padding-top: 5px;
+                    padding-top: 6px;
                     opacity: 0.75;
                     display: inline-block;
                     @include button-effect-light;
