@@ -31,14 +31,14 @@
         </ul>
         <ul class="nav nav-settings">
             <li ng-show="!$root.READ_ONLY_FLAG">
-                <a href="" bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}" ng-click="showDevicesSidebar()" data-options="{placement: 'right'}">
+                <a href="" bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}" ng-click="controlSidebar('devices')" data-options="{placement: 'right'}">
                     <i class="icon-phoneswitch"></i>
                 </a>
             </li>
             <li>
                 <a href=""
                     bs-tooltip="{{$root.DICT.app.NAVBAR_SETTING_TIP}}"
-                    data-options="{placement: 'right'}" ng-click="showSettingsSidebar()"><i class="icon-setting"></i></a>
+                    data-options="{placement: 'right'}" ng-click="controlSidebar('settings')"><i class="icon-setting"></i></a>
             </li>
         </ul>
     </div>

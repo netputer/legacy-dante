@@ -1,8 +1,6 @@
 define([
-        'jquery',
         'text!templates/common/sidebar.html'
     ], function(
-        $,
         template
     ) {
 'use strict';
@@ -48,13 +46,6 @@ return [function() {
 
                 wdGoogleSignIn.getProfileInfo().then(function(data) {
                     $scope.profileInfo = data;
-                });
-
-                $('body').click(function(e) {
-                    if (!$(e.target).parents('.sidebar').length && !$(e.target).parents('.nav-settings').length) {
-                        $scope.closeSidebar();
-                        $scope.$apply();
-                    }
                 });
             });
 
@@ -104,7 +95,6 @@ return [function() {
                 }
             };
 
-
             $rootScope.$on('sidebar:settings:animate', function() {
                 clearLayersStatus();
                 $scope.settingsAnimate = true;
@@ -117,6 +107,17 @@ return [function() {
                 $scope.settingsDefault = true;
                 $scope.devicesHide = true;
             });     
+
+            $scope.AddNewPhone = function () {
+                $scope.isShowChangeDevicesPop = true;
+            };
+
+            $scope.changeDevice = function (item) {
+                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
+                    wdGoogleSignIn.currentDevice(item);
+                    wdAuthToken.signout();
+                }
+            };
 
             $scope.selectedLanguage = function(language) {
                 return wdLanguageEnvironment.currentLanguageBelongsTo(language);

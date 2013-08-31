@@ -56,7 +56,7 @@
                     <h3 class="facebook-title title">{{$root.DICT.app.FACEBOOK_TITLE}}</h3>
                     <div class="connect-facebook-wrapper" ng-show="!isConnectedFacebook()">
                         <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_DISCONNECT_TIP}}</p>
-                        <a href="" class="connect-facebook-btn" ng-click="handleFacebookConnect()"><i class="icon-facebook_n"></i></a>
+                        <a href="" class="connect-facebook-btn" ng-click="handleFacebookConnect()"><i class="icon-facebook-btn"></i></a>
                     </div>
                     <div class="disconnect-facebook-wrapper" ng-show="isConnectedFacebook()">
                         <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_CONNECT_TIP}}</p>
@@ -86,9 +86,10 @@
                     </a>
                 </div>
             </div>
-            <button class="btn btn-danger signout" ng-click="signout()">{{$root.DICT.app.SINGOUT}}</button>
+            <button class="btn btn-danger signout" ng-click="signout()">
+                <span>{{$root.DICT.app.SINGOUT}}</span>
+            </button>
         </div>
-        <div class="mask" ng-class="maskAnimate"></div>
         <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
         <!-- connect new phone pop start -->
         <!-- data-ok 是事件 -->

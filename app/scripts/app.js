@@ -284,7 +284,11 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             $route.reload();
         });
 
-        $rootScope.showSidebar = '';
+        $rootScope.globalControl = function(e) {
+            if (!jQuery(e.target).parents('.sidebar').length && !jQuery(e.target).parents('.nav-settings').length) {
+                $rootScope.showSidebar = false;
+            }
+        };
     }]);
 
 

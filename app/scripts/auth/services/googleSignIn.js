@@ -137,10 +137,10 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                         if( isTimeout !== true ) {
                             isTimeout = false;
 
-                            global.profileInfo = obj;
-                            defer.resolve(global.profileInfo);
-
-                            $rootScope.$apply();
+                            $rootScope.$apply(function() {
+                                global.profileInfo = obj;
+                                defer.resolve(global.profileInfo); 
+                            });
                         }
                     });
                 });
