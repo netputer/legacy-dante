@@ -24,13 +24,7 @@
             "2": "Other"
         },
         "website": {
-            "1": "Homepage",
-            "2": "Blog",
-            "3": "Profile",
-            "4": "Home",
-            "5": "Work",
-            "6": "FTP",
-            "7": "Other"
+            "1": "Website"
         },
         "IM": {
             "0": "Custom",
@@ -42,47 +36,27 @@
             "1": "Assistant",
             "2": "Brother",
             "3": "Child",
-            "4": "Partner",
             "5": "Father",
             "6": "Friend",
             "7": "Manager",
             "8": "Mother",
-            "9": "Parent",
-            "10": "Partner",
-            "11": "Referred by",
-            "12": "Relative",
-            "13": "Sister",
-            "14": "Spouse"
+            "9": "Parent"
         },
         "phone": {
             "0": "Custom",
             "1": "Home",
             "2": "Mobile",
             "3": "Work",
-            "4": "Fax Work",
-            "5": "Fax Home",
+            "4": "Work Fax",
+            "5": "Home Fax",
             "6": "Pager",
-            "7": "Other",
-            "8": "Callback",
-            "9": "Car",
-            "10": "Company main",
-            "11": "ISDN",
-            "12": "Main",
-            "13": "Other Fax",
-            "14": "Radio",
-            "15": "Telex",
-            "16": "TTY TDD",
-            "17": "Work Mobile",
-            "18": "Work Pager",
-            "19": "Assistant",
-            "20": "MMS"
+            "7": "Other"
         },
         "email": {
             "0": "Custom",
             "1": "Home",
             "2": "Work",
-            "3": "Other",
-            "4": "Mobile"
+            "3": "Other"
         },
         "note": {
             "Default": "Default"
@@ -91,13 +65,12 @@
     "IM_PROTOCOL": {
         "-1": "Custom",
         "0": "AIM",
-        "1": "MSN",
+        "1": "Windows Live",
         "2": "Yahoo",
         "3": "Skype",
         "4": "QQ",
-        "5": "Gtalk",
+        "5": "Google talk",
         "6": "ICQ",
-        "7": "Jabber",
-        "8": "Netmeeting"
+        "7": "Jabber"
     }
 }
