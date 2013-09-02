@@ -1,5 +1,5 @@
 {   
-    "Default" : "Other",
+    "DEFAULT" : "Other",
     "TYPE_MAP": {
         "address": {
             "0": "Custom",
