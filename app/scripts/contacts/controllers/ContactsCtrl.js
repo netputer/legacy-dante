@@ -13,6 +13,9 @@ define([
 return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q',
 function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q) {
 
+    //默认头像显示颜色
+    var photoColorList = ['#3baa24', '#f24949', '#15bcce', '#95c60e', '#2f7c2f'];
+
     //存储当前联系人的数据列表
     var G_contacts = [];
 
@@ -94,6 +97,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         var name = (data.name && data.name.display_name) || $scope.$root.DICT.contacts.NO_NAME;
         var phone = (data.phone[0] && data.phone[0].number) || (data.email[0] && data.email[0].address) ||'';
         var photo = data.photo_path || '';
+        data.photoColor = photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
         var obj = {
             id : id,
             name : name,
@@ -101,6 +105,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             photo : photo,
             read_only : data['read_only'],
             checked : false,
+            photoColor : data.photoColor,
             tooltip : $scope.$root.DICT.contacts.WORDS.select
         };
 
