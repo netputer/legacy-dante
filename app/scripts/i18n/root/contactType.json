@@ -1,4 +1,5 @@
-{
+{   
+    "Default" : "Other",
     "TYPE_MAP": {
         "address": {
             "0": "Custom",
@@ -13,7 +14,7 @@
         },
         "nickname": {
             "1": "Default",
-            "2": "Other name",
+            "2": "Other",
             "3": "Maiden name",
             "4": "Short name",
             "5": "Initials"
@@ -24,7 +25,8 @@
             "2": "Other"
         },
         "website": {
-            "1": "Website"
+            "1": "Website",
+            "7": "Other"
         },
         "IM": {
             "0": "Custom",

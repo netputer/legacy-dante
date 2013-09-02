@@ -869,7 +869,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
                 data[k]['type'] = G_typeMap[k][data[k]['type']];
             }else if( !!data[k][0] && !!G_typeMap[k] && ( data[k][0]['type'] + '' ) ){
                 for(i = 0 , l = data[k].length ; i < l ; i += 1 ){
-                    data[k][i]['type'] = G_typeMap[k][data[k][i]['type']] || data[k][i]['type'];
+                    data[k][i]['type'] = G_typeMap[k][ data[k][i]['type'] ] || $scope.$root.DICT.contactType.TYPE_MAP.Default;
                 }
             }
 
@@ -1014,6 +1014,7 @@ function ContactsCtrl($scope, wdAlert , wdDev ,$route,GA,wdcContacts, $timeout,w
 
     $scope.clearSearch = function(){
         $scope.isNoContactsShow = false;
+        $scope.searchText = '';
         $scope.searchContacts();
     };
 
