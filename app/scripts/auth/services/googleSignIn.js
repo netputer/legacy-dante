@@ -37,12 +37,11 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
 
         //取得或者设置currentDevice
         currentDevice : function (data) {
-            var me = this;
-            if(!data){
+            if (!data) {
                 return global.currentDevice;
-            }else{
+            } else {
                 global.currentDevice = data;
-                me.setStorageItem('currentDevice', JSON.stringify(data));
+                this.setStorageItem('currentDevice', JSON.stringify(data));
             }
         },
 
@@ -157,8 +156,9 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
         signOut : function () {
             var defer = $q.defer();
             this.currentDevice({});
-            this.removeStorageItem('googleToken');
+
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
+
             $.ajax({
                 type: 'GET',
                 url: revokeUrl,
@@ -168,15 +168,15 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 success: function(nullResponse) {
                     // 客户取消了关联，据此执行相应操作
                     // 回应始终为未定义。
-                    global.authResult = {};
-                    defer.resolve('signOut');
-                    $rootScope.$apply();
+                    $rootScope.$apply(function() {
+                        global.authResult = {};
+                        defer.resolve('signOut');
+                    });
                 },
                 error: function(e) {
-                  // 处理错误
-                  // console.log(e);
-                  // 如果失败，您可以引导用户手动取消关联
-                  // https://plus.google.com/apps
+                    $rootScope.$apply(function() {
+                        defer.reject();
+                    });
                 }
             });
             return defer.promise;

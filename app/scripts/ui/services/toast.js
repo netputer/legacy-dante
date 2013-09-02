@@ -6,7 +6,7 @@ define([
     $
 ) {
 'use strict';
-return [function() {
+return ['$q', function($q) {
 
     var BLOCK_EVENTS = [
         'keyup',
@@ -58,6 +58,8 @@ return [function() {
             BLOCK_EVENTS.forEach(function(event) {
                 document.removeEventListener(event, blocker, true);
             });
+
+            return $q.when(inner.promise());
         }
     };
 
@@ -70,9 +72,9 @@ return [function() {
         apply: function(promise) {
             toast.open(promise.content || '');
             return promise.then(function() {
-                toast.close();
+                return toast.close();
             }, function(reason) {
-                toast.close(reason);
+                return toast.close(reason);
             });
         }
     };
