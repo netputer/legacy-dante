@@ -58,9 +58,9 @@ return [function() {
 
             $scope.signout = function() {
                 var toastPromise = wdGoogleSignIn.signOut().then(null, function() {
-                    return $q.reject('xxxxx');
+                    return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
                 });
-                toastPromise.content = 'aaaaa';
+                toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
                 wdToast.apply(toastPromise);
                 toastPromise.then(function() {
                     wdGoogleSignIn.currentDevice({status:'signout'});

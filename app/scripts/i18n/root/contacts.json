@@ -82,6 +82,6 @@
             "OK": "OK"
         }
     },
-    "SAVE_TOAST": "Connecting to your phone...",
-    "SAVE_ERROR_TOAST": "Connection failed."
+    "SAVE_TOAST": "Saving...",
+    "SAVE_ERROR_TOAST": "Save failed."
 }

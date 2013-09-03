@@ -31,5 +31,7 @@
     },
     "LANGUAGE_MODAL_TITLE": "Change language",
     "DISCONNECT_FACEBOOK_INFO" : "Disconnect your Facebook you will no longer be able to share your photos on Facebook.",
-    "DISCONNECT" : "Disconnect"
+    "DISCONNECT" : "Disconnect",
+    "SIGN_OUT_TOAST": "Signing out...",
+    "SIGN_OUT_ERROR_TOAST": "Sign out failed."
 }
