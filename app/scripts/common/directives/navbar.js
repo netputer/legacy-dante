@@ -12,9 +12,9 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA',
+                'wdAlert', '$window', 'GA', '$q', 'wdToast',
         function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA) {
+                 wdAlert,   $window,   GA,   $q,   wdToast) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -57,8 +57,15 @@ return [function() {
             }
 
             $scope.signout = function() {
-                wdGoogleSignIn.currentDevice({status:'signout'});
-                wdAuthToken.signout();
+                var toastPromise = wdGoogleSignIn.signOut().then(null, function() {
+                    return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
+                });
+                toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
+                wdToast.apply(toastPromise);
+                toastPromise.then(function() {
+                    wdGoogleSignIn.currentDevice({status:'signout'});
+                    wdAuthToken.signout();
+                });
             };
 
             $scope.changeDevice = function (item) {

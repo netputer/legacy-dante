@@ -10,9 +10,11 @@ define([
 'use strict';
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
-        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare', 'wdSharing', 'wdpAlbums',
+        'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
+        'wdSharing', 'wdpAlbums', 'wdToast',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
-         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare, wdSharing, wdpAlbums) {
+         wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
+         wdSharing,   wdpAlbums,   wdToast) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -155,7 +157,7 @@ $scope.$on('$destroy', function() {
 function loadScreen() {
     $scope.loaded = false;
     (function fetchLoop(defer, viewportHeight, lastLayoutHeight) {
-        
+
         calculateLayout();
 
         if ($scope.layout && $scope.layout.height - lastLayoutHeight >= viewportHeight) {
@@ -175,7 +177,7 @@ function loadScreen() {
                 defer.reject();
             });
         }
-        
+
         return defer.promise;
     })($q.defer(), wdViewport.height(), $scope.layout ? $scope.layout.height : 0)
     .then(function done() {
@@ -217,7 +219,7 @@ function fetchPhotos(amount) {
             },
             function fetchError() {
                 GA('perf:photos_query_duration:fail:' + ((new Date()).getTime() - timeStart));
-                
+
                 RETRY_TIMES -= 1;
                 if (!RETRY_TIMES) {
                     defer.reject();
@@ -226,7 +228,7 @@ function fetchPhotos(amount) {
                 }
             });
     })();
-    
+
     return defer.promise;
 }
 
@@ -447,19 +449,16 @@ $scope.hideAlbumSettings = function() {
     $scope.albumList = [];
 };
 
-$scope.albumDisabledOkButton = false;
 $scope.updateAlbums = function() {
-    $scope.albumDisabledOkButton = true;
-
-    wdpAlbums.updateData($scope.albumList).then(function() {
-        $scope.albumDisabledOkButton = false;
-        $scope.hideAlbumSettings();
+    var toastPromise = wdpAlbums.updateData($scope.albumList).then(function() {
         wdpPhotos.clear();
         $route.reload();
     }, function() {
-        $scope.albumDisabledOkButton = false;
-        // update albums error
+        return $q.reject($scope.$root.DICT.photos.ALBUM_SAVE_ERROR_TOAST);
     });
+    $scope.hideAlbumSettings();
+    toastPromise.content = $scope.$root.DICT.photos.ALBUM_SAVE_TOAST;
+    wdToast.apply(toastPromise);
 };
 
 $scope.selectAlbum = function(album, selected) {

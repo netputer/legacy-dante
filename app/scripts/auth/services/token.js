@@ -11,7 +11,13 @@ return function() {
                 return valid;
             },
             getToken: function() {
-                var data = JSON.parse($window.localStorage.getItem('currentDevice'));
+                var data;
+                try {
+                    data = JSON.parse($window.localStorage.getItem('currentDevice'));
+                }
+                catch (e) {
+                    data = null;
+                }
                 return data;
             },
             setToken: function(data) {
@@ -39,7 +45,7 @@ return function() {
             startSignoutDetection: function() {
                 var self = this;
                 signoutDetectionTimer = setInterval(function() {
-                    if (!!self.getToken() && !self.getToken().ip) {
+                    if (!$window.localStorage.getItem('googleToken')) {
                         self.stopSignoutDetection();
                         $rootScope.$apply(function() {
                             self.signout();
