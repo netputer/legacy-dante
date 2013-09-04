@@ -6,10 +6,10 @@ define([
 'use strict';
 return ['wdmExtendedConversationsCollection', 'wdmConversationsCollection',
         '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter',
-        'wdmSearchConversation', 'wdmMessage', 'wdDatabase',
+        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA',
 function(wdmExtendedConversationsCollection,   wdmConversationsCollection,
          $http,   $q,   $rootScope,   wdSocket,   wdEventEmitter,
-         wdmSearchConversation,   wdmMessage,   wdDatabase) {
+         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA) {
 
 var conversations = wdmExtendedConversationsCollection.createExtendedConversationsCollection();
 var contactsCache = null;
@@ -137,6 +137,8 @@ function buildContactsCache() {
                 syncTotally();
             });
         };
+    }, function(reason) {
+        GA('perf:indexeddb:open_' + reason);
     });
 }
 

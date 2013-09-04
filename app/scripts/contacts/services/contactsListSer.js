@@ -186,8 +186,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         defer.resolve(list);
                     });
 
-                }
-                else {
+                } else {
 
                     var list = [];
 
