@@ -8,7 +8,7 @@
             <div class="devices-loading-container" ng-show="isLoadingDevices">
                 <div class="wd-loading wd-loading-local devices-loading" data-visible="isLoadingDevices"></div>
             </div>
-            <a href="" ng-click="AddNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
+            <a href="" ng-click="addNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
                 {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
             </a>
         </div>
@@ -90,7 +90,7 @@
                 <span>{{$root.DICT.app.SINGOUT}}</span>
             </button>
         </div>
-        <a href="" ng-click="closeSidebar()" class="close-sidebar"><i class="icon-close_n"></i></a>
+        <a href="" ng-click="closeSidebar()" class="close-sidebar">&times;</a>
         <!-- connect new phone pop start -->
         <!-- data-ok 是事件 -->
         <div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">

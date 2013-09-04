@@ -84,17 +84,6 @@ return [function() {
                 $scope.devicesHide = true;
             });     
 
-            $scope.AddNewPhone = function () {
-                $scope.isShowChangeDevicesPop = true;
-            };
-
-            $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
-                    wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
-                }
-            };
-
             $rootScope.$on('sidebar:settings:animate', function() {
                 clearLayersStatus();
                 $scope.settingsAnimate = true;
@@ -108,7 +97,7 @@ return [function() {
                 $scope.devicesHide = true;
             });     
 
-            $scope.AddNewPhone = function () {
+            $scope.addNewPhone = function () {
                 $scope.isShowChangeDevicesPop = true;
             };
 

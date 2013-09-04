@@ -75,10 +75,13 @@ $sidebar-animation-time: 500ms;
 
     .close-sidebar {
         @include position(absolute, 16px 16px 0 0);
+        color: #fff;
         margin: 0;
         padding: 0;
-        i {
-            @include button-effect;
+        @include button-effect;
+
+        &:hover {
+            text-decoration: none;
         }
     }
 
