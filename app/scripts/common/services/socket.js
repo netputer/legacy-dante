@@ -70,6 +70,9 @@ Socket.prototype = {
         });
 
         this._transport.on('connect', function() {
+            self._transport.emit({
+                type: 'timestamp.sync',
+            });
             GA('socket:connect');
         });
 
