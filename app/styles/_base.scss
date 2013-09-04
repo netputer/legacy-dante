@@ -20,11 +20,24 @@ html.cors .no-support-placeholder {
 }
 
 .viewport {
+    /*@include position(absolute, 0 0 0 $global-left-offset);*/
     @include position;
+    left: 0;
     height: 100%;
     margin-left: $global-left-offset;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
+    background-color: #fff;
+    @include transition(left 300ms linear);
+}
+
+.open-sidebar .viewport {
+    pointer-events: none;
+    left: 310px;
+    z-index: 3;
+}
+
+.open-sidebar .navigator {
+    z-index: 2;
 }
 
 body {

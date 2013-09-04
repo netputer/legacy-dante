@@ -2,8 +2,8 @@
 // Basic styles are modified in bootstrap submodule.
 
 .navigator {
-    @include position(absolute, 0px 0 0px 0px);
     width: 60px;
+    @include position(absolute, 0px 0px 0px 0px);
 
     & > .navigator-inner {
         @include position;
@@ -11,8 +11,7 @@
         height: 100%;
         background-color: #2b2b2b;
         @include background-image(linear-gradient(right, #2a2a2a, #2c2c2c));
-        @include box-shadow(inset -2px 0 2px rgba(#000, 0.2));
-
+        @include box-shadow(0px 0 6px rgba(0, 0, 0, 0.3));
         .brand {
             text-align: center;
             height: 92px;
@@ -109,6 +108,7 @@
         margin: $margin 0;
     }
     .nav > li > a {
+        width: 60px;
         @include transition(opacity $global-transition-duration,
                             background $global-transition-duration * 1.5);
         opacity: 0.65;

@@ -1,9 +1,7 @@
 .contacts-edit{
-    position: fixed;
+    @include position(absolute, 0px 0px 0px 454px);
     overflow-y : auto;
     height:100%;
-    right: 0px;
-    left: 514px;
 
     div.photo{
         margin-top: 25px;

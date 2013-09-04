@@ -17,15 +17,13 @@
     }
 
     .contacts-list{
-        position: fixed;
+        @include position(absolute, 100px 0px 0px 0px);
         overflow-y : auto;
-        top:100px;
         @include readonly {
             top : 102px;
         }
         width: 429px;
         display: block;
-        bottom: 0px;
         @include user-select(none);
 
         li.no-contacts{

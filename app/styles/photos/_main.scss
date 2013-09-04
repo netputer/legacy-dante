@@ -1,4 +1,7 @@
 .wdj-photos {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
     padding-left: 10px;
     padding-right: 10px;
 
@@ -72,7 +75,7 @@
     .album-settings {
         min-width: 30px;
         padding: 4px;
-        @include position(fixed, 10px 15px 0 0);
+        @include position(absolute, 10px 21px 0 0);
     }
     .wdp-blank-album-settings{
         margin-left: 5px;

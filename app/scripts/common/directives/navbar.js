@@ -12,66 +12,30 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA', '$q', 'wdToast',
+                'wdAlert', '$window', 'GA', '$rootScope',
         function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window,   GA,   $q,   wdToast) {
+                 wdAlert,   $window, GA, $rootScope) {
             $scope.messageNotification = false;
-            $scope.isChangeDevicesPopShow = false;
-            $scope.shownLanguageModal = false;
-            $scope.account = '';
-            $scope.authCallbackURL = encodeURIComponent($window.location.href);
 
-            $scope.open = function() {
-                $scope.isLoadDevices = true;
-                wdGoogleSignIn.getDevices().then(function(list){
-                    $scope.isLoadDevices = false;
+            var currentLayer = '';
 
-                    //设备列表
-                    $scope.devicesList = getListData (list);
-                },function(){
-                    wdGoogleSignIn.refreshToken(true).then(function(){
-                        $scope.open();
-                    }, function(){
-                        $scope.devicesList = [];
-                    });
-                });
+            $scope.controlSidebar = function(layer) {
+                if (!$rootScope.showSidebar) {
+                    $rootScope.$broadcast('sidebar:open');
+                    $rootScope.$broadcast('sidebar:' + layer + ':default');
 
-                //取得账号
-                wdGoogleSignIn.getAccount().then(function(data){
-                    $scope.account = data;
-                });
+                    currentLayer = layer;
+                    $rootScope.showSidebar = true;
+                } else if (currentLayer === layer) {
+                    $rootScope.$broadcast('sidebar:close');
 
-            };
+                    currentLayer = '';
+                    $rootScope.showSidebar = false;
+                } else {
+                    $rootScope.$broadcast('sidebar:' + layer + ':animate');
 
-            //处理原始的设备列表数据
-            function getListData (list) {
-                var ip = wdGoogleSignIn.currentDevice().ip;
-                for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                    if ( ip === list[i]['ip'] ) {
-                        list[i]['selected'] = true;
-                    }else{
-                        list[i]['selected'] = false;
-                    }
-                }
-                return list;
-            }
-
-            $scope.signout = function() {
-                var toastPromise = wdGoogleSignIn.signOut().then(null, function() {
-                    return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
-                });
-                toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
-                wdToast.apply(toastPromise);
-                toastPromise.then(function() {
-                    wdGoogleSignIn.currentDevice({status:'signout'});
-                    wdAuthToken.signout();
-                });
-            };
-
-            $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
-                    wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
+                    currentLayer = layer;
+                    $rootScope.showSidebar = true;
                 }
             };
 
@@ -96,35 +60,6 @@ return [function() {
                     }
                 }
             });
-
-            $scope.clickAddNewPhone = function () {
-                $scope.isShowChangeDevicesPop = true;
-            };
-
-            //facebook
-            $scope.isConnectedFacebook = function() {
-                return wdShare.getIsConnectedFacebook();
-            };
-
-            wdShare.getFacebookLoginStatus();
-
-            $scope.handleFacebookConnect = function() {
-                if (wdShare.getIsConnectedFacebook()) {
-                    wdAlert.confirm(
-                        $scope.$root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP,
-                        $scope.$root.DICT.app.DISCONNECT_FACEBOOK_INFO,
-                        $scope.$root.DICT.app.DISCONNECT
-                    ).then(function() {
-                        wdShare.disconnectFacebook();
-                    });
-
-                    GA('navbar:facebook_logout');
-                } else {
-                    wdShare.connectFacebook();
-
-                    GA('navbar:facebook_login');
-                }
-            };
 
         }]
     };

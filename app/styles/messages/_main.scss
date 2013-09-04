@@ -3,7 +3,7 @@
     $flex-legacy-enabled: true;
     $flex-support: not -moz, not -webkit, not -ms, not -o, not -khtml;
 
-    @include position(fixed, 0px 0px 0px $global-left-offset);
+    @include position(absolute, 0px 0px 0px 0px);
     font-size: 12px;
 
     // Position with override display in Firefox 19-.

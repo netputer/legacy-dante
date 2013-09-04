@@ -4,16 +4,13 @@
         margin: 0px;
         font-weight: normal;
     }
-    .header{
-        position: fixed;
-        top: 0px;
-        left: 60px;
-        right: 0px;
-        height: 40px;
-        overflow: hidden;
-        padding-left: 10px;
-        padding-top: 10px;
-        background: rgba(255, 255, 255, 0.9);
+	.header{
+		@include position(absolute, 0 0 0 0);
+		height: 40px;
+		width: 100%;
+		padding-left: 10px;
+		padding-top: 10px;
+		background: rgba(255, 255, 255, 0.9);
 
         .btn{
             margin-right: 5px;
@@ -23,12 +20,12 @@
         list-style: none;
         margin: 0px;
     }
-    .apps-list{
-        position: fixed;
-        top: 0px;
-        bottom: 0px;
-        overflow-y:auto;
-        padding-top: 50px;
+
+	.apps-list{
+        height: 100%;
+		@include position(absolute, 0 0 0 0);
+		overflow-y:auto;
+		padding-top: 50px;
         @include readonly {
             padding-top: 10px;
         }

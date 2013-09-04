@@ -3,7 +3,7 @@
     <!-- 左侧布局 -->
     <div class="left">
 
-        <div class="wd-loading" data-visible="true" ng-show="isLeftLoadingShow"></div>
+        <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isLeftLoadingShow"></div>
         <div ng-show="$root.READ_ONLY_FLAG" class="module-title">
             {{$root.DICT.contacts.TITLE}}
         </div>
@@ -54,7 +54,7 @@
 
             <!-- 增加loading -->
             <li ng-show="isListLoadShow">
-                <div class="wd-loading" data-visible="true"></div>
+                <div class="wd-loading wd-loading-local" data-visible="true"></div>
             </li>
             <!-- 增加load more end -->
 
@@ -66,7 +66,7 @@
     <!-- 右侧布局 -->
     <div class="right">
 
-        <div class="wd-loading" data-visible="true" ng-show="isRightLoadShow"></div>
+        <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isRightLoadShow"></div>
 
         <!-- 查看和编辑用户信息 -->
         <div class="contacts-edit" ng-show="isContactsEditShow">

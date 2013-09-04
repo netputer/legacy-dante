@@ -26,7 +26,7 @@
     <script src="scripts/vendor/modernizr.min.js"></script>
     <!-- endbuild -->
 </head>
-<body>
+<body ng-class="{'open-sidebar': showSidebar}" ng-click="globalControl($event)">
     <!--(if target dist)><!-->
     <div class="wd-portal no-support-placeholder">
         <div class="a">
@@ -111,8 +111,9 @@
 
     <!--[if (gt IE 9)|!(IE)]><!-->
 
-    <div class="viewport ng-cloak" ng-view></div>
+    <div class="sidebar ng-cloak" wd-sidebar></div>
     <div class="ng-cloak" wd-navbar></div>
+    <div class="viewport ng-cloak" ng-view></div>
     <div class="ng-cloak" bs-modal wd-alert></div>
 
     <!-- build:js scripts/framework.js -->
