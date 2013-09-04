@@ -16,7 +16,6 @@ $sidebar-animation-time: 500ms;
         .devices-container,
         .settings-container {
             opacity: 1;
-            @include transition(opacity ease 1s);
         }
     }
 }
@@ -47,7 +46,8 @@ $sidebar-animation-time: 500ms;
         @include flex(1);
         @include display-flex;
         @include flex-direction(column);
-        opacity: 0.5;
+        opacity: 0;
+        @include transition(opacity $sidebar-animation-time ease);
 
         h2, h3 {
             font-weight: normal;
@@ -95,7 +95,7 @@ $sidebar-animation-time: 500ms;
 
         &.devices-animate {
             left: 0;
-            @include transition(left $sidebar-animation-time);
+            @include transition(left $sidebar-animation-time, opacity $sidebar-animation-time ease);
         }
 
 
@@ -173,7 +173,7 @@ $sidebar-animation-time: 500ms;
 
         &.settings-animate {
             left: 0;
-            @include transition(left $sidebar-animation-time);
+            @include transition(left $sidebar-animation-time, opacity $sidebar-animation-time ease);
         }
         .profile-info {
             @include position;
