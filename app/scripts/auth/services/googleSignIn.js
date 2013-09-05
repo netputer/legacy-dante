@@ -142,7 +142,13 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 GA('check_sign_in:get_devices:success');
                 $rootScope.$apply(function() {
                     $log.log('Getting devices success!',data);
-                    defer.resolve(data);
+                    var list = [];
+                    data.forEach(function(v, i) {
+                        if(v.ip) {
+                            list.push(v);
+                        }
+                    });
+                    defer.resolve(list);
                 });
             }).fail(function( xhr ) {
                 GA('check_sign_in:get_devices:failed_'+ xhr.status );

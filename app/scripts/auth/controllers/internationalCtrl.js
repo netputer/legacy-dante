@@ -360,7 +360,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     showDevicesList( list );
                     $scope.autoAuth = false;
                 }
-            },function() {});
+            },function() {
+                autoSignInGoogle();
+            });
         }
 
         //如果用户登录过，自动去 Google 刷新一下token.
