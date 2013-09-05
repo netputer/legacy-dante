@@ -11,10 +11,10 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA',
-        function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA) {
+                '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
+                'wdAlert', '$window', 'GA', '$rootScope',
+        function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
+                 wdAlert,   $window, GA, $rootScope) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;

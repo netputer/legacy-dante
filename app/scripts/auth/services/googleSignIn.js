@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', function ( $http, $q, $rootScope, $log, $window, GA, $timeout ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', function ( $http, $q, $rootScope, $log, $window, GA, $timeout, wdDevice) {
 
     var global = {
         authResult : {},
@@ -42,7 +42,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 return global.currentDevice;
             }else{
                 global.currentDevice = data;
-                me.setStorageItem('currentDevice', JSON.stringify(data));
+                wdDevice.setDevice(data);
             }
         },
 

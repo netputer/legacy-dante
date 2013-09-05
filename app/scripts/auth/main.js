@@ -1,14 +1,14 @@
 /*global Modernizr*/
 define([
     'angular',
-    'auth/services/token',
+    'auth/services/device',
     'auth/services/googleSignIn',
     'auth/services/wandoujiaSignIn',
     'auth/controllers/internationalCtrl',
     'auth/controllers/cloudDataCtrl'
 ], function(
     angular,
-    authToken,
+    device,
     googleSignIn,
     wandoujiaSignIn,
     internationalCtrl,
@@ -17,7 +17,7 @@ define([
 'use strict';
 
 angular.module('wdAuth', ['wdCommon'])
-    .provider('wdAuthToken', authToken)
+    .provider('wdDevice', device)
     .factory('wdGoogleSignIn', googleSignIn)
     .factory('wandoujiaSignIn', wandoujiaSignIn)
     .controller('internationalController', internationalCtrl)

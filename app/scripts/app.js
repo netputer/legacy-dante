@@ -53,10 +53,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         // Used for filter route changing which need auth.
-        var validateToken = ['$q', 'wdAuthToken', '$location',
-            function($q, wdAuthToken, $location) {
+        var validateToken = ['$q', 'wdDevice', '$location',
+            function($q, wdDevice, $location) {
 
-            if (wdAuthToken.valid()) {
+            if (wdDevice.valid()) {
                 return true;
             }
             else {
@@ -97,8 +97,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
         $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', function(wdAuthToken, $q, wdGoogleSignIn ) {
-                    wdAuthToken.signout();
+                signout: ['wdDevice', '$q', 'wdGoogleSignIn', function(wdDevice, $q, wdGoogleSignIn ) {
+                    wdDevice.signout();
                     wdGoogleSignIn.setForceShowDevices(true);
                     return $q.reject('signout');
                 }]
@@ -109,14 +109,14 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', 'wdAlert', '$rootScope', function(wdAuthToken, $q, wdGoogleSignIn, wdAlert ,$rootScope) {
+                signout: ['wdDevice', '$q', 'wdGoogleSignIn', 'wdAlert', '$rootScope', function(wdDevice, $q, wdGoogleSignIn, wdAlert ,$rootScope) {
                     wdAlert.confirm(
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
-                        wdAuthToken.signout();
+                        wdDevice.signout();
                         wdGoogleSignIn.currentDevice({status:'signout'});
                     },function(){
 
@@ -173,7 +173,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
 
         // Global exception handling.
-        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdAuthToken', function(wdDev, $rootScope, $q, $log, wdAuthToken) {
+        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdDevice', '$window', function(wdDev, $rootScope, $q, $log, wdDevice, $window) {
             return {
                 request: function(config) {
                     // Using realtime data source url.
@@ -203,7 +203,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                     // 401 for auth invalid, 0 for server no response.
                     if (!rejection.config.disableErrorControl &&
                         (rejection.status === 401 /*|| response.status === 0 */)) {
-                        wdAuthToken.signout();
+                        wdDevice.signout();
                     }
                     return $q.reject(rejection);
                 }

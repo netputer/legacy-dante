@@ -2,12 +2,12 @@ define([
 ], function() {
 'use strict';
 
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment',
-function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment) {
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment',
+function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment) {
 
         $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
-        $scope.auth = wdAuthToken.getToken() || '';
+        $scope.auth = wdDevice.getDevice() || '';
         $scope.autoAuth = !!$scope.auth;
         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
         $scope.error = '';
@@ -63,7 +63,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 return;
             }
 
-            deviceData = deviceData || wdAuthToken.getToken();
+            deviceData = deviceData || wdDevice.getDevice();
             var authCode = deviceData['authcode'];
             var ip = deviceData['ip'];
             var port = 10208;
@@ -100,8 +100,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_SUCCESS;
                     // TODO: Maybe expiration?
-                    wdAuthToken.setToken(deviceData);
-                    wdAuthToken.startSignoutDetection();
+                    wdDevice.setDevice(deviceData);
+                    wdDevice.startSignoutDetection();
                     wdDev.setMetaData(response);
                     $location.url($route.current.params.ref || '/');
                     $rootScope.$broadcast('signin');
@@ -119,7 +119,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             // $scope.isLoadingDevices = false;
                         });
                     }
-                    wdAuthToken.clearToken();
+                    wdDevice.clearToken();
                     loopGetDevices();
 
                     keeper.done();
@@ -130,7 +130,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
                         $scope.error = false;
                     }, 5000);
-                    wdAuthToken.clearToken();
+                    wdDevice.clearToken();
                     var action;
                     var duration = Date.now() - timeStart;
                     if (status === 0) {
