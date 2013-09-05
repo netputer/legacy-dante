@@ -34,10 +34,13 @@
             <!-- 没有联系人时显示 end -->
 
             <!-- 每个联系人的模板 -->
-            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked,checked:item.checked}">
-                <label class="selected" ng-model="item.checked" ng-click="$event.stopPropagation();" ng-show="!$root.READ_ONLY_FLAG">
-                    <input class="selected" type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="clickChecked($event,item);" bs-tooltip="{{item.tooltip}}">
-                </label>
+            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked:item.checked}">
+                <div wd-checkbox class="selected"
+                    ng-show="!$root.READ_ONLY_FLAG"
+                    ng-click="clickChecked($event, item);$event.stopPropagation();"
+                    ng-model="item.checked"
+                    bs-tooltip="{{item.tooltip}}"></div>
+                  <!--   <input class="selected" type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="clickChecked($event,item);" bs-tooltip="{{item.tooltip}}"> -->
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
                 </div>

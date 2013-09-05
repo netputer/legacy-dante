@@ -1,11 +1,13 @@
 define([
     'angular',
     'ui/directives/popmenu',
-    'ui/services/toast'
+    'ui/services/toast',
+    'ui/directives/checkbox'
 ], function(
     angular,
     popmenu,
-    toast
+    toast,
+    checkbox
 ) {
 'use strict';
 
@@ -14,5 +16,6 @@ angular.module('wd.ui', [])
     .directive('wdMenuPopover', popmenu.Popover)
     .directive('wdMenuTrigger', popmenu.Trigger)
     .directive('wdMenuItem', popmenu.MenuItem)
+    .directive('wdCheckbox', checkbox)
     .factory('wdToast', toast);
 });

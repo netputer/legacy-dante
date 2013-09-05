@@ -7,10 +7,10 @@
         @include animation(fadeOut $global-transition-duration);
         @include animation-fill-mode(forwards);
     }
-    $padding: 0px;
-    @include position(absolute, 0px 0 0 0px);
-    // @include transform(translateZ(0));
 
+    @include position(absolute, 0px 0 0 0px);
+
+    $padding: 0px;
     .photo {
         @include position;
         @include transform(translateZ(0));
@@ -26,55 +26,6 @@
             // revert bootstrap img style
             max-width: none;
             opacity: 0;
-        }
-    }
-
-    $actions-height: 26px;
-    &.active, &:hover {
-        .actions {
-            // @include transition(opacity $global-transition-duration ease 0.1s);
-            opacity: 1;
-        }
-    }
-    &.active {
-        background: #52aa30;
-    }
-    .actions {
-        // @include transition(opacity $global-transition-duration ease 0.1s);
-        @include pie-clearfix;
-        @include position(absolute, 0 $padding $padding $padding);
-        // @include transform(translateZ(0));
-        height: $actions-height;
-        background: rgba(#000, 0.7);
-        padding-right: 5px;
-        opacity: 0;
-
-        .action-select {
-            @include float-left;
-            @include position;
-            padding-top: 2px;
-            padding-left: 25px;
-
-            input[type=checkbox] {
-                &:not(:checked):after{
-                    width: icon-width("check-h");
-                    height: icon-height("check-h");
-                    @include use-sprite("check-h");
-                }
-                &:not(:checked):hover:after {
-                    width: icon-width("check");
-                    height: icon-height("check");
-                    @include use-sprite("check");
-                }
-            }
-        }
-        .action-delete,
-        .action-download,
-        .action-share {
-            $padding-top: ($actions-height - $global-line-height) / 2;
-            @include float-right;
-            padding: $padding-top 4px;
-            @include button-effect;
         }
     }
 }

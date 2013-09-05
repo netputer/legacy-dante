@@ -57,7 +57,7 @@ define([
             $scope.appBlockWidth = $scope.appBlockHeight = width;
             $(window).one('resize',function(){
                 changeAppsBlock();
-                $scope.$apply();   
+                $scope.$apply();
             });
         }
 
@@ -384,12 +384,11 @@ define([
 
         function checkedApp(e, item){
             GA('Web applications : click Checkbox');
-            if(item.checked){
+            item.checked = !item.checked;
+            if (item.checked) {
                 $scope.selectedNum += 1;
-                $(e.target.parentNode.parentNode).css('opacity',1);
-            }else{
+            } else {
                 $scope.selectedNum -= 1;
-                $(e.target.parentNode.parentNode).css('opacity','');
             }
 
             if(e.shiftKey){

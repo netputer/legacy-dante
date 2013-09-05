@@ -1,0 +1,74 @@
+.wd-checkbox {
+    @include position;
+    $width: 16px;
+    display: inline-block;
+    width: $width;
+    height: $width;
+    line-height: $global-line-height;
+    vertical-align: top;
+    margin: ($global-line-height - $width) / 2 0;
+
+    > input[type=checkbox] {
+        display: none;
+    }
+
+    .wd-checkbox-outer {
+        @include position(absolute, 50% 0 0 50%);
+        display: block;
+        width: $width;
+        height: $width;
+        $offset: $width / -2 - 1px;
+        margin: $offset 0 0 $offset;
+        border: 1px solid #fff;
+        border-radius: $width;
+        background: #666;
+        opacity: 0.5;
+        overflow: hidden;
+        > i {
+            margin: 0;
+            @include position(absolute, 0px 0 0 0px);
+            opacity: 0;
+        }
+
+        &:hover {
+            // @include transition(opacity, $global-transition-duration);
+            opacity: 0.8;
+        }
+    }
+
+    .wd-checkbox-bg {
+        @include position(absolute, 0px 0 0 0px);
+        width:100%;
+        height: 100%;
+        background: $standard-green;
+        border-radius: $width;
+        text-align: center;
+        opacity: 0;
+    }
+
+    &[checked] > .wd-checkbox-outer {
+        opacity: 1;
+        background: #fff;
+        .wd-checkbox-bg {
+            @include animation(wd-checkbox-checked 0.2s);
+            opacity: 1;
+        }
+        > i {
+            opacity: 1;
+        }
+    }
+    &[disabled] > .wd-checkbox-outer {
+
+    }
+}
+
+@include keyframes(wd-checkbox-checked) {
+    0% {
+        @include transform(scale(0));
+        opacity: 0;
+    }
+    100% {
+        @include transform(scale(1));
+        opacity: 1;
+    }
+}

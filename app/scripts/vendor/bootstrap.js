@@ -454,18 +454,20 @@
         actualWidth = $tip[0].offsetWidth
         actualHeight = $tip[0].offsetHeight
 
+        var optOffset = this.options.offset || 0;
+
         switch (placement) {
           case 'bottom':
-            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
+            tp = {top: pos.top + pos.height + optOffset, left: pos.left + pos.width / 2 - actualWidth / 2}
             break
           case 'top':
-            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
+            tp = {top: pos.top - actualHeight - optOffset, left: pos.left + pos.width / 2 - actualWidth / 2}
             break
           case 'left':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2 - optOffset, left: pos.left - actualWidth}
             break
           case 'right':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2 + optOffset, left: pos.left + pos.width}
             break
         }
 
