@@ -8,7 +8,7 @@
     "NAVBAR_FEEDBACK_TIP": "Feedback",
     "NAVBAR_CONNECT_FACEBOOK_TIP": "Connect Facebook",
     "NAVBAR_DISCONNECT_FACEBOOK_TIP" : "Disconnect Facebook",
-    "NAVBAR_HELP_TIP": "Help",
+    "HELP": "Help",
     "NAVBAR_SETTING_TIP": "Settings",
     "NAVBAR_SELECT_DEVICES_TIP": "Select phone",
     "NAVBAR_SIGNOUT_TIP": "Sign out",
@@ -31,5 +31,11 @@
     },
     "LANGUAGE_MODAL_TITLE": "Change language",
     "DISCONNECT_FACEBOOK_INFO" : "Disconnect your Facebook you will no longer be able to share your photos on Facebook.",
-    "DISCONNECT" : "Disconnect"
+    "DISCONNECT" : "Disconnect",
+    "DISCONNECT_DEVICE": "Disconnected from your phone!",
+    "TRY_NOW": "Try now",
+    "CONNECT_DELAY_TIME": {
+        "pre": "Retrying in",
+        "after" : "seconds"
+    }
 }

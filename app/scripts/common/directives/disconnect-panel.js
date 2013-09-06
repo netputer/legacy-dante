@@ -11,8 +11,8 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', '$rootScope',
-        function($scope, $rootScope) {
+                '$scope', '$rootScope', 'wdSocket',
+        function($scope,   $rootScope,   wdSocket) {
             var connectTimer = null;
             var DELAY_TIME = 10;
             $scope.connectDelayTime = DELAY_TIME;
@@ -22,23 +22,23 @@ return [function() {
                 connectTimer = setInterval(function() {
                     $scope.$apply(function() {
                         $scope.connectDelayTime -= 1;
+                        
+                        if (!$scope.connectDelayTime) {
+                            clearInterval(connectTimer);
+                            $scope.connectDelayTime = DELAY_TIME;
+                            $scope.connectSocket();
+                        }
                     });
-
-                    if (!$scope.connectDelayTime) {
-                        clearInterval(connectTimer);
-                        $scope.connectDelayTime = DELAY_TIME;
-                        $scope.connectSocket();
-                    }
                 }, 1000);
             };
 
-            $rootScope.$on('socket:disconnected', function() {
+            wdSocket.on('socket:disconnected', function() {
                 $scope.showPanel = true;
 
                 refreshDelayTime();
             });
 
-            $rootScope.$on('socket:connected', function() {
+            wdSocket.on('socket:connected', function() {
                 $scope.showPanel = false;
 
                 clearInterval(connectTimer);

@@ -1,7 +1,7 @@
 <div ng-class="{'disconnect-panel-show': showPanel}">
 	<a href="" class="close-btn" ng-click="closePanel()">&times;</a>
-	<h3 class="title">Disconnected from your phone!</h3>
-	<p class="tip">Retrying in <span class="connect-delay-time">{{connectDelayTime}}</span> seconds</p>
-	<button class="btn btn-primary connect-device" ng-click="connectSocket()">Try now</button>
-	<a href="https://snappea.zendesk.com/entries/23341488--Official-Signing-in-to-the-web-version" class="disconnect-help" target="_blank">Help</a>
+	<h3 class="title">{{$root.DICT.app.DISCONNECT_DEVICE}}</h3>
+	<p class="tip">{{$root.DICT.app.CONNECT_DELAY_TIME.pre}} <span class="connect-delay-time">{{connectDelayTime}}</span> {{$root.DICT.app.CONNECT_DELAY_TIME.after}}</p>
+	<button class="btn btn-primary connect-device" ng-click="connectSocket()">{{$root.DICT.app.TRY_NOW}}</button>
+	<a href="https://snappea.zendesk.com/entries/23341488--Official-Signing-in-to-the-web-version" class="disconnect-help" target="_blank">{{$root.DICT.app.HELP}}</a>
 </div>

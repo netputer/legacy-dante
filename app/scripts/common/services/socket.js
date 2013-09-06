@@ -21,7 +21,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAX_RECONNECTION_ATTEMPTS : 3,
+    MAX_RECONNECTION_ATTEMPTS : 4,
     /**
      * Destroy everything.
      */
@@ -49,6 +49,8 @@ Socket.prototype = {
 
         this._newTransport();
 
+        this._delegateEventListeners();
+
         return this;
     },
 
@@ -75,7 +77,7 @@ Socket.prototype = {
 
         this._transport.on('connect', function() {
             GA('socket:connect');
-            $rootScope.$broadcast('socket:connected');
+            self.trigger('socket:connected');
         });
 
         this._transport.on('disconnect', function disconnect() {
@@ -102,7 +104,7 @@ Socket.prototype = {
                                 self._newTransport();
                                 self._transport.socket.reconnect();
                             } else {
-                                $rootScope.$broadcast('socket:disconnected');
+                                self.trigger('socket:disconnected');
 
                                 $rootScope.$on('socket:connect', function() {
                                     self._transport.socket.reconnect();
@@ -126,7 +128,7 @@ Socket.prototype = {
         this._transport.on('reconnect', function reconnect() {
             $log.log('Socket reconnected!');
 
-            $rootScope.$broadcast('socket:connected');
+            self.trigger('socket:connected');
             self._transport.emit({
                 type: 'notifications.request',
                 timestamp : lastTimestamp 
