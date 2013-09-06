@@ -1,6 +1,6 @@
 .wd-block {
     $padding: 0px;
-    $actions-height: 60px;
+    $actions-height: 40px;
 
     .wd-block-select {
         visibility: hidden;
@@ -20,7 +20,7 @@
         height: $actions-height;
         margin: 0;
         @include background-image(linear-gradient(top, rgba(#fff, 0), rgba(#000, 0.8)));
-        opacity: 0;
+        visibility: hidden;
 
         > .wd-block-actions-inner {
             @include position(absolute, 50% 0 0 50%);
@@ -46,13 +46,14 @@
     &:hover, &.wd-block-selected, &.wd-block-selecting {
         .wd-block-select {
             visibility: visible;
+            @include animation(fadeIn 0.3s);
         }
     }
 
     &:not(.wd-block-selected):hover {
         .wd-block-actions {
-            @include transition(opacity 0.3s ease 0.1s);
-            opacity: 1;
+            visibility: visible;
+            @include animation(fadeIn 0.3s);
         }
     }
 

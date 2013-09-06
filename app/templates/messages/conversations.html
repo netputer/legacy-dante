@@ -10,7 +10,7 @@
                     ng-switch-when="false"
                     ng-click="deselectAll();$root.GA('messages:deselect_all')"
                     ng-show="selectedCount() && !cvsListFirstLoading">
-                    <i class="icon-sel-toolbar"></i>
+                    <i class="icon-buticon"></i>
                     {{$root.DICT.messages.ACTION_DESELECT_ALL}} ({{selectedCount()}})
                 </button>
                 <button class="btn"
@@ -34,6 +34,7 @@
                     ng-class="{ selected: c.selected, highlight: c == activeConversation }"
                     ng-click="showConversation(c)">
                     <div wd-checkbox class="wdmcr-a"
+                        ng-class="{'wd-checkbox-light': c != activeConversation}"
                         ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)"
                         bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}"
                         data-options="{offset: -15}"
