@@ -1,12 +1,14 @@
 define([
-    'io'
+    'io',
+    'underscore'
 ], function(
-    io
+    io,
+    _
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdAuthToken',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdAuthToken) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -19,7 +21,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAX_RECONNECTION_ATTEMPTS : 5,
+    MAX_RECONNECTION_ATTEMPTS : 3,
     /**
      * Destroy everything.
      */
@@ -29,9 +31,7 @@ Socket.prototype = {
         return this;
     },
 
-    connect: function() {
-        if (this._transport) { return; }
-
+    _newTransport: function() {
         this._transport = io.connect(wdDev.getSocketServer(), {
             transports: [
                 'websocket',
@@ -42,8 +42,12 @@ Socket.prototype = {
             ],
             'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS
         });
+    },
 
-        this._delegateEventListeners();
+    connect: function() {
+        if (this._transport) { return; }
+
+        this._newTransport();
 
         return this;
     },
@@ -71,6 +75,7 @@ Socket.prototype = {
 
         this._transport.on('connect', function() {
             GA('socket:connect');
+            $rootScope.$broadcast('socket:connected');
         });
 
         this._transport.on('disconnect', function disconnect() {
@@ -79,6 +84,7 @@ Socket.prototype = {
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+            var MAX_GET_DEVICES_TIMES = 3;
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
                 (function getDevices() {
                     wdGoogleSignIn.getDevices().then(function(list) {
@@ -120,6 +126,7 @@ Socket.prototype = {
         this._transport.on('reconnect', function reconnect() {
             $log.log('Socket reconnected!');
 
+            $rootScope.$broadcast('socket:connected');
             self._transport.emit({
                 type: 'notifications.request',
                 timestamp : lastTimestamp 
