@@ -13,10 +13,11 @@ return [function() {
         controller: [
                 '$scope', 'wdAuthToken', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',
+                '$q', 'wdToast',  '$timeout',
         function($scope,   wdAuthToken,   wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast) {
+                 $q,   wdToast,   $timeout) {
+            $scope.isLoadingDevices = true;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
 
@@ -114,19 +115,22 @@ return [function() {
             };
 
             function refreshDevices() {
-                $scope.isLoadingDevices = true;
+                $scope.deviceList = [];
+                $timeout(function() {
+                    $scope.isLoadingDevices = true;
 
-                (function getDevices() {
-                    wdGoogleSignIn.getDevices().then(function(list){
-                        $scope.isLoadingDevices = false;
+                    (function getDevices() {
+                        wdGoogleSignIn.getDevices().then(function(list){
+                            $scope.isLoadingDevices = false;
 
-                        $scope.deviceList = getListData(list);
-                    },function(){
-                        wdGoogleSignIn.setToken().then(function(){
-                            getDevices();
+                            $scope.deviceList = getListData(list);
+                        },function(){
+                            wdGoogleSignIn.setToken().then(function(){
+                                getDevices();
+                            });
                         });
-                    });
-                })();
+                    })();
+                }, 300);
             }
 
             function getListData(list) {
