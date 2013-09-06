@@ -1,12 +1,14 @@
 define([
-    'io'
+    'io',
+    'underscore'
 ], function(
-    io
+    io,
+    _
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdAuthToken',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdAuthToken) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -19,7 +21,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAX_RECONNECTION_ATTEMPTS : 10,
+    MAX_RECONNECTION_ATTEMPTS : 4,
     /**
      * Destroy everything.
      */
@@ -29,9 +31,7 @@ Socket.prototype = {
         return this;
     },
 
-    connect: function() {
-        if (this._transport) { return; }
-
+    _newTransport: function() {
         this._transport = io.connect(wdDev.getSocketServer(), {
             transports: [
                 'websocket',
@@ -42,6 +42,12 @@ Socket.prototype = {
             ],
             'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS
         });
+    },
+
+    connect: function() {
+        if (this._transport) { return; }
+
+        this._newTransport();
 
         this._delegateEventListeners();
 
@@ -71,6 +77,7 @@ Socket.prototype = {
 
         this._transport.on('connect', function() {
             GA('socket:connect');
+            self.trigger('socket:connected');
         });
 
         this._transport.on('disconnect', function disconnect() {
@@ -79,16 +86,49 @@ Socket.prototype = {
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+            var MAX_GET_DEVICES_TIMES = 3;
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
-                $log.error('Socket reconnect failed. Now start connect again.');
+                (function getDevices() {
+                    wdGoogleSignIn.getDevices().then(function(list) {
+                        var device = wdAuthToken.getToken();
+                        var currentOnlineDevice = _.find(list, function(item) {
+                            return item.id === device.id;
+                        });
 
-                self._transport.socket.reconnect();
+                        if (currentOnlineDevice) {
+                            if (currentOnlineDevice.ip !== device.ip) {
+                                wdAuthToken.setToken(currentOnlineDevice);
+                                wdDev.setServer(currentOnlineDevice.ip);
+                                wdGoogleSignIn.currentDevice(currentOnlineDevice);
+
+                                self._newTransport();
+                                self._transport.socket.reconnect();
+                            } else {
+                                self.trigger('socket:disconnected');
+
+                                $rootScope.$on('socket:connect', function() {
+                                    self._transport.socket.reconnect();
+                                });
+                            }
+                        } else {
+                            wdAuthToken.signout();
+                        }
+                    }, function() {
+                        MAX_GET_DEVICES_TIMES -= 1;
+                        if (MAX_GET_DEVICES_TIMES) {
+                            getDevices();
+                        } else {
+                            wdAuthToken.signout();
+                        }
+                    });
+                })();
             }
         });
 
         this._transport.on('reconnect', function reconnect() {
             $log.log('Socket reconnected!');
 
+            self.trigger('socket:connected');
             self._transport.emit({
                 type: 'notifications.request',
                 timestamp : lastTimestamp 

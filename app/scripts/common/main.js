@@ -23,7 +23,8 @@ define([
     'common/services/socket',
     'common/services/share',
     'common/directives/auto-stretch-textarea',
-    'common/directives/temporary-disabled'
+    'common/directives/temporary-disabled',
+    'common/directives/disconnect-panel'
 ], function(
     angular,
     loading,
@@ -49,7 +50,8 @@ define([
     socket,
     share,
     autoStretchTextarea,
-    temporaryDisabled
+    temporaryDisabled,
+    disconnectPanel
 ) {
 // jshint unused:false
 'use strict';
@@ -66,6 +68,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdBlank', blankDirective)
     .directive('wdUpgradeWarning', upgradeWarningDirective)
     .directive('wdTemporaryDisabled', temporaryDisabled)
+    .directive('disconnectPanel', disconnectPanel)
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
