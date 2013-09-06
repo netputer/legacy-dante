@@ -20,7 +20,7 @@ return function() {
         return ip ? ('//' + ip + ':' + 10209) : '';
     };
     self.getServer = function() {
-        return ip ? ('//' + ip + ':' + (port || 80)) : '';
+        return ip ? ('//' + ip + ':' + (port || 10208)) : '';
     };
     self.setServer = function(newIP, newPort) {
         ip = newIP;

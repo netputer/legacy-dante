@@ -19,7 +19,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAX_RECONNECTION_ATTEMPTS : 10,
+    MAX_RECONNECTION_ATTEMPTS : 5,
     /**
      * Destroy everything.
      */
@@ -80,9 +80,40 @@ Socket.prototype = {
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
-                $log.error('Socket reconnect failed. Now start connect again.');
+                (function getDevices() {
+                    wdGoogleSignIn.getDevices().then(function(list) {
+                        var device = wdAuthToken.getToken();
+                        var currentOnlineDevice = _.find(list, function(item) {
+                            return item.id === device.id;
+                        });
 
-                self._transport.socket.reconnect();
+                        if (currentOnlineDevice) {
+                            if (currentOnlineDevice.ip !== device.ip) {
+                                wdAuthToken.setToken(currentOnlineDevice);
+                                wdDev.setServer(currentOnlineDevice.ip);
+                                wdGoogleSignIn.currentDevice(currentOnlineDevice);
+
+                                self._newTransport();
+                                self._transport.socket.reconnect();
+                            } else {
+                                $rootScope.$broadcast('socket:disconnected');
+
+                                $rootScope.$on('socket:connect', function() {
+                                    self._transport.socket.reconnect();
+                                });
+                            }
+                        } else {
+                            wdAuthToken.signout();
+                        }
+                    }, function() {
+                        MAX_GET_DEVICES_TIMES -= 1;
+                        if (MAX_GET_DEVICES_TIMES) {
+                            getDevices();
+                        } else {
+                            wdAuthToken.signout();
+                        }
+                    });
+                })();
             }
         });
 
