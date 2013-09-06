@@ -29,7 +29,7 @@ return function() {
                 valid = false;
             },
             signout: function() {
-                this.clearToken();
+                this.clearDevice();
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
                 }

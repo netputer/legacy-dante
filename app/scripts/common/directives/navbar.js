@@ -12,9 +12,9 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA', '$rootScope',
+                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice',
         function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA, $rootScope) {
+                 wdAlert,   $window, GA, $rootScope, wdDevice) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -58,13 +58,13 @@ return [function() {
 
             $scope.signout = function() {
                 wdGoogleSignIn.currentDevice({status:'signout'});
-                wdAuthToken.signout();
+                wdDevice.signout();
             };
 
             $scope.changeDevice = function (item) {
                 if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
                     wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
+                    wdDevice.signout();
                 }
             };
 
