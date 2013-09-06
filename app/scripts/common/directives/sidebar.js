@@ -105,6 +105,7 @@ return [function() {
                 if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
                     wdGoogleSignIn.currentDevice(item);
                     wdAuthToken.signout();
+                    refreshDevices();
                 }
             };
 

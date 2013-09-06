@@ -2,8 +2,11 @@
     <div class="sidebar-inner">
         <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'current-layer': currentDeviceLayer, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
             <h2 class="device-select-title">{{$root.DICT.app.SELECT_DEVICES_TIP}}</h2>
-            <ul ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-hide="isLoadingDevices" class="device-list">
-                <li ng-class="{'selected':item.selected}"><i class="icon-mark" ng-show="item.selected"></i>{{item.model}}</li>
+            <ul ng-hide="isLoadingDevices" class="device-list">
+                <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
+                    <i class="icon-mark" ng-show="item.selected"></i>
+                    <a href="">{{item.model}}</a>
+                </li>
             </ul>
             <div class="devices-loading-container" ng-show="isLoadingDevices">
                 <div class="wd-loading wd-loading-local devices-loading" data-visible="isLoadingDevices"></div>
