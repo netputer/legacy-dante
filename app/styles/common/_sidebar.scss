@@ -133,8 +133,13 @@ $sidebar-animation-time: 500ms;
                     margin-right: 6px;
                 }
 
-                &.selected {
+                a {
+                    padding-left: 25px;
+                }
+
+                &.selected a{
                     color: #3baa24;
+                    padding-left: 0px;
                 }
             }
         }
