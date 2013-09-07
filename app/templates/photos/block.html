@@ -8,6 +8,16 @@
         ng-checked="photo.selected"></div>
     <div class="wd-block-actions">
         <div class="wd-block-actions-inner" wd-strip>
+            <span class="action-delete"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
+                ng-click="delete(photo);$root.GA('photos:photo:delete')"
+                ><i class="icon-delete"></i></span>
+
+            <span class="action-download"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
+                ng-click="download(photo);$root.GA('photos:photo:download')"
+                ><i class="icon-down"></i></span>
+
             <span class="action-share"
                 ng-if="!$root.READ_ONLY_FLAG"
                 bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
@@ -19,16 +29,6 @@
                 bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
                 ng-click="shareToWeibo(photo);$root.GA('photos:photo:share')"
                 ><i class="icon-share"></i></span>
-
-            <span class="action-download"
-                bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
-                ng-click="download(photo);$root.GA('photos:photo:download')"
-                ><i class="icon-down"></i></span>
-
-            <span class="action-delete"
-                bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
-                ng-click="delete(photo);$root.GA('photos:photo:delete')"
-                ><i class="icon-delete"></i></span>
         </div>
     </div>
     <div class="wdp-progress"></div>

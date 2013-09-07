@@ -1,11 +1,12 @@
 .wd-block {
     $padding: 0px;
-    $actions-height: 40px;
+    $actions-height: 60px;
 
     .wd-block-select {
         visibility: hidden;
         @include position(absolute, 0px 0 0 0px);
-        padding: 10px;
+        padding: 14px;
+        margin: 0;
     }
 
     .wd-block-mask {
@@ -19,12 +20,12 @@
         @include position(absolute, 0 $padding $padding $padding);
         height: $actions-height;
         margin: 0;
-        @include background-image(linear-gradient(top, rgba(#fff, 0), rgba(#000, 0.8)));
         visibility: hidden;
+        @include background-image(linear-gradient(top, rgba(#000, 0), rgba(#000, 0.8)));
 
         > .wd-block-actions-inner {
-            @include position(absolute, 50% 0 0 50%);
-            @include transform(translate(-50%, -50%));
+            @include position(absolute, 0 0 10px 50%);
+            @include transform(translate(-50%, 0));
             @include nowrap;
             > * {
                 $height: 30px;
