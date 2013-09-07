@@ -112,15 +112,22 @@ $sidebar-animation-time: 500ms;
             border-bottom: 1px solid $split-line-color;
         }
 
+        .device-list-container {
+            width: 236px;
+            min-height: 88px;
+            @include transition(all 300ms ease);
+            border-bottom: 1px solid $split-line-color;
+        }
         .devices-loading-container {
             position: relative;
-            height: 80px;
+            height: 88px;
             width: 236px;
         }
 
         .device-list {
-            padding: 26px 0;
-            margin-bottom: 0;
+            width: 216px;
+            padding: 26px 0 26px 26px;
+            margin: 0;
 
             li {
                 font-size: 14px;
@@ -147,8 +154,8 @@ $sidebar-animation-time: 500ms;
         .connect-new-phone {
             width: 236px;
             font-size: 14px;
-            padding-top: 30px;
-            border-top: 1px solid $split-line-color;
+            margin-top: 20px;
+            padding: 10px 0;
             color: #fff;
             text-decoration: none;
             display: block;
@@ -228,14 +235,22 @@ $sidebar-animation-time: 500ms;
 
             li {
                 margin: 8px 0;
+                padding-left: 25px;
 
-                a {
-                    padding-left: 25px;
+                &:hover {
+                    color: $standard-green;
+                    cursor: pointer;
                 }
-            }
-            .current a{
-                padding-left: 6px;
-                color: #999;
+
+                &.current {
+                    color: #999;
+                    @include position;
+                }
+
+                i {
+                    @include position(absolute, 0px 0px 0px 0px);
+                }
+
             }
         }
 
@@ -247,6 +262,13 @@ $sidebar-animation-time: 500ms;
             .connect-facebook-btn {
                 display: inline-block;
                 margin: 22px 0;
+            }
+            .disconnect-facebook-btn {
+                display: block;
+                cursor: pointer;
+                margin: 2px 0 8px 0;
+                padding: 4px 0;
+                font-size: 14px;
             }
             .facebook-tip {
                 color: #505050;

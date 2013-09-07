@@ -2,14 +2,16 @@
     <div class="sidebar-inner">
         <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'current-layer': currentDeviceLayer, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
             <h2 class="device-select-title">{{$root.DICT.app.SELECT_DEVICES_TIP}}</h2>
-            <ul ng-hide="isLoadingDevices" class="device-list">
-                <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
-                    <i class="icon-mark" ng-show="item.selected"></i>
-                    <a href="">{{item.model}}</a>
-                </li>
-            </ul>
-            <div class="devices-loading-container" ng-show="isLoadingDevices">
-                <div class="wd-loading wd-loading-local devices-loading" data-visible="isLoadingDevices"></div>
+            <div class="device-list-container">
+                <ul class="device-list" ng-hide="isLoadingDevices">
+                    <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
+                        <i class="icon-mark" ng-show="item.selected"></i>
+                        <a href="">{{item.model}}</a>
+                    </li>
+                </ul>
+                <div class="devices-loading-container" ng-show="isLoadingDevices">
+                    <div class="wd-loading wd-loading-local devices-loading" data-visible="isLoadingDevices"></div>
+                </div>
             </div>
             <a href="" ng-click="addNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
                 {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
@@ -28,29 +30,29 @@
                 <div class="language" ng-if="!$root.READ_ONLY_FLAG">
                     <h3 class="language-title title">{{$root.DICT.app.LANGUAGE_TIP}}</h3>
                     <ul class="unstyled language-list">
-                        <li ng-class="{'current': selectedLanguage('en')}">
+                        <li ng-class="{'current': selectedLanguage('en')}" ng-click="$root.applyLanguage('en')">
                             <i class="icon-mark" ng-show="selectedLanguage('en')"></i>
-                            <a href="" ng-click="$root.applyLanguage('en')">English</a>
+                            English
                         </li>
-                        <li ng-class="{'current': selectedLanguage('de')}">
+                        <li ng-class="{'current': selectedLanguage('de')}" ng-click="$root.applyLanguage('de')">
                             <i class="icon-mark" ng-show="selectedLanguage('de')"></i>
-                            <a href="" ng-click="$root.applyLanguage('de')">Deutsch</a>
+                            Deutsch
                         </li>
-                        <li ng-class="{'current': selectedLanguage('pt-br')}">
+                        <li ng-class="{'current': selectedLanguage('pt-br')}" ng-click="$root.applyLanguage('pt-br')">
                             <i class="icon-mark" ng-show="selectedLanguage('pt-br')"></i>
-                            <a href="" ng-click="$root.applyLanguage('pt-br')">Português (Brasil)</a>
+                            Português (Brasil)
                         </li>
-                        <li ng-class="{'current': selectedLanguage('zh-tw')}">
+                        <li ng-class="{'current': selectedLanguage('zh-tw')}" ng-click="$root.applyLanguage('zh-tw')">
                             <i class="icon-mark" ng-show="selectedLanguage('zh-tw')"></i>
-                            <a href="" ng-click="$root.applyLanguage('zh-tw')">中文 (正體)</a>
+                            中文 (正體)
                         </li>
-                        <li ng-class="{'current': selectedLanguage('es')}">
+                        <li ng-class="{'current': selectedLanguage('es')}" ng-click="$root.applyLanguage('es')">
                             <i class="icon-mark" ng-show="selectedLanguage('es')"></i>
-                            <a href="" ng-click="$root.applyLanguage('es')">Español</a>
+                            Español
                         </li>
-                        <li ng-class="{'current': selectedLanguage('th')}">
+                        <li ng-class="{'current': selectedLanguage('th')}" ng-click="$root.applyLanguage('th')">
                             <i class="icon-mark" ng-show="selectedLanguage('th')"></i>
-                            <a href="" ng-click="$root.applyLanguage('th')">ภาษาไทย</a>
+                            ภาษาไทย
                         </li>
                     </ul>
                 </div>
