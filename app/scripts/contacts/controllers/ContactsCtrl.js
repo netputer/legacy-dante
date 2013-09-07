@@ -14,7 +14,7 @@ return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout',
 function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q) {
 
     //默认头像显示颜色
-    var photoColorList = ['#3baa24', '#f24949', '#15bcce', '#95c60e', '#2f7c2f'];
+    var photoColorList = ['bg-green', 'bg-red', 'bg-blue', 'bg-pink', 'bg-orange', 'bg-wheat', 'bg-olive-green', 'bg-blue-green', 'bg-light-green'];
 
     //存储当前联系人的数据列表
     var G_contacts = [];
@@ -477,7 +477,10 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             wdcContacts.delContacts(delId).success(function(){
             }).error(function(){
-                wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.OK).then(function(){$('.modal-backdrop').html('');location.reload();});
+                wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.OK)
+                .then(function(){
+                    $('.modal-backdrop').html('');
+                });
             });
 
         //then最后的括号
