@@ -52,9 +52,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //当前的状态
     var G_status = ''; // “edit” 正在编辑，“new” 正在新建
 
-    //默认头像
-    // var G_defaultPhoto = '../../images/contacts/default.png';
-
     //各个type字段映射表
     var G_typeMap = $scope.$root.DICT.contactType.TYPE_MAP;
 

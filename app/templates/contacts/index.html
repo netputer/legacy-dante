@@ -43,7 +43,7 @@
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
-                    <div ng-if="!item.photo && item.name" class="photoColor" ng-class="item.photoColor">
+                    <div ng-if="!item.photo && item.name" class="photo-color" ng-class="item.photoColor">
                         {{item.name|limitTo:1}}
                     </div>
                 </div>
@@ -78,7 +78,7 @@
         <div class="contacts-edit" ng-show="isContactsEditShow">
             <div class="photo">
                 <img ng-if="contact.photo_path" class="photo" ng-src="{{contact.photo_path}}">
-                <div ng-if="!contact.photo_path && contact.name.display_name" class="photoColor" ng-class="contact.photoColor">
+                <div ng-if="!contact.photo_path && contact.name.display_name" class="photo-color" ng-class="contact.photoColor">
                     {{contact.name.display_name|limitTo:1}}
                 </div>
             </div>

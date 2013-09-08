@@ -33,15 +33,65 @@
                     ng-repeat="c in cvs()"
                     ng-class="{ selected: c.selected, highlight: c == activeConversation }"
                     ng-click="showConversation(c)">
+                    
                     <div wd-checkbox class="wdmcr-a"
                         ng-class="{'wd-checkbox-light': c != activeConversation}"
                         ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)"
                         bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}"
                         data-options="{offset: -15}"
                         ng-model="c.selected"></div>
+
                     <div class="wdmcr-b" ng-class="{ multiple: c.multiple }">
                         <img ui-if="!c.multiple && c.photo_path" ng-src="{{c.photo_path}}">
+                        <div ui-if="!c.multiple" class="photo-color" ng-class="getPhotoColor">
+                            {{c.displayNames[0]|limitTo:1}}
+                        </div>
+
+                        <!-- 两个联系人的情况 -->
+                        <div ui-if="c.multiple && c.displayNames.length === 2" class="photo-color bg-white">
+                            <div class="half-photos mr2" ng-class="getPhotoColor">
+                                {{c.displayNames[0]|limitTo:1}}
+                            </div>
+                            <div class="half-photos" ng-class="getPhotoColor">
+                                {{c.displayNames[1]|limitTo:1}}
+                            </div>
+                        </div>
+                        <!-- 两个联系人的情况 end -->
+
+                        <!-- 三个联系人的情况 -->
+                        <div ui-if="c.multiple && c.displayNames.length === 3" class="photo-color bg-white">
+                            <div class="half-photos mr2" ng-class="getPhotoColor">
+                                {{c.displayNames[0]|limitTo:1}}
+                            </div>
+                            <div class="quarter-photos mb2" ng-class="getPhotoColor">
+                                {{c.displayNames[1]|limitTo:1}}
+                            </div>
+                            <div class="quarter-photos" ng-class="getPhotoColor">
+                                {{c.displayNames[2]|limitTo:1}}
+                            </div>
+                        </div>
+                        <!-- 三个联系人的情况 end -->
+
+                        <!-- 四个联系人的情况 -->
+                        <div ui-if="c.multiple && c.displayNames.length >= 4" class="photo-color bg-white">
+                            <div class="quarter-photos mr2 mb2" ng-class="getPhotoColor">
+                                {{c.displayNames[0]|limitTo:1}}
+                            </div>
+                            <div class="quarter-photos mb2" ng-class="getPhotoColor">
+                                {{c.displayNames[1]|limitTo:1}}
+                            </div>
+                            <div class="quarter-photos mr2" ng-class="getPhotoColor">
+                                {{c.displayNames[2]|limitTo:1}}
+                            </div>
+                            <div class="quarter-photos" ng-class="getPhotoColor">
+                                {{c.displayNames[3]|limitTo:1}}
+                            </div>
+                        </div>
+                        <!-- 四个联系人的情况 end -->
+
+
                     </div>
+
                     <div class="wdmcr-c">
                         <div class="wdmcr-c-a" ng-switch on="c.addresses.length">
                             <span ng-switch-default>{{ c.displayNames.join(', ') }}</span>

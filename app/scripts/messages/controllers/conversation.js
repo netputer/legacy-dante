@@ -23,6 +23,9 @@ $scope.searchLoading = false;
 $scope.contentResultsList = [];
 $scope.contentSearchDone = false;
 
+//默认头像显示颜色
+var photoColorList = ['bg-green', 'bg-red', 'bg-blue', 'bg-pink', 'bg-orange', 'bg-wheat', 'bg-olive-green', 'bg-blue-green', 'bg-light-green'];
+
 $scope.cvs = function() {
     var result;
     if ($scope.isSearching()) {
@@ -307,6 +310,12 @@ $scope.removeMessage = function(c, m) {
     });
 };
 
+$scope.getPhotoColor = function() {
+    
+    //默认头像显示颜色
+    var photoColorList = ['bg-green', 'bg-red', 'bg-blue', 'bg-pink', 'bg-orange', 'bg-wheat', 'bg-olive-green', 'bg-blue-green', 'bg-light-green'];
+    return photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
+};
 
 // Startup
 var timer;

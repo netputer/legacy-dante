@@ -97,6 +97,40 @@
         height: $avatar-width;
         display: block;
     }
+
+    .photo-color {
+        text-transform: uppercase;
+        font-size: 24px;
+        line-height: 48px;
+        text-align: center;
+        width: 48px;
+        height: 48px;
+        font-weight: 300;
+        color: #FFF;
+
+        .half-photos{
+            width: 23px;
+            height: 48px;
+            float: left;
+        }
+
+        .quarter-photos{
+            width: 23px;
+            height: 23px;
+            font-size: 14px;
+            line-height: 23px;
+            float: left;
+        }
+
+        .mr2{
+            margin-right: 2px;
+        }
+
+        .mb2{
+            margin-bottom: 2px;
+        }
+    }
+
 }
 
 .wdmcr-c {
@@ -147,3 +181,4 @@
 .wdmcr-icon-running {
     @extend .icon-sending;
 }
+@import "contact-photo-color";
