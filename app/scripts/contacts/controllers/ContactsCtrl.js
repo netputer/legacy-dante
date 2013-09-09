@@ -639,7 +639,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         switch(G_status){
             case 'edit':
                 GA('Web Contacts:click save the editing contact button');
-                editData = saveData;
+                editData = fillerUpdataData(saveData);
                 wdcContacts.editContact(editData).success(function(data){
                     var i, l;
                     for(i = 0 , l = $scope.pageList.length; i < l; i += 1 ){
@@ -939,6 +939,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
 
         return obj;
+    }
+
+    function fillerUpdataData( data ) {
+        if( data.photoColor ) {
+            data.photoColor = null;
+        }
+        return data;
     }
 
     function photoUpload(){
