@@ -107,6 +107,7 @@
         height: 100%;
         font-weight: normal;
         color: #FFF;
+        @include clearfix;
 
         .half-photos {
             width: 23px;
