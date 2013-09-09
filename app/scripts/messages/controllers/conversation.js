@@ -324,6 +324,14 @@ $scope.getPhotoColor = function() {
     return photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
 };
 
+$scope.isDisplayNameIsNumber = function( name ) {
+    if( name.match(/^\d\d/) ) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 // Startup
 var timer;
 if ($scope.serverMatchRequirement) {
