@@ -43,6 +43,9 @@
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
+                    <div ng-if="!item.photo && item.name" class="photo-color" ng-class="item.photo_color">
+                        {{item.name|limitTo:1}}
+                    </div>
                 </div>
                 <div class="info">
                     <p class="name">{{item.name}}</p>
@@ -75,6 +78,9 @@
         <div class="contacts-edit" ng-show="isContactsEditShow">
             <div class="photo">
                 <img ng-if="contact.photo_path" class="photo" ng-src="{{contact.photo_path}}">
+                <div ng-if="!contact.photo_path && contact.name.display_name" class="photo-color" ng-class="contact.photo_color">
+                    {{contact.name.display_name|limitTo:1}}
+                </div>
             </div>
 
             <!-- 上传图片遮罩 start -->
