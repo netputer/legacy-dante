@@ -644,7 +644,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         switch(G_status){
             case 'edit':
                 GA('Web Contacts:click save the editing contact button');
-                editData = filterUpdateData(saveData);
+                editData = filterUpdatedData(saveData);
                 wdcContacts.editContact(editData).success(function(data){
                     var i, l;
                     for(i = 0 , l = $scope.pageList.length; i < l; i += 1 ){
@@ -946,7 +946,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         return obj;
     }
 
-    function filterUpdateData( data ) {
+    function filterUpdatedData( data ) {
         if( data.photo_color ) {
             data.photo_color = null;
         }

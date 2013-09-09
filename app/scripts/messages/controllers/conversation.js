@@ -324,12 +324,10 @@ $scope.getPhotoColor = function() {
     return photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
 };
 
-$scope.isDisplayNameIsNumber = function( name ) {
-    if( name.match(/^\d\d/) ) {
-        return true;
-    } else {
-        return false;
-    }
+$scope.isDisplayNamePhoneNumber = function( name ) {
+
+    //以数字、星号、加号、减号、警号开头并且结尾的
+    return new RegExp(/^[\d|*|+|-|#]*$/g).test( name );
 };
 
 // Startup

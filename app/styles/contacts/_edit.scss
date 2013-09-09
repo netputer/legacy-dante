@@ -4,22 +4,23 @@
     height:100%;
 
     div.photo{
+        $photo-width: 127px;
         margin-top: 25px;
-        width: 127px;
-        height: 127px;
+        width: $photo-width;
+        height: $photo-width;
         @include use-sprite("profile128");
-        img{
-            width: 127px;
-            height: 127px;
+         img{
+            width: $photo-width;
+            height: $photo-width;
         }
         .photo-color{
             text-transform: uppercase;
             font-size: 64px;
-            line-height: 127px;
+            line-height: $photo-width;
             text-align: center;
-            width: 127px;
-            height: 127px;
-            font-weight: 300;
+            width: $photo-width;
+            height: $photo-width;
+            font-weight: normal;
             color: #FFF;
         }
     }
