@@ -481,7 +481,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }).error(function(){
                 wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_DELETE.OK)
                 .then(function(){
-                    $('.modal-backdrop').html('');
+                    // $('.modal-backdrop').html('');
                 });
             });
 

@@ -5,11 +5,11 @@
     height: 64px;
     @include transition(background-color,0.1s);
 
-	div.photo {
-	    width: 48px;
-	    height: 48px;
+	div.photo{
+        $avatar-width: icon-width("profile48");
+	    width: $avatar-width;
+	    height: $avatar-width;
         overflow: hidden;
-        @include use-sprite("profile48");
         display: inline-block;
         position: absolute;
         top: 8px;
@@ -17,18 +17,19 @@
             left : 10px;
         }
         img{
-            width: 48px;
-            height: 48px;
+            width: 100%;
+            height: 100%;
         }
         .photo-color{
             text-transform: uppercase;
             font-size: 24px;
-            line-height: 48px;
+            line-height: $avatar-width;
             text-align: center;
-            width: 48px;
-            height: 48px;
+            width: 100%;
+            height: 100%;
             font-weight: 300;
             color: #FFF;
+            @include clearfix;
         }
 	}
 

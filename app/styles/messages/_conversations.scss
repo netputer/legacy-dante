@@ -101,20 +101,20 @@
     .photo-color {
         text-transform: uppercase;
         font-size: 24px;
-        line-height: 48px;
+        line-height: $avatar-width;
         text-align: center;
-        width: 48px;
-        height: 48px;
+        width: 100%;
+        height: 100%;
         font-weight: 300;
         color: #FFF;
 
-        .half-photos{
+        .half-photos {
             width: 23px;
-            height: 48px;
+            height: 100%;
             float: left;
         }
 
-        .quarter-photos{
+        .quarter-photos {
             width: 23px;
             height: 23px;
             font-size: 14px;
@@ -122,11 +122,11 @@
             float: left;
         }
 
-        .mr2{
+        .mr2 {
             margin-right: 2px;
         }
 
-        .mb2{
+        .mb2 {
             margin-bottom: 2px;
         }
     }

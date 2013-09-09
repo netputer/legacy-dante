@@ -329,7 +329,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 method: 'post',
                 url: '/resource/contacts/delete',
                 data: {'ids':list},
-                timeout: 12000 * 1000
+                timeout: 60 * 60 * 1000
             }).success(function(){
                 for( var m = 0 , n = list.length ; m < n ; m += 1 ){
                     for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
