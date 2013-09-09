@@ -327,7 +327,7 @@ $scope.getPhotoColor = function() {
 $scope.isDisplayNamePhoneNumber = function( name ) {
 
     //以数字、星号、加号、减号、警号开头并且结尾的
-    return new RegExp(/^[\d|*|+|-|#]*$/g).test( name );
+    return new RegExp(/^[\d\*\+\-\#]*$/g).test( name );
 };
 
 // Startup

@@ -9,7 +9,7 @@
         width: $photo-width;
         height: $photo-width;
         @include use-sprite("profile128");
-         img{
+        img{
             width: $photo-width;
             height: $photo-width;
         }
