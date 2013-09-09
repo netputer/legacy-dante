@@ -14,6 +14,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.state = 'standby';
         $scope.showHelp = false;
         $scope.isShowChangeDevicesPop = false;
+        $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP1;
 
         //设备的数量
         $scope.deviceNum = -1;
@@ -50,6 +51,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //进入某个设备
         $scope.submit = function(deviceData) {
+            $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3;
             GA('connect_device:enter_snappea:'+ deviceData['model']);
             // $scope.isLoadingDevices = true;
             stopLoopGetDevices();
@@ -116,7 +118,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content + deviceData['attributes']['ssid'] + '.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>',
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button
                         ).then(function() {
-                            // $scope.isLoadingDevices = false;
+                            $scope.isLoadingDevices = false;
                         });
                     }
                     wdAuthToken.clearToken();
@@ -283,6 +285,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             wdGoogleSignIn.refreshToken().then(function() {
                 GA('check_sign_in:google_page:success');
                 $scope.isLoadingDevices = true;
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
                 wdGoogleSignIn.getDevices().then(function( list ) {
                     showDevicesList( list );
                 },function() {
@@ -332,6 +335,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //自动进入之前的设备
         function autoAccess() {
+            $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
             wdGoogleSignIn.getDevices().then(function(list) {
                 if ( !list.length ) {
                     showDevicesList( list );
