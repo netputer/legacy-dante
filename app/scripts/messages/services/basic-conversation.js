@@ -24,7 +24,6 @@ function BasicConversation(data) {
         has_attachment: false,
         has_error: false
     }, data));
-    console.log(data);
     return instance;
 }
 
