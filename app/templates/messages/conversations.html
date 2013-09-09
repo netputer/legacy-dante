@@ -48,7 +48,7 @@
                         </div>
 
                         <!-- 两个联系人的情况 -->
-                        <div ui-if="c.multiple && c.displayNames.length === 2" class="photo-color bg-white">
+                        <div ui-if="c.multiple && c.displayNames.length === 2" class="photo-color contact-photo-bg-white">
                             <div class="half-photos mr2" ng-class="getPhotoColor">
                                 {{c.displayNames[0]|limitTo:1}}
                             </div>
@@ -59,7 +59,7 @@
                         <!-- 两个联系人的情况 end -->
 
                         <!-- 三个联系人的情况 -->
-                        <div ui-if="c.multiple && c.displayNames.length === 3" class="photo-color bg-white">
+                        <div ui-if="c.multiple && c.displayNames.length === 3" class="photo-color contact-photo-bg-white">
                             <div class="half-photos mr2" ng-class="getPhotoColor">
                                 {{c.displayNames[0]|limitTo:1}}
                             </div>
@@ -73,7 +73,7 @@
                         <!-- 三个联系人的情况 end -->
 
                         <!-- 四个联系人的情况 -->
-                        <div ui-if="c.multiple && c.displayNames.length >= 4" class="photo-color bg-white">
+                        <div ui-if="c.multiple && c.displayNames.length >= 4" class="photo-color contact-photo-bg-white">
                             <div class="quarter-photos mr2 mb2" ng-class="getPhotoColor">
                                 {{c.displayNames[0]|limitTo:1}}
                             </div>
