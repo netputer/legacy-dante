@@ -45,7 +45,7 @@
                 height: 72px;
             }
 
-            dd.title{
+            .title{
                 margin-left: 0px;
                 height: 20px;
                 line-height: 20px;
@@ -54,66 +54,11 @@
                 font-size: 16px;
             }
 
-            dd.toolbar{
-                opacity: 0;
-                height: 26px;
-                overflow: hidden;
-                text-align: left;
-                margin-left: 0px;
-                position: absolute;
-                background-color: #000;
-                bottom: 0px;
-                left: 0px;
-                right: 0px;
-                @include transition(opacity 0.1s);
-                cursor: default;
-
-                .btn-icon-check{
-                    width: 25px;
-                    height: 26px;
-                    padding-left: 5px;
-                    padding-top: 2px;
-                    display: inline-block;
-                }
-                .btn-icon-del{
-                    width: 20px;
-                    height: 22px;
-                    padding-top: 3px;
-                    padding-right: 1px;
-                    display: inline-block;
-                    float: right;
-                    opacity: 0.65;
-                    cursor: pointer;
-                }
-                .btn-icon-del:hover{
-                    opacity: 1;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-del:active{
-                    opacity: 0.5;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-download{
-                    width: 20px;
-                    height: 22px;
-                    padding-top: 3px;
-                    padding-right: 1px;
-                    display: inline-block;
-                    float: right;
-                    opacity: 0.65;
-                    cursor: pointer;
-                }
-                .btn-icon-download:hover{
-                    opacity: 1;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-download:active{
-                    opacity: 0.5;
-                    @include transition(opacity 0.4s);
-                }
+            .wd-block-actions {
+                background-image: none;
             }
 
-            dd.confirm{
+            .confirm{
                 margin-left: 0px;
                 position: absolute;
                 bottom: 0px;
@@ -153,7 +98,7 @@
                 }
             }
 
-            dd.done{
+            .done{
                 margin-left: 0px;
                 position: absolute;
                 bottom: 0px;
@@ -182,18 +127,14 @@
                     color: #FFF;
                 }
             }
+
+            &.confirm {
+                .wd-block-select, .wd-block-actions {
+                    display: none;
+                }
+            }
         }
 
-        dl:hover{
-            dd.toolbar{
-                opacity: 1;
-            }
-        }
-        dl.confirm:hover{
-            dd.toolbar{
-                opacity: 0;
-            }
-        }
         dl.new-list{
 
             dt{

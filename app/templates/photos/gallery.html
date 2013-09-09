@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="wdp-actionbar" ng-if="!$root.READ_ONLY_FLAG"></div>
-        <div class="btn album-settings" 
+        <div class="btn album-settings"
         ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.ALBUM_SETTINGS}}"
             data-options="{placement: 'bottom'}"
@@ -48,7 +48,7 @@
             <div class="wd-loading wd-loading-inline share-loading in-footer" data-visible="visibleLoading"></div>
             <span class="share-success-tip share-tip" ng-show="isShowSuccessTip">{{$root.DICT.photos.SHARE_SUCCESS_TIP}}</span>
             <span class="share-faild-tip share-tip" ng-show="isShowFaildTip">
-                {{$root.DICT.photos.SHARE_FAIL_TIP}} 
+                {{$root.DICT.photos.SHARE_FAIL_TIP}}
                 <a href="" ng-click="uploadAndSharePhoto(true);$root.GA('share:retry_share_facebook')">{{$root.DICT.photos.SHARE_RETRY}}<a/>
             </span>
             <span class="share-faild-tip share-tip" ng-show="isShowExpiredTip">
@@ -62,7 +62,7 @@
             <a href="" class="btn btn-primary" ng-click="uploadAndSharePhoto();$root.GA('share:facebook_share')" ng-disabled="shareBtnDisabled">Share</a>
         </div>
     </div>
-    
+
     <div class="wd-blank" ui-if="!photos.length && firstScreenLoaded">
         <p>{{$root.DICT.photos.BLANK_TIP}}<p>
         <div wd-strip>
@@ -75,9 +75,9 @@
         </div>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
             <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
-        </div>        
+        </div>
     </div>
-    
+
     <div bs-modal toggle="isShowAlbumSettings" class="album-settings-modal" data-header="{{$root.DICT.photos.ALBUM_SETTINGS}}" cancel="hideAlbumSettings()" ok="updateAlbums()" data-button-ok-disabled="{{albumDisabledOkButton}}">
         {{$root.DICT.photos.ALBUM_SETTINGS_INFO}}
         <div class="wd-loading wd-loading-local in-footer" data-visible="visibleAlbumLoading"></div>

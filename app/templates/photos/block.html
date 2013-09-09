@@ -1,35 +1,35 @@
-<div ng-class="{'active': photo.selected}">
-    <div class="photo"
-        ng-click="preview(photo);$root.GA('photos:photo:click')"></div>
-    <div class="actions">
-        <label class="action-select checkbox inline"
-            ng-if="!$root.READ_ONLY_FLAG"
-            ng-click="select(photo, $event.shiftKey)"
-            bs-tooltip="{{checkboxTipText}}">
-            <input type="checkbox"
-                ng-model="photo.selected">
-        </label>
-        <a class="action-share" href=""
-            ng-if="!$root.READ_ONLY_FLAG"
-            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
-            ng-click="share(photo);$root.GA('photos:photo:show_share_modal')"
-            ><i class="icon-facebook-light"></i></a>
+<div class="wd-block" ng-class="{'wd-block-selected': photo.selected, 'wd-block-selecting': selectedPhotos().length}">
+    <div class="photo"></div>
+    <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')"></div>
+    <div wd-checkbox class="wd-block-select"
+        ng-if="!$root.READ_ONLY_FLAG"
+        ng-click="select(photo, $event.shiftKey);"
+        bs-tooltip="{{checkboxTipText}}"
+        ng-checked="photo.selected"></div>
+    <div class="wd-block-actions">
+        <div class="wd-block-actions-inner" wd-strip>
+            <span class="action-delete"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
+                ng-click="delete(photo);$root.GA('photos:photo:delete')"
+                ><i class="icon-delete"></i></span>
 
-        <a class="action-share" href=""
-            ng-if="$root.READ_ONLY_FLAG"
-            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
-            ng-click="shareToWeibo(photo);$root.GA('photos:photo:share')"
-            ><i class="icon-share"></i></a>
+            <span class="action-download"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
+                ng-click="download(photo);$root.GA('photos:photo:download')"
+                ><i class="icon-down"></i></span>
 
-        <a class="action-download"
-            bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
-            ng-click="download(photo);$root.GA('photos:photo:download')"
-            ><i class="icon-down"></i></a>
+            <span class="action-share"
+                ng-if="!$root.READ_ONLY_FLAG"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
+                ng-click="share(photo);$root.GA('photos:photo:show_share_modal')"
+                ><i class="icon-facebook-light"></i></span>
 
-        <a class="action-delete" href=""
-            bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
-            ng-click="delete(photo);$root.GA('photos:photo:delete')"
-            ><i class="icon-delete"></i></a>
+            <span class="action-share"
+                ng-if="$root.READ_ONLY_FLAG"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
+                ng-click="shareToWeibo(photo);$root.GA('photos:photo:share')"
+                ><i class="icon-share"></i></span>
+        </div>
     </div>
     <div class="wdp-progress"></div>
 </div>
