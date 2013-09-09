@@ -1,9 +1,11 @@
 define([
     'io',
-    'underscore'
+    'underscore',
+    'jquery'
 ], function(
     io,
-    _
+    _,
+    $
 ) {
 'use strict';
 
@@ -104,6 +106,17 @@ Socket.prototype = {
                                 self._newTransport();
                                 self._transport.socket.reconnect();
                             } else {
+                                var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
+                                $.ajax({
+                                    type: 'GET',
+                                    url: url,
+                                    dataType: 'jsonp',
+                                    data: {
+                                        did: device.id,
+                                        google_token: wdGoogleSignIn.getStorageItem('googleToken')
+                                    }
+                                });
+
                                 self.trigger('socket:disconnected');
 
                                 $rootScope.$on('socket:connect', function() {
