@@ -43,7 +43,7 @@
 
                     <div class="wdmcr-b" ng-class="{ multiple: c.multiple }">
                         <img ui-if="!c.multiple && c.photo_path" ng-src="{{c.photo_path}}">
-                        <div ui-if="!c.multiple" class="photo-color" ng-class="getPhotoColor">
+                        <div ui-if="!c.multiple && c.displayNames[0]" class="photo-color" ng-class="getPhotoColor">
                             {{c.displayNames[0]|limitTo:1}}
                         </div>
 
