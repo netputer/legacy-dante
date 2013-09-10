@@ -62,6 +62,7 @@ function buildContactsCache() {
             return defer.promise;
         }
 
+        var retryCounter = 3;
         function fetch(offset, blackList) {
             blackList = blackList || {};
             $http.get('/resource/contacts', {
@@ -73,6 +74,7 @@ function buildContactsCache() {
             }).then(function(response) {
                 var data = response.data;
                 offset += data.length;
+                retryCounter = 3;
 
                 var transaction = db.transaction(['contactsIndex'], 'readwrite');
                 var store = transaction.objectStore('contactsIndex');
@@ -104,7 +106,11 @@ function buildContactsCache() {
                         };
                     }
                 };
-
+            }, function() {
+                retryCounter -= 1;
+                if (retryCounter) {
+                    fetch(offset, blackList);
+                }
             });
         }
 
