@@ -11,8 +11,8 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', '$rootScope', 'wdSocket',
-        function($scope,   $rootScope,   wdSocket) {
+                '$scope', '$rootScope', 'wdSocket', 'wdAuthToken',
+        function($scope,   $rootScope,   wdSocket,   wdAuthToken) {
             var connectTimer = null;
             var DELAY_TIME = 10;
             $scope.connectDelayTime = DELAY_TIME;
@@ -33,6 +33,7 @@ return [function() {
             };
 
             wdSocket.on('socket:disconnected', function() {
+                $scope.network = wdAuthToken.getToken().attributes.ssid;
                 $scope.showPanel = true;
 
                 refreshDelayTime();

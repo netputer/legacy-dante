@@ -36,6 +36,7 @@
     "TRY_NOW": "Try now",
     "CONNECT_DELAY_TIME": {
         "pre": "Retrying in",
-        "after" : "seconds"
-    }
+        "after" : "seconds."
+    },
+    "CHECK_SAME_NETWORK": "Make sure your computer is on the Wi-Fi network of "
 }
