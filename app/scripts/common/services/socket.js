@@ -1,12 +1,16 @@
 define([
-    'io'
+    'io',
+    'underscore',
+    'jquery'
 ], function(
-    io
+    io,
+    _,
+    $
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdDevice',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdDevice) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -19,7 +23,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAX_RECONNECTION_ATTEMPTS : 10,
+    MAX_RECONNECTION_ATTEMPTS : 4,
     /**
      * Destroy everything.
      */
@@ -29,9 +33,7 @@ Socket.prototype = {
         return this;
     },
 
-    connect: function() {
-        if (this._transport) { return; }
-
+    _newTransport: function() {
         this._transport = io.connect(wdDev.getSocketServer(), {
             transports: [
                 'websocket',
@@ -42,6 +44,12 @@ Socket.prototype = {
             ],
             'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS
         });
+    },
+
+    connect: function() {
+        if (this._transport) { return; }
+
+        this._newTransport();
 
         this._delegateEventListeners();
 
@@ -71,6 +79,7 @@ Socket.prototype = {
 
         this._transport.on('connect', function() {
             GA('socket:connect');
+            self.trigger('socket:connected');
         });
 
         this._transport.on('disconnect', function disconnect() {
@@ -79,16 +88,59 @@ Socket.prototype = {
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+            var MAX_GET_DEVICES_TIMES = 3;
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
-                $log.error('Socket reconnect failed. Now start connect again.');
+                (function getDevices() {
+                    wdGoogleSignIn.getDevices().then(function(list) {
+                        var device = wdDevice.getDevice();
+                        var currentOnlineDevice = _.find(list, function(item) {
+                            return item.id === device.id;
+                        });
 
-                self._transport.socket.reconnect();
+                        if (currentOnlineDevice) {
+                            if (currentOnlineDevice.ip !== device.ip) {
+                                wdDevice.setDevice(currentOnlineDevice);
+                                wdDev.setServer(currentOnlineDevice.ip);
+
+                                self._newTransport();
+                                self._transport.socket.reconnect();
+                            } else {
+                                var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
+                                $.ajax({
+                                    type: 'GET',
+                                    url: url,
+                                    dataType: 'jsonp',
+                                    data: {
+                                        did: device.id,
+                                        google_token: wdGoogleSignIn.getStorageItem('googleToken')
+                                    }
+                                });
+
+                                self.trigger('socket:disconnected');
+
+                                $rootScope.$on('socket:connect', function() {
+                                    self._transport.socket.reconnect();
+                                });
+                            }
+                        } else {
+                            wdDevice.signout();
+                        }
+                    }, function() {
+                        MAX_GET_DEVICES_TIMES -= 1;
+                        if (MAX_GET_DEVICES_TIMES) {
+                            getDevices();
+                        } else {
+                            wdDevice.signout();
+                        }
+                    });
+                })();
             }
         });
 
         this._transport.on('reconnect', function reconnect() {
             $log.log('Socket reconnected!');
 
+            self.trigger('socket:connected');
             self._transport.emit({
                 type: 'notifications.request',
                 timestamp : lastTimestamp 

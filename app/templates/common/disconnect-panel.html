@@ -1,0 +1,10 @@
+<div ng-class="{'disconnect-panel-show': showPanel}">
+	<a href="" class="close-btn" ng-click="closePanel()">&times;</a>
+	<h3 class="title">{{$root.DICT.app.DISCONNECT_DEVICE}}</h3>
+	<div class=tip>
+		<p class="delay-time">{{$root.DICT.app.CONNECT_DELAY_TIME.pre}} <span class="connect-delay-time">{{connectDelayTime}}</span> {{$root.DICT.app.CONNECT_DELAY_TIME.after}}</p>
+		<p>{{$root.DICT.app.CHECK_SAME_NETWORK}}<span class="network-name">{{network}}.</span></p>
+	</div>
+	<button class="btn btn-primary connect-device" ng-click="connectSocket()">{{$root.DICT.app.TRY_NOW}}</button>
+	<a href="https://snappea.zendesk.com/entries/23341488--Official-Signing-in-to-the-web-version" class="disconnect-help" target="_blank">{{$root.DICT.app.HELP}}</a>
+</div>
