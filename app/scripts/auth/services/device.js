@@ -29,7 +29,8 @@ return function() {
                 valid = false;
             },
             signout: function() {
-                this.clearDevice();
+                // this.clearDevice();
+                this.setDevice({status:'signout'});
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
                 }

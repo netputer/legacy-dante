@@ -10,7 +10,6 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
     var global = {
         authResult : {},
         account : '',
-        currentDevice : {},
 
         //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
         forceShowDevices : false,
@@ -32,17 +31,6 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
                     global.authResult['access_token'] = me.getStorageItem('googleToken');
                 }
                 return global.authResult;
-            }
-        },
-
-        //取得或者设置currentDevice
-        currentDevice : function (data) {
-            var me = this;
-            if(!data){
-                return global.currentDevice;
-            }else{
-                global.currentDevice = data;
-                wdDevice.setDevice(data);
             }
         },
 
@@ -162,7 +150,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
 
         signOut : function () {
             var defer = $q.defer();
-            this.currentDevice({});
+            wdDevice.clearDevice();
             this.removeStorageItem('googleToken');
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({

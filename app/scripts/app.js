@@ -109,7 +109,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['wdDevice', '$q', 'wdGoogleSignIn', 'wdAlert', '$rootScope', function(wdDevice, $q, wdGoogleSignIn, wdAlert ,$rootScope) {
+                signout: ['wdDevice', '$q', 'wdAlert', '$rootScope', function(wdDevice, $q, wdAlert ,$rootScope) {
                     wdAlert.confirm(
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
@@ -117,7 +117,6 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
                         wdDevice.signout();
-                        wdGoogleSignIn.currentDevice({status:'signout'});
                     },function(){
 
                     });

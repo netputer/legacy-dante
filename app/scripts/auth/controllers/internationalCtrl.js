@@ -93,7 +93,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     stopLoopGetDevices();
                     stopLoopLinkDevices();
                     wdGoogleSignIn.setHasAccessdDevice();
-                    wdGoogleSignIn.currentDevice(deviceData);
+                    wdDevice.setDevice(deviceData);
                     $scope.isLoadingDevices = false;
                     keeper.done();
                     $scope.state = 'standby';
@@ -380,7 +380,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if ( wdGoogleSignIn.getHasAccessdDevice() ) {
                 $scope.isLoadingDevices = true;
                 //用户是想要切换到另一个设备
-                var item = wdGoogleSignIn.currentDevice();
+                var item = wdDevice.getDevice();
                 //判断用户是否在设备数据页面退出
                 if (!!item.status && item.status === 'signout') {
                     $scope.googleSignOut();
