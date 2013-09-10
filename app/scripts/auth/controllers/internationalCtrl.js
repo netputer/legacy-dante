@@ -66,7 +66,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             deviceData = deviceData || wdDevice.getDevice();
             var authCode = deviceData['authcode'];
             var ip = deviceData['ip'];
-            var port = 10208;
 
             var keeper = null;
 
@@ -74,7 +73,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if (ip) {
                 // Send auth request.
                 $scope.state = 'loading';
-                wdDev.setServer(ip, port);
+                wdDev.setServer(ip);
                 keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
                 var timeStart = (new Date()).getTime();
                 $http({
@@ -248,7 +247,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.ping = function(item) {
             if (!item.pingStatus) {
                 item.pingStatus = true;
-                wdDev.ping('//' + item.ip + ':10208').then(function() {
+                wdDev.ping( item.ip ).then(function() {
                     item.pingStatus = true;
                 }, function() {
                     item.pingStatus = false;
