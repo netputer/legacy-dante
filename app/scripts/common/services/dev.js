@@ -24,8 +24,7 @@ return function() {
     };
     self.setServer = function(newIP, newPort) {
         ip = newIP;
-        // port = newPort;
-        port = 10208;
+        port = newPort;
     };
     self.getMetaData = function(key) {
         return meta[key];

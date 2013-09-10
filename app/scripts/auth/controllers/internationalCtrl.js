@@ -119,7 +119,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             // $scope.isLoadingDevices = false;
                         });
                     }
-                    wdDevice.clearToken();
+                    wdDevice.clearDevice();
                     loopGetDevices();
 
                     keeper.done();
@@ -130,7 +130,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
                         $scope.error = false;
                     }, 5000);
-                    wdDevice.clearToken();
+                    wdDevice.clearDevice();
                     var action;
                     var duration = Date.now() - timeStart;
                     if (status === 0) {
@@ -261,7 +261,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             stopLoopLinkDevices();
             stopLoopGetDevices();
-            wdDevice.clearToken();
+            wdDevice.clearDevice();
             wdGoogleSignIn.signOut();
             wdGoogleSignIn.removeStorageItem('googleToken');
             //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。

@@ -144,7 +144,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
                     $log.log('Getting devices success!',data);
                     var list = [];
                     data.forEach(function(v, i) {
-                        if(v.ip) {
+                        if (v.ip) {
                             list.push(v);
                         }
                     });
