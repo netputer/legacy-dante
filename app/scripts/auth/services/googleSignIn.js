@@ -5,12 +5,11 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', function ( $http, $q, $rootScope, $log, $window, GA, $timeout ) {
+return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', function ( $http, $q, $rootScope, $log, $window, GA, $timeout, wdDevice) {
 
     var global = {
         authResult : {},
         account : '',
-        currentDevice : {},
 
         //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
         forceShowDevices : false,
@@ -32,17 +31,6 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                     global.authResult['access_token'] = me.getStorageItem('googleToken');
                 }
                 return global.authResult;
-            }
-        },
-
-        //取得或者设置currentDevice
-        currentDevice : function (data) {
-            var me = this;
-            if(!data){
-                return global.currentDevice;
-            }else{
-                global.currentDevice = data;
-                me.setStorageItem('currentDevice', JSON.stringify(data));
             }
         },
 
@@ -142,7 +130,13 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
                 GA('check_sign_in:get_devices:success');
                 $rootScope.$apply(function() {
                     $log.log('Getting devices success!',data);
-                    defer.resolve(data);
+                    var list = [];
+                    data.forEach(function(v, i) {
+                        if (v.ip) {
+                            list.push(v);
+                        }
+                    });
+                    defer.resolve(list);
                 });
             }).fail(function( xhr ) {
                 GA('check_sign_in:get_devices:failed_'+ xhr.status );
@@ -156,7 +150,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', functio
 
         signOut : function () {
             var defer = $q.defer();
-            this.currentDevice({});
+            wdDevice.clearDevice();
             this.removeStorageItem('googleToken');
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({

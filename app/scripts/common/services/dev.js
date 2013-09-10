@@ -5,6 +5,7 @@ define([
     ) {
 'use strict';
 return function() {
+    var DEFAULT_DEVICE_PORT = 10208;
     var ip = '';
     var port = '';
     var meta = {};
@@ -20,7 +21,7 @@ return function() {
         return ip ? ('//' + ip + ':' + 10209) : '';
     };
     self.getServer = function() {
-        return ip ? ('//' + ip + ':' + (port || 10208)) : '';
+        return ip ? ('//' + ip + ':' + (port || DEFAULT_DEVICE_PORT )) : '';
     };
     self.setServer = function(newIP, newPort) {
         ip = newIP;
@@ -62,10 +63,12 @@ return function() {
                 });
                 return key ? params[key] : params;
             },
-            ping: function(url) {
+            ping: function( host, port ) {
+                port = port || DEFAULT_DEVICE_PORT;
                 var defer = $q.defer();
                 var image = new Image();
                 var timeout = null;
+                var url = '//' + host + ':' + port;
 
                 url += '?_=' + Date.now();
                 image.onload = image.onerror = function(e) {
@@ -89,9 +92,6 @@ return function() {
                 }, 1500);
 
                 return defer.promise;
-            },
-            pingServer: function() {
-                return this.ping(this.getServer());
             }
         };
     }];

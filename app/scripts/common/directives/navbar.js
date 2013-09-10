@@ -11,10 +11,10 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA',
-        function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA) {
+                '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
+                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice',
+        function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
+                 wdAlert,   $window, GA, $rootScope, wdDevice) {
             $scope.messageNotification = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.shownLanguageModal = false;
@@ -45,7 +45,7 @@ return [function() {
 
             //处理原始的设备列表数据
             function getListData (list) {
-                var ip = wdGoogleSignIn.currentDevice().ip;
+                var ip = wdDevice.getDevice().ip;
                 for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
                     if ( ip === list[i]['ip'] ) {
                         list[i]['selected'] = true;
@@ -57,14 +57,13 @@ return [function() {
             }
 
             $scope.signout = function() {
-                wdGoogleSignIn.currentDevice({status:'signout'});
-                wdAuthToken.signout();
+                wdDevice.signout();
             };
 
             $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
-                    wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
+                if(item['ip'] !== wdDevice.getDevice().ip){
+                    wdDevice.signout();
+                    wdDevice.setDevice(item);
                 }
             };
 

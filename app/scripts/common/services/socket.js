@@ -9,8 +9,8 @@ define([
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdAuthToken',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdAuthToken) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdDevice',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdDevice) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -92,16 +92,15 @@ Socket.prototype = {
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
                 (function getDevices() {
                     wdGoogleSignIn.getDevices().then(function(list) {
-                        var device = wdAuthToken.getToken();
+                        var device = wdDevice.getDevice();
                         var currentOnlineDevice = _.find(list, function(item) {
                             return item.id === device.id;
                         });
 
                         if (currentOnlineDevice) {
                             if (currentOnlineDevice.ip !== device.ip) {
-                                wdAuthToken.setToken(currentOnlineDevice);
+                                wdDevice.setDevice(currentOnlineDevice);
                                 wdDev.setServer(currentOnlineDevice.ip);
-                                wdGoogleSignIn.currentDevice(currentOnlineDevice);
 
                                 self._newTransport();
                                 self._transport.socket.reconnect();
@@ -124,14 +123,14 @@ Socket.prototype = {
                                 });
                             }
                         } else {
-                            wdAuthToken.signout();
+                            wdDevice.signout();
                         }
                     }, function() {
                         MAX_GET_DEVICES_TIMES -= 1;
                         if (MAX_GET_DEVICES_TIMES) {
                             getDevices();
                         } else {
-                            wdAuthToken.signout();
+                            wdDevice.signout();
                         }
                     });
                 })();

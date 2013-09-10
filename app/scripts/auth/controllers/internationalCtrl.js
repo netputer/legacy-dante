@@ -2,12 +2,12 @@ define([
 ], function() {
 'use strict';
 
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment',
-function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment) {
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment',
+function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment) {
 
         $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
-        $scope.auth = wdAuthToken.getToken() || '';
+        $scope.auth = wdDevice.getDevice() || '';
         $scope.autoAuth = !!$scope.auth;
         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
         $scope.error = '';
@@ -63,10 +63,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 return;
             }
 
-            deviceData = deviceData || wdAuthToken.getToken();
+            deviceData = deviceData || wdDevice.getDevice();
             var authCode = deviceData['authcode'];
             var ip = deviceData['ip'];
-            var port = 10208;
 
             var keeper = null;
 
@@ -74,7 +73,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if (ip) {
                 // Send auth request.
                 $scope.state = 'loading';
-                wdDev.setServer(ip, port);
+                wdDev.setServer(ip);
                 keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
                 var timeStart = (new Date()).getTime();
                 $http({
@@ -94,14 +93,14 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     stopLoopGetDevices();
                     stopLoopLinkDevices();
                     wdGoogleSignIn.setHasAccessdDevice();
-                    wdGoogleSignIn.currentDevice(deviceData);
+                    wdDevice.setDevice(deviceData);
                     $scope.isLoadingDevices = false;
                     keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_SUCCESS;
                     // TODO: Maybe expiration?
-                    wdAuthToken.setToken(deviceData);
-                    wdAuthToken.startSignoutDetection();
+                    wdDevice.setDevice(deviceData);
+                    wdDevice.startSignoutDetection();
                     wdDev.setMetaData(response);
                     $location.url($route.current.params.ref || '/');
                     $rootScope.$broadcast('signin');
@@ -119,7 +118,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             // $scope.isLoadingDevices = false;
                         });
                     }
-                    wdAuthToken.clearToken();
+                    wdDevice.clearDevice();
                     loopGetDevices();
 
                     keeper.done();
@@ -130,7 +129,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
                         $scope.error = false;
                     }, 5000);
-                    wdAuthToken.clearToken();
+                    wdDevice.clearDevice();
                     var action;
                     var duration = Date.now() - timeStart;
                     if (status === 0) {
@@ -248,7 +247,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.ping = function(item) {
             if (!item.pingStatus) {
                 item.pingStatus = true;
-                wdDev.ping('//' + item.ip + ':10208').then(function() {
+                wdDev.ping( item.ip ).then(function() {
                     item.pingStatus = true;
                 }, function() {
                     item.pingStatus = false;
@@ -261,18 +260,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             stopLoopLinkDevices();
             stopLoopGetDevices();
-            wdGoogleSignIn.signOut().then(function() {
-                // wdGoogleSignIn.render();
-                // googleInit();
-                // $scope.deviceNum = -1;
-                // $scope.isLoadingDevices = false;
-                wdAuthToken.clearToken();
-                wdGoogleSignIn.removeStorageItem('googleToken');
-                //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
-                $window.location.reload();
-            },function() {
-                $scope.googleSignOut();
-            });
+            wdDevice.clearDevice();
+            wdGoogleSignIn.signOut();
+            wdGoogleSignIn.removeStorageItem('googleToken');
+            //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
+            $window.location.reload();
         };
 
         $scope.showConnectNewPhone = function () {
@@ -360,7 +352,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     showDevicesList( list );
                     $scope.autoAuth = false;
                 }
-            },function() {});
+            },function() {
+                autoSignInGoogle();
+            });
         }
 
         //如果用户登录过，自动去 Google 刷新一下token.
@@ -386,7 +380,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if ( wdGoogleSignIn.getHasAccessdDevice() ) {
                 $scope.isLoadingDevices = true;
                 //用户是想要切换到另一个设备
-                var item = wdGoogleSignIn.currentDevice();
+                var item = wdDevice.getDevice();
                 //判断用户是否在设备数据页面退出
                 if (!!item.status && item.status === 'signout') {
                     $scope.googleSignOut();
