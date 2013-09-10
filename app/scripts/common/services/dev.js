@@ -64,7 +64,7 @@ return function() {
                 return key ? params[key] : params;
             },
             ping: function( host, port ) {
-                var port = port || DEFAULT_DEVICE_PORT;
+                port = port || DEFAULT_DEVICE_PORT;
                 var defer = $q.defer();
                 var image = new Image();
                 var timeout = null;
@@ -92,9 +92,6 @@ return function() {
                 }, 1500);
 
                 return defer.promise;
-            },
-            pingServer: function() {
-                return this.ping(this.getServer());
             }
         };
     }];
