@@ -31,8 +31,7 @@ return function() {
             
             //从设备退出到设备列表
             signout: function() {
-                // this.clearDevice();
-                this.setDevice({status:'devicesList'});
+                this.setDevice({status:'devices'});
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
                 }

@@ -116,7 +116,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
-                        wdGoogleSignIn.signOut();
+                        wdGoogleSignIn.signout();
                     },function(){
 
                     });

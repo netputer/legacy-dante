@@ -148,12 +148,10 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
             return defer.promise;
         },
 
-        signOut : function () {
+        signout : function () {
             var defer = $q.defer();
-            this.setHasAccessdDevice();
-            wdDevice.clearDevice();
+            this.removeStorageItem('googleToken');
             wdDevice.signout();
-            wdDevice.setDevice({status:'signout'});
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({
                 type: 'GET',
@@ -165,7 +163,7 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
                     // 客户取消了关联，据此执行相应操作
                     // 回应始终为未定义。
                     global.authResult = {};
-                    defer.resolve('signOut');
+                    defer.resolve('signout');
                     $rootScope.$apply();
                 },
                 error: function(e) {

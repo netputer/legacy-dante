@@ -57,7 +57,7 @@ return [function() {
             }
 
             $scope.signout = function() {
-                wdGoogleSignIn.signOut();
+                wdGoogleSignIn.signout();
             };
 
             $scope.changeDevice = function (item) {
