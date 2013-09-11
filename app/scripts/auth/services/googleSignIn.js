@@ -150,8 +150,10 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
 
         signOut : function () {
             var defer = $q.defer();
+            this.setHasAccessdDevice();
             wdDevice.clearDevice();
-            this.removeStorageItem('googleToken');
+            wdDevice.signout();
+            wdDevice.setDevice({status:'signout'});
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({
                 type: 'GET',

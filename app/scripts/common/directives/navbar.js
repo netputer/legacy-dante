@@ -57,8 +57,7 @@ return [function() {
             }
 
             $scope.signout = function() {
-                wdDevice.signout();
-                wdDevice.setDevice({status:'signout'});
+                wdGoogleSignIn.signOut();
             };
 
             $scope.changeDevice = function (item) {
