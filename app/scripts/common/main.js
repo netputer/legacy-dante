@@ -25,7 +25,8 @@ define([
     'common/directives/auto-stretch-textarea',
     'common/directives/temporary-disabled',
     'common/directives/sidebar',
-    'common/services/db'
+    'common/services/db',
+    'common/directives/nav-item'
 ], function(
     angular,
     loading,
@@ -53,7 +54,8 @@ define([
     autoStretchTextarea,
     temporaryDisabled,
     sidebar,
-    db
+    db,
+    navItem
 ) {
 // jshint unused:false
 'use strict';
@@ -63,6 +65,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdAutoFocus', autofocus)
     .directive('wdAutoStretchTextarea', autoStretchTextarea)
     .directive('wdNavbar', navbar)
+    .directive('wdNavItem', navItem)
     .directive('wdStrip', strip)
     .directive('wdLoading', loading)
     .directive('wdAlert', alertDirecitve)

@@ -17,7 +17,7 @@ return [function() {
         function($scope,   wdAuthToken,   wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
                  $q,   wdToast,   $timeout) {
-            $scope.isLoadingDevices = true;
+            $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
 
@@ -83,7 +83,7 @@ return [function() {
                 clearLayersStatus();
                 $scope.settingsDefault = true;
                 $scope.devicesHide = true;
-            });     
+            });
 
             $rootScope.$on('sidebar:settings:animate', function() {
                 clearLayersStatus();
@@ -96,7 +96,7 @@ return [function() {
                 clearLayersStatus();
                 $scope.settingsDefault = true;
                 $scope.devicesHide = true;
-            });     
+            });
 
             $scope.addNewPhone = function () {
                 $scope.isShowChangeDevicesPop = true;

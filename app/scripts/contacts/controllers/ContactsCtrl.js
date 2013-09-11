@@ -15,14 +15,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //默认头像显示颜色
     var photoColorList = [
-        'contact-photo-bg-green', 
-        'contact-photo-bg-red', 
-        'contact-photo-bg-blue', 
-        'contact-photo-bg-pink', 
-        'contact-photo-bg-orange', 
-        'contact-photo-bg-wheat', 
-        'contact-photo-bg-olive-green', 
-        'contact-photo-bg-blue-green', 
+        'contact-photo-bg-green',
+        'contact-photo-bg-red',
+        'contact-photo-bg-blue',
+        'contact-photo-bg-pink',
+        'contact-photo-bg-orange',
+        'contact-photo-bg-wheat',
+        'contact-photo-bg-olive-green',
+        'contact-photo-bg-blue-green',
         'contact-photo-bg-light-green'
     ];
 
@@ -136,8 +136,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             G_keyContact = wdKey.push('contacts');
         }
 
-        if( G_list.length < 1 && l<1 ){
-            $('.wdj-contacts .wd-blank').show();
+        if (G_list.length < 1 && l < 1) {
+            $scope.isNoneContacts = true;
         }
 
         for(var i = 0; i<l; i += 1 ){
@@ -1122,6 +1122,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     $scope.isCancelBtnShow = false;
     $scope.isNewContactDisable = true;
     $scope.isSendMessageShow = false;
+    $scope.isNoneContacts = false;
 
     //被选中的数量
     $scope.selectedNum = 0;

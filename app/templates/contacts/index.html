@@ -72,7 +72,7 @@
     <!-- 右侧布局 -->
     <div class="right">
 
-        <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isRightLoadShow"></div>
+        <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isRightLoadShow && !isNoneContacts"></div>
 
         <!-- 查看和编辑用户信息 -->
         <div class="contacts-edit" ng-show="isContactsEditShow">
@@ -279,7 +279,7 @@
     <!-- 右侧布局 end -->
 
     <!-- 为空检测 -->
-    <div class="wd-blank dn">
+    <div class="wd-blank dn" ng-show="isNoneContacts">
         <p>{{$root.DICT.contacts.NO_CONTACT}}<p>
         <div ng-if="!$root.READ_ONLY_FLAG" class="btn btn-primary"
             ng-click="addNewContact();"><i class="icon-add"></i>{{$root.DICT.contacts.BUTTONS.newContact}}</div>
