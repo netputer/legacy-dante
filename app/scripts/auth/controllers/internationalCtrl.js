@@ -382,14 +382,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 //用户是想要切换到另一个设备
                 var item = wdDevice.getDevice();
                 //判断用户是否在设备数据页面退出
-                if (!!item.status && item.status === 'signout') {
+                if ( !!item.status && item.status === 'signout' ) {
                     $scope.googleSignOut();
-                    return;
-                }
-                //判断用户是否要切换设备
-                if (!!item && !!item.ip) {
-                    $scope.submit(item);
-                } else {
+                } else if ( !!item.status && item.status === 'devicesList' ) {
                     wdGoogleSignIn.getDevices().then(function(list) {
                         if ($scope.autoAuth) {
                             $scope.isLoadingDevices = true;
@@ -413,6 +408,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                             $scope.googleSignOut();
                         });
                     });
+                } else if( !!item && !!item.ip ) {
+                    //切换设备
+                    $scope.submit(item);
                 }
                 return true;
             } else {

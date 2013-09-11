@@ -117,6 +117,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
                         wdDevice.signout();
+                        wdDevice.setDevice({status:'signout'});
                     },function(){
 
                     });
