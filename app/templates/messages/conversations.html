@@ -33,16 +33,16 @@
                     ng-repeat="c in cvs()"
                     ng-class="{ selected: c.selected, highlight: c == activeConversation }"
                     ng-click="showConversation(c)">
-                    
+
                     <div wd-checkbox class="wdmcr-a"
                         ng-class="{'wd-checkbox-light': c != activeConversation}"
                         ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)"
                         bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}"
                         data-options="{offset: -15}"
-                        ng-model="c.selected"></div>
+                        ng-checked="c.selected"></div>
 
                     <div class="wdmcr-b" ng-class="{ multiple: c.multiple }">
-                        
+
                         <img ui-if="!c.multiple && c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}">
                         <div ui-if="!c.multiple && !c.photo_paths[0] && c.displayNames[0] && !isDisplayNamePhoneNumber(c.displayNames[0])" class="photo-color" ng-class="getPhotoColor">
                             {{c.displayNames[0]|limitTo:1}}
@@ -50,12 +50,12 @@
 
                         <!-- 两个联系人的情况 -->
                         <div ui-if="c.multiple && c.displayNames.length === 2" class="photo-color contact-photo-bg-white">
-                            
+
                             <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="half-photos mr2">
                             <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="half-photos mr2" ng-class="getPhotoColor">
                                 {{c.displayNames[0]|limitTo:1}}
                             </div>
-                            
+
                             <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="half-photos">
                             <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="half-photos" ng-class="getPhotoColor">
                                 {{c.displayNames[1]|limitTo:1}}
@@ -87,7 +87,7 @@
 
                         <!-- 四个联系人的情况 -->
                         <div ui-if="c.multiple && c.displayNames.length >= 4" class="photo-color contact-photo-bg-white">
-                            
+
                             <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="quarter-photos mr2 mb2">
                             <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="quarter-photos mr2 mb2" ng-class="getPhotoColor">
                                 {{c.displayNames[0]|limitTo:1}}
