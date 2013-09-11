@@ -61,7 +61,24 @@ return [function() {
                 }
             });
 
-        }]
+        }],
+        link: function($scope, $element, $attrs, $controller) {
+            var highlight = $element.find('.active-module-bg');
+            $controller.highlightMoveTo = function(offset) {
+                if (!highlight.hasClass('ready')) {
+                    highlight.offset(offset).width();
+                    highlight.addClass('ready');
+                }
+                else {
+                    highlight.offset(offset);
+                }
+            };
+
+            $scope.$on('signout', function() {
+                highlight.removeClass('ready');
+                $scope.currentModule = null;
+            });
+        }
     };
 }];
 });

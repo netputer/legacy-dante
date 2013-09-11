@@ -1,28 +1,29 @@
 <div class="navigator">
     <div class="navigator-inner">
         <div class="brand">
-            <i class="icon-logo64" ng-class="$root.READ_ONLY_FLAG ? 'icon-logo64-no-word' : 'icon-logo64'"></i>
+            <i class="icon-logo64"></i>
         </div>
+        <div class="active-module-bg"></div>
         <ul class="nav nav-modules">
-            <li ng-class="{ active: currentModule == 'photos' }">
+            <li wd-nav-item="photos">
                 <a href="#/photos"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_PHOTOS_TIP}}"
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:photos')"><i class="icon-img"></i></a>
             </li>
-            <li ng-class="{ active: currentModule == 'messages', notification: messageNotification }">
+            <li ng-class="{notification: messageNotification }" wd-nav-item="messages">
                 <a href="#/messages"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_MESSAGES_TIP}}"
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:sms')"><i class="icon-sms"></i></a>
             </li>
-            <li ng-class="{ active: currentModule == 'contacts' }">
+            <li wd-nav-item="contacts">
                 <a href="#/contacts"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_CONTACTS_TIP}}"
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:contacts')"><i class="icon-contact"></i></a>
             </li>
-            <li ng-class="{ active: currentModule == 'applications' }">
+            <li wd-nav-item="applications">
                 <a href="#/applications"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_APPS_TIP}}"
                     data-options="{placement: 'right'}"
@@ -31,8 +32,8 @@
         </ul>
         <ul class="nav nav-settings">
             <li ng-show="!$root.READ_ONLY_FLAG">
-                <a href="" 
-                    bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}" 
+                <a href=""
+                    bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}"
                     ng-click="controlSidebar('devices')" data-options="{placement: 'right'}">
                     <i class="icon-phoneswitch"></i>
                 </a>

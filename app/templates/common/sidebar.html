@@ -10,7 +10,7 @@
                     </li>
                 </ul>
                 <div class="devices-loading-container" ng-show="isLoadingDevices">
-                    <div class="wd-loading wd-loading-local devices-loading" data-visible="isLoadingDevices"></div>
+                    <div class="wd-loading wd-loading-local devices-loading" data-visible="true" ng-show="isLoadingDevices"></div>
                 </div>
             </div>
             <a href="" ng-click="addNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
@@ -26,7 +26,7 @@
                         <span class="email">{{account}}</span>
                     </div>
                 </div>
-            
+
                 <div class="language" ng-if="!$root.READ_ONLY_FLAG">
                     <h3 class="language-title title">{{$root.DICT.app.LANGUAGE_TIP}}</h3>
                     <ul class="unstyled language-list">
@@ -85,7 +85,7 @@
                         href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
                         {{$root.DICT.app.FEEDBACK}}
                     </a>
-                    <a ng-if="!$root.READ_ONLY_FLAG" target="_blank" 
+                    <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
                         href="http://www.google.com/url?q=http%3A%2F%2Fcrowdin.net%2Fproject%2Fsnappea-android&sa=D&sntz=1&usg=AFQjCNErUDlsfoTT5hjo-3m3gkUUzdvMwA">
                         {{$root.DICT.app.TRANSLATE}}
                     </a>
