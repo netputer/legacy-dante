@@ -39,6 +39,10 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
     var me = this;
 
+    function encodeReg (source) {
+        return String(source).replace(/([.*+?^=!:${}()|[\]/\\])/g,'\\$1');
+    }
+
     //获取数据
     function getData( offset, length, cursor ) {
         cursor = cursor || 0;
@@ -98,6 +102,24 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         }
     }
 
+    //过滤出给短信搜索的数据结构
+    function filterSmsSearchContacts( searchList ) {
+        var list = [];
+        _.each(searchList, function(value) {
+            if( value.phone[0] ){
+
+                //给简版的逻辑
+                _.each(value.phone, function(v) {
+                    list.push({
+                        name: value.name.display_name,
+                        phone: v.number
+                    });
+                });
+            }
+        });
+        return list;
+    }
+
     //整个service返回接口
     return {
 
@@ -136,13 +158,17 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         },
 
         //根据query搜索联系人
-        searchContacts : function(query ,options, cache) {
+        searchContacts : function(query ,options) {
+
+            options = options || {};
 
             //是否查找email数据
-            options = options || {};
             options.sms = options.sms || false;
+
+            //是否从 cache （ 目前是 indexDB ）中读取数据
+            var searchCache = !!options.cache;
+            
             var defer = $q.defer();
-            var searchCache = !!cache;
 
             //如果没有加载过联系人数据，则自动启动启动加载
             if(!global.contacts.length && !searchCache){
@@ -152,6 +178,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             }
 
             query = query.toLocaleLowerCase();
+
 
             var search = function(query , offset , length) {
 
@@ -192,12 +219,11 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
                     //返回的简版数据
                     var smsList = [];
-                    _.each(cache || global.contacts, function(value) {
+                    _.each(options.cache || global.contacts, function(value) {
 
                         //首先查找名字
-                        if (!!value.name.display_name &&
-                            value.name.display_name.toLocaleLowerCase().replace(/\s/g,'').match(new RegExp('^' + query, 'g'))) {
-                            list.push(value);
+                        if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').match( new RegExp( '^' + encodeReg(query) , 'g' ) ) ) ){
+                            list.push( value );
 
                             //给简版的逻辑
                             if (options.sms){
@@ -218,9 +244,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                             for(var o = 0, p = query.length; o < p; o += 1) {
                                 regstr = regstr + query[o] + '.*?';
                             }
-                            var regexp = new RegExp(regstr,'g') ;
-                            if (item.match(regexp)) {
-                                list.push(value);
+                            var regexp = new RegExp(encodeReg(regstr),'g') ;
+                            if ( item.match( regexp ) ) {
+                                list.push( value );
 
                                 //给简版的逻辑
                                 if (options.sms){

@@ -14,7 +14,7 @@ return {
     search: function(query) {
         var cache = wdmConversations.getContactsCache();
         if (cache) {
-            return wdcContacts.searchContacts(query, {sms: true}, cache);
+            return wdcContacts.searchContacts(query, {sms: true, cache: cache});
         }
         else {
             return wdcContacts.searchContacts(query, {sms: true});

@@ -131,6 +131,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         //第一次数据已经载入
         if(G_isFirst){
+            $scope.isLoadMoreBtnShow = true;
             $scope.isLeftLoadingShow = false;
             $scope.isNewContactDisable = false;
             G_keyContact = wdKey.push('contacts');
@@ -244,33 +245,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             $scope.contact = data;
             $scope.isContactsEditShow = true;
-
-            //样式相关处理
-            if(G_dataFinish){
-                if(G_searchList.length>0){
-                    if($scope.pageList.length < G_searchList.length){
-                        $scope.isLoadMoreBtnShow = true;
-                    }else{
-                        $scope.isLoadMoreBtnShow = false;
-                    }
-                }else{
-                    if($scope.pageList.length < G_list.length){
-                        $scope.isLoadMoreBtnShow = true;
-                    }else{
-                        $scope.isLoadMoreBtnShow = false;
-                    }
-                }
-            }else{
-                if(G_searchList.length>0){
-                    if( $scope.pageList.length < G_searchList.length ){
-                        $scope.isLoadMoreBtnShow = true;
-                    }else{
-                        $scope.isLoadMoreBtnShow = false;
-                    }
-                }else{
-                    $scope.isLoadMoreBtnShow = true;
-                }
-            }
             $scope.isEditBtnShow = true;
             $scope.isDelBtnShow = true;
             $scope.isSaveBtnShow = false;
@@ -450,7 +424,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 }
             }
 
-            $scope.loadMore();
             if(!!G_clicked && !!G_clicked['clicked']){
                 G_clicked.clicked = false;
             }
@@ -1041,7 +1014,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //搜索联系人功能
     $scope.searchContacts = function(){
-        $scope.isLoadMoreBtnShow = false;
         $scope.isListLoadShow = true;
         $scope.pageList = [];
         G_searchList = [];
@@ -1058,6 +1030,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.isListLoadShow = false;
             $scope.isRightLoadShow = false;
             $scope.isContactsEditShow = true;
+            $scope.isLoadMoreBtnShow = true;
             for(var i = 0 , l = data.length ; i < l ; i += 1 ){
                 G_searchList.push(getListItem(data[i]));
             }
@@ -1066,11 +1039,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isNoContactsShow = false;
                 G_clicked['clicked'] = false;
                 $scope.pageList = G_searchList.slice(0,DATA_LENGTH_ONCE);
-                if($scope.pageList.length < G_searchList.length){
-                    $scope.isLoadMoreBtnShow = true;
-                }else{
-                    $scope.isLoadMoreBtnShow = false;
-                }
                 $scope.pageList[0]['clicked'] = true;
                 G_clicked = $scope.pageList[0];
                 showContacts($scope.pageList[0]['id']);
