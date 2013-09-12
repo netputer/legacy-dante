@@ -10,6 +10,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
     var global = {
         authResult : {},
         account : '',
+        profileInfo: '',
 
         //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
         forceShowDevices : false,
@@ -108,6 +109,44 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             return defer.promise;
         },
 
+        getProfileInfo: function() {
+            var defer = $q.defer();
+            var gapi = $window.gapi;
+
+            if(!global.profileInfo) {
+                var authResult = global.authResult;
+                var isTimeout;
+
+                gapi.client.load('plus','v1', function() {
+                    var request = gapi.client.plus.people.get({
+                       'userId': 'me'
+                    });
+
+                    request.execute(function(obj) {
+                        if( isTimeout !== true ) {
+                            isTimeout = false;
+
+                            $rootScope.$apply(function() {
+                                global.profileInfo = obj;
+                                defer.resolve(global.profileInfo); 
+                            });
+                        }
+                    });
+                });
+
+                $timeout(function() {
+                    if(isTimeout !== false) {
+                        isTimeout = true;
+                        defer.reject();
+                    }
+                },10000);
+            } else {
+                defer.resolve(global.profileInfo);
+            }
+
+            return defer.promise;
+        },
+
         getDevices : function () {
             $log.log('Connecting for getting devices...');
             GA('check_sign_in:get_devices_all:all');
@@ -151,7 +190,9 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         signout : function () {
             var me = this;
             var defer = $q.defer();
+
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
+
             $.ajax({
                 type: 'GET',
                 url: revokeUrl,
@@ -163,15 +204,16 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                     // 回应始终为未定义。
                     me.removeStorageItem('googleToken');
                     wdDevice.signout();
-                    global.authResult = {};
-                    defer.resolve('signout');
-                    $rootScope.$apply();
+                    
+                    $rootScope.$apply(function() {
+                        global.authResult = {};
+                        defer.resolve('signout');
+                    });
                 },
                 error: function(e) {
-                  // 处理错误
-                  // console.log(e);
-                  // 如果失败，您可以引导用户手动取消关联
-                  // https://plus.google.com/apps
+                    $rootScope.$apply(function() {
+                        defer.reject();
+                    });
                 }
             });
             return defer.promise;

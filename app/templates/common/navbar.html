@@ -1,28 +1,29 @@
 <div class="navigator">
     <div class="navigator-inner">
         <div class="brand">
-            <i class="icon-logo64" ng-class="$root.READ_ONLY_FLAG ? 'icon-logo64-no-word' : 'icon-logo64'"></i>
+            <i class="icon-logo64"></i>
         </div>
+        <div class="active-module-bg"></div>
         <ul class="nav nav-modules">
-            <li ng-class="{ active: currentModule == 'photos' }">
+            <li wd-nav-item="photos">
                 <a href="#/photos"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_PHOTOS_TIP}}"
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:photos')"><i class="icon-img"></i></a>
             </li>
-            <li ng-class="{ active: currentModule == 'messages', notification: messageNotification }">
+            <li ng-class="{notification: messageNotification }" wd-nav-item="messages">
                 <a href="#/messages"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_MESSAGES_TIP}}"
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:sms')"><i class="icon-sms"></i></a>
             </li>
-            <li ng-class="{ active: currentModule == 'contacts' }">
+            <li wd-nav-item="contacts">
                 <a href="#/contacts"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_CONTACTS_TIP}}"
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:contacts')"><i class="icon-contact"></i></a>
             </li>
-            <li ng-class="{ active: currentModule == 'applications' }">
+            <li wd-nav-item="applications">
                 <a href="#/applications"
                     bs-tooltip="{{$root.DICT.app.NAVBAR_APPS_TIP}}"
                     data-options="{placement: 'right'}"
@@ -30,106 +31,18 @@
             </li>
         </ul>
         <ul class="nav nav-settings">
-            <li wd-menu ng-show="!$root.READ_ONLY_FLAG">
-                <a href="" wd-menu-trigger bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}" ng-click="open()" data-options="{placement: 'right'}">
+            <li ng-show="!$root.READ_ONLY_FLAG">
+                <a href=""
+                    bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}"
+                    ng-click="controlSidebar('devices')" data-options="{placement: 'right'}">
                     <i class="icon-phoneswitch"></i>
                 </a>
-                <div wd-menu-popover placement="right" loading="isLoadDevices">
-                    <div class="menu-item-div" ng-repeat="item in devicesList" wd-menu-item ng-hide="isLoadDevices" ng-click="changeDevice(item)">
-                        <i class="icon-checklight" ng-class="{'selected':item.selected,'unselected':!item.selected}"></i>&nbsp;{{item.model}}&nbsp;&nbsp;&nbsp;</div>
-                    <div wd-menu-sep ng-if="!isLoadDevices"></div>
-                    <div wd-menu-item ng-hide="isLoadDevices" ng-click="clickAddNewPhone();">
-                        <i class="icon-add"></i>&nbsp;{{$root.DICT.app.NAVBAR_NEW_PHONE_TIP}}</div>
-                </div>
             </li>
-            <li wd-menu>
+            <li>
                 <a href=""
                     bs-tooltip="{{$root.DICT.app.NAVBAR_SETTING_TIP}}"
-                    data-options="{placement: 'right'}"
-                    wd-menu-trigger><i class="icon-setting"></i></a>
-                <div class="menu"
-                    wd-menu-popover
-                    placement="right">
-                    <div wd-menu-item
-                        ng-if="!$root.READ_ONLY_FLAG"
-                        ng-click="$parent.$parent.shownLanguageModal=true">
-                        <i class="icon-i18n"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_LANGUAGE_TIP}}
-                    </div>
-                    <div wd-menu-item>
-                        <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
-                            href="http://snappea.zendesk.com/forums/21871852-Web-version">
-                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.HELP}}
-                        </a>
-                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
-                            href="http://help.wandoujia.com/entries/22604406">
-                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.HELP}}
-                        </a>
-                    </div>
-                    <div wd-menu-item>
-                        <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
-                            href="http://snappea.wufoo.com/forms/snappea-feedback-survey/">
-                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
-                        </a>
-                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
-                            href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
-                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
-                        </a>
-                    </div>
-                    <div ng-if="!$root.READ_ONLY_FLAG" wd-menu-item ng-click="handleFacebookConnect()">
-                            <i class="icon-facebooklight"></i>&nbsp;&nbsp;
-                            {{isConnectedFacebook() ? $root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP : $root.DICT.app.NAVBAR_CONNECT_FACEBOOK_TIP}}
-                    </div>
-                    <div wd-menu-sep></div>
-                    <div wd-menu-item class="signout" ng-show="!$root.READ_ONLY_FLAG"
-                        ng-click="signout();$root.GA('navbar:signout');">
-                        <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
-                    </div>
-                    <div wd-menu-item class="signout" ng-show="$root.READ_ONLY_FLAG">
-                        <a href="https://account.wandoujia.com/v1/user/?do=logout&callback={{authCallbackURL}}">
-                            <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
-                        </a>
-                    </div>
-                </div>
+                    data-options="{placement: 'right'}" ng-click="controlSidebar('settings')"><i class="icon-setting"></i></a>
             </li>
         </ul>
     </div>
-
-<!-- connect new phone pop start -->
-<!-- data-ok 是事件 -->
-<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
-    <div class="content">
-        <h1>{{$root.DICT.app.CHANGE_DEVICES_POP.h1}}</h1>
-        <p>{{$root.DICT.app.CHANGE_DEVICES_POP.h2}}</p>
-        <div class="step">
-            <dl class="step1">
-                <dt></dt>
-                <dd ng-bind-html-unsafe="$root.DICT.app.CHANGE_DEVICES_POP.step1"></dd>
-            </dl>
-            <dl class="step2">
-                <dt></dt>
-                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step2}}</dd>
-            </dl>
-            <dl class="step3">
-                <dt></dt>
-                <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3.replace('$$', account || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT)}}</dd>
-            </dl>
-        </div>
-        <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.app.CHANGE_DEVICES_POP.button}}</button>
-    </div>
-</div>
-<!-- connect new phone pop end -->
-
-<div bs-modal
-    ng-if="!$root.READ_ONLY_FLAG"
-    class="language-modal" data-toggle="shownLanguageModal" data-ok="$parent.shownLanguageModal=false" data-cancel="$parent.shownLanguageModal=false" data-header="{{$root.DICT.app.LANGUAGE_MODAL_TITLE}}">
-    <ul class="unstyled language-list">
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('en')">English</a></li>
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('de')">Deutsch</a></li>
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('pt-br')">Português (Brasil)</a></li>
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('zh-tw')">中文 (正體)</a></li>
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('es')">Español</a></li>
-        <li><a href="" bs-modal-ok ng-click="$root.applyLanguage('th')">ภาษาไทย</a></li>
-    </ul>
-</div>
-
 </div>

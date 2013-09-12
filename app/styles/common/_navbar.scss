@@ -2,17 +2,17 @@
 // Basic styles are modified in bootstrap submodule.
 
 .navigator {
-    @include position(absolute, 0px 0 0px 0px);
-    width: 60px;
+    $nav-width: $global-left-offset;
+    width: $nav-width;
+    @include position(absolute, 0px 0px 0px 0px);
+    $background-color: #2b2b2b;
 
     & > .navigator-inner {
         @include position;
         width: 100%;
         height: 100%;
-        background-color: #2b2b2b;
-        @include background-image(linear-gradient(right, #2a2a2a, #2c2c2c));
-        @include box-shadow(inset -2px 0 2px rgba(#000, 0.2));
-
+        background: $background-color;
+        @include box-shadow(0px 0 6px rgba(0, 0, 0, 0.3));
         .brand {
             text-align: center;
             height: 92px;
@@ -20,16 +20,17 @@
 
         .nav {
             margin: 0;
-            & > li {
-                margin: 17px 0;
+            @include position;
+            > li {
+                margin: 12px 0;
                 &:first-of-type {
                     margin-top: 0;
                 }
                 &:last-of-type {
                     margin-bottom: 0;
                 }
-                & > a {
-                    height: 55px;
+                > a {
+                    height: $nav-width;
                     text-align: center;
                 }
             }
@@ -98,6 +99,20 @@
                 visibility:visible;
             }
         }
+
+        .active-module-bg {
+            @include position(absolute);
+            width: $nav-width;
+            height: $nav-width;
+            background: $standard-green;
+            @include transform(translate3d(0, 0, 0));
+            // @include transition(opacity $global-transition-duration);
+            opacity: 0;
+            &.ready {
+                @include transition(all $global-transition-duration);
+                opacity: 1;
+            }
+        }
     }
     // logo & icons
     i.icon-logo64 {
@@ -109,35 +124,26 @@
         margin: $margin 0;
     }
     .nav > li > a {
-        @include transition(opacity $global-transition-duration,
-                            background $global-transition-duration * 1.5);
-        opacity: 0.65;
+        width: $nav-width;
+        @include button-effect;
+        &:hover, &:focus {
+            background: none;
+        }
     }
 
 
     .nav > .active > a {
-        &, &:hover, &:focus {
-            background-color: $standard-green;
-        }
-        &, &:active {
+        &, &:hover, &:focus, &:active {
             opacity: 1;
         }
     }
-    .nav > li > a {
-        &:hover, &:focus {
-            opacity: 1;
-            background-color: transparent;
-        }
-        &:active {
-            opacity: 0.5;
-        }
-    }
+
     @each $icon in "app", "contact", "img", "sms" {
         i.icon-#{$icon} {
             width: icon-width($icon);
             $height: icon-height($icon);
             height: $height;
-            $margin: (55px - $height) / 2 - 1px;
+            $margin: ($nav-width - $height) / 2;
             margin-top: $margin;
             margin-bottom: $margin;
         }
@@ -150,9 +156,10 @@
         content: "";
         width: 8px;
         height: 8px;
-        border-radius: 5px;
-        background: #6eb800;
-        @include position(absolute, 10px 10px 0 0);
+        border-radius: 8px;
+        border: 2px solid $background-color;
+        background: $standard-green;
+        @include position(absolute, 10px 12px 0 0);
     }
 
     $auth-spacing: 4px;
@@ -168,7 +175,7 @@
             overflow: hidden;
         }
         h1{
-            font-weight: 300;
+            font-weight: normal;
             margin-top: 23px;
             font-size: 35px;
             line-height: 22px;

@@ -1,0 +1,82 @@
+.wd-block {
+    $padding: 0px;
+    $actions-height: 60px;
+
+    .wd-block-select {
+        visibility: hidden;
+        @include position(absolute, 0px 0 0 0px);
+        padding: 14px;
+        margin: 0;
+    }
+
+    .wd-block-mask {
+        @include position(absolute, $padding $padding $padding $padding);
+        border: 0 solid $standard-green;
+        background: rgba(#000, 0);
+        @include transition(all 0.2s);
+    }
+
+    .wd-block-actions {
+        @include position(absolute, 0 $padding $padding $padding);
+        height: $actions-height;
+        margin: 0;
+        visibility: hidden;
+        @include background-image(linear-gradient(top, rgba(#000, 0), rgba(#000, 0.8)));
+
+        > .wd-block-actions-inner {
+            @include position(absolute, 0 0 10px 50%);
+            @include transform(translate(-50%, 0));
+            @include nowrap;
+            > * {
+                $height: 30px;
+                display: inline-block;
+                width: 30px;
+                padding: ($height - $global-line-height) / 2 0;
+                cursor: pointer;
+                text-align: center;
+                @include button-effect;
+
+                margin-right: 7px;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    &:hover, &.wd-block-selected, &.wd-block-selecting {
+        .wd-block-select {
+            visibility: visible;
+            @include animation(fadeIn 0.3s);
+        }
+    }
+
+    &:not(.wd-block-selected):hover {
+        .wd-block-actions {
+            visibility: visible;
+            @include animation(fadeIn 0.3s);
+        }
+    }
+
+
+    &.wd-block-selected {
+        .wd-block-actions {
+            @include transition(opacity 0.1s, height 0 ease 0.1s);
+            height: 0;
+            overflow: hidden;
+        }
+    }
+    &.wd-block-selecting {
+        .wd-block-actions {
+            display: none;
+        }
+    }
+    &.wd-block-selected {
+        .wd-block-mask {
+            background: rgba(#000, 0.5);
+            border-width: 6px;
+        }
+    }
+
+
+}

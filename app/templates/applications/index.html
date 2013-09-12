@@ -1,6 +1,6 @@
 <div class="wdj-applications">
 
-    <div class="wd-loading" data-visible="true" ng-show="isLoadShow"></div>
+    <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isLoadShow"></div>
 
     <!-- 应用列表 -->
     <div class="apps-list">
@@ -23,26 +23,34 @@
         <!-- 新安装的应用列表 end -->
 
         <!-- 已安装的应用列表 -->
-        <dl class="old-list" ng-repeat="item in list" ng-click="showAppInfo(item.package_name);" ng-class="{'confirm':item.confirmTipShow}" ng-style="{width:appBlockWidth,height:appBlockHeight}">
+        <dl class="wd-block app-block" ng-repeat="item in list" ng-class="{'confirm':item.confirmTipShow, 'wd-block-selected': item.checked, 'wd-block-selecting': selectedNum}" ng-style="{width:appBlockWidth,height:appBlockHeight}">
             <dt><img ng-src="{{item.icon}}"></dt>
             <dd class="title" title="{{item.name}}">{{item.name}}</dd>
-            <dd class="toolbar" ng-click="$event.stopPropagation();">
-                <span class="btn-icon-check" bs-tooltip="{{$root.DICT.applications.WORDS.SELECT}}" ng-show="!$root.READ_ONLY_FLAG">
-                    <input type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="checkedApp($event,item)">
-                </span>
-                <span class="btn-icon-download" bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}">
-                    <a href="{{item.download_url}}" download="{{item.name}}.apk"><i class="icon-down"></i></a>
-                </span>
-                <span class="btn-icon-del" ng-click="delApp(item.package_name);clickHoverUninstall();" bs-tooltip="{{$root.DICT.applications.BUTTONS.UNINSTALL}}" ng-if="!$root.READ_ONLY_FLAG">
-                    <i class="icon-delete"></i>
-                </span>
-                <span class="btn-icon-del" ng-click="delCloudApp(item.package_name);clickHoverUninstall();" bs-tooltip="{{$root.DICT.applications.BUTTONS.UNINSTALL}}" ng-if="$root.READ_ONLY_FLAG">
-                    <i class="icon-delete"></i>
-                </span>
+            <div class="wd-block-mask" ng-click="selectedNum ? checkedApp($event, item) : showAppInfo(item.package_name);"></div>
+            <div wd-checkbox class="btn-icon-check wd-block-select"
+                bs-tooltip="{{$root.DICT.applications.WORDS.SELECT}}"
+                ng-show="!$root.READ_ONLY_FLAG"
+                ng-checked="item.checked"
+                ng-click="checkedApp($event,item)"></div>
+            <dd class="wd-block-actions">
+                <div class="wd-block-actions-inner" wd-strip>
+                    <span class="btn-icon-del"
+                        ng-click="delApp(item.package_name);clickHoverUninstall();"
+                        bs-tooltip="{{$root.DICT.applications.BUTTONS.UNINSTALL}}"
+                        ng-if="!$root.READ_ONLY_FLAG"><i class="icon-delete-dark"></i></span>
+                    <span class="btn-icon-del"
+                        ng-click="delCloudApp(item.package_name);clickHoverUninstall();"
+                        bs-tooltip="{{$root.DICT.applications.BUTTONS.UNINSTALL}}"
+                        ng-if="$root.READ_ONLY_FLAG"><i class="icon-delete-dark"></i></span>
+                    <a class="btn-icon-download"
+                        href="{{item.download_url}}"
+                        download="{{item.name}}.apk"
+                        bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}"><i class="icon-down-dark"></i></a>
+                </div>
             </dd>
 
             <!-- 确认提示 -->
-            <dd class="confirm" ng-show="item.confirmTipShow" ng-click="$event.stopPropagation();">
+            <dd class="confirm" ng-show="item.confirmTipShow">
                 <i class="icon-phone"></i>
                 <p>{{$root.DICT.applications.CONFIRMS.UNINSTALL}}</p>
                 <i bs-tooltip="{{$root.DICT.applications.WORDS.CANCAL}}" class="icon-close-white" ng-click="closeConfirm(item,$event)"></i>
@@ -67,7 +75,7 @@
             {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}
         </div>
         <button class="btn select-all" ng-click="deselectAll()" ng-show="isDeselectBtnShow">
-            <i class="icon-sel-toolbar"></i>
+            <i class="icon-buticon"></i>
             <p>{{$root.DICT.applications.BUTTONS.DESELECT}} ({{selectedNum}})</p>
         </button>
         <button class="btn delete-all" ng-click="delMoreApps()" ng-show="isDeleteBtnShow">

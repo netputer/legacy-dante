@@ -26,7 +26,7 @@
     <script src="scripts/vendor/modernizr.min.js"></script>
     <!-- endbuild -->
 </head>
-<body>
+<body ng-class="{'open-sidebar': showSidebar}" ng-click="globalControl($event)">
     <!--(if target dist)><!-->
     <div class="wd-portal no-support-placeholder">
         <div class="a">
@@ -111,6 +111,7 @@
 
     <!--[if (gt IE 9)|!(IE)]><!-->
 
+    <div class="sidebar ng-cloak" wd-sidebar></div>
     <div class="viewport ng-cloak" ng-view></div>
     <div class="disconnect-panel ng-cloak"></div>
     <div class="ng-cloak" wd-navbar></div>
@@ -122,11 +123,13 @@
     <script src="scripts/vendor/textext.js"></script>
     <script src="components/angular-unstable/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
+    <script src="components/angular-sanitize-unstable/angular-sanitize.js"></script>
     <script src="components/angular-ui/common/module.js"></script>
     <script src="components/angular-ui/modules/directives/if/if.js"></script>
     <script src="components/angular-ui/modules/directives/animate/animate.js"></script>
     <script src="scripts/vendor/angular/elastic.js"></script>
     <script src="components/socket.io-client/dist/socket.io.js"></script>
+    <script src="scripts/vendor/IndexedDBShim.js"></script>
     <!-- endbuild -->
 
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>

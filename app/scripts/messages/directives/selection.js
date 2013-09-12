@@ -8,6 +8,7 @@ link: function($scope, $element) {
     $scope.lastSelected = null;
 
     $scope.select = function(c, shiftKey) {
+        c.selected = !c.selected;
         if (c.selected && shiftKey) {
             var startIndex = Math.max($scope.cvs().indexOf($scope.lastSelected), 0);
             var stopIndex = $scope.cvs().indexOf(c);

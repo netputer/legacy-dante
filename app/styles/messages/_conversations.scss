@@ -68,9 +68,8 @@
 
 .wdmcr-a {
     width: 43px;
-    text-align: center;
     height: 100%;
-    line-height: 62px;
+    margin: 0;
 
     @include readonly {
         display: none;
@@ -94,10 +93,45 @@
     }
 
     img {
-        width: $avatar-width;
-        height: $avatar-width;
+        width: 100%;
+        height: 100%;
         display: block;
     }
+
+    .photo-color {
+        text-transform: uppercase;
+        font-size: 24px;
+        line-height: $avatar-width;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        font-weight: normal;
+        color: #FFF;
+        @include clearfix;
+
+        .half-photos {
+            width: 23px;
+            height: 100%;
+            float: left;
+        }
+
+        .quarter-photos {
+            width: 23px;
+            height: 23px;
+            font-size: 14px;
+            line-height: 23px;
+            float: left;
+        }
+
+        .mr2 {
+            margin-right: 2px;
+        }
+
+        .mb2 {
+            margin-bottom: 2px;
+        }
+    }
+
 }
 
 .wdmcr-c {
@@ -147,4 +181,5 @@
 }
 .wdmcr-icon-running {
     @extend .icon-sending;
+
 }

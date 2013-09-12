@@ -56,5 +56,10 @@
         "step2": "2. Open SnapPea on your phone.",
         "step3": "3. Sign in with",
         "button": "Got it"
+    },
+    "SIGN_PROGRESS": {
+        "STEP1": "Signing in with Google",
+        "STEP2": "Getting your devices",
+        "STEP3": "Connecting to your device"
     }
 }

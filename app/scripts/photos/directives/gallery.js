@@ -26,6 +26,7 @@ controller: ['$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', function
         GA('photos:toolbar:deselect_all');
     };
     $scope.select = function(photo, shiftKey) {
+        photo.selected = !photo.selected;
         if (photo.selected) {
             if (shiftKey) {
                 GA('photos:photo:shift_select');

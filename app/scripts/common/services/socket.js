@@ -80,6 +80,12 @@ Socket.prototype = {
         });
 
         this._transport.on('connect', function() {
+            if (!lastTimestamp) {
+                self._transport.emit({
+                    type: 'timestamp.sync',
+                });
+            }
+            
             GA('socket:connect');
             self.trigger('socket:connected');
         });

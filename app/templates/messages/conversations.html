@@ -10,7 +10,7 @@
                     ng-switch-when="false"
                     ng-click="deselectAll();$root.GA('messages:deselect_all')"
                     ng-show="selectedCount() && !cvsListFirstLoading">
-                    <i class="icon-sel-toolbar"></i>
+                    <i class="icon-buticon"></i>
                     {{$root.DICT.messages.ACTION_DESELECT_ALL}} ({{selectedCount()}})
                 </button>
                 <button class="btn"
@@ -33,15 +33,86 @@
                     ng-repeat="c in cvs()"
                     ng-class="{ selected: c.selected, highlight: c == activeConversation }"
                     ng-click="showConversation(c)">
-                    <label class="wdmcr-a"
-                        ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)">
-                        <span bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}">
-                            <input type="checkbox" ng-model="c.selected">
-                        </span>
-                    </label>
+
+                    <div wd-checkbox class="wdmcr-a"
+                        ng-class="{'wd-checkbox-light': c != activeConversation}"
+                        ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)"
+                        bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}"
+                        data-options="{offset: -15}"
+                        ng-checked="c.selected"></div>
+
                     <div class="wdmcr-b" ng-class="{ multiple: c.multiple }">
-                        <img ui-if="!c.multiple && c.photo_path" ng-src="{{c.photo_path}}">
+
+                        <img ui-if="!c.multiple && c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}">
+                        <div ui-if="!c.multiple && !c.photo_paths[0] && c.displayNames[0] && !isDisplayNamePhoneNumber(c.displayNames[0])" class="photo-color" ng-class="getPhotoColor">
+                            {{c.displayNames[0]|limitTo:1}}
+                        </div>
+
+                        <!-- 两个联系人的情况 -->
+                        <div ui-if="c.multiple && c.displayNames.length === 2" class="photo-color contact-photo-bg-white">
+
+                            <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="half-photos mr2">
+                            <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="half-photos mr2" ng-class="getPhotoColor">
+                                {{c.displayNames[0]|limitTo:1}}
+                            </div>
+
+                            <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="half-photos">
+                            <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="half-photos" ng-class="getPhotoColor">
+                                {{c.displayNames[1]|limitTo:1}}
+                            </div>
+
+                        </div>
+                        <!-- 两个联系人的情况 end -->
+
+                        <!-- 三个联系人的情况 -->
+                        <div ui-if="c.multiple && c.displayNames.length === 3" class="photo-color contact-photo-bg-white">
+
+                            <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="half-photos mr2">
+                            <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="half-photos mr2" ng-class="getPhotoColor">
+                                {{c.displayNames[0]|limitTo:1}}
+                            </div>
+
+                            <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="quarter-photos mb2">
+                            <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="quarter-photos mb2" ng-class="getPhotoColor">
+                                {{c.displayNames[1]|limitTo:1}}
+                            </div>
+
+                            <img ui-if="c.photo_paths[2]" ng-src="{{c.photo_paths[2]}}" class="quarter-photos">
+                            <div ui-if="!c.photo_paths[2] && c.displayNames[2]" class="quarter-photos" ng-class="getPhotoColor">
+                                {{c.displayNames[2]|limitTo:1}}
+                            </div>
+
+                        </div>
+                        <!-- 三个联系人的情况 end -->
+
+                        <!-- 四个联系人的情况 -->
+                        <div ui-if="c.multiple && c.displayNames.length >= 4" class="photo-color contact-photo-bg-white">
+
+                            <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="quarter-photos mr2 mb2">
+                            <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="quarter-photos mr2 mb2" ng-class="getPhotoColor">
+                                {{c.displayNames[0]|limitTo:1}}
+                            </div>
+
+                            <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="quarter-photos mb2">
+                            <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="quarter-photos mb2" ng-class="getPhotoColor">
+                                {{c.displayNames[1]|limitTo:1}}
+                            </div>
+
+                            <img ui-if="c.photo_paths[2]" ng-src="{{c.photo_paths[2]}}" class="quarter-photos mr2">
+                            <div ui-if="!c.photo_paths[2] && c.displayNames[2]" class="quarter-photos mr2" ng-class="getPhotoColor">
+                                {{c.displayNames[2]|limitTo:1}}
+                            </div>
+
+                            <img ui-if="c.photo_paths[3]" ng-src="{{c.photo_paths[3]}}" class="quarter-photos">
+                            <div ui-if="!c.photo_paths[3] && c.displayNames[3]" class="quarter-photos" ng-class="getPhotoColor">
+                                {{c.displayNames[3]|limitTo:1}}
+                            </div>
+                        </div>
+                        <!-- 四个联系人的情况 end -->
+
+
                     </div>
+
                     <div class="wdmcr-c">
                         <div class="wdmcr-c-a" ng-switch on="c.addresses.length">
                             <span ng-switch-default>{{ c.displayNames.join(', ') }}</span>
@@ -138,7 +209,7 @@
                                     {{$root.DICT.messages.BATCH_RECEIVER_TIP}}
                                     <span bs-tooltip="{{m.address}}">{{ m.contact_name || m.address }}</span>:
                                 </div>
-                                <div ui-if="m.isSMS" class="wdmer-a-b">{{ m.body }}</div>
+                                <div ui-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | linky:'_blank' "></div>
                                 <div ui-if="m.isMMS" class="wdmer-a-b" style="color:#999;">{{ $root.DICT.messages.MMS_WARNING }}</div>
                             </div>
                             <div class="wdmer-b">

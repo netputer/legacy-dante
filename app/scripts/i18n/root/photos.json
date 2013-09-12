@@ -11,6 +11,8 @@
     "ALBUM_SETTINGS" : "Album settings",
     "ALBUM_SETTINGS_INFO" : "Select the albums you wish to display in SnapPea.",
     "ALBUM_BLANK_TIP": "No albums on your phone.",
+    "ALBUM_SAVE_TOAST": "Applying settings...",
+    "ALBUM_SAVE_ERROR_TOAST": "Save failed.",
     "BLOCK_SELECT": "Select",
     "BLOCK_DESELECT": "Deselect",
     "BLOCK_DELETE": "Delete",
