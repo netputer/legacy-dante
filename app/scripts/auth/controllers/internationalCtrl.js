@@ -388,16 +388,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 } else if ( !!item.status && item.status === 'devices' ) {
                     wdGoogleSignIn.getDevices().then(function(list) {
                         $scope.isLoadingDevices = false;
-                        switch(list.length) {
-                            case 0:
-                                loopGetDevices();
-                            break;
-                            default:
-                                $scope.deviceNum = list.length;
-                                $scope.devicesList = list;
-                                loopGetDevices();
-                            break;
-                        }
+                        $scope.deviceNum = list.length;
+                        $scope.devicesList = list;
+                        loopGetDevices();
                     },function() {
                         wdGoogleSignIn.refreshToken(true).then(function(){
                             signoutFromDevices();
