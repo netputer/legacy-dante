@@ -28,9 +28,10 @@ return function() {
                 $window.localStorage.removeItem('currentDevice');
                 valid = false;
             },
+            
+            //从设备退出到设备列表
             signout: function() {
-                // this.clearDevice();
-                this.setDevice({status:'signout'});
+                this.setDevice({status:'devices'});
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
                 }

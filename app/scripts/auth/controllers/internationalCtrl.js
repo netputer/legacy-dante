@@ -260,8 +260,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             stopLoopLinkDevices();
             stopLoopGetDevices();
-            wdDevice.clearDevice();
-            wdGoogleSignIn.signOut();
             wdGoogleSignIn.removeStorageItem('googleToken');
             //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
             $window.location.reload();
@@ -374,7 +372,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             });
         }
 
-        function signOutFromDevices() {
+        function signoutFromDevices() {
 
             // 当用户从其他设备中退出到当前页面时
             if ( wdGoogleSignIn.getHasAccessdDevice() ) {
@@ -382,14 +380,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 //用户是想要切换到另一个设备
                 var item = wdDevice.getDevice();
                 //判断用户是否在设备数据页面退出
-                if (!!item.status && item.status === 'signout') {
+                if ( !item ) {
                     $scope.googleSignOut();
-                    return;
-                }
-                //判断用户是否要切换设备
-                if (!!item && !!item.ip) {
-                    $scope.submit(item);
-                } else {
+                } else if ( !!item.status && item.status === 'devices' ) {
                     wdGoogleSignIn.getDevices().then(function(list) {
                         if ($scope.autoAuth) {
                             $scope.isLoadingDevices = true;
@@ -408,11 +401,14 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         }
                     },function() {
                         wdGoogleSignIn.refreshToken(true).then(function(){
-                            signOutFromDevices();
+                            signoutFromDevices();
                         },function(){
                             $scope.googleSignOut();
                         });
                     });
+                } else if( !!item && !!item.ip ) {
+                    //切换设备
+                    $scope.submit(item);
                 }
                 return true;
             } else {
@@ -427,18 +423,25 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 $window.gapi.auth.init(function() {
                     $scope.signInBtnDisabled = false;
                     //异步需要apply()
-                    $scope.$apply();
+                    if( !wdGoogleSignIn.getHasAccessdDevice() ) {
+                        $scope.$apply();
+                    }
                 });
             });
+        }
+
+        //是否登录着 Google 账号
+        function hasSignInGoogle() {
+            return !!wdGoogleSignIn.getStorageItem('googleToken');
         }
 
 // 登录逻辑开始
         GA('user_sign_in:check_sign_in:total_visits');
 
         //检测是否曾经登录过
-        if ( wdGoogleSignIn.getStorageItem('googleToken') ) {
+        if ( hasSignInGoogle() ) {
             //是否是从其他设备退出准备切换设备
-            if (!signOutFromDevices()) {
+            if (!signoutFromDevices()) {
                 autoSignInGoogle();
             }
         } else {
