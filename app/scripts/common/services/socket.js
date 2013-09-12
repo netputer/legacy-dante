@@ -23,7 +23,8 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    MAX_RECONNECTION_ATTEMPTS : 4,
+    RECONNECT_TIMES : 0,
+    MAX_RECONNECTION_ATTEMPTS : 1,
     /**
      * Destroy everything.
      */
@@ -42,7 +43,8 @@ Socket.prototype = {
                 'xhr-polling',
                 'jsonp-polling'
             ],
-            'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS
+            'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS,
+            'connect timeout': 3000
         });
     },
 
@@ -88,52 +90,9 @@ Socket.prototype = {
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
-            var MAX_GET_DEVICES_TIMES = 3;
-            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
-                (function getDevices() {
-                    wdGoogleSignIn.getDevices().then(function(list) {
-                        var device = wdDevice.getDevice();
-                        var currentOnlineDevice = _.find(list, function(item) {
-                            return item.id === device.id;
-                        });
-
-                        if (currentOnlineDevice) {
-                            if (currentOnlineDevice.ip !== device.ip) {
-                                wdDevice.setDevice(currentOnlineDevice);
-                                wdDev.setServer(currentOnlineDevice.ip);
-
-                                self._newTransport();
-                                self._transport.socket.reconnect();
-                            } else {
-                                var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
-                                $.ajax({
-                                    type: 'GET',
-                                    url: url,
-                                    dataType: 'jsonp',
-                                    data: {
-                                        did: device.id,
-                                        google_token: wdGoogleSignIn.getStorageItem('googleToken')
-                                    }
-                                });
-
-                                self.trigger('socket:disconnected');
-
-                                $rootScope.$on('socket:connect', function() {
-                                    self._transport.socket.reconnect();
-                                });
-                            }
-                        } else {
-                            wdDevice.signout();
-                        }
-                    }, function() {
-                        MAX_GET_DEVICES_TIMES -= 1;
-                        if (MAX_GET_DEVICES_TIMES) {
-                            getDevices();
-                        } else {
-                            wdDevice.signout();
-                        }
-                    });
-                })();
+           
+            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS || self.RECONNECT_TIMES === self.MAX_RECONNECTION_ATTEMPTS) {
+                self.refreshDeviceAndConnect();
             }
         });
 
@@ -166,6 +125,56 @@ Socket.prototype = {
             this._transport = null;
         }
         return this;
+    },
+
+    refreshDeviceAndConnect: function() {
+        var self = this;
+        var MAX_GET_DEVICES_TIMES = 3;
+        (function getDevices() {
+            wdGoogleSignIn.getDevices().then(function(list) {
+                var device = wdDevice.getDevice();
+                var currentOnlineDevice = _.find(list, function(item) {
+                    return item.id === device.id;
+                });
+
+                if (currentOnlineDevice && currentOnlineDevice.ip) {
+                    if (currentOnlineDevice.ip !== device.ip) {
+                        wdDevice.setDevice(currentOnlineDevice);
+                        wdDev.setServer(currentOnlineDevice.ip);
+
+                        self._newTransport();
+                        self._transport.socket.reconnect();
+                    } else {
+                        var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType: 'jsonp',
+                            data: {
+                                did: device.id,
+                                google_token: wdGoogleSignIn.getStorageItem('googleToken')
+                            }
+                        });
+
+                        self.trigger('socket:disconnected');
+
+                        $rootScope.$on('socket:connect', function() {
+                            self.RECONNECT_TIMES += 1;
+                            self._transport.socket.reconnect();
+                        });
+                    }
+                } else {
+                    wdDevice.signout();
+                }
+            }, function() {
+                MAX_GET_DEVICES_TIMES -= 1;
+                if (MAX_GET_DEVICES_TIMES) {
+                    getDevices();
+                } else {
+                    wdDevice.signout();
+                }
+            });
+        })();
     }
 };
 

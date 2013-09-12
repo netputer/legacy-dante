@@ -172,7 +172,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
 
         // Global exception handling.
-        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdDevice', '$window', function(wdDev, $rootScope, $q, $log, wdDevice, $window) {
+        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdDevice', '$window',
+            function(wdDev, $rootScope, $q, $log, wdDevice, $window) {
             return {
                 request: function(config) {
                     // Using realtime data source url.
@@ -200,6 +201,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                     popActiveRequest($rootScope);
                     // If auth error, always signout.
                     // 401 for auth invalid, 0 for server no response.
+
                     if (!rejection.config.disableErrorControl &&
                         (rejection.status === 401 /*|| response.status === 0 */)) {
                         wdDevice.signout();
