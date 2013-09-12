@@ -260,9 +260,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             stopLoopLinkDevices();
             stopLoopGetDevices();
-            wdGoogleSignIn.removeStorageItem('googleToken');
-            //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
-            $window.location.reload();
+            wdGoogleSignIn.signout().then(function(){
+                $scope.isLoadingDevices = false;
+            },function(){
+                $window.location.reload();
+            });
         };
 
         $scope.showConnectNewPhone = function () {
