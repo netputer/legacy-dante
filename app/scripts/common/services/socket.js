@@ -24,7 +24,7 @@ Socket.prototype = {
 
     constructor: Socket,
     RECONNECT_TIMES : 0,
-    MAX_RECONNECTION_ATTEMPTS : 1,
+    MAX_RECONNECTION_ATTEMPTS : 2,
     /**
      * Destroy everything.
      */
@@ -158,7 +158,7 @@ Socket.prototype = {
 
                         self.trigger('socket:disconnected');
 
-                        $rootScope.$on('socket:connect', function() {
+                        self.on('socket:connect', function() {
                             self.RECONNECT_TIMES += 1;
                             self._transport.socket.reconnect();
                         });
@@ -172,6 +172,7 @@ Socket.prototype = {
                     getDevices();
                 } else {
                     wdDevice.signout();
+                    self.trigger('socket:dead');
                 }
             });
         })();

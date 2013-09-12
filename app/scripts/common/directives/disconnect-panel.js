@@ -24,8 +24,6 @@ return [function() {
                         $scope.connectDelayTime -= 1;
                         
                         if (!$scope.connectDelayTime) {
-                            clearInterval(connectTimer);
-                            $scope.connectDelayTime = DELAY_TIME;
                             $scope.connectSocket();
                         }
                     });
@@ -45,15 +43,20 @@ return [function() {
                 clearInterval(connectTimer);
             });
 
+            wdSocket.on('socket:dead', function() {
+                $scope.closePanel();
+            });
+
             $scope.connectSocket = function() {
-                clearInterval(connectTimer);
                 $scope.connectDelayTime = DELAY_TIME;
-                refreshDelayTime();
-                $rootScope.$broadcast('socket:connect');
+                wdSocket.trigger('socket:connect');
             };
 
             $scope.closePanel = function() {
                 $scope.showPanel = false;
+                if (connectTimer) {
+                    clearInterval(connectTimer);
+                }
             };
         }]
     };
