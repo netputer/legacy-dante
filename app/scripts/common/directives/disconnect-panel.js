@@ -43,7 +43,7 @@ return [function() {
                 clearInterval(connectTimer);
             });
 
-            wdSocket.on('socket:dead', function() {
+            $rootScope.$on('signout', function() {
                 $scope.closePanel();
             });
 

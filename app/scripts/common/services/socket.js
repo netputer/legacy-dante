@@ -172,7 +172,6 @@ Socket.prototype = {
                     getDevices();
                 } else {
                     wdDevice.signout();
-                    self.trigger('socket:dead');
                 }
             });
         })();
