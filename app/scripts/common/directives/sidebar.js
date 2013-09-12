@@ -11,10 +11,10 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', 'wdGoogleSignIn', 'wdShare',
+                '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
                 '$q', 'wdToast',  '$timeout',
-        function($scope,   wdAuthToken,   wdGoogleSignIn,   wdShare,
+        function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
                  $q,   wdToast,   $timeout) {
             $scope.isLoadingDevices = false;
@@ -103,9 +103,9 @@ return [function() {
             };
 
             $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
-                    wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
+                if(item['ip'] !== wdDevice.getDevice().ip){
+                    wdDevice.signout();
+                    wdDevice.setDevice(item);
                     refreshDevices();
                 }
             };
@@ -134,7 +134,7 @@ return [function() {
             }
 
             function getListData(list) {
-                var ip = wdGoogleSignIn.currentDevice().ip;
+                var ip = wdDevice.getDevice().ip;
                 for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
                     if ( ip === list[i]['ip'] ) {
                         list[i]['selected'] = true;
@@ -146,15 +146,16 @@ return [function() {
             }
 
             $scope.signout = function() {
-                var toastPromise = wdGoogleSignIn.signOut().then(null, function() {
+                var toastPromise = wdGoogleSignIn.signout().then(null, function() {
                     return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
                 });
                 toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
                 wdToast.apply(toastPromise);
                 toastPromise.then(function() {
-                    wdGoogleSignIn.currentDevice({status:'signout'});
-                    wdAuthToken.signout();
+                    wdGoogleSignIn.signout();
                 });
+
+                $scope.closeSidebar();
             };
 
             //facebook

@@ -19,6 +19,9 @@ return [function() {
             $scope.showPanel = false;
 
             var refreshDelayTime = function() {
+                if (!!connectTimer) {
+                    clearInterval(connectTimer);
+                }
                 connectTimer = setInterval(function() {
                     $scope.$apply(function() {
                         $scope.connectDelayTime -= 1;
