@@ -209,7 +209,7 @@
                                     {{$root.DICT.messages.BATCH_RECEIVER_TIP}}
                                     <span bs-tooltip="{{m.address}}">{{ m.contact_name || m.address }}</span>:
                                 </div>
-                                <div ui-if="m.isSMS" class="wdmer-a-b">{{ m.body }}</div>
+                                <div ui-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | linky:'_blank' "></div>
                                 <div ui-if="m.isMMS" class="wdmer-a-b" style="color:#999;">{{ $root.DICT.messages.MMS_WARNING }}</div>
                             </div>
                             <div class="wdmer-b">
