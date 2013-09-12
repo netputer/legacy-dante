@@ -999,13 +999,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
     },300));
 
-    $('.wdj-contacts .btn-all .search .icon-clear').on('click',function(){
-        $scope.pageList = G_list;
-        if(!!G_list[0] &&!!G_list[0]['id']){
-            showContacts(G_list[0]['id']);
-        }
-    });
-
     $scope.clearSearch = function(){
         $scope.isNoContactsShow = false;
         $scope.searchText = '';

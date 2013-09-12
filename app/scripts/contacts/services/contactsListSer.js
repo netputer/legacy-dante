@@ -179,7 +179,6 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             query = query.toLocaleLowerCase();
 
-
             var search = function(query , offset , length) {
 
                 //如果数据未加载完整，从后端搜索，数据完整从前端搜索
