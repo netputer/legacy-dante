@@ -149,9 +149,8 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
         },
 
         signout : function () {
+            var me = this;
             var defer = $q.defer();
-            this.removeStorageItem('googleToken');
-            wdDevice.signout();
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
             $.ajax({
                 type: 'GET',
@@ -162,6 +161,8 @@ return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevi
                 success: function(nullResponse) {
                     // 客户取消了关联，据此执行相应操作
                     // 回应始终为未定义。
+                    me.removeStorageItem('googleToken');
+                    wdDevice.signout();
                     global.authResult = {};
                     defer.resolve('signout');
                     $rootScope.$apply();
