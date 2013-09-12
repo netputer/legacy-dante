@@ -109,7 +109,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['wdGoogleSignIn', '$q', 'wdAlert', '$rootScope', function(wdDevice, $q, wdAlert ,$rootScope) {
+                signout: ['wdGoogleSignIn', '$q', 'wdAlert', '$rootScope', function(wdGoogleSignIn, $q, wdAlert ,$rootScope) {
                     wdAlert.confirm(
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
