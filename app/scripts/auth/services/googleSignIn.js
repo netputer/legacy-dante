@@ -5,7 +5,7 @@ define( [
 ) {
     'use strict';
 
-return [ '$http','$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', function ( $http, $q, $rootScope, $log, $window, GA, $timeout, wdDevice) {
+return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice) {
 
     var global = {
         authResult : {},
