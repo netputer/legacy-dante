@@ -138,10 +138,12 @@ Socket.prototype = {
         (function getDevices() {
             wdGoogleSignIn.getDevices().then(function(list) {
                 var device = wdDevice.getDevice();
-                var currentOnlineDevice = _.find(list, function(item) {
-                    return item.id === device.id;
-                });
-
+                var currentOnlineDevice = null;
+                if (device) {
+                    currentOnlineDevice = _.find(list, function(item) {
+                        return item.id === device.id;
+                    });
+                }
                 if (currentOnlineDevice && currentOnlineDevice.ip) {
                     if (currentOnlineDevice.ip !== device.ip) {
                         wdDevice.setDevice(currentOnlineDevice);
