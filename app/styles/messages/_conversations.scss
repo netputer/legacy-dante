@@ -135,7 +135,7 @@
                     margin-left: -25%;
                 }
             }
-            &:nth-of-type(2), &:nth-of-type(3) {
+            &:nth-of-type(n + 2) {
                 width: $avatar-half-width;
                 height: $avatar-half-width;
                 .generated-avatar {
