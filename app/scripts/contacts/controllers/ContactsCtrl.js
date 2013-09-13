@@ -991,13 +991,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     $scope.searchContacts = function(){
         
         //不是空则执行搜索
-        if( $scope.searchText && (G_contacts.length > 1) ){
+        if ( $scope.searchText && (G_contacts.length > 1) ){
             G_searchIsNull = false;
             $scope.deselectAll();
-        }else if(!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ){
+        } else if (!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ){
             G_searchIsNull = true;
             $scope.deselectAll();
-        }else{
+        } else {
             return;
         }
 

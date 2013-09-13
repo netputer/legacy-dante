@@ -122,13 +122,13 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
     //是否从起始位置既匹配
     function isFrontMatch( str, query ) {
-        str = String( str ).toLocaleLowerCase().replace(/\s/g,'');
+        str = String(str).toLocaleLowerCase().replace(/\s/g,'');
         return new RegExp( '^' + query , 'g' ).test( str );
     }
 
     //是否在非起始位置有匹配
     function isBehindMatch( str, query ) {
-        str = String( str ).toLocaleLowerCase().replace(/\s/g,'');
+        str = String(str).toLocaleLowerCase().replace(/\s/g,'');
         return new RegExp( query , 'g' ).test( str );
     }
 
@@ -207,6 +207,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         var list = [];
                         if (options.sms) {
                             _.each(data, function(value) {
+
+
+                                //TODO: 用 filter 方法
                                 if ( value.phone[0] ){
 
                                     //给简版的逻辑
@@ -222,6 +225,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                             list = data ;
                         }
                         defer.resolve(list);
+                    }).fail(function() {
+
                     });
 
                 } else {
