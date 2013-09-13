@@ -345,7 +345,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
                     $timeout(function() {
                         GA('device_sign_in:check_last_device:device_signed_in');
-                        for( var i = 0 , l = list.length ; i < l ; i ++ ) {
+                        for( var i = 0 , l = list.length ; i < l ; i += 1 ) {
                             if ( list[i].id === $scope.auth.id ) {
                                 $scope.submit( list[i] );
                                 return;
