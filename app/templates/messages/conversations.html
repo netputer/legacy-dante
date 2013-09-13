@@ -41,76 +41,15 @@
                         data-options="{offset: -15}"
                         ng-checked="c.selected"></div>
 
-                    <div class="wdmcr-b" ng-class="{ multiple: c.multiple }">
-
-                        <img ui-if="!c.multiple && c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}">
-                        <div ui-if="!c.multiple && !c.photo_paths[0] && c.displayNames[0] && !isDisplayNamePhoneNumber(c.displayNames[0])" class="photo-color" ng-class="getPhotoColor">
-                            {{c.displayNames[0]|limitTo:1}}
-                        </div>
-
-                        <!-- 两个联系人的情况 -->
-                        <div ui-if="c.multiple && c.displayNames.length === 2" class="photo-color contact-photo-bg-white">
-
-                            <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="half-photos mr2">
-                            <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="half-photos mr2" ng-class="getPhotoColor">
-                                {{c.displayNames[0]|limitTo:1}}
-                            </div>
-
-                            <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="half-photos">
-                            <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="half-photos" ng-class="getPhotoColor">
-                                {{c.displayNames[1]|limitTo:1}}
-                            </div>
-
-                        </div>
-                        <!-- 两个联系人的情况 end -->
-
-                        <!-- 三个联系人的情况 -->
-                        <div ui-if="c.multiple && c.displayNames.length === 3" class="photo-color contact-photo-bg-white">
-
-                            <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="half-photos mr2">
-                            <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="half-photos mr2" ng-class="getPhotoColor">
-                                {{c.displayNames[0]|limitTo:1}}
-                            </div>
-
-                            <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="quarter-photos mb2">
-                            <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="quarter-photos mb2" ng-class="getPhotoColor">
-                                {{c.displayNames[1]|limitTo:1}}
-                            </div>
-
-                            <img ui-if="c.photo_paths[2]" ng-src="{{c.photo_paths[2]}}" class="quarter-photos">
-                            <div ui-if="!c.photo_paths[2] && c.displayNames[2]" class="quarter-photos" ng-class="getPhotoColor">
-                                {{c.displayNames[2]|limitTo:1}}
-                            </div>
-
-                        </div>
-                        <!-- 三个联系人的情况 end -->
-
-                        <!-- 四个联系人的情况 -->
-                        <div ui-if="c.multiple && c.displayNames.length >= 4" class="photo-color contact-photo-bg-white">
-
-                            <img ui-if="c.photo_paths[0]" ng-src="{{c.photo_paths[0]}}" class="quarter-photos mr2 mb2">
-                            <div ui-if="!c.photo_paths[0] && c.displayNames[0]" class="quarter-photos mr2 mb2" ng-class="getPhotoColor">
-                                {{c.displayNames[0]|limitTo:1}}
-                            </div>
-
-                            <img ui-if="c.photo_paths[1]" ng-src="{{c.photo_paths[1]}}" class="quarter-photos mb2">
-                            <div ui-if="!c.photo_paths[1] && c.displayNames[1]" class="quarter-photos mb2" ng-class="getPhotoColor">
-                                {{c.displayNames[1]|limitTo:1}}
-                            </div>
-
-                            <img ui-if="c.photo_paths[2]" ng-src="{{c.photo_paths[2]}}" class="quarter-photos mr2">
-                            <div ui-if="!c.photo_paths[2] && c.displayNames[2]" class="quarter-photos mr2" ng-class="getPhotoColor">
-                                {{c.displayNames[2]|limitTo:1}}
-                            </div>
-
-                            <img ui-if="c.photo_paths[3]" ng-src="{{c.photo_paths[3]}}" class="quarter-photos">
-                            <div ui-if="!c.photo_paths[3] && c.displayNames[3]" class="quarter-photos" ng-class="getPhotoColor">
-                                {{c.displayNames[3]|limitTo:1}}
+                    <div class="wdmcr-b">
+                        <div class="composited-avatar" ng-class="'multiple-' + c.photo_paths.length">
+                            <div ng-repeat="path in c.photo_paths track by $index" ng-switch on="!!path">
+                                <img ng-switch-when="true" ng-src="{{path}}"/>
+                                <div ng-switch-when="false" class="generated-avatar" ng-class="getPhotoColor">
+                                    {{c.displayNames[$index] | limitTo: 1}}
+                                </div>
                             </div>
                         </div>
-                        <!-- 四个联系人的情况 end -->
-
-
                     </div>
 
                     <div class="wdmcr-c">
