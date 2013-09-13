@@ -125,7 +125,7 @@ Socket.prototype = {
             }
             catch(err){
             }
-            
+
             this._transport.removeAllListeners();
             this._transport = null;
         }
@@ -163,14 +163,9 @@ Socket.prototype = {
 
                         self.trigger('socket:disconnected');
 
-                        self.on('socket:connect', function() {
-                            self.RECONNECT_TIMES += 1;
-                            if (self.RECONNECT_TIMES === self.MAX_RECONNECTION_ATTEMPTS) {
-                                self.refreshDeviceAndConnect();
-                                self.RECONNECT_TIMES = 0;
-                            } else {
-                                self._transport.socket.reconnect();
-                            }
+                        self.off('socket:connect').on('socket:connect', function() {
+                            self.close();
+                            self.connect();
                         });
                     }
                 } else {
