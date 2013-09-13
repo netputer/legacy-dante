@@ -45,6 +45,11 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 immediate = true;
             }
             var me = this;
+            var timeout = 7000;
+            $timeout(function() {
+                $log.error('Refreshing google token timeout.');
+                defer.reject();
+            }, timeout);
 
             //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
             $window.gapi.auth.authorize({
@@ -158,16 +163,24 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
+                timeout: 7000,
                 success: function(nullResponse) {
-                    // 客户取消了关联，据此执行相应操作
-                    // 回应始终为未定义。
-                    me.removeStorageItem('googleToken');
-                    wdDevice.signout();
-                    global.authResult = {};
-                    defer.resolve('signout');
-                    $rootScope.$apply();
+                    $rootScope.$apply(function() {
+
+                        // 客户取消了关联，据此执行相应操作
+                        // 回应始终为未定义。
+                        me.removeStorageItem('googleToken');
+                        wdDevice.signout();
+                        global.authResult = {};
+                        defer.resolve('signout');
+                    });                    
                 },
                 error: function(e) {
+                    $rootScope.$apply(function() {
+                        $log.error('google signout failed.');
+                        defer.reject();
+                    });
+
                   // 处理错误
                   // console.log(e);
                   // 如果失败，您可以引导用户手动取消关联
