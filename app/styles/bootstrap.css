@@ -920,7 +920,7 @@ blockquote {
 blockquote p {
   margin-bottom: 0;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: normal;
   line-height: 1.25;
 }
 

@@ -136,15 +136,16 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         },
 
         //根据query搜索联系人
-        searchContacts : function( query ,options ) {
+        searchContacts : function(query ,options, cache) {
 
             //是否查找email数据
             options = options || {};
             options.sms = options.sms || false;
             var defer = $q.defer();
+            var searchCache = !!cache;
 
             //如果没有加载过联系人数据，则自动启动启动加载
-            if(!global.contacts.length){
+            if(!global.contacts.length && !searchCache){
 
                 //自动加载数据，return 一个promise
                 getData( 0, CONFIG.dataLengthOnce, null );
@@ -152,29 +153,29 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             query = query.toLocaleLowerCase();
 
-            var search = function( query , offset , length ) {
+            var search = function(query , offset , length) {
 
                 //如果数据未加载完整，从后端搜索，数据完整从前端搜索
-                if( !global.dataFinish ) {
+                if (!global.dataFinish && !searchCache) {
                     $http({
                         method: 'get',
                         url: '/resource/contacts/search',
                         params: {
-                            'keyword':query,
-                            'length':length,
-                            'offset':offset
+                            keyword: query,
+                            length: length,
+                            offset: offset
                         }
                     }).success(function(data){
                         var list = [];
-                        if ( options.sms ) {
-                            _.each( data, function( value ) {
-                                if( value[ 'phone' ][0] ){
+                        if (options.sms) {
+                            _.each(data, function(value) {
+                                if( value.phone[0] ){
 
                                     //给简版的逻辑
-                                    _.each(value[ 'phone' ],function(v){
+                                    _.each(value.phone, function(v) {
                                         list.push({
-                                            name:value['name'][ 'display_name' ],
-                                            phone:v['number']
+                                            name: value.name.display_name,
+                                            phone: v.number
                                         });
                                     });
                                 }
@@ -185,65 +186,68 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         defer.resolve(list);
                     });
 
-                }else{
+                } else {
 
                     var list = [];
 
                     //返回的简版数据
                     var smsList = [];
-                    _.each( global.contacts, function( value ) {
+                    _.each(cache || global.contacts, function(value) {
 
                         //首先查找名字
-                        if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').match( new RegExp( '^' + query , 'g' ) ) ) ){
-                            list.push( value );
+                        if (!!value.name.display_name &&
+                            value.name.display_name.toLocaleLowerCase().replace(/\s/g,'').match(new RegExp('^' + query, 'g'))) {
+                            list.push(value);
 
                             //给简版的逻辑
-                            if(options.sms){
-                                _.each(value[ 'phone' ],function(v){
+                            if (options.sms){
+                                _.each(value.phone, function(v){
                                     smsList.push({
-                                        name:value['name'][ 'display_name' ],
-                                        phone:v['number']
+                                        name:value.name.display_name,
+                                        phone:v.number
                                     });
                                 });
                             }
                             return;
 
                         //拼音搜索
-                        }else if( !!value['sort_key'] ) {
+                        }
+                        else if (!!value.sort_key) {
                             var item = value['sort_key'].toLocaleLowerCase();
                             var regstr = '^';
-                            for( var o = 0 , p = query.length; o < p ; o += 1 ) {
-                                regstr = regstr + query[o]+'.*?';
+                            for(var o = 0, p = query.length; o < p; o += 1) {
+                                regstr = regstr + query[o] + '.*?';
                             }
                             var regexp = new RegExp(regstr,'g') ;
-                            if ( item.match( regexp ) ) {
-                                list.push( value );
+                            if (item.match(regexp)) {
+                                list.push(value);
 
                                 //给简版的逻辑
                                 if (options.sms){
-                                    _.each(value[ 'phone' ],function(v){
+                                    _.each(value.phone,function(v){
                                         smsList.push({
-                                            name:value['name'][ 'display_name' ],
-                                            phone:v['number']
+                                            name: value.name.display_name,
+                                            phone: v.number
                                         });
                                     });
                                 }
                             }
                             return;
 
-                        }else{
+                        }
+                        else {
 
                             //查找电话
-                            for(var i = 0 , l = value[ 'phone' ].length ; i < l ; i += 1) {
-                                var v = value[ 'phone' ][i];
-                                if( ( !!v[ 'number' ] && v[ 'number' ].toLocaleLowerCase().replace(/\s/g,'').indexOf( query ) >= 0 ) ){
-                                    list.push( value );
+                            for (var i = 0, l = value.phone.length; i < l; i += 1) {
+                                var v = value.phone[i];
+                                if (!!v.number && v.number.toLocaleLowerCase().replace(/\s/g,'').indexOf(query) >= 0){
+                                    list.push(value);
 
                                     //给简版的逻辑
-                                    if(options.sms){
+                                    if (options.sms){
                                         smsList.push({
-                                            name:value['name'][ 'display_name' ],
-                                            phone:v[ 'number' ]
+                                            name:value.name.display_name,
+                                            phone:v.number
                                         });
                                     }
 
@@ -277,13 +281,13 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             };
 
             //执行search
-            search(query ,0 ,CONFIG.searchLength );
+            search(query, 0, CONFIG.searchLength);
 
             defer.promise.query = query;
 
             //搜索更多
-            defer.promise.loadMore = function( offset ){
-                search( query ,offset ,CONFIG.dataLengthOnce );
+            defer.promise.loadMore = function(offset){
+                search(query, offset, CONFIG.dataLengthOnce);
                 return defer.promise;
             };
 
@@ -329,7 +333,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 method: 'post',
                 url: '/resource/contacts/delete',
                 data: {'ids':list},
-                timeout:CONFIG.timeout
+                timeout: 60 * 60 * 1000
             }).success(function(){
                 for( var m = 0 , n = list.length ; m < n ; m += 1 ){
                     for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){

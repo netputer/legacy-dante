@@ -3,7 +3,7 @@
     <!-- 左侧布局 -->
     <div class="left">
 
-        <div class="wd-loading" data-visible="true" ng-show="isLeftLoadingShow"></div>
+        <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isLeftLoadingShow"></div>
         <div ng-show="$root.READ_ONLY_FLAG" class="module-title">
             {{$root.DICT.contacts.TITLE}}
         </div>
@@ -13,7 +13,7 @@
                 {{$root.DICT.contacts.BUTTONS.newContact}}
             </button>
             <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll()" ng-show="!$root.READ_ONLY_FLAG">
-                <i class="icon-sel-toolbar"></i>
+                <i class="icon-buticon"></i>
                 {{$root.DICT.contacts.BUTTONS.deselect}} ({{selectedNum}})
             </button>
             <button class="btn btn-delete" type="button" ng-click="deleteContacts()" ng-show="isDeleteBtnShow" ng-show="!$root.READ_ONLY_FLAG">
@@ -23,7 +23,7 @@
             <div class="search">
                 <input type="text" ng-model="searchText" placeholder="{{$root.DICT.contacts.INPUT_DEFAULT.search}}">
                 <i class="icon-search"></i>
-                <span class="icon-clear" ng-show="searchText" ng-click="searchText='';clearSearch();"></span>
+                <span class="icon-clear" ng-show="searchText" ng-click="clearSearch();"></span>
             </div>
         </div>
 
@@ -34,12 +34,18 @@
             <!-- 没有联系人时显示 end -->
 
             <!-- 每个联系人的模板 -->
-            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked,checked:item.checked}">
-                <label class="selected" ng-model="item.checked" ng-click="$event.stopPropagation();" ng-show="!$root.READ_ONLY_FLAG">
-                    <input class="selected" type="checkbox" ng-checked="item.checked" ng-model="item.checked" ng-click="clickChecked($event,item);" bs-tooltip="{{item.tooltip}}">
-                </label>
+            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked:item.checked}">
+                <div wd-checkbox class="selected"
+                    ng-class="{'wd-checkbox-light': !item.clicked}"
+                    ng-show="!$root.READ_ONLY_FLAG"
+                    ng-click="clickChecked($event, item);$event.stopPropagation();"
+                    ng-model="item.checked"
+                    bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
+                    <div ng-if="!item.photo && item.name" class="photo-color" ng-class="item.photo_color">
+                        {{item.name|limitTo:1}}
+                    </div>
                 </div>
                 <div class="info">
                     <p class="name">{{item.name}}</p>
@@ -54,7 +60,7 @@
 
             <!-- 增加loading -->
             <li ng-show="isListLoadShow">
-                <div class="wd-loading" data-visible="true"></div>
+                <div class="wd-loading wd-loading-local" data-visible="true"></div>
             </li>
             <!-- 增加load more end -->
 
@@ -66,12 +72,15 @@
     <!-- 右侧布局 -->
     <div class="right">
 
-        <div class="wd-loading" data-visible="true" ng-show="isRightLoadShow"></div>
+        <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isRightLoadShow && !isNoneContacts"></div>
 
         <!-- 查看和编辑用户信息 -->
         <div class="contacts-edit" ng-show="isContactsEditShow">
             <div class="photo">
                 <img ng-if="contact.photo_path" class="photo" ng-src="{{contact.photo_path}}">
+                <div ng-if="!contact.photo_path && contact.name.display_name" class="photo-color" ng-class="contact.photo_color">
+                    {{contact.name.display_name|limitTo:1}}
+                </div>
             </div>
 
             <!-- 上传图片遮罩 start -->
@@ -270,7 +279,7 @@
     <!-- 右侧布局 end -->
 
     <!-- 为空检测 -->
-    <div class="wd-blank dn">
+    <div class="wd-blank dn" ng-show="isNoneContacts">
         <p>{{$root.DICT.contacts.NO_CONTACT}}<p>
         <div ng-if="!$root.READ_ONLY_FLAG" class="btn btn-primary"
             ng-click="addNewContact();"><i class="icon-add"></i>{{$root.DICT.contacts.BUTTONS.newContact}}</div>

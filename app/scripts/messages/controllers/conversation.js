@@ -307,6 +307,28 @@ $scope.removeMessage = function(c, m) {
     });
 };
 
+$scope.getPhotoColor = function() {
+
+    //默认头像显示颜色
+    var photoColorList = [
+        'contact-photo-bg-green', 
+        'contact-photo-bg-red', 
+        'contact-photo-bg-blue', 
+        'contact-photo-bg-pink', 
+        'contact-photo-bg-orange', 
+        'contact-photo-bg-wheat', 
+        'contact-photo-bg-olive-green', 
+        'contact-photo-bg-blue-green', 
+        'contact-photo-bg-light-green'
+    ];
+    return photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
+};
+
+$scope.isDisplayNamePhoneNumber = function( name ) {
+
+    //以数字、星号、加号、减号、警号开头并且结尾的
+    return new RegExp(/^[\d\*\+\-\#]*$/g).test( name );
+};
 
 // Startup
 var timer;

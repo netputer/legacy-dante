@@ -5,50 +5,47 @@
         font-weight: normal;
     }
 	.header{
-		position: fixed;
-		top: 0px;
-		left: 60px;
-		right: 0px;
+		@include position(absolute, 0 0 0 0);
 		height: 40px;
-		overflow: hidden;
+		width: 100%;
 		padding-left: 10px;
 		padding-top: 10px;
-		background: rgba(255, 255, 255, 0.95);
+		background: rgba(255, 255, 255, 0.9);
 
         .btn{
             margin-right: 5px;
         }
-	}
+    }
     ul{
         list-style: none;
         margin: 0px;
     }
+
 	.apps-list{
-		position: fixed;
-		top: 0px;
-		bottom: 0px;
+        height: 100%;
+		@include position(absolute, 0 0 0 0);
 		overflow-y:auto;
 		padding-top: 50px;
         @include readonly {
             padding-top: 10px;
         }
 
-		dl{
-			float: left;
-			background-color: #f5f5f5;
-			margin:0px 0px 10px 10px;
-			text-align: center;
+        dl{
+            float: left;
+            background-color: #f5f5f5;
+            margin:0px 0px 10px 10px;
+            text-align: center;
             position: relative;
             cursor: pointer;
 
-			img{
+            img{
                 margin-top: 22%;
                 margin-bottom: 8px;
                 width: 72px;
                 height: 72px;
-			}
+            }
 
-            dd.title{
+            .title{
                 margin-left: 0px;
                 height: 20px;
                 line-height: 20px;
@@ -57,66 +54,11 @@
                 font-size: 16px;
             }
 
-            dd.toolbar{
-                opacity: 0;
-                height: 26px;
-                overflow: hidden;
-                text-align: left;
-                margin-left: 0px;
-                position: absolute;
-                background-color: #000;
-                bottom: 0px;
-                left: 0px;
-                right: 0px;
-                @include transition(opacity 0.1s);
-                cursor: default;
-
-                .btn-icon-check{
-                    width: 25px;
-                    height: 26px;
-                    padding-left: 5px;
-                    padding-top: 2px;
-                    display: inline-block;
-                }
-                .btn-icon-del{
-                    width: 20px;
-                    height: 22px;
-                    padding-top: 3px;
-                    padding-right: 1px;
-                    display: inline-block;
-                    float: right;
-                    opacity: 0.65;
-                    cursor: pointer;
-                }
-                .btn-icon-del:hover{
-                    opacity: 1;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-del:active{
-                    opacity: 0.5;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-download{
-                    width: 20px;
-                    height: 22px;
-                    padding-top: 3px;
-                    padding-right: 1px;
-                    display: inline-block;
-                    float: right;
-                    opacity: 0.65;
-                    cursor: pointer;
-                }
-                .btn-icon-download:hover{
-                    opacity: 1;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-download:active{
-                    opacity: 0.5;
-                    @include transition(opacity 0.4s);
-                }
+            .wd-block-actions {
+                background-image: none;
             }
 
-            dd.confirm{
+            .confirm{
                 margin-left: 0px;
                 position: absolute;
                 bottom: 0px;
@@ -156,7 +98,7 @@
                 }
             }
 
-            dd.done{
+            .done{
                 margin-left: 0px;
                 position: absolute;
                 bottom: 0px;
@@ -185,18 +127,14 @@
                     color: #FFF;
                 }
             }
-		}
 
-        dl:hover{
-            dd.toolbar{
-                opacity: 1;
+            &.confirm {
+                .wd-block-select, .wd-block-actions {
+                    display: none;
+                }
             }
         }
-        dl.confirm:hover{
-            dd.toolbar{
-                opacity: 0;
-            }
-        }
+
         dl.new-list{
 
             dt{
@@ -255,7 +193,7 @@
 
         }
 
-	}
+    }
 
     .mask{
         opacity: 0;
@@ -392,14 +330,14 @@
                     display: inline-block;
                     margin: 0px;
                     font-size: 12px;
-                    color: #999;
+                    color: #000;
                 }
                 .icon-del{
                     margin-right: 4px;
                 }
                 .button-del{
                     text-align: center;
-                    padding-top: 5px;
+                    padding-top: 6px;
                     padding-left: 4px;
                     opacity: 0.75;
                     display: inline-block;
@@ -418,7 +356,7 @@
                     width: 190px;
                     height: 34px;
                     text-align: center;
-                    padding-top: 5px;
+                    padding-top: 6px;
                     opacity: 0.75;
                     display: inline-block;
                     @include button-effect-light;

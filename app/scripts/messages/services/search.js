@@ -4,20 +4,21 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversationsCollection',
-function(wdmConversationsCollection) {
-
-var _self = wdmConversationsCollection.ConversationsCollection.prototype;
-
-function Search() {
-    _self.constructor.call(this);
-}
-
-Search.prototype = Object.create(_self);
+return ['wdmConversations', 'wdcContacts', '$q',
+function(wdmConversations,   wdcContacts,   $q) {
 
 return {
-    search: function(keyword) {
-
+    init: function() {
+        wdcContacts.init();
+    },
+    search: function(query) {
+        var cache = wdmConversations.getContactsCache();
+        if (cache) {
+            return wdcContacts.searchContacts(query, {sms: true}, cache);
+        }
+        else {
+            return wdcContacts.searchContacts(query, {sms: true});
+        }
     }
 };
 

@@ -2,8 +2,17 @@
 $global-line-height: 20px;
 $global-transition-duration: 0.4s;
 $global-left-offset: 60px;
+$global-sidebar-width: 310px;
 
 $standard-green: #3baa24;
+$standard-red: #f24949;
+$standard-pink: #eb6f67;
+$standard-orange: #f19900;
+$standard-wheat: #d4b526;
+$standard-olive-green: #79a800;
+$standard-blue-green: #34a97d;
+$standard-light-green: #95c60e;
+$standard-blue: #3788bb;
 
 // http://docs.angularjs.org/api/ng.directive:ngCloak
 [ng\:cloak], [ng-cloak] { display: none; }
@@ -22,8 +31,19 @@ html.cors .no-support-placeholder {
     @include position;
     height: 100%;
     margin-left: $global-left-offset;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
+    background-color: #fff;
+    @include transition(all 300ms linear);
+}
+
+.open-sidebar .viewport {
+    @include transform(translate3d($global-sidebar-width, 0, 0));
+    pointer-events: none;
+    z-index: 3;
+}
+
+.open-sidebar .navigator {
+    z-index: 2;
 }
 
 body {

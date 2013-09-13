@@ -1,18 +1,27 @@
 .contacts-edit{
-    position: fixed;
+    @include position(absolute, 0px 0px 0px 454px);
     overflow-y : auto;
     height:100%;
-    right: 0px;
-    left: 514px;
 
     div.photo{
+        $photo-width: 127px;
         margin-top: 25px;
-        width: 127px;
-        height: 127px;
+        width: $photo-width;
+        height: $photo-width;
         @include use-sprite("profile128");
         img{
-            width: 127px;
-            height: 127px;
+            width: $photo-width;
+            height: $photo-width;
+        }
+        .photo-color{
+            text-transform: uppercase;
+            font-size: 64px;
+            line-height: $photo-width;
+            text-align: center;
+            width: $photo-width;
+            height: $photo-width;
+            font-weight: normal;
+            color: #FFF;
         }
     }
 

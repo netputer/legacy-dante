@@ -12,7 +12,6 @@ var _super = wdmBasicConversation.BasicConversation.prototype;
 function SearchConversation(results) {
     var addresses = [];
     var contactNames = [];
-
     results.forEach(function(m) {
         if (addresses.indexOf(m.address) === -1) {
             addresses.push(m.address);

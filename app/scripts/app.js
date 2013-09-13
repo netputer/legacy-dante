@@ -45,7 +45,7 @@ READ_ONLY_FLAG = false;
 READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
 //>>includeEnd("debug");
 
-angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
+angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
 
@@ -199,6 +199,11 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                 responseError: function error(rejection) {
                     $log.warn(rejection.config.url, rejection.status);
                     popActiveRequest($rootScope);
+                    // 423 Locked
+                    if ($rootScope.READ_ONLY_FLAG && rejection.status === 423) {
+                        $window.alert($rootScope.DICT.app.ACCOUNT_LOCKED);
+                        $window.location = 'https://account.wandoujia.com/web/forgetpassword?callback=' + encodeURIComponent($window.location.href);
+                    }
                     // If auth error, always signout.
                     // 401 for auth invalid, 0 for server no response.
 
@@ -228,9 +233,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document, $route) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -269,18 +274,32 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $rootScope.$on('signin', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.connect();
+                wdDatabase.open(wdDev.getMetaData('phone_udid'));
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
         });
         $rootScope.$on('signout', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
+                wdDatabase.close();
             }
         });
+
 
         wdSocket.on('refresh', function() {
             $route.reload();
         });
+
+        $rootScope.globalControl = function(e) {
+            if (!jQuery(e.target).parents('.sidebar').length && !jQuery(e.target).parents('.nav-settings').length) {
+                $rootScope.showSidebar = false;
+            }
+        };
+
+        $window.onbeforeunload = function() {
+            wdDatabase.close();
+        };
+
     }]);
 
 

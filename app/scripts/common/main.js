@@ -24,7 +24,10 @@ define([
     'common/services/share',
     'common/directives/auto-stretch-textarea',
     'common/directives/temporary-disabled',
-    'common/directives/disconnect-panel'
+    'common/directives/disconnect-panel',
+    'common/directives/sidebar',
+    'common/services/db',
+    'common/directives/nav-item'
 ], function(
     angular,
     loading,
@@ -51,7 +54,10 @@ define([
     share,
     autoStretchTextarea,
     temporaryDisabled,
-    disconnectPanel
+    disconnectPanel,
+    sidebar,
+    db,
+    navItem
 ) {
 // jshint unused:false
 'use strict';
@@ -61,6 +67,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdAutoFocus', autofocus)
     .directive('wdAutoStretchTextarea', autoStretchTextarea)
     .directive('wdNavbar', navbar)
+    .directive('wdNavItem', navItem)
     .directive('wdStrip', strip)
     .directive('wdLoading', loading)
     .directive('wdAlert', alertDirecitve)
@@ -69,6 +76,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdUpgradeWarning', upgradeWarningDirective)
     .directive('wdTemporaryDisabled', temporaryDisabled)
     .directive('disconnectPanel', disconnectPanel)
+    .directive('wdSidebar', sidebar)
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
@@ -82,5 +90,6 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdKeeper', keeper)
     .factory('GA', ga)
     .factory('wdNotification', notification)
-    .factory('wdTitleNotification', titleNotification);
+    .factory('wdTitleNotification', titleNotification)
+    .factory('wdDatabase', db);
 });
