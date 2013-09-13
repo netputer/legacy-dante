@@ -1,13 +1,15 @@
 define([
         'fineuploader',
-        'jquery'
+        'jquery',
+        'underscore'
     ], function(
         fineuploader,
-        jQuery
+        jQuery,
+        _
     ) {
 'use strict';
-return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA',
-    function($q,   wdDev,   wdKeeper,   wdpImageHelper,   GA) {
+return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert',
+    function($q,   wdDev,   wdKeeper,   wdpImageHelper,   GA,   wdAlert) {
     return {
         link: function(scope, element) {
             var keeper = null;
@@ -19,7 +21,9 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA',
                     endpoint: wdDev.wrapURL('/directive/photos/upload')
                 },
                 validation: {
-                    acceptFiles: 'image/*'
+                    acceptFiles: 'image/*',
+                    allowedExtensions: ['jpg', 'jpeg', 'gif', 'png'],
+                    stopOnFirstInvalidFile: false
                 },
                 cors: {
                     expected: true,
@@ -87,9 +91,37 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA',
                 dropArea: jQuery('.wdj-photos')[0],
                 multiple: true,
                 hideDropzones: false,
+                classes: {
+                    dropActive: 'drag-enter-container'
+                },
                 callbacks: {
                     dropProcessing: function(isProcessing, files) {
                         uploader.addFiles(files);
+
+                        if (files) {
+                            var validCount = 0;
+                            _.each(files, function(item) {
+                                if (!uploader.isAllowedExtension(item.name)) {
+                                    validCount += 1;
+                                }
+                            });
+
+                            scope.$apply(function() {
+                                if (files.length === validCount) {
+                                    wdAlert.alert(
+                                        scope.$root.DICT.photos.ALL_FILES_UNSUPPORT_TITLE,
+                                        scope.$root.DICT.photos.ALL_FILES_UNSUPPORT_CONTENT,
+                                        scope.$root.DICT.photos.UNSUPPORT_MODAL_BUTTON_OK
+                                    );
+                                } else if (files.length > validCount && validCount) {
+                                    wdAlert.alert(
+                                        scope.$root.DICT.photos.SOME_FILES_UNSUPPORT_TITLE,
+                                        scope.$root.DICT.photos.SOME_FILES_UNSUPPORT_CONTENT,
+                                        scope.$root.DICT.photos.UNSUPPORT_MODAL_BUTTON_OK
+                                    );
+                                }
+                            });
+                        }
                     },
                     error: function(code, filename) {},
                     log: function(message, level) {}

@@ -48,5 +48,12 @@
     "REC_TITLE": "Get faster access to your photos",
     "REC_CONTENT": "Install the Chrome Extension to see your photos in just one click.",
     "REC_ADD_TO_CHROME": "Add to Chrome",
-    "REC_MORE_INFO": "Learn more"
+    "REC_MORE_INFO": "Learn more",
+    "ALL_FILES_UNSUPPORT_TITLE": "Unsupported File(s)",
+    "ALL_FILES_UNSUPPORT_CONTENT": "Invalid file extension. Only JPG, GIF or PNG are supported.",
+    "SOME_FILES_UNSUPPORT_TITLE": "Includes Unsupported File(s)",
+    "SOME_FILES_UNSUPPORT_CONTENT": "Some file extensions are invalid. Only JPG, GIF or PNG are supported.",
+    "UNSUPPORT_MODAL_BUTTON_OK": "OK",
+    "DRAG_TITLE": "Drop images here",
+    "DRAG_TIP": "Adds images to your phone."
 }

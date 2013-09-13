@@ -1,9 +1,11 @@
 define([
     'fineuploader',
-    'jquery'
+    'jquery',
+    'underscore'
 ],function(
     fineuploader,
-    $
+    $,
+    _
 ){
     'use strict';
     /* jshint eqeqeq:false */
@@ -197,7 +199,8 @@ define([
                         endpoint: wdDev.wrapURL('/resource/apps/upload')
                     },
                     validation: {
-                        allowedExtensions:['apk']
+                        allowedExtensions: ['apk'],
+                        stopOnFirstInvalidFile: false
                     },
                     cors: {
                         expected: true,
@@ -231,7 +234,7 @@ define([
                                 }
                             }
                         },
-                        onerror:function(){
+                        onError:function(){
                         }
                     }
                 });
@@ -240,9 +243,37 @@ define([
                     dropArea: $('.wdj-applications')[0],
                     multiple: true,
                     hideDropzones: false,
+                    classes: {
+                        dropActive: 'drag-enter-container'
+                    },
                     callbacks: {
                         dropProcessing: function(isProcessing, files) {
                             G_uploader.addFiles(files);
+
+                            if (files) {
+                                var validCount = 0;
+                                _.each(files, function(item) {
+                                    if (!G_uploader.isAllowedExtension(item.name)) {
+                                        validCount += 1;
+                                    }
+                                });
+
+                                $scope.$apply(function() {
+                                    if (files.length === validCount) {
+                                        wdAlert.alert(
+                                            $scope.$root.DICT.applications.ALL_FILES_UNSUPPORT_TITLE,
+                                            $scope.$root.DICT.applications.ALL_FILES_UNSUPPORT_CONTENT,
+                                            $scope.$root.DICT.applications.UNSUPPORT_MODAL_BUTTON_OK
+                                        );
+                                    } else if (files.length > validCount && validCount) {
+                                        wdAlert.alert(
+                                            $scope.$root.DICT.applications.SOME_FILES_UNSUPPORT_TITLE,
+                                            $scope.$root.DICT.applications.SOME_FILES_UNSUPPORT_CONTENT,
+                                            $scope.$root.DICT.applications.UNSUPPORT_MODAL_BUTTON_OK
+                                        );
+                                    }
+                                });
+                            }
                         },
                         error: function(code, filename) {},
                         log: function(message, level) {}
