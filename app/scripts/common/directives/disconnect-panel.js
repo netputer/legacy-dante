@@ -34,6 +34,7 @@ return [function() {
             };
 
             wdSocket.on('socket:disconnected', function() {
+                
                 $scope.network = wdDevice.getDevice().attributes.ssid;
                 $scope.showPanel = true;
 
@@ -42,10 +43,8 @@ return [function() {
 
             wdSocket.on('socket:connected', function() {
                 $scope.$apply(function() {
-                    $scope.showPanel = false;
+                    $scope.closePanel();
                 });
-
-                clearInterval(connectTimer);
             });
 
             $rootScope.$on('signout', function() {

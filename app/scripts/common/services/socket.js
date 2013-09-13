@@ -122,11 +122,11 @@ Socket.prototype = {
         if (this._transport) {
             try {
                 this._transport.disconnect();
-                this._transport.removeAllListeners();
             }
             catch(err){
             }
             
+            this._transport.removeAllListeners();
             this._transport = null;
         }
         return this;
