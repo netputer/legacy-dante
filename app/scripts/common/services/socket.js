@@ -91,7 +91,7 @@ Socket.prototype = {
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
            
-            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS || self.RECONNECT_TIMES === self.MAX_RECONNECTION_ATTEMPTS) {
+            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
                 self.refreshDeviceAndConnect();
             }
         });
@@ -120,7 +120,12 @@ Socket.prototype = {
 
     close: function() {
         if (this._transport) {
-            this._transport.disconnect();
+            try {
+                this._transport.disconnect();
+            }
+            catch(err){
+            }
+
             this._transport.removeAllListeners();
             this._transport = null;
         }
@@ -142,8 +147,8 @@ Socket.prototype = {
                         wdDevice.setDevice(currentOnlineDevice);
                         wdDev.setServer(currentOnlineDevice.ip);
 
-                        self._newTransport();
-                        self._transport.socket.reconnect();
+                        self.close();
+                        self.connect();
                     } else {
                         var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
                         $.ajax({
@@ -158,9 +163,9 @@ Socket.prototype = {
 
                         self.trigger('socket:disconnected');
 
-                        self.on('socket:connect', function() {
-                            self.RECONNECT_TIMES += 1;
-                            self._transport.socket.reconnect();
+                        self.off('socket:connect').on('socket:connect', function() {
+                            self.close();
+                            self.connect();
                         });
                     }
                 } else {
