@@ -256,7 +256,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             return item.pingStatus;
         };
 
-        $scope.googleSignOut = function () {
+        $scope.googleSignOut = function() {
             $scope.isLoadingDevices = true;
             wdGoogleSignIn.signout().then(function(){
                 //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。

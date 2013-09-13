@@ -165,19 +165,22 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 dataType: 'jsonp',
                 timeout: 7000,
                 success: function(nullResponse) {
-                    
-                    // 客户取消了关联，据此执行相应操作
-                    // 回应始终为未定义。
-                    me.removeStorageItem('googleToken');
-                    wdDevice.signout();
-                    global.authResult = {};
-                    defer.resolve('signout');
-                    $rootScope.$apply();
+                    $rootScope.$apply(function() {
+
+                        // 客户取消了关联，据此执行相应操作
+                        // 回应始终为未定义。
+                        me.removeStorageItem('googleToken');
+                        wdDevice.signout();
+                        global.authResult = {};
+                        defer.resolve('signout');
+                    });                    
                 },
                 error: function(e) {
-                    $log.error('google signout failed.');
-                    defer.reject();
-                    $rootScope.$apply();
+                    $rootScope.$apply(function() {
+                        $log.error('google signout failed.');
+                        defer.reject();
+                    });
+
                   // 处理错误
                   // console.log(e);
                   // 如果失败，您可以引导用户手动取消关联
