@@ -120,6 +120,18 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         return list;
     }
 
+    //是否从起始位置既匹配
+    function isFrontMatch( str, query ) {
+        str = String( str ).toLocaleLowerCase().replace(/\s/g,'');
+        return new RegExp( '^' + query , 'g' ).test( str );
+    }
+
+    //是否在非起始位置有匹配
+    function isBehindMatch( str, query ) {
+        str = String( str ).toLocaleLowerCase().replace(/\s/g,'');
+        return new RegExp( query , 'g' ).test( str );
+    }
+
     //整个service返回接口
     return {
 
@@ -195,7 +207,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         var list = [];
                         if (options.sms) {
                             _.each(data, function(value) {
-                                if( value.phone[0] ){
+                                if ( value.phone[0] ){
 
                                     //给简版的逻辑
                                     _.each(value.phone, function(v) {
@@ -213,94 +225,175 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     });
 
                 } else {
+                    query = encodeReg( query );
 
-                    var list = [];
+                    //分为两种权重，最后前面的数据和后面的数据拼在一起就是展示数据。
+                    //从字符串起点既匹配到
+                    var frontList = [];
+                    var behindList = [];
 
-                    //返回的简版数据
-                    var smsList = [];
-                    _.each(options.cache || global.contacts, function(value) {
-
-                        //首先查找名字
-                        if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').match( new RegExp( '^' + encodeReg(query) , 'g' ) ) ) ){
-                            list.push( value );
-
-                            //给简版的逻辑
-                            if (options.sms){
-                                _.each(value.phone, function(v){
-                                    smsList.push({
-                                        name:value.name.display_name,
-                                        phone:v.number
-                                    });
-                                });
+                    _.each( options.cache || global.contacts, function(value) {
+                        
+                        //查名字
+                        if ( value.name ){
+                            if ( ( value.name.given_name && isFrontMatch( value.name.given_name, query ) ) ||
+                                ( value.name.middle_name && isFrontMatch( value.name.middle_name, query ) ) ||
+                                ( value.name.family_name && isFrontMatch( value.name.family_name, query ) )
+                            ) {
+                                frontList.push( value );
+                                return;
                             }
-                            return;
 
-                        //拼音搜索
+                            if ( ( value.name.given_name && isBehindMatch( value.name.given_name, query ) ) ||
+                                ( value.name.middle_name && isBehindMatch( value.name.middle_name, query ) ) ||
+                                ( value.name.family_name && isBehindMatch( value.name.family_name, query ) )
+                            ) {
+                                behindList.push( value );
+                                return;
+                            }
                         }
-                        else if (!!value.sort_key) {
-                            var item = value['sort_key'].toLocaleLowerCase();
-                            var regstr = '^';
-                            for(var o = 0, p = query.length; o < p; o += 1) {
-                                regstr = regstr + query[o] + '.*?';
-                            }
-                            var regexp = new RegExp(encodeReg(regstr),'g') ;
-                            if ( item.match( regexp ) ) {
-                                list.push( value );
 
-                                //给简版的逻辑
-                                if (options.sms){
-                                    _.each(value.phone,function(v){
-                                        smsList.push({
-                                            name: value.name.display_name,
-                                            phone: v.number
-                                        });
-                                    });
-                                }
-                            }
-                            return;
-
-                        }
-                        else {
-
-                            //查找电话
-                            for (var i = 0, l = value.phone.length; i < l; i += 1) {
-                                var v = value.phone[i];
-                                if (!!v.number && v.number.toLocaleLowerCase().replace(/\s/g,'').indexOf(query) >= 0){
-                                    list.push(value);
-
-                                    //给简版的逻辑
-                                    if (options.sms){
-                                        smsList.push({
-                                            name:value.name.display_name,
-                                            phone:v.number
-                                        });
+                        //查电话号码
+                        if ( value.phone && value.phone[0] ) {
+                            for ( var i = 0, l = value.phone.length ; i < l ; i += 1 ) {
+                                if ( value.phone[i].number ){
+                                    var number = value.phone[i].number;
+                                    if ( isFrontMatch( number, query ) ) {
+                                        frontList.push( value );
+                                        return;
                                     }
-
-                                    return;
-                                }
-                            }
-
-                            if ( !options.sms ) {
-                                //查找email
-                                for(var m = 0 , n = value[ 'email' ].length ; m < n ; m += 1) {
-                                    var val = value[ 'email' ][m];
-                                    if( ( !!val[ 'address' ] && val[ 'address' ].toLocaleLowerCase().replace(/\s/g,'').indexOf( query ) >= 0 ) ){
-                                        list.push( value );
+                                    if ( isBehindMatch( number, query ) ) {
+                                        behindList.push( value );
                                         return;
                                     }
                                 }
                             }
-
                         }
 
-                    });
+                        //查 email
+                        if ( value.email && value.email[0] ) {
+                            for ( var m = 0, n = value.email.length ; m < n ; m += 1 ) {
+                                if ( value.email[m].address ) {
+                                    var email = value.email[m].address;
+                                    if ( isFrontMatch( email, query ) ) {
+                                        frontList.push( value );
+                                        return;
+                                    }
+                                    if ( isBehindMatch( email, query ) ) {
+                                        behindList.push( value );
+                                        return;
+                                    }
+                                }
+                            }
+                        }
 
-                    //TODO:这块可以根据query是否一致来做些缓存
-                    if(options.sms){
-                        defer.resolve( smsList );
-                    }else{
-                        defer.resolve( list );
-                    }
+                        //查 sort key （拼音搜索）
+                        if ( value.sort_key ) {
+                            var item = value['sort_key'].toLocaleLowerCase();
+                            var regstr = '^';
+                            for ( var o = 0, p = query.length; o < p; o += 1 ) {
+                                regstr = regstr + query[o] + '.*?';
+                            }
+                            if ( new RegExp( encodeReg(regstr),'g' ).test( item ) ) {
+                                frontList.push( value );
+                                return;
+                            }
+                        }
+                    });
+                    
+                    defer.resolve( frontList.concat( behindList ) );
+
+                    
+
+
+
+
+
+                    // //返回的简版数据
+                    // var smsList = [];
+                    // _.each(options.cache || global.contacts, function(value) {
+
+                    //     //首先查找名字
+                    //     if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').match( new RegExp( '^' + encodeReg(query) , 'g' ) ) ) ){
+                    //         list.push( value );
+
+                    //         //给简版的逻辑
+                    //         if (options.sms){
+                    //             _.each(value.phone, function(v){
+                    //                 smsList.push({
+                    //                     name:value.name.display_name,
+                    //                     phone:v.number
+                    //                 });
+                    //             });
+                    //         }
+                    //         return;
+
+                    //     //拼音搜索
+                    //     }
+                    //     else if (!!value.sort_key) {
+                    //         var item = value['sort_key'].toLocaleLowerCase();
+                    //         var regstr = '^';
+                    //         for(var o = 0, p = query.length; o < p; o += 1) {
+                    //             regstr = regstr + query[o] + '.*?';
+                    //         }
+                    //         var regexp = new RegExp(encodeReg(regstr),'g') ;
+                    //         if ( item.match( regexp ) ) {
+                    //             list.push( value );
+
+                    //             //给简版的逻辑
+                    //             if (options.sms){
+                    //                 _.each(value.phone,function(v){
+                    //                     smsList.push({
+                    //                         name: value.name.display_name,
+                    //                         phone: v.number
+                    //                     });
+                    //                 });
+                    //             }
+                    //         }
+                    //         return;
+
+                    //     }
+                    //     else {
+
+                    //         //查找电话
+                    //         for (var i = 0, l = value.phone.length; i < l; i += 1) {
+                    //             var v = value.phone[i];
+                    //             if (!!v.number && v.number.toLocaleLowerCase().replace(/\s/g,'').indexOf(query) >= 0){
+                    //                 list.push(value);
+
+                    //                 //给简版的逻辑
+                    //                 if (options.sms){
+                    //                     smsList.push({
+                    //                         name:value.name.display_name,
+                    //                         phone:v.number
+                    //                     });
+                    //                 }
+
+                    //                 return;
+                    //             }
+                    //         }
+
+                    //         if ( !options.sms ) {
+                    //             //查找email
+                    //             for(var m = 0 , n = value[ 'email' ].length ; m < n ; m += 1) {
+                    //                 var val = value[ 'email' ][m];
+                    //                 if( ( !!val[ 'address' ] && val[ 'address' ].toLocaleLowerCase().replace(/\s/g,'').indexOf( query ) >= 0 ) ){
+                    //                     list.push( value );
+                    //                     return;
+                    //                 }
+                    //             }
+                    //         }
+
+                    //     }
+
+                    // });
+
+                    // //TODO:这块可以根据query是否一致来做些缓存
+                    // if(options.sms){
+                    //     defer.resolve( smsList );
+                    // }else{
+                    //     defer.resolve( list );
+                    // }
 
                 }
             };
@@ -311,10 +404,10 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             defer.promise.query = query;
 
             //搜索更多
-            defer.promise.loadMore = function(offset){
-                search(query, offset, CONFIG.dataLengthOnce);
-                return defer.promise;
-            };
+            // defer.promise.loadMore = function(offset){
+            //     search(query, offset, CONFIG.dataLengthOnce);
+            //     return defer.promise;
+            // };
 
             return defer.promise;
         },

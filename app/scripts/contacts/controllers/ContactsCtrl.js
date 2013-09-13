@@ -981,24 +981,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
     }
 
-
-    //搜索功能
-    $('.wdj-contacts .btn-all .search input').on('keyup',_.debounce(function(){
-
-        //不是空则执行搜索
-        if(!!$scope.searchText && (G_contacts.length > 1) ){
-            G_searchIsNull = false;
-            $scope.searchContacts();
-            $scope.deselectAll();
-            $scope.$apply();
-        }else if(!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ){
-            G_searchIsNull = true;
-            $scope.searchContacts();
-            $scope.deselectAll();
-            $scope.$apply();
-        }
-    },300));
-
     $scope.clearSearch = function(){
         $scope.isNoContactsShow = false;
         $scope.searchText = '';
@@ -1007,6 +989,18 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //搜索联系人功能
     $scope.searchContacts = function(){
+        
+        //不是空则执行搜索
+        if( $scope.searchText && (G_contacts.length > 1) ){
+            G_searchIsNull = false;
+            $scope.deselectAll();
+        }else if(!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ){
+            G_searchIsNull = true;
+            $scope.deselectAll();
+        }else{
+            return;
+        }
+
         $scope.isListLoadShow = true;
         $scope.pageList = [];
         G_searchList = [];
