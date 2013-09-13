@@ -19,9 +19,11 @@ return [function() {
             $scope.showPanel = false;
 
             var refreshDelayTime = function() {
-                if (!!connectTimer) {
+                if (connectTimer) {
                     clearInterval(connectTimer);
                 }
+
+                $scope.connectDelayTime = DELAY_TIME;
                 connectTimer = setInterval(function() {
                     $scope.$apply(function() {
                         $scope.connectDelayTime -= 1;
@@ -34,16 +36,19 @@ return [function() {
             };
 
             wdSocket.on('socket:disconnected', function() {
-                $scope.network = wdDevice.getDevice().attributes.ssid;
-                $scope.showPanel = true;
+                if (!$scope.showPanel) {
+                    $scope.network = wdDevice.getDevice().attributes.ssid;
+                    $scope.showPanel = true;
 
-                refreshDelayTime();
+                    refreshDelayTime();
+                }
+                
             });
 
             wdSocket.on('socket:connected', function() {
-                $scope.showPanel = false;
-
-                clearInterval(connectTimer);
+                $scope.$apply(function() {
+                    $scope.closePanel();
+                });
             });
 
             $rootScope.$on('signout', function() {
@@ -51,8 +56,8 @@ return [function() {
             });
 
             $scope.connectSocket = function() {
-                $scope.connectDelayTime = DELAY_TIME;
                 wdSocket.trigger('socket:connect');
+                refreshDelayTime();
             };
 
             $scope.closePanel = function() {
