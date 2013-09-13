@@ -42,8 +42,8 @@
                         ng-checked="c.selected"></div>
 
                     <div class="wdmcr-b">
-                        <div class="composited-avatar" ng-class="'multiple-' + c.photo_paths.length">
-                            <div ng-repeat="path in c.photo_paths track by $index" ng-switch on="!!path">
+                        <div class="composited-avatar" ng-class="'multiple-' + (c.photo_paths|limitTo:4).length">
+                            <div ng-repeat="path in (c.photo_paths|limitTo:4) track by $index" ng-switch on="!!path">
                                 <img ng-switch-when="true" ng-src="{{path}}"/>
                                 <div ng-switch-when="false" class="generated-avatar" ng-class="getPhotoColor">
                                     {{c.displayNames[$index] | limitTo: 1}}
