@@ -44,7 +44,6 @@ READ_ONLY_FLAG = false;
 //>>includeStart("debug", pragmas.debug);
 READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
 //>>includeEnd("debug");
-
 angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
