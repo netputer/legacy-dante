@@ -120,8 +120,13 @@ Socket.prototype = {
 
     close: function() {
         if (this._transport) {
-            this._transport.disconnect();
-            this._transport.removeAllListeners();
+            try {
+                this._transport.disconnect();
+                this._transport.removeAllListeners();
+            }
+            catch(err){
+            }
+            
             this._transport = null;
         }
         return this;
@@ -142,10 +147,7 @@ Socket.prototype = {
                         wdDevice.setDevice(currentOnlineDevice);
                         wdDev.setServer(currentOnlineDevice.ip);
 
-                        if (self._transport) {
-                            self._transport.removeAllListeners();
-                            self._transport = null;
-                        }
+                        self.close();
                         self.connect();
                     } else {
                         var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';

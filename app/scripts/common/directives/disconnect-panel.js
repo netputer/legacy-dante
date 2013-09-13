@@ -41,7 +41,9 @@ return [function() {
             });
 
             wdSocket.on('socket:connected', function() {
-                $scope.showPanel = false;
+                $scope.$apply(function() {
+                    $scope.showPanel = false;
+                });
 
                 clearInterval(connectTimer);
             });
