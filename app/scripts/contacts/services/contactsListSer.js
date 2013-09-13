@@ -177,7 +177,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             //是否查找email数据
             options.sms = options.sms || false;
 
-            //是否从 cache （ 目前是 indexDB ）中读取数据
+            //是否从 cache （ 目前是通过读取 indexDB，将数据加载到 cache 中 ）中读取数据
             var searchCache = !!options.cache;
             
             var defer = $q.defer();
@@ -185,11 +185,11 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             //如果没有加载过联系人数据，则自动启动启动加载
             if(!global.contacts.length && !searchCache){
 
-                //自动加载数据，return 一个promise
+                //自动加载数据
                 getData( 0, CONFIG.dataLengthOnce, null );
             }
 
-            query = query.toLocaleLowerCase();
+            query = encodeReg( query.toLocaleLowerCase() );
 
             var search = function(query , offset , length) {
 
@@ -204,39 +204,42 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                             offset: offset
                         }
                     }).success(function(data){
-                        var list = [];
-                        if (options.sms) {
-                            _.each(data, function(value) {
 
-
-                                //TODO: 用 filter 方法
-                                if ( value.phone[0] ){
-
-                                    //给简版的逻辑
-                                    _.each(value.phone, function(v) {
-                                        list.push({
-                                            name: value.name.display_name,
-                                            phone: v.number
-                                        });
-                                    });
-                                }
-                            });
+                        // 是否是给短信模块提供的简版数据
+                        if(options.sms){
+                            defer.resolve( filterSmsSearchContacts( data ) );
                         }else{
-                            list = data ;
+                            defer.resolve( data );
                         }
-                        defer.resolve(list);
-                    }).fail(function() {
-
+                    }).error(function() {
+                        defer.reject();
                     });
 
                 } else {
 
-                    query = encodeReg( query );
-
-                    //分为两种权重，最后前面的数据和后面的数据拼在一起就是展示数据。
-                    //从字符串起点既匹配到
+                    //分为两种权重，最终会将前面的数据和后面的数据拼在一起，就是展示数据。
                     var frontList = [];
                     var behindList = [];
+
+                    //匹配是否
+                    var matchItem = function (value, itemName, matchItemName) {
+                        if ( value[itemName] && value[itemName][0] ) {
+                            for ( var i = 0, l = value[itemName].length ; i < l ; i += 1 ) {
+                                if ( value[itemName][i][matchItemName] ){
+                                    var t = value[itemName][i][matchItemName];
+                                    if ( isFrontMatch( t, query ) ) {
+                                        frontList.push( value );
+                                        return true;
+                                    }
+                                    if ( isBehindMatch( t, query ) ) {
+                                        behindList.push( value );
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        return false;
+                    };
 
                     _.each( options.cache || global.contacts, function(value) {
                         
@@ -260,37 +263,13 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         }
 
                         //查电话号码
-                        if ( value.phone && value.phone[0] ) {
-                            for ( var i = 0, l = value.phone.length ; i < l ; i += 1 ) {
-                                if ( value.phone[i].number ){
-                                    var number = value.phone[i].number;
-                                    if ( isFrontMatch( number, query ) ) {
-                                        frontList.push( value );
-                                        return;
-                                    }
-                                    if ( isBehindMatch( number, query ) ) {
-                                        behindList.push( value );
-                                        return;
-                                    }
-                                }
-                            }
+                        if (matchItem(value, 'phone', 'number')) {
+                            return;
                         }
 
                         //查 email
-                        if ( value.email && value.email[0] ) {
-                            for ( var m = 0, n = value.email.length ; m < n ; m += 1 ) {
-                                if ( value.email[m].address ) {
-                                    var email = value.email[m].address;
-                                    if ( isFrontMatch( email, query ) ) {
-                                        frontList.push( value );
-                                        return;
-                                    }
-                                    if ( isBehindMatch( email, query ) ) {
-                                        behindList.push( value );
-                                        return;
-                                    }
-                                }
-                            }
+                        if (matchItem(value, 'email', 'address')) {
+                            return;
                         }
 
                         //查 sort key （拼音搜索）

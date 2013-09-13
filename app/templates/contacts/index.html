@@ -12,7 +12,7 @@
                 <i class="icon-add"></i>
                 {{$root.DICT.contacts.BUTTONS.newContact}}
             </button>
-            <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll()" ng-show="!$root.READ_ONLY_FLAG">
+            <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll();$root.GA('Web Contacts:click deselect all button');" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-buticon"></i>
                 {{$root.DICT.contacts.BUTTONS.deselect}} ({{selectedNum}})
             </button>

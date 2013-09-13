@@ -472,7 +472,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         $scope.isDeselectBtnShow = false;
         $scope.isDeleteBtnShow = false;
         $scope.selectedNum = 0;
-        GA('Web Contacts:click deselect all button');
         G_contacts = wdcContacts.getContacts();
         var i, l;
         for(i = 0, l = G_contacts.length;i<l;i += 1){
