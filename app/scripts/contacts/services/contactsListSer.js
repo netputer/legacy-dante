@@ -225,6 +225,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     });
 
                 } else {
+
                     query = encodeReg( query );
 
                     //分为两种权重，最后前面的数据和后面的数据拼在一起就是展示数据。
@@ -301,100 +302,14 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         }
                     });
                     
-                    defer.resolve( frontList.concat( behindList ) );
+                    var list = frontList.concat( behindList );
 
-                    
-
-
-
-
-
-                    // //返回的简版数据
-                    // var smsList = [];
-                    // _.each(options.cache || global.contacts, function(value) {
-
-                    //     //首先查找名字
-                    //     if( ( !!value['name'][ 'display_name' ] && value['name'][ 'display_name' ].toLocaleLowerCase().replace(/\s/g,'').match( new RegExp( '^' + encodeReg(query) , 'g' ) ) ) ){
-                    //         list.push( value );
-
-                    //         //给简版的逻辑
-                    //         if (options.sms){
-                    //             _.each(value.phone, function(v){
-                    //                 smsList.push({
-                    //                     name:value.name.display_name,
-                    //                     phone:v.number
-                    //                 });
-                    //             });
-                    //         }
-                    //         return;
-
-                    //     //拼音搜索
-                    //     }
-                    //     else if (!!value.sort_key) {
-                    //         var item = value['sort_key'].toLocaleLowerCase();
-                    //         var regstr = '^';
-                    //         for(var o = 0, p = query.length; o < p; o += 1) {
-                    //             regstr = regstr + query[o] + '.*?';
-                    //         }
-                    //         var regexp = new RegExp(encodeReg(regstr),'g') ;
-                    //         if ( item.match( regexp ) ) {
-                    //             list.push( value );
-
-                    //             //给简版的逻辑
-                    //             if (options.sms){
-                    //                 _.each(value.phone,function(v){
-                    //                     smsList.push({
-                    //                         name: value.name.display_name,
-                    //                         phone: v.number
-                    //                     });
-                    //                 });
-                    //             }
-                    //         }
-                    //         return;
-
-                    //     }
-                    //     else {
-
-                    //         //查找电话
-                    //         for (var i = 0, l = value.phone.length; i < l; i += 1) {
-                    //             var v = value.phone[i];
-                    //             if (!!v.number && v.number.toLocaleLowerCase().replace(/\s/g,'').indexOf(query) >= 0){
-                    //                 list.push(value);
-
-                    //                 //给简版的逻辑
-                    //                 if (options.sms){
-                    //                     smsList.push({
-                    //                         name:value.name.display_name,
-                    //                         phone:v.number
-                    //                     });
-                    //                 }
-
-                    //                 return;
-                    //             }
-                    //         }
-
-                    //         if ( !options.sms ) {
-                    //             //查找email
-                    //             for(var m = 0 , n = value[ 'email' ].length ; m < n ; m += 1) {
-                    //                 var val = value[ 'email' ][m];
-                    //                 if( ( !!val[ 'address' ] && val[ 'address' ].toLocaleLowerCase().replace(/\s/g,'').indexOf( query ) >= 0 ) ){
-                    //                     list.push( value );
-                    //                     return;
-                    //                 }
-                    //             }
-                    //         }
-
-                    //     }
-
-                    // });
-
-                    // //TODO:这块可以根据query是否一致来做些缓存
-                    // if(options.sms){
-                    //     defer.resolve( smsList );
-                    // }else{
-                    //     defer.resolve( list );
-                    // }
-
+                    // 是否是给短信模块提供的简版数据
+                    if(options.sms){
+                        defer.resolve( filterSmsSearchContacts( list ) );
+                    }else{
+                        defer.resolve( list );
+                    }
                 }
             };
 
