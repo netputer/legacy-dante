@@ -158,6 +158,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
+                timeout: 7000,
                 success: function(nullResponse) {
                     // 客户取消了关联，据此执行相应操作
                     // 回应始终为未定义。
