@@ -100,7 +100,7 @@
         }
     }
 
-    div.search{
+    .search{
 
         border-top: 1px solid #e7e7e7;
         margin-top: 10px;
@@ -202,6 +202,11 @@
         font-size: 12px;
     }
 
+    .search-word {
+        font-weight: bold;
+        background-color: #fffabb;
+    }
+    
 	@import "item";
 	@import "edit";
 }

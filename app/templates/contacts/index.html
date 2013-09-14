@@ -12,7 +12,7 @@
                 <i class="icon-add"></i>
                 {{$root.DICT.contacts.BUTTONS.newContact}}
             </button>
-            <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll()" ng-show="!$root.READ_ONLY_FLAG">
+            <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll();$root.GA('Web Contacts:click deselect all button');" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-buticon"></i>
                 {{$root.DICT.contacts.BUTTONS.deselect}} ({{selectedNum}})
             </button>
@@ -21,7 +21,7 @@
                 {{$root.DICT.contacts.BUTTONS.delete}}
             </button>
             <div class="search">
-                <input type="text" ng-model="searchText" placeholder="{{$root.DICT.contacts.INPUT_DEFAULT.search}}">
+                <input type="text" ng-model="searchText" placeholder="{{$root.DICT.contacts.INPUT_DEFAULT.search}}" ng-keyup='searchContacts();'>
                 <i class="icon-search"></i>
                 <span class="icon-clear" ng-show="searchText" ng-click="clearSearch();"></span>
             </div>

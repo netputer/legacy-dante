@@ -345,13 +345,13 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 if ( $scope.autoAuth && $scope.auth && $scope.auth.ip ) {
                     $timeout(function() {
                         GA('device_sign_in:check_last_device:device_signed_in');
-                        list.forEach(function( value, index ) {
-                            if ( value.id === $scope.auth.id) {
-                                $scope.submit( value );
-                            } else if ( index === (list.length - 1) ) {
-                                showDevicesList( list );
+                        for (var i = 0, l = list.length; i < l; i += 1) {
+                            if (list[i].id === $scope.auth.id) {
+                                $scope.submit(list[i]);
+                                return;
                             }
-                        });
+                        }
+                        showDevicesList(list);
                     }, 0);
                 } else {
                     GA('device_sign_in:check_last_device:device_not_signed_in');
