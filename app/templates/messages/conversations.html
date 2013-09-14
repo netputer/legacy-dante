@@ -97,7 +97,11 @@
                 <div ui-if="!activeConversation.isNew" class="wdmct-a">
                     <span
                         ng-repeat="a in activeConversation.addresses"
-                        bs-tooltip="{{a}}" data-options="{placement: 'bottom'}">
+                        wdm-contact-card
+                        data-contact-avatar="{{activeConversation.photo_paths[$index]}}"
+                        data-contact-name="{{activeConversation.displayNames[$index]}}"
+                        data-contact-address="{{a}}"
+                        data-contact-id="{{activeConversation.contact_ids[$index]}}">
                         {{ activeConversation.contact_names[$index] || a }}
                         <span ng-hide="$last">, </span>
                     </span>

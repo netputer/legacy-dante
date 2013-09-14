@@ -1,0 +1,62 @@
+.wdm-contact-card {
+    z-index: 1000;
+    @include position(absolute);
+    width: 230px;
+    height: 260px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #fff;
+    &:before, &:after {
+        @include position(absolute, -10px 0 0 50%);
+        content: "";
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        margin-left: -5px;
+    }
+    &:before {
+        border-bottom-color: #e5e5e5;
+    }
+    &:after {
+        top: -9px;
+        border-bottom-color: #fff;
+    }
+
+    display: none;
+    &.wdm-contact-card-visible {
+        display: block;
+        @include animation(fadeIn 0.5s);
+    }
+}
+.wdm-contact-card-avatar {
+    width: 78px;
+    height: 78px;
+    border-radius: 80px;
+    overflow: hidden;
+    margin: 45px auto 18px;
+    background: #ccc;
+    > img {
+        width: 100%;
+        height: 100%;
+    }
+}
+.wdm-contact-card-name {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.wdm-contact-card-info {
+    text-align: center;
+    color: #999;
+}
+.wdm-contact-card-action {
+    @include position(absolute, 0 0px 0px 0px);
+    height: 40px;
+    line-height: 40px;
+    color: #999;
+    background: #efefef;
+    text-align: center;
+    cursor: pointer;
+    @include user-select(none);
+}
