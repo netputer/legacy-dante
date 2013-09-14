@@ -79,7 +79,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             }
 
-            if(!!global.fun){
+            if (!!global.fun){
                 global.fun.call(me,data);
             }
 
@@ -106,7 +106,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
     function filterSmsSearchContacts( searchList ) {
         var list = [];
         _.each(searchList, function(value) {
-            if( value.phone[0] ){
+            if ( value.phone[0] ){
 
                 //给简版的逻辑
                 _.each(value.phone, function(v) {
@@ -137,7 +137,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
         init : function(){
 
-            if(!global.contacts.length){
+            if (!global.contacts.length){
 
                 //自动加载数据，return 一个promise
                 getData( 0, CONFIG.dataLengthOnce, null );
@@ -183,7 +183,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             var defer = $q.defer();
 
             //如果没有加载过联系人数据，则自动启动启动加载
-            if(!global.contacts.length && !searchCache){
+            if (!global.contacts.length && !searchCache){
 
                 //自动加载数据
                 getData( 0, CONFIG.dataLengthOnce, null );
@@ -206,9 +206,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     }).success(function(data){
 
                         // 是否是给短信模块提供的简版数据
-                        if(options.sms){
+                        if (options.sms){
                             defer.resolve( filterSmsSearchContacts( data ) );
-                        }else{
+                        } else {
                             defer.resolve( data );
                         }
                     }).error(function() {
@@ -289,9 +289,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     var list = frontList.concat( behindList );
 
                     // 是否是给短信模块提供的简版数据
-                    if(options.sms){
+                    if (options.sms) {
                         defer.resolve( filterSmsSearchContacts( list ) );
-                    }else{
+                    } else {
                         defer.resolve( list );
                     }
                 }
@@ -314,7 +314,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         //根据id取得信息
         getContactInfoById:function(id) {
             for (var i = 0; i < global.contacts.length; i+=1 ) {
-                if( global.contacts[ i ][ 'id' ] === id ){
+                if ( global.contacts[ i ][ 'id' ] === id ){
                     return global.contacts[ i ];
                 }
             }
@@ -354,7 +354,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             }).success(function(){
                 for( var m = 0 , n = list.length ; m < n ; m += 1 ){
                     for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
-                        if(list[m] === global.contacts[i]['id']){
+                        if (list[m] === global.contacts[i]['id']) {
                             global.contacts.splice(i,1);
                             return;
                         }
@@ -369,9 +369,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             //TODO:需要传入对应的account信息
             var newData = [];
-            if(Object.prototype.toString.call(news) === '[object Array]'){
+            if (Object.prototype.toString.call(news) === '[object Array]') {
                 newData = news;
-            }else{
+            } else {
                 newData.push(news);
             }
 
@@ -397,8 +397,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 data:editData,
                 timeout:CONFIG.timeout
             }).success(function(data) {
-                for(var i = 0 ; i < global.contacts.length ; i += 1 ) {
-                    if( global.contacts[i]['id'] === editData.id ){
+                for (var i = 0 ; i < global.contacts.length ; i += 1 ) {
+                    if ( global.contacts[i]['id'] === editData.id ){
                         global.contacts[i] = editData;
                         return;
                     }
@@ -408,7 +408,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
         //检查当前输入是否为空，为空返回true
         checkBlank : function(contact) {
-            if(!!contact['name']['given_name'] ||!!contact['name']['middle_name']||!!contact['name']['family_name']  ){
+            if (!!contact['name']['given_name'] ||!!contact['name']['middle_name']||!!contact['name']['family_name']  ){
                 return false;
             }
 
