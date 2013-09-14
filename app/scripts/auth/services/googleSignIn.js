@@ -48,7 +48,6 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             var me = this;
             var timeout = 7000;
             $timeout(function() {
-                $log.error('Refreshing google token timeout.');
                 defer.reject();
             }, timeout);
 
