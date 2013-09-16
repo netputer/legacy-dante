@@ -2,15 +2,22 @@ define([
 ], function(
 ) {
     'use strict';
-return ['$window',
-function($window) {
+return ['$window', '$timeout',
+function($window, $timeout) {
 
     var item;
     return {
-        show: function (icon, title, context) {
+        show: function (icon, title, context, isAutoClose) {
+            var me = this;
+            isAutoClose = isAutoClose || true;
             if (this.checkPermission()) {
                 item = window.webkitNotifications.createNotification(icon, title, context);
                 item.show();
+            }
+            if( isAutoClose ) {
+                $timeout(function() {
+                    me.close();
+                }, 5000);
             }
             return this;
         },

@@ -6,10 +6,10 @@ define([
 'use strict';
 return ['wdmExtendedConversationsCollection', 'wdmConversationsCollection',
         '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter',
-        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA',
+        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification',
 function(wdmExtendedConversationsCollection,   wdmConversationsCollection,
          $http,   $q,   $rootScope,   wdSocket,   wdEventEmitter,
-         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA) {
+         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA, wdDesktopNotification) {
 
 var conversations = wdmExtendedConversationsCollection.createExtendedConversationsCollection();
 var contactsCache = null;
@@ -155,7 +155,9 @@ wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
     var mid = msg.data.messageId;
     var c = conversations.getById(cid);
     if (c) {
-        c.messages.fetch(mid).then(function() {
+        c.messages.fetch(mid).then(function(messages) {
+            var newMsg = messages.rawData;
+            wdDesktopNotification.show('http://web.snappea.com/message-notification-icon.png', 'New messages from ' + newMsg.address, newMsg.body);
             conversations.trigger('update', [c]);
         });
     }
