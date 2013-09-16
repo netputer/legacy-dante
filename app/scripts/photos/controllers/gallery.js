@@ -147,6 +147,16 @@ $scope.startUpload = function(file) {
 $scope.fetch = function() {
     loadScreen();
 };
+var autoFetchLimit = 2;
+$scope.autoFetch = function() {
+    if (autoFetchLimit) {
+        autoFetchLimit -= 1;
+        return loadScreen();
+    }
+    else {
+        return $q.reject();
+    }
+};
 
 $scope.$on('$destroy', function() {
     clearTimeout(chromeExtensionNotification);
@@ -156,7 +166,7 @@ $scope.$on('$destroy', function() {
 //==========================================================================
 function loadScreen() {
     $scope.loaded = false;
-    (function fetchLoop(defer, viewportHeight, lastLayoutHeight) {
+    return (function fetchLoop(defer, viewportHeight, lastLayoutHeight) {
 
         calculateLayout();
 
@@ -164,7 +174,7 @@ function loadScreen() {
             defer.resolve();
         } else {
             var photosLengthBeforeFetch = $scope.photos.length;
-            fetchPhotos(30).then(function done(allLoaded) {
+            fetchPhotos(50).then(function done(allLoaded) {
                 var newPhotosLength = $scope.photos.length - photosLengthBeforeFetch;
                 if (newPhotosLength === 0 || allLoaded) {
                     $scope.allLoaded = true;

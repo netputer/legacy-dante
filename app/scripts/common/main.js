@@ -27,7 +27,8 @@ define([
     'common/directives/disconnect-panel',
     'common/directives/sidebar',
     'common/services/db',
-    'common/directives/nav-item'
+    'common/directives/nav-item',
+    'common/directives/scroll-detect'
 ], function(
     angular,
     loading,
@@ -57,7 +58,8 @@ define([
     disconnectPanel,
     sidebar,
     db,
-    navItem
+    navItem,
+    scrollDetect
 ) {
 // jshint unused:false
 'use strict';
@@ -77,6 +79,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdTemporaryDisabled', temporaryDisabled)
     .directive('disconnectPanel', disconnectPanel)
     .directive('wdSidebar', sidebar)
+    .directive('wdScrollDetect', scrollDetect)
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
