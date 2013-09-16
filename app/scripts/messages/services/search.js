@@ -13,12 +13,13 @@ return {
     },
     search: function(query) {
         var cache = wdmConversations.getContactsCache();
+        var config = {
+            sms: true
+        };
         if (cache) {
-            return wdcContacts.searchContacts(query, {sms: true, cache: cache});
+            config.cache = cache;
         }
-        else {
-            return wdcContacts.searchContacts(query, {sms: true});
-        }
+        return wdcContacts.searchContacts(query, config);
     }
 };
 

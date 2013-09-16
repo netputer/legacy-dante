@@ -27,18 +27,6 @@ function buildContactsCache() {
             req.onsuccess = function(e) {
                 var cursor = e.target.result;
                 if (cursor) {
-                    var value = cursor.value;
-                    value.phone = value.phone.map(function(number) {
-                        return {
-                            number: number
-                        };
-                    });
-                    value.name = {
-                        display_name: value.display_name
-                    };
-                    if ('display_name' in value) {
-                        delete value.display_name;
-                    }
                     cache.push(cursor.value);
                     cursor.continue();
                 }
