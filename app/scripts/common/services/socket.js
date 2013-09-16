@@ -25,7 +25,7 @@ Socket.prototype = {
     constructor: Socket,
     RECONNECT_TIMES : 0,
     MAX_RECONNECTION_ATTEMPTS : 2,
-    FORCE_NEW_CONNECTION: false,
+    forceNewConnection: false,
     /**
      * Destroy everything.
      */
@@ -46,7 +46,7 @@ Socket.prototype = {
             ],
             'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS,
             'connect timeout': 3000,
-            'force new connection': this.FORCE_NEW_CONNECTION
+            'force new connection': this.forceNewConnection
         });
     },
 
@@ -157,7 +157,7 @@ Socket.prototype = {
                         wdDev.setServer(currentOnlineDevice.ip);
 
                         self.close();
-                        self.FORCE_NEW_CONNECTION = true;
+                        self.forceNewConnection = true;
                         self.connect();
                     } else {
                         var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
@@ -175,7 +175,7 @@ Socket.prototype = {
 
                         self.off('socket:connect').on('socket:connect', function() {
                             self.close();
-                            self.FORCE_NEW_CONNECTION = true;
+                            self.forceNewConnection = true;
                             self.connect();
                         });
                     }
