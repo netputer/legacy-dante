@@ -59,7 +59,7 @@
     },
     "SIGN_PROGRESS": {
         "STEP1": "Signing in with Google",
-        "STEP2": "Getting your devices",
-        "STEP3": "Connecting to your device"
+        "STEP2": "Getting your signed in devices",
+        "STEP3": "Connecting to "
     }
 }
