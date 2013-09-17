@@ -44,6 +44,20 @@ Conversation.prototype = Object.create(_super, {
         get: function() {
             return this.has_error || this.messages.hasError;
         }
+    },
+
+    hasExistedContact: {
+        get: function() {
+            return this.contact_ids.some(function(id) {
+                return id !== -1;
+            });
+        }
+    },
+
+    avatarPaths: {
+        get: function() {
+            return (this.hasExistedContact || this.contact_ids.length === 1) ? this.photo_paths.slice(0, 4) : [];
+        }
     }
 });
 

@@ -110,6 +110,39 @@
                 text-align: center;
                 color: #fff;
             }
+            .default-avatar {
+                width: $avatar-width;
+                height: $avatar-width;
+                @include use-sprite("profile48");
+            }
+        }
+
+        @mixin half-avatar {
+            width: $avatar-half-width;
+            height: $avatar-width;
+            > img {
+                width: auto;
+                @include transform(translateX(-25%));
+            }
+            .default-avatar {
+                @include transform(translateX(-25%));
+            }
+        }
+        @mixin quarter-avatar {
+            width: $avatar-half-width;
+            height: $avatar-half-width;
+            .generated-avatar {
+                line-height: $avatar-half-width;
+                font-size: 12px;
+            }
+            .default-avatar {
+                @include transform(scale(0.5));
+                @include transform-origin(left, top);
+            }
+        }
+
+        &.multiple-0 {
+            @include use-sprite("group48");
         }
 
         &.multiple-1 > div {
@@ -118,40 +151,20 @@
         }
 
         &.multiple-2 > div {
-            width: $avatar-half-width;
-            height: $avatar-width;
-            > img {
-                width: auto;
-                margin-left: -25%;
-            }
+            @include half-avatar;
         }
 
         &.multiple-3 > div {
             &:nth-of-type(1) {
-                width: $avatar-half-width;
-                height: $avatar-width;
-                > img {
-                    width: auto;
-                    margin-left: -25%;
-                }
+                @include half-avatar;
             }
             &:nth-of-type(n + 2) {
-                width: $avatar-half-width;
-                height: $avatar-half-width;
-                .generated-avatar {
-                    line-height: $avatar-half-width;
-                    font-size: 12px;
-                }
+                @include quarter-avatar;
             }
         }
 
         &.multiple-4 > div {
-            width: $avatar-half-width;
-            height: $avatar-half-width;
-            .generated-avatar {
-                line-height: $avatar-half-width;
-                font-size: 12px;
-            }
+            @include quarter-avatar;
         }
     }
 }
