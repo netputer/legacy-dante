@@ -14,6 +14,7 @@
     width: 100%;
     height: 64px;
     border: 1px solid $wdm-border-color;
+    border-left: 0;
     border-right: 0;
     margin-bottom: -1px;
     @include transition(background-color $global-transition-duration / 4,
@@ -67,7 +68,7 @@
 }
 
 .wdmcr-a {
-    width: 43px;
+    width: 44px;
     height: 100%;
     margin: 0;
 
