@@ -42,12 +42,13 @@
                         ng-checked="c.selected"></div>
 
                     <div class="wdmcr-b">
-                        <div class="composited-avatar" ng-class="'multiple-' + (c.photo_paths|limitTo:4).length">
-                            <div ng-repeat="path in (c.photo_paths|limitTo:4) track by $index" ng-switch on="!!path">
-                                <img ng-switch-when="true" ng-src="{{path}}"/>
-                                <div ng-switch-when="false" class="generated-avatar" ng-class="getPhotoColor">
+                        <div class="composited-avatar" ng-class="'multiple-' + c.avatarPaths.length">
+                            <div ng-repeat="path in c.avatarPaths track by $index">
+                                <img ng-if="c.contact_ids[$index] != -1 && path" ng-src="{{path}}"/>
+                                <div ng-if="c.contact_ids[$index] != -1 && !path" class="generated-avatar" ng-class="getPhotoColor">
                                     {{c.displayNames[$index] | limitTo: 1}}
                                 </div>
+                                <div ng-if="c.contact_ids[$index] == -1" class="default-avatar"></div>
                             </div>
                         </div>
                     </div>
