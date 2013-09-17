@@ -5,6 +5,7 @@ before_install:
   - npm install -g grunt-cli
   - npm install -g bower
   - bower install
+  - gem install compass --pre
 notifications:
   email:
     - limbo@wandoujia.com

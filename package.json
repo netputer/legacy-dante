@@ -31,6 +31,6 @@
     "grunt-text-replace": "~0.3.6"
   },
   "scripts": {
-    "test": "grunt jshint"
+    "test": "grunt"
   }
 }
