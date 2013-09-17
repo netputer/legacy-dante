@@ -23,7 +23,8 @@ define([
     'messages/services/extended-conversations-collection',
     'messages/directives/keep-visible',
     'messages/directives/selection',
-    'messages/services/search'
+    'messages/services/search',
+    'messages/directives/contact-card'
 ], function(
     angular,
     common,
@@ -49,7 +50,8 @@ define([
     extendedConversationsCollectionFactory,
     keepVisible,
     selection,
-    search
+    search,
+    contactCard
 ) {
 'use strict';
 // jshint unused:false
@@ -74,6 +76,7 @@ angular.module('wdMessages', ['wdCommon'])
     .directive('wdmReceiver', receiver)
     .directive('wdmKeepVisible', keepVisible)
     .directive('wdmSelection', selection)
+    .directive('wdmContactCard', contactCard)
     .filter('ms', msFilter)
     .filter('group', groupFilter)
     .filter('messageDate', messageDateFilter);

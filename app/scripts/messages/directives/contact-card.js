@@ -1,0 +1,79 @@
+define([
+    'text!templates/messages/contact-card.html'
+], function(
+    template
+) {
+'use strict';
+return ['$compile', '$window', '$rootScope',
+function($compile,   $window,   $rootScope) {
+    var CLASS_VISIBLE = 'wdm-contact-card-visible';
+    var commonScope = $rootScope.$new();
+    var card = null;
+
+    var isVisible = false;
+    var hideDelayTimer = null;
+
+    function init() {
+        if (!card) {
+            card = $compile(template)(commonScope);
+            card.appendTo($window.document.body);
+            card.on('mouseenter', show);
+            card.on('mouseleave', hide);
+            isVisible = false;
+        }
+    }
+
+    function show() {
+        clearTimeout(hideDelayTimer);
+        init();
+        if (!isVisible) {
+            card.addClass(CLASS_VISIBLE);
+            isVisible = true;
+        }
+    }
+
+    function hide() {
+        clearTimeout(hideDelayTimer);
+        if (isVisible) {
+            hideDelayTimer = setTimeout(function() {
+                card.removeClass(CLASS_VISIBLE);
+                isVisible = false;
+            }, 500);
+        }
+    }
+
+    commonScope.$on('$destroy', function() {
+        hide();
+        card.remove();
+    });
+
+    return {
+        restrict: 'A',
+        link: function($scope, $element, $attrs) {
+            $element.on('mouseenter', function() {
+                $scope.$apply(function() {
+                    commonScope.contactAvatar = $attrs.contactAvatar;
+                    commonScope.contactName = $attrs.contactName;
+                    commonScope.contactAddress = $attrs.contactAddress;
+                    commonScope.contactId = $attrs.contactId;
+                    commonScope.contactExisted = $attrs.contactId !== '-1';
+                    show();
+                    var offset = $element.offset();
+                    var width = $element.outerWidth();
+                    var height = $element.outerHeight();
+                    var cardWidth = card.outerWidth();
+                    card.offset({
+                        left: offset.left + width / 2 - cardWidth / 2,
+                        top: offset.top + height + 10
+                    });
+                });
+            });
+            $element.on('mouseleave', hide);
+
+            $element.on('$destroy', function() {
+                hide();
+            });
+        }
+    };
+}];
+});

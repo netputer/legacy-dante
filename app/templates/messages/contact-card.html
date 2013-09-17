@@ -1,0 +1,9 @@
+<div class="wdm-contact-card">
+    <div class="wdm-contact-card-avatar">
+        <img ng-src="{{contactAvatar}}" ng-if="contactAvatar"/>
+    </div>
+    <div class="wdm-contact-card-name">{{ contactExisted ? contactName : contactAddress }}</div>
+    <div class="wdm-contact-card-info" ng-if="contactExisted">{{ contactAddress }}</div>
+    <div class="wdm-contact-card-action" ng-if="contactExisted">{{$root.DICT.messages.REVIEW_CONTACT}}</div>
+    <div class="wdm-contact-card-action" ng-if="!contactExisted">{{$root.DICT.messages.ADD_CONTACT}}</div>
+</div>

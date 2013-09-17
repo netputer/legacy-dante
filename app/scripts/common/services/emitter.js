@@ -13,6 +13,7 @@ this.$get = [function() {
 }];
 
 function EventEmitter(obj, override) {
+    obj = obj || {};
     var delegate = jQuery({});
     override = !!override;
     ['on', 'off', 'trigger'].forEach(function(fnName) {
@@ -25,6 +26,7 @@ function EventEmitter(obj, override) {
         };
         obj[fnName].delegate = delegate;
     });
+    return obj;
 }
 }];
 });
