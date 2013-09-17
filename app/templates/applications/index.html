@@ -27,7 +27,7 @@
             <dt><img ng-src="{{item.icon}}"></dt>
             <dd class="title" title="{{item.name}}">{{item.name}}</dd>
             <div class="wd-block-mask" ng-click="selectedNum ? checkedApp($event, item) : showAppInfo(item.package_name);"></div>
-            <div wd-checkbox class="btn-icon-check wd-block-select"
+            <div wd-checkbox class="btn-icon-check wd-block-select wd-checkbox-light"
                 bs-tooltip="{{$root.DICT.applications.WORDS.SELECT}}"
                 ng-show="!$root.READ_ONLY_FLAG"
                 ng-checked="item.checked"
