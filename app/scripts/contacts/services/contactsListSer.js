@@ -40,7 +40,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
     var me = this;
 
     function encodeReg (source) {
-        return String(source).replace(/([.*+?^=!:${}()|[\]/\\])/g,'\\$1');
+        return String(source).replace(/([.*+?^=!:${}()|[\]\/\\])/g,'\\$1');
     }
 
     //获取数据
@@ -179,7 +179,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             //是否从 cache （ 目前是通过读取 indexDB，将数据加载到 cache 中 ）中读取数据
             var searchCache = !!options.cache;
-            
+
             var defer = $q.defer();
 
             //如果没有加载过联系人数据，则自动启动启动加载
@@ -242,7 +242,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     };
 
                     _.each( options.cache || global.contacts, function(value) {
-                        
+
                         //查名字
                         if ( value.name ){
                             if ( ( value.name.given_name && isFrontMatch( value.name.given_name, query ) ) ||
@@ -285,7 +285,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                             }
                         }
                     });
-                    
+
                     var list = frontList.concat( behindList );
 
                     // 是否是给短信模块提供的简版数据
