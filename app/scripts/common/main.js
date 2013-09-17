@@ -29,6 +29,7 @@ define([
     'common/services/db',
     'common/directives/nav-item',
     'common/services/desktopNotification',
+    'common/services/windowFocus',
     'common/directives/scroll-detect'
 ], function(
     angular,
@@ -61,6 +62,7 @@ define([
     db,
     navItem,
     desktopNotification,
+    windowFocus,
     scrollDetect
 ) {
 // jshint unused:false
@@ -97,5 +99,6 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdNotification', notification)
     .factory('wdTitleNotification', titleNotification)
     .factory('wdDesktopNotification', desktopNotification)
+    .factory('wdWindowFocus', windowFocus)
     .factory('wdDatabase', db);
 });

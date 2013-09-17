@@ -232,15 +232,16 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase, wdWindowFocus) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
         //     return wdKeeper.getTip();
         // };
 
+        wdWindowFocus.init();
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
         (function(keeper) {
