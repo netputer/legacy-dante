@@ -156,9 +156,9 @@ wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
     var c = conversations.getById(cid);
     if (c) {
         c.messages.fetch(mid).then(function(messages) {
-            if ( !wdWindowFocus.getStatus() && e.type === 'messages_add' ) {
+            if (!wdWindowFocus.getStatus() && e.type === 'messages_add') {
                 var newMsg = messages.rawData;
-                wdDesktopNotification.show('http://web.snappea.com/message-notification-icon.png', $rootScope.DICT.messages.NEW_MESSAGE_TIP + newMsg.address, newMsg.body);
+                wdDesktopNotification.show('message', $rootScope.DICT.messages.NEW_MESSAGE_TIP + newMsg.address, newMsg.body);
             }
             conversations.trigger('update', [c]);
         });

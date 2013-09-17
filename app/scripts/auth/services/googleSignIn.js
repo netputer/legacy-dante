@@ -47,7 +47,8 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             }
             var me = this;
             var timeout = 7000;
-            $timeout(function() {
+            var timer = $timeout(function() {
+                $log.error('Refreshing google token timeout.');
                 defer.reject();
             }, timeout);
 
@@ -57,6 +58,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                'immediate':immediate,
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
+                $timeout.cancel(timer);
                 $rootScope.$apply(function() {
                     if (authResult && authResult['access_token']) {
                         if( !immediate ) {

@@ -1,17 +1,23 @@
-define([], function() {
+define([
+    '$'
+], function(
+    $
+) {
 'use strict';
-return ['$window', function($window) {
+return [
+'$window', 
+function($window) {
 
     var status = true;
 
     return {
         init: function() {
-            window.onfocus = function () {
+            $(window).on('focus', function() {
                 status = true;
-            };
-            window.onblur = function () {
+            });
+            $(window).on('blur', function() {
                 status = false;
-            };        
+            });
         },
         getStatus: function() {
             return status;
