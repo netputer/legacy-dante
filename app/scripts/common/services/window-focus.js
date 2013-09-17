@@ -7,7 +7,6 @@ define([
 return [
 '$window', 
 function($window) {
-
     var status = true;
     $(window).on('focus', function() {
         status = true;

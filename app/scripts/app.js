@@ -241,7 +241,6 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         //     return wdKeeper.getTip();
         // };
 
-        wdWindowFocus.init();
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
         (function(keeper) {

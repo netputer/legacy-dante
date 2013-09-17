@@ -6,10 +6,10 @@ define([
 'use strict';
 return ['wdmExtendedConversationsCollection', 'wdmConversationsCollection',
         '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter',
-        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification', 'wdWindowFocus',
+        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification', 'wdWindowFocus', '$route',
 function(wdmExtendedConversationsCollection,   wdmConversationsCollection,
          $http,   $q,   $rootScope,   wdSocket,   wdEventEmitter,
-         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA, wdDesktopNotification, wdWindowFocus) {
+         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA, wdDesktopNotification, wdWindowFocus, $route) {
 
 var conversations = wdmExtendedConversationsCollection.createExtendedConversationsCollection();
 var contactsCache = null;
@@ -155,10 +155,9 @@ wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
     var mid = msg.data.messageId;
     var c = conversations.getById(cid);
     if (c) {
-        c.messages.fetch(mid).then(function(messages) {
-            if (!wdWindowFocus.getStatus() && e.type === 'messages_add') {
-                var newMsg = messages.rawData;
-                wdDesktopNotification.show('message', $rootScope.DICT.messages.NEW_MESSAGE_TIP + newMsg.address, newMsg.body);
+        c.messages.fetch(mid).then(function(message) {
+            if (e.type === 'messages_add' && ( !wdWindowFocus.getStatus() || $route.current.locals.nav !== 'messages' ) ) {
+                wdDesktopNotification.showNewMessage($rootScope.DICT.messages.NEW_MESSAGE_TIP.replace('$$$$', message.address), message.body);
             }
             conversations.trigger('update', [c]);
         });
