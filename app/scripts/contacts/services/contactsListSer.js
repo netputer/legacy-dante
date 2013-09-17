@@ -247,7 +247,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         if ( value.name ){
                             if ( ( value.name.given_name && isFrontMatch( value.name.given_name, query ) ) ||
                                 ( value.name.middle_name && isFrontMatch( value.name.middle_name, query ) ) ||
-                                ( value.name.family_name && isFrontMatch( value.name.family_name, query ) )
+                                ( value.name.family_name && isFrontMatch( value.name.family_name, query ) ) ||
+                                ( value.name.display_name && isFrontMatch( value.name.display_name, query ) )
                             ) {
                                 frontList.push( value );
                                 return;
@@ -255,7 +256,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
                             if ( ( value.name.given_name && isBehindMatch( value.name.given_name, query ) ) ||
                                 ( value.name.middle_name && isBehindMatch( value.name.middle_name, query ) ) ||
-                                ( value.name.family_name && isBehindMatch( value.name.family_name, query ) )
+                                ( value.name.family_name && isBehindMatch( value.name.family_name, query ) ) ||
+                                ( value.name.display_name && isBehindMatch( value.name.display_name, query ) )
                             ) {
                                 behindList.push( value );
                                 return;
@@ -290,16 +292,25 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
                     // 是否是给短信模块提供的简版数据
                     if (options.sms) {
-                        defer.resolve( filterSmsSearchContacts( list ) );
+                        $timeout(function() {
+                            defer.resolve( filterSmsSearchContacts( list ) );
+                        }, 50);
                     } else {
-                        defer.resolve( list );
+                        $timeout(function() {
+                            defer.resolve( list );
+                        }, 50);
                     }
                 }
             };
 
             //执行search
-            search(query, 0, CONFIG.searchLength);
-
+            if (!query) {
+                $timeout(function() {
+                    defer.resolve(global.contacts);
+                }, 50);
+            } else {
+                search(query, 0, CONFIG.searchLength);
+            }
             defer.promise.query = query;
 
             //搜索更多

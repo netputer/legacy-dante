@@ -10,8 +10,8 @@ define([
 'use strict';
 /* jshint eqeqeq:false */
 /* jshint  -W041 */
-return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q',
-function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q) {
+return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', 'wdWindowFocus',
+function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, wdWindowFocus) {
 
     //默认头像显示颜色
     var photoColorList = [
@@ -987,8 +987,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     //搜索联系人功能
-    $scope.searchContacts = function(){
-        
+    $scope.searchContacts = _.debounce(function(){
+
         //不是空则执行搜索
         if ( $scope.searchText && (G_contacts.length > 1) ){
             G_searchIsNull = false;
@@ -1001,10 +1001,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
         $scope.isLoadMoreBtnShow = false;
         $scope.isListLoadShow = true;
-        $scope.pageList = [];
-        G_searchList = [];
-        G_search = [];
-        $scope.searchText = $scope.searchText || '';
         var text = $scope.searchText.toLocaleLowerCase();
         $scope.isNoContactsShow = false;
         $scope.isRightLoadShow = true;
@@ -1012,6 +1008,10 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         //调用搜索接口
         wdcContacts.searchContacts(text).then(function(data){
+            $scope.pageList = [];
+            G_searchList = [];
+            G_search = [];
+            $scope.searchText = $scope.searchText || '';
             G_search = data;
             $scope.isListLoadShow = false;
             $scope.isRightLoadShow = false;
@@ -1035,7 +1035,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
             $('ul.contacts-list')[0].scrollTop = 0;
         });
-    };
+    }, 300);
 
     //加载更多
     $scope.loadMore = function(){
