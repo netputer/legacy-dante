@@ -1,5 +1,5 @@
 define([
-    '$'
+    'jquery'
 ], function(
     $
 ) {
@@ -9,16 +9,13 @@ return [
 function($window) {
 
     var status = true;
-
+    $(window).on('focus', function() {
+        status = true;
+    });
+    $(window).on('blur', function() {
+        status = false;
+    });
     return {
-        init: function() {
-            $(window).on('focus', function() {
-                status = true;
-            });
-            $(window).on('blur', function() {
-                status = false;
-            });
-        },
         getStatus: function() {
             return status;
         }

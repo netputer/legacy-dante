@@ -17,7 +17,7 @@ define([
     'common/bootstrap',
     'common/directives/blank',
     'common/directives/upgrade-warning',
-    'common/services/titleNotification',
+    'common/services/title-notification',
     'common/directives/navbar',
     'common/services/emitter',
     'common/services/socket',
