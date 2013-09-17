@@ -1,14 +1,16 @@
 define([
 ], function(
 ) {
-    'use strict';
-return ['$window', '$timeout', '$q',
-function($window, $timeout, $q) {
+'use strict';
+return ['$window', '$timeout',
+function($window, $timeout) {
 
-    var notification;
     var ICON_LIST = {
         MESSAGE_ICON: 'http://web.snappea.com/message-notification-icon.png'
     };
+    var notification;
+    var hasPermitted = 'none';
+
     return {
         checkSupport: function() {
             if (window.Notification) {
@@ -18,30 +20,26 @@ function($window, $timeout, $q) {
             }
         },
         checkPermission: function () {
-            var defer = $q.defer();
             if (this.checkSupport()) {
                 window.Notification.requestPermission(function(permission) {
                     if (permission === 'granted') {
-                        defer.resolve();
+                        hasPermitted = 'yes';
                     } else {
-                        defer.reject();
+                        hasPermitted = 'no';
                     }
                 });
-            } else {
-                defer.reject();
             }
-            return defer.promise;
         },
         show: function (icon, title, context, isAutoClose) {
             var me = this;
-            this.checkPermission().then(function(){
+            if (hasPermitted === 'yes') {
                 notification = new window.Notification(title, { icon: icon, body: context });
                 if (isAutoClose) {
                     setTimeout(function() {
                         me.close();
                     }, 5000);
                 }
-            });
+            }
             return this;
         },
         close: function () {
