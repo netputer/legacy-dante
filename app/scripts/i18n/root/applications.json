@@ -41,6 +41,6 @@
     "SOME_FILES_UNSUPPORT_TITLE": "Includes Unsupported File(s)",
     "SOME_FILES_UNSUPPORT_CONTENT": "Some file extensions are invalid. Only APK files are supported.",
     "UNSUPPORT_MODAL_BUTTON_OK": "OK",
-    "DRAG_TITLE": "Drop apps here",
-    "DRAG_TIP": "Adds apps to your phone."
+    "DRAG_TITLE": "Drop apk here",
+    "DRAG_TIP": "Adds apk to your phone."
 }
