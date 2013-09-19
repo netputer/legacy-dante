@@ -25,11 +25,11 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         authResult : function (data) {
             var me = this;
             if (!!data) {
-                me.setStorageItem('googleToken', data['access_token']);
+                me.setStorageItem('googleToken', data.access_token);
                 global.authResult = data;
             } else {
-                if (!global.authResult['access_token']){
-                    global.authResult['access_token'] = me.getStorageItem('googleToken');
+                if (!global.authResult.access_token){
+                    global.authResult.access_token = me.getStorageItem('googleToken');
                 }
                 return global.authResult;
             }
@@ -47,7 +47,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             }
             var me = this;
             var timeout = 7000;
-            var timer
+            var timer;
             if ( immediate ) {
                 timer = $timeout(function() {
                     $log.error('Refreshing google token timeout.');
@@ -61,7 +61,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
                 $rootScope.$apply(function() {
-                    if (authResult && authResult['access_token']) {
+                    if (authResult && authResult.access_token) {
                         if ( !immediate ) {
                             GA('check_sign_in:refresh_token:success');
                         } else {
@@ -76,7 +76,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                             $log.error('Get account failed!');
                             defer.resolve( data );
                         });
-                    } else if (!authResult || authResult['error']) {
+                    } else if (!authResult || authResult.error) {
                         $log.error('Google refresh error!');
                         if ( !immediate ) {
                             GA('check_sign_in:refresh_token:fail');
@@ -99,7 +99,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                     request.execute(function(obj){
                         if ( isTimeout !== true ) {
                             isTimeout = false;
-                            global.account = obj['email'];
+                            global.account = obj.email;
                             defer.resolve(global.account);
                             $rootScope.$apply();
                         }
@@ -165,7 +165,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             var me = this;
 
             //调用服务器端接口
-            var url = 'https://push.snappea.com/apppush/limbo?google_token=' + encodeURIComponent(authResult['access_token']);
+            var url = 'https://push.snappea.com/apppush/limbo?google_token=' + encodeURIComponent(authResult.access_token);
 
             $.ajax({
                 type: 'GET',

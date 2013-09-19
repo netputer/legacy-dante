@@ -9,31 +9,51 @@ function($window, $timeout) {
         MESSAGE_ICON: 'http://web.snappea.com/message-notification-icon.png'
     };
     var notification;
-    var hasPermitted = 'none';
-
-    return {
+    var hasPermitted = false;
+    var result = {
         checkSupport: function() {
-            if ($window.Notification) {
+            if ($window.webkitNotifications) {
+                return true;
+            } else if ($window.Notification) {
                 return true;
             } else {
                 return false;
             }
         },
         checkPermission: function () {
+            var me = this;
             if (this.checkSupport()) {
-                $window.Notification.requestPermission(function(permission) {
-                    if (permission === 'granted') {
-                        hasPermitted = 'yes';
+                if ($window.webkitNotifications && $window.webkitNotifications.checkPermission) {
+                    if ($window.webkitNotifications.checkPermission() === 0) {
+                        hasPermitted = true;
                     } else {
-                        hasPermitted = 'no';
+                        me.requestPermission();
                     }
-                });
+                }
+
+                if ($window.Notification && $window.Notification.permission) {
+                    if ($window.Notification.permission === 'granted') {
+                        hasPermitted = true;
+                    } else {
+                        me.requestPermission();
+                    }
+                }
+            }
+        },
+        requestPermission: function() {
+            if ($window.webkitNotifications) {
+                window.webkitNotifications.requestPermission();
+            } else if ($window.Notification) {
+                $window.Notification.requestPermission();
             }
         },
         show: function (icon, title, context, isAutoClose) {
             var me = this;
-            if (hasPermitted === 'yes') {
-                notification = new $window.Notification(title, { icon: icon, body: context });
+            if (hasPermitted === true) {
+                if ($window.Notification) {
+                    notification = new $window.Notification(title, { icon: icon, body: context });
+                }
+
                 if (isAutoClose) {
                     setTimeout(function() {
                         me.close();
@@ -53,6 +73,10 @@ function($window, $timeout) {
             this.show(ICON_LIST.MESSAGE_ICON, title, context, true);
         }
     };
+
+    //进入系统时提示获取授权，如果未授权会申请用户授权。
+    result.checkPermission();
+    return result;
 //结束
 }];
 });
