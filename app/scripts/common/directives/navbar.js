@@ -12,9 +12,9 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice',
+                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification',
         function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA, $rootScope, wdDevice) {
+                 wdAlert,   $window, GA, $rootScope, wdDevice, wdDesktopNotification) {
 
             $scope.messageNotification = false;
 
@@ -62,6 +62,9 @@ return [function() {
                 }
             });
 
+            $scope.requestDesktopNotificationPermission = function () {
+                wdDesktopNotification.requestPermission();
+            };
         }],
         link: function($scope, $element, $attrs, $controller) {
             var highlight = $element.find('.active-module-bg');

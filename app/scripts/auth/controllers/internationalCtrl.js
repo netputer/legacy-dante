@@ -51,8 +51,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //进入某个设备
         $scope.submit = function(deviceData) {
-            $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3;
-            GA('connect_device:enter_snappea:'+ deviceData['model']);
+            if (deviceData.model) {
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
+            }
+            GA('connect_device:enter_snappea:'+ deviceData.model);
             // $scope.isLoadingDevices = true;
             stopLoopGetDevices();
             stopLoopLinkDevices();
@@ -66,8 +68,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             }
 
             deviceData = deviceData || wdDevice.getDevice();
-            var authCode = deviceData['authcode'];
-            var ip = deviceData['ip'];
+            var authCode = deviceData.authcode;
+            var ip = deviceData.ip;
 
             var keeper = null;
 
@@ -109,16 +111,17 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 })
                 .error(function(reason, status, headers, config) {
                     GA('connect_device:connect:fail');
-                    deviceData['loading'] = false;
+                    deviceData.loading = false;
                     if ( !$scope.autoAuth ) {
-                        $scope.autoAuth = false;
                         wdAlert.alert(
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content + deviceData['attributes']['ssid'] + '.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>',
+                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button
                         ).then(function() {
                             $scope.isLoadingDevices = false;
                         });
+                    } else {
+                        $scope.autoAuth = false;
                     }
                     wdDevice.clearDevice();
                     loopGetDevices();
@@ -241,7 +244,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         }
 
         $scope.connectPhone = function (item) {
-            item['loading'] = true;
+            item.loading = true;
             GA('device_sign_in:select_existing_device:select_device_page');
             $scope.submit(item);
         };
@@ -303,7 +306,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('user_sign_in:return_from_sign_in:google_sign_in');
             if ( typeof list !== 'undefined' ) {
                 for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                    list[i]['loading'] = false;
+                    list[i].loading = false;
                 }
                 $scope.deviceNum = list.length;
                 if ( $scope.deviceNum > 0 ) {

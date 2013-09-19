@@ -24,12 +24,12 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         //取得或者设置authResult
         authResult : function (data) {
             var me = this;
-            if(!!data) {
-                me.setStorageItem('googleToken', data['access_token']);
+            if (!!data) {
+                me.setStorageItem('googleToken', data.access_token);
                 global.authResult = data;
-            }else{
-                if(!global.authResult['access_token']){
-                    global.authResult['access_token'] = me.getStorageItem('googleToken');
+            } else {
+                if (!global.authResult.access_token){
+                    global.authResult.access_token = me.getStorageItem('googleToken');
                 }
                 return global.authResult;
             }
@@ -39,19 +39,21 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
             var defer = $q.defer();
-            if(typeof immediate === 'undefined') {
+            if (typeof immediate === 'undefined') {
                 immediate = false;
-            }else{
+            } else {
                 GA('check_sign_in:refresh_token_all:all');
                 immediate = true;
             }
             var me = this;
             var timeout = 7000;
-            $timeout(function() {
-                $log.error('Refreshing google token timeout.');
-                defer.reject();
-            }, timeout);
-
+            var timer;
+            if (immediate) {
+                timer = $timeout(function() {
+                    $log.error('Refreshing google token timeout.');
+                    defer.reject();
+                }, timeout);
+            }
             //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
             $window.gapi.auth.authorize({
                'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
@@ -59,9 +61,11 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
                 $rootScope.$apply(function() {
-                    if (authResult && authResult['access_token']) {
-                        if( !immediate ) {
+                    if (authResult && authResult.access_token) {
+                        if (!immediate) {
                             GA('check_sign_in:refresh_token:success');
+                        } else {
+                            $timeout.cancel(timer);
                         }
                         me.authResult(authResult);
                         $log.log('Getting google account informations...');
@@ -72,9 +76,9 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                             $log.error('Get account failed!');
                             defer.resolve( data );
                         });
-                    } else if (!authResult || authResult['error']) {
+                    } else if (!authResult || authResult.error) {
                         $log.error('Google refresh error!');
-                        if( !immediate ) {
+                        if (!immediate) {
                             GA('check_sign_in:refresh_token:fail');
                         }
                         defer.reject();
@@ -93,9 +97,9 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        if( isTimeout !== true ) {
+                        if (isTimeout !== true) {
                             isTimeout = false;
-                            global.account = obj['email'];
+                            global.account = obj.email;
                             defer.resolve(global.account);
                             $rootScope.$apply();
                         }
@@ -103,7 +107,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 });
                 //超时处理
                 $timeout(function() {
-                    if(isTimeout !== false) {
+                    if (isTimeout !== false) {
                         isTimeout = true;
                         defer.reject();
                     }
@@ -118,7 +122,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             var defer = $q.defer();
             var gapi = $window.gapi;
 
-            if(!global.profileInfo) {
+            if (!global.profileInfo) {
                 var authResult = global.authResult;
                 var isTimeout;
 
@@ -128,7 +132,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                     });
 
                     request.execute(function(obj) {
-                        if( isTimeout !== true ) {
+                        if (isTimeout !== true) {
                             isTimeout = false;
 
                             $rootScope.$apply(function() {
@@ -140,7 +144,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 });
 
                 $timeout(function() {
-                    if(isTimeout !== false) {
+                    if (isTimeout !== false) {
                         isTimeout = true;
                         defer.reject();
                     }
@@ -161,7 +165,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             var me = this;
 
             //调用服务器端接口
-            var url = 'https://push.snappea.com/apppush/limbo?google_token=' + encodeURIComponent(authResult['access_token']);
+            var url = 'https://push.snappea.com/apppush/limbo?google_token=' + encodeURIComponent(authResult.access_token);
 
             $.ajax({
                 type: 'GET',

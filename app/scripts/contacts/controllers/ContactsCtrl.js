@@ -999,7 +999,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         } else {
             return;
         }
-
+        $scope.isLoadMoreBtnShow = false;
         $scope.isListLoadShow = true;
         $scope.pageList = [];
         G_searchList = [];
