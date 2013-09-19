@@ -144,7 +144,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 nav: reflectNavbar('messages'),
                 versionSupport: minVersionRequirement(3819)
             },
-            reloadOnSearch: false
+            reloadOnSearch: true
         });
         $routeProvider.when('/contacts', {
             template: ContactsTemplate,

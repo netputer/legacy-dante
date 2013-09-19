@@ -76,7 +76,10 @@ var searchConversationsFromServer = _.debounce(function(keyword) {
     });
 }, 500);
 
-$scope.$watch('searchQuery', function(keyword) {
+$scope.$watch('searchQuery', function(keyword, oldValue) {
+    if (keyword === oldValue) {
+        return;
+    }
     if (keyword) {
         $scope.searchLoading = true;
         $scope.resultsList = wdmConversations.searchConversationsFromCache(keyword);
@@ -339,7 +342,9 @@ $scope.requestDesktopNotificationPermission = function () {
 var timer;
 if ($scope.serverMatchRequirement) {
     $q.when($scope.conversations.length || $scope.conversations.fetch()).then(function() {
-        $scope.showConversation($scope.conversations.collection[0]);
+        if (!$scope.activeConversation) {
+            $scope.showConversation($scope.conversations.collection[0]);
+        }
         $scope.cvsListFirstLoading = false;
     });
 
@@ -347,15 +352,28 @@ if ($scope.serverMatchRequirement) {
        timer = $timeout(update, 60000 - Date.now() % 60000);
     }, 60000 - Date.now() % 60000);
 
+    var c;
     if ($route.current.params.create) {
         var parts = $route.current.params.create.split(',');
-        var c = $scope.createConversation();
+        c = $scope.createConversation();
         c.extend({
             addresses: [decodeURIComponent(parts[0])],
             contact_names: [decodeURIComponent(parts[1])],
             date: Date.now()
         });
         $location.search('create', null).replace();
+    }
+    else if ($route.current.params.show) {
+        var cid = $route.current.params.show;
+        c = $scope.conversations.getById(cid);
+        if (c) {
+            $scope.showConversation(c);
+        } else {
+            $scope.conversations.fetch(cid).then(function(c) {
+                $scope.showConversation(c);
+            });
+        }
+        $location.search('show', null).replace();
     }
 }
 
