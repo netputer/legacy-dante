@@ -33,7 +33,7 @@
     border-radius: 80px;
     overflow: hidden;
     margin: 45px auto 18px;
-    background: #ccc;
+    @include use-sprite("profile78");
     > img {
         width: 100%;
         height: 100%;
@@ -53,9 +53,10 @@
     @include position(absolute, 0 0px 0px 0px);
     height: 40px;
     line-height: 40px;
-    color: #999;
+    color: #333;
     background: #efefef;
     text-align: center;
     cursor: pointer;
     @include user-select(none);
+    @include button-effect-light;
 }
