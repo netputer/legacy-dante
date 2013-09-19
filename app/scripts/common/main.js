@@ -28,8 +28,8 @@ define([
     'common/directives/sidebar',
     'common/services/db',
     'common/directives/nav-item',
-    'common/services/desktopNotification',
-    'common/services/windowFocus',
+    'common/services/desktop-notification',
+    'common/services/window-focus',
     'common/directives/scroll-detect'
 ], function(
     angular,

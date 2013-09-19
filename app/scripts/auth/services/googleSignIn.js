@@ -47,22 +47,24 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             }
             var me = this;
             var timeout = 7000;
-            var timer = $timeout(function() {
-                $log.error('Refreshing google token timeout.');
-                defer.reject();
-            }, timeout);
-
+            if( immediate ) {
+                var timer = $timeout(function() {
+                    $log.error('Refreshing google token timeout.');
+                    defer.reject();
+                }, timeout);
+            }
             //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
             $window.gapi.auth.authorize({
                'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                'immediate':immediate,
                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
-                $timeout.cancel(timer);
                 $rootScope.$apply(function() {
                     if (authResult && authResult['access_token']) {
                         if( !immediate ) {
                             GA('check_sign_in:refresh_token:success');
+                        } else {
+                            $timeout.cancel(timer);
                         }
                         me.authResult(authResult);
                         $log.log('Getting google account informations...');
