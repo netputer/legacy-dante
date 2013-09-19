@@ -48,7 +48,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             var me = this;
             var timeout = 7000;
             var timer;
-            if ( immediate ) {
+            if (immediate) {
                 timer = $timeout(function() {
                     $log.error('Refreshing google token timeout.');
                     defer.reject();
@@ -62,7 +62,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             },function(authResult){
                 $rootScope.$apply(function() {
                     if (authResult && authResult.access_token) {
-                        if ( !immediate ) {
+                        if (!immediate) {
                             GA('check_sign_in:refresh_token:success');
                         } else {
                             $timeout.cancel(timer);
@@ -78,7 +78,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                         });
                     } else if (!authResult || authResult.error) {
                         $log.error('Google refresh error!');
-                        if ( !immediate ) {
+                        if (!immediate) {
                             GA('check_sign_in:refresh_token:fail');
                         }
                         defer.reject();
@@ -97,7 +97,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        if ( isTimeout !== true ) {
+                        if (isTimeout !== true) {
                             isTimeout = false;
                             global.account = obj.email;
                             defer.resolve(global.account);
@@ -132,7 +132,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                     });
 
                     request.execute(function(obj) {
-                        if ( isTimeout !== true ) {
+                        if (isTimeout !== true) {
                             isTimeout = false;
 
                             $rootScope.$apply(function() {
