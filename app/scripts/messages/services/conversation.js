@@ -48,7 +48,7 @@ Conversation.prototype = Object.create(_super, {
 
     hasExistedContact: {
         get: function() {
-            return this.contact_ids.some(function(id) {
+            return this.contact_ids && this.contact_ids.some(function(id) {
                 return id !== -1;
             });
         }
