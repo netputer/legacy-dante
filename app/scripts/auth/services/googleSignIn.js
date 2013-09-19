@@ -24,11 +24,11 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         //取得或者设置authResult
         authResult : function (data) {
             var me = this;
-            if(!!data) {
+            if (!!data) {
                 me.setStorageItem('googleToken', data['access_token']);
                 global.authResult = data;
-            }else{
-                if(!global.authResult['access_token']){
+            } else {
+                if (!global.authResult['access_token']){
                     global.authResult['access_token'] = me.getStorageItem('googleToken');
                 }
                 return global.authResult;
@@ -39,16 +39,17 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
             var defer = $q.defer();
-            if(typeof immediate === 'undefined') {
+            if (typeof immediate === 'undefined') {
                 immediate = false;
-            }else{
+            } else {
                 GA('check_sign_in:refresh_token_all:all');
                 immediate = true;
             }
             var me = this;
             var timeout = 7000;
-            if( immediate ) {
-                var timer = $timeout(function() {
+            var timer
+            if ( immediate ) {
+                timer = $timeout(function() {
                     $log.error('Refreshing google token timeout.');
                     defer.reject();
                 }, timeout);
@@ -61,7 +62,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             },function(authResult){
                 $rootScope.$apply(function() {
                     if (authResult && authResult['access_token']) {
-                        if( !immediate ) {
+                        if ( !immediate ) {
                             GA('check_sign_in:refresh_token:success');
                         } else {
                             $timeout.cancel(timer);
@@ -77,7 +78,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                         });
                     } else if (!authResult || authResult['error']) {
                         $log.error('Google refresh error!');
-                        if( !immediate ) {
+                        if ( !immediate ) {
                             GA('check_sign_in:refresh_token:fail');
                         }
                         defer.reject();
@@ -96,7 +97,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 gapi.client.load('oauth2', 'v2', function() {
                     var request = gapi.client.oauth2.userinfo.get();
                     request.execute(function(obj){
-                        if( isTimeout !== true ) {
+                        if ( isTimeout !== true ) {
                             isTimeout = false;
                             global.account = obj['email'];
                             defer.resolve(global.account);
@@ -106,7 +107,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 });
                 //超时处理
                 $timeout(function() {
-                    if(isTimeout !== false) {
+                    if (isTimeout !== false) {
                         isTimeout = true;
                         defer.reject();
                     }
@@ -121,7 +122,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             var defer = $q.defer();
             var gapi = $window.gapi;
 
-            if(!global.profileInfo) {
+            if (!global.profileInfo) {
                 var authResult = global.authResult;
                 var isTimeout;
 
@@ -131,7 +132,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                     });
 
                     request.execute(function(obj) {
-                        if( isTimeout !== true ) {
+                        if ( isTimeout !== true ) {
                             isTimeout = false;
 
                             $rootScope.$apply(function() {
@@ -143,7 +144,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                 });
 
                 $timeout(function() {
-                    if(isTimeout !== false) {
+                    if (isTimeout !== false) {
                         isTimeout = true;
                         defer.reject();
                     }

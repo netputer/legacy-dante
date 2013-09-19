@@ -13,7 +13,7 @@ function($window, $timeout) {
 
     return {
         checkSupport: function() {
-            if (window.Notification) {
+            if ($window.Notification) {
                 return true;
             } else {
                 return false;
@@ -21,7 +21,7 @@ function($window, $timeout) {
         },
         checkPermission: function () {
             if (this.checkSupport()) {
-                window.Notification.requestPermission(function(permission) {
+                $window.Notification.requestPermission(function(permission) {
                     if (permission === 'granted') {
                         hasPermitted = 'yes';
                     } else {
@@ -33,7 +33,7 @@ function($window, $timeout) {
         show: function (icon, title, context, isAutoClose) {
             var me = this;
             if (hasPermitted === 'yes') {
-                notification = new window.Notification(title, { icon: icon, body: context });
+                notification = new $window.Notification(title, { icon: icon, body: context });
                 if (isAutoClose) {
                     setTimeout(function() {
                         me.close();
