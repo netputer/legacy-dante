@@ -190,7 +190,7 @@
                             msd-elastic
                             data-placeholder="{{ (activeConversation.messages.hasRecieved && ($root.DICT.messages.EDITOR_REPLY_PLACEHOLDER + activeConversation.displayNames.join(', ')) || $root.DICT.messages.EDITOR_SEND_PLACEHOLDER) + '...' }}"></textarea>
                     </div>
-                    <button class="btn" type="submit" ng-click="$root.GA('message:send_click')"
+                    <button class="btn" type="submit" ng-click="$root.GA('message:send_click');requestDesktopNotificationPermission();"
                         bs-tooltip="{{$root.DICT.messages.BTN_SEND_TIP}}"
                         ng-disabled="!activeConversation.draft"
                         ng-class="{ 'btn-primary': activeConversation.draft}">

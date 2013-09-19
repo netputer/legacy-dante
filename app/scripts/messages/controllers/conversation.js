@@ -5,9 +5,9 @@ define([
 ) {
 'use strict';
 return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
-        'GA', '$route', 'wdmConversations', '$location', 'wdKey',
-function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdmConversations,   $location,   wdKey) {
+        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification',
+function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert, 
+         GA,   $route,   wdmConversations,   $location,   wdKey, wdDesktopNotification) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.conversationsCache = wdmConversations.conversations;
@@ -328,6 +328,10 @@ $scope.isDisplayNamePhoneNumber = function( name ) {
 
     //以数字、星号、加号、减号、警号开头并且结尾的
     return new RegExp(/^[\d\*\+\-\#]*$/g).test( name );
+};
+
+$scope.requestDesktopNotificationPermission = function () {
+    wdDesktopNotification.requestPermission();
 };
 
 // Startup

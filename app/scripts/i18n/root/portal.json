@@ -30,7 +30,7 @@
     "SHOW_ACCOUNT_NAME_DEFAULT": "the same account",
     "CONNECT_DEVICE_FAILED_POP": {
         "title": "Connection failed",
-        "content": "Make sure your computer is on the Wi-Fi network of ",
+        "content": "Make sure your computer is on the Wi-Fi network of $$$$ .<br><a href=\"http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web\">More help»</a>",
         "button": "OK"
     },
     "ANNOUNCEMENT": "Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.",

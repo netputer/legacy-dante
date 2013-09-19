@@ -12,9 +12,9 @@ function($window, $timeout) {
     var hasPermitted = false;
     var result = {
         checkSupport: function() {
-            if ($window.webkitNotifications) {
+            if ($window.Notification) {
                 return true;
-            } else if ($window.Notification) {
+            } else if ($window.webkitNotifications) {
                 return true;
             } else {
                 return false;
@@ -23,37 +23,48 @@ function($window, $timeout) {
         checkPermission: function () {
             var me = this;
             if (this.checkSupport()) {
-                if ($window.webkitNotifications && $window.webkitNotifications.checkPermission) {
-                    if ($window.webkitNotifications.checkPermission() === 0) {
-                        hasPermitted = true;
-                    } else {
-                        me.requestPermission();
-                    }
-                }
-
                 if ($window.Notification && $window.Notification.permission) {
                     if ($window.Notification.permission === 'granted') {
                         hasPermitted = true;
+                        return true;
                     } else {
-                        me.requestPermission();
+                        return false;
+                    }
+                }
+                if ($window.Notification && $window.Notification.permissionLevel) {
+                    if ($window.Notification.permissionLevel() === 'granted') {
+                        hasPermitted = true;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                if ($window.webkitNotifications && $window.webkitNotifications.checkPermission) {
+                    if ($window.webkitNotifications.checkPermission() === 0) {
+                        hasPermitted = true;
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
             }
         },
         requestPermission: function() {
-            if ($window.webkitNotifications) {
-                window.webkitNotifications.requestPermission();
-            } else if ($window.Notification) {
-                $window.Notification.requestPermission();
+            if (this.checkSupport() || hasPermitted === false) {
+                if ($window.Notification) {
+                    // safrai 下必须传入参数，所以传了一个空的函数
+                    $window.Notification.requestPermission(function(){});
+                } else if ($window.webkitNotifications) {
+                    $window.webkitNotifications.requestPermission();
+                }
             }
         },
         show: function (icon, title, context, isAutoClose) {
             var me = this;
-            if (hasPermitted === true) {
+            if (this.checkSupport() && this.checkPermission()) {
                 if ($window.Notification) {
                     notification = new $window.Notification(title, { icon: icon, body: context });
                 }
-
                 if (isAutoClose) {
                     setTimeout(function() {
                         me.close();
@@ -75,7 +86,7 @@ function($window, $timeout) {
     };
 
     //进入系统时提示获取授权，如果未授权会申请用户授权。
-    result.checkPermission();
+    result.requestPermission();
     return result;
 //结束
 }];

@@ -113,14 +113,15 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     GA('connect_device:connect:fail');
                     deviceData.loading = false;
                     if ( !$scope.autoAuth ) {
-                        $scope.autoAuth = false;
                         wdAlert.alert(
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content + deviceData.attributes.ssid + '.<br><a href="http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web">More help»</a>',
+                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
                             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button
                         ).then(function() {
                             $scope.isLoadingDevices = false;
                         });
+                    } else {
+                        $scope.autoAuth = false;
                     }
                     wdDevice.clearDevice();
                     loopGetDevices();

@@ -62,8 +62,8 @@ return [function() {
                 }
             });
 
-            $scope.checkDesktopNotificationPermission = function () {
-                wdDesktopNotification.checkPermission();
+            $scope.requestDesktopNotificationPermission = function () {
+                wdDesktopNotification.requestPermission();
             };
         }],
         link: function($scope, $element, $attrs, $controller) {
