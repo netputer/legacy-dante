@@ -105,7 +105,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         var name = (data.name && data.name.display_name) || $scope.$root.DICT.contacts.NO_NAME;
         var phone = (data.phone[0] && data.phone[0].number) || (data.email[0] && data.email[0].address) ||'';
         var photo = data.photo_path || '';
-        data.photo_color = photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
+        if (!data.photo_color) {
+            data.photo_color = photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
+        }
         var obj = {
             id : id,
             name : name,
