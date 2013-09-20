@@ -2,8 +2,8 @@ define([
 ], function(
 ) {
 'use strict';
-return ['$window', '$timeout',
-function($window, $timeout) {
+return ['$window', '$timeout', '$rootScope',
+function($window,   $timeout,   $rootScope) {
 
     var ICON_LIST = {
         MESSAGE_ICON: 'http://web.snappea.com/message-notification-icon.png'
@@ -59,11 +59,16 @@ function($window, $timeout) {
                 }
             }
         },
-        show: function (icon, title, context, isAutoClose) {
+        show: function (icon, title, context, onClick, isAutoClose) {
             var me = this;
             if (this.checkSupport() && this.checkPermission()) {
                 if ($window.Notification) {
                     notification = new $window.Notification(title, { icon: icon, body: context });
+                    notification.onclick = function(e) {
+                        $rootScope.$apply(function() {
+                            onClick.call(null, e, notification);
+                        });
+                    };
                 }
                 if (isAutoClose) {
                     setTimeout(function() {
@@ -80,8 +85,8 @@ function($window, $timeout) {
             }
             return this;
         },
-        showNewMessage: function (title, context) {
-            this.show(ICON_LIST.MESSAGE_ICON, title, context, true);
+        showNewMessage: function (title, context, onClick) {
+            this.show(ICON_LIST.MESSAGE_ICON, title, context, onClick, true);
         }
     };
 

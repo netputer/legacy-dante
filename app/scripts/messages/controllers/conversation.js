@@ -341,7 +341,7 @@ $scope.requestDesktopNotificationPermission = function () {
 // Startup
 var timer;
 if ($scope.serverMatchRequirement) {
-    $q.when($scope.conversations.length || $scope.conversations.fetch()).then(function() {
+    $q.when($scope.conversations.hasFetched() || $scope.conversations.fetch()).then(function() {
         if (!$scope.activeConversation) {
             $scope.showConversation($scope.conversations.collection[0]);
         }
