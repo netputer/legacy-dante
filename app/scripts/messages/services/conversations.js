@@ -213,7 +213,8 @@ return {
                 params: {
                     offset: 0,
                     length: 20000
-                }
+                },
+                timeout: 60 * 1000
             }
         ).then(function done(response) {
             var messages = response.data.map(wdmMessage.createMessage);
