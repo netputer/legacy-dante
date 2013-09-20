@@ -10,8 +10,8 @@ define([
 'use strict';
 /* jshint eqeqeq:false */
 /* jshint  -W041 */
-return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', 'wdWindowFocus',
-function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, wdWindowFocus) {
+return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q',
+function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q) {
 
     //默认头像显示颜色
     var photoColorList = [
@@ -988,52 +988,54 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //搜索联系人功能
     $scope.searchContacts = _.debounce(function(){
+        $scope.$apply(function(){
 
-        //不是空则执行搜索
-        if ( $scope.searchText && (G_contacts.length > 1) ){
-            G_searchIsNull = false;
-            $scope.deselectAll();
-        } else if (!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ){
-            G_searchIsNull = true;
-            $scope.deselectAll();
-        } else {
-            return;
-        }
-        $scope.isLoadMoreBtnShow = false;
-        $scope.isListLoadShow = true;
-        var text = $scope.searchText.toLocaleLowerCase();
-        $scope.isNoContactsShow = false;
-        $scope.isRightLoadShow = true;
-        $scope.isContactsEditShow = false;
+            //不是空则执行搜索
+            if ( $scope.searchText && (G_contacts.length > 1) ){
+                G_searchIsNull = false;
+                $scope.deselectAll();
+            } else if (!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ){
+                G_searchIsNull = true;
+                $scope.deselectAll();
+            } else {
+                return;
+            }
+            $scope.isLoadMoreBtnShow = false;
+            $scope.isListLoadShow = true;
+            var text = $scope.searchText.toLocaleLowerCase();
+            $scope.isNoContactsShow = false;
+            $scope.isRightLoadShow = true;
+            $scope.isContactsEditShow = false;
 
-        //调用搜索接口
-        wdcContacts.searchContacts(text).then(function(data){
-            $scope.pageList = [];
-            G_searchList = [];
-            G_search = [];
-            $scope.searchText = $scope.searchText || '';
-            G_search = data;
-            $scope.isListLoadShow = false;
-            $scope.isRightLoadShow = false;
-            $scope.isContactsEditShow = true;
-            $scope.isLoadMoreBtnShow = true;
-            for(var i = 0 , l = data.length ; i < l ; i += 1 ){
-                G_searchList.push(getListItem(data[i]));
-            }
-            if(!!G_searchList[0]){
-                G_keyContact = wdKey.push('contacts');
-                $scope.isNoContactsShow = false;
-                G_clicked['clicked'] = false;
-                $scope.pageList = G_searchList.slice(0,DATA_LENGTH_ONCE);
-                $scope.pageList[0]['clicked'] = true;
-                G_clicked = $scope.pageList[0];
-                showContacts($scope.pageList[0]['id']);
-            }else{
-                $scope.isNoContactsShow = true;
-                $scope.isLoadMoreBtnShow = false;
-                showContacts();
-            }
-            $('ul.contacts-list')[0].scrollTop = 0;
+            //调用搜索接口
+            wdcContacts.searchContacts(text).then(function(data){
+                $scope.pageList = [];
+                G_searchList = [];
+                G_search = [];
+                $scope.searchText = $scope.searchText || '';
+                G_search = data;
+                $scope.isListLoadShow = false;
+                $scope.isRightLoadShow = false;
+                $scope.isContactsEditShow = true;
+                $scope.isLoadMoreBtnShow = true;
+                for(var i = 0 , l = data.length ; i < l ; i += 1 ){
+                    G_searchList.push(getListItem(data[i]));
+                }
+                if(!!G_searchList[0]){
+                    G_keyContact = wdKey.push('contacts');
+                    $scope.isNoContactsShow = false;
+                    G_clicked['clicked'] = false;
+                    $scope.pageList = G_searchList.slice(0,DATA_LENGTH_ONCE);
+                    $scope.pageList[0]['clicked'] = true;
+                    G_clicked = $scope.pageList[0];
+                    showContacts($scope.pageList[0]['id']);
+                }else{
+                    $scope.isNoContactsShow = true;
+                    $scope.isLoadMoreBtnShow = false;
+                    showContacts();
+                }
+                $('ul.contacts-list')[0].scrollTop = 0;
+            });
         });
     }, 300);
 

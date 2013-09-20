@@ -30,7 +30,10 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         'dataFinish' : false,
 
         //临时存储onchange中触发的函数
-        'fun' : undefined
+        'fun' : undefined,
+
+        //调用 searchContext 的 timer ，如果短时间调用，会清除上一次调用
+        'searchContextFunctionTimer' : null
     };
 
     wdSocket.on('refresh', function() {
@@ -172,6 +175,11 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         //根据query搜索联系人
         searchContacts : function(query ,options) {
 
+            //清除上一次调用
+            if(global.searchContextFunctionTimer) {
+                $timeout.cancel(global.searchContextFunctionTimer);
+            }
+
             options = options || {};
 
             //是否查找email数据
@@ -204,13 +212,14 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                             offset: offset
                         }
                     }).success(function(data){
-
-                        // 是否是给短信模块提供的简版数据
-                        if (options.sms){
-                            defer.resolve( filterSmsSearchContacts( data ) );
-                        } else {
-                            defer.resolve( data );
-                        }
+                        global.searchContextFunctionTimer = $timeout(function(){
+                            // 是否是给短信模块提供的简版数据
+                            if (options.sms){
+                                defer.resolve( filterSmsSearchContacts( data ) );
+                            } else {
+                                defer.resolve( data );
+                            }
+                        }, 0);
                     }).error(function() {
                         defer.reject();
                     });
@@ -245,21 +254,21 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
                         //查名字
                         if ( value.name ){
-                            if ( ( value.name.given_name && isFrontMatch( value.name.given_name, query ) ) ||
-                                ( value.name.middle_name && isFrontMatch( value.name.middle_name, query ) ) ||
-                                ( value.name.family_name && isFrontMatch( value.name.family_name, query ) ) ||
-                                ( value.name.display_name && isFrontMatch( value.name.display_name, query ) )
+                            if ((value.name.given_name && isFrontMatch(value.name.given_name, query)) ||
+                                (value.name.middle_name && isFrontMatch(value.name.middle_name, query)) ||
+                                (value.name.family_name && isFrontMatch(value.name.family_name, query)) ||
+                                (value.name.display_name && isFrontMatch(value.name.display_name, query))
                             ) {
-                                frontList.push( value );
+                                frontList.push(value);
                                 return;
                             }
 
-                            if ( ( value.name.given_name && isBehindMatch( value.name.given_name, query ) ) ||
-                                ( value.name.middle_name && isBehindMatch( value.name.middle_name, query ) ) ||
-                                ( value.name.family_name && isBehindMatch( value.name.family_name, query ) ) ||
-                                ( value.name.display_name && isBehindMatch( value.name.display_name, query ) )
+                            if ((value.name.given_name && isBehindMatch(value.name.given_name, query)) ||
+                                (value.name.middle_name && isBehindMatch(value.name.middle_name, query)) ||
+                                (value.name.family_name && isBehindMatch(value.name.family_name, query)) ||
+                                (value.name.display_name && isBehindMatch(value.name.display_name, query))
                             ) {
-                                behindList.push( value );
+                                behindList.push(value);
                                 return;
                             }
                         }
@@ -294,11 +303,11 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     if (options.sms) {
                         $timeout(function() {
                             defer.resolve( filterSmsSearchContacts( list ) );
-                        }, 50);
+                        }, 0);
                     } else {
                         $timeout(function() {
                             defer.resolve( list );
-                        }, 50);
+                        }, 0);
                     }
                 }
             };
@@ -307,7 +316,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             if (!query) {
                 $timeout(function() {
                     defer.resolve(global.contacts);
-                }, 50);
+                }, 0);
             } else {
                 search(query, 0, CONFIG.searchLength);
             }
