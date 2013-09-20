@@ -10,7 +10,8 @@ angular.module('monospaced.elastic', [])
 
     return {
       restrict: 'A, C',
-      link: function(scope, element, attrs){
+      require: '?ngModel',
+      link: function(scope, element, attrs, ctrl){
 
         // cache a reference to the DOM element
         var ta = element[0],
@@ -168,6 +169,13 @@ angular.module('monospaced.elastic', [])
           ta['oninput'] = ta.onkeyup = adjust;
         } else {
           ta['oninput'] = adjust;
+        }
+        if (ctrl) {
+            var oldRender = ctrl.$render.bind(ctrl);
+            ctrl.$render = function() {
+                oldRender();
+                adjust();
+            };
         }
 
         $win.bind('resize', forceAdjust);
