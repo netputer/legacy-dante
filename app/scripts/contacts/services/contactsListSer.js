@@ -215,9 +215,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         global.searchContextFunctionTimer = $timeout(function(){
                             // 是否是给短信模块提供的简版数据
                             if (options.sms){
-                                defer.resolve( filterSmsSearchContacts( data ) );
+                                defer.resolve(filterSmsSearchContacts(data));
                             } else {
-                                defer.resolve( data );
+                                defer.resolve(data);
                             }
                         }, 0);
                     }).error(function() {
@@ -302,11 +302,11 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     // 是否是给短信模块提供的简版数据
                     if (options.sms) {
                         $timeout(function() {
-                            defer.resolve( filterSmsSearchContacts( list ) );
+                            defer.resolve(filterSmsSearchContacts(list));
                         }, 0);
                     } else {
                         $timeout(function() {
-                            defer.resolve( list );
+                            defer.resolve(list);
                         }, 0);
                     }
                 }
