@@ -1,15 +1,17 @@
 .disconnect-panel {
 	width: 292px;
 	height: 170px;
-	@include position(absolute, 0 0 10px -306px);
+	@include position(absolute, 0 0 10px 0px);
 	background-color: #fff;
 	padding: 14px 14px 14px 38px;
 	border-radius: 4px;
 	@include box-shadow(0 0 5px rgba(0, 0, 0, 0.15));
-	@include transition(left ease 150ms);
+	@include transition(all ease 150ms);
+    @include transform(translate3d(-100%, 0, 0));
 
 	&.disconnect-panel-show {
-		left: $global-left-offset;
+        @include ui-layer-top;
+        @include transform(translate3d(0, 0, 0));
 	}
 
 	.title {
