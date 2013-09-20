@@ -112,7 +112,7 @@
         i.icon-search{
             position: absolute;
             left: 17px;
-            top: 66px;
+            top: 64px;
             @include readonly {
                 top: 68px;
             }
@@ -126,7 +126,7 @@
             border-color: #CCC;
             background: #F5F5F5;
             font-size: 12px;
-            line-height: 25px;
+            line-height: 22px;
             padding-left: 28px;
             padding-right: 25px;
             width: 353px;
