@@ -27,7 +27,7 @@ return [function() {
                 connectTimer = setInterval(function() {
                     $scope.$apply(function() {
                         $scope.connectDelayTime -= 1;
-                        
+
                         if (!$scope.connectDelayTime) {
                             $scope.connectSocket();
                         }
@@ -58,6 +58,7 @@ return [function() {
             $scope.connectSocket = function() {
                 wdSocket.trigger('socket:connect');
                 refreshDelayTime();
+                $scope.showPanel = false;
             };
 
             $scope.closePanel = function() {
