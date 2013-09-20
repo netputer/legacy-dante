@@ -93,7 +93,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     disableErrorControl: !$scope.autoAuth
                 })
                 .success(function(response) {
-                    wdDevice.lightDeviceScreen(deviceData.id);
                     GA('connect_device:connect:success');
                     stopLoopGetDevices();
                     stopLoopLinkDevices();
