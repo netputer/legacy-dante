@@ -200,7 +200,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             data['account'] = {};
             if(!data['organization'][0]){
                 data['organization'][0] = {
-                    type:'Work',
+                    type:G_typeMap.organization[1],
                     Company:'',
                     department:'',
                     job_description:'',
@@ -717,19 +717,19 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         switch(itemType){
             case 'phone':
                 i = obj.phone.length;
-                obj.phone.push({type:'Mobile',number:''});
+                obj.phone.push({type:G_typeMap.phone[2], number:''});
             break;
             case 'email':
                 i = obj.email.length;
-                obj.email.push({type:'Home',number:''});
+                obj.email.push({type:G_typeMap.email[1], number:''});
             break;
             case 'address':
                 i = obj.address.length;
-                obj.address.push({type:'Home',formatted_address:''}); //多个
+                obj.address.push({type:G_typeMap.address[1], formatted_address:''}); //多个
             break;
             case 'IM':
                 i = obj.IM.length;
-                obj.IM.push({protocol:'AIM',data:''}); //IM比较特殊，使用的protocol
+                obj.IM.push({protocol:G_protocol[0] ,data:''}); //IM比较特殊，使用的protocol
             break;
             // case 'nickname':
             //     i = obj.nickname.length;
@@ -737,15 +737,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             // break;
             case 'note':
                 i = obj.note.length;
-                obj.note.push({type:'Default',note:''});
+                obj.note.push({type:G_typeMap.note.Default, note:''});
             break;
             case 'website':
                 i = obj.website.length;
-                obj.website.push({type:'Homepage',URL:''});
+                obj.website.push({type:G_typeMap.website[1], URL:''});
             break;
             case 'relation':
                 i = obj.relation.length;
-                obj.relation.push({type:'Brother',name:''});
+                obj.relation.push({type:G_typeMap.relation[6], name:''});
             break;
         }
 
@@ -816,16 +816,16 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             account_name:'',
             account_type:'',
             photo_path:'',
-            IM:[{protocol:'AIM',custom_protocol:'',data:'',label:'',type:'Home'}],
-            address:[{type:'Home',city:'',country:'',formatted_address:'',label:'',neightborhood:'',pobox:'',post_code:'',region:'',street:''}],
-            email:[{type:'Home',address:'',display_name:'',label:''}],
+            IM:[{protocol:G_protocol[0], custom_protocol:'', data:'', label:'', type:G_typeMap.IM[1]}],
+            address:[{type:G_typeMap.address[1], city:'', country:'', formatted_address:'', label:'', neightborhood:'', pobox:'', post_code:'', region:'', street:''}],
+            email:[{type:G_typeMap.email[1], address:'', display_name:'', label:''}],
             name:{display_name:'',family_name:'',given_name:'',middle_name:'',phonetic_family_name:'',phonetic_given_name:'',phonetic_middle_name:'',prefix:'',suffix:''},
             // nickname:[{type:'Default',label:'',name:''}],
-            note:[{type:'Default',note:''}],
-            organization:[{type:'Work',Company:'',department:'',job_description:'',label:'',office_location:'',phonetic_name:'',symbol:'',title:''}],
-            phone:[{type:'Mobile',label:'',number:''}],
-            relation:[{type:'Friend',name:'',label:''}],
-            website:[{type:'Homepage',URL:'',label:''}]
+            note:[{type:G_typeMap.note.Default, note:''}],
+            organization:[{type:G_typeMap.organization[1], Company:'', department:'', job_description:'', label:'', office_location:'', phonetic_name:'', symbol:'', title:''}],
+            phone:[{type:G_typeMap.phone[2], label:'', number:''}],
+            relation:[{type:G_typeMap.relation[6], name:'', label:''}],
+            website:[{type:G_typeMap.website[1], URL:'', label:''}]
         };
 
         G_clicked['clicked'] = false;
