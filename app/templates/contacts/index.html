@@ -39,7 +39,7 @@
                     ng-class="{'wd-checkbox-light': !item.clicked}"
                     ng-show="!$root.READ_ONLY_FLAG"
                     ng-click="clickChecked($event, item);$event.stopPropagation();"
-                    ng-model="item.checked"
+                    ng-checked="item.checked"
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">

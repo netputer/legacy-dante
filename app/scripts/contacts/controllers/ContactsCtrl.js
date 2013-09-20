@@ -485,8 +485,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
     };
 
-    $scope.clickChecked = function(event,item){
-        if (item.checked !== false) {
+    $scope.clickChecked = function(event, item) {
+        item.checked = !item.checked;
+        if (item.checked === false) {
             GA('Web Contacts:click checkbox unchecked');
             if($scope.selectedNum > 0){
                 $scope.selectedNum -= 1;
@@ -502,12 +503,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             G_checkedIds.push(item['id']);
         }
 
-        if(event.shiftKey){
+        if (event.shiftKey){
             GA('Web Contacts:press shift and click checkbox checked');
             var startIndex = Math.max($scope.pageList.indexOf(G_lastChecked), 0);
             var stopIndex = $scope.pageList.indexOf(item);
             $scope.pageList.slice(Math.min(startIndex, stopIndex), Math.max(startIndex, stopIndex) + 1).forEach(function(v) {
-                if(!v['checked']){
+                if (!v['checked']){
                     v['checked'] = true;
                     v['tooltip'] = item.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
                     G_checkedIds.push(v['id']);
