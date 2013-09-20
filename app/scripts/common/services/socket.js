@@ -160,19 +160,8 @@ Socket.prototype = {
                         self.forceNewConnection = true;
                         self.connect();
                     } else {
-                        var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
-                        $.ajax({
-                            type: 'GET',
-                            url: url,
-                            dataType: 'jsonp',
-                            data: {
-                                did: device.id,
-                                google_token: wdGoogleSignIn.getStorageItem('googleToken')
-                            }
-                        });
-
+                        wdDevice.lightDeviceScreen(device.id);
                         self.trigger('socket:disconnected');
-
                         self.off('socket:connect').on('socket:connect', function() {
                             self.close();
                             self.forceNewConnection = true;
