@@ -32,8 +32,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         //临时存储onchange中触发的函数
         'fun' : undefined,
 
-        //调用 searchContext 的 timer ，如果短时间调用，会清除上一次调用
-        'searchContextFunctionTimer' : null
+        //记录上次搜索的 query，如果短时间再次调用该方法，会比对下 query 是否相同，如果相同则返回结果
+        'query' : ''
     };
 
     wdSocket.on('refresh', function() {
@@ -67,9 +67,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             //数据未取完
             //兼容旧接口没有headers('WD-Need-More')
-            if ( !headers('WD-Need-More') && (data.length === length) ) {
+            if (!headers('WD-Need-More') && (data.length === length)) {
                 getData( global.contacts.length, CONFIG.dataLengthOnce, null );
-            } else if ( headers('WD-Need-More') === 'true' ) {
+            } else if (headers('WD-Need-More') === 'true') {
 
                 //如果支持cursor打开这个接口，但是速度不如没有cursor的快
                 //getData(1,CONFIG.dataLengthOnce,data[l-1].id);
@@ -88,7 +88,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
         }).error(function() {
             $timeout(function() {
-                if ( !global.dataFinish ) {
+                if (!global.dataFinish) {
                     getData( global.contacts.length, CONFIG.dataLengthOnce, null );
                 }
             }, 1000);
@@ -100,7 +100,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
     });
 
     function deselectAll(){
-        for(var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
+        for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
             global.contacts[i]['checked'] = false;
         }
     }
@@ -109,7 +109,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
     function filterSmsSearchContacts( searchList ) {
         var list = [];
         _.each(searchList, function(value) {
-            if ( value.phone[0] ){
+            if (value.phone[0]){
 
                 //给简版的逻辑
                 _.each(value.phone, function(v) {
@@ -175,10 +175,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         //根据query搜索联系人
         searchContacts : function(query ,options) {
 
-            //清除上一次调用
-            if(global.searchContextFunctionTimer) {
-                $timeout.cancel(global.searchContextFunctionTimer);
-            }
+            //存储一下当前的 query 到全局
+            global.query = query;
 
             options = options || {};
 
@@ -212,14 +210,15 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                             offset: offset
                         }
                     }).success(function(data){
-                        global.searchContextFunctionTimer = $timeout(function(){
+                        if (query === global.query) {
+                            
                             // 是否是给短信模块提供的简版数据
                             if (options.sms){
                                 defer.resolve(filterSmsSearchContacts(data));
                             } else {
                                 defer.resolve(data);
                             }
-                        }, 0);
+                        }
                     }).error(function() {
                         defer.reject();
                     });
@@ -232,16 +231,16 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
                     //匹配是否
                     var matchItem = function (value, itemName, matchItemName) {
-                        if ( value[itemName] && value[itemName][0] ) {
+                        if (value[itemName] && value[itemName][0]) {
                             for ( var i = 0, l = value[itemName].length ; i < l ; i += 1 ) {
-                                if ( value[itemName][i][matchItemName] ){
+                                if (value[itemName][i][matchItemName]){
                                     var t = value[itemName][i][matchItemName];
-                                    if ( isFrontMatch( t, query ) ) {
-                                        frontList.push( value );
+                                    if (isFrontMatch(t, query)) {
+                                        frontList.push(value);
                                         return true;
                                     }
-                                    if ( isBehindMatch( t, query ) ) {
-                                        behindList.push( value );
+                                    if (isBehindMatch(t, query)) {
+                                        behindList.push(value);
                                         return true;
                                     }
                                 }
@@ -253,7 +252,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     _.each( options.cache || global.contacts, function(value) {
 
                         //查名字
-                        if ( value.name ){
+                        if (value.name){
                             if ((value.name.given_name && isFrontMatch(value.name.given_name, query)) ||
                                 (value.name.middle_name && isFrontMatch(value.name.middle_name, query)) ||
                                 (value.name.family_name && isFrontMatch(value.name.family_name, query)) ||
@@ -284,13 +283,13 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         }
 
                         //查 sort key （拼音搜索）
-                        if ( value.sort_key ) {
+                        if (value.sort_key) {
                             var item = value['sort_key'].toLocaleLowerCase();
                             var regstr = '^';
                             for ( var o = 0, p = query.length; o < p; o += 1 ) {
                                 regstr = regstr + query[o] + '.*?';
                             }
-                            if ( new RegExp( encodeReg(regstr),'g' ).test( item ) ) {
+                            if (new RegExp( encodeReg(regstr),'g' ).test( item )) {
                                 frontList.push( value );
                                 return;
                             }
@@ -334,7 +333,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         //根据id取得信息
         getContactInfoById:function(id) {
             for (var i = 0; i < global.contacts.length; i+=1 ) {
-                if ( global.contacts[ i ][ 'id' ] === id ){
+                if (global.contacts[ i ][ 'id' ] === id){
                     return global.contacts[ i ];
                 }
             }
@@ -372,7 +371,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 data: {'ids':list},
                 timeout: 60 * 60 * 1000
             }).success(function(){
-                for( var m = 0 , n = list.length ; m < n ; m += 1 ){
+                for ( var m = 0 , n = list.length ; m < n ; m += 1 ){
                     for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
                         if (list[m] === global.contacts[i]['id']) {
                             global.contacts.splice(i,1);
@@ -418,7 +417,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 timeout:CONFIG.timeout
             }).success(function(data) {
                 for (var i = 0 ; i < global.contacts.length ; i += 1 ) {
-                    if ( global.contacts[i]['id'] === editData.id ){
+                    if (global.contacts[i]['id'] === editData.id){
                         global.contacts[i] = editData;
                         return;
                     }
@@ -432,41 +431,41 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 return false;
             }
 
-            for(var m in contact){
-                for(var n in contact[m]){
+            for (var m in contact){
+                for (var n in contact[m]){
                     switch(m){
                         case 'IM':
-                            if(!!contact[m][n]['data']){return false;}
+                            if (!!contact[m][n]['data']){return false;}
                         break;
                         case 'address':
-                            if(!!contact[m][n]['formatted_address']){return false;}
+                            if (!!contact[m][n]['formatted_address']){return false;}
                         break;
                         case 'email':
-                            if(!!contact[m][n]['address']){return false;}
+                            if (!!contact[m][n]['address']){return false;}
                         break;
                         case 'address':
-                            if(!!contact[m][n]['formatted_address']){return false;}
+                            if (!!contact[m][n]['formatted_address']){return false;}
                         break;
                         // case 'name':
-                        //     if(!!contact[m][n]['family_name']||!!contact[m][n]['given_name']||!!contact[m][n]['middle_name']){return false;}
+                        //     if (!!contact[m][n]['family_name']||!!contact[m][n]['given_name']||!!contact[m][n]['middle_name']){return false;}
                         // break;
                         case 'address':
-                            if(!!contact[m][n]['formatted_address']){return false;}
+                            if (!!contact[m][n]['formatted_address']){return false;}
                         break;
                         case 'note':
-                            if(!!contact[m][n]['note']){return false;}
+                            if (!!contact[m][n]['note']){return false;}
                         break;
                         case 'organization':
-                            if(!!contact[m][n]['company']||!!contact[m][n]['title']){return false;}
+                            if (!!contact[m][n]['company']||!!contact[m][n]['title']){return false;}
                         break;
                         case 'phone':
-                            if(!!contact[m][n]['number']){return false;}
+                            if (!!contact[m][n]['number']){return false;}
                         break;
                         case 'relation':
-                            if(!!contact[m][n]['name']){return false;}
+                            if (!!contact[m][n]['name']){return false;}
                         break;
                         case 'website':
-                            if(!!contact[m][n]['URL']){return false;}
+                            if (!!contact[m][n]['URL']){return false;}
                         break;
                     }
                 }
