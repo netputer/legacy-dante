@@ -1,4 +1,8 @@
-define([], function() {
+define([
+    'jquery'
+], function(
+    $
+) {
 'use strict';
 return function() {
     var self = this;
@@ -51,6 +55,18 @@ return function() {
                         });
                     }
                 }, 1000);
+            },
+            lightDeviceScreen: function(deviceId) {
+                var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'jsonp',
+                    data: {
+                        did: deviceId,
+                        google_token: $window.localStorage.getItem('googleToken')
+                    }
+                });
             },
             stopSignoutDetection: function() {
                 clearInterval(signoutDetectionTimer);
