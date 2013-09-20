@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="wd-blank" ui-if="!photos.length && firstScreenLoaded">
+    <div class="wd-blank" ng-if="!photos.length && firstScreenLoaded">
         <p>{{$root.DICT.photos.BLANK_TIP}}<p>
         <div wd-strip>
             <div class="btn btn-primary"
@@ -103,7 +103,7 @@
             </li>
         </ul>
     </div>
-    <div ui-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.photos.UPGRADE_TIP}}"></div>
+    <div ng-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.photos.UPGRADE_TIP}}"></div>
 
     <div wd-drag-enter-area class="wd-drag-enter-area" data-title="{{$root.DICT.photos.DRAG_TITLE}}" data-tip="{{$root.DICT.photos.DRAG_TIP}}"></div>
 </div>
