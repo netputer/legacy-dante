@@ -1575,6 +1575,10 @@ qq.DragAndDrop = function(o) {
     function handleDataTransfer(dataTransfer) {
         var i, items, entry;
 
+        if (!dataTransfer.files.length) {
+            return;
+        }
+
         options.callbacks.dropProcessing(true);
         dz.dropDisabled(true);
 
