@@ -6,18 +6,18 @@
 @include wd-directive("drag-enter-area") {
     width: 100%;
     height: 0;
-    @include position(absolute, 0px 0px 0px 0px);
+    @include position(absolute, 0px 0 0 0px);
     background-color: rgba(0, 0, 0, 0.9);
-    display: table;
     text-align: center;
     color: #fff;
     margin: auto;
     opacity: 0;
+    overflow: hidden;
     @include transition(opacity $global-transition-duration ease, height 0 ease $global-transition-duration);
 
-    .drag-content {
-        display: table-cell;
-        vertical-align: middle;
+    .drag-content {        
+        @include position(absolute, 50% 0 0 50%);
+        @include transform(translate(-50%, -50%));
     }
     .drag-center {
         width: 340px;
