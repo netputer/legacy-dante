@@ -97,6 +97,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
         getList(data);
         G_isFirst = false;
+        showLoadMore();
     }
 
     function getListItem(data){
@@ -131,7 +132,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         //第一次数据已经载入
         if(G_isFirst){
-            $scope.isLoadMoreBtnShow = true;
             $scope.isLeftLoadingShow = false;
             $scope.isNewContactDisable = false;
             G_keyContact = wdKey.push('contacts');
@@ -1018,7 +1018,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isListLoadShow = false;
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
-                $scope.isLoadMoreBtnShow = true;
                 for(var i = 0 , l = data.length ; i < l ; i += 1 ){
                     G_searchList.push(getListItem(data[i]));
                 }
@@ -1032,30 +1031,45 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     showContacts($scope.pageList[0]['id']);
                 }else{
                     $scope.isNoContactsShow = true;
-                    $scope.isLoadMoreBtnShow = false;
                     showContacts();
                 }
+                showLoadMore();
                 $('ul.contacts-list')[0].scrollTop = 0;
             });
         });
     }, 300);
 
     //加载更多
-    $scope.loadMore = function(){
+    $scope.loadMore = function() {
         var pl = $scope.pageList.length;
-        var l = pl + DATA_LENGTH_ONCE;
-        if( !!$scope.searchText ){
+        var l = $scope.pageList.length + DATA_LENGTH_ONCE;
+        if ($scope.searchText) {
             $scope.pageList = $scope.pageList.concat(G_searchList.slice(pl,l));
-            if(l>$scope.pageList.length){
-                $scope.isLoadMoreBtnShow = false;
-            }
         }else{
             $scope.pageList = $scope.pageList.concat(G_list.slice(pl,l));
-            if(l>G_list.length){
-                $scope.isLoadMoreBtnShow = false;
+        }
+        showLoadMore();
+    };
+
+    function showLoadMore() {
+        
+        //当前显示的联系人列表长度
+        var pl = $scope.pageList.length;
+        var sl = G_searchList.length;
+        var l = G_list.length;
+        if ($scope.searchText){
+            if (pl < sl){
+                $scope.isLoadMoreBtnShow = true;
+                return;
+            }
+        } else {
+            if(pl < l){
+                $scope.isLoadMoreBtnShow = true;
+                return; 
             }
         }
-    };
+        $scope.isLoadMoreBtnShow = false;
+    }
 
     $scope.sendMessageTo = function(phoneNum , display_name){
         $location.path('/messages').search({
