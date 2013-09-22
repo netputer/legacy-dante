@@ -25,7 +25,6 @@ Socket.prototype = {
     constructor: Socket,
     RECONNECT_TIMES : 0,
     MAX_RECONNECTION_ATTEMPTS : 2,
-    forceNewConnection: false,
     /**
      * Destroy everything.
      */
@@ -46,7 +45,7 @@ Socket.prototype = {
             ],
             'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS,
             'connect timeout': 3000,
-            'force new connection': this.forceNewConnection
+            'force new connection': true
         });
     },
 
@@ -157,14 +156,12 @@ Socket.prototype = {
                         wdDev.setServer(currentOnlineDevice.ip);
 
                         self.close();
-                        self.forceNewConnection = true;
                         self.connect();
                     } else {
                         wdDevice.lightDeviceScreen(device.id);
                         self.trigger('socket:disconnected');
                         self.off('socket:connect').on('socket:connect', function() {
                             self.close();
-                            self.forceNewConnection = true;
                             self.connect();
                         });
                     }

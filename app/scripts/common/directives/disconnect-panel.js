@@ -58,7 +58,6 @@ return [function() {
             $scope.connectSocket = function() {
                 wdSocket.trigger('socket:connect');
                 refreshDelayTime();
-                $scope.showPanel = false;
             };
 
             $scope.closePanel = function() {
