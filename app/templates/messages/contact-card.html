@@ -4,6 +4,10 @@
     </div>
     <div class="wdm-contact-card-name">{{ contactExisted ? contactName : contactAddress }}</div>
     <div class="wdm-contact-card-info" ng-if="contactExisted">{{ contactAddress }}</div>
-    <div class="wdm-contact-card-action" ng-if="contactExisted">{{$root.DICT.messages.REVIEW_CONTACT}}</div>
-    <div class="wdm-contact-card-action" ng-if="!contactExisted">{{$root.DICT.messages.ADD_CONTACT}}</div>
+    <div class="wdm-contact-card-action"
+        ng-if="contactExisted"
+        ng-click="viewContact()">{{$root.DICT.messages.VIEW_CONTACT}}</div>
+    <div class="wdm-contact-card-action"
+        ng-if="!contactExisted"
+        ng-click="addContact()">{{$root.DICT.messages.ADD_CONTACT}}</div>
 </div>

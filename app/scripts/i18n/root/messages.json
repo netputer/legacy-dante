@@ -28,7 +28,7 @@
     "CONFIRM_DELETE_CONTENT": "Delete the selected messages from your phone?",
     "CONFIRM_DELETE_OK": "Delete",
     "CONFIRM_DELETE_CANCEL": "Cancel",
-    "REVIEW_CONTACT": "Review contact",
+    "VIEW_CONTACT": "View contact",
     "ADD_CONTACT": "Add to contacts",
     "NEW_MESSAGE_TIP": "New messages from $$$$"
 }
