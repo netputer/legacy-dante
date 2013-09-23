@@ -62,7 +62,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         }).success( function( data, status, headers ) {
 
             _.each( data, function( value ) {
-                global.contacts.push( value );
+                if (!checkRepeat(value.id, global.contacts)) {
+                    global.contacts.push( value );
+                }
             });
 
             //数据未取完
@@ -103,6 +105,16 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
             global.contacts[i]['checked'] = false;
         }
+    }
+
+    //除重
+    function checkRepeat(id, contactsList) {
+        for (var i = 0 , l = contactsList.length ; i < l ; i += 1 ) {
+            if (contactsList[i].id === id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //过滤出给短信搜索的数据结构
@@ -190,9 +202,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             //如果没有加载过联系人数据，则自动启动启动加载
             if (!global.contacts.length && !searchCache){
-
-                //自动加载数据
-                getData( 0, CONFIG.dataLengthOnce, null );
+                this.init();
             }
 
             query = encodeReg( query.toLocaleLowerCase() );
@@ -229,17 +239,17 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                     var frontList = [];
                     var behindList = [];
 
-                    //匹配是否
+                    //匹配项
                     var matchItem = function (value, itemName, matchItemName) {
                         if (value[itemName] && value[itemName][0]) {
                             for ( var i = 0, l = value[itemName].length ; i < l ; i += 1 ) {
                                 if (value[itemName][i][matchItemName]){
                                     var t = value[itemName][i][matchItemName];
-                                    if (isFrontMatch(t, query)) {
+                                    if (isFrontMatch(t, query) && !checkRepeat(value.id, frontList)) {
                                         frontList.push(value);
                                         return true;
                                     }
-                                    if (isBehindMatch(t, query)) {
+                                    if (isBehindMatch(t, query) && !checkRepeat(value.id, behindList)) {
                                         behindList.push(value);
                                         return true;
                                     }
@@ -258,7 +268,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                                 (value.name.family_name && isFrontMatch(value.name.family_name, query)) ||
                                 (value.name.display_name && isFrontMatch(value.name.display_name, query))
                             ) {
-                                frontList.push(value);
+                                if (!checkRepeat(value.id, frontList)) {
+                                    frontList.push(value);
+                                }
                                 return;
                             }
 
@@ -267,7 +279,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                                 (value.name.family_name && isBehindMatch(value.name.family_name, query)) ||
                                 (value.name.display_name && isBehindMatch(value.name.display_name, query))
                             ) {
-                                behindList.push(value);
+                                if (!checkRepeat(value.id, behindList)) {
+                                    behindList.push(value);
+                                }
                                 return;
                             }
                         }
@@ -283,17 +297,17 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                         }
 
                         //查 sort key （拼音搜索）
-                        if (value.sort_key) {
-                            var item = value['sort_key'].toLocaleLowerCase();
-                            var regstr = '^';
-                            for ( var o = 0, p = query.length; o < p; o += 1 ) {
-                                regstr = regstr + query[o] + '.*?';
-                            }
-                            if (new RegExp( encodeReg(regstr),'g' ).test( item )) {
-                                frontList.push( value );
-                                return;
-                            }
-                        }
+                        // if (value.sort_key) {
+                        //     var item = value['sort_key'].toLocaleLowerCase();
+                        //     var regstr = '^';
+                        //     for ( var o = 0, p = query.length; o < p; o += 1 ) {
+                        //         regstr = regstr + query[o] + '.*?';
+                        //     }
+                        //     if (new RegExp( encodeReg(regstr),'g' ).test( item )) {
+                        //         frontList.push( value );
+                        //         return;
+                        //     }
+                        // }
                     });
 
                     var list = frontList.concat( behindList );
@@ -331,12 +345,28 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         },
 
         //根据id取得信息
-        getContactInfoById:function(id) {
+        getContactInfoById: function(id) {
+            this.init();
+            var contact;
+            var defer = $q.defer(); 
             for (var i = 0; i < global.contacts.length; i+=1 ) {
                 if (global.contacts[ i ][ 'id' ] === id){
-                    return global.contacts[ i ];
+                    contact = global.contacts[ i ];
                 }
             }
+            if (contact) {
+                $timeout(function() {
+                    defer.resolve(contact);
+                }, 0);
+            } else {
+                $http({
+                    method: 'get',
+                    url: '/resource/contacts/' + id
+                }).success(function(data){
+                    defer.resolve(data);
+                });
+            }
+            return defer.promise;
         },
 
         //取得账号
