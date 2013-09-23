@@ -91,6 +91,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         var routecommandId = $route.current.params.id;
         if (routecommandId) {
             if (routecommandId === 'new') {
+                $scope.isLeftLoadingShow = false;
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
                 $scope.addNewContact();
@@ -270,6 +271,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.isSendMessageShow = false;
             $scope.isSendMessageShow = true;
             $scope.isEditingContacts = false;
+            $scope.isAccountShow = false;
         };
 
         //点了旁边，没有点保存
@@ -522,12 +524,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         GA('Web Contacts:click edit contact button');
         $scope.isEditingContacts = true;
         $scope.isSendMessageShow = false;
+        $scope.isAccountShow = true;
         G_keyContact.done();
 
         //addNewContact方法中调用了editContact方法
         if (G_status !== 'new') {
             G_status = 'edit';
-            $scope.isAccountShow = true;
+            $scope.isAccountShow = false;
             $scope.isPhotoUploadShow = true;
         }
 
@@ -639,24 +642,24 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 }else{
                     id = G_list[0].id;
                 }
-
             break;
             case 'edit':
                 id = G_clicked.id;
             break;
         }
-        G_status = '';
+        G_status = 'show';
         var data = getContactsById(id,G_contacts);
         for ( var i in data ) {
             data[i] = null;
         }
         $.extend(true,data,G_showingContact);
+        showContacts(id);
         $scope.isContactsEditShow = true;
-
         $scope.isEditBtnShow = true;
         $scope.isDelBtnShow = true;
         $scope.isSaveBtnShow = false;
         $scope.isCancelBtnShow = false;
+        $scope.isAccountShow = false;
     };
 
     //增加一个条目
