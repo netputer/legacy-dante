@@ -59,6 +59,10 @@ _.extend(ExtendedConversationsCollection.prototype, {
         return cursor ? cursor.id : null;
     },
 
+    hasFetched: function() {
+        return !!this._cursor;
+    },
+
     _fetchById: function(id) {
         var c = this.getById(id) || this.create({ id: id });
         return $http.get(

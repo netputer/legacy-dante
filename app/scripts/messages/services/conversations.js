@@ -6,10 +6,10 @@ define([
 'use strict';
 return ['wdmExtendedConversationsCollection', 'wdmConversationsCollection',
         '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter',
-        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification', 'wdWindowFocus', '$route',
+        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification', 'wdWindowFocus', '$route', '$location', '$window',
 function(wdmExtendedConversationsCollection,   wdmConversationsCollection,
          $http,   $q,   $rootScope,   wdSocket,   wdEventEmitter,
-         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA, wdDesktopNotification, wdWindowFocus, $route) {
+         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA, wdDesktopNotification, wdWindowFocus, $route, $location, $window) {
 
 var conversations = wdmExtendedConversationsCollection.createExtendedConversationsCollection();
 var contactsCache = null;
@@ -136,41 +136,46 @@ function buildContactsCache() {
     });
 }
 
-buildContactsCache();
-
 // Mixin event emitter.
 wdEventEmitter(conversations);
 
-$rootScope.$on('signin', function() {
-    buildContactsCache();
-});
-
-$rootScope.$on('signout', function() {
-    conversations.clear();
-    contactsCache = null;
-});
-
-wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
-    var cid = msg.data.threadId;
-    var mid = msg.data.messageId;
-    var c = conversations.getById(cid);
-    if (c) {
-        c.messages.fetch(mid).then(function(message) {
-            if (e.type === 'messages_add' && ( !wdWindowFocus.getStatus() || $route.current.locals.nav !== 'messages' ) ) {
-                wdDesktopNotification.showNewMessage($rootScope.DICT.messages.NEW_MESSAGE_TIP.replace('$$$$', message.address), message.body);
-            }
-            conversations.trigger('update', [c]);
+function notify(message) {
+    if (!wdWindowFocus.getStatus() || $route.current.locals.nav !== 'messages') {
+        wdDesktopNotification.showNewMessage($rootScope.DICT.messages.NEW_MESSAGE_TIP.replace('$$$$', message.address), message.body, function() {
+            $location.path('/messages').search('show', message.cid);
+            $window.focus();
         });
     }
-    else {
-        conversations.fetch(cid);
-    }
-}).on('refresh', function(){
-    conversations.clear();
-});
+}
 
 return {
     conversations: conversations,
+    initialize: function() {
+        $rootScope.$on('signin', function() {
+            buildContactsCache();
+        });
+
+        $rootScope.$on('signout', function() {
+            conversations.clear();
+            contactsCache = null;
+        });
+
+        wdSocket.on('messages_add.wdm messages_update.wdm', function(e, msg) {
+            var cid = msg.data.threadId;
+            var mid = msg.data.messageId;
+
+            $q.when(conversations.getById(cid) || conversations.fetch(cid)).then(function(c) {
+                c.messages.fetch(mid).then(function(message) {
+                    if (e.type === 'messages_add') {
+                        notify(message);
+                    }
+                    conversations.trigger('update', [c]);
+                });
+            });
+        }).on('refresh', function(){
+            conversations.clear();
+        });
+    },
     searchConversationsFromCache: function(keyword) {
         var regexp = new RegExp(keyword, 'i');
         return conversations.collection.filter(function(c) {
