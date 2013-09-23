@@ -161,7 +161,6 @@ $scope.nextResults = function(c) {
 // };
 
 $scope.conversations.on('update.wdm', function(e, c) {
-    $scope.conversations.sort();
     if (c === $scope.activeConversation) {
         scrollIntoView();
     }
