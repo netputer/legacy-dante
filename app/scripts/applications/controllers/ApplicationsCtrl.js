@@ -234,7 +234,13 @@ define([
                                 }
                             }
                         },
-                        onError:function(){
+                        onError:function(id, name, reason) {
+                            var app = _.find($scope.newList, function(item) {
+                                return item.id === id;
+                            });
+                            $scope.$apply(function() {
+                                app.showErrorTip = true;
+                            });
                         }
                     }
                 });

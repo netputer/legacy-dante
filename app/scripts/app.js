@@ -281,6 +281,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
                 wdDatabase.close();
+                wdTitleNotification.restore();
             }
         });
 
