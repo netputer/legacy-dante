@@ -51,7 +51,7 @@
         }
     }
 
-    &:not(.wd-block-selected):hover {
+    &:not(.wd-block-selected):not(.wd-block-disabled):hover {
         .wd-block-actions {
             visibility: visible;
             @include animation(fadeIn 0.3s);
