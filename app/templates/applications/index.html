@@ -19,6 +19,13 @@
                 <i bs-tooltip="{{$root.DICT.applications.BUTTONS.REINSTALL}}" class="icon-retry" ng-click="reinstall(item)"></i>
             </dd>
             <!-- 确认提示 end -->
+            <dd class="app-upload-tip" ng-class="{'show-upload-tip': item.showErrorTip}">
+                <i bs-tooltip="{{$root.DICT.applications.WORDS.CANCAL}}" class="icon-close" ng-click="closeUploadApp(item);"></i>
+                <p class="bar">
+                    <span>{{$root.DICT.applications.UPLOAD_ERROR_TIP}}</span>
+                    <i bs-tooltip="{{$root.DICT.applications.WORDS.RETRY}}" class="icon-retry" ng-click="retryUpload(item.id)"></i>
+                </p>
+            </dd>
         </dl>
         <!-- 新安装的应用列表 end -->
 
