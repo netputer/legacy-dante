@@ -5,8 +5,7 @@
             <div class="device-list-container">
                 <ul class="device-list" ng-hide="isLoadingDevices">
                     <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
-                        <i class="icon-mark" ng-show="item.selected"></i>
-                        <a href="">{{item.model}}</a>
+                        <a href=""><i class="icon-mark" ng-show="item.selected"></i>{{item.model}}</a>
                     </li>
                 </ul>
                 <div class="devices-loading-container" ng-show="isLoadingDevices">

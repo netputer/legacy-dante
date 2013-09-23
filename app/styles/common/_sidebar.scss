@@ -135,13 +135,14 @@ $sidebar-animation-time: 500ms;
                 padding: 0;
                 margin: 8px 0;
                 list-style: none;
+                cursor: pointer;
 
                 i {
                     margin-right: 6px;
                 }
 
                 a {
-                    padding-left: 25px;
+                    padding-left: 22px;
                 }
 
                 &.selected a{
