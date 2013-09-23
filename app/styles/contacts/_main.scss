@@ -13,10 +13,10 @@
     }
 
     .contacts-list{
-        @include position(absolute, 100px 0px 0px 0px);
+        @include position(absolute, 99px 0px 0px 0px);
         overflow-y : auto;
         @include readonly {
-            top : 102px;
+            top : 101px;
         }
         width: 429px;
         display: block;
@@ -111,7 +111,7 @@
         padding-top: 9px;
         i.icon-search{
             position: absolute;
-            left: 17px;
+            left: 18px;
             top: 64px;
             @include readonly {
                 top: 68px;
@@ -129,6 +129,7 @@
             line-height: 22px;
             padding-left: 28px;
             padding-right: 25px;
+            margin-bottom: 0;
             width: 353px;
             height: 22px;
             box-shadow: none;
@@ -206,7 +207,7 @@
         font-weight: bold;
         background-color: #fffabb;
     }
-    
+
 	@import "item";
 	@import "edit";
 }

@@ -169,6 +169,7 @@ return {
                     if (e.type === 'messages_add') {
                         notify(message);
                     }
+                    conversations.sort();
                     conversations.trigger('update', [c]);
                 });
             });
