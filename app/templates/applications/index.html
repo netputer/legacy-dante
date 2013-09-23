@@ -31,8 +31,10 @@
 
         <!-- 已安装的应用列表 -->
         <dl class="wd-block app-block" ng-repeat="item in list" ng-class="{'confirm':item.confirmTipShow, 'wd-block-selected': item.checked, 'wd-block-selecting': selectedNum}" ng-style="{width:appBlockWidth,height:appBlockHeight}">
-            <dt><img ng-src="{{item.icon}}"></dt>
-            <dd class="title" title="{{item.name}}">{{item.name}}</dd>
+            <div class="content">
+                <dt><img ng-src="{{item.icon}}"></dt>
+                <dd class="title" title="{{item.name}}">{{item.name}}</dd>
+            </div>
             <div class="wd-block-mask" ng-click="selectedNum ? checkedApp($event, item) : showAppInfo(item.package_name);"></div>
             <div wd-checkbox class="btn-icon-check wd-block-select wd-checkbox-light"
                 bs-tooltip="{{$root.DICT.applications.WORDS.SELECT}}"
