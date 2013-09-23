@@ -219,28 +219,36 @@ define([
                             updateUpload(id,name,Math.floor(progress/total*100));
                         },
                         onComplete: function(id, name, data){
-                            var result = data.result[0];
-                            for(var i = 0, l = $scope.newList.length; i < l ; i += 1 ){
-                                if($scope.newList[i]['id'] === id){
-                                    $scope.newList[i]['package_name'] = result['package_name'];
-                                    $scope.newList[i]['apk_path'] =  result['apk_path'];
-                                    $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
-                                    if(!G_unknownTips){
-                                        G_unknownTips = result['unknown_sources'];
-                                    }
-                                    if(!G_unknownTips){
-                                        showUnknowTips();
+                            if (data.success) {
+                                var result = data.result[0];
+                                for(var i = 0, l = $scope.newList.length; i < l ; i += 1 ){
+                                    if($scope.newList[i]['id'] === id){
+                                        $scope.newList[i]['package_name'] = result['package_name'];
+                                        $scope.newList[i]['apk_path'] =  result['apk_path'];
+                                        $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
+                                        // Boss Wang 
+                                        $scope.newList[i].confirmTipShow = true;
+                                        $scope.newList[i].progressShow = false;
+                                        $('dd.confirm').css('opacity', 0.8);
+
+                                        if(!G_unknownTips){
+                                            G_unknownTips = result.unknown_sources;
+                                        }
+                                        if(!G_unknownTips){
+                                            showUnknowTips();
+                                        }
                                     }
                                 }
+                            } else {
+                                var app = _.find($scope.newList, function(item) {
+                                    return item.id === id;
+                                });
+                                $scope.$apply(function() {
+                                    app.showErrorTip = true;
+                                });
                             }
                         },
-                        onError:function(id, name, reason) {
-                            var app = _.find($scope.newList, function(item) {
-                                return item.id === id;
-                            });
-                            $scope.$apply(function() {
-                                app.showErrorTip = true;
-                            });
+                        onError:function() {
                         }
                     }
                 });
@@ -291,6 +299,15 @@ define([
 
         }
 
+        $scope.retryUpload = function(id) {
+            G_uploader.retry(id);
+            var file = _.find($scope.newList, function(item) {
+                return item.id === id;
+            });
+            file.progress = 0;
+            file.showErrorTip = false;
+        };
+
         //上传安装应用时，显示对应的应用
         function showUploadApp(id,file_name){
             var item = {
@@ -309,15 +326,8 @@ define([
         function updateUpload(id,name,progress){
             for(var i = 0 , l = $scope.newList.length; i < l ; i += 1 ){
                 if( $scope.newList[i]['id'] === id ){
-                    if( progress == 100 ){
-                        $scope.newList[i]['confirmTipShow'] = true;
-                        $scope.newList[i]['progressShow'] = false;
-                        $('dd.confirm').css('opacity',0.8);
-                        $scope.$apply();
-                    }else{
-                        $scope.newList[i]['progress'] = '' + progress + '%';
-                        $scope.$apply();
-                    }
+                    $scope.newList[i].progress = '' + progress + '%';
+                    $scope.$apply();
                     break;
                 }
             }

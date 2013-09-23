@@ -34,7 +34,8 @@
         "VERSION": "Version",
         "PERMISSIONS": "Permissions",
         "CANCEL": "Cancel",
-        "SELECT": "Select"
+        "SELECT": "Select",
+        "RETRY": "Retry"
     },
     "ALL_FILES_UNSUPPORT_TITLE": "Unsupported File(s)",
     "ALL_FILES_UNSUPPORT_CONTENT": "Invalid file extension. Only APK files are supported.",
@@ -43,5 +44,5 @@
     "UNSUPPORT_MODAL_BUTTON_OK": "OK",
     "DRAG_TITLE": "Drop apk here",
     "DRAG_TIP": "Adds apk to your phone.",
-    "UPLOAD_ERROR_TIP": "Upload failed, please try again."
+    "UPLOAD_ERROR_TIP": "Failed to install."
 }

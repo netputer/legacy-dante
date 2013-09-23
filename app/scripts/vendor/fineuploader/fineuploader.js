@@ -1081,9 +1081,6 @@ qq.FineUploaderBasic.prototype = {
                 else {
                     return false;
                 }
-            },
-            onError: function(id, name, reason) {
-                self._options.callbacks.onError(id, name, reason);
             }
         });
     },
@@ -2363,8 +2360,7 @@ qq.UploadHandlerXhr = function(o, uploadCompleteCallback, logCallback) {
             return;
         }
         else {
-            //handleCompletedItem(id, response, xhr);
-            options.onError(id, name, xhr.status);
+            handleCompletedItem(id, response, xhr);
         }
     }
 
