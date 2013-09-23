@@ -611,8 +611,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             case 'new':
                 GA('Web Contacts:click save the new contact button');
                 editData = [];
-                editData = filterUpdatedData(saveData);
-                editData.push(saveData);
+                editData.push(filterUpdatedData(saveData));
                 var account = editData[0].account || {name:'',type:''};
                 editData[0].account_name = account.name;
                 editData[0].account_type = account.type;
@@ -729,11 +728,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         GA('Web Contacts:click add a New Contacts button');
         if ( G_status === 'new') { return; }
+        $scope.isContactsEditShow = false;
+        $scope.isRightLoadShow = true;
         $scope.isNoContactsShow = false;
         $scope.isAccountShow = false;
 
         //获取用户账户
         wdcContacts.getAccount().success(function(data) {
+            $scope.isContactsEditShow = true;
             $scope.isRightLoadShow = false;
             $scope.contact.account = data[0];
             $scope.accounts = data;
@@ -766,13 +768,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             clicked : true
         };
         $scope.pageList.unshift(G_clicked);
-        if (newData.phone) {
+        if (newData && newData.phone) {
             obj.phone[0].number = newData.phone;
         }
         $scope.contact = obj;
         G_status = 'new';
         $scope.editContact();
-        $scope.isContactsEditShow = true;
         $('ul.contacts-list')[0].scrollTop = 0;
     };
 
