@@ -87,7 +87,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         });
     }
 
-    function checkUrlcommand() {
+    function checkUrlCommand() {
         var routecommandId = $route.current.params.id;
         if (routecommandId) {
             if (routecommandId === 'new') {
@@ -167,7 +167,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //首次进入默认显示第一个联系人
             if (!i && G_isFirst) {
-                if (!checkUrlcommand()) {
+                if (!checkUrlCommand()) {
                     $scope.isRightLoadShow = false;
                     $scope.isLeftLoadingShow = false;
                     showContacts(obj.id);
