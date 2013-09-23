@@ -137,12 +137,14 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
     //是否从起始位置既匹配
     function isFrontMatch( str, query ) {
+        query = query.toLocaleLowerCase().replace(/\s/g,'');
         str = String(str).toLocaleLowerCase().replace(/\s/g,'');
         return new RegExp( '^' + query , 'g' ).test( str );
     }
 
     //是否在非起始位置有匹配
     function isBehindMatch( str, query ) {
+        query = query.toLocaleLowerCase().replace(/\s/g,'');
         str = String(str).toLocaleLowerCase().replace(/\s/g,'');
         return new RegExp( query , 'g' ).test( str );
     }

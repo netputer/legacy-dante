@@ -91,7 +91,7 @@
         <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
         <div class="list">
             <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
-                <p>{{item.model}}</p>
+                <p class='phone-name'>{{item.model}}</p>
                 <span class="wifi" ng-show="!item.loading">
                     <i class="icon-wifi"></i><p>{{item.attributes.ssid}}</p>
                 </span>

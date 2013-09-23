@@ -87,6 +87,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         });
     }
 
+    //除重
+    function filterContactRepeat(id) {
+        for (var i = 0, l = G_contacts.length; i < l; i += 1) {
+            if (G_contacts[i] && G_contacts[i].id === id) {
+                G_contacts.splice(i, 1);
+            }
+        }
+    }
+
     function checkUrlCommand() {
         var routecommandId = $route.current.params.id;
         if (routecommandId) {
@@ -94,7 +103,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isLeftLoadingShow = false;
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
-                $scope.addNewContact();
+                $scope.addNewContact({phone:$route.current.params.phone});
+                $location.path('/contacts').search('id', null).search('phone', null).replace();
             } else {
                 $scope.isLeftLoadingShow = true;
                 $scope.isRightLoadShow = true;
@@ -105,6 +115,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.pageList.unshift(getListItem(data));
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
+                    filterContactRepeat(data.id);
+                    $location.path('/contacts').search('id', null).replace();
                 });
             }
             return true;
@@ -599,8 +611,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             case 'new':
                 GA('Web Contacts:click save the new contact button');
                 editData = [];
-                editData = filterUpdatedData(saveData);
-                editData.push(saveData);
+                editData.push(filterUpdatedData(saveData));
                 var account = editData[0].account || {name:'',type:''};
                 editData[0].account_name = account.name;
                 editData[0].account_type = account.type;
@@ -713,15 +724,18 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     //添加新的联系人
-    $scope.addNewContact = function() {
+    $scope.addNewContact = function(newData) {
 
         GA('Web Contacts:click add a New Contacts button');
         if ( G_status === 'new') { return; }
+        $scope.isContactsEditShow = false;
+        $scope.isRightLoadShow = true;
         $scope.isNoContactsShow = false;
         $scope.isAccountShow = false;
 
         //获取用户账户
         wdcContacts.getAccount().success(function(data) {
+            $scope.isContactsEditShow = true;
             $scope.isRightLoadShow = false;
             $scope.contact.account = data[0];
             $scope.accounts = data;
@@ -754,10 +768,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             clicked : true
         };
         $scope.pageList.unshift(G_clicked);
+        if (newData && newData.phone) {
+            obj.phone[0].number = newData.phone;
+        }
         $scope.contact = obj;
         G_status = 'new';
         $scope.editContact();
-        $scope.isContactsEditShow = true;
         $('ul.contacts-list')[0].scrollTop = 0;
     };
 
