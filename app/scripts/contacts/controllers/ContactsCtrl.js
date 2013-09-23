@@ -59,7 +59,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     var G_showingContact = {};
 
     //当前的状态
-    var G_status = ''; // “edit” 正在编辑，“new” 正在新建
+    var G_status = 'show';  // “show” 正在显示某个联系人；“edit” 正在编辑；“new” 正在新建；这个状态用于检测用户是否处于这两个状态突然点了旁边的联系人。
 
     //各个type字段映射表
     var G_typeMap = $scope.$root.DICT.contactType.TYPE_MAP;
@@ -87,17 +87,17 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         });
     }
 
-    function checkUrlCommond() {
-        var routeCommondId = $location.search().id;
-        if (routeCommondId) {
-            if (routeCommondId === 'new') {
+    function checkUrlcommand() {
+        var routecommandId = $route.current.params.id;
+        if (routecommandId) {
+            if (routecommandId === 'new') {
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
                 $scope.addNewContact();
             } else {
                 $scope.isLeftLoadingShow = true;
                 $scope.isRightLoadShow = true;
-                wdcContacts.getContactInfoById(routeCommondId).then(function(data) {
+                wdcContacts.getContactInfoById(routecommandId).then(function(data) {
                     $scope.isLeftLoadingShow = false;
                     $scope.isRightLoadShow = false;
                     showContacts(data.id, data);
@@ -167,7 +167,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //首次进入默认显示第一个联系人
             if (!i && G_isFirst) {
-                if (!checkUrlCommond()) {
+                if (!checkUrlcommand()) {
                     $scope.isRightLoadShow = false;
                     $scope.isLeftLoadingShow = false;
                     showContacts(obj.id);
@@ -285,14 +285,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         $scope.saveContact($scope.contact.id);
                         show();
                     },function() {
-                        G_status = '';
+                        G_status = 'show';
                         $scope.pageList.shift();
                         show();
                     });
                 }else{
                     $scope.pageList.shift();
+                    G_status = 'show';
                     show();
-                    G_status = '';
                 }
                 break;
             case 'edit':
@@ -305,8 +305,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.saveContact($scope.contact.id);
                     show();
                 },function() {
-                    G_status = '';
-                    //$scope.pageList.shift();
+                    G_status = 'show';
                     show();
                 });
             break;
@@ -556,11 +555,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             wdAlert.alert($scope.$root.DICT.contacts.DIALOG.ENTER_CONTACT.TITLE,'',$scope.$root.DICT.contacts.DIALOG.ENTER_CONTACT.OK);
             return;
         }
-
-        // $scope.isContactsEditShow = false;
-        // $scope.isRightLoadShow = true;
         $scope.isPhotoUploadShow = false;
-
         var toastDefer = $q.defer();
         toastDefer.promise.content = $scope.$root.DICT.contacts.SAVE_TOAST;
 
@@ -592,6 +587,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     showContacts(data.id);
                     G_uploader.uploadStoredFiles();
                     toastDefer.resolve();
+                    G_status = 'show';
                 }).error(function() {
                     GA('Web Contacts:save the editing contact failed');
                     toastDefer.reject($scope.$root.DICT.contacts.SAVE_ERROR_TOAST);
@@ -612,19 +608,18 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     showContacts(data[0].id);
                     $('ul.contacts-list')[0].scrollTop = 0;
                     G_uploader.uploadStoredFiles();
+                    G_status = 'show';
                     toastDefer.resolve();
                 }).error(function() {
                     wdAlert.alert($scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_NEW.TITLE, '', $scope.$root.DICT.contacts.DIALOG.FAILED_SAVE_NEW.OK).then(function() {showContacts(G_showingContact.id);});
                     $scope.pageList.shift();
                     showContacts(G_showingContact.id);
-                    G_status = '';
                     GA('Web Contacts:save new contact failed');
                     toastDefer.reject($scope.$root.DICT.contacts.SAVE_ERROR_TOAST);
                 });
 
             break;
         }
-        G_status = '';
         wdToast.apply(toastDefer.promise);
     };
 

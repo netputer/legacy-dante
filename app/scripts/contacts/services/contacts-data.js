@@ -62,7 +62,9 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         }).success( function( data, status, headers ) {
 
             _.each( data, function( value ) {
-                global.contacts.push( value );
+                if (!checkRepeat(value.id, global.contacts)) {
+                    global.contacts.push( value );
+                }
             });
 
             //数据未取完
