@@ -51,7 +51,7 @@ BasicConversation.prototype = Object.create(_super, {
 
     avatarPaths: {
         get: function() {
-            return (this.hasExistedContact || this.contact_ids.length === 1) ? this.photo_paths.slice(0, 4) : [];
+            return (this.hasExistedContact || (this.contact_ids && this.contact_ids.length === 1) ) ? this.photo_paths.slice(0, 4) : [];
         }
     }
 });
