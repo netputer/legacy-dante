@@ -489,8 +489,6 @@ define([
                     newListEles.eq(i).find('dd.confirm').css('opacity',1);
                 }
             }
-
-            $scope.$apply();
         }
 
         function clickInstallApk(){
@@ -546,7 +544,6 @@ define([
                 for(var i = 0,l = $scope.list.length;i<l;i += 1 ){
                     if($scope.list[i]['package_name']==name){
                         $scope.list.splice(i,1);
-                        $scope.$apply();
                         break;
                     }
                 }
