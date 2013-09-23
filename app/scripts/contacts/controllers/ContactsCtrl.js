@@ -229,9 +229,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }else if ( data['organization'][0] && !data['organization'][0][''] && data['organization'][0]['company'] ){
                 data[ 'workinfo' ] = data['organization'][0]['company'];
             }
-
             data = changeDataType(data);
-
             //备份数据到全局，以便之后cancel时使用
             G_showingContact = {};
             $.extend(true,G_showingContact,data);
@@ -504,7 +502,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //编辑联系人
     $scope.editContact = function(id){
-
         GA('Web Contacts:click edit contact button');
         $scope.isEditingContacts = true;
         $scope.isSendMessageShow = false;
@@ -641,7 +638,11 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
         $.extend(true,data,G_showingContact);
         $scope.isContactsEditShow = true;
-        showContacts(id);
+
+        $scope.isEditBtnShow = true;
+        $scope.isDelBtnShow = true;
+        $scope.isSaveBtnShow = false;
+        $scope.isCancelBtnShow = false;
     };
 
     //增加一个条目
@@ -757,7 +758,11 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 data[k]['type'] = G_typeMap[k][data[k]['type']];
             }else if ( !!data[k][0] && !!G_typeMap[k] && ( data[k][0]['type'] + '' ) ){
                 for (i = 0 , l = data[k].length ; i < l ; i += 1 ){
-                    data[k][i]['type'] = G_typeMap[k][ data[k][i]['type'] ] || $scope.$root.DICT.contactType.DEFAULT;
+
+                    //目前每个 type 类型都改为了数字，所以可能会照成异常赋值，赋值前检测原类型是否是数字类型
+                    if (!String(data[k][i]['type']).match(/\D/)) {
+                        data[k][i]['type'] = G_typeMap[k][ data[k][i]['type'] ] || $scope.$root.DICT.contactType.DEFAULT;
+                    }
                 }
             }
 
@@ -867,13 +872,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         });
 
         function setPhoto(src){
-            $('.contacts-edit img.photo').attr('src',src);
             for (var i = 0 , l = $scope.pageList.length ; i < l ; i += 1 ) {
                 if (G_status === 'new'){
-                    $scope.pageList[0]['photo'] = src;
+                    $scope.contact.photo_path = src;
+                    $scope.pageList[0].photo = src;
                 }else{
-                    if ($scope.pageList[i]['id'] === G_showingContact['id'] ){
-                        $scope.pageList[i]['photo'] = src;
+                    if ($scope.pageList[i].id === G_showingContact.id ){
+                        $scope.pageList[i].photo = src;
+                        $scope.contact.photo_path = src;
                         $scope.$apply();
                         return;
                     }
