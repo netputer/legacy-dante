@@ -43,8 +43,12 @@ function($compile,   $window,   $rootScope,   $location) {
     }
 
     commonScope.addContact = function() {
-        $location.path('/contacts').search('id', 'new').search('phone', commonScope.contactAddress);
+        var path = $location.path('/contacts').search('id', 'new');
+        if (commonScope.contactAddress) {
+            path.search('phone', commonScope.contactAddress);
+        }
     };
+    
     commonScope.viewContact = function() {
         $location.path('/contacts').search('id', commonScope.contactId);
     };

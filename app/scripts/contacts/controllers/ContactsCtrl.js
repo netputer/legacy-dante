@@ -89,7 +89,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //除重
     function filterContactRepeat(id) {
-        for (var i = 0 , l = G_contacts.length ; i < l ; i += 1 ) {
+        for (var i = 0, l = G_contacts.length; i < l; i += 1) {
             if (G_contacts[i] && G_contacts[i].id === id) {
                 G_contacts.splice(i, 1);
             }
@@ -104,6 +104,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
                 $scope.addNewContact({phone:$route.current.params.phone});
+                $location.path('/contacts').search('id', null).search('phone', null).replace();
             } else {
                 $scope.isLeftLoadingShow = true;
                 $scope.isRightLoadShow = true;
@@ -115,6 +116,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
                     filterContactRepeat(data.id);
+                    $location.path('/contacts').search('id', null).replace();
                 });
             }
             return true;
