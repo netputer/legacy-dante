@@ -142,6 +142,7 @@ Socket.prototype = {
     refreshDeviceAndConnect: function() {
         var self = this;
         var MAX_GET_DEVICES_TIMES = 3;
+        var MAX_SOCKET_CONNECT_TIMES = 3;
         (function getDevices() {
             wdGoogleSignIn.getDevices().then(function(list) {
                 var device = wdDevice.getDevice();
@@ -161,8 +162,13 @@ Socket.prototype = {
                         wdDevice.lightDeviceScreen(device.id);
                         self.trigger('socket:disconnected');
                         self.off('socket:connect').on('socket:connect', function() {
-                            self.close();
-                            self.connect();
+                            MAX_SOCKET_CONNECT_TIMES -= 1;
+                            if (MAX_SOCKET_CONNECT_TIMES) {
+                                self.close();
+                                self.connect();
+                            } else {
+                                self.refreshDeviceAndConnect();
+                            }
                         });
                     }
                 } else {
