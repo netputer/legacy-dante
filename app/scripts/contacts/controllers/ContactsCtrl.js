@@ -79,9 +79,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //上传实例
     var G_uploader ;
 
-    //跳转过来的 id ，这个值需要除重。
-    var G_routecommandId;
-
     //获取数据
     function init() {
         wdcContacts.init();
@@ -113,7 +110,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 wdcContacts.getContactInfoById(routecommandId).then(function(data) {
                     $scope.isLeftLoadingShow = false;
                     $scope.isRightLoadShow = false;
-                    G_routecommandId = data.id;
                     showContacts(data.id, data);
                     $scope.pageList.unshift(getListItem(data));
                     $scope.pageList[0].clicked = true;
