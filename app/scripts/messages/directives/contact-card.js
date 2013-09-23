@@ -4,8 +4,8 @@ define([
     template
 ) {
 'use strict';
-return ['$compile', '$window', '$rootScope',
-function($compile,   $window,   $rootScope) {
+return ['$compile', '$window', '$rootScope', '$location',
+function($compile,   $window,   $rootScope,   $location) {
     var CLASS_VISIBLE = 'wdm-contact-card-visible';
     var commonScope = $rootScope.$new();
     var card = null;
@@ -41,6 +41,13 @@ function($compile,   $window,   $rootScope) {
             }, 500);
         }
     }
+
+    commonScope.addContact = function() {
+        $location.path('/contacts').search('id', 'new');
+    };
+    commonScope.viewContact = function() {
+        $location.path('/contacts').search('id', commonScope.contactId);
+    };
 
     commonScope.$on('$destroy', function() {
         hide();
