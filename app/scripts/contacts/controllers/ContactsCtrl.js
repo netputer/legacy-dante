@@ -79,12 +79,24 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //上传实例
     var G_uploader ;
 
+    //跳转过来的 id ，这个值需要除重。
+    var G_routecommandId;
+
     //获取数据
     function init() {
         wdcContacts.init();
         wdcContacts.onchange(function(data) {
             getData(data);
         });
+    }
+
+    //除重
+    function filterContactRepeat(id) {
+        for (var i = 0 , l = G_contacts.length ; i < l ; i += 1 ) {
+            if (G_contacts[i] && G_contacts[i].id === id) {
+                G_contacts.splice(i, 1);
+            }
+        }
     }
 
     function checkUrlCommand() {
@@ -94,17 +106,19 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isLeftLoadingShow = false;
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
-                $scope.addNewContact();
+                $scope.addNewContact({phone:$route.current.params.phone});
             } else {
                 $scope.isLeftLoadingShow = true;
                 $scope.isRightLoadShow = true;
                 wdcContacts.getContactInfoById(routecommandId).then(function(data) {
                     $scope.isLeftLoadingShow = false;
                     $scope.isRightLoadShow = false;
+                    G_routecommandId = data.id;
                     showContacts(data.id, data);
                     $scope.pageList.unshift(getListItem(data));
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
+                    filterContactRepeat(data.id);
                 });
             }
             return true;
@@ -713,7 +727,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     //添加新的联系人
-    $scope.addNewContact = function() {
+    $scope.addNewContact = function(newData) {
 
         GA('Web Contacts:click add a New Contacts button');
         if ( G_status === 'new') { return; }
@@ -754,6 +768,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             clicked : true
         };
         $scope.pageList.unshift(G_clicked);
+        if (newData.phone) {
+            obj.phone[0].number = newData.phone;
+        }
         $scope.contact = obj;
         G_status = 'new';
         $scope.editContact();
