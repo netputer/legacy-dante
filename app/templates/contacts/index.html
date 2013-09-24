@@ -89,7 +89,7 @@
                 <p class="name" ng-show="!isEditingContacts">{{contact.name.display_name}}</p>
                 <p class="remark" ng-show="!isEditingContacts">{{contact.workinfo}}</p>
                 <div class="editName" ng-show="isEditingContacts">
-                    <div class="account" ng-show="isEditingContacts && accounts.length">
+                    <div class="account" ng-show="isEditingContacts && (accounts.length > 1)">
                         <h4>{{$root.DICT.contacts.WORDS.account}}</h4>
                         <select ng-model="contact.account" ng-options="value.name for (key , value) in accounts"></select>
                     </div>
