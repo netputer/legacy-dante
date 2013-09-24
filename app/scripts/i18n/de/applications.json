@@ -1,36 +1,46 @@
 {
-	"BUTTONS":{
-		"INSTALL_APPS":"Apk installieren",
-		"SELECT_ALL":"Alle auswählen",
-		"DESELECT":"Auswahl aufheben",
-		"UNINSTALL":"Deinstallieren",
-		"REINSTALL":"Neu installieren",
-		"COMPLETE":"Vervollständigen"
-	},
-	"CONFIRMS":{
-		"INSTALL":"Bestätigen Sie die Installation auf Ihrem Handy.",
-		"UNINSTALL":"Bestätigen Sie die Deinstallation auf Ihrem Handy.",
-		"UNKNOWNTIPS":"Tipps zur Installation",
-		"INSTALL_COMPLETE":"Installation abgeschlossen"
-	},
-	"NOAPP":"Keine Apps auf Ihrem Handy.",
-	"UPGRADE_TIP":"Aktualisieren Sie SnapPea, um Apps im Internet zu verwalten.",
-	"DEL_ONE_APP":{
-		"TITLE":"App deinstallieren",
-		"CONTENT":"Sollen das ausgewählte App von Ihrem Handy gelöscht werden?",
-		"AGREE":"Deinstallieren",
-		"CANCEL":"Abbrechen"
-	},
-	"DEL_MORE_APPS":{
-		"TITLE":"Apps deinstallieren",
-		"CONTENT":"Soll das ausgewählte App von Ihrem Handy gelöscht werden?",
-		"AGREE":"Deinstallieren",
-		"CANCEL":"Abbrechen"
-	},
-	"WORDS":{
-		"SIZE":"Größe",
-		"INSTALLATION":"Installation",
-		"VERSION":"Version",
-		"PERMISSIONS":"Zulassungen"
-	}
+  "BUTTONS":{
+    "INSTALL_APPS":"Apk installieren",
+    "SELECT_ALL":"Alle auswählen",
+    "DESELECT":"Auswahl aufheben",
+    "UNINSTALL":"Deinstallieren",
+    "REINSTALL":"Neu installieren",
+    "COMPLETE":"Vervollständigen",
+    "DOWNLOAD":"Download"
+  },
+  "CONFIRMS":{
+    "INSTALL":"Bestätigen Sie die Installation auf Ihrem Handy.",
+    "UNINSTALL":"Bestätigen Sie die Deinstallation auf Ihrem Handy.",
+    "UNKNOWNTIPS":"Tipps zur Installation",
+    "INSTALL_COMPLETE":"Installation abgeschlossen"
+  },
+  "NOAPP":"Keine Apps auf Ihrem Handy.",
+  "UPGRADE_TIP":"Aktualisieren Sie SnapPea, um Apps im Internet zu verwalten.",
+  "DEL_ONE_APP":{
+    "TITLE":"App deinstallieren",
+    "CONTENT":"Sollen das ausgewählte App von Ihrem Handy gelöscht werden?",
+    "AGREE":"Deinstallieren",
+    "CANCEL":"Abbrechen"
+  },
+  "DEL_MORE_APPS":{
+    "TITLE":"Apps deinstallieren",
+    "CONTENT":"Soll das ausgewählte App von Ihrem Handy gelöscht werden?",
+    "AGREE":"Deinstallieren",
+    "CANCEL":"Abbrechen"
+  },
+  "WORDS":{
+    "SIZE":"Größe",
+    "INSTALLATION":"Installation",
+    "VERSION":"Version",
+    "PERMISSIONS":"Zulassungen",
+    "CANCEL":"Abbruch",
+    "SELECT":"Auswählen"
+  },
+  "ALL_FILES_UNSUPPORT_TITLE":"Nicht unterstützte Datei(en)",
+  "ALL_FILES_UNSUPPORT_CONTENT":"Ungültige Dateierweitung. Nur APK-Dateien werden unterstützt.",
+  "SOME_FILES_UNSUPPORT_TITLE":"Enthält nicht unterstützte Datei(en)",
+  "SOME_FILES_UNSUPPORT_CONTENT":"Einige Dateierweiterungen sind ungültig. Es werden nur APK-Dateien unterstützt.",
+  "UNSUPPORT_MODAL_BUTTON_OK":"OK",
+  "DRAG_TITLE":"Apps hier ablegen",
+  "DRAG_TIP":"Fügen Sie Ihrem Handy Apps hinzu."
 }

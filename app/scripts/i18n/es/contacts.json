@@ -1,87 +1,87 @@
 {
-	"BUTTONS":{
-		"newContact":"Contacto nuevo",
-		"deselect":"Quitar selección",
-		"delete":"Borrar",
-		"addNewItem":"Añadir un nuevo objeto",
-		"edit":"Editar",
-		"save":"Guardar",
-		"cancel":"Cancelar",
-		"change_photo":"Cambiar la foto"
-	},
-	"INPUT_DEFAULT":{
-		"search":"Buscar contactos...",
-		"first_name":"Nombre de pila",
-		"middle_name":"Segundo nombre",
-		"last_name":"Apellido",
-		"company":"Compañía",
-		"title":"Título",
-		"custom_label":"Personalizar la etiqueta",
-		"phone_number":"Número telefónico",
-		"email_address":"Dirección de correo electrónico",
-		"address":"Dirección",
-		"im":"MI",
-		"website":"Página web",
-		"relationship":"Relación",
-		"note":"Nota"
-	},
-	"NO_CONTACT_TIPS":"No coincide ningún contacto con tu búsqueda.",
-	"UPGRADE_TIP":"Actualiza SnapPea para gestionar tus contactos desde la web.",
-	"NO_CONTACT":"No tienes contactos en tu teléfono. ¡Tus amigos te esperan!",
-	"NO_NAME":"Falta el nombre",
-	"LOAD_MORE":"Cargar más",
-	"WORDS":{
-		"account":"Cuenta",
-		"nameOrganization":"Nombre y organización",
-		"phone":"Teléfono",
-		"email":"Correo electrónico",
-		"address":"Dirección",
-		"IM":"MI",
-		"website":"Página web",
-		"relationship":"Relación",
-		"note":"Nota",
-		"select":"Seleccionar",
-		"deselect":"Quitar selección"
-	},
-	"note":{
-		"Default":"Por defecto"
-	},
-	"DIALOG":{
-		"SAVE_NEW_CONTACT":{
-			"TITLE":"Guardar contacto",
-			"CONTENT":"¿Guardar los cambios de este contacto? ",
-			"OK":"Guardar",
-			"CANCEL":"No guardar"
-		},
-		"SAVE_EDIT_CONTACT":{
-			"TITLE":"Guardar contacto",
-			"CONTENT":"¿Guardar los cambios de este contacto? ",
-			"OK":"Guardar",
-			"CANCEL":"No guardar"
-		},
-		"DELETE_CONTACT":{
-			"TITLE":"Borrar contacto(s)",
-			"CONTENT":"¿Borrar el(los) contacto(s) de tu teléfono?",
-			"OK":"Borrar",
-			"CANCEL":"Cancelar",
-			"ASK":"¿Borrar el(los) contacto(s) seleccionado(s) de tu teléfono?",
-			"READ_ONLY":"Esos son contactos solo-lectura, no se pueden borrar:"
-		},
-		"FAILED_DELETE":{
-			"TITLE":"No se han podido borrar los contactos seleccionados",
-			"OK":"ACEPTAR"
-		},
-		"FAILED_SAVE_EDIT":{
-			"TITLE":"No se han podido grabar las correcciones",
-			"OK":"ACEPTAR"
-		},
-		"FAILED_SAVE_NEW":{
-			"TITLE":"No se ha podido guardar el contacto nuevo",
-			"OK":"ACEPTAR"
-		},
-		"ENTER_CONTACT":{
-			"TITLE":"Por favor, introduce el contacto",
-			"OK":"ACEPTAR"
-		}
-	}
+  "TITLE":"Contactos",
+  "BUTTONS":{
+    "newContact":"Contacto nuevo",
+    "deselect":"Quitar selección",
+    "delete":"Borrar",
+    "addNewItem":"Añadir nuevo",
+    "edit":"Editar",
+    "save":"Guardar",
+    "cancel":"Cancelar",
+    "change_photo":"Cambiar la foto"
+  },
+  "INPUT_DEFAULT":{
+    "search":"Buscar contactos...",
+    "first_name":"Nombre de pila",
+    "middle_name":"Segundo nombre",
+    "last_name":"Apellido",
+    "company":"Compañía",
+    "title":"Título",
+    "custom_label":"Personalizar la etiqueta",
+    "phone_number":"Número telefónico",
+    "email_address":"Dirección de correo electrónico",
+    "address":"Dirección",
+    "im":"MI",
+    "website":"Página web",
+    "relationship":"Relación",
+    "note":"Nota"
+  },
+  "NO_CONTACT_TIPS":"No coincide ningún contacto con tu búsqueda.",
+  "UPGRADE_TIP":"Actualiza SnapPea para gestionar tus contactos desde la web.",
+  "NO_CONTACT":"No tienes contactos en tu teléfono. ¡Tus amigos te esperan!",
+  "NO_NAME":"(Sin nombre)",
+  "LOAD_MORE":"Cargar más",
+  "WORDS":{
+    "account":"Cuenta",
+    "nameOrganization":"Nombre y organización",
+    "phone":"Teléfono",
+    "email":"Correo electrónico",
+    "address":"Dirección",
+    "IM":"IM",
+    "website":"Página web",
+    "relationship":"Relación",
+    "note":"Nota",
+    "select":"Seleccionar",
+    "deselect":"Quitar selección"
+  },
+  "DIALOG":{
+    "SAVE_NEW_CONTACT":{
+      "TITLE":"Guardar contacto",
+      "CONTENT":"¿Guardar los cambios de este contacto? ",
+      "OK":"Guardar",
+      "CANCEL":"No guardar"
+    },
+    "SAVE_EDIT_CONTACT":{
+      "TITLE":"Guardar contacto",
+      "CONTENT":"¿Guardar los cambios de este contacto? ",
+      "OK":"Guardar",
+      "CANCEL":"No guardar"
+    },
+    "DELETE_CONTACT":{
+      "TITLE":"Borrar contacto(s)",
+      "CONTENT":"¿Borrar el(los) contacto(s) de tu teléfono?",
+      "OK":"Borrar",
+      "CANCEL":"Cancelar",
+      "ASK":"¿Borrar el(los) contacto(s) seleccionado(s) de tu teléfono?",
+      "READ_ONLY":"Son contacto(s) de solo lectura, por lo que no pueden eliminarse:"
+    },
+    "FAILED_DELETE":{
+      "TITLE":"No se han podido borrar los contactos seleccionados",
+      "OK":"ACEPTAR"
+    },
+    "FAILED_SAVE_EDIT":{
+      "TITLE":"No se han podido grabar las correcciones",
+      "OK":"ACEPTAR"
+    },
+    "FAILED_SAVE_NEW":{
+      "TITLE":"No se ha podido guardar el contacto nuevo",
+      "OK":"ACEPTAR"
+    },
+    "ENTER_CONTACT":{
+      "TITLE":"Por favor, introduce el contacto",
+      "OK":"ACEPTAR"
+    }
+  },
+  "SAVE_TOAST":"Guardando...",
+  "SAVE_ERROR_TOAST":"Error de guardado."
 }

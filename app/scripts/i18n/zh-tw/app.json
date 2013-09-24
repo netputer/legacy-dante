@@ -1,29 +1,51 @@
 {
-	"UNLOAD_NETWORK_TIP":"載入手機數據。您是否希望等待？",
-	"NAVBAR_PHOTOS_TIP":"照片",
-	"NAVBAR_MESSAGES_TIP":"簡訊",
-	"NAVBAR_CONTACTS_TIP":"聯絡人",
-	"NAVBAR_APPS_TIP":"應用",
-	"NAVBAR_FEEDBACK_TIP":"意見反映",
-	"HELP":"幫助",
-	"NAVBAR_SETTING_TIP":"設定",
-	"NAVBAR_SELECT_DEVICES_TIP":"選擇手機",
-	"NAVBAR_SIGNOUT_TIP":"註銷",
-	"MESSAGE_NOTIFICATION_TITLE":"新簡訊",
-	"UPGRADE_BTN_TEXT":"在Google Play 上獲取最新版本",
-	"CHANGE_DEVICES_POP":{
-		"h1":"連接一部新手機。",
-		"h2":"只需3個步驟，您便會在這裡找到您的手機。",
-		"step1":"1.通过 <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a> 安裝SnapPea.",
-		"step2":"在您的手機上打開SnapPea。",
-		"step3":"3.使用 $$ 登入.",
-		"button":"成功啦"
-	},
-	"NAVBAR_NEW_PHONE_TIP":"新手機",
-	"EXTENSION_SIGN_OUT":{
-		"title":"確認註銷",
-		"content":"登出 Chrome 擴展，也將會從SnapPea登出。",
-		"button_ok":"登出",
-		"button_cancel":"取消"
-	}
+  "UNLOAD_NETWORK_TIP":"載入手機數據。你是否希望等待？",
+  "NAVBAR_PHOTOS_TIP":"照片",
+  "NAVBAR_MESSAGES_TIP":"短訊",
+  "NAVBAR_CONTACTS_TIP":"聯絡人",
+  "NAVBAR_APPS_TIP":"應用",
+  "NAVBAR_LANGUAGE_TIP":"語言",
+  "NAVBAR_HELP_TIP":"幫助",
+  "NAVBAR_SELECT_DEVICES_TIP":"選擇手機",
+  "NAVBAR_SETTING_TIP":"設置",
+  "SINGOUT":"退出",
+  "MESSAGE_NOTIFICATION_TITLE":"新短訊",
+  "UPGRADE_BTN_TEXT":"在Google Play 上獲取最新版本",
+  "CHANGE_DEVICES_POP":{
+    "h1":"連接一部新手機。",
+    "h2":"只需3個步驟，你便會在這裡找到你的手機。",
+    "step1":"1. 從<a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">穀歌市場<\/a>安裝SnapPea。",
+    "step2":"在你的手機上打開SnapPea。",
+    "step3":"3.   $$註冊。",
+    "button":"成功啦"
+  },
+  "NAVBAR_NEW_PHONE_TIP":"新手機",
+  "EXTENSION_SIGN_OUT":{
+    "title":"確認註銷",
+    "content":"登出 Chrome 擴展，也將會從SnapPea登出。",
+    "button_ok":"登出",
+    "button_cancel":"取消"
+  },
+  "LANGUAGE_MODAL_TITLE":"變更語言",
+  "DISCONNECT_DEVICE":"從您的手機斷開連接！",
+  "TRY_NOW":"馬上嘗試 ",
+  "CONNECT_DELAY_TIME":{
+    "pre":"將在幾秒鐘后",
+    "after":"重試。"
+  },
+  "CHECK_SAME_NETWORK":"請確保您的電腦連接至Wi-Fi網路 ",
+  "SIGN_OUT_TOAST":"正在退出... ",
+  "SIGN_OUT_ERROR_TOAST":"退出失敗。",
+  "DISCONNECT_FACEBOOK_INFO":"斷開您的 Facebook 連接，你將不再能夠在 Facebook 上分享你的照片。",
+  "DISCONNECT":"斷開",
+  "FACEBOOK_TITLE":"Facebook",
+  "FACEBOOK_DISCONNECT_TIP":"連接至Facebook與您的朋友輕鬆分享照片。",
+  "FACEBOOK_CONNECT_TIP":"您的Facebook帳號已連接。",
+  "DISCONNECT_FACEBOOK":"斷開Facebook連接 ",
+  "LANGUAGE_TIP":"語言 ",
+  "CONNECT_NEW_PHONE_TIP":"連接一部新手機 ",
+  "SELECT_DEVICES_TIP":"選擇手機 ",
+  "HELP":"幫助  ",
+  "FEEDBACK":"回饋 ",
+  "TRANSLATE":"幫助我們翻譯 "
 }
