@@ -27,7 +27,7 @@
         "button_cancel": "Cancel"
     },
     "LANGUAGE_MODAL_TITLE": "Change language",
-    "DISCONNECT_DEVICE": "Disconnected from your phone!",
+    "DISCONNECT_DEVICE": "Disconnected from your phone.",
     "TRY_NOW": "Try now",
     "CONNECT_DELAY_TIME": {
         "pre": "Retrying in",
