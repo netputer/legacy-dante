@@ -378,7 +378,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             var toastDefer = $q.defer();
             toastDefer.promise.content = $scope.$root.DICT.contacts.DEL_TOAST;
 
-            var i, j, l, k;
             $('.modal-body').html('');
             $('.modal-backdrop').html('');
 
@@ -389,7 +388,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //生成delId
             if (!id) {
-                for (i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
+                for (var i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
                     if ( $scope.pageList[i].checked === true && !$scope.pageList[i].read_only ) {
                         delId.push($scope.pageList[i].id);
                     }
@@ -403,6 +402,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
                 //取得将被删除的上一个元素，为了删除后跳回目的地
                 var delBack;
+                var i, j, l, k, m;
                 for (i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
                     if ($scope.pageList[i].id === delId[0]) {
                         if ($scope.pageList[i + 1]) {
@@ -438,6 +438,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                             break;
                         }
                     }
+
+                    for (j = 0, k = G_contacts.length ; j < k ; j += 1 ) {
+                        if (G_contacts[j] && G_contacts[j].id && G_contacts[j].id === delId[i]) {
+                            G_contacts.splice(j,1);
+                            break;
+                        }
+                    }
                 }
 
                 if (!!G_clicked && !!G_clicked.clicked) {
@@ -449,6 +456,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_clicked = $scope.pageList[0];
                     showContacts(G_clicked.id);
                     G_clicked.clicked = true;
+                } else {
+                    $scope.isContactsEditShow = false;
                 }
                 
                 if (delId.length > 1) {
@@ -842,7 +851,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     }
                 }
             }
-
         }
 
         //IM字段中使用protocol代替type
@@ -952,6 +960,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.isRightLoadShow = true;
             $scope.isContactsEditShow = false;
             $scope.pageList = [];
+
             //调用搜索接口
             wdcContacts.searchContacts(text).then(function(data) {
                 G_searchList = [];
@@ -972,9 +981,10 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
                     showContacts($scope.pageList[0].id);
+                    $scope.isContactsEditShow = true;
                 }else{
+                    $scope.isContactsEditShow = false;
                     $scope.isNoContactsShow = true;
-                    showContacts(G_showingContact.id);
                 }
                 showLoadMore();
                 $('ul.contacts-list')[0].scrollTop = 0;
