@@ -19,6 +19,7 @@ function BasicConversation(data) {
         snippet: '',
         addresses: [],
         contact_names: [],
+        contact_ids: [],
         photo_paths: [],
         unread_message_count: 0,
         has_attachment: false,

@@ -119,16 +119,23 @@ link: function(scope, element) {
 
     function setData(textext) {
         var items = JSON.parse(textext.hiddenInput().val());
-        var addresses = _(items).map(function(item) {
-            return item.number;
-        });
-        var names = _(items).map(function(item) {
-            return item.display_name;
+        var addresses = [];
+        var names = [];
+        var ids = [];
+        var photos = [];
+
+        _(items).forEach(function(item) {
+            addresses.push(item.number);
+            names.push(item.display_name);
+            ids.push(-1);
+            photos.push('');
         });
 
         scope.activeConversation.extend({
             addresses: addresses,
-            contact_names: names
+            contact_names: names,
+            contact_ids: ids,
+            photo_paths: photos
         });
     }
 

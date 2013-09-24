@@ -358,6 +358,8 @@ if ($scope.serverMatchRequirement) {
         c.extend({
             addresses: [decodeURIComponent(parts[0])],
             contact_names: [decodeURIComponent(parts[1])],
+            contact_ids: [-1],
+            photo_paths: [''],
             date: Date.now()
         });
         $location.search('create', null).replace();
