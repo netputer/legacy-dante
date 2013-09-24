@@ -83,5 +83,7 @@
         }
     },
     "SAVE_TOAST": "Saving...",
-    "SAVE_ERROR_TOAST": "Save failed."
+    "SAVE_ERROR_TOAST": "Save failed.",
+    "DEL_TOAST": "Deleting...",
+    "DEL_ERROR_TOAST": "Delete failed."
 }

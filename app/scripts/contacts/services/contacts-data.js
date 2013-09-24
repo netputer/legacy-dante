@@ -167,9 +167,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             global.fun = fun;
             if (global.contacts.length) {
 
-                //这里兼容之前loadmore的逻辑
                 global.fun.call( me,global.contacts.slice( 0 , CONFIG.dataLengthOnce ) );
-                global.fun.call( me,global.contacts.slice( CONFIG.dataLengthOnce + 1 ) );
+                // global.fun.call( me,global.contacts.slice( CONFIG.dataLengthOnce + 1 ) );
             }
         },
 
