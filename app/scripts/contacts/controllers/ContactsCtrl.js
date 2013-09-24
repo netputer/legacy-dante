@@ -397,7 +397,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             wdcContacts.delContacts(delId).success(function(data) {
                 var delId = data.ids;
-                
+
                 //取得将被删除的上一个元素，为了删除后跳回目的地
                 var delBack;
                 for (i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
@@ -947,10 +947,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.isNoContactsShow = false;
             $scope.isRightLoadShow = true;
             $scope.isContactsEditShow = false;
-
+            $scope.pageList = [];
             //调用搜索接口
             wdcContacts.searchContacts(text).then(function(data) {
-                $scope.pageList = [];
                 G_searchList = [];
                 G_search = [];
                 $scope.searchText = $scope.searchText || '';
