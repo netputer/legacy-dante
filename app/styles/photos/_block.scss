@@ -59,7 +59,7 @@
         text-indent: 6px;
     }
     .failed > span {
-        @include position(absolute, 0 6px 0px 0);
+        @include position(absolute, 0 4px 0px 0);
         text-decoration: underline;
         cursor: pointer;
     }
