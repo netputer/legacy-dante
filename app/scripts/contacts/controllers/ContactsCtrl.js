@@ -405,10 +405,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 var delBack;
                 for (i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
                     if ($scope.pageList[i].id === delId[0]) {
-                        delBack = $scope.pageList[i + 1];
+                        if ($scope.pageList[i + 1]) {
+                            delBack = $scope.pageList[i + 1];
+                        } else if ($scope.pageList[i - 1]) {
+                            delBack = $scope.pageList[i - 1];
+                        }
                     }
                 }
 
+                //清除删除成功的数据
                 for (i = 0 , l = delId.length ; i < l ; i += 1) {
                     for (j = 0 , k = $scope.pageList.length ; j < k ; j += 1) {
                         if ( $scope.pageList[j].id === delId[i] ) {
@@ -439,14 +444,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_clicked.clicked = false;
                 }
 
+                $scope.loadMore();
                 if (!!$scope.pageList[0]) {
-                    G_clicked = delBack || $scope.pageList[0];
+                    G_clicked = $scope.pageList[0];
                     showContacts(G_clicked.id);
                     G_clicked.clicked = true;
-                }else{
-                    showContacts(G_showingContact.id);
                 }
-
+                
                 if (delId.length > 1) {
                     $scope.selectedNum = 0;
                     $scope.isDeselectBtnShow = false;
@@ -460,7 +464,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         $scope.isDeleteBtnShow = false;
                     }
                 }
-
                 toastDefer.resolve();
             }).error(function() {
                 toastDefer.reject($scope.$root.DICT.contacts.DEL_ERROR_TOAST);

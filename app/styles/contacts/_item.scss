@@ -73,7 +73,7 @@
             font-size: 12px;
             color: #999;
             font-weight: 300;
-            word-break: break-all;
+            @include ellipsis;
         }
         .click .phone{
             color: #FFF;
