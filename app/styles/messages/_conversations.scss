@@ -143,7 +143,16 @@
         }
 
         &.multiple-0 {
-            @include use-sprite("group48");
+            .group-default {
+                width: $avatar-width;
+                height: $avatar-width;
+                @include use-sprite("group48");
+            }
+            .single-default {
+                width: $avatar-width;
+                height: $avatar-width;
+                @include use-sprite("profile48");
+            }
         }
 
         &.multiple-1 > div {

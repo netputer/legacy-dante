@@ -43,6 +43,7 @@
 
                     <div class="wdmcr-b">
                         <div class="composited-avatar" ng-class="'multiple-' + c.avatarPaths.length">
+                            <div ng-if="!c.avatarPaths.length" ng-class="c.addresses.length > 1 ? 'group-default' : 'single-default'"></div>
                             <div ng-repeat="path in c.avatarPaths track by $index">
                                 <img ng-if="c.contact_ids[$index] != -1 && path" ng-src="{{path}}"/>
                                 <div ng-if="c.contact_ids[$index] != -1 && !path" class="generated-avatar" ng-class="getPhotoColor">
