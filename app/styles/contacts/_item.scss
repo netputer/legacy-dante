@@ -67,12 +67,13 @@
             line-height: 20px;
         }
         .phone{
-            font-size: 15px;
-            color: #acacac;
             width: 226px;
             overflow: hidden;
             height: 20px;
-            font-weight: 200;
+            font-size: 12px;
+            color: #999;
+            font-weight: 300;
+            word-break: break-all;
         }
         .click .phone{
             color: #FFF;
