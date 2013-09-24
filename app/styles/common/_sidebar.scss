@@ -138,16 +138,20 @@ $sidebar-animation-time: 500ms;
                 cursor: pointer;
 
                 i {
-                    margin-right: 6px;
+                    margin-right: 9px;
                 }
 
                 a {
-                    padding-left: 22px;
+                    padding-left: 25px;
                 }
 
                 &.selected a{
                     color: $standard-green;
                     padding-left: 0px;
+                }
+
+                &:hover a {
+                    color: $standard-green;
                 }
             }
         }
@@ -244,7 +248,7 @@ $sidebar-animation-time: 500ms;
                 }
 
                 &.current {
-                    color: #999;
+                    color: $standard-green;
                     @include position;
                 }
 
