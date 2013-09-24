@@ -28,7 +28,7 @@ return [function() {
             scope.retry = function() {
                 failed.hide();
                 bar.css({
-                    transform: 'scaleX(0)',
+                    scale: [0, 1],
                     height: 9,
                     background: '#6eb800'
                 });
@@ -39,11 +39,11 @@ return [function() {
                 .progress(function(report) {
                     _.defer(function() {
                         if (report.status === 'uploading') {
-                            bar.css('transform', 'scaleX(' + (report.percent / 100) + ')');
+                            bar.css('scale', [report.percent / 100, 1]);
                         }
                         if (report.status === 'failed') {
                             bar.css({
-                                transform: 'none',
+                                scale: [1, 1],
                                 height: 20,
                                 background: '#a00'
                             });
@@ -54,7 +54,7 @@ return [function() {
                 })
                 .done(function() {
                     bar.css({
-                        transform: 'none',
+                        scale: [1, 1],
                         height: 20
                     });
                     btnCancel.fadeOut('fast');

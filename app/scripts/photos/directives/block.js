@@ -49,6 +49,7 @@ link: function($scope, element) {
 
     var isUpload = !!$scope.photo.deferred;
     element
+        .toggleClass('wd-block-disabled', isUpload)
         .children('.actions')
             .toggle(!isUpload)
             .end()
@@ -68,7 +69,9 @@ link: function($scope, element) {
                             angular.element(this).hide();
                         });
                 setTimeout(function() {
-                    element.children('.wdp-progress').remove();
+                    element
+                        .removeClass('wd-block-disabled')
+                        .children('.wdp-progress').remove();
                 }, 400);
             }, 2000);
         });

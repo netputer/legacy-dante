@@ -3,9 +3,9 @@
         <div class="done" data-done>{{$root.DICT.photos.UPLOAD_DONE}}</div>
         <div class="failed" data-failed>
             {{$root.DICT.photos.UPLOAD_FAILED}}
-            <span
-                ng-click="retry()"
-                >{{$root.DICT.photos.UPLOAD_RETRY}}</span>
+            <span ng-click="retry()"
+                bs-tooltip="{{$root.DICT.photos.UPLOAD_RETRY}}"
+                ><i class="icon-retry"></i></span>
         </div>
     </div>
     <button type="button" class="close cancel"
