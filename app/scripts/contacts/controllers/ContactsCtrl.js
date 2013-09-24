@@ -58,9 +58,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //正在显示的数据，cancel功能的时候会用到
     var G_showingContact = {};
 
-    //当前的状态
-    var G_status = 'show';  // “show” 正在显示某个联系人；“edit” 正在编辑；“new” 正在新建；这个状态用于检测用户是否处于这两个状态突然点了旁边的联系人。
-
     //各个type字段映射表
     var G_typeMap = $scope.$root.DICT.contactType.TYPE_MAP;
 
@@ -72,6 +69,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //按键相关
     var G_keyContact;
+
+    //跳转过来的 id
+    var G_routecommandId;
 
     //搜索为空过嘛，如果为空过则是true
     var G_searchIsNull = false;
@@ -89,9 +89,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //除重
     function filterContactRepeat(id) {
-        for (var i = 0, l = G_contacts.length; i < l; i += 1) {
-            if (G_contacts[i] && G_contacts[i].id === id) {
-                G_contacts.splice(i, 1);
+        if (!id) {
+            return;
+        }
+        for (var i = 0, l = $scope.pageList.length; i < l; i += 1) {
+            if ($scope.pageList[i] && $scope.pageList[i].id === id) {
+                $scope.pageList.splice(i, 1);
             }
         }
     }
@@ -108,14 +111,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             } else {
                 $scope.isLeftLoadingShow = true;
                 $scope.isRightLoadShow = true;
+                G_routecommandId = routecommandId;
                 wdcContacts.getContactInfoById(routecommandId).then(function(data) {
+                    filterContactRepeat(data.id);
                     $scope.isLeftLoadingShow = false;
                     $scope.isRightLoadShow = false;
                     showContacts(data.id, data);
                     $scope.pageList.unshift(getListItem(data));
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
-                    filterContactRepeat(data.id);
                     $location.path('/contacts').search('id', null).replace();
                 });
             }
@@ -282,11 +286,10 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.isCancelBtnShow = false;
             $scope.isSendMessageShow = false;
             $scope.isSendMessageShow = true;
-            $scope.isEditingContacts = false;
         };
 
         //点了旁边，没有点保存
-        switch(G_status) {
+        switch($scope.currentStatus) {
             case 'new':
                 if (!wdcContacts.checkBlank($scope.contact)) {
                     wdAlert.confirm(
@@ -298,13 +301,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         $scope.saveContact($scope.contact.id);
                         show();
                     },function() {
-                        G_status = 'show';
+                        $scope.currentStatus = 'show';
                         $scope.pageList.shift();
                         show();
                     });
                 }else{
                     $scope.pageList.shift();
-                    G_status = 'show';
+                    $scope.currentStatus = 'show';
                     show();
                 }
                 break;
@@ -318,7 +321,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.saveContact($scope.contact.id);
                     show();
                 },function() {
-                    G_status = 'show';
+                    $scope.currentStatus = 'show';
                     show();
                 });
             break;
@@ -402,10 +405,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 var delBack;
                 for (i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
                     if ($scope.pageList[i].id === delId[0]) {
-                        delBack = $scope.pageList[i + 1];
+                        if ($scope.pageList[i + 1]) {
+                            delBack = $scope.pageList[i + 1];
+                        } else if ($scope.pageList[i - 1]) {
+                            delBack = $scope.pageList[i - 1];
+                        }
                     }
                 }
 
+                //清除删除成功的数据
                 for (i = 0 , l = delId.length ; i < l ; i += 1) {
                     for (j = 0 , k = $scope.pageList.length ; j < k ; j += 1) {
                         if ( $scope.pageList[j].id === delId[i] ) {
@@ -436,14 +444,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_clicked.clicked = false;
                 }
 
+                $scope.loadMore();
                 if (!!$scope.pageList[0]) {
-                    G_clicked = delBack || $scope.pageList[0];
+                    G_clicked = $scope.pageList[0];
                     showContacts(G_clicked.id);
                     G_clicked.clicked = true;
-                }else{
-                    showContacts(G_showingContact.id);
                 }
-
+                
                 if (delId.length > 1) {
                     $scope.selectedNum = 0;
                     $scope.isDeselectBtnShow = false;
@@ -457,7 +464,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         $scope.isDeleteBtnShow = false;
                     }
                 }
-
                 toastDefer.resolve();
             }).error(function() {
                 toastDefer.reject($scope.$root.DICT.contacts.DEL_ERROR_TOAST);
@@ -538,13 +544,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //编辑联系人
     $scope.editContact = function(id) {
         GA('Web Contacts:click edit contact button');
-        $scope.isEditingContacts = true;
         $scope.isSendMessageShow = false;
         G_keyContact.done();
 
         //addNewContact方法中调用了editContact方法
-        if (G_status !== 'new') {
-            G_status = 'edit';
+        if ($scope.currentStatus !== 'new') {
+            $scope.currentStatus = 'edit';
             $scope.isPhotoUploadShow = true;
         }
 
@@ -578,7 +583,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         var saveData = changeDataTypeBack($scope.contact);
         var editData;
-        switch(G_status) {
+        switch($scope.currentStatus) {
             case 'edit':
                 GA('Web Contacts:click save the editing contact button');
                 editData = filterUpdatedData(saveData);
@@ -601,7 +606,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                             G_contacts[i] = data;
                         }
                     }
-                    G_status = 'show';
+                    $scope.currentStatus = 'show';
                     showContacts(data.id);
                     G_uploader.uploadStoredFiles();
                     toastDefer.resolve();
@@ -621,7 +626,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.pageList.shift();
                     $scope.pageList.unshift(getListItem(data[0]));
                     getList(data,true);
-                    G_status = 'show';
+                    $scope.currentStatus = 'show';
                     showContacts(data[0].id);
                     $('ul.contacts-list')[0].scrollTop = 0;
                     G_uploader.uploadStoredFiles();
@@ -642,10 +647,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //取消编辑联系人
     $scope.cancelContact = function(id) {
         GA('Web Contacts:click cancel contact button');
-        $scope.isEditingContacts = false;
         $scope.isPhotoUploadShow = false;
         G_keyContact = wdKey.push('contacts');
-        switch(G_status) {
+        switch($scope.currentStatus) {
             case 'new':
                 $scope.pageList.shift();
 
@@ -660,7 +664,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 id = G_clicked.id;
             break;
         }
-        G_status = 'show';
+        $scope.currentStatus = 'show';
         var data = getContactsById(id,G_contacts);
         for ( var i in data ) {
             data[i] = null;
@@ -728,7 +732,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     $scope.addNewContact = function(newData) {
 
         GA('Web Contacts:click add a New Contacts button');
-        if ( G_status === 'new') { return; }
+        if ( $scope.currentStatus === 'new') { return; }
         $scope.isContactsEditShow = false;
         $scope.isRightLoadShow = true;
         $scope.isNoContactsShow = false;
@@ -772,7 +776,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             obj.phone[0].number = newData.phone;
         }
         $scope.contact = obj;
-        G_status = 'new';
+        $scope.currentStatus = 'new';
         $scope.editContact();
         $('ul.contacts-list')[0].scrollTop = 0;
     };
@@ -906,7 +910,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         function setPhoto(src) {
             for (var i = 0 , l = $scope.pageList.length ; i < l ; i += 1 ) {
-                if (G_status === 'new') {
+                if ($scope.currentStatus === 'new') {
                     $scope.contact.photo_path = src;
                     $scope.pageList[0].photo = src;
                 }else{
@@ -1034,7 +1038,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     $scope.isNewContactDisable = true;
     $scope.isSendMessageShow = false;
     $scope.isNoneContacts = false;
-    $scope.isEditingContacts = false;
+    
+    //当前的状态，“show” 正在显示某个联系人；“edit” 正在编辑；“new” 正在新建；这个状态也会用于检测“用户是否处于编辑状态突然点了旁边的联系人”。
+    $scope.currentStatus = 'show';
 
     //被选中的数量
     $scope.selectedNum = 0;
