@@ -1,29 +1,51 @@
 {
-	"UNLOAD_NETWORK_TIP":"กำลังโหลดข้อมูลโทรศัพท์ คุณต้องการรอหรือไม่?",
-	"NAVBAR_PHOTOS_TIP":"รูปถ่าย",
-	"NAVBAR_MESSAGES_TIP":"ข้อความ",
-	"NAVBAR_CONTACTS_TIP":"รายชื่อ",
-	"NAVBAR_APPS_TIP":"แอพ",
-	"NAVBAR_FEEDBACK_TIP":"ข้อเสนอแนะ",
-	"HELP":"ความช่วยเหลือ",
-	"NAVBAR_SETTING_TIP":"การตั้งค่า",
-	"NAVBAR_SELECT_DEVICES_TIP":"เลือกโทรศัพท์",
-	"NAVBAR_SIGNOUT_TIP":"ลงชื่อออก",
-	"MESSAGE_NOTIFICATION_TITLE":"ข้อความใหม่",
-	"UPGRADE_BTN_TEXT":"รับรุ่นใหม่ล่าสุดบนกูเกิล เพลย์",
-	"CHANGE_DEVICES_POP":{
-		"h1":"เชื่อมต่อกับโทรศัพท์ใหม่",
-		"h2":"เพียงแค่ 3 ขั้นตอน แล้วคุณจะพบโทรศัพท์ของคุณที่นี่",
-		"step1":"1. ติดตั้ง SnapPea จาก <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a>.",
-		"step2":"2.   เปิด SnapPea บนโทรศัพท์ของคุณ",
-		"step3":"3. ลงชื่อเข้าใช้กับ $$.",
-		"button":"ได้แล้ว"
-	},
-	"NAVBAR_NEW_PHONE_TIP":"โทรศัพท์ใหม่",
-	"EXTENSION_SIGN_OUT":{
-		"title":"ยืนยันการลงชื่อออก",
-		"content":"การลงชื่อออกจากส่วนขยายโครม (Chrome Extension) จะเป็นการลงชื่อออกจากระบบ SnapPea Web ด้วยเช่นกัน",
-		"button_ok":"ลงชื่อออก",
-		"button_cancel":"ยกเลิก"
-	}
+  "UNLOAD_NETWORK_TIP":"กำลังโหลดข้อมูลโทรศัพท์ คุณต้องการรอหรือไม่?",
+  "NAVBAR_PHOTOS_TIP":"รูปถ่าย",
+  "NAVBAR_MESSAGES_TIP":"ข้อความ",
+  "NAVBAR_CONTACTS_TIP":"รายชื่อ",
+  "NAVBAR_APPS_TIP":"แอพ",
+  "NAVBAR_LANGUAGE_TIP":"ภาษา",
+  "NAVBAR_HELP_TIP":"ความช่วยเหลือ",
+  "NAVBAR_SELECT_DEVICES_TIP":"เลือกโทรศัพท์",
+  "NAVBAR_SETTING_TIP":"การตั้งค่า",
+  "SINGOUT":"ออกจากระบบ",
+  "MESSAGE_NOTIFICATION_TITLE":"ข้อความใหม่",
+  "UPGRADE_BTN_TEXT":"รับรุ่นใหม่ล่าสุดบนกูเกิล เพลย์",
+  "CHANGE_DEVICES_POP":{
+    "h1":"เชื่อมต่อกับโทรศัพท์ใหม่",
+    "h2":"เพียงแค่ 3 ขั้นตอน แล้วคุณจะพบโทรศัพท์ของคุณที่นี่",
+    "step1":"1.  ติดตั้ง SnapPea จาก <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>.",
+    "step2":"2.   เปิด SnapPea บนโทรศัพท์ของคุณ",
+    "step3":"3.  เข้าใช้งานด้วย $$.",
+    "button":"ได้แล้ว"
+  },
+  "NAVBAR_NEW_PHONE_TIP":"โทรศัพท์ใหม่",
+  "EXTENSION_SIGN_OUT":{
+    "title":"ยืนยันการลงชื่อออก",
+    "content":"การลงชื่อออกจากส่วนขยายโครม (Chrome Extension) จะเป็นการลงชื่อออกจากระบบ SnapPea Web ด้วยเช่นกัน",
+    "button_ok":"ลงชื่อออก",
+    "button_cancel":"ยกเลิก"
+  },
+  "LANGUAGE_MODAL_TITLE":"เปลี่ยนภาษา",
+  "DISCONNECT_DEVICE":"ตัดการเชื่อมต่อกับโทรศัพท์ของคุณแล้ว!",
+  "TRY_NOW":"ลองเดี๋ยวนี้",
+  "CONNECT_DELAY_TIME":{
+    "pre":"กำลังลองใหม่ในอีก",
+    "after":"วินาที"
+  },
+  "CHECK_SAME_NETWORK":"ให้มั่นใจว่าคอมพิวเตอร์ของคุณใช้เครือข่าย Wi-Fi ของ ",
+  "SIGN_OUT_TOAST":"กำลังออกจากระบบ...",
+  "SIGN_OUT_ERROR_TOAST":"ไม่สามารถออกจากระบบได้",
+  "DISCONNECT_FACEBOOK_INFO":"การเลิกเชื่อมต่อกับ Facebook ของคุณ จะทำให้คุณไม่สามารถแชร์รูปของคุณบน Facebook ได้อีกต่อไป",
+  "DISCONNECT":"เลิกเชื่อมต่อ",
+  "FACEBOOK_TITLE":"Facebook",
+  "FACEBOOK_DISCONNECT_TIP":"เชื่อมต่อกับ Facebook เพื่อแชร์รูปภาพกับเพื่อนๆ ได้อย่างง่ายดาย",
+  "FACEBOOK_CONNECT_TIP":"เชื่อมต่อบัญชี Facebook ของคุณแล้ว",
+  "DISCONNECT_FACEBOOK":"ตัดการเชื่อมต่อ Facebook",
+  "LANGUAGE_TIP":"ภาษา",
+  "CONNECT_NEW_PHONE_TIP":"เชื่อมต่อกับโทรศัพท์เครื่องใหม่",
+  "SELECT_DEVICES_TIP":"เลือกโทรศัพท์",
+  "HELP":"ช่วยเหลือ",
+  "FEEDBACK":"ผลตอบรับ",
+  "TRANSLATE":"ช่วยเราแปล"
 }

@@ -1,87 +1,87 @@
 {
-	"BUTTONS":{
-		"newContact":"Neuer Kontakt",
-		"deselect":"Auswahl aufheben",
-		"delete":"Löschen",
-		"addNewItem":"Neues Element hinzufügen",
-		"edit":"Bearbeiten",
-		"save":"Speichern",
-		"cancel":"Abbrechen",
-		"change_photo":"Foto ändern"
-	},
-	"INPUT_DEFAULT":{
-		"search":"Kontakte werden gesucht...",
-		"first_name":"Vorname",
-		"middle_name":"Zweiter Vorname",
-		"last_name":"Nachname",
-		"company":"Firma",
-		"title":"Titel",
-		"custom_label":"Individuelle Label",
-		"phone_number":"Handynummer",
-		"email_address":"E-Mail-Adresse",
-		"address":"Anschrift",
-		"im":"IM",
-		"website":"Website",
-		"relationship":"Status",
-		"note":"Hinweis"
-	},
-	"NO_CONTACT_TIPS":"Keine Kontakte stimmen mit Ihrer Suche überein.",
-	"UPGRADE_TIP":"Aktualisieren Sie SnapPea, um Kontakte im Internet zu verwalten.",
-	"NO_CONTACT":"Keine Kontakte auf dem Handy. Ihre Freunde warten auf Sie!",
-	"NO_NAME":"Kein Name",
-	"LOAD_MORE":"Laden Sie mehr",
-	"WORDS":{
-		"account":"Konto",
-		"nameOrganization":"Name u. Organisation",
-		"phone":"Handynummer",
-		"email":"E-Mail",
-		"address":"Anschrift",
-		"IM":"IM",
-		"website":"Website",
-		"relationship":"Status",
-		"note":"Hinweis",
-		"select":"Auswählen",
-		"deselect":"Auswahl aufheben"
-	},
-	"note":{
-		"Default":"Standard"
-	},
-	"DIALOG":{
-		"SAVE_NEW_CONTACT":{
-			"TITLE":"Kontakt speichern",
-			"CONTENT":"Änderungen an diesem Kontakt speichern? ",
-			"OK":"Speichern",
-			"CANCEL":"Nicht speichern"
-		},
-		"SAVE_EDIT_CONTACT":{
-			"TITLE":"Kontakt speichern",
-			"CONTENT":"Änderungen an diesem Kontakt speichern? ",
-			"OK":"Speichern",
-			"CANCEL":"Nicht speichern"
-		},
-		"DELETE_CONTACT":{
-			"TITLE":"Kontakt(e) löschen",
-			"CONTENT":"Sollen die ausgewählten Nachrichten von Ihrem Handy gelöscht werden?",
-			"OK":"Löschen",
-			"CANCEL":"Abbrechen",
-			"ASK":"Sollen die ausgewählten Nachrichten von Ihrem Handy gelöscht werden?",
-			"READ_ONLY":"Die Kontakte sind nur im Lesemodus und können nicht gelöscht werden:"
-		},
-		"FAILED_DELETE":{
-			"TITLE":"Fehler beim Löschen der ausgewählten Kontakte",
-			"OK":"OK"
-		},
-		"FAILED_SAVE_EDIT":{
-			"TITLE":"Bearbeitungen konnten nicht gespeichert werden",
-			"OK":"OK"
-		},
-		"FAILED_SAVE_NEW":{
-			"TITLE":"Neue Kontakte konnten nicht gespeichert werden",
-			"OK":"OK"
-		},
-		"ENTER_CONTACT":{
-			"TITLE":"Bitte geben Sie den Kontakt ein",
-			"OK":"OK"
-		}
-	}
+  "TITLE":"Kontakte",
+  "BUTTONS":{
+    "newContact":"Neuer Kontakt",
+    "deselect":"Auswahl aufheben",
+    "delete":"Löschen",
+    "addNewItem":"Neue hinzufügen",
+    "edit":"Bearbeiten",
+    "save":"Speichern",
+    "cancel":"Abbrechen",
+    "change_photo":"Foto ändern"
+  },
+  "INPUT_DEFAULT":{
+    "search":"Kontakte werden gesucht...",
+    "first_name":"Vorname",
+    "middle_name":"Zweiter Vorname",
+    "last_name":"Nachname",
+    "company":"Firma",
+    "title":"Titel",
+    "custom_label":"Individuelle Label",
+    "phone_number":"Telefonnummer",
+    "email_address":"E-Mail-Adresse",
+    "address":"Anschrift",
+    "im":"IM",
+    "website":"Website",
+    "relationship":"Status",
+    "note":"Hinweis"
+  },
+  "NO_CONTACT_TIPS":"Keine Kontakte stimmen mit Ihrer Suche überein.",
+  "UPGRADE_TIP":"Aktualisieren Sie SnapPea, um Kontakte im Internet zu verwalten.",
+  "NO_CONTACT":"Keine Kontakte auf dem Telefon. Ihre Freunde warten auf Sie!",
+  "NO_NAME":"(Kein Name)",
+  "LOAD_MORE":"Laden Sie mehr",
+  "WORDS":{
+    "account":"Konto",
+    "nameOrganization":"Name u. Organisation",
+    "phone":"Telefonnummer",
+    "email":"E-Mail",
+    "address":"Anschrift",
+    "IM":"IM",
+    "website":"Website",
+    "relationship":"Status",
+    "note":"Hinweis",
+    "select":"Auswählen",
+    "deselect":"Auswahl aufheben"
+  },
+  "DIALOG":{
+    "SAVE_NEW_CONTACT":{
+      "TITLE":"Kontakt speichern",
+      "CONTENT":"Änderungen an diesem Kontakt speichern? ",
+      "OK":"Speichern",
+      "CANCEL":"Nicht speichern"
+    },
+    "SAVE_EDIT_CONTACT":{
+      "TITLE":"Kontakt speichern",
+      "CONTENT":"Änderungen an diesem Kontakt speichern? ",
+      "OK":"Speichern",
+      "CANCEL":"Nicht speichern"
+    },
+    "DELETE_CONTACT":{
+      "TITLE":"Kontakt(e) löschen",
+      "CONTENT":"Sollen die ausgewählten Nachrichten von Ihrem Telefon gelöscht werden?",
+      "OK":"Löschen",
+      "CANCEL":"Abbrechen",
+      "ASK":"Sollen die ausgewählten Nachrichten von Ihrem Telefon gelöscht werden?",
+      "READ_ONLY":"Kontakt(e) sind schreibgeschützt und können nicht gelöscht werden:"
+    },
+    "FAILED_DELETE":{
+      "TITLE":"Fehler beim Löschen der ausgewählten Kontakte",
+      "OK":"OK"
+    },
+    "FAILED_SAVE_EDIT":{
+      "TITLE":"Bearbeitungen konnten nicht gespeichert werden",
+      "OK":"OK"
+    },
+    "FAILED_SAVE_NEW":{
+      "TITLE":"Neue Kontakte konnten nicht gespeichert werden",
+      "OK":"OK"
+    },
+    "ENTER_CONTACT":{
+      "TITLE":"Bitte geben Sie den Kontakt ein",
+      "OK":"OK"
+    }
+  },
+  "SAVE_TOAST":"Speichern...",
+  "SAVE_ERROR_TOAST":"Speichern fehlgeschlagen."
 }

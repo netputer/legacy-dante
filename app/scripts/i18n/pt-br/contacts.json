@@ -1,87 +1,87 @@
 {
-	"BUTTONS":{
-		"newContact":"Novo contato",
-		"deselect":"Desmarcar",
-		"delete":"Excluir",
-		"addNewItem":"Adicionar novo item",
-		"edit":"Editar",
-		"save":"Salvar",
-		"cancel":"Cancelar",
-		"change_photo":"Alterar Foto"
-	},
-	"INPUT_DEFAULT":{
-		"search":"Procurar contatos...",
-		"first_name":"Primeiro nome",
-		"middle_name":"Nome do meio",
-		"last_name":"Sobrenome",
-		"company":"Empresa",
-		"title":"Título",
-		"custom_label":"Etiqueta personalizada",
-		"phone_number":"Número de telefone",
-		"email_address":"Endereço de e-mail",
-		"address":"Endereço",
-		"im":"MI",
-		"website":"Website",
-		"relationship":"Relacionamento",
-		"note":"Nota"
-	},
-	"NO_CONTACT_TIPS":"Nenhum contato correspondeu à sua busca.",
-	"UPGRADE_TIP":"Atualize o SnapPea para gerenciar seus contatos pela internet.",
-	"NO_CONTACT":"Nenhum contato em seu celular. Seus amigos estão esperando!",
-	"NO_NAME":"Sem Nome",
-	"LOAD_MORE":"Carregar mais",
-	"WORDS":{
-		"account":"Conta",
-		"nameOrganization":"Nome e Organização",
-		"phone":"Telefone",
-		"email":"E-mail",
-		"address":"Endereço",
-		"IM":"MI",
-		"website":"Website",
-		"relationship":"Relacionamento",
-		"note":"Nota",
-		"select":"Selecionar",
-		"deselect":"Desmarcar"
-	},
-	"note":{
-		"Default":"Padrão"
-	},
-	"DIALOG":{
-		"SAVE_NEW_CONTACT":{
-			"TITLE":"Salvar Contato",
-			"CONTENT":"Salvar as alterações neste contato? ",
-			"OK":"Salvar",
-			"CANCEL":"Não Salvar"
-		},
-		"SAVE_EDIT_CONTACT":{
-			"TITLE":"Salvar Contato",
-			"CONTENT":"Salvar as alterações neste contato? ",
-			"OK":"Salvar",
-			"CANCEL":"Não Salvar"
-		},
-		"DELETE_CONTACT":{
-			"TITLE":"Excluir contato(s)",
-			"CONTENT":"Excluir o(s) contato(s) selecionado(s) do seu celular?",
-			"OK":"Excluir",
-			"CANCEL":"Cancelar",
-			"ASK":"Excluir o(s) contato(s) selecionado(s) do seu celular?",
-			"READ_ONLY":"Contato(s) \"somente leitura\" que não pode(m) ser excluído(s):"
-		},
-		"FAILED_DELETE":{
-			"TITLE":"Falha ao excluir os contatos selecionados",
-			"OK":"OK"
-		},
-		"FAILED_SAVE_EDIT":{
-			"TITLE":"Falha ao salvar as edições",
-			"OK":"OK"
-		},
-		"FAILED_SAVE_NEW":{
-			"TITLE":"Falha ao salvar o novo contato",
-			"OK":"OK"
-		},
-		"ENTER_CONTACT":{
-			"TITLE":"Por favor, insira o contato",
-			"OK":"OK"
-		}
-	}
+  "TITLE":"Contatos",
+  "BUTTONS":{
+    "newContact":"Novo contato",
+    "deselect":"Desmarcar",
+    "delete":"Excluir",
+    "addNewItem":"Adicionar novo",
+    "edit":"Editar",
+    "save":"Salvar",
+    "cancel":"Cancelar",
+    "change_photo":"Alterar Foto"
+  },
+  "INPUT_DEFAULT":{
+    "search":"Procurar contatos...",
+    "first_name":"Primeiro nome",
+    "middle_name":"Nome do meio",
+    "last_name":"Sobrenome",
+    "company":"Empresa",
+    "title":"Título",
+    "custom_label":"Etiqueta personalizada",
+    "phone_number":"Número de telefone",
+    "email_address":"Endereço de e-mail",
+    "address":"Endereço",
+    "im":"MI",
+    "website":"Website",
+    "relationship":"Relacionamento",
+    "note":"Nota"
+  },
+  "NO_CONTACT_TIPS":"Nenhum contato correspondeu à sua busca.",
+  "UPGRADE_TIP":"Atualize o SnapPea para gerenciar seus contatos pela internet.",
+  "NO_CONTACT":"Nenhum contato em seu celular. Seus amigos estão esperando!",
+  "NO_NAME":"(Sem nome)",
+  "LOAD_MORE":"Carregar mais",
+  "WORDS":{
+    "account":"Conta",
+    "nameOrganization":"Nome e Organização",
+    "phone":"Telefone",
+    "email":"E-mail",
+    "address":"Endereço",
+    "IM":"MI",
+    "website":"Website",
+    "relationship":"Relacionamento",
+    "note":"Nota",
+    "select":"Selecionar",
+    "deselect":"Desmarcar"
+  },
+  "DIALOG":{
+    "SAVE_NEW_CONTACT":{
+      "TITLE":"Salvar Contato",
+      "CONTENT":"Salvar as alterações neste contato? ",
+      "OK":"Salvar",
+      "CANCEL":"Não Salvar"
+    },
+    "SAVE_EDIT_CONTACT":{
+      "TITLE":"Salvar Contato",
+      "CONTENT":"Salvar as alterações neste contato? ",
+      "OK":"Salvar",
+      "CANCEL":"Não Salvar"
+    },
+    "DELETE_CONTACT":{
+      "TITLE":"Excluir contato(s)",
+      "CONTENT":"Excluir o(s) contato(s) selecionado(s) do seu celular?",
+      "OK":"Excluir",
+      "CANCEL":"Cancelar",
+      "ASK":"Excluir o(s) contato(s) selecionado(s) do seu celular?",
+      "READ_ONLY":"Esses são contatos somente leitura, por isso não podem ser excluídos:"
+    },
+    "FAILED_DELETE":{
+      "TITLE":"Falha ao excluir os contatos selecionados",
+      "OK":"OK"
+    },
+    "FAILED_SAVE_EDIT":{
+      "TITLE":"Falha ao salvar as edições",
+      "OK":"OK"
+    },
+    "FAILED_SAVE_NEW":{
+      "TITLE":"Falha ao salvar o novo contato",
+      "OK":"OK"
+    },
+    "ENTER_CONTACT":{
+      "TITLE":"Por favor, insira o contato",
+      "OK":"OK"
+    }
+  },
+  "SAVE_TOAST":"Salvando...",
+  "SAVE_ERROR_TOAST":"Salvar falhou."
 }
