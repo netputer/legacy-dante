@@ -70,6 +70,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //按键相关
     var G_keyContact;
 
+    //跳转过来的 id
+    var G_routecommandId;
+
     //搜索为空过嘛，如果为空过则是true
     var G_searchIsNull = false;
 
@@ -86,9 +89,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //除重
     function filterContactRepeat(id) {
-        for (var i = 0, l = G_contacts.length; i < l; i += 1) {
-            if (G_contacts[i] && G_contacts[i].id === id) {
-                G_contacts.splice(i, 1);
+        if (!id) {
+            return;
+        }
+        for (var i = 0, l = $scope.pageList.length; i < l; i += 1) {
+            if ($scope.pageList[i] && $scope.pageList[i].id === id) {
+                $scope.pageList.splice(i, 1);
             }
         }
     }
@@ -105,14 +111,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             } else {
                 $scope.isLeftLoadingShow = true;
                 $scope.isRightLoadShow = true;
+                G_routecommandId = routecommandId;
                 wdcContacts.getContactInfoById(routecommandId).then(function(data) {
+                    filterContactRepeat(data.id);
                     $scope.isLeftLoadingShow = false;
                     $scope.isRightLoadShow = false;
                     showContacts(data.id, data);
                     $scope.pageList.unshift(getListItem(data));
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
-                    filterContactRepeat(data.id);
                     $location.path('/contacts').search('id', null).replace();
                 });
             }
