@@ -209,8 +209,6 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                     if (!rejection.config.disableErrorControl &&
                         (rejection.status === 401 /*|| response.status === 0 */)) {
                         wdDevice.signout();
-                    } else {
-                        wdSocket.refreshDeviceAndConnect();
                     }
                     return $q.reject(rejection);
                 }

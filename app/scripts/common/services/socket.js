@@ -45,6 +45,7 @@ Socket.prototype = {
             ],
             'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS,
             'connect timeout': 3000,
+            'reconnection delay': 100,
             'force new connection': true
         });
     },
