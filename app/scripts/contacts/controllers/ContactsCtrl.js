@@ -228,7 +228,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             data = data || getContactsById(id,G_contacts) || getContactsById(id,G_search);
             if (!data) {
                 data = G_contacts[0];
-                $('ul.contacts-list')[0].scrollTop = 0;
+                goToListTop();
             }
 
             //账户信息，存储当前账号
@@ -456,6 +456,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_clicked = $scope.pageList[0];
                     showContacts(G_clicked.id);
                     G_clicked.clicked = true;
+                    goToListTop();
                 } else {
                     $scope.isContactsEditShow = false;
                 }
@@ -637,7 +638,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     getList(data,true);
                     $scope.currentStatus = 'show';
                     showContacts(data[0].id);
-                    $('ul.contacts-list')[0].scrollTop = 0;
+                    goToListTop();
                     G_uploader.uploadStoredFiles();
                     toastDefer.resolve();
                 }).error(function() {
@@ -787,7 +788,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         $scope.contact = obj;
         $scope.currentStatus = 'new';
         $scope.editContact();
-        $('ul.contacts-list')[0].scrollTop = 0;
+        goToListTop();
     };
 
     //改变data中的type值
@@ -987,7 +988,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.isNoContactsShow = true;
                 }
                 showLoadMore();
-                $('ul.contacts-list')[0].scrollTop = 0;
+                goToListTop();
             });
         });
     }, 300);
@@ -1029,6 +1030,10 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             create: encodeURI(phoneNum)  + ',' + encodeURI(display_name)
         });
     };
+
+    function goToListTop() {
+        $('ul.contacts-list')[0].scrollTop = 0;
+    }
 
     //主函数开始
     //联系人展示和编辑区域
