@@ -439,9 +439,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         }
                     }
 
-                    for (j = 0, k = G_contacts.length ; j < k ; j += 1 ) {
+                    for (j = 0, k = G_contacts.length; j < k; j += 1) {
                         if (G_contacts[j] && G_contacts[j].id && G_contacts[j].id === delId[i]) {
-                            G_contacts.splice(j,1);
+                            G_contacts.splice(j, 1);
                             break;
                         }
                     }
