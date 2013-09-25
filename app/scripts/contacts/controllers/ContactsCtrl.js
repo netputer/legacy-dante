@@ -156,7 +156,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             photo_color : data.photo_color,
             tooltip : $scope.$root.DICT.contacts.WORDS.select
         };
-        for (var i = 0, l = G_checkedIds.length ; i < l ; i += 1 ) {
+        for (var i = 0, l = G_checkedIds.length; i < l; i += 1) {
             if (id === G_checkedIds[i]) {
                 //obj.checked = true;
                 obj.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
@@ -179,7 +179,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.isNoneContacts = true;
         }
 
-        for (var i = 0; i<l; i += 1 ) {
+        for (var i = 0; i < l; i += 1) {
             var obj = getListItem(data[i]);
 
             //首次进入默认显示第一个联系人
@@ -192,7 +192,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_clicked = obj;
                 }
 
-            }else{
+            } else {
                 obj.clicked = false;
             }
 
@@ -202,7 +202,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             if (!isUnshift) {
                 G_list.push(obj);
-            }else{
+            } else {
                 G_list.unshift(obj);
             }
         }
@@ -211,7 +211,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //获取某个联系人的信息
     function getContactsById(id,data) {
         var l = data.length;
-        for (var i = 0; i<l; i += 1 ) {
+        for (var i = 0; i < l; i += 1) {
             if (data[i].id === id ) {
                 return data[i];
             }
@@ -248,7 +248,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
 
             if (!!data.website) {
-                for (i = 0 , l = data.website.length ; i < l ; i += 1 ) {
+                for (i = 0, l = data.website.length; i < l; i += 1) {
                     if ( data.website[i].URL.indexOf('http://')<0 ) {
                         data.website[i].URL = 'http://' + data.website[i].URL;
                     }
@@ -259,9 +259,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
                 //要显示的工作信息
                 data.workinfo = data.organization[0].title + ', ' + data.organization[0].company;
-            }else if ( data.organization && data.organization[0] && data.organization[0].title && !data.organization[0].company ) {
+            } else if ( data.organization && data.organization[0] && data.organization[0].title && !data.organization[0].company ) {
                 data.workinfo = data.organization[0].title;
-            }else if ( data.organization && data.organization[0] && !data.organization[0][''] && data.organization[0].company ) {
+            } else if ( data.organization && data.organization[0] && !data.organization[0][''] && data.organization[0].company ) {
                 data.workinfo = data.organization[0].company;
             }
             data = changeDataType(data);
@@ -305,7 +305,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         $scope.pageList.shift();
                         show();
                     });
-                }else{
+                } else {
                     $scope.pageList.shift();
                     $scope.currentStatus = 'show';
                     show();
@@ -346,9 +346,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             word = 'contact';
 
         //删除多个
-        }else{
+        } else {
             word = 'contacts';
-            for (i = 0 , l = G_list.length ; i < l ; i += 1) {
+            for (i = 0 , l = G_list.length; i < l; i += 1) {
                 if ( G_list[i].checked === true && G_list[i].read_only ) {
                     read_only.push(G_list[i].name);
                     G_list[i].checked = false;
@@ -359,7 +359,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         var alertTpl = '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.ASK+'</p>';
         if (read_only.length > 0) {
             alertTpl += '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.READ_ONLY+'</p><ul>';
-            for (i = 0 , l = read_only.length; i < l ; i += 1 ) {
+            for (i = 0 , l = read_only.length; i < l ; i += 1) {
                 alertTpl += ('<li>'+read_only[i]+'</li>');
             }
             alertTpl += '</ul>';
@@ -388,12 +388,12 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //生成delId
             if (!id) {
-                for (var i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
+                for (var i = 0 , l = $scope.pageList.length; i < l; i += 1) {
                     if ( $scope.pageList[i].checked === true && !$scope.pageList[i].read_only ) {
                         delId.push($scope.pageList[i].id);
                     }
                 }
-            }else{
+            } else {
                 delId.push(id);
             }
 
@@ -403,7 +403,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 //取得将被删除的上一个元素，为了删除后跳回目的地
                 var delBack;
                 var i, j, l, k, m;
-                for (i = 0 , l = $scope.pageList.length ; i < l ; i += 1) {
+                for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
                     if ($scope.pageList[i].id === delId[0]) {
                         if ($scope.pageList[i + 1]) {
                             delBack = $scope.pageList[i + 1];
@@ -414,15 +414,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 }
 
                 //清除删除成功的数据
-                for (i = 0 , l = delId.length ; i < l ; i += 1) {
-                    for (j = 0 , k = $scope.pageList.length ; j < k ; j += 1) {
+                for (i = 0 , l = delId.length; i < l; i += 1) {
+                    for (j = 0 , k = $scope.pageList.length; j < k; j += 1) {
                         if ( $scope.pageList[j].id === delId[i] ) {
                             $scope.pageList.splice(j,1);
                             break;
                         }
                     }
 
-                    for (j = 0, k = G_list.length ; j < k ; j += 1 ) {
+                    for (j = 0, k = G_list.length; j < k; j += 1) {
                         if ( !!G_list[j] && !!G_list[j].id && G_list[j].id === delId[i]) {
                             G_list.splice(j,1);
                             if (!G_list.length) {
@@ -432,7 +432,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         }
                     }
 
-                    for (j = 0, k = G_searchList.length ; j < k ; j += 1 ) {
+                    for (j = 0, k = G_searchList.length; j < k; j += 1) {
                         if ( !!G_searchList[j] && !!G_searchList[j].id && G_searchList[j].id === delId[i]) {
                             G_searchList.splice(j,1);
                             break;
@@ -465,7 +465,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.selectedNum = 0;
                     $scope.isDeselectBtnShow = false;
                     $scope.isDeleteBtnShow = false;
-                }else{
+                } else {
                     if ($scope.selectedNum>0) {
                         $scope.selectedNum -= 1;
                     }
@@ -516,7 +516,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.selectedNum -= 1;
             }
             item.tooltip = $scope.$root.DICT.contacts.WORDS.select;
-            for (var i = 0 , l = G_checkedIds.length ; i < l ; i += 1 ) {
+            for (var i = 0 , l = G_checkedIds.length ; i < l ; i += 1) {
                 G_checkedIds.splice(i,1);
             }
         } else {
@@ -543,7 +543,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         if ($scope.selectedNum > 0) {
             $scope.isDeselectBtnShow = true;
             $scope.isDeleteBtnShow = true;
-        }else{
+        } else {
             $scope.isDeselectBtnShow = false;
             $scope.isDeleteBtnShow = false;
         }
@@ -599,19 +599,19 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 editData = filterUpdatedData(saveData);
                 wdcContacts.editContact(editData).success(function(data) {
                     var i, l;
-                    for (i = 0 , l = $scope.pageList.length; i < l; i += 1 ) {
+                    for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
                         if (!!id && $scope.pageList[i].id === id) {
                             data.photo_color = $scope.pageList[i].photo_color;
                             $scope.pageList[i] = getListItem(data);
                         }
                     }
-                    for (i = 0 , l = G_list.length; i < l; i += 1 ) {
+                    for (i = 0 , l = G_list.length; i < l; i += 1) {
                         if (!!id && G_list[i].id === id) {
                             data.photo_color = G_list[i].photo_color;
                             G_list[i] = getListItem(data);
                         }
                     }
-                    for (i = 0 , l = G_contacts.length; i < l; i += 1 ) {
+                    for (i = 0 , l = G_contacts.length; i < l; i += 1) {
                         if (!!id && G_contacts[i].id === id) {
                             G_contacts[i] = data;
                         }
@@ -666,7 +666,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 //无联系人时显示无联系人界面
                 if (!G_list.length) {
                     $scope.isNoneContacts = true;
-                }else{
+                } else {
                     id = G_list[0].id;
                 }
             break;
@@ -676,7 +676,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
         $scope.currentStatus = 'show';
         var data = getContactsById(id,G_contacts);
-        for ( var i in data ) {
+        for (var i in data) {
             data[i] = null;
         }
         $.extend(true,data,G_showingContact);
@@ -731,7 +731,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //删除一个条目
     $scope.delItem = function(key,item) {
-        for (var i = 0 , l = $scope.contact[key].length; i<l; i += 1 ) {
+        for (var i = 0 , l = $scope.contact[key].length; i<l; i += 1) {
             if ( $scope.contact[key][i] === item ) {
                 $scope.contact[key].splice(i,1);
             }
@@ -800,8 +800,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             //改变type
             if (!!data[k].type && !!G_typeMap[k] && !!G_typeMap[k][data[k].type]) {
                 data[k].type = G_typeMap[k][data[k].type];
-            }else if ( !!data[k][0] && !!G_typeMap[k] && ( data[k][0].type + '' ) ) {
-                for (i = 0 , l = data[k].length ; i < l ; i += 1 ) {
+            } else if ( !!data[k][0] && !!G_typeMap[k] && ( data[k][0].type + '' ) ) {
+                for (i = 0 , l = data[k].length; i < l; i += 1) {
 
                     //目前每个 type 类型都改为了数字，所以可能会照成异常赋值，赋值前检测原类型是否是数字类型
                     if (!String(data[k][i].type).match(/\D/)) {
@@ -812,14 +812,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //改变没有type值的
             if (data.note && data.note[0]) {
-                for (i = 0 , l = data.note.length ; i < l ; i += 1 ) {
+                for (i = 0, l = data.note.length; i < l; i += 1) {
                     data.note[i].type = 'Default';
                 }
             }
 
             //IM显示protocol
             if (data.IM && data.IM[0]) {
-                for (i = 0 , l = data.IM.length ; i < l ; i += 1 ) {
+                for (i = 0, l = data.IM.length; i < l; i += 1) {
                     data.IM[i].protocol = G_protocol[data.IM[i].protocol] || data.IM[i].protocol;
                 }
             }
@@ -843,7 +843,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         obj[k].type = t;
                     }
                 }
-            }else if ( !!obj[k][0] && !!G_typeMap[k] && !!obj[k][0].type) {
+            } else if ( !!obj[k][0] && !!G_typeMap[k] && !!obj[k][0].type) {
                 for (i = 0 , l = obj[k].length ; i < l ; i += 1 ) {
                     for (t in G_typeMap[k]) {
                         if (obj[k][i].type === G_typeMap[k][t]) {
@@ -899,7 +899,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     var file = G_uploader.getFile(id);
                     if (!file.type.match('image.*')) {
                         return;
-                    }else{
+                    } else {
                         var reader = new FileReader();
                         reader.readAsDataURL(file);
 
@@ -922,7 +922,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 if ($scope.currentStatus === 'new') {
                     $scope.contact.photo_path = src;
                     $scope.pageList[0].photo = src;
-                }else{
+                } else {
                     if ($scope.pageList[i].id === G_showingContact.id ) {
                         $scope.pageList[i].photo = src;
                         $scope.contact.photo_path = src;
@@ -971,7 +971,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isLeftLoadingShow = false;
                 $scope.isRightLoadShow = false;
                 $scope.isContactsEditShow = true;
-                for (var i = 0 , l = data.length ; i < l ; i += 1 ) {
+                for (var i = 0, l = data.length; i < l; i += 1) {
                     G_searchList.push(getListItem(data[i]));
                 }
                 if (!!G_searchList[0]) {
@@ -983,7 +983,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_clicked = $scope.pageList[0];
                     showContacts($scope.pageList[0].id);
                     $scope.isContactsEditShow = true;
-                }else{
+                } else {
                     $scope.isContactsEditShow = false;
                     $scope.isNoContactsShow = true;
                 }
@@ -999,7 +999,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         var l = $scope.pageList.length + DATA_LENGTH_ONCE;
         if ($scope.searchText) {
             $scope.pageList = $scope.pageList.concat(G_searchList.slice(pl,l));
-        }else{
+        } else {
             $scope.pageList = $scope.pageList.concat(G_list.slice(pl,l));
         }
         showLoadMore();
