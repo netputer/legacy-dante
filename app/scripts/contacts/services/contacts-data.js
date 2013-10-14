@@ -396,21 +396,20 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 break;
             }
 
+            //清除本地数据
+            for ( var m = 0 , n = list.length ; m < n ; m += 1 ){
+                for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
+                    if (list[m] === global.contacts[i]['id']) {
+                        global.contacts.splice(i,1);
+                        break;
+                    }
+                }
+            }
+
             return $http({
                 method: 'post',
                 url: '/resource/contacts/delete',
                 data: {'ids':list},
-                timeout: 60 * 60 * 1000
-            }).success(function(){
-                for ( var m = 0 , n = list.length ; m < n ; m += 1 ){
-                    for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
-                        if (list[m] === global.contacts[i]['id']) {
-                            global.contacts.splice(i,1);
-                            return;
-                        }
-                    }
-                }
-            }).error(function(){
             });
         },
 
