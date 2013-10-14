@@ -375,8 +375,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.OK,
             $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.CANCEL
         ).then(function() {
-            var toastDefer = $q.defer();
-            toastDefer.promise.content = $scope.$root.DICT.contacts.DEL_TOAST;
+            // var toastDefer = $q.defer();
+            // toastDefer.promise.content = $scope.$root.DICT.contacts.DEL_TOAST;
 
             $('.modal-body').html('');
             $('.modal-backdrop').html('');
@@ -397,89 +397,87 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 delId.push(id);
             }
 
-            wdcContacts.delContacts(delId).success(function(data) {
-                var delId = data.ids;
+            //取得将被删除的上一个元素，为了删除后跳回目的地
+            var delBack;
+            var i, j, l, k, m;
+            for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
+                if ($scope.pageList[i].id === delId[0]) {
+                    if ($scope.pageList[i + 1]) {
+                        delBack = $scope.pageList[i + 1];
+                    } else if ($scope.pageList[i - 1]) {
+                        delBack = $scope.pageList[i - 1];
+                    }
+                }
+            }
 
-                //取得将被删除的上一个元素，为了删除后跳回目的地
-                var delBack;
-                var i, j, l, k, m;
-                for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
-                    if ($scope.pageList[i].id === delId[0]) {
-                        if ($scope.pageList[i + 1]) {
-                            delBack = $scope.pageList[i + 1];
-                        } else if ($scope.pageList[i - 1]) {
-                            delBack = $scope.pageList[i - 1];
-                        }
+            //清除删除成功的数据
+            for (i = 0 , l = delId.length; i < l; i += 1) {
+                for (j = 0 , k = $scope.pageList.length; j < k; j += 1) {
+                    if ( $scope.pageList[j].id === delId[i] ) {
+                        $scope.pageList.splice(j,1);
+                        break;
                     }
                 }
 
-                //清除删除成功的数据
-                for (i = 0 , l = delId.length; i < l; i += 1) {
-                    for (j = 0 , k = $scope.pageList.length; j < k; j += 1) {
-                        if ( $scope.pageList[j].id === delId[i] ) {
-                            $scope.pageList.splice(j,1);
-                            break;
+                for (j = 0, k = G_list.length; j < k; j += 1) {
+                    if ( !!G_list[j] && !!G_list[j].id && G_list[j].id === delId[i]) {
+                        G_list.splice(j,1);
+                        if (!G_list.length) {
+                            $scope.isNoneContacts = true;
                         }
-                    }
-
-                    for (j = 0, k = G_list.length; j < k; j += 1) {
-                        if ( !!G_list[j] && !!G_list[j].id && G_list[j].id === delId[i]) {
-                            G_list.splice(j,1);
-                            if (!G_list.length) {
-                                $scope.isNoneContacts = true;
-                            }
-                            break;
-                        }
-                    }
-
-                    for (j = 0, k = G_searchList.length; j < k; j += 1) {
-                        if ( !!G_searchList[j] && !!G_searchList[j].id && G_searchList[j].id === delId[i]) {
-                            G_searchList.splice(j,1);
-                            break;
-                        }
-                    }
-
-                    for (j = 0, k = G_contacts.length; j < k; j += 1) {
-                        if (G_contacts[j] && G_contacts[j].id && G_contacts[j].id === delId[i]) {
-                            G_contacts.splice(j, 1);
-                            break;
-                        }
+                        break;
                     }
                 }
 
-                if (!!G_clicked && !!G_clicked.clicked) {
-                    G_clicked.clicked = false;
+                for (j = 0, k = G_searchList.length; j < k; j += 1) {
+                    if ( !!G_searchList[j] && !!G_searchList[j].id && G_searchList[j].id === delId[i]) {
+                        G_searchList.splice(j,1);
+                        break;
+                    }
                 }
 
-                $scope.loadMore();
-                if (!!$scope.pageList[0]) {
-                    G_clicked = $scope.pageList[0];
-                    showContacts(G_clicked.id);
-                    G_clicked.clicked = true;
-                    goToListTop();
-                } else {
-                    $scope.isContactsEditShow = false;
+                for (j = 0, k = G_contacts.length; j < k; j += 1) {
+                    if (G_contacts[j] && G_contacts[j].id && G_contacts[j].id === delId[i]) {
+                        G_contacts.splice(j, 1);
+                        break;
+                    }
                 }
-                
-                if (delId.length > 1) {
-                    $scope.selectedNum = 0;
+            }
+
+            if (!!G_clicked && !!G_clicked.clicked) {
+                G_clicked.clicked = false;
+            }
+
+            $scope.loadMore();
+            if (!!$scope.pageList[0]) {
+                G_clicked = $scope.pageList[0];
+                showContacts(G_clicked.id);
+                G_clicked.clicked = true;
+                goToListTop();
+            } else {
+                $scope.isContactsEditShow = false;
+            }
+            
+            if (delId.length > 1) {
+                $scope.selectedNum = 0;
+                $scope.isDeselectBtnShow = false;
+                $scope.isDeleteBtnShow = false;
+            } else {
+                if ($scope.selectedNum>0) {
+                    $scope.selectedNum -= 1;
+                }
+                if ($scope.selectedNum < 1) {
                     $scope.isDeselectBtnShow = false;
                     $scope.isDeleteBtnShow = false;
-                } else {
-                    if ($scope.selectedNum>0) {
-                        $scope.selectedNum -= 1;
-                    }
-                    if ($scope.selectedNum < 1) {
-                        $scope.isDeselectBtnShow = false;
-                        $scope.isDeleteBtnShow = false;
-                    }
                 }
-                toastDefer.resolve();
-            }).error(function() {
-                toastDefer.reject($scope.$root.DICT.contacts.DEL_ERROR_TOAST);
-            });
+            }
 
-            wdToast.apply(toastDefer.promise);
+            wdcContacts.delContacts(delId).success(function(data) {
+                // toastDefer.resolve();
+            }).error(function() {
+                // toastDefer.reject($scope.$root.DICT.contacts.DEL_ERROR_TOAST);
+            });
+            // wdToast.apply(toastDefer.promise);
 
         //then最后的括号
         },
