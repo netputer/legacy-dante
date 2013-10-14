@@ -377,6 +377,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         ).then(function() {
             // var toastDefer = $q.defer();
             // toastDefer.promise.content = $scope.$root.DICT.contacts.DEL_TOAST;
+            var i, j, l, k, m;
 
             $('.modal-body').html('');
             $('.modal-backdrop').html('');
@@ -388,7 +389,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //生成delId
             if (!id) {
-                for (var i = 0 , l = $scope.pageList.length; i < l; i += 1) {
+                for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
                     if ( $scope.pageList[i].checked === true && !$scope.pageList[i].read_only ) {
                         delId.push($scope.pageList[i].id);
                     }
@@ -399,7 +400,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
             //取得将被删除的上一个元素，为了删除后跳回目的地
             var delBack;
-            var i, j, l, k, m;
             for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
                 if ($scope.pageList[i].id === delId[0]) {
                     if ($scope.pageList[i + 1]) {
