@@ -401,6 +401,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 for (var i = 0 , l = global.contacts.length ; i < l ; i += 1 ){
                     if (list[m] === global.contacts[i]['id']) {
                         global.contacts.splice(i,1);
+                        break;
                     }
                 }
             }
