@@ -777,7 +777,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             name : $scope.$root.DICT.contacts.BUTTONS.newContact,
             phone : '',
             photo : '',
-            clicked : true
+            clicked : true,
+            //标示这是一个新建的联系人条目，在模板中会检测这个属性。
+            isNewContact: true
         };
         $scope.pageList.unshift(G_clicked);
         if (newData && newData.phone) {
