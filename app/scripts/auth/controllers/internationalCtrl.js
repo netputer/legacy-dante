@@ -284,22 +284,28 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             return wdLanguageEnvironment.currentLanguageBelongsTo(language);
         };
 
-        $scope.googleSigIn = function () {
+        $scope.clickSignInButton = function() {
             GA('user_sign_in:click_sign_in:google_sign_in');
             GA('check_sign_in:google_page_all:all');
-            wdGoogleSignIn.refreshToken().then(function() {
-                GA('check_sign_in:google_page:success');
-                $scope.isLoadingDevices = true;
-                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-                wdGoogleSignIn.getDevices().then(function( list ) {
-                    showDevicesList( list );
+        };
+
+        //首次进入登陆界面
+        $window.wdGoogleSignInButtonCallback = function (data) {
+            if (data.access_token) {
+                wdGoogleSignIn.refreshToken(true).then(function() {
+                    GA('check_sign_in:google_page:success');
+                    $scope.isLoadingDevices = true;
+                    $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
+                    wdGoogleSignIn.getDevices().then(function( list ) {
+                        showDevicesList( list );
+                    },function() {
+                        $scope.isLoadingDevices = false;
+                    });
                 },function() {
-                    $scope.isLoadingDevices = false;
+                    //Google 登陆界面用户未操作
+                    GA('check_sign_in:google_page:fail');
                 });
-            },function() {
-                //Google 登陆界面用户未操作
-                GA('check_sign_in:google_page:fail');
-            });
+            }
         };
 
         //登录并取得了设备列表后，会执行的逻辑。

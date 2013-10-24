@@ -6,7 +6,14 @@
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn" ng-click="googleSigIn()" ng-disabled="signInBtnDisabled">
+                <button class="btn google-btn g-signin" 
+                        data-clientid = "592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com"
+                        data-cookiepolicy = "single_host_origin"
+                        data-apppackagename = "com.snappea"
+                        data-callback = "wdGoogleSignInButtonCallback"
+                        data-scope = "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+                        ng-click = "clickSignInButton()"
+                        ng-disabled = "signInBtnDisabled">
                     <i class="icon-google-btn" ng-show="!signInBtnDisabled"></i>
                     <span class="google-btn-word" ng-show="!signInBtnDisabled">
                         {{$root.DICT.portal.GOOGLE_BUTTON}}
