@@ -260,7 +260,6 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             wdLanguageEnvironment.apply(language);
         };
 
-
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);
         };
@@ -283,7 +282,6 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             }
         });
 
-
         wdSocket.on('refresh', function() {
             $route.reload();
         });
@@ -301,8 +299,10 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         wdWindowFocus.initialize();
         wdmConversations.initialize();
 
+        window.googleSignInCallback = function (data) {
+            $rootScope.$emit('googleSignInCallback', data);
+        };
     }]);
-
 
 window.googleSignInOnloadDefer = jQuery.Deferred();
 window.facebookInitDefer = jQuery.Deferred();
@@ -344,8 +344,8 @@ window._gaq=[['_setAccount', GA_ID],['_trackPageview']];
     s.parentNode.insertBefore(g,s);
 }(document,'script'));
 
-
 angular.bootstrap(document, ['wdApp']);
 
 (function() {})(common, language, photos, auth, messages, contacts);
+
 });

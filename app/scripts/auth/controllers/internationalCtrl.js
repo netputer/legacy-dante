@@ -290,7 +290,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         };
 
         //首次进入登陆界面
-        $window.wdGoogleSignInButtonCallback = function (data) {
+        $rootScope.$on('googleSignInCallback', function(e, data){
             if (data.access_token) {
                 wdGoogleSignIn.refreshToken(true).then(function() {
                     GA('check_sign_in:google_page:success');
@@ -306,7 +306,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     GA('check_sign_in:google_page:fail');
                 });
             }
-        };
+        });
 
         //登录并取得了设备列表后，会执行的逻辑。
         function showDevicesList( list ) {
