@@ -773,6 +773,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         G_clicked.clicked = false;
         G_clicked = {
+            //id也用来标识这是一个新建的联系人条目，在模板中会检测这个属性。
             id : '',
             name : $scope.$root.DICT.contacts.BUTTONS.newContact,
             phone : '',

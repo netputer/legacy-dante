@@ -43,7 +43,7 @@
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
-                    <div ng-if="!item.photo && item.name" class="photo-color" ng-class="item.photo_color">
+                    <div ng-if="!!item.id && !item.photo && item.name" class="photo-color" ng-class="item.photo_color">
                         {{item.name|limitTo:1}}
                     </div>
                 </div>
