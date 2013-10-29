@@ -110,7 +110,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     $rootScope.$broadcast('signin');
                 })
                 .error(function(reason, status, headers, config) {
-                    GA('connect_device:connect:fail');
                     wdDevice.lightDeviceScreen(deviceData.id);
                     deviceData.loading = false;
                     if ( !$scope.autoAuth ) {
