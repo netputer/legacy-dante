@@ -289,8 +289,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         };
 
         //首次进入登陆界面
-        $rootScope.$on('googleSignInCallback', function(e, data){
-            if (data.access_token) {
+        $window.googleSignInEventCenter.on('googleSignInCallback', function(e, data){
+            if (data.authResult.access_token) {
                 wdGoogleSignIn.refreshToken(true).then(function() {
                     GA('check_sign_in:google_page:success');
                     $scope.isLoadingDevices = true;

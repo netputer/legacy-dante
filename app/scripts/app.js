@@ -299,13 +299,16 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         wdWindowFocus.initialize();
         wdmConversations.initialize();
 
-        window.googleSignInCallback = function (data) {
-            $rootScope.$emit('googleSignInCallback', data);
-        };
     }]);
+
+// 一个全局对象用来接收和发送与 Google sign 有关的事件
+window.googleSignInEventCenter = jQuery({});
 
 window.googleSignInOnloadDefer = jQuery.Deferred();
 window.facebookInitDefer = jQuery.Deferred();
+window.googleSignInCallback = function (data) {
+    window.googleSignInEventCenter.trigger('googleSignInCallback', {'authResult': data});
+};
 
 if (!READ_ONLY_FLAG) {
     window.googleSignInOnload = function() {
