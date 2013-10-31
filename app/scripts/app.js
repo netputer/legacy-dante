@@ -303,7 +303,6 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
 
 // 一个全局对象用来接收和发送与 Google sign 有关的事件
 window.googleSignInEventCenter = jQuery({});
-
 window.googleSignInOnloadDefer = jQuery.Deferred();
 window.facebookInitDefer = jQuery.Deferred();
 window.googleSignInCallback = function (data) {

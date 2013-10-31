@@ -94,6 +94,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 })
                 .success(function(response) {
                     GA('connect_device:connect:success');
+                    GA('check_sign_in:auth:sucess');
                     stopLoopGetDevices();
                     stopLoopLinkDevices();
                     wdGoogleSignIn.setHasAccessdDevice();
@@ -147,6 +148,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         action = 'unknown_' + status + ':' + duration;
                     }
                     GA('connect_device:connect:fail_' + action);
+                    GA('check_sign_in:auth:fail_' + action);
                 });
             }
             // Invalid auth code.
@@ -263,7 +265,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         $scope.googleSignOut = function() {
             $scope.isLoadingDevices = true;
-
             wdGoogleSignIn.signout().then(function(){
                 //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
                 $window.location.reload();
