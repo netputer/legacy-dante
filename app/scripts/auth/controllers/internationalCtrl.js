@@ -55,6 +55,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
             }
             GA('connect_device:enter_snappea:'+ deviceData.model);
+            GA('check_sign_in:auth_all:all');
             // $scope.isLoadingDevices = true;
             stopLoopGetDevices();
             stopLoopLinkDevices();
