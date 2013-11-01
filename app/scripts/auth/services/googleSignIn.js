@@ -25,6 +25,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             $window.gapi.signin.render(container,{
                 'clientid' : '592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                 'cookiepolicy' : 'single_host_origin',
+                'authuser' : '',
                 'apppackagename' : 'com.snappea',
                 'callback' : 'googleSignInCallback',
                 'scope' : 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'                
@@ -67,9 +68,9 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
             }
             //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
             $window.gapi.auth.authorize({
-               'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-               'immediate':immediate,
-               'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+                'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+                'immediate':immediate,
+                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
                 $rootScope.$apply(function() {
                     if (authResult && authResult.access_token) {
