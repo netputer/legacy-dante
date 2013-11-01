@@ -13,10 +13,10 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout',
+                '$q', 'wdToast',  '$timeout', '$window',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast,   $timeout) {
+                 $q,   wdToast,   $timeout, $window) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
@@ -146,15 +146,13 @@ return [function() {
             }
 
             $scope.signout = function() {
-                var toastPromise = wdGoogleSignIn.signout().then(null, function() {
+                var toastPromise = wdGoogleSignIn.signout().then(function() {
+                    // $window.location.reload();
+                }, function() {
                     return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
                 });
                 toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
                 wdToast.apply(toastPromise);
-                toastPromise.then(function() {
-                    wdGoogleSignIn.signout();
-                });
-
                 $scope.closeSidebar();
             };
 

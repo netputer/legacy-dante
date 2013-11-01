@@ -55,6 +55,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
             }
             GA('connect_device:enter_snappea:'+ deviceData.model);
+            GA('check_sign_in:auth_all:all');
             // $scope.isLoadingDevices = true;
             stopLoopGetDevices();
             stopLoopLinkDevices();
@@ -94,6 +95,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 })
                 .success(function(response) {
                     GA('connect_device:connect:success');
+                    GA('check_sign_in:auth:sucess');
                     stopLoopGetDevices();
                     stopLoopLinkDevices();
                     wdGoogleSignIn.setHasAccessdDevice();
@@ -110,7 +112,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     $rootScope.$broadcast('signin');
                 })
                 .error(function(reason, status, headers, config) {
-                    GA('connect_device:connect:fail');
                     wdDevice.lightDeviceScreen(deviceData.id);
                     deviceData.loading = false;
                     if ( !$scope.autoAuth ) {
@@ -148,6 +149,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         action = 'unknown_' + status + ':' + duration;
                     }
                     GA('connect_device:connect:fail_' + action);
+                    GA('check_sign_in:auth:fail_' + action);
                 });
             }
             // Invalid auth code.
@@ -264,10 +266,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         $scope.googleSignOut = function() {
             $scope.isLoadingDevices = true;
-
             wdGoogleSignIn.signout().then(function(){
-                //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
-                $window.location.reload();
+                $scope.deviceNum = -1;
+                $scope.isLoadingDevices = false;
+                stopLoopLinkDevices();
+                stopLoopGetDevices();
             }, function(){
                 $scope.isLoadingDevices = false;
                 stopLoopLinkDevices();
@@ -284,23 +287,29 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             return wdLanguageEnvironment.currentLanguageBelongsTo(language);
         };
 
-        $scope.googleSigIn = function () {
+        $scope.clickSignInButton = function() {
             GA('user_sign_in:click_sign_in:google_sign_in');
             GA('check_sign_in:google_page_all:all');
-            wdGoogleSignIn.refreshToken().then(function() {
-                GA('check_sign_in:google_page:success');
-                $scope.isLoadingDevices = true;
-                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-                wdGoogleSignIn.getDevices().then(function( list ) {
-                    showDevicesList( list );
-                },function() {
-                    $scope.isLoadingDevices = false;
-                });
-            },function() {
-                //Google 登陆界面用户未操作
-                GA('check_sign_in:google_page:fail');
-            });
         };
+
+        //首次进入登陆界面
+        $window.googleSignInEventCenter.on('googleSignInCallback', function(e, data){
+            if (data.authResult.access_token) {
+                wdGoogleSignIn.refreshToken(true).then(function() {
+                    GA('check_sign_in:google_page:success');
+                    $scope.isLoadingDevices = true;
+                    $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
+                    wdGoogleSignIn.getDevices().then(function( list ) {
+                        showDevicesList( list );
+                    },function() {
+                        $scope.isLoadingDevices = false;
+                    });
+                },function() {
+                    //Google 登陆界面用户未操作
+                    GA('check_sign_in:google_page:fail');
+                });
+            }
+        });
 
         //登录并取得了设备列表后，会执行的逻辑。
         function showDevicesList( list ) {
@@ -445,6 +454,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if (!signoutFromDevices()) {
                 autoSignInGoogle();
             }
+
         } else {
             // 显示登录界面，点击按钮授权登录
             GA('user_sign_in:no_sign_in');
