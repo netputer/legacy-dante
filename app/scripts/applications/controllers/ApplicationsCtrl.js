@@ -199,6 +199,7 @@ define([
                         endpoint: wdDev.wrapURL('/resource/apps/upload')
                     },
                     validation: {
+                        acceptFiles: '.apk',
                         allowedExtensions: ['apk'],
                         stopOnFirstInvalidFile: false
                     },
