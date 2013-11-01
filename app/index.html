@@ -1,5 +1,10 @@
 <!DOCTYPE html>
+<!--(if target dist)><!-->
 <html class="no-js" ng-class="{readonly: $root.READ_ONLY_FLAG}">
+<!--<!(endif)-->
+<!--(if target cloud)>
+<html class="no-js zh-cn zh" ng-class="{readonly: $root.READ_ONLY_FLAG}">
+<!(endif)-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -8,9 +13,9 @@
     <!--(if target dist)><!-->
     <title>SnapPea</title>
     <!--<!(endif)-->
-    <!--(if target cloud)><!-->
+    <!--(if target cloud)>
     <title>豌豆荚云备份</title>
-    <!--<!(endif)-->
+    <!(endif)-->
 
     <!--(if target dist)><!-->
     <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/epindigjbiphgfhnmlpcocaiafjgbabe">

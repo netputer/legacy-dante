@@ -409,6 +409,7 @@ module.exports = function (grunt) {
                 'useminPrepare',
                 'compass:dist',
                 'concurrent:dist',
+                'targethtml:cloud', // requirejs conflict with targethtml, run targethtml first!
                 'requirejs:cloud',
                 'copy:tmp',
                 'cssmin',
@@ -417,7 +418,6 @@ module.exports = function (grunt) {
                 'copy:dist',
                 'rev',
                 'usemin',
-                'targethtml:cloud',
                 'replace:cdn'
             ]);
         }
@@ -427,6 +427,7 @@ module.exports = function (grunt) {
             'useminPrepare',
             'compass:dist',
             'concurrent:dist',
+            'targethtml:dist', // requirejs conflict with targethtml, run targethtml first!
             'requirejs:dist',
             'copy:tmp',
             'cssmin',
@@ -434,8 +435,7 @@ module.exports = function (grunt) {
             'uglify',
             'copy:dist',
             'rev',
-            'usemin',
-            'targethtml:dist'
+            'usemin'
         ]);
     });
 
