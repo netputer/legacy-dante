@@ -267,8 +267,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.googleSignOut = function() {
             $scope.isLoadingDevices = true;
             wdGoogleSignIn.signout().then(function(){
-                //这要重新刷新浏览器，就是因为登录整个环节依托与wdGoogleSignIn中的Global.defer，但是这玩意只能被触发一次。
-                $window.location.reload();
+                $scope.deviceNum = -1;
+                $scope.isLoadingDevices = false;
+                renderGoogleButton();
+                stopLoopLinkDevices();
+                stopLoopGetDevices();
             }, function(){
                 $scope.isLoadingDevices = false;
                 stopLoopLinkDevices();
@@ -429,6 +432,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $window.googleSignInOnloadDefer.done(function() {
                 //防止被弹窗拦截，需要先调用gapi.auth.init方法
                 $window.gapi.auth.init(function() {
+                    setTimeout(renderGoogleButton,0);
                     $scope.signInBtnDisabled = false;
                     //异步需要apply()
                     if( !wdGoogleSignIn.getHasAccessdDevice() ) {
@@ -443,6 +447,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             return !!wdGoogleSignIn.getStorageItem('googleToken');
         }
 
+        function renderGoogleButton() {
+            wdGoogleSignIn.renderGoogleSignIn('google-sign-in-button');
+        }
+
 // 登录逻辑开始
         GA('user_sign_in:check_sign_in:total_visits');
 
@@ -452,6 +460,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if (!signoutFromDevices()) {
                 autoSignInGoogle();
             }
+
         } else {
             // 显示登录界面，点击按钮授权登录
             GA('user_sign_in:no_sign_in');

@@ -147,16 +147,12 @@ return [function() {
 
             $scope.signout = function() {
                 var toastPromise = wdGoogleSignIn.signout().then(function() {
-                    $window.location.reload();
+                    // $window.location.reload();
                 }, function() {
                     return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
                 });
                 toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
                 wdToast.apply(toastPromise);
-                toastPromise.then(function() {
-                    wdGoogleSignIn.signout();
-                });
-
                 $scope.closeSidebar();
             };
 
