@@ -21,18 +21,6 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
 
     var result = {
 
-        renderGoogleSignIn : function (container) {
-            $window.gapi.signin.render(container,{
-                'clientid' : '592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-                'cookiepolicy' : 'single_host_origin',
-                'authuser' : '',
-                'apppackagename' : 'com.snappea',
-                'callback' : 'googleSignInCallback',
-                'scope' : 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'                
-            });
-            $window.gapi.signin.go(container);
-        },
-
         //取得或者设置authResult
         authResult : function (data) {
             var me = this;
