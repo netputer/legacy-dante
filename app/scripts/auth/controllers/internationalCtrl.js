@@ -269,7 +269,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             wdGoogleSignIn.signout().then(function(){
                 $scope.deviceNum = -1;
                 $scope.isLoadingDevices = false;
-                renderGoogleButton();
                 stopLoopLinkDevices();
                 stopLoopGetDevices();
             }, function(){
@@ -432,7 +431,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $window.googleSignInOnloadDefer.done(function() {
                 //防止被弹窗拦截，需要先调用gapi.auth.init方法
                 $window.gapi.auth.init(function() {
-                    setTimeout(renderGoogleButton,0);
                     $scope.signInBtnDisabled = false;
                     //异步需要apply()
                     if( !wdGoogleSignIn.getHasAccessdDevice() ) {
@@ -445,10 +443,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         //是否登录着 Google 账号
         function hasSignInGoogle() {
             return !!wdGoogleSignIn.getStorageItem('googleToken');
-        }
-
-        function renderGoogleButton() {
-            wdGoogleSignIn.renderGoogleSignIn('google-sign-in-button');
         }
 
 // 登录逻辑开始

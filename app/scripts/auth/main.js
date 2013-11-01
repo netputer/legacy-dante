@@ -5,14 +5,16 @@ define([
     'auth/services/googleSignIn',
     'auth/services/wandoujiaSignIn',
     'auth/controllers/internationalCtrl',
-    'auth/controllers/cloudDataCtrl'
+    'auth/controllers/cloudDataCtrl',
+    'auth/directives/google-button'
 ], function(
     angular,
     device,
     googleSignIn,
     wandoujiaSignIn,
     internationalCtrl,
-    cloudDataCtrl
+    cloudDataCtrl,
+    googleButton
 ) {
 'use strict';
 
@@ -21,5 +23,6 @@ angular.module('wdAuth', ['wdCommon'])
     .factory('wdGoogleSignIn', googleSignIn)
     .factory('wandoujiaSignIn', wandoujiaSignIn)
     .controller('internationalController', internationalCtrl)
-    .controller('cloudDataController', cloudDataCtrl);
+    .controller('cloudDataController', cloudDataCtrl)
+    .directive('wdGoogleButton', googleButton);
 });
