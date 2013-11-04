@@ -30,5 +30,6 @@
     "CONFIRM_DELETE_CANCEL": "Cancel",
     "VIEW_CONTACT": "View contact",
     "ADD_CONTACT": "Add to contacts",
-    "NEW_MESSAGE_TIP": "New messages from $$$$"
+    "NEW_MESSAGE_TIP": "New messages from $$$$",
+    "MESSAGE_STATUS_REPORTER": "Delivered $$"
 }
