@@ -47,11 +47,14 @@ _.extend(ConversationMessagesCollection.prototype, {
             var dirty = this.dirty;
             var params = {
                 offset: 0,
-                length: 30
+                length: 10
             };
+
             if (this.collection.length && !dirty) {
-                params.cursor = this.collection[0].id;
+                var item = this.collection[0];
+                params.cursor = item.id;
                 params.offset = 1;
+                params.category = item.category;
             }
             this.dirty = false;
 

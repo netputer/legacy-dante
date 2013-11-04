@@ -55,6 +55,7 @@ _.extend(SyncMessagesCollection.prototype, {
                 if (!refresh) {
                     this.loaded = response.headers('WD-Need-More') === 'false';
                 }
+
                 return this.add(data.map(this.create.bind(this)));
             }.bind(this);
 

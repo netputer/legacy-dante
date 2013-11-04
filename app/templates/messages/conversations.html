@@ -155,7 +155,18 @@
                                     <span bs-tooltip="{{m.address}}">{{ m.contact_name || m.address }}</span>:
                                 </div>
                                 <div ng-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | linky:'_blank' "></div>
-                                <div ng-if="m.isMMS" class="wdmer-a-b" style="color:#999;">{{ $root.DICT.messages.MMS_WARNING }}</div>
+                                <div ng-if="m.isMMS">
+                                    <h5 class="mms-title">{{ m.subject }}</h5>
+                                    <div ng-repeat="part in m.mms_parts" class="mms-part">
+                                        <div ng-repeat="c in part" ng-switch="c.type">
+                                            <p ng-switch-when="text" class="mms-text">{{ c.content }}</p>
+                                            <img ng-switch-when="image" ng-src="{{ c.content }}" class="mms-image">
+                                            <div ng-switch-when="audio" wdm-audio class="mms-audio">
+                                            </div>
+                                        </div>
+                                        <div class="wdme-sep mms-sep" ng-show="$index < m.mms_parts.length - 1"><span>{{$index + 1}}</span></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="wdmer-b">
                                 <span ng-if="m.isError"><i class="icon-failed"></i> {{$root.DICT.messages.ERROR_SEND_FAILED}} <a href="" ng-click="resendMessage(activeConversation, m)" ng-if="!$root.readonly">{{$root.DICT.messages.ACTION_RETRY}}</a></span>
