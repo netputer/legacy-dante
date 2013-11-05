@@ -13,13 +13,15 @@ return [function() {
 
             $scope.audio = $scope.$parent.c;
             $scope.audio.playing = false;
-            $scope.audio.formatedDuration = moment({s: $scope.audio.duration / 1000}).format('mm:ss');
+
+            if (audioElement.canPlayType($scope.audio.content_type).length) {
+                $scope.audio.formatedDuration = audioElement.duration ? setInitDuration() : '';
+            } else {
+                $scope.audio.formatedDuration = moment({s: $scope.audio.duration / 1000}).format('mm:ss');
+            }
 
             var setInitDuration = function() {
-                $scope.$apply(function() {
-                    $scope.audio.playing = false;
-                    $scope.audio.formatedDuration = moment({s: audioElement.duration}).format('mm:ss');
-                });
+                $scope.audio.formatedDuration = moment({s: audioElement.duration}).format('mm:ss');
             };
 
             var downloadAudio = function() {
@@ -27,30 +29,40 @@ return [function() {
             };
 
             audioElement.addEventListener('loadedmetadata', function() {
-                setInitDuration();
-            }, false);
-
-            audioElement.addEventListener('timeupdate', function(evt) {
                 $scope.$apply(function() {
-                    var lastTime = audioElement.duration - audioElement.currentTime;
-                    $scope.audio.formatedDuration = moment({s: lastTime}).format('mm:ss');
+                    setInitDuration();
                 });
             }, false);
 
+            audioElement.addEventListener('timeupdate', function(evt) {
+                if (audioElement.duration && !audioElement.paused) {
+                    $scope.$apply(function() {
+                        var lastTime = audioElement.duration - audioElement.currentTime;
+                        $scope.audio.formatedDuration = moment({s: lastTime}).format('mm:ss');
+                    });
+                }
+                
+            }, false);
+
             audioElement.addEventListener('ended', function() {
-                setInitDuration();
+                $scope.$apply(function() {
+                    $scope.audio.playing = false;
+                    setInitDuration();
+                });
             }, false);
 
             $scope.audio.controller = function() {
                 if (!audioElement.canPlayType($scope.audio.content_type).length) {
                     downloadAudio();
                 } else {
-                    if (audioElement.played) {
-                        audioElement.pause();
-                        $scope.audio.playing = false;
-                    } else {
+                    if (audioElement.paused) {
+                        audioElement.src = $scope.audio.content;
                         audioElement.play();
                         $scope.audio.playing = true;
+                    } else {
+                        audioElement.pause();
+                        $scope.audio.playing = false;
+                        setInitDuration();
                     }
                 }
                 
