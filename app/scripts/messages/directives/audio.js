@@ -4,29 +4,35 @@ define([
     'moment'
     ], function(template, $, moment) {
 'use strict';
-return [function() {
+return ['$window', function($window) {
     return {
         template: template,
         replace: true,
+        scope: {
+            audio: '='
+        },
         link: function($scope, $element, $attributes) {
             var audioElement = $element.find('audio')[0];
-
-            $scope.audio = $scope.$parent.c;
-            $scope.audio.playing = false;
-
-            if (audioElement.canPlayType($scope.audio.content_type).length) {
-                $scope.audio.formatedDuration = audioElement.duration ? setInitDuration() : '';
-            } else {
-                $scope.audio.formatedDuration = moment({s: $scope.audio.duration / 1000}).format('mm:ss');
-            }
+            
+            var formatDuration = function(duration) {
+                return moment({s: duration}).format('mm:ss');
+            };
 
             var setInitDuration = function() {
-                $scope.audio.formatedDuration = moment({s: audioElement.duration}).format('mm:ss');
+                $scope.audio.formatedDuration = formatDuration(audioElement.duration);
             };
 
             var downloadAudio = function() {
-                window.location = $scope.audio.content;
+                $window.location = $scope.audio.content;
             };
+
+            $scope.audio.playing = false;
+
+            if (audioElement.canPlayType($scope.audio.content_type).length) {
+                $scope.audio.formatedDuration = audioElement.duration ? formatDuration(audioElement.duration) : '';
+            } else {
+                $scope.audio.formatedDuration = formatDuration($scope.audio.duration / 1000);
+            }
 
             audioElement.addEventListener('loadedmetadata', function() {
                 $scope.$apply(function() {
@@ -38,7 +44,7 @@ return [function() {
                 if (audioElement.duration && !audioElement.paused) {
                     $scope.$apply(function() {
                         var lastTime = audioElement.duration - audioElement.currentTime;
-                        $scope.audio.formatedDuration = moment({s: lastTime}).format('mm:ss');
+                        $scope.audio.formatedDuration = formatDuration(lastTime);
                     });
                 }
                 
