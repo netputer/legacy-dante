@@ -24,7 +24,8 @@ define([
     'messages/directives/keep-visible',
     'messages/directives/selection',
     'messages/services/search',
-    'messages/directives/contact-card'
+    'messages/directives/contact-card',
+    'messages/directives/audio'
 ], function(
     angular,
     common,
@@ -51,7 +52,8 @@ define([
     keepVisible,
     selection,
     search,
-    contactCard
+    contactCard,
+    audio
 ) {
 'use strict';
 // jshint unused:false
@@ -77,6 +79,7 @@ angular.module('wdMessages', ['wdCommon'])
     .directive('wdmKeepVisible', keepVisible)
     .directive('wdmSelection', selection)
     .directive('wdmContactCard', contactCard)
+    .directive('wdmAudio', audio)
     .filter('ms', msFilter)
     .filter('group', groupFilter)
     .filter('messageDate', messageDateFilter);
