@@ -5,7 +5,8 @@ define( [
 ) {
     'use strict';
 
-return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice) {
+return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
+function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
 
     var global = {
         authResult : {},
@@ -157,6 +158,8 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         },
 
         getDevices : function () {
+            wdCommunicateSnappeaCom.googleSignIn();
+
             $log.log('Connecting for getting devices...');
             GA('check_sign_in:get_devices_all:all');
             // Successfully authorized
