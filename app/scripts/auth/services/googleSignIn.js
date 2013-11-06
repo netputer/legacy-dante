@@ -68,6 +68,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         } else {
                             $timeout.cancel(timer);
                         }
+                        wdCommunicateSnappeaCom.googleSignIn();
                         me.authResult(authResult);
                         $log.log('Getting google account informations...');
                         me.getAccount().then(function(data){
@@ -158,8 +159,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         },
 
         getDevices : function () {
-            wdCommunicateSnappeaCom.googleSignIn();
-
             $log.log('Connecting for getting devices...');
             GA('check_sign_in:get_devices_all:all');
             // Successfully authorized
@@ -202,9 +201,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         signout : function () {
             var me = this;
             var defer = $q.defer();
-
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
-
+            wdCommunicateSnappeaCom.googleSignOut();
             $.ajax({
                 type: 'GET',
                 url: revokeUrl,
