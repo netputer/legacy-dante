@@ -6,7 +6,7 @@
     <script type="text/javascript">
     // 该页面会在 snappea.com 中通过 iframe 调用
     void function() {
-        window.addEventListener('message', function(event) {
+        window.onmessage = function(event) {
             switch (event.data.command) {
                 case 'google-sign-in':
                     googleSignIn();
@@ -15,15 +15,15 @@
                     googleSignOut();
                 break;
             }
-        },false);
+        };
 
         //相关方法
         function googleSignIn() {
-            window.localStorage.setItem('googleToken', true);
+            window.localStorage && window.localStorage.setItem('googleToken', true);
         }
 
         function googleSignOut() {
-            window.localStorage.removeItem('googleToken');
+            window.localStorage && window.localStorage.removeItem('googleToken');
         }
     }();
     </script>
