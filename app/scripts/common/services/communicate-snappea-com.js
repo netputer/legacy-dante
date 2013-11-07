@@ -6,17 +6,16 @@ define([
 'use strict';
 return ['$window', function($window) {
     
-    var isIframeOnLoad = false;
+    var defer = $.Deferred();
     function getIframe() {
         var iframe = $('.communicate-snappea-com-iframe')[0];
         if (!iframe) {
-            isIframeOnLoad = false;
             iframe = $('<iframe></iframe>').appendTo('body')
                                            .addClass('communicate-snappea-com-iframe')
                                            .attr('src', 'http://www.snappea.com/post-message.html')
                                            .hide()[0];
             iframe.onload = function() {
-                isIframeOnLoad = true;
+                defer.resolve();
             };
         }
         return iframe;
@@ -29,13 +28,9 @@ return ['$window', function($window) {
                 command: message
             }, 'http://www.snappea.com'); 
         }
-        if (isIframeOnLoad) {
+        defer.done(function() {
             post();
-        } else {
-            win.onload = function() {
-                post();
-            };
-        }
+        });
     }
 
     getIframe();
