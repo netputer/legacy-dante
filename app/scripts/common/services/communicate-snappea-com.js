@@ -7,10 +7,10 @@ define([
 return ['$window', function($window) {
     function getIframe() {
         var iframe = $('.communicate-snappea-com-iframe')[0];
-        if (!iframe[0]) {
+        if (!iframe) {
             iframe = $('<iframe></iframe>').appendTo('body')
                                     .addClass('communicate-snappea-com-iframe')
-                                    .attr('src', 'http://snappea.com/post-message.html')
+                                    .attr('src', 'http://www.snappea.com/post-message.html')
                                     .hide()[0];
         }
         return iframe;
@@ -22,6 +22,8 @@ return ['$window', function($window) {
         }, 'http://www.snappea.com'); 
     }
 
+    getIframe();
+    
     return {
         googleSignIn: function() {
             postMessage('google-sign-in');
