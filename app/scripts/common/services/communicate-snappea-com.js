@@ -1,18 +1,25 @@
 define([
-    'underscore'
+    'jquery'
 ], function(
-    _
+    $
 ) {
 'use strict';
 return ['$window', function($window) {
+    function getIframe() {
+        var iframe = $('.communicate-snappea-com-iframe')[0];
+        if (!iframe[0]) {
+            iframe = $('<iframe></iframe>').appendTo('body')
+                                    .addClass('communicate-snappea-com-iframe')
+                                    .attr('src', 'http://snappea.com/post-message.html')
+                                    .hide()[0];
+        }
+        return iframe;
+    }
 
     function postMessage(message) {
-        var iframes = $window.document.querySelectorAll('.communicate-snappea-com');
-        _.each(iframes,function(i) {
-            i.contentWindow.postMessage({
-                command: message
-            }, 'http://snappea.com'); 
-        });
+        getIframe().contentWindow.postMessage({
+            command: message
+        }, 'http://www.snappea.com'); 
     }
 
     return {
