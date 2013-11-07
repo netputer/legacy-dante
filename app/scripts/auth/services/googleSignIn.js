@@ -5,7 +5,8 @@ define( [
 ) {
     'use strict';
 
-return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice) {
+return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
+function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
 
     var global = {
         authResult : {},
@@ -67,6 +68,7 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
                         } else {
                             $timeout.cancel(timer);
                         }
+                        wdCommunicateSnappeaCom.googleSignIn();
                         me.authResult(authResult);
                         $log.log('Getting google account informations...');
                         me.getAccount().then(function(data){
@@ -199,9 +201,8 @@ return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', func
         signout : function () {
             var me = this;
             var defer = $q.defer();
-
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
-
+            wdCommunicateSnappeaCom.googleSignOut();
             $.ajax({
                 type: 'GET',
                 url: revokeUrl,
