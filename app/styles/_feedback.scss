@@ -1,0 +1,48 @@
+.feedback-portal { display: none; }
+html.cors {
+    .feedback-portal {
+        display: block;
+        @include ui-layer-content-top;
+        @include position(absolute, 50% 15px 0 0);
+        background: #2b2b2b;
+        padding: 5px 10px;
+        border-radius: 0 0 2px 2px;
+        @include transform(rotate(90deg) translate3d(0, 0, 0));
+        @include transform-origin(100%, 50%); // hack to prevent text blurred after rotate, but I don't know why...
+        cursor: pointer;
+
+        color: rgba(#fff, 0.8);
+        @include transition(color, 0.4s);
+
+        i {
+            margin-right: 10px;
+            @include transform(rotate(-90deg) translate3d(0, 0, 0));
+            opacity: 0.8;
+            @include transition(opacity, 0.4s);
+        }
+
+        &:hover {
+            color: #fff;
+            i { opacity: 1; }
+        }
+    }
+
+    &.zh .feedback-portal {
+        @include position(absolute, 50% 0px 0 0);
+        @include transform(none);
+        word-wrap: break-word;
+        width: 20px;
+        text-align: center;
+        line-height: 1.2;
+        padding: 10px 5px;
+        border-radius: 2px 0 0 2px;
+
+        i {
+            margin: 0;
+            margin-bottom: 10px;
+            @include transform(none);
+        }
+    }
+}
+
+
