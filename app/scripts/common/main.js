@@ -30,7 +30,8 @@ define([
     'common/directives/nav-item',
     'common/services/desktop-notification',
     'common/services/window-focus',
-    'common/directives/scroll-detect'
+    'common/directives/scroll-detect',
+    'common/services/communicate-snappea-com'
 ], function(
     angular,
     loading,
@@ -63,7 +64,8 @@ define([
     navItem,
     desktopNotification,
     windowFocus,
-    scrollDetect
+    scrollDetect,
+    communicateSnappeaCom
 ) {
 // jshint unused:false
 'use strict';
@@ -100,5 +102,6 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdTitleNotification', titleNotification)
     .factory('wdDesktopNotification', desktopNotification)
     .factory('wdWindowFocus', windowFocus)
-    .factory('wdDatabase', db);
+    .factory('wdDatabase', db)
+    .factory('wdCommunicateSnappeaCom', communicateSnappeaCom);
 });

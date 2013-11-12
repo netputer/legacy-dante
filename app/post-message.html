@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--[if gt IE 9]-->
+    <script type="text/javascript">
+    // 该页面会在 snappea.com 中通过 iframe 调用
+    void function() {
+        window.onmessage = function(event) {
+            switch (event.data.command) {
+                case 'google-sign-in':
+                    googleSignIn();
+                break;
+                case 'google-sign-out':
+                    googleSignOut();
+                break;
+            }
+        };
+
+        //相关方法
+        function googleSignIn() {
+            window.localStorage && window.localStorage.setItem('googleToken', true);
+        }
+
+        function googleSignOut() {
+            window.localStorage && window.localStorage.removeItem('googleToken');
+        }
+    }();
+    </script>
+    <!--[endif]-->
+</head>
+<body>
+</body>
+</html>
