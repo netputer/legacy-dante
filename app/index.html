@@ -140,6 +140,27 @@
 
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 
+    <!-- Zendesk Feedback Tab -->
+    <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
+    <style type="text/css" media="screen, projection">
+      @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
+      #zenbox_tab {border: 0; border-radius: 2px 0 0 2px;top: 50%;margin-top: -55px;z-index:1031;}
+    </style>
+    <script type="text/javascript">
+      if (typeof(Zenbox) !== "undefined") {
+        Zenbox.init({
+          dropboxID:   "20236407",
+          url:         "https://snappea.zendesk.com",
+          tabImageURL: "http://web.snappea.com/public/feedback.png",
+          tabTooltip:  "",
+          tabColor:    "grey",
+          tabPosition: "Right"
+        });
+      }
+    </script>
+    <!-- Zendesk Feedback Tab -->
+
+
     <!--<![endif]-->
 </body>
 </html>
