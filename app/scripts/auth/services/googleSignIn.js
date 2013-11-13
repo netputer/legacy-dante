@@ -59,7 +59,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             $window.gapi.auth.authorize({
                 'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                 'immediate':immediate,
-                'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+                'scope':'https://www.googleapis.com/auth/plus.me'
             },function(authResult){
                 $rootScope.$apply(function() {
                     if (authResult && authResult.access_token) {
@@ -186,6 +186,11 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             list.push(v);
                         }
                     });
+
+                    //标记下是否是老用户，该功能暂时有客户端记录，之后会由服务器端提供接口。老用户定义：该用户成功获取设备，并且设备列表中有设备。
+                    if ( list.length > 0 && !me.isOldUser() ) {
+                        me.setIsOldUser();
+                    }
                     defer.resolve(list);
                 });
             }).fail(function( xhr ) {
@@ -199,10 +204,10 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         },
 
         signout : function () {
+            wdCommunicateSnappeaCom.googleSignOut();
             var me = this;
             var defer = $q.defer();
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
-            wdCommunicateSnappeaCom.googleSignOut();
             $.ajax({
                 type: 'GET',
                 url: revokeUrl,
@@ -226,14 +231,17 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         $log.error('google signout failed.');
                         defer.reject();
                     });
-
-                  // 处理错误
-                  // console.log(e);
-                  // 如果失败，您可以引导用户手动取消关联
-                  // https://plus.google.com/apps
                 }
             });
             return defer.promise;
+        },
+
+        // 客户端记录是一个老用户
+        setIsOldUser : function () {
+            this.setStorageItem('oldUserFlag', true);
+        },
+        isOldUser : function () {
+            return this.getStorageItem('oldUserFlag');
         },
 
         //是否本次登陆过，用于检测是否是跳转过来的设备
@@ -243,10 +251,10 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         setHasAccessdDevice : function () {
             global.hasAccessdDevice = true;
         },
+
         setForceShowDevices : function ( flag ) {
             global.forceShowDevices = flag;
         },
-
         getForceShowDevices : function () {
             return global.forceShowDevices;
         },
@@ -254,11 +262,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         removeStorageItem : function ( name ) {
             $window.localStorage.removeItem( name );
         },
-
         setStorageItem : function ( name , data ) {
             $window.localStorage.setItem( name , data );
         },
-
         getStorageItem : function ( name ) {
             return $window.localStorage.getItem( name );
         }
