@@ -1,10 +1,18 @@
 define([
     'text!templates/messages/audio.html',
     'jquery',
-    'moment'
-    ], function(template, $, moment) {
+    'moment',
+    'underscore'
+    ], function(template, $, moment, _) {
 'use strict';
 return ['$window', function($window) {
+    var pauseFuncArray = [];
+    var pauseAllAudios = function() {
+        _.each(pauseFuncArray, function(item) {
+            item();
+        });
+    };
+
     return {
         template: template,
         replace: true,
@@ -26,9 +34,17 @@ return ['$window', function($window) {
                 $window.location = $scope.audio.content;
             };
 
+            var pause = function() {
+                audioElement.pause();
+                $scope.audio.playing = false;
+                setInitDuration();
+            };
+
             $scope.audio.playing = false;
 
             if (audioElement.canPlayType($scope.audio.content_type).length) {
+                pauseFuncArray.push(pause);
+
                 $scope.audio.formatedDuration = audioElement.duration ? formatDuration(audioElement.duration) : '';
             } else {
                 $scope.audio.formatedDuration = formatDuration($scope.audio.duration / 1000);
@@ -62,13 +78,12 @@ return ['$window', function($window) {
                     downloadAudio();
                 } else {
                     if (audioElement.paused) {
+                        pauseAllAudios();
                         audioElement.src = $scope.audio.content;
                         audioElement.play();
                         $scope.audio.playing = true;
                     } else {
-                        audioElement.pause();
-                        $scope.audio.playing = false;
-                        setInitDuration();
+                        pause();
                     }
                 }
                 
