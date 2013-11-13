@@ -59,7 +59,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             $window.gapi.auth.authorize({
                 'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                 'immediate':immediate,
-                'scope':'https://www.googleapis.com/auth/plus.me'
+                'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email'
             },function(authResult){
                 $rootScope.$apply(function() {
                     if (authResult && authResult.access_token) {
@@ -158,6 +158,12 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             return defer.promise;
         },
 
+        removeAccountInfo: function() {
+            global.account = '';
+            global.profileInfo = '';
+            global.authResult = {};
+        },
+
         getDevices : function () {
             $log.log('Connecting for getting devices...');
             GA('check_sign_in:get_devices_all:all');
@@ -222,7 +228,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         // 回应始终为未定义。
                         me.removeStorageItem('googleToken');
                         wdDevice.signout();
-                        global.authResult = {};
+                        me.removeAccountInfo();
                         defer.resolve('signout');
                     });                    
                 },
