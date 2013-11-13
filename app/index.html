@@ -123,7 +123,6 @@
     </div>
     <div class="ng-cloak" wd-navbar></div>
     <div class="ng-cloak" bs-modal wd-alert></div>
-    <div class="feedback-portal"><i class="icon-feedback"></i>{{ $root.DICT.app.FEEDBACK }}</div>
 
     <!-- build:js scripts/framework.js -->
     <script src="components/jquery/jquery.js"></script>
@@ -140,6 +139,27 @@
     <!-- endbuild -->
 
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
+
+    <!-- Zendesk Feedback Tab -->
+    <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
+    <style type="text/css" media="screen, projection">
+      @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
+      #zenbox_tab {border: 0; border-radius: 2px 0 0 2px;top: 50%;margin-top: -55px;}
+    </style>
+    <script type="text/javascript">
+      if (typeof(Zenbox) !== "undefined") {
+        Zenbox.init({
+          dropboxID:   "20236407",
+          url:         "https://snappea.zendesk.com",
+          tabImageURL: "http://web.snappea.com/public/feedback.png",
+          tabTooltip:  "",
+          tabColor:    "grey",
+          tabPosition: "Right"
+        });
+      }
+    </script>
+    <!-- Zendesk Feedback Tab -->
+
 
     <!--<![endif]-->
 </body>
