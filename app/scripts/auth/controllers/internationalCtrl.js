@@ -290,26 +290,35 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.clickSignInButton = function() {
             GA('user_sign_in:click_sign_in:google_sign_in');
             GA('check_sign_in:google_page_all:all');
+            if ( wdGoogleSignIn.isOldUser() ) {
+                wdGoogleSignIn.refreshToken().then(afterAuthSignIn);
+            }
         };
 
         //首次进入登陆界面
         $window.googleSignInEventCenter.on('googleSignInCallback', function(e, data){
+            $scope.signInBtnDisabled = false;
             if (data.authResult.access_token) {
-                wdGoogleSignIn.refreshToken(true).then(function() {
-                    GA('check_sign_in:google_page:success');
-                    $scope.isLoadingDevices = true;
-                    $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-                    wdGoogleSignIn.getDevices().then(function( list ) {
-                        showDevicesList( list );
-                    },function() {
-                        $scope.isLoadingDevices = false;
-                    });
-                },function() {
-                    //Google 登陆界面用户未操作
-                    GA('check_sign_in:google_page:fail');
-                });
+                afterAuthSignIn();
             }
         });
+
+        // 通过授权登陆后，执行的逻辑
+        function afterAuthSignIn() {
+            wdGoogleSignIn.refreshToken(true).then(function() {
+                GA('check_sign_in:google_page:success');
+                $scope.isLoadingDevices = true;
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
+                wdGoogleSignIn.getDevices().then(function( list ) {
+                    showDevicesList( list );
+                },function() {
+                    $scope.isLoadingDevices = false;
+                });
+            },function() {
+                //Google 登陆界面用户未操作
+                GA('check_sign_in:google_page:fail');
+            });
+        }
 
         //登录并取得了设备列表后，会执行的逻辑。
         function showDevicesList( list ) {
