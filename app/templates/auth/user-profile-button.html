@@ -1,8 +1,11 @@
-<div class="user-profile-button">
+<div class="user-profile-button"  ng-mouseenter="isShowProfileDetail = !isShowProfileDetail" ng-mouseleave="isShowProfileDetail = !isShowProfileDetail">
     <div class="profile">
-        <img src="">
-        <p class="name"></p>
+        <img class="photo" ng-src="{{profile.image.url}}">
+        <p class="name" title="{{profile.displayName}}">{{profile.displayName}}</p>
     </div>
-    <div class="detail">
+    <div class="detail" ng-class="{show:isShowProfileDetail}" ng-click="$event.stopPropagation();">
+        <p class="email">{{profile.email}}</p>
+        <hr>
+        <div class="btn signout" ng-click="googleSignOut();">{{$root.DICT.portal.SIGN_OUT}}</div>
     </div>
 <div>

@@ -1,0 +1,77 @@
+.user-profile-button {
+    $color-gray: #eff0f2;
+    $color-black: #000;
+    $color-white: #FFF;
+
+    min-width: 180px;
+    width: auto;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    color: $color-black;
+    cursor: pointer;
+    @include unselected-word;
+    opacity: 0.8;
+    &:hover {
+        opacity: 1;
+    }
+    @include transition(opacity 0.4s);
+
+    .profile {
+        overflow: hidden;
+        background-color: $color-gray;
+        padding: 5px 11px 5px 11px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+
+        .photo {
+            width: 35px;
+            height: 35px;
+            display: inline;
+            margin-right: 8px;
+        }
+        .name {
+            font-size: 14px;
+            color: $color-black;
+            display: inline;
+        }
+    }
+    .detail {
+        cursor: default;
+        background-color: $color-gray;
+        border-radius: 5px;
+        padding-bottom: 10px;
+        opacity: 0;
+        @include transition(opacity 0.4s);
+
+        hr {
+            border-top: 1px solid #dedfe1;
+            margin: 0px 6px;
+            border-bottom: none;
+        }
+
+        .email {
+            height: 22px;
+            font-size: 13px;
+            color: $color-black;
+            padding-top: 10px;
+            text-align: center; 
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
+
+        .signout {
+            font-size: 14px;
+            height: 30px;
+            display: block;
+            line-height: 30px;
+            background-color: $standard-red;
+            margin: 7px 6px 0px 6px;
+            color: $color-white;
+        }
+    }
+    .show {
+        opacity: 1;
+    }
+}

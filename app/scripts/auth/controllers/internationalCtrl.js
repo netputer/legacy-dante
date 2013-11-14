@@ -84,7 +84,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 $http({
                     method: 'get',
                     url: '/directive/auth',
-                    timeout: 10000,
+                    timeout: 1000,
                     params: {
                         authcode: authCode,
                         'client_time': (new Date()).getTime(),
