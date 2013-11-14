@@ -110,9 +110,7 @@
         }
 
         i.icon-search{
-            position: absolute;
-            left: 14px;
-            top: 15px;
+            @include position(absolute, 15px 0 0 14px);
         }
 
         input::-ms-clear {
