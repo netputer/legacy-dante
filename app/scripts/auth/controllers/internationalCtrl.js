@@ -302,10 +302,14 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('check_sign_in:google_page:success');
             $scope.isLoadingDevices = true;
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-            wdGoogleSignIn.getDevices().then(function( list ) {
-                showDevicesList( list );
-            },function() {
-                $scope.isLoadingDevices = false;
+            wdGoogleSignIn.refreshToken(true).then(function() {
+                wdGoogleSignIn.getDevices().then(function( list ) {
+                    showDevicesList( list );
+                },function() {
+                    $scope.googleSignOut();
+                });
+            }, function() {
+                $scope.googleSignOut();
             });
         }
 
@@ -383,7 +387,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('user_sign_in:auto_sign_in:google_sign_in');
             $window.googleSignInOnloadDefer.done(function() {
                 $window.gapi.auth.init(function() {
-                    autoAccess();
+                    wdGoogleSignIn.refreshToken(true).then(function() {
+                        autoAccess();
+                    }, function() {
+                        $scope.googleSignOut();
+                    });
                 });
             });
         }

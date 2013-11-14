@@ -8,16 +8,21 @@ define( [
 return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
 function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
 
+    // 检测的最多账号数
+    var MAX_ACCOUNT_NUM = 5;
     var global = {
         authResult : {},
         account : '',
-        profileInfo: '',
+        profileInfo: {},
 
         //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
         forceShowDevices : false,
 
         //标记是否本次登陆了，用于检测是否是跳转过来的用户
-        hasAccessdDevice : false
+        hasAccessdDevice : false,
+
+        //当前账号号码
+        accountNum: 0
     };
 
     var result = {
@@ -40,14 +45,15 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
             var defer = $q.defer();
-            if (typeof immediate === 'undefined') {
+            if (typeof immediate === 'undefined' || immediate === false) {
                 immediate = false;
             } else {
                 GA('check_sign_in:refresh_token_all:all');
                 immediate = true;
             }
+
             var me = this;
-            var timeout = 7000;
+            var timeout = 10000;
             var timer;
             if (immediate) {
                 timer = $timeout(function() {
@@ -55,38 +61,66 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     defer.reject();
                 }, timeout);
             }
-            //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
-            $window.gapi.auth.authorize({
-                'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-                'immediate':immediate,
-                'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email'
-            },function(authResult){
-                $rootScope.$apply(function() {
-                    if (authResult && authResult.access_token) {
-                        if (!immediate) {
-                            GA('check_sign_in:refresh_token:success');
-                        } else {
-                            $timeout.cancel(timer);
+
+            //内部递归调用的方法
+            function refresh() {
+                //immediate - 类型：布尔值。如果为 true，则登录会使用“即时模式”，也就是在后台刷新令牌，不向用户显示用户界面。
+                $window.gapi.auth.authorize({
+                    'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+                    'immediate':immediate,
+                    'authuser': global.accountNum,
+                    'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email',
+                    'cookiepolicy' : 'single_host_origin',
+                    'apppackagename' : 'com.snappea'
+                },function(authResult){
+                    $rootScope.$apply(function() {
+                        if (authResult && authResult.access_token) {
+                            if (!immediate) {
+                                GA('check_sign_in:refresh_token:success');
+                            } else {
+                                $timeout.cancel(timer);
+                            }
+                            me.authResult(authResult);
+                            wdCommunicateSnappeaCom.googleSignIn();
+                            $log.log('Getting google account informations...');
+                            me.getAccount().then(function(data) {
+                                me.getProfileInfo().then(function() {
+                                    $log.log('All google login process have successed!');
+                                    defer.resolve();
+                                }, function() {
+                                    $log.error('Get profile failed!');
+                                    defer.resolve();
+                                });
+                            },function(){
+                                $log.error('Get account failed!');
+                                defer.resolve();
+                            });
+                        } else if (authResult === null) {
+                            if (global.accountNum >= MAX_ACCOUNT_NUM) {
+                                // 在 Google 把账号都退出了
+                                if (immediate) {
+                                    $timeout.cancel(timer);
+                                }
+                                defer.reject();
+                            } else {
+                                // 账号的号码不对
+                                global.accountNum += 1;
+                                refresh();
+                            }
+                        } else if (authResult.error) {
+                            $log.error('Google refresh error!');
+                            if (!immediate) {
+                                GA('check_sign_in:refresh_token:fail');
+                            } else {
+                                $timeout.cancel(timer);
+                            }
+                            defer.reject();
                         }
-                        wdCommunicateSnappeaCom.googleSignIn();
-                        me.authResult(authResult);
-                        $log.log('Getting google account informations...');
-                        me.getAccount().then(function(data){
-                            $log.log('All google login process have successed!');
-                            defer.resolve(data);
-                        },function( data ){
-                            $log.error('Get account failed!');
-                            defer.resolve( data );
-                        });
-                    } else if (!authResult || authResult.error) {
-                        $log.error('Google refresh error!');
-                        if (!immediate) {
-                            GA('check_sign_in:refresh_token:fail');
-                        }
-                        defer.reject();
-                    }
-                });
-            });
+                    });
+                });                
+            }
+
+            refresh();
             return defer.promise;
         },
 
@@ -102,8 +136,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         if (isTimeout !== true) {
                             isTimeout = false;
                             global.account = obj.email;
-                            defer.resolve(global.account);
-                            $rootScope.$apply();
+                            $rootScope.$apply(function() {
+                                defer.resolve(global.account);
+                            });
                         }
                     });
                 });
@@ -125,9 +160,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             var gapi = $window.gapi;
 
             if (!global.profileInfo) {
-                var authResult = global.authResult;
                 var isTimeout;
-
                 gapi.client.load('plus','v1', function() {
                     var request = gapi.client.plus.people.get({
                        'userId': 'me'
@@ -160,8 +193,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
         removeAccountInfo: function() {
             global.account = '';
-            global.profileInfo = '';
+            global.profileInfo = {};
             global.authResult = {};
+            global.accountNum = 0;
         },
 
         getDevices : function () {
@@ -210,7 +244,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         },
 
         signout : function () {
+            $log.log('Sign out from google ...');
             wdCommunicateSnappeaCom.googleSignOut();
+            $window.gapi.auth.signOut();
             var me = this;
             var defer = $q.defer();
             var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
@@ -229,6 +265,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         me.removeStorageItem('googleToken');
                         wdDevice.signout();
                         me.removeAccountInfo();
+                        $log.log('Sign out success!');
                         defer.resolve('signout');
                     });                    
                 },

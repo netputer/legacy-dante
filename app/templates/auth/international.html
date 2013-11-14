@@ -59,11 +59,12 @@
     </div>
 </div>
 
-<div class="devices-tpl" ng-show="deviceNum>=0">
+<div class="devices-tpl" ng-if="deviceNum>=0">
     <div class="sign-out" ng-click="googleSignOut();">
         <i class="icon-signoutdark"></i>
         {{$root.DICT.portal.SIGN_OUT}}
     </div>
+    <div wd-user-profile-button></div>
 
     <!-- no device start -->
     <div class="no-device" ng-show="deviceNum==0">
@@ -103,9 +104,6 @@
         </div>
     </div>
     <!-- select devices end -->
-
-
-
 </div>
 
 <!-- connect new phone pop start -->
