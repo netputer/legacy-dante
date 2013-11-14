@@ -1,10 +1,13 @@
 define([
     'text!templates/messages/audio.html',
     'jquery',
-    'moment'
-    ], function(template, $, moment) {
+    'moment',
+    'underscore'
+    ], function(template, $, moment, _) {
 'use strict';
 return ['$window', function($window) {
+    var audioList = [];
+
     return {
         template: template,
         replace: true,
@@ -13,30 +16,48 @@ return ['$window', function($window) {
         },
         link: function($scope, $element, $attributes) {
             var audioElement = $element.find('audio')[0];
+
+            var audio = {
+                formatDuration: function(duration) {
+                    return moment({s: duration}).format('mm:ss');
+                },
+
+                setInitDuration: function() {
+                    $scope.audio.formatedDuration = audio.formatDuration(audioElement.duration);
+                },
+
+                downloadAudio: function() {
+                    $window.location = $scope.audio.content;
+                },
+
+                pause: function() {
+                    audioElement.pause();
+                    $scope.audio.playing = false;
+                    audio.setInitDuration();
+                },
+
+                play: function() {
+                    audioElement.src = $scope.audio.content;
+                    audioElement.play();
+                    $scope.audio.playing = true;
+                }
+            };
             
-            var formatDuration = function(duration) {
-                return moment({s: duration}).format('mm:ss');
-            };
-
-            var setInitDuration = function() {
-                $scope.audio.formatedDuration = formatDuration(audioElement.duration);
-            };
-
-            var downloadAudio = function() {
-                $window.location = $scope.audio.content;
-            };
+            
 
             $scope.audio.playing = false;
 
             if (audioElement.canPlayType($scope.audio.content_type).length) {
-                $scope.audio.formatedDuration = audioElement.duration ? formatDuration(audioElement.duration) : '';
+                audioList.push(audio);
+
+                $scope.audio.formatedDuration = audioElement.duration ? audio.formatDuration(audioElement.duration) : '';
             } else {
-                $scope.audio.formatedDuration = formatDuration($scope.audio.duration / 1000);
+                $scope.audio.formatedDuration = audio.formatDuration($scope.audio.duration / 1000);
             }
 
             audioElement.addEventListener('loadedmetadata', function() {
                 $scope.$apply(function() {
-                    setInitDuration();
+                    audio.setInitDuration();
                 });
             }, false);
 
@@ -44,7 +65,7 @@ return ['$window', function($window) {
                 if (audioElement.duration && !audioElement.paused) {
                     $scope.$apply(function() {
                         var lastTime = audioElement.duration - audioElement.currentTime;
-                        $scope.audio.formatedDuration = formatDuration(lastTime);
+                        $scope.audio.formatedDuration = audio.formatDuration(lastTime);
                     });
                 }
                 
@@ -53,22 +74,21 @@ return ['$window', function($window) {
             audioElement.addEventListener('ended', function() {
                 $scope.$apply(function() {
                     $scope.audio.playing = false;
-                    setInitDuration();
+                    audio.setInitDuration();
                 });
             }, false);
 
             $scope.audio.controller = function() {
                 if (!audioElement.canPlayType($scope.audio.content_type).length) {
-                    downloadAudio();
+                    audio.downloadAudio();
                 } else {
                     if (audioElement.paused) {
-                        audioElement.src = $scope.audio.content;
-                        audioElement.play();
-                        $scope.audio.playing = true;
+                        _.each(audioList, function(item) {
+                            item.pause();
+                        });
+                        audio.play();
                     } else {
-                        audioElement.pause();
-                        $scope.audio.playing = false;
-                        setInitDuration();
+                        audio.pause();
                     }
                 }
                 

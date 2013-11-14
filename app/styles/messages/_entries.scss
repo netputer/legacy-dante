@@ -155,9 +155,10 @@
         audio {
             display: none;
         }
-        .icon-play,
-        icon-playing {
+        .audio-stop,
+        .audio-play {
             cursor: pointer;
+            @include button-effect;
         }
     }
     
