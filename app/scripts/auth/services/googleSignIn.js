@@ -84,16 +84,16 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             wdCommunicateSnappeaCom.googleSignIn();
                             $log.log('Getting google account informations...');
                             me.getAccount().then(function(data) {
-                                me.getProfileInfo().then(function() {
+                                me.getProfileInfo().then(function(data) {
                                     $log.log('All google login process have successed!');
                                     defer.resolve();
                                 }, function() {
                                     $log.error('Get profile failed!');
-                                    defer.resolve();
+                                    defer.reject();
                                 });
                             },function(){
                                 $log.error('Get account failed!');
-                                defer.resolve();
+                                defer.reject();
                             });
                         } else if (authResult === null) {
                             if (global.accountNum >= MAX_ACCOUNT_NUM) {
@@ -159,7 +159,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             var defer = $q.defer();
             var gapi = $window.gapi;
 
-            if (!global.profileInfo) {
+            if (!global.profileInfo.id) {
                 var isTimeout;
                 gapi.client.load('plus','v1', function() {
                     var request = gapi.client.plus.people.get({

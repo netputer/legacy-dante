@@ -9,9 +9,12 @@ return {
 template: template,
 replace: true,
 link: function($scope, $element, $attribute, $control) {
-    // wdGoogleSignIn.getProfileInfo().then(function(data) {
-    //     console.log(data);
-    // });
+    wdGoogleSignIn.getProfileInfo().then(function(data) {
+        $scope.profile = data;
+    });
+    wdGoogleSignIn.getAccount().then(function(data) {
+        $scope.profile.email = data;
+    });
 }
 
 };
