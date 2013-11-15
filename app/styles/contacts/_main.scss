@@ -13,10 +13,10 @@
     }
 
     .contacts-list{
-        @include position(absolute, 99px 0px 0px 0px);
+        @include position(absolute, 90px 0px 0px 0px);
         overflow-y : auto;
         @include readonly {
-            top : 101px;
+            top : 102px;
         }
         width: 429px;
         display: block;
@@ -84,9 +84,9 @@
         background-color: #FFF;
         min-width: 350px;
         width: 428px;
-        height: 90px;
+        height: 79px;
         @include readonly {
-            height : 50px;
+            height : 41px;
         }
         border-bottom: 1px solid #e7e7e7;
         padding-top: 10px;
@@ -110,7 +110,7 @@
         }
 
         i.icon-search{
-            @include position(absolute, 15px 0 0 14px);
+            @include position(absolute, 10px 0 0 14px);
         }
 
         input::-ms-clear {
@@ -126,7 +126,7 @@
             padding-right: 25px;
             margin-bottom: 0;
             width: 100%;
-            height: 50px;
+            height: 40px;
             box-shadow: none;
             border: 0;
             @include box-sizing(border-box);
@@ -134,7 +134,7 @@
         }
 
         span.icon-clear{
-            @include position(absolute, 12px 5px 0 0);
+            @include position(absolute, 7px 5px 0 0);
             padding: 5px;
             cursor: pointer;
             @extend .icon-close;

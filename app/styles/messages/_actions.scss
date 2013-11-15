@@ -24,7 +24,7 @@
             @include box-sizing(border-box);
             width: 100%;
             font-size: 12px;
-            height: 50px;
+            height: 40px;
             line-height: 22px;
             padding-left: 44px;
             padding-right: 25px;
@@ -43,11 +43,11 @@
         }
 
         i {
-            @include position(absolute, (50px - $global-line-height)/2 0 0 14px);
+            @include position(absolute, (40px - $global-line-height)/2 0 0 14px);
         }
 
         .clear {
-            @include position(absolute, 12px 5px 0 0);
+            @include position(absolute, 7px 5px 0 0);
             padding: 5px;
             cursor: pointer;
             @extend .icon-close;
