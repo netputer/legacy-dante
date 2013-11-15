@@ -67,7 +67,19 @@
 
     <!-- 新用户引导 -->
     <div class="user-guide" ng-if="!isOldUser">
-
+        <div class="header">
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+        <div class="step1">
+            <h1></h1>
+            <p></p>
+            <div>
+            </div>
+        </div>
+        <div class="step2">
+        </div>
     </div>
     
     <!-- no device start -->
@@ -77,17 +89,17 @@
         <div class="step">
             <dl class="step1">
                 <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
+                <dd ng-bind-html="$root.DICT.portal.NO_DEVICES.step1"></dd>
             </dl>
             <dl class="step2">
                 <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step2}}</dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} {{accountEmail}}</dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span></dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step3}}</dd>
             </dl>
-            <p>{{$root.DICT.portal.NO_DEVICES.foot}}<a href="https://play.google.com/store/apps/details?id=com.snappea">{{$root.DICT.portal.NO_DEVICES.foot_updata}}</a>.</p>
+            <p ng-bind-html="$root.DICT.portal.NO_DEVICES.foot"></p>
         </div>
     </div>
     <!-- no device end -->
@@ -126,38 +138,12 @@
                 <p>{{$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP3}}</p>
             </div>
 
-            <!-- <p><a ng-click="showConnectNewPhone()" href=""> + {{$root.DICT.portal.SELECT_DEVICES.new_phone}}</a></p> -->
-
         </div>
     </div>
     <!-- select devices end -->
+
 </div>
 <!-- 设备列表页 end -->
-
-<!-- connect new phone pop start -->
-<!-- data-ok 是事件 -->
-<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
-    <div class="content">
-        <h1>{{$root.DICT.portal.CHANGE_DEVICES_POP.h1}}</h1>
-        <p>{{$root.DICT.portal.CHANGE_DEVICES_POP.h2}}</p>
-        <div class="step">
-            <dl class="step1">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
-            </dl>
-            <dl class="step2">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step2}}</dd>
-            </dl>
-            <dl class="step3">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span> . </dd>
-            </dl>
-        </div>
-        <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.portal.CHANGE_DEVICES_POP.button}}</button>
-    </div>
-</div>
-<!-- connect new phone pop end -->
 
 <div class="loading-google"  ng-show="isLoadingDevices">
     <div class="wd-loading" data-visible="true"></div>
