@@ -40,13 +40,12 @@
         "STEP3": "3. 完成后你的手机会自动出现在这里。"
     },
     "NO_DEVICES": {
-        "h1": "Sign in on your phone.",
-        "h2": "Your photos, messages, contacts and apps will be shown here.",
-        "step1": "1. Install SnapPea from",
-        "step2": "2. Open SnapPea on your phone.",
-        "step3": "3. Sign in with",
-        "foot": "If you don't see a sign in button on your phone, please ",
-        "foot_updata": "update to the latest version of SnapPea."
+        "h1": "您的手机不在线。",
+        "h2": "请检查以下情况",
+        "step1": "手机上已经开启了 SnapPea. <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">我还没有安装</a>",
+        "step2": "登陆的账号是",
+        "step3": "手机已经连接可用的 Wi-Fi",
+        "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">手机还没出现？</a>"
     },
     "SELECT_DEVICES": {
         "h1": "Select a phone.",
