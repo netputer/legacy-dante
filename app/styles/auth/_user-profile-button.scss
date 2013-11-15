@@ -35,15 +35,30 @@
             color: $color-black;
             display: inline;
         }
+        .icon-angle-down {
+            margin-top: 11px;
+        }
     }
+
     .detail {
+        position: relative;
         cursor: default;
         background-color: $color-gray;
         border-radius: 5px;
         padding-bottom: 10px;
         opacity: 0;
         @include transition(opacity 0.4s);
-
+        .angle {
+            width: 0px;
+            height: 0px;
+            border-bottom: 8px solid $color-gray;
+            border-top: 6px solid #fff;
+            border-left: 6px solid #fff;
+            border-right: 6px solid #fff;
+            position: absolute;
+            right: 13px;
+            top: -13px;
+        }
         hr {
             border-top: 1px solid #dedfe1;
             margin: 0px 6px;

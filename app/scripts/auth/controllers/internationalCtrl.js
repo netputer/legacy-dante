@@ -13,7 +13,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.error = '';
         $scope.state = 'standby';
         $scope.showHelp = false;
-        $scope.isShowChangeDevicesPop = false;
+        $scope.isShowAddNewPhoneTip = false;
         $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP1;
 
         //设备的数量
@@ -25,6 +25,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         //显示的账号的名称，在dom中有默认的名称
         $scope.accountEmail = '';
         $scope.signInBtnDisabled = true;
+
+        //是否为老用户
+        $scope.isOldUser = wdGoogleSignIn.isOldUser();
 
         //轮询的timer，为false的时候可以执行轮询
         var loopGetDevicesTimer ;
@@ -84,7 +87,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 $http({
                     method: 'get',
                     url: '/directive/auth',
-                    timeout: 1000,
+                    timeout: 10000,
                     params: {
                         authcode: authCode,
                         'client_time': (new Date()).getTime(),
@@ -272,8 +275,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             });
         };
 
-        $scope.showConnectNewPhone = function () {
-            $scope.isShowChangeDevicesPop = true;
+        $scope.showAddNewPhoneTip = function () {
+            $scope.isShowAddNewPhoneTip = true;
             GA('device_sign_in:add_new_device:select_device_page');
         };
 

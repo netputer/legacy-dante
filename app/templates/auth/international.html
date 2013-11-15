@@ -1,3 +1,4 @@
+<!-- 登陆页 -->
 <div>
     <div class="wd-portal" ng-show="deviceNum<0">
         <div class="a" ng-switch on="isSupport">
@@ -58,12 +59,19 @@
         </div>
     </div>
 </div>
+<!-- 登陆页 end -->
 
+<!-- 设备列表页 -->
 <div class="devices-tpl" ng-if="deviceNum>=0">
     <div wd-user-profile-button></div>
 
+    <!-- 新用户引导 -->
+    <div class="user-guide" ng-if="!isOldUser">
+
+    </div>
+    
     <!-- no device start -->
-    <div class="no-device" ng-show="deviceNum==0">
+    <div class="no-device" ng-if="isOldUser && deviceNum === 0">
         <h1>{{$root.DICT.portal.NO_DEVICES.h1}}</h1>
         <p>{{$root.DICT.portal.NO_DEVICES.h2}}</p>
         <div class="step">
@@ -85,22 +93,46 @@
     <!-- no device end -->
 
     <!-- select devices start -->
-    <div class="select-device" ng-show="deviceNum>=1">
+    <div class="select-device" ng-if="deviceNum>=1">
         <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
         <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
         <div class="list">
-            <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
-                <p class='phone-name'>{{item.model}}</p>
-                <span class="wifi" ng-show="!item.loading">
-                    <i class="icon-wifi"></i><p>{{item.attributes.ssid}}</p>
-                </span>
-                <div class="wd-loading phone-loading" data-visible="true" ng-show="item.loading"></div>
+            <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectPhone(item);" ng-class="{'selected-device': item.loading}">
+                <div class="wd-loading phone-loading" data-visible="true" ng-if="item.loading"></div>
+                <div class="phone">
+                    <i class="icon-phone-dark"></i>
+                    <i class="icon-phone-white" ng-if="!item.loading"></i>
+                    <p class="phone-name" title="{{item.model}}">{{item.model}}</p>
+                </div>
+                <div class="wifi">
+                    <i class="icon-wifi"></i>
+                    <i class="icon-wifi-white"></i>
+                    <p class="ssid" title="{{item.attributes.ssid}}">{{item.attributes.ssid}}</p>
+                </div>
             </div>
-            <p><a ng-click="showConnectNewPhone()" href=""> + {{$root.DICT.portal.SELECT_DEVICES.new_phone}}</a></p>
+
+            <div class="devices-item add-new-phone-button" ng-if="!isShowAddNewPhoneTip " ng-click="showAddNewPhoneTip()">
+                <i class="icon-add-dark"></i>
+                <i class="icon-add-white"></i>
+                <p>{{$root.DICT.portal.SELECT_DEVICES.new_phone}}</p>
+            </div>
+
+            <div class="add-new-phone-tip" ng-if="isShowAddNewPhoneTip ">
+                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP1"></p>
+                <a href="https://play.google.com/store/apps/details?id=com.snappea">
+                    <i class="icon-googleplay"></i>
+                </a>
+                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP2.replace('$$$$', accountEmail)"></p>
+                <p>{{$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP3}}</p>
+            </div>
+
+            <!-- <p><a ng-click="showConnectNewPhone()" href=""> + {{$root.DICT.portal.SELECT_DEVICES.new_phone}}</a></p> -->
+
         </div>
     </div>
     <!-- select devices end -->
 </div>
+<!-- 设备列表页 end -->
 
 <!-- connect new phone pop start -->
 <!-- data-ok 是事件 -->

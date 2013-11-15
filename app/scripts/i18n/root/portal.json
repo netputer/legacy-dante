@@ -34,6 +34,11 @@
         "button": "OK"
     },
     "ANNOUNCEMENT": "Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.",
+    "ADD_NEW_PHONE_TIPS": {
+        "STEP1": "1. Install SnapPea from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
+        "STEP2": "2. Sign in SnapPea with <span class='account'>$$$$</span>",
+        "STEP3": "3. 完成后你的手机会自动出现在这里。"
+    },
     "NO_DEVICES": {
         "h1": "Sign in on your phone.",
         "h2": "Your photos, messages, contacts and apps will be shown here.",
@@ -47,15 +52,7 @@
         "h1": "Select a phone.",
         "h2_1": "We found",
         "h2_2": "phone(s) in your account.",
-        "new_phone": "Connect a new phone"
-    },
-    "CHANGE_DEVICES_POP": {
-        "h1": "Connect a new phone.",
-        "h2": "Just 3 steps, and you will find your phone here.",
-        "step1": "1. Install SnapPea from",
-        "step2": "2. Open SnapPea on your phone.",
-        "step3": "3. Sign in with",
-        "button": "Got it"
+        "new_phone": "Connect a new phone."
     },
     "SIGN_PROGRESS": {
         "STEP1": "Signing in with Google",
