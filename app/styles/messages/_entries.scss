@@ -126,6 +126,7 @@
     .mms-image {
         max-width: 100%;
         margin: 8px 0;
+        background-color: #f5f5f5;
     }
     .mms-title {
         font-size: 16px;
@@ -137,6 +138,7 @@
         font-size: 12px;
         color: #333;
         margin: 6px 0;
+        word-break: break-word;
     }
     .mms-sep {
         height: 20px;

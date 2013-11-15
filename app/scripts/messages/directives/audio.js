@@ -16,14 +16,15 @@ return ['$window', function($window) {
         },
         link: function($scope, $element, $attributes) {
             var audioElement = $element.find('audio')[0];
-
+            var duration = 0;
             var audio = {
                 formatDuration: function(duration) {
                     return moment({s: duration}).format('mm:ss');
                 },
 
                 setInitDuration: function() {
-                    $scope.audio.formatedDuration = audio.formatDuration(audioElement.duration);
+                    var d = audioElement.duration ? audioElement.duration : duration;
+                    $scope.audio.formatedDuration = audio.formatDuration(d);
                 },
 
                 downloadAudio: function() {
@@ -56,6 +57,7 @@ return ['$window', function($window) {
             }
 
             audioElement.addEventListener('loadedmetadata', function() {
+                duration = audioElement.duration;
                 $scope.$apply(function() {
                     audio.setInitDuration();
                 });
