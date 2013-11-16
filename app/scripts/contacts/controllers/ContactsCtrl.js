@@ -158,7 +158,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         };
         for (var i = 0, l = G_checkedIds.length; i < l; i += 1) {
             if (id === G_checkedIds[i]) {
-                //obj.checked = true;
+                obj.checked = true;
                 obj.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
             }
         }
@@ -946,10 +946,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             //不是空则执行搜索
             if ( $scope.searchText && (G_contacts.length > 1) ) {
                 G_searchIsNull = false;
-                $scope.deselectAll();
             } else if (!$scope.searchText && !G_searchIsNull && (G_contacts.length > 1) ) {
                 G_searchIsNull = true;
-                $scope.deselectAll();
             } else {
                 return;
             }
@@ -987,6 +985,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.isNoContactsShow = true;
                 }
                 showLoadMore();
+                showSelectedNum();
                 goToListTop();
             });
         });
@@ -1003,6 +1002,15 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
         showLoadMore();
     };
+
+    function showSelectedNum() {
+        $scope.selectedNum = 0;
+        for (var i = 0, l = $scope.pageList.length; i < l ; i += 1 ) {
+            if ($scope.pageList[i].checked) {
+                $scope.selectedNum += 1;
+            }
+        }
+    }
 
     function showLoadMore() {
         
