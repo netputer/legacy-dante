@@ -49,9 +49,9 @@
         border-bottom: 1px solid $wdm-border-color;
     }
     .wdm-search {
-        height: 50px;;
+        height: 40px;
         border-bottom: 1px solid $wdm-border-color;
-        margin-bottom: -1px;
+        // margin-bottom: -1px;
     }
     .wdm-conversations {
         @include flex(1);
