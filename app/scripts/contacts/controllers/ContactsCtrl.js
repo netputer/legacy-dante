@@ -41,7 +41,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     var G_search = [];
 
     //被点击选择了的元素id
-    var G_checkedIds = [];
+    var G_checkedIds = wdcContacts.checkedList;
 
     //每次拉取数据的长度
     var DATA_LENGTH_ONCE = 50;
@@ -136,6 +136,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         getList(data);
         G_isFirst = false;
         showLoadMore();
+        showSelectedNum();
     }
 
     function getListItem(data) {
@@ -515,7 +516,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
             item.tooltip = $scope.$root.DICT.contacts.WORDS.select;
             for (var i = 0 , l = G_checkedIds.length ; i < l ; i += 1) {
-                G_checkedIds.splice(i,1);
+                if (item.id === G_checkedIds[i]) {
+                    G_checkedIds.splice(i,1);
+                }
             }
         } else {
             GA('Web Contacts:click checkbox checked');
@@ -537,16 +540,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 }
             });
         }
-
-        if ($scope.selectedNum > 0) {
-            $scope.isDeselectBtnShow = true;
-            $scope.isDeleteBtnShow = true;
-        } else {
-            $scope.isDeselectBtnShow = false;
-            $scope.isDeleteBtnShow = false;
-        }
-
         G_lastChecked = item ;
+        showSelectedNum();
     };
 
     //编辑联系人
@@ -1009,6 +1004,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             if ($scope.pageList[i].checked) {
                 $scope.selectedNum += 1;
             }
+        }
+        if ($scope.selectedNum > 0) {
+            $scope.isDeselectBtnShow = true;
+            $scope.isDeleteBtnShow = true;
+        } else {
+            $scope.isDeselectBtnShow = false;
+            $scope.isDeleteBtnShow = false;
         }
     }
 

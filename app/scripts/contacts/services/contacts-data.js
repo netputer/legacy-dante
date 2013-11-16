@@ -33,7 +33,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         'fun' : undefined,
 
         //记录上次搜索的 query，如果短时间再次调用该方法，会比对下 query 是否相同，如果相同则返回结果
-        'query' : ''
+        'query' : '',
+        checkedList : []
     };
 
     wdSocket.on('refresh', function() {
@@ -152,6 +153,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
     //整个service返回接口
     return {
 
+        checkedList: global.checkedList,
         init : function(){
 
             if (!global.contacts.length){

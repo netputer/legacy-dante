@@ -69,6 +69,7 @@ define([
             $scope.isInstallBtnDisable = false;
             G_appList = wdcApplications.getApplications();
             $scope.list = G_appList;
+            showSelectedNum();
             setTimeout(function(){
                 uploadApk($('.installApp'));
             },300);
@@ -456,6 +457,17 @@ define([
                 }
             }
 
+            showSelectedNum();
+            G_lastChecked = item ;
+        }
+
+        function showSelectedNum() {
+            $scope.selectedNum = 0;
+            for (var i = 0 , l = $scope.list.length; i < l; i += 1) {
+                if ($scope.list[i].checked) {
+                    $scope.selectedNum += 1;
+                }
+            }
             if($scope.selectedNum > 0){
                 $scope.isDeleteBtnShow = true;
                 $scope.isDeselectBtnShow = true;
@@ -463,8 +475,6 @@ define([
                 $scope.isDeleteBtnShow = false;
                 $scope.isDeselectBtnShow = false;
             }
-
-            G_lastChecked = item ;
         }
 
         function showToolbar() {
