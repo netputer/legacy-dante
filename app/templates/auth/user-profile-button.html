@@ -1,10 +1,10 @@
-<div class="user-profile-button" ng-mouseleave="isShowProfileDetail = false">
-    <div class="profile" ng-mouseenter="isShowProfileDetail = true">
+<div class="user-profile-button">
+    <div class="profile">
         <img class="photo" ng-src="{{profile.image.url}}">
         <p class="name" title="{{profile.displayName}}">{{profile.displayName}}</p>
         <i class="icon-angle-down"></i>
     </div>
-    <div class="detail" ng-class="{show:isShowProfileDetail}">
+    <div class="detail">
         <div class="angle"></div>
         <p class="email">{{profile.email}}</p>
         <hr>

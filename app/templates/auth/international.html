@@ -66,19 +66,53 @@
     <div wd-user-profile-button></div>
 
     <!-- 新用户引导 -->
-    <div class="user-guide" ng-if="!isOldUser">
+    <div class="user-guide" ng-if="!isOldUser && deviceNum === 0">
         <div class="header">
-            <p></p>
-            <p></p>
-            <p></p>
-        </div>
-        <div class="step1">
-            <h1></h1>
-            <p></p>
-            <div>
+            <div class="title">
+                <p class="num">1</p>
+                <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
+            </div>
+            <div class="title">
+                <p class="num">2</p>
+                <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP2}}</p>
+            </div>
+            <div class="title">
+                <p class="num">3</p>
+                <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP3}}</p>
             </div>
         </div>
+        <div class="step1">
+            <h1>{{$root.DICT.portal.USER_GUIDE.PAGE1_H1}}</h1>
+            <h2>{{$root.DICT.portal.USER_GUIDE.PAGE1_H2}}</h2>
+            <div class="content">
+                <div class="left">
+                    <i class="icon-googleplay"></i>
+                    <p ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE1_WAY1"></p>
+                </div>
+                <div class="or">
+                    <p>{{$root.DICT.portal.WORD.OR}}</p>
+                </div>
+                <div class="right">
+                    <div class="qr-code"></div>
+                    <p>{{$root.DICT.portal.USER_GUIDE.PAGE1_WAY2}}</p>
+                </div>
+            </div>
+            <div class="next btn">{{$root.DICT.portal.WORD.NEXT}}</div>
+        </div>
         <div class="step2">
+            <h1>{{$root.DICT.portal.USER_GUIDE.PAGE2_H1}}</h1>
+            <div class="content">
+                <div class="phone"></div>
+                <div class="user-profile">
+                    <img class="photo" ng-src="{{profile.image.url}}">
+                    <div class="account">
+                        <p class="name">{{profile.displayName}}</p>
+                        <p class="email">{{accountEmail}}</p>
+                    </div>
+                </div>
+                <p class="tip">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace("$$$$", accountEmail)}}</p>
+            </div>
+            <a target="_blank" class="help" href="https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY2}}</a>
         </div>
     </div>
     
@@ -89,14 +123,22 @@
         <div class="step">
             <dl class="step1">
                 <dt></dt>
+                <h2 class="num">1</h2>
                 <dd ng-bind-html="$root.DICT.portal.NO_DEVICES.step1"></dd>
             </dl>
             <dl class="step2">
-                <dt></dt>
+                <dt>
+                    <div class="user-profile">
+                        <img class="photo" ng-src="{{profile.image.url}}">
+                        <p class="name">{{profile.displayName}}</p>
+                    </div>
+                </dt>
+                <h2 class="num">2</h2>
                 <dd>{{$root.DICT.portal.NO_DEVICES.step2}} {{accountEmail}}</dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
+                <h2 class="num">3</h2>
                 <dd>{{$root.DICT.portal.NO_DEVICES.step3}}</dd>
             </dl>
             <p ng-bind-html="$root.DICT.portal.NO_DEVICES.foot"></p>
@@ -105,7 +147,7 @@
     <!-- no device end -->
 
     <!-- select devices start -->
-    <div class="select-device" ng-if="deviceNum>=1">
+    <div class="select-device" ng-if="isOldUser && deviceNum >= 1">
         <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
         <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
         <div class="list">
