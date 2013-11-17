@@ -2,8 +2,8 @@ define([
 ], function() {
 'use strict';
 
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment',
-function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment) {
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q',
+function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q) {
 
         $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -13,7 +13,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.error = '';
         $scope.state = 'standby';
         $scope.showHelp = false;
+
+        //是否显示多设备列表下的添加新设备提示
         $scope.isShowAddNewPhoneTip = false;
+
+        // 是否显示用户引导
+        $scope.isShowUserGuide = true;
         $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP1;
 
         //设备的数量
@@ -117,17 +122,17 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 .error(function(reason, status, headers, config) {
                     wdDevice.lightDeviceScreen(deviceData.id);
                     deviceData.loading = false;
-                    if ( !$scope.autoAuth ) {
-                        wdAlert.alert(
-                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
-                            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.button
-                        ).then(function() {
-                            $scope.isLoadingDevices = false;
-                        });
-                    } else {
-                        $scope.autoAuth = false;
-                    }
+                    wdAlert.confirm(
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content,
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
+                    ).then(function() {
+                        $scope.isLoadingDevices = false;
+                        $scope.submit(deviceData);
+                    }, function() {
+                        $scope.isLoadingDevices = false;
+                    });
                     wdDevice.clearDevice();
                     loopGetDevices();
 
@@ -262,17 +267,19 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         };
 
         $scope.googleSignOut = function() {
-            $scope.isLoadingDevices = true;
-            wdGoogleSignIn.signout().then(function(){
+            var toastPromise = wdGoogleSignIn.signout().then(function() {
                 $scope.deviceNum = -1;
                 $scope.isLoadingDevices = false;
                 stopLoopLinkDevices();
                 stopLoopGetDevices();
-            }, function(){
+            }, function() {
                 $scope.isLoadingDevices = false;
                 stopLoopLinkDevices();
                 stopLoopGetDevices();
+                return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
             });
+            toastPromise.content = $scope.$root.DICT.app.SIGN_OUT_TOAST;
+            wdToast.apply(toastPromise);
         };
 
         $scope.showAddNewPhoneTip = function () {

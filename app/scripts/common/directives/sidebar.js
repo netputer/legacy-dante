@@ -99,7 +99,7 @@ return [function() {
             });
 
             $scope.addNewPhone = function () {
-                $scope.isShowChangeDevicesPop = true;
+                $scope.isShowAddNewPhoneTips = true;
             };
 
             $scope.changeDevice = function (item) {

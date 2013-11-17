@@ -15,6 +15,12 @@
             <a href="" ng-click="addNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
                 {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
             </a>
+            <div class="add-new-phone-tips" ng-show="isShowAddNewPhoneTips">
+                <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP1"></p>
+                <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP2.replace('$$$$', account)"></p>
+                <p class="steps">{{$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP3}}</p>
+                <i class="icon-close" ng-click="isShowAddNewPhoneTips = false"></i>
+            </div>
         </div>
         <div class="settings-container" ng-class="{'settings-animate': settingsAnimate, 'current-layer': currentSettingsLayer, 'settings-default': settingsDefault, 'settings-hide': settingsHide, 'settings-hide-immediate': settingsHideImmediate}">
             <div class="content-wrapper">
@@ -95,29 +101,5 @@
             </button>
         </div>
         <a href="" ng-click="closeSidebar()" class="close-sidebar">&times;</a>
-        <!-- connect new phone pop start -->
-        <!-- data-ok 是事件 -->
-        <div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
-            <div class="content">
-                <h1>{{$root.DICT.app.CHANGE_DEVICES_POP.h1}}</h1>
-                <p>{{$root.DICT.app.CHANGE_DEVICES_POP.h2}}</p>
-                <div class="step">
-                    <dl class="step1">
-                        <dt></dt>
-                        <dd ng-bind-html="$root.DICT.app.CHANGE_DEVICES_POP.step1"></dd>
-                    </dl>
-                    <dl class="step2">
-                        <dt></dt>
-                        <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step2}}</dd>
-                    </dl>
-                    <dl class="step3">
-                        <dt></dt>
-                        <dd>{{$root.DICT.app.CHANGE_DEVICES_POP.step3.replace('$$', account || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT)}}</dd>
-                    </dl>
-                </div>
-                <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.app.CHANGE_DEVICES_POP.button}}</button>
-            </div>
-        </div>
-        <!-- connect new phone pop end -->
     </div>
 </div>

@@ -22,4 +22,15 @@
         @include transition(opacity $global-transition-duration);
     }
 }
-
+@mixin button-effect-dark($transition: true) {
+    opacity: 1;
+    &:focus, &:hover {
+        opacity: 0.8;
+    }
+    &:active {
+        opacity: 1;
+    }
+    @if $transition {
+        @include transition(opacity $global-transition-duration);
+    }
+}
