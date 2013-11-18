@@ -5,15 +5,15 @@
 
     min-width: 180px;
     width: auto;
-    height: 46px;
+    height: auto;
     position: absolute;
     right: 30px;
     top: 20px;
     color: $color-black;
-    cursor: pointer;
     @include unselected-word;
 
     .profile {
+        cursor: pointer;
         overflow: hidden;
         background-color: $color-gray;
         padding: 5px 11px 5px 11px;
@@ -38,7 +38,7 @@
 
     &:hover {
         .detail {
-            opacity: 1;
+            @include animation(fadeInDown 1s);
             display: block;
         }
     }
@@ -49,17 +49,8 @@
         background-color: $color-gray;
         border-radius: 5px;
         padding-bottom: 10px;
-        opacity: 0;
-        /*@inlude keyframes(show) {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }*/
-        //@include transition(all 0.4s);
-        /*@include animation(show 4s);*/
+        display: none;
+        @include animation(fadeOutUp 1s);
 
         .angle {
             width: 0px;
@@ -101,3 +92,4 @@
         }
     }
 }
+

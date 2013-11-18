@@ -2,8 +2,8 @@ define([
 ], function() {
 'use strict';
 
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q',
-function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q) {
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q',
+function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q) {
 
         $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
         $scope.isSafari = wdBrowser.safari;
@@ -33,6 +33,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //是否为老用户
         $scope.isOldUser = wdGoogleSignIn.isOldUser();
+
+        //用户引导页面，显示到第几步
+        $scope.userGuideStep = 1;
 
         //轮询的timer，为false的时候可以执行轮询
         var loopGetDevicesTimer ;
@@ -80,14 +83,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             var authCode = deviceData.authcode;
             var ip = deviceData.ip;
 
-            var keeper = null;
-
-            // Valid auth code.
             if (ip) {
                 // Send auth request.
                 $scope.state = 'loading';
                 wdDev.setServer(ip);
-                keeper = wdKeeper.push($scope.$root.DICT.portal.KEEPER);
                 var timeStart = (new Date()).getTime();
                 $http({
                     method: 'get',
@@ -109,7 +108,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     wdGoogleSignIn.setHasAccessdDevice();
                     wdDevice.setDevice(deviceData);
                     $scope.isLoadingDevices = false;
-                    keeper.done();
                     $scope.state = 'standby';
                     $scope.buttonText = $scope.$root.DICT.portal.AUTH_SUCCESS;
                     // TODO: Maybe expiration?
@@ -128,23 +126,27 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
                     ).then(function() {
-                        $scope.isLoadingDevices = false;
+                        $scope.isLoadingDevices = true;
                         $scope.submit(deviceData);
                     }, function() {
-                        $scope.isLoadingDevices = false;
+                        if($scope.deviceNum === -1) {
+                            wdGoogleSignIn.getDevices().then(function(list) {
+                                $scope.deviceNum = list.length;
+                                $scope.isLoadingDevices = false;
+                                $scope.devicesList = list;
+                            });
+                        } else {
+                            $scope.isLoadingDevices = false;
+                        }
                     });
                     wdDevice.clearDevice();
                     loopGetDevices();
-
-                    keeper.done();
                     $scope.state = 'standby';
-                    $scope.buttonText = $scope.$root.DICT.portal.AUTH_FAILED;
                     $scope.error = true;
                     $timeout(function() {
                         $scope.buttonText = $scope.$root.DICT.portal.SIGN_IN;
                         $scope.error = false;
                     }, 5000);
-                    wdDevice.clearDevice();
                     var action;
                     var duration = Date.now() - timeStart;
                     if (status === 0) {
@@ -297,6 +299,14 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             if ( wdGoogleSignIn.isOldUser() ) {
                 wdGoogleSignIn.refreshToken().then(afterAuthSignIn);
             }
+        };
+
+        $scope.goToUserGuide = function(num) {
+            $scope.userGuideStep = num;
+        };
+
+        $scope.nextUserGuide = function() {
+            $scope.userGuideStep += 1;
         };
 
         //首次进入登陆界面
