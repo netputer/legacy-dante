@@ -3,7 +3,7 @@
     $color-black: #000;
     $color-white: #FFF;
 
-    min-width: 180px;
+    min-width: 170px;
     width: auto;
     height: auto;
     position: absolute;
@@ -15,24 +15,26 @@
     .profile {
         cursor: pointer;
         overflow: hidden;
-        background-color: $color-gray;
-        padding: 5px 11px 5px 11px;
+        padding: 5px 10px 5px 6px;
         border-radius: 5px;
         margin-bottom: 15px;
+        height: 24px;
+        background-color: $color-gray;
+
         .photo {
-            width: 35px;
-            height: 35px;
+            width: 24px;
+            height: 24px;
             display: inline;
             margin-right: 8px;
         }
         .name {
-            font-size: 14px;
+            font-size: 12px;
             color: $color-black;
             display: inline-block;
-            min-width: 98px;
+            min-width: 103px;
         }
         .icon-angle-down {
-            margin-top: 11px;
+            margin-top: 5px;
         }
     }
 

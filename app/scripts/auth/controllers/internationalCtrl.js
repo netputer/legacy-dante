@@ -272,6 +272,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             var toastPromise = wdGoogleSignIn.signout().then(function() {
                 $scope.deviceNum = -1;
                 $scope.isLoadingDevices = false;
+                $scope.signInBtnDisabled = false;
                 stopLoopLinkDevices();
                 stopLoopGetDevices();
             }, function() {
