@@ -101,6 +101,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                                 if (immediate) {
                                     $timeout.cancel(timer);
                                 }
+                                global.accountNum = 0;
+                                $log.error('User maybe sigout all accounts!');
                                 defer.reject();
                             } else {
                                 // 账号的号码不对

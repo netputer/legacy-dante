@@ -68,20 +68,22 @@
     <!-- 新用户引导 -->
     <div class="user-guide" ng-if="!isOldUser && deviceNum === 0">
         <div class="header">
-            <div class="title">
+            <div class="title" ng-click="goToUserGuide(1)">
                 <p class="num">1</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
             </div>
-            <div class="title">
+            <div class="title" ng-click="goToUserGuide(1)" ng-class="{step2: (userGuideStep === 2)}">
                 <p class="num">2</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP2}}</p>
             </div>
-            <div class="title">
+            <div class="title" ng-click="goToUserGuide(2)">
                 <p class="num">3</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP3}}</p>
             </div>
+            <div class="angle step2"></div>
+            <div class="angle active" ng-class="{step1: (userGuideStep === 1), step2: (userGuideStep === 2)}"></div>
         </div>
-        <div class="step1">
+        <div class="step1" ng-if="userGuideStep === 1">
             <h1>{{$root.DICT.portal.USER_GUIDE.PAGE1_H1}}</h1>
             <h2>{{$root.DICT.portal.USER_GUIDE.PAGE1_H2}}</h2>
             <div class="content">
@@ -97,9 +99,9 @@
                     <p>{{$root.DICT.portal.USER_GUIDE.PAGE1_WAY2}}</p>
                 </div>
             </div>
-            <div class="next btn">{{$root.DICT.portal.WORD.NEXT}}</div>
+            <div class="next btn" ng-click="nextUserGuide()">{{$root.DICT.portal.WORD.NEXT}}</div>
         </div>
-        <div class="step2">
+        <div class="step2" ng-if="userGuideStep === 2">
             <h1>{{$root.DICT.portal.USER_GUIDE.PAGE2_H1}}</h1>
             <div class="content">
                 <div class="phone"></div>
