@@ -14,6 +14,10 @@
         font-size: 35px;
     }
 
+    a {
+        text-decoration: underline;
+    }
+
     p {
         font-weight: 200;
         color: #999;
@@ -354,10 +358,19 @@
     }
 
     .no-device {
-        width: 910px;
+        width: 870px;
         margin: 110px auto 0px auto;
         p {
             color: #999;
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 0px;
+        }
+        h2 {
+            font-size: 12px;
+            color: #2f7c2f;
+            margin-top: 0px;
         }
         div.step {
             dl {
@@ -368,17 +381,26 @@
                 padding-right: 40px;
                 margin-bottom: 90px;
                 position: relative;
+                &:first-child {
+                    padding-left: 40px;
+                    .num {
+                        left: 6px;
+                    }
+                }
                 .num {
                     position: absolute;
                     left: 30px;
                     top: 173px;
                     font-size: 30px;
+                    font-weight: 200;
                     color: $standard-green;
+                    &:first-child {
+                        left: 6px;
+                    }
                 }
-
             }
             dt {
-                margin: 60px 0px;
+                margin: 55px 0px;
             }
             dd {
                 color: #000;
@@ -408,12 +430,14 @@
                         padding: 0px 2px;
                         background-color: #2d2d2d;
                         .photo {
+                            border-radius: 5px;
                             width: 40px;
                             height: 40px;
                             display: inline;
                             margin-right: 3px;
                         }
                         .name {
+                            color: #fff;
                             float: none;
                             display: inline;
                             text-overflow: ellipsis;
