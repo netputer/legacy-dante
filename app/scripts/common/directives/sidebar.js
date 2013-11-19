@@ -99,7 +99,7 @@ return [function() {
             });
 
             $scope.addNewPhone = function () {
-                $scope.isShowAddNewPhoneTips = true;
+                $scope.isShowAddNewPhoneTips = !$scope.isShowAddNewPhoneTips;
             };
 
             $scope.changeDevice = function (item) {
@@ -127,6 +127,8 @@ return [function() {
                         },function(){
                             wdGoogleSignIn.refreshToken(true).then(function(){
                                 getDevices();
+                            }, function() {
+                                $scope.signout();
                             });
                         });
                     })();

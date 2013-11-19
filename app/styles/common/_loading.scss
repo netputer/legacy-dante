@@ -1,6 +1,9 @@
 $wd-loading-background-color: #fff;
 $wd-loading-foreground-color: #000;
 .wd-loading {
+    &.wd-loading-white {
+        @include animation-name(wd-loading-white);
+    }
     $width: 48px;
     $dot-width: 9px;
     $dot-radius: ($dot-width - 1px) / 2;
@@ -62,4 +65,9 @@ $wd-loading-foreground-color: #000;
 @include keyframes (wd-loading) {
     0%   { background-color: $wd-loading-foreground-color; }
     100% { background-color: $wd-loading-background-color; }
+}
+
+@include keyframes (wd-loading-white) {
+    0%   { background-color: #fff; }
+    100% { background-color: #fff; }
 }

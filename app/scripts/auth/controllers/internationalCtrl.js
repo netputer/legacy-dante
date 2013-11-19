@@ -78,6 +78,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 loopGetDevices();
                 return;
             }
+                return;
 
             deviceData = deviceData || wdDevice.getDevice();
             var authCode = deviceData.authcode;
@@ -173,6 +174,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //轮询获取设备列表
         function loopGetDevices() {
+            return;
             loopGetDevicesTimer = $timeout(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
                     if (!loopGetDevicesTimer) {
@@ -216,6 +218,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
 
         //轮询获取设备列表，如果有一个设备则登录
         function loopLinkDevices() {
+            return;
             loopLinkDevicesTimer = $timeout(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
                     if (!loopLinkDevicesTimer) {
