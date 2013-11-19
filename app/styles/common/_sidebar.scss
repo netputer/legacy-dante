@@ -173,6 +173,28 @@ $sidebar-animation-time: 500ms;
                 pointer-events: none;
             }
         }
+
+        .add-new-phone-tips {
+            background-color: #222;
+            width: 186px;
+            padding: 25px;
+            position: relative;
+            color: #949494;
+            margin-top: 5px;
+            .steps {
+                margin-bottom: 20px;
+                .account {
+                    color: #fff;
+                }
+                &:last-child{
+                    margin-bottom: 0px;
+                }
+            }
+            a {
+                color: $standard-green;
+            }
+            @include animation(fadeIn 0.4s);
+        }
     }
 
     .settings-container { 

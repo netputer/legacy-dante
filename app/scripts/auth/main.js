@@ -6,7 +6,8 @@ define([
     'auth/services/wandoujiaSignIn',
     'auth/controllers/internationalCtrl',
     'auth/controllers/cloudDataCtrl',
-    'auth/directives/google-button'
+    'auth/directives/google-button',
+    'auth/directives/user-profile-button'
 ], function(
     angular,
     device,
@@ -14,7 +15,8 @@ define([
     wandoujiaSignIn,
     internationalCtrl,
     cloudDataCtrl,
-    googleButton
+    googleButton,
+    userProfileButton
 ) {
 'use strict';
 
@@ -24,5 +26,6 @@ angular.module('wdAuth', ['wdCommon'])
     .factory('wandoujiaSignIn', wandoujiaSignIn)
     .controller('internationalController', internationalCtrl)
     .controller('cloudDataController', cloudDataCtrl)
-    .directive('wdGoogleButton', googleButton);
+    .directive('wdGoogleButton', googleButton)
+    .directive('wdUserProfileButton', userProfileButton);
 });

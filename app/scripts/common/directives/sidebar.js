@@ -99,11 +99,11 @@ return [function() {
             });
 
             $scope.addNewPhone = function () {
-                $scope.isShowChangeDevicesPop = true;
+                $scope.isShowAddNewPhoneTips = !$scope.isShowAddNewPhoneTips;
             };
 
             $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdDevice.getDevice().ip){
+                if(item.ip !== wdDevice.getDevice().ip){
                     wdDevice.signout();
                     wdDevice.setDevice(item);
                     refreshDevices();
@@ -127,6 +127,8 @@ return [function() {
                         },function(){
                             wdGoogleSignIn.refreshToken(true).then(function(){
                                 getDevices();
+                            }, function() {
+                                $scope.signout();
                             });
                         });
                     })();
@@ -134,15 +136,21 @@ return [function() {
             }
 
             function getListData(list) {
-                var ip = wdDevice.getDevice().ip;
-                for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                    if ( ip === list[i]['ip'] ) {
-                        list[i]['selected'] = true;
-                    }else{
-                        list[i]['selected'] = false;
+                var device = wdDevice.getDevice();
+                var ip ;
+                if (device) {
+                    ip = device.ip;
+                    for (var i = 0 , l = list.length ; i < l ; i += 1) {
+                        if (ip === list[i].ip) {
+                            list[i].selected = true;
+                        } else {
+                            list[i].selected = false;
+                        }
                     }
+                    return list;
+                } else {
+                    return [];
                 }
-                return list;
             }
 
             $scope.signout = function() {

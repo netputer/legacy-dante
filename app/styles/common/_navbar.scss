@@ -162,8 +162,6 @@
         @include position(absolute, 10px 12px 0 0);
     }
 
-    $auth-spacing: 4px;
-    @import "auth/*.png";
     .change-devices-pop{
         width: 770px;
         margin-left: -385px;
@@ -200,7 +198,7 @@
 
         div.step{
             dl{
-                width: auth-sprite-width("step1");
+                //width: auth-sprite-width("step1");
                 float: left;
                 margin-bottom: 0px;
             }
@@ -211,27 +209,27 @@
             }
             dl.step1{
                 dt{
-                    @include auth-sprite("step1");
-                    width: auth-sprite-width("step1");
-                    height: auth-sprite-height("step1");
+                    //@include auth-sprite("step1");
+                    //width: auth-sprite-width("step1");
+                    //height: auth-sprite-height("step1");
                     margin: 0 auto;
                 }
             }
             dl.step2{
                 margin-left: 35px;
                 dt{
-                    @include auth-sprite("step2");
-                    width: auth-sprite-width("step2");
-                    height: auth-sprite-height("step2");
+                    //@include auth-sprite("step2");
+                    //width: auth-sprite-width("step2");
+                    //height: auth-sprite-height("step2");
                     margin: 0 auto;
                 }
             }
             dl.step3{
                 margin-left: 35px;
                 dt{
-                    @include auth-sprite("step3");
-                    width: auth-sprite-width("step3");
-                    height: auth-sprite-height("step3");
+                    //@include auth-sprite("step3");
+                    //width: auth-sprite-width("step3");
+                    //height: auth-sprite-height("step3");
                     margin: 0 auto;
                 }
             }

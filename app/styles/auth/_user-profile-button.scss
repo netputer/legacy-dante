@@ -1,0 +1,95 @@
+.user-profile-button {
+    $color-gray: #eff0f2;
+    $color-black: #000;
+    $color-white: #FFF;
+
+    min-width: 170px;
+    width: auto;
+    height: auto;
+    @include position(absolute, 20px 30px 0 0);
+    color: $color-black;
+    @include unselected-word;
+    @include button-effect;
+
+    .profile {
+        cursor: pointer;
+        overflow: hidden;
+        padding: 5px 10px 5px 6px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        height: 24px;
+        background-color: $color-gray;
+
+        .photo {
+            width: 24px;
+            height: 24px;
+            display: inline;
+            margin-right: 8px;
+        }
+        .name {
+            font-size: 12px;
+            color: $color-black;
+            display: inline-block;
+            min-width: 103px;
+            font-weight: 300;
+        }
+        .icon-angle-down {
+            margin-top: 5px;
+        }
+    }
+
+    &:hover {
+        .detail {
+            @include animation(fadeIn 1s);
+            display: block;
+        }
+    }
+
+    .detail {
+        position: relative;
+        cursor: default;
+        background-color: $color-gray;
+        border-radius: 5px;
+        padding-bottom: 10px;
+        display: none;
+        @include animation(fadeOutUp 1s);
+
+        .angle {
+            width: 0px;
+            height: 0px;
+            border-bottom: 8px solid $color-gray;
+            border-top: 6px solid #fff;
+            border-left: 6px solid #fff;
+            border-right: 6px solid #fff;
+            @include position(absolute, -13px 13px 0 0);
+        }
+        hr {
+            border-top: 1px solid #dedfe1;
+            margin: 0px 10px;
+            border-bottom: none;
+        }
+
+        .email {
+            height: 22px;
+            font-size: 13px;
+            color: $color-black;
+            padding-top: 10px;
+            text-align: center; 
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
+
+        .signout {
+            font-size: 14px;
+            height: 30px;
+            display: block;
+            line-height: 30px;
+            background-color: $standard-red;
+            margin: 10px 10px 0px 10px;
+            color: $color-white;
+            @include button-effect-dark;
+        }
+    }
+}
+

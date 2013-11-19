@@ -1,5 +1,3 @@
-$auth-spacing: 4px;
-@import "auth/*.png";
 .wd-portal {
     @include position(fixed, 0px 0px 0px 0px);
     @include ui-layer-top;
@@ -31,11 +29,7 @@ $auth-spacing: 4px;
     }
     .a:before {
         content: "";
-        // $name: "icon_logo_white";
         @include position(fixed, 27px 0 0 30px);
-        // @include auth-sprite($name);
-        // width: auth-sprite-width($name);
-        // height: auth-sprite-height($name);
         @include use-sprite("logo-white");
         width: icon-width("logo-white");
         height: icon-height("logo-white");
@@ -219,3 +213,4 @@ $auth-spacing: 4px;
 }
 @import "devices";
 @import "wandoujia-sign-in";
+@import "user-profile-button";

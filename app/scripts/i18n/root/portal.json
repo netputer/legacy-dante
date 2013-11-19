@@ -29,37 +29,50 @@
     "GOOGLE_BUTTON": "Sign in with Google",
     "SHOW_ACCOUNT_NAME_DEFAULT": "the same account",
     "CONNECT_DEVICE_FAILED_POP": {
-        "title": "Connection failed",
-        "content": "Make sure your computer is on the Wi-Fi network of $$$$ .<br><a href=\"http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web\">More help»</a>",
-        "button": "OK"
+        "title": "Failed to connect",
+        "content": "1) Confirm that SnapPea is running on your phone. <br> 2) Confirm that your computer is on the $$$$ Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.",
+        "OK": "Reconnect",
+        "CANCEL": "Cancel"
     },
     "ANNOUNCEMENT": "Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.",
+    "ADD_NEW_PHONE_TIPS": {
+        "STEP1": "1. Install SnapPea from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
+        "STEP2": "2. Open SnapPea and sign in with <span class='account'>$$$$</span>",
+        "STEP3": "After you finish, your phone will appear here."
+    },
     "NO_DEVICES": {
-        "h1": "Sign in on your phone.",
-        "h2": "Your photos, messages, contacts and apps will be shown here.",
-        "step1": "1. Install SnapPea from",
-        "step2": "2. Open SnapPea on your phone.",
-        "step3": "3. Sign in with",
-        "foot": "If you don't see a sign in button on your phone, please ",
-        "foot_updata": "update to the latest version of SnapPea."
+        "h1": "We can't find your phone.",
+        "h2": "Please check the following. ",
+        "step1": "SnapPea is running on your phone. <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">I haven't installed SnapPea yet</a>.",
+        "step2": "You're signed in with this account:",
+        "step3": "You're phone is connected to Wi-Fi.",
+        "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">Still can't find your phone?</a>"
+    },
+    "WORD": {
+        "OR": "or",
+        "NEXT": "Next"
     },
     "SELECT_DEVICES": {
         "h1": "Select a phone.",
         "h2_1": "We found",
         "h2_2": "phone(s) in your account.",
-        "new_phone": "Connect a new phone"
-    },
-    "CHANGE_DEVICES_POP": {
-        "h1": "Connect a new phone.",
-        "h2": "Just 3 steps, and you will find your phone here.",
-        "step1": "1. Install SnapPea from",
-        "step2": "2. Open SnapPea on your phone.",
-        "step3": "3. Sign in with",
-        "button": "Got it"
+        "new_phone": "Add a new phone"
     },
     "SIGN_PROGRESS": {
         "STEP1": "Signing in with Google",
         "STEP2": "Getting your signed in phones",
         "STEP3": "Connecting to $$$$"
+    },
+    "USER_GUIDE": {
+        "STEP1": "Sign in on computer",
+        "STEP2": "Install SnapPea",
+        "STEP3": "Sign in on your phone",
+        "PAGE1_H1": "Install SnapPea on your phone",
+        "PAGE1_H2": "The Android app is required to get started.",
+        "PAGE2_H1": "Get it from Google Play",
+        "PAGE1_WAY1": "Get it from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
+        "PAGE1_WAY2": "Use your phone to scan the QR code",
+        "PAGE2_WAY1": "Use $$$$ to sign in. After you sign in, your phone will appear here.",
+        "PAGE2_WAY2": "Still can't find your phone?"
     }
 }
