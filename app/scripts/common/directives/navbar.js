@@ -52,7 +52,9 @@ return [function() {
                 }
             });
 
+            $window.playAlert.content['message'] = ['audio/message.ogg', 'audio/message.mp3'];
             wdSocket.on('messages_add.wdNavbar', function(e) {
+                $window.playAlert('message');
                 if ($scope.currentModule !== 'messages') {
                     $scope.messageNotification = true;
                     if ($route.current.locals.nav != null &&
