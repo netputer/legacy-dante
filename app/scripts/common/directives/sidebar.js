@@ -103,7 +103,7 @@ return [function() {
             };
 
             $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdDevice.getDevice().ip){
+                if(item.ip !== wdDevice.getDevice().ip){
                     wdDevice.signout();
                     wdDevice.setDevice(item);
                     refreshDevices();
@@ -140,11 +140,11 @@ return [function() {
                 var ip ;
                 if (device) {
                     ip = device.ip;
-                    for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                        if ( ip === list[i]['ip'] ) {
-                            list[i]['selected'] = true;
-                        }else{
-                            list[i]['selected'] = false;
+                    for (var i = 0 , l = list.length ; i < l ; i += 1) {
+                        if (ip === list[i].ip) {
+                            list[i].selected = true;
+                        } else {
+                            list[i].selected = false;
                         }
                     }
                     return list;

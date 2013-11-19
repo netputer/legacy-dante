@@ -45,11 +45,12 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
             var defer = $q.defer();
-            if (typeof immediate === 'undefined' || immediate === false) {
-                immediate = false;
-            } else {
-                GA('check_sign_in:refresh_token_all:all');
+
+            if (immediate) {
                 immediate = true;
+                GA('check_sign_in:refresh_token_all:all');
+            } else {
+                immediate = false;
             }
 
             var me = this;
