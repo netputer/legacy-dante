@@ -199,6 +199,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             global.profileInfo = {};
             global.authResult = {};
             global.accountNum = 0;
+            global.hasAccessdDevice = false;
         },
 
         getDevices : function () {
@@ -232,7 +233,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
                     //标记下是否是老用户，该功能暂时有客户端记录，之后会由服务器端提供接口。老用户定义：该用户成功获取设备，并且设备列表中有设备。
                     if ( list.length > 0 && !me.isOldUser() ) {
-                        me.setIsOldUser();
+                        me.setOldUser();
                     }
                     defer.resolve(list);
                 });
@@ -283,7 +284,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         },
 
         // 客户端记录是一个老用户
-        setIsOldUser : function () {
+        setOldUser : function () {
             this.setStorageItem('oldUserFlag', true);
         },
         isOldUser : function () {

@@ -299,7 +299,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             GA('user_sign_in:click_sign_in:google_sign_in');
             GA('check_sign_in:google_page_all:all');
             if (wdGoogleSignIn.isOldUser()) {
-                wdGoogleSignIn.refreshToken().then(afterAuthSignIn);
+                wdGoogleSignIn.refreshToken().then(googleSignIn);
             }
         };
 
@@ -315,12 +315,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $window.googleSignInEventCenter.on('googleSignInCallback', function(e, data){
             $scope.signInBtnDisabled = false;
             if (data.authResult.access_token) {
-                afterAuthSignIn();
+                googleSignIn();
             }
         });
 
         // 通过授权登陆后，执行的逻辑
-        function afterAuthSignIn() {
+        function googleSignIn() {
             GA('check_sign_in:google_page:success');
             $scope.isLoadingDevices = true;
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
@@ -328,7 +328,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 wdGoogleSignIn.getDevices().then(function(list) {
                     showDevicesList(list);
                 },function() {
-                    $scope.googleSignOut();
+                    wdGoogleSignIn.refreshToken(true).then(function() {
+                        googleSignIn();
+                    }, function() {
+                        $scope.googleSignOut();
+                    });
                 });
             }, function() {
                 $scope.googleSignOut();
