@@ -7,7 +7,7 @@ return {
 
 link: function(scope, element) {
     //加载按钮的逻辑
-    if ( !wdGoogleSignIn.isOldUser() ) {
+    if (!wdGoogleSignIn.isOldUser()) {
         $window.googleSignInOnloadDefer.done(function() {
             //防止被弹窗拦截，需要先调用gapi.auth.init方法
             $window.gapi.auth.init(function() {
