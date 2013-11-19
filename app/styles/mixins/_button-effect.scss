@@ -25,7 +25,7 @@
 @mixin button-effect-dark($transition: true) {
     opacity: 1;
     &:focus, &:hover {
-        opacity: 0.8;
+        opacity: 0.7;
     }
     &:active {
         opacity: 1;

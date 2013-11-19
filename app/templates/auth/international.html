@@ -14,7 +14,7 @@
                     <span class="google-btn-word" ng-show="!signInBtnDisabled">
                         {{$root.DICT.portal.GOOGLE_BUTTON}}
                     </span>
-                    <div class="wd-loading" data-visible="true" ng-show="signInBtnDisabled"></div>
+                    <div class="wd-loading wd-loading-white" data-visible="true" ng-show="signInBtnDisabled"></div>
                 </button>
                 <!-- google signin end -->
 
@@ -151,7 +151,7 @@
     <!-- select devices start -->
     <div class="select-device" ng-if="isOldUser && deviceNum >= 1">
         <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
-        <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
+        <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
         <div class="list">
             <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectPhone(item);" ng-class="{'selected-device': item.loading}">
                 <div class="wd-loading phone-loading" data-visible="true" ng-if="item.loading"></div>
