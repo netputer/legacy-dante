@@ -6,9 +6,7 @@
     min-width: 170px;
     width: auto;
     height: auto;
-    position: absolute;
-    right: 30px;
-    top: 20px;
+    @include position(absolute, 20px 30px 0 0);
     color: $color-black;
     @include unselected-word;
     @include button-effect;
@@ -63,9 +61,7 @@
             border-top: 6px solid #fff;
             border-left: 6px solid #fff;
             border-right: 6px solid #fff;
-            position: absolute;
-            right: 13px;
-            top: -13px;
+            @include position(absolute, -13px 13px 0 0);
         }
         hr {
             border-top: 1px solid #dedfe1;
