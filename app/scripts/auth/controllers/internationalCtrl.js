@@ -123,7 +123,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     deviceData.loading = false;
                     wdAlert.confirm(
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content,
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
                     ).then(function() {

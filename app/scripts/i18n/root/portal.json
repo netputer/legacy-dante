@@ -29,24 +29,24 @@
     "GOOGLE_BUTTON": "Sign in with Google",
     "SHOW_ACCOUNT_NAME_DEFAULT": "the same account",
     "CONNECT_DEVICE_FAILED_POP": {
-        "title": "Connection failed",
-        "content": "Make sure your computer is on the Wi-Fi network of $$$$ .<br><a href=\"http://snappea.zendesk.com/entries/23341488--Official-How-do-I-sign-in-to-SnapPea-for-Web\">More help»</a>",
-        "OK": "Retry",
+        "title": "Failed to connect",
+        "content": "1) Confirm that SnapPea is running on your phone. <br> 2) Confirm that your computer is on the $$$$ Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.",
+        "OK": "Reconnect",
         "CANCEL": "Cancel"
     },
     "ANNOUNCEMENT": "Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.",
     "ADD_NEW_PHONE_TIPS": {
         "STEP1": "1. Install SnapPea from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
-        "STEP2": "2. Sign in SnapPea with <span class='account'>$$$$</span>",
-        "STEP3": "3. 完成后你的手机会自动出现在这里。"
+        "STEP2": "2. Open SnapPea and sign in with <span class='account'>$$$$</span>",
+        "STEP3": "After you finish, your phone will appear here."
     },
     "NO_DEVICES": {
-        "h1": "您的手机不在线。",
-        "h2": "请检查以下情况",
-        "step1": "手机上已经开启了 SnapPea. <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">我还没有安装</a>",
-        "step2": "登陆的账号是",
-        "step3": "手机已经连接可用的 Wi-Fi",
-        "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">手机还没出现？</a>"
+        "h1": "We can't find your phone.",
+        "h2": "Please check the following. ",
+        "step1": "SnapPea is running on your phone. <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">I haven't installed SnapPea yet</a>.",
+        "step2": "You're signed in with this account:",
+        "step3": "You're phone is connected to Wi-Fi.",
+        "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">Still can't find your phone?</a>"
     },
     "WORD": {
         "OR": "or",
@@ -56,7 +56,7 @@
         "h1": "Select a phone.",
         "h2_1": "We found",
         "h2_2": "phone(s) in your account.",
-        "new_phone": "Connect a new phone."
+        "new_phone": "Add a new phone"
     },
     "SIGN_PROGRESS": {
         "STEP1": "Signing in with Google",
@@ -64,15 +64,15 @@
         "STEP3": "Connecting to $$$$"
     },
     "USER_GUIDE": {
-        "STEP1": "Sign in with Google",
+        "STEP1": "Sign in on computer",
         "STEP2": "Install SnapPea",
-        "STEP3": "Sign in SnapPea",
-        "PAGE1_H1": "You need install SnapPea in your phone.",
-        "PAGE1_H2": "你可以通过以下两种方式在手机上安装。",
-        "PAGE2_H1": "You should Sign in SnapPea.",
-        "PAGE1_WAY1": "Install SnapPea from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
-        "PAGE1_WAY2": "在手机上通过扫描二维码安装 SnapPea。",
-        "PAGE2_WAY1": "使用 $$$$ 登陆 SnapPea。登陆完成后，您的手机就会出现在这里。",
-        "PAGE2_WAY2": "手机还没出现？"
+        "STEP3": "Sign in on your phone",
+        "PAGE1_H1": "Install SnapPea on your phone",
+        "PAGE1_H2": "The Android app is required to get started.",
+        "PAGE2_H1": "Get it from Google Play",
+        "PAGE1_WAY1": "Get it from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
+        "PAGE1_WAY2": "Use your phone to scan the QR code",
+        "PAGE2_WAY1": "Use $$$$ to sign in. After you sign in, your phone will appear here.",
+        "PAGE2_WAY2": "Still can't find your phone?"
     }
 }
