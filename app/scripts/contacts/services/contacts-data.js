@@ -61,7 +61,6 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 'offset':offset
             }
         }).success( function( data, status, headers ) {
-
             _.each( data, function( value ) {
                 if (!checkRepeat(value.id, global.contacts)) {
                     global.contacts.push( value );

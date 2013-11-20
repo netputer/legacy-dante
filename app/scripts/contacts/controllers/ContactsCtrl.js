@@ -739,50 +739,58 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         $scope.isContactsEditShow = false;
         $scope.isRightLoadShow = true;
         $scope.isNoContactsShow = false;
+        var toastDefer = $q.defer();
+        toastDefer.promise.content = $scope.$root.DICT.contacts.WAITING;
 
         //获取用户账户
         wdcContacts.getAccount().success(function(data) {
+            console.log(data);
             $scope.isContactsEditShow = true;
             $scope.isRightLoadShow = false;
+            $scope.contact = $scope.contact || [];
             $scope.contact.account = data[0];
             $scope.accounts = data;
+            var obj = {
+                account_name:'',
+                account_type:'',
+                photo_path:'',
+                IM:[{protocol:G_protocol[0], custom_protocol:'', data:'', label:'', type:G_typeMap.IM[1]}],
+                address:[{type:G_typeMap.address[1], city:'', country:'', formatted_address:'', label:'', neightborhood:'', pobox:'', post_code:'', region:'', street:''}],
+                email:[{type:G_typeMap.email[1], address:'', display_name:'', label:''}],
+                name:{display_name:'',family_name:'',given_name:'',middle_name:'',phonetic_family_name:'',phonetic_given_name:'',phonetic_middle_name:'',prefix:'',suffix:''},
+                // nickname:[{type:'Default',label:'',name:''}],
+                note:[{type:G_typeMap.note.Default, note:''}],
+                organization:[{type:G_typeMap.organization[1], Company:'', department:'', job_description:'', label:'', office_location:'', phonetic_name:'', symbol:'', title:''}],
+                phone:[{type:G_typeMap.phone[2], label:'', number:''}],
+                relation:[{type:G_typeMap.relation[6], name:'', label:''}],
+                website:[{type:G_typeMap.website[1], URL:'', label:''}]
+            };
+
+            G_clicked.clicked = false;
+            G_clicked = {
+                //id也用来标识这是一个新建的联系人条目，在模板中会检测这个属性。
+                id : '',
+                name : $scope.$root.DICT.contacts.BUTTONS.newContact,
+                phone : '',
+                photo : '',
+                clicked : true
+            };
+            $scope.pageList.unshift(G_clicked);
+            $scope.isNoneContacts = false;
+            if (newData && newData.phone) {
+                obj.phone[0].number = newData.phone;
+            }
+            $scope.contact = obj;
+            $scope.currentStatus = 'new';
+            $scope.editContact();
+            goToListTop();
+            toastDefer.resolve();
         }).error(function() {
             $scope.cancelContact();
+            toastDefer.reject();
         });
+        wdToast.apply(toastDefer.promise);
 
-        var obj = {
-            account_name:'',
-            account_type:'',
-            photo_path:'',
-            IM:[{protocol:G_protocol[0], custom_protocol:'', data:'', label:'', type:G_typeMap.IM[1]}],
-            address:[{type:G_typeMap.address[1], city:'', country:'', formatted_address:'', label:'', neightborhood:'', pobox:'', post_code:'', region:'', street:''}],
-            email:[{type:G_typeMap.email[1], address:'', display_name:'', label:''}],
-            name:{display_name:'',family_name:'',given_name:'',middle_name:'',phonetic_family_name:'',phonetic_given_name:'',phonetic_middle_name:'',prefix:'',suffix:''},
-            // nickname:[{type:'Default',label:'',name:''}],
-            note:[{type:G_typeMap.note.Default, note:''}],
-            organization:[{type:G_typeMap.organization[1], Company:'', department:'', job_description:'', label:'', office_location:'', phonetic_name:'', symbol:'', title:''}],
-            phone:[{type:G_typeMap.phone[2], label:'', number:''}],
-            relation:[{type:G_typeMap.relation[6], name:'', label:''}],
-            website:[{type:G_typeMap.website[1], URL:'', label:''}]
-        };
-
-        G_clicked.clicked = false;
-        G_clicked = {
-            //id也用来标识这是一个新建的联系人条目，在模板中会检测这个属性。
-            id : '',
-            name : $scope.$root.DICT.contacts.BUTTONS.newContact,
-            phone : '',
-            photo : '',
-            clicked : true
-        };
-        $scope.pageList.unshift(G_clicked);
-        if (newData && newData.phone) {
-            obj.phone[0].number = newData.phone;
-        }
-        $scope.contact = obj;
-        $scope.currentStatus = 'new';
-        $scope.editContact();
-        goToListTop();
     };
 
     //改变data中的type值
