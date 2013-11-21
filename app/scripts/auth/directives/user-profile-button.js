@@ -13,7 +13,7 @@ scope: true,
 replace: true,
 link: function($scope, $element, $attribute, $control) {
     $scope.showUserDetail = false;
-    $scope.clickUserProfile = function() {
+    $scope.toggleUserProfile = function() {
         $scope.showUserDetail = !$scope.showUserDetail;
         if ($scope.showUserDetail) {
             $($document).one('click', function() {
