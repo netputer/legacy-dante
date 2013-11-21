@@ -2,7 +2,7 @@
     p{
         display: inline-block;
         margin: 0px;
-        font-weight: normal;
+        font-weight: 400;
     }
 	.header{
 		@include position(absolute, 0 0 0 0);
@@ -202,7 +202,7 @@
             }
 
             dd.title{
-                font-weight: normal;
+                font-weight: 400;
                 width: 120px;
                 margin: -61px auto;
                 font-size: 12px;
@@ -264,7 +264,7 @@
         }
 
         dl.info{
-            font-weight: normal;
+            font-weight: 400;
             display: none;
             width: 400px;
             background-color: #fff;
@@ -308,7 +308,7 @@
                 }
                 h2{
                     font-size: 16px;
-                    font-weight: normal;
+                    font-weight: 400;
                     line-height: 14px;
                     margin: 8px 0px 0px 0px;
                 }
@@ -318,7 +318,7 @@
                 line-height: 22px;
                 p{
                     display: inline-block;
-                    font-weight: normal;
+                    font-weight: 400;
                 }
                 p.title{
                     width: 25%;
@@ -366,7 +366,7 @@
                 border-top: 1px solid #dcdcdc;
                 color: #000;
                 cursor: pointer;
-                font-weight: normal;
+                font-weight: 400;
                 a{
                     text-decoration: none;
                 }

@@ -37,10 +37,10 @@
     "LANGUAGE_TIP": "Language",
     "CONNECT_NEW_PHONE_TIP" : "Connect a new phone",
     "CONNECT_NEW_PHONE_TIPS": {
-        "STEP1": "1、Install SnapPea from <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a>.",
-        "STEP2": "2、开启 SnapPea 并使用 <span class='account'>$$$$</span> 登陆。",
-        "STEP3": "完成后操作后您的手机会自动的出现在上面的列表中。"
-    },        
+        "STEP1": "1. Install SnapPea on your phone from <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a>",
+        "STEP2": "2. Open SnapPea and sign in with <span class='account'>$$$$</span>",
+        "STEP3": "After you finish, your phone will appear here."
+    },
     "SELECT_DEVICES_TIP": "Select phone",
     "HELP": "Help",
     "FEEDBACK": "Feedback",

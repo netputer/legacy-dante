@@ -1,19 +1,18 @@
 .devices-tpl {
-    font-weight: 300;
+    font-weight: 400;
     @include position(fixed, 0px 0 0 0px);
     @include ui-layer-content-top;
     background-color: #FFF;
     width: 100%;
     height: 100%;
-    overflow-y:auto;
-
+    overflow-y: auto;
     h1 {
-        font-weight: 300;
+        font-weight: 400;
         font-size: 35px;
     }
 
     a {
-        font-weight: 300;
+        font-weight: 400;
         text-decoration: underline;
     }
 
@@ -39,7 +38,7 @@
                     display: block;
                     float: left;
                     line-height: 33px;
-                    color: $standard-green;
+                    color: #999;
                     font-size: 25px;
                     margin-bottom: 0px;
                     font-family: sans-serif;
@@ -50,7 +49,18 @@
                     float: left;
                     color: #999;
                 }
+                &.current{
+                    .step {
+                        color: #000;
+                    }
+                    .num {
+                        color: $standard-green;
+                    }
+                }
                 &.step2 {
+                    .num {
+                        color: $standard-green;
+                    }
                     border-bottom: 1px solid $standard-green;
                 }
             }
@@ -76,16 +86,16 @@
         }
         h1 {
             font-size: 27px;
-            font-weight: bold;
+            font-weight: 400;
             margin-bottom: 0px;
             margin-top: 50px;
         }
         h2 {
             margin: 0px 0px 20px 0px;
             color: #999;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 20px;
-            font-weight: 200;
+            font-weight: 400;
         }
         $content-with: 750px;
         $content-background-color: #fafafb;
@@ -94,13 +104,13 @@
             .content {
                 padding-top: 25px;
                 width: $content-with;
-                height: 305px;
+                height: 265px;
                 background-color: $content-background-color;
                 position: relative;
                 .left {
                     float: left;
                     width: 375px;
-                    height: 280px;
+                    height: 241px;
                     text-align: center;
                     border-right: 1px solid #e9e9ea;
                     .icon-googleplay {
@@ -155,13 +165,13 @@
                 margin-top: 15px;
                 margin-bottom: 10px;
                 padding-top: 45px;
-                height: 320px;
+                height: 300px;
                 background-color: $content-background-color;
                 .phone {
                     $filename: "isolate/phone.png";
                     @include background-retina("isolate/phone.png", "isolate/phone-2x.png");
                     width: 370px;
-                    height: 260px;
+                    height: 250px;
                     background-size: contain;
                     background-repeat: no-repeat;
                     margin: 0 auto;
@@ -196,11 +206,10 @@
                 }
                 .tip {
                     color: #000;
+                    .account {
+                        font-weight: bold;
+                    }
                 }
-            }
-            .help {
-                float: right;
-                margin-right: 85px;
             }
         }
     }
@@ -213,7 +222,7 @@
             margin: 3px 0px;
         }
         h2 {
-            font-size: 12px;
+            font-size: 14px;
             line-height: 20px;
             color: #999;
             margin: 0;
@@ -239,11 +248,18 @@
                 white-space: nowrap;
                 text-align: center;
                 display: inline;
+                height: 26px;
+                line-height: 26px;
+                
                 p {
                     display: inline;
                     margin-left: 3px;
                 }
+                .icon-add-dark {
+                    margin-top: 5px;
+                }
                 .icon-add-white {
+                    margin-top: 5px;
                     display: none;
                 }
             }
@@ -279,6 +295,7 @@
                     text-overflow: ellipsis;
                     display: inline;
                     font-size: 12px;
+                    color: #999;
                     margin-left: 3px;
                 }
                 .icon-wifi-white {
@@ -345,13 +362,13 @@
             width: 302px;
             float: left;
             border-radius: 5px;
-            padding: 25px 24px;
+            padding: 25px 3px 25px 45px;
             @include animation(fadeIn 0.4s);
             p {
                 line-height: 20px;
                 color: #000;
-                height: 20px;
                 font-size: 12px;
+                text-indent: -15px;
             }
             .account {
                 font-weight: 800;
@@ -375,9 +392,11 @@
             margin-bottom: 0px;
         }
         h2 {
-            font-size: 12px;
+            font-size: 14px;
             color: #999;
             margin-top: 0px;
+            font-weight: 400;
+            line-height: 20px;
         }
         div.step {
             dl {
@@ -397,7 +416,8 @@
                 .num {
                     @include position(absolute, 173px 0 0 30px);
                     font-size: 30px;
-                    font-weight: 200;
+                    font-weight: 400;
+                    line-height: 40px;
                     color: $standard-green;
                     &:first-child {
                         left: 6px;
@@ -425,7 +445,7 @@
             }
             .step2 {
                 dt {
-                    width: 148px;
+                    width: 158px;
                     height: 67px;
                     line-height: 67px;
                     text-align: center;
@@ -435,22 +455,34 @@
                         padding: 0px 10px;
                         text-align: left;
                         background-color: #2d2d2d;
+                        height: 67px;
+                        overflow: hidden;
+                        @include clearfix;
                         .photo {
+                            float: left;
                             border-radius: 5px;
                             width: 40px;
                             height: 40px;
-                            display: inline;
-                            margin-right: 3px;
+                            display: block;
+                            margin-top: 14px;
+                            margin-right: 8px;
                         }
                         .name {
+                            float: left;
                             color: #fff;
+                            width: 87px;
                             float: none;
-                            display: inline;
+                            overflow: hidden;
+                            display: block;
                             text-overflow: ellipsis;
+                            font-size: 14px;
                         }
                     }
                 }
                 border-right: 1px solid #efefef;
+                .account {
+                    font-weight: bold;
+                }
             }
             .step3 {
                 padding-right: 0px;
@@ -459,6 +491,7 @@
                     @include background-retina("isolate/open-wifi.png", "isolate/open-wifi-2x.png");
                     width: image-width($filename);
                     height: image-height($filename);
+                    margin-bottom: 48px;
                 }
             }
             p {
