@@ -655,7 +655,7 @@ p {
 .lead {
   margin-bottom: 20px;
   font-size: 18px;
-  font-weight: 200;
+  font-weight: 400;
   line-height: 30px;
 }
 
@@ -752,7 +752,7 @@ h3 small,
 h4 small,
 h5 small,
 h6 small {
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1;
   color: #999999;
 }
@@ -920,7 +920,7 @@ blockquote {
 blockquote p {
   margin-bottom: 0;
   font-size: 15px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1.25;
 }
 
@@ -1057,7 +1057,7 @@ button,
 select,
 textarea {
   font-size: 12px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 20px;
 }
 
@@ -1718,7 +1718,7 @@ select:focus:invalid:focus {
   min-width: 16px;
   padding: 4px 5px;
   font-size: 12px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 20px;
   text-align: center;
   text-shadow: 0 1px 0 #ffffff;
@@ -2349,7 +2349,7 @@ table th[class*="span"],
   display: block;
   padding: 3px 20px;
   clear: both;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 20px;
   color: #333333;
   white-space: nowrap;
@@ -3831,7 +3831,7 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 0;
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1;
   -webkit-border-radius: 15px;
      -moz-border-radius: 15px;
@@ -4528,7 +4528,7 @@ input[type="submit"].btn.btn-mini {
   padding: 8px 14px;
   margin: 0;
   font-size: 14px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 18px;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;

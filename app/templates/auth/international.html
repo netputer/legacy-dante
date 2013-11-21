@@ -68,15 +68,15 @@
     <!-- 新用户引导 -->
     <div class="user-guide" ng-if="!isOldUser && deviceNum === 0">
         <div class="header">
-            <div class="title" ng-click="goToUserGuide(1)">
+            <div class="title current" ng-click="goToUserGuide(1)">
                 <p class="num">1</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
             </div>
-            <div class="title" ng-click="goToUserGuide(1)" ng-class="{step2: (userGuideStep === 2)}">
+            <div class="title" ng-click="goToUserGuide(1)" ng-class="{current: (userGuideStep === 1), step2: (userGuideStep === 2)}">
                 <p class="num">2</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP2}}</p>
             </div>
-            <div class="title" ng-click="goToUserGuide(2)">
+            <div class="title" ng-click="goToUserGuide(2)" ng-class="{current: (userGuideStep === 2)}">
                 <p class="num">3</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP3}}</p>
             </div>
@@ -88,7 +88,9 @@
             <h2>{{$root.DICT.portal.USER_GUIDE.PAGE1_H2}}</h2>
             <div class="content">
                 <div class="left">
-                    <i class="icon-googleplay"></i>
+                    <a target="_blank" class="googleplay" href="https://play.google.com/store/apps/details?id=com.snappea">
+                        <i class="icon-googleplay"></i>
+                    </a>
                     <p ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE1_WAY1"></p>
                 </div>
                 <div class="or">
@@ -103,6 +105,7 @@
         </div>
         <div class="step2" ng-if="userGuideStep === 2">
             <h1>{{$root.DICT.portal.USER_GUIDE.PAGE2_H1}}</h1>
+            <h2>{{$root.DICT.portal.USER_GUIDE.PAGE2_H2}}</h2>
             <div class="content">
                 <div class="phone"></div>
                 <div class="user-profile">
@@ -112,7 +115,7 @@
                         <p class="email">{{accountEmail}}</p>
                     </div>
                 </div>
-                <p class="tip">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace("$$$$", accountEmail)}}</p>
+                <p class="tip" ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace('$$$$', accountEmail)"></p>
             </div>
             <a target="_blank" class="help" href="https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY2}}</a>
         </div>
@@ -136,7 +139,7 @@
                     </div>
                 </dt>
                 <h2 class="num">2</h2>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} {{accountEmail}}</dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} <span class="account">{{accountEmail}}</span></dd>
             </dl>
             <dl class="step3">
                 <dt></dt>

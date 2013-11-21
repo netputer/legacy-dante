@@ -30,7 +30,7 @@
     "SHOW_ACCOUNT_NAME_DEFAULT": "the same account",
     "CONNECT_DEVICE_FAILED_POP": {
         "title": "Failed to connect",
-        "content": "1) Confirm that SnapPea is running on your phone. <br> 2) Confirm that your computer is on the $$$$ Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.",
+        "content": "1. Confirm that SnapPea is running on your phone. <br> 2. Confirm that your computer is on the <span class=\"ssid\" style=\"font-weight: 400;color: #000;\">$$$$</span> Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.",
         "OK": "Reconnect",
         "CANCEL": "Cancel"
     },
@@ -70,9 +70,10 @@
         "PAGE1_H1": "Install SnapPea on your phone",
         "PAGE1_H2": "The Android app is required to get started.",
         "PAGE2_H1": "Get it from Google Play",
+        "PAGE2_H2": "After you sign in, your phone will appear here.",
         "PAGE1_WAY1": "Get it from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
         "PAGE1_WAY2": "Use your phone to scan the QR code",
-        "PAGE2_WAY1": "Use $$$$ to sign in. After you sign in, your phone will appear here.",
+        "PAGE2_WAY1": "Use <span class='account'>$$$$</span> to sign in.",
         "PAGE2_WAY2": "Still can't find your phone?"
     }
 }
