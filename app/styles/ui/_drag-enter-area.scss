@@ -33,11 +33,11 @@
     h3 {
         font-size: 30px;
         margin: 30px 0 5px 0;
-        font-weight: 400;
+        font-weight: $global-font-weight-normal;
     }
     p {
         font-size: 16px;
-        font-weight: 400;
+        font-weight: $global-font-weight-normal;
         color: #999;
     }
 }

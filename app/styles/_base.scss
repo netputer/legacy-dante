@@ -3,6 +3,8 @@ $global-line-height: 20px;
 $global-transition-duration: 0.4s;
 $global-left-offset: 60px;
 $global-sidebar-width: 310px;
+$global-font-weight-normal: 400;
+$global-font-weight-bold: 700;
 
 $standard-green: #3baa24;
 $standard-red: #f24949;
@@ -24,7 +26,7 @@ html, body {
 }
 
 html.cors .no-support-placeholder {
-    //display: none;
+    display: none;
 }
 
 .viewport {

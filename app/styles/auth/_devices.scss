@@ -1,5 +1,5 @@
 .devices-tpl {
-    font-weight: 400;
+    font-weight: $global-font-weight-normal;
     @include position(fixed, 0px 0 0 0px);
     @include ui-layer-content-top;
     background-color: #FFF;
@@ -7,12 +7,12 @@
     height: 100%;
     overflow-y: auto;
     h1 {
-        font-weight: 400;
+        font-weight: $global-font-weight-normal;
         font-size: 35px;
     }
 
     a {
-        font-weight: 400;
+        font-weight: $global-font-weight-normal;
         text-decoration: underline;
     }
 
@@ -86,7 +86,7 @@
         }
         h1 {
             font-size: 27px;
-            font-weight: 400;
+            font-weight: $global-font-weight-normal;
             margin-bottom: 0px;
             margin-top: 50px;
         }
@@ -95,7 +95,7 @@
             color: #999;
             font-size: 14px;
             line-height: 20px;
-            font-weight: 400;
+            font-weight: $global-font-weight-normal;
         }
         $content-with: 750px;
         $content-background-color: #fafafb;
@@ -207,7 +207,7 @@
                 .tip {
                     color: #000;
                     .account {
-                        font-weight: bold;
+                        font-weight: $global-font-weight-bold;
                     }
                 }
             }
@@ -371,7 +371,7 @@
                 text-indent: -15px;
             }
             .account {
-                font-weight: 800;
+                font-weight: $global-font-weight-bold;
                 font-size: 13px;
             }
             .icon-googleplay {
@@ -395,7 +395,7 @@
             font-size: 14px;
             color: #999;
             margin-top: 0px;
-            font-weight: 400;
+            font-weight: $global-font-weight-normal;
             line-height: 20px;
         }
         div.step {
@@ -416,7 +416,7 @@
                 .num {
                     @include position(absolute, 173px 0 0 30px);
                     font-size: 30px;
-                    font-weight: 400;
+                    font-weight: $global-font-weight-normal;
                     line-height: 40px;
                     color: $standard-green;
                     &:first-child {
@@ -481,7 +481,7 @@
                 }
                 border-right: 1px solid #efefef;
                 .account {
-                    font-weight: bold;
+                    font-weight: $global-font-weight-bold;
                 }
             }
             .step3 {
@@ -499,7 +499,7 @@
                 font-size: 12px;
             }
             span {
-                font-weight: bold;
+                font-weight: $global-font-weight-bold;
                 color: #000;
                 background-color: #fff;
             }

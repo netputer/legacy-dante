@@ -36,7 +36,7 @@
             margin-top: 160px;
             .title{
                 font-size: 35px;
-                font-weight: 500;
+                font-weight: $global-font-weight-bold;
                 height: 40px;
                 line-height: 40px;
                 margin: 0px 0px 18px 0px;
@@ -55,7 +55,7 @@
                 line-height: 30px;
                 text-align: center;
                 font-size: 15px;
-                font-weight: 400;
+                font-weight: $global-font-weight-normal;
                 text-decoration: none;
             }
 

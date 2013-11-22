@@ -20,7 +20,7 @@
         margin-top: -50px;
         & > p {
             font-size: 14px;
-            font-weight: bold;
+            font-weight: $global-font-weight-bold;
             word-break: break-all;
             margin-bottom: 20px;
             display: block;
