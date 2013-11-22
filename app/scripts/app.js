@@ -334,33 +334,8 @@ if (!READ_ONLY_FLAG) {
             });
             window.facebookInitDefer.resolve(window.FB);
         });
-
-        //Zendesk Feedback Tab
-        jQuery.ajax({
-            dataType: 'script',
-            cache: true,
-            url: 'http://assets.zendesk.com/external/zenbox/v2.6/zenbox.js'
-        }).done(function(){
-            window.Zenbox.init({
-                dropboxID:   '20236407',
-                url:         'https://snappea.zendesk.com',
-                tabImageURL: 'http://web.snappea.com/public/feedback.png',
-                tabTooltip:  '',
-                tabColor:    'grey',
-                tabPosition: 'Right'
-            });
-            jQuery('#zenbox_tab').css({
-                'border': '0',
-                'border-radius': '2px 0 0 2px',
-                'margin-top': '-55px',
-                'margin-left': '-28px',
-                'z-index': '1031',
-                'position': 'relative',
-                'left': '100%',
-                'top': '-50%'
-            });
-        });
     });
+
 }
 
 var GA_ID = READ_ONLY_FLAG ? 'UA-15790641-1' : 'UA-15790641-36';
