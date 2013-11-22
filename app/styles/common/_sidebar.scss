@@ -49,7 +49,7 @@ $sidebar-animation-time: 500ms;
         @include transform(translate3d(0, 0, 0));
 
         h2, h3 {
-            font-weight: normal;
+            font-weight: $global-font-weight-normal;
         }
         a {
             color: #fff;
@@ -177,21 +177,25 @@ $sidebar-animation-time: 500ms;
         .add-new-phone-tips {
             background-color: #222;
             width: 186px;
-            padding: 25px;
+            padding: 25px 22px 25px 33px;
             position: relative;
             color: #949494;
             margin-top: 5px;
             .steps {
                 margin-bottom: 20px;
+                text-indent: -13px;
                 .account {
                     color: #fff;
                 }
                 &:last-child{
                     margin-bottom: 0px;
+                    margin-left: -11px;
+                    text-indent: 0px;
                 }
             }
             a {
                 color: $standard-green;
+                text-decoration: underline;
             }
             @include animation(fadeIn 0.4s);
         }

@@ -30,7 +30,7 @@
             color: $color-black;
             display: inline-block;
             min-width: 103px;
-            font-weight: 300;
+            font-weight: $global-font-weight-normal;
         }
         .icon-angle-down {
             margin-top: 5px;

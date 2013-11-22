@@ -2,7 +2,7 @@
     p{
         display: inline-block;
         margin: 0px;
-        font-weight: normal;
+        font-weight: $global-font-weight-normal;
     }
 	.header{
 		@include position(absolute, 0 0 0 0);
@@ -202,7 +202,7 @@
             }
 
             dd.title{
-                font-weight: normal;
+                font-weight: $global-font-weight-normal;
                 width: 120px;
                 margin: -61px auto;
                 font-size: 12px;
@@ -258,13 +258,13 @@
             top: 10px;
             font-size: 22px;
             color: #333;
-            font-weight: bolder;
+            font-weight: $global-font-weight-bold;
             cursor: pointer;
             opacity: 0.65;
         }
 
         dl.info{
-            font-weight: normal;
+            font-weight: $global-font-weight-normal;
             display: none;
             width: 400px;
             background-color: #fff;
@@ -308,7 +308,7 @@
                 }
                 h2{
                     font-size: 16px;
-                    font-weight: normal;
+                    font-weight: $global-font-weight-normal;
                     line-height: 14px;
                     margin: 8px 0px 0px 0px;
                 }
@@ -318,7 +318,7 @@
                 line-height: 22px;
                 p{
                     display: inline-block;
-                    font-weight: normal;
+                    font-weight: $global-font-weight-normal;
                 }
                 p.title{
                     width: 25%;
@@ -366,7 +366,7 @@
                 border-top: 1px solid #dcdcdc;
                 color: #000;
                 cursor: pointer;
-                font-weight: normal;
+                font-weight: $global-font-weight-normal;
                 a{
                     text-decoration: none;
                 }
@@ -424,7 +424,7 @@
 
             h2{
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: $global-font-weight-bold;
                 line-height: 16px;
                 margin-bottom: 17px;
                 margin-top: 15px;

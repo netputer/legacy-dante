@@ -22,7 +22,7 @@
             height: 100%;
         }
         .photo-color{
-            font-weight: 200;
+            font-weight: $global-font-weight-normal;
             text-transform: uppercase;
             font-size: 24px;
             line-height: $avatar-width;
@@ -72,7 +72,7 @@
             height: 20px;
             font-size: 12px;
             color: #999;
-            font-weight: 300;
+            font-weight: $global-font-weight-normal;
             @include ellipsis;
         }
         .click .phone{
