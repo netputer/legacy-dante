@@ -744,7 +744,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         //获取用户账户
         wdcContacts.getAccount().success(function(data) {
-            console.log(data);
             $scope.isContactsEditShow = true;
             $scope.isRightLoadShow = false;
             $scope.contact = $scope.contact || [];
