@@ -32,36 +32,25 @@
     <!-- endbuild -->
 </head>
 <body ng-class="{'open-sidebar': showSidebar}" ng-click="globalControl($event)">
+
     <!--(if target dist)><!-->
-    <div class="wd-portal no-support-placeholder">
-        <div class="a">
-            <div class="container">
-                <h1>SnapPea doesn't support your browser.</h1>
-                <p>Sorry, SnapPea doesn't support your browser. We strongly recommend that you use Chrome.</p>
-                <a href="http://www.google.com/chrome/" target="_blank" class="btn btn-primary btn-large" style="margin-top: 60px;">Download Chrome</a>
-            </div>
+    <div class="no-support no-support-placeholder">
+        <div class="left">
+            <div class="limbo-image"></div>
         </div>
-        <div class="b">
-            <div class="container">
-                <div class="row">
-                    <div class="span6">
-                        <h2>New to SnapPea?</h2>
-                        <p>Your photos, messages, contacts and apps in your web browser.</p>
-                    </div>
-                    <div class="span5">
-                        <a href="https://play.google.com/store/apps/details?id=com.snappea" class="link-to-gp" target="_blank"></a>
-                        <a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web"></a>
-                    </div>
-                </div>
-                <div class="row b-a">
-                    <ul class="inline b-a-b">
-                        <li><a href="http://www.snappea.com/about.html">About</a></li>
-                        <li><a href="http://www.snappea.com/terms.html">Terms</a></li>
-                        <li><a href="http://snappea.zendesk.com/entries/23345336--Official-Security-for-SnapPea-Web">Privacy</a></li>
-                        <li>Copyright © 2013 SnapPea</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="right">
+            <h1>We don't support your browser</h1>
+            <h2>Your version of IE is too low, please update or user a different browser. We recommend Chrome for the best experience with SnapPea Web.</h2>
+            <ul class="brower-list">
+                <li class="item">
+                    <p class="name">Chrome</p>
+                    <a class="brower" target="_blank" href="https://www.google.com/intl/en/chrome/browser/">Download Link</a>
+                </li>
+                <li class="item">
+                    <p class="name">Firefox</p>
+                    <a class="brower" target="_blank" href="http://www.mozilla.org/en-US/firefox/new/">Download Link</a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--<!(endif)-->
@@ -141,27 +130,28 @@
 
     <script data-main="scripts/main" src="components/requirejs/require.js"></script>
 
-    <!-- Zendesk Feedback Tab -->
-    <script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
-    <style type="text/css" media="screen, projection">
-      @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
-      #zenbox_tab {border: 0; border-radius: 2px 0 0 2px;top: 50%;margin-top: -55px;z-index:1031;}
-    </style>
-    <script type="text/javascript">
-      if (typeof(Zenbox) !== "undefined") {
-        Zenbox.init({
-          dropboxID:   "20236407",
-          url:         "https://snappea.zendesk.com",
-          tabImageURL: "http://web.snappea.com/public/feedback.png",
-          tabTooltip:  "",
-          tabColor:    "grey",
-          tabPosition: "Right"
-        });
-      }
-    </script>
-    <!-- Zendesk Feedback Tab -->
-
-
     <!--<![endif]-->
+
+    <!-- Zendesk Feedback Tab -->
+    <script>
+    function zendeskFeedBackOnLoadCallBack() {
+        if (window.Zenbox) {
+            window.Zenbox.init({
+                dropboxID:   '20236407',
+                url:         'https://snappea.zendesk.com',
+                tabImageURL: 'http://web.snappea.com/public/feedback.png',
+                tabTooltip:  '',
+                tabColor:    'grey',
+                tabPosition: 'Right'
+            });
+        }
+    }
+    </script>
+    <script src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js" onload="zendeskFeedBackOnLoadCallBack()" onreadystatechange="zendeskFeedBackOnLoadCallBack()"></script>
+    <style media="screen, projection">
+        @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
+        #zenbox_tab {border: 0; border-radius: 2px 0 0 2px;margin-left: -28px;margin-top:90px;z-index: 1031;}
+    </style>
+    <!-- Zendesk Feedback Tab -->
 </body>
 </html>

@@ -1,0 +1,56 @@
+.no-support {
+    width: 1000px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -500px;
+    margin-top: -150px;
+    .left {
+        display: block;
+        float: left;
+        .limbo-image {
+            $filename: "isolate/limbo-image.png";
+            @include background-retina("isolate/limbo-image.png", "isolate/limbo-image-2x.png");
+            width: image-width($filename);
+            height: image-height($filename);
+        }
+    }
+    .right {
+        float: left;
+        display: block;
+        width: 380px;
+        margin-left: 40px;
+        h1 {
+            font-size: 25px;
+            font-weight: 400;
+            margin: 0;
+        }
+        h2 {
+            line-height: 20px;
+            margin: 0;
+            font-size: 14px;
+            font-weight: 400;
+            color: #999;
+        }
+        .brower-list {
+            margin: 20px 0 0 0;
+            list-style: none;
+            background-color: #f8f8f8;
+            padding: 0px 20px 0px 20px;
+            .item {
+                text-align: center;
+                font-size: 15px;
+                line-height: 40px;
+                height: 40px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            .name {
+                display: inline-block;
+                width: 120px;
+                text-align: left;
+                margin-right: 40px;
+            }
+        }
+    }
+}
