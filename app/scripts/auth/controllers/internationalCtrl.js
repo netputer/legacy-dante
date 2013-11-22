@@ -289,8 +289,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         $scope.showAddNewPhoneTip = function () {
             wdGoogleSignIn.getAccount().then(function(data) {
                 $scope.accountEmail = data;
+                $scope.isShowAddNewPhoneTip = true;
             });
-            $scope.isShowAddNewPhoneTip = true;
             GA('device_sign_in:add_new_device:select_device_page');
         };
 
