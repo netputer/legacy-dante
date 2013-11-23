@@ -279,6 +279,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdSocket.close();
                 wdDatabase.close();
                 wdTitleNotification.restore();
+                $rootScope.$broadcast('sidebar:close');
             }
         });
 
