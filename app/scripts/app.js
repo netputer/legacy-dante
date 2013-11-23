@@ -336,6 +336,7 @@ if (!READ_ONLY_FLAG) {
             window.facebookInitDefer.resolve(window.FB);
         });
 
+        //feedback style hack 
         jQuery('#zenbox_tab').prepend("<div class='background'></div>");
     });
 

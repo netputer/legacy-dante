@@ -249,7 +249,7 @@
         right: 0px;
         bottom: 0px;
         background-color: rgba(9,9,9,0.9);
-        @include ui-layer-top;
+        @include ui-mask-top;
         text-align: center;
         @include transition(opacity $global-transition-duration);
 
