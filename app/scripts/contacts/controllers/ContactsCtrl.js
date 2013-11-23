@@ -41,7 +41,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     var G_search = [];
 
     //被点击选择了的元素id
-    var G_checkedIds = wdcContacts.checkedList;
+    $scope.checkedList = wdcContacts.checkedList;
 
     //每次拉取数据的长度
     var DATA_LENGTH_ONCE = 50;
@@ -153,16 +153,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             phone : phone,
             photo : photo,
             read_only : data.read_only,
-            checked : false,
             photo_color : data.photo_color,
             tooltip : $scope.$root.DICT.contacts.WORDS.select
         };
-        for (var i = 0, l = G_checkedIds.length; i < l; i += 1) {
-            if (id === G_checkedIds[i]) {
-                obj.checked = true;
-                obj.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
-            }
+        
+        if ($scope.checkedList.indexOf(id) !== -1) {
+            obj.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
         }
+        
         return obj;
     }
 
@@ -350,9 +348,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         } else {
             word = 'contacts';
             for (i = 0 , l = G_list.length; i < l; i += 1) {
-                if ( G_list[i].checked === true && G_list[i].read_only ) {
+                if (($scope.checkedList.indexOf(G_list[i].id) !== -1) && G_list[i].read_only ) {
                     read_only.push(G_list[i].name);
-                    G_list[i].checked = false;
                 }
             }
         }
@@ -391,7 +388,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             //生成delId
             if (!id) {
                 for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
-                    if ( $scope.pageList[i].checked === true && !$scope.pageList[i].read_only ) {
+                    if (($scope.checkedList.indexOf($scope.pageList[i].id) !== -1) && !$scope.pageList[i].read_only ) {
                         delId.push($scope.pageList[i].id);
                     }
                 }
@@ -494,48 +491,35 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         $scope.isDeselectBtnShow = false;
         $scope.isDeleteBtnShow = false;
         $scope.selectedNum = 0;
-        G_contacts = wdcContacts.getContacts();
-        var i, l;
-        for (i = 0, l = G_contacts.length;i<l;i += 1) {
-            G_contacts[i].checked = false ;
-        }
-        for (i = 0, l = $scope.pageList.length;i<l;i += 1) {
-            $scope.pageList[i].checked = false ;
-        }
-        for (i = 0, l = G_searchList.length;i<l;i += 1) {
-            G_searchList[i].checked = false ;
-        }
-        G_checkedIds = [];
+        $scope.checkedList = [];
     };
 
     $scope.clickChecked = function(event, item) {
-        item.checked = !item.checked;
-        if (item.checked === false) {
+        if ($scope.checkedList.indexOf(item.id) !== -1) {
             GA('Web Contacts:click checkbox unchecked');
             if ($scope.selectedNum > 0) {
                 $scope.selectedNum -= 1;
             }
             item.tooltip = $scope.$root.DICT.contacts.WORDS.select;
-            for (var i = 0 , l = G_checkedIds.length ; i < l ; i += 1) {
-                if (item.id === G_checkedIds[i]) {
-                    G_checkedIds.splice(i,1);
+            for (var i = 0 , l = $scope.checkedList.length ; i < l ; i += 1) {
+                if (item.id === $scope.checkedList[i]) {
+                    $scope.checkedList.splice(i,1);
                 }
             }
         } else {
             GA('Web Contacts:click checkbox checked');
             item.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
             $scope.selectedNum += 1;
-            G_checkedIds.push(item.id);
+            $scope.checkedList.push(item.id);
         }
         if (event.shiftKey) {
             GA('Web Contacts:press shift and click checkbox checked');
             var startIndex = Math.max($scope.pageList.indexOf(G_lastChecked), 0);
             var stopIndex = $scope.pageList.indexOf(item);
             $scope.pageList.slice(Math.min(startIndex, stopIndex), Math.max(startIndex, stopIndex) + 1).forEach(function(v) {
-                if (!v.checked) {
-                    v.checked = true;
+                if ($scope.checkedList.indexOf(v.id) === -1) {
                     v.tooltip = item.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
-                    G_checkedIds.push(v.id);
+                    $scope.checkedList.push(v.id);
                     $scope.selectedNum += 1;
                 }
             });
@@ -1006,12 +990,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     function showSelectedNum() {
-        $scope.selectedNum = 0;
-        for (var i = 0, l = $scope.pageList.length; i < l ; i += 1 ) {
-            if ($scope.pageList[i].checked) {
-                $scope.selectedNum += 1;
-            }
-        }
+        $scope.selectedNum = $scope.checkedList.length;
         if ($scope.selectedNum > 0) {
             $scope.isDeselectBtnShow = true;
             $scope.isDeleteBtnShow = true;
