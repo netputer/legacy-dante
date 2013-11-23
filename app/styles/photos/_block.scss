@@ -9,7 +9,8 @@
     }
 
     @include position(absolute, 0px 0 0 0px);
-
+    @include user-select(none);
+    
     $padding: 0px;
     .photo {
         @include position;
