@@ -75,5 +75,6 @@
         "PAGE1_WAY2": "Use your phone to scan the QR code",
         "PAGE2_WAY1": "Use <span class='account'>$$$$</span> to sign in.",
         "PAGE2_WAY2": "Still can't find your phone?"
-    }
+    },
+    "CONNECTING" : "Connecting..."
 }
