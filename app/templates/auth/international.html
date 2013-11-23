@@ -164,9 +164,10 @@
                     <p class="phone-name" title="{{item.model}}">{{item.model}}</p>
                 </div>
                 <div class="wifi">
-                    <i class="icon-wifi"></i>
-                    <i class="icon-wifi-white"></i>
-                    <p class="ssid" title="{{item.attributes.ssid}}">{{item.attributes.ssid}}</p>
+                    <p class="status" ng-if="item.loading">{{$root.DICT.portal.CONNECTING}}</p>
+                    <i class="icon-wifi" ng-if="!item.loading"></i>
+                    <i class="icon-wifi-white" ng-if="!item.loading"></i>
+                    <p class="ssid" title="{{item.attributes.ssid}}" ng-if="item.loading">{{item.attributes.ssid}}</p>
                 </div>
             </div>
 

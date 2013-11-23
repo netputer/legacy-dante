@@ -505,6 +505,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         for (i = 0, l = G_searchList.length;i<l;i += 1) {
             G_searchList[i].checked = false ;
         }
+        G_checkedIds = [];
     };
 
     $scope.clickChecked = function(event, item) {
@@ -526,7 +527,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             $scope.selectedNum += 1;
             G_checkedIds.push(item.id);
         }
-
         if (event.shiftKey) {
             GA('Web Contacts:press shift and click checkbox checked');
             var startIndex = Math.max($scope.pageList.indexOf(G_lastChecked), 0);
