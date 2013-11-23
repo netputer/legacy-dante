@@ -157,7 +157,7 @@
         <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
         <div class="list">
             <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectPhone(item);" ng-class="{'selected-device': item.loading}">
-                <div class="wd-loading phone-loading" data-visible="true" ng-if="item.loading"></div>
+                <div class="wd-loading wd-loading-white phone-loading" data-visible="true" ng-if="item.loading"></div>
                 <div class="phone">
                     <i class="icon-phone-dark"></i>
                     <i class="icon-phone-white" ng-if="!item.loading"></i>

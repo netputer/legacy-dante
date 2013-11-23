@@ -13,7 +13,6 @@
 
     a {
         font-weight: $global-font-weight-normal;
-        text-decoration: underline;
     }
 
     .user-guide {
@@ -444,6 +443,9 @@
                     @include background-retina("isolate/install.png", "isolate/install-2x.png");
                     width: image-width($filename);
                     height: image-height($filename);
+                }
+                dd a{
+                    display: inline-block;
                 }
                 border-right: 1px solid #efefef;
             }
