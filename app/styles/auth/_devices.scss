@@ -25,9 +25,12 @@
             .title {
                 display: inline-block;
                 width: 280px;
+                height: 40px;
                 margin-left: -3px;
                 border-bottom: 1px solid #f5f5f5;
                 cursor: pointer;
+                vertical-align: top;
+                @include transition(all $global-transition-duration);
                 &:first-child {
                     cursor: default;
                     padding-left: 70px;
@@ -40,7 +43,6 @@
                     color: #999;
                     font-size: 25px;
                     margin-bottom: 0px;
-                    font-family: sans-serif;
                 }
                 .step {
                     margin-left: 5px;
@@ -57,6 +59,9 @@
                     }
                 }
                 &.step2 {
+                    .step {
+                        color: #000;
+                    }
                     .num {
                         color: $standard-green;
                     }
@@ -66,6 +71,7 @@
             .angle {
                 width: 0px;
                 height: 0px;
+                font-weight: 100;
                 border-bottom: 7px solid #f5f5f5;
                 border-top: 0px solid transparent;
                 border-left: 12px solid transparent;
@@ -77,9 +83,12 @@
                 }
                 &.step1 {
                     left: 342px;
+                    bottom: 0px;
                 }
                 &.step2 {
+                    @include transition(all $global-transition-duration);
                     left: 623px;
+                    bottom: 0px;
                 }
             }
         }
@@ -98,8 +107,15 @@
         }
         $content-with: 750px;
         $content-background-color: #fafafb;
-        .step1 {
+        .step1-block {
             margin-left: 75px;
+            position: absolute;
+            top: 130px;
+            @include transition(visibility 2s);
+            &.move {
+                @include animation(fadeOutLeftBig 2s);
+                visibility: hidden;
+            }
             .content {
                 padding-top: 25px;
                 width: $content-with;
@@ -122,6 +138,7 @@
                     width: $content-with;
                     text-align: center;
                     p {
+                        color: #999;
                         display: inline-block;
                         line-height: 30px;
                         background-color: #fafafb;
@@ -149,14 +166,17 @@
                 color: #fff;
                 @include button-effect-dark;
                 float: right;
-                margin-right: 84px;
                 margin-top: 10px;
                 font-size: 15px;
                 padding: 8px 25px;
             }
         }
-        .step2 {
+
+        .step2-block {
             margin-left: 75px;
+            &.move {
+                @include animation(fadeInRightBig 1s);
+            }
             .content {
                 position: relative;
                 text-align: center;
@@ -241,7 +261,7 @@
             padding: 28px 25px;
             border-radius: 5px;
             @include display-flex;
-            @include transition(all 0.4s);
+            @include transition(all $global-transition-duration);
 
             &.add-new-phone-button {
                 white-space: nowrap;
@@ -263,6 +283,31 @@
                 }
             }
 
+            .icon {
+                position: relative;
+                width: 20px;
+                height: 26px;
+                .icon-phone-white {
+                    display: none;
+                }
+                .icon-phone-dark {
+                    padding-top: 3px;
+                }
+                .phone-loading {
+                    width: 0px;
+                    height: 0px;
+                    display: inline;
+                    position: absolute;
+                    top: 26px;
+                    left: 20px;
+                    div {
+                        width: 10px;
+                        height: 10px;
+                    }
+                    @include transform(scale(0.4));
+                }
+            }
+
             .phone {
                 white-space: nowrap;
                 display: inline;
@@ -276,9 +321,6 @@
                     color: #000;
                     display: inline;
                     overflow: hidden;
-                }
-                .icon-phone-white {
-                    display: none;
                 }
             }
 
@@ -303,35 +345,24 @@
                 .status {
                     color: #fff;
                     font-size: 15px;
+                    @include animation(fadeIn $global-transition-duration);
                 }
-            }
-
-            .phone-loading {
-                width: 0px;
-                height: 0px;
-                display: inline;
-                margin-top: 3px;
-                margin-left: -8px;
-                padding-left: 25px;
-                position: static;
-                div {
-                    width: 10px;
-                    height: 10px;
-                }
-                @include transform(scale(0.4));
             }
 
             &:hover, &.selected-device {
                 background-color: $standard-green;
-                .phone {
-                    .phone-name {
-                        color: #fff;
-                    }
+                .icon {
                     .icon-phone-white {
+                        padding-top: 3px;
                         display: inline-block;
                     }
                     .icon-phone-dark {
                         display: none;
+                    }                    
+                }
+                .phone {
+                    .phone-name {
+                        color: #fff;
                     }
                 }
                 .wifi {
@@ -366,7 +397,7 @@
             float: left;
             border-radius: 5px;
             padding: 25px 3px 25px 45px;
-            @include animation(fadeIn 0.4s);
+            @include animation(fadeIn $global-transition-duration);
             p {
                 line-height: 20px;
                 color: #000;

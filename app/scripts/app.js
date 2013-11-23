@@ -335,6 +335,8 @@ if (!READ_ONLY_FLAG) {
             });
             window.facebookInitDefer.resolve(window.FB);
         });
+
+        jQuery('#zenbox_tab').prepend("<div class='background'></div>");
     });
 
 }
