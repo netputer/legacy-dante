@@ -45,6 +45,9 @@
         .container {
             @include position(absolute, 50% 0 0 50%);
             margin: -124px 0 0 -480px;
+            h1 {
+                font-weight: 100;
+            }
         }
         h1, p {
             @include text-shadow(0 1px 0 rgba(#000, 0.2));
