@@ -30,7 +30,7 @@
     "SHOW_ACCOUNT_NAME_DEFAULT": "the same account",
     "CONNECT_DEVICE_FAILED_POP": {
         "title": "Failed to connect",
-        "content": "1. Confirm that SnapPea is running on your phone. <br> 2. Confirm that your computer is on the <span class=\"ssid\" style=\"font-weight: 400;color: #000;\">$$$$</span> Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.",
+        "content": "<ol><li>Confirm that SnapPea is running on your phone.</li><li>Confirm that your computer is on the <strong>$$$$</strong> Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.</li>",
         "OK": "Reconnect",
         "CANCEL": "Cancel"
     },
