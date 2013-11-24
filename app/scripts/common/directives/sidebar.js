@@ -13,13 +13,14 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window',
+                '$q', 'wdToast',  '$timeout', '$window', //'$interval',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
                  $q,   wdToast,   $timeout, $window) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
+            var loopRefreshDevicesTimer;
 
             function clearLayersStatus() {
                 $scope.devicesAnimate = false;
@@ -48,13 +49,18 @@ return [function() {
                 wdGoogleSignIn.getProfileInfo().then(function(data) {
                     $scope.profileInfo = data;
                 });
+
+                loopRefreshDevices();
             });
 
             $rootScope.$on('sidebar:close', function() {
                 $scope.closeSidebar();
+                stopLoopRefreshDevices();
             });
 
             $rootScope.$on('sidebar:devices:animate', function() {
+                $scope.deviceList = [];
+                $scope.isLoadingDevices = true;
                 refreshDevices();
                 clearLayersStatus();
 
@@ -64,6 +70,8 @@ return [function() {
             });
 
             $rootScope.$on('sidebar:devices:default', function() {
+                $scope.deviceList = [];
+                $scope.isLoadingDevices = true;
                 refreshDevices();
                 clearLayersStatus();
 
@@ -106,6 +114,8 @@ return [function() {
                 if(item.ip !== wdDevice.getDevice().ip){
                     wdDevice.signout();
                     wdDevice.setDevice(item);
+                    $scope.deviceList = [];
+                    $scope.isLoadingDevices = true;
                     refreshDevices();
                 }
             };
@@ -115,14 +125,11 @@ return [function() {
             };
 
             function refreshDevices() {
-                $scope.deviceList = [];
                 $timeout(function() {
-                    $scope.isLoadingDevices = true;
 
                     (function getDevices() {
                         wdGoogleSignIn.getDevices().then(function(list){
                             $scope.isLoadingDevices = false;
-
                             $scope.deviceList = getListData(list);
                         },function(){
                             wdGoogleSignIn.refreshToken(true).then(function(){
@@ -133,6 +140,14 @@ return [function() {
                         });
                     })();
                 }, 300);
+            }
+
+            function loopRefreshDevices() {
+                loopRefreshDevicesTimer = $window.setInterval(refreshDevices, 5000);
+            }
+
+            function stopLoopRefreshDevices() {
+                $window.clearInterval(loopRefreshDevicesTimer);
             }
 
             function getListData(list) {

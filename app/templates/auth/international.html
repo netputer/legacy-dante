@@ -68,7 +68,7 @@
     <!-- 新用户引导 -->
     <div class="user-guide" ng-if="!isOldUser && deviceNum === 0">
         <div class="header">
-            <div class="title current" ng-click="goToUserGuide(1)">
+            <div class="title current">
                 <p class="num">1</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
             </div>
@@ -156,7 +156,7 @@
         <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
         <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
         <div class="list">
-            <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectPhone(item);" ng-class="{'selected-device': item.loading}">
+            <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectDevice(item);" ng-class="{'selected-device': item.loading}">
                 <div class="icon">
                     <i class="icon-phone-dark"></i>
                     <i class="icon-phone-white" ng-if="!item.loading"></i>

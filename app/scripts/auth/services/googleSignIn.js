@@ -263,7 +263,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 timeout: 7000,
                 success: function(nullResponse) {
                     $rootScope.$apply(function() {
-
                         // 客户取消了关联，据此执行相应操作
                         // 回应始终为未定义。
                         me.removeStorageItem('googleToken');
