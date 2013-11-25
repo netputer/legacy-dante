@@ -20,7 +20,6 @@ return [function() {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
-            var loopRefreshDevicesTimer;
 
             function clearLayersStatus() {
                 $scope.devicesAnimate = false;
@@ -57,8 +56,6 @@ return [function() {
             });
 
             $rootScope.$on('sidebar:devices:animate', function() {
-                $scope.deviceList = [];
-                $scope.isLoadingDevices = true;
                 refreshDevices();
                 loopRefreshDevices();
                 clearLayersStatus();
@@ -74,7 +71,6 @@ return [function() {
                 refreshDevices();
                 loopRefreshDevices();
                 clearLayersStatus();
-
                 $scope.settingsHideImmediate = true;
                 $scope.devicesDefault = true;
                 $scope.currentDeviceLayer = true;
@@ -114,8 +110,9 @@ return [function() {
             };
 
             function refreshDevices() {
+                $scope.deviceList = [];
                 $timeout(function() {
-
+                    $scope.isLoadingDevices = true;
                     (function getDevices() {
                         wdGoogleSignIn.getDevices().then(function(list){
                             $scope.isLoadingDevices = false;
@@ -132,13 +129,14 @@ return [function() {
             }
 
             function loopRefreshDevices() {
-                loopRefreshDevicesTimer = $window.setInterval(refreshDevices, 5000);
+                $scope.loopRefreshDevices = wdGoogleSignIn.loopGetDevices();
+                $scope.$watch('loopRefreshDevices', function(newData, oldData) {
+                    $scope.deviceList = getListData(newData);
+                }, true);
             }
 
             function stopLoopRefreshDevices() {
-                if (loopRefreshDevicesTimer) {
-                    $window.clearInterval(loopRefreshDevicesTimer);
-                }
+                wdGoogleSignIn.stopLoopGetDevices();
             }
 
             function getListData(list) {

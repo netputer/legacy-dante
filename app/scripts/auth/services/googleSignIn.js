@@ -22,7 +22,11 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         hasAccessdDevice : false,
 
         //当前账号号码
-        accountNum: 0
+        accountNum: 0,
+
+        devicesList: [],
+
+        loopTimer : null
     };
 
     var result = {
@@ -133,16 +137,18 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             if (!global.account) {
                 var authResult = global.authResult;
                 var isTimeout;
-                gapi.client.load('oauth2', 'v2', function() {
-                    var request = gapi.client.oauth2.userinfo.get();
-                    request.execute(function(obj){
-                        if (isTimeout !== true) {
-                            isTimeout = false;
-                            global.account = obj.email;
-                            $rootScope.$apply(function() {
-                                defer.resolve(global.account);
-                            });
-                        }
+                $window.googleSignInOnloadDefer.done(function() {
+                    $window.gapi.client.load('oauth2', 'v2', function() {
+                        var request = $window.gapi.client.oauth2.userinfo.get();
+                        request.execute(function(obj){
+                            if (isTimeout !== true) {
+                                isTimeout = false;
+                                global.account = obj.email;
+                                $rootScope.$apply(function() {
+                                    defer.resolve(global.account);
+                                });
+                            }
+                        });
                     });
                 });
                 //超时处理
@@ -151,7 +157,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         isTimeout = true;
                         defer.reject();
                     }
-                },10000);
+
+                // 这个时间总是失败，居然总是达到超时时间，没办法才改成了 20s .
+                }, 20000);
             } else {
                 defer.resolve(global.account);
             }
@@ -164,20 +172,22 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
             if (!global.profileInfo.id) {
                 var isTimeout;
-                gapi.client.load('plus','v1', function() {
-                    var request = gapi.client.plus.people.get({
-                       'userId': 'me'
-                    });
+                $window.googleSignInOnloadDefer.done(function() {
+                    $window.gapi.client.load('plus','v1', function() {
+                        var request = $window.gapi.client.plus.people.get({
+                           'userId': 'me'
+                        });
 
-                    request.execute(function(obj) {
-                        if (isTimeout !== true) {
-                            isTimeout = false;
+                        request.execute(function(obj) {
+                            if (isTimeout !== true) {
+                                isTimeout = false;
 
-                            $rootScope.$apply(function() {
-                                global.profileInfo = obj;
-                                defer.resolve(global.profileInfo); 
-                            });
-                        }
+                                $rootScope.$apply(function() {
+                                    global.profileInfo = obj;
+                                    defer.resolve(global.profileInfo); 
+                                });
+                            }
+                        });
                     });
                 });
 
@@ -186,7 +196,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         isTimeout = true;
                         defer.reject();
                     }
-                },10000);
+
+                // 这个时间总是失败，居然总是达到超时时间，没办法才改成了 20s .
+                }, 20000);
             } else {
                 defer.resolve(global.profileInfo);
             }
@@ -245,6 +257,26 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 });
             });
             return defer.promise;
+        },
+
+        loopGetDevices : function () {
+            var me = this;
+            if (!global.loopTimer) {
+                global.loopTimer = $window.setInterval(function () {
+                    me.getDevices().then(function(list) {
+                        global.devicesList.splice(0, global.devicesList.length);
+                        Array.prototype.push.apply(global.devicesList, list);
+                    });
+                }, 3000);
+            }
+
+            //因为给出去的是一个数组，在 Javascript 中传递的是指针，通过外层 $scope.$watch 函数可以监测其变化。
+            return global.devicesList;
+        },
+
+        stopLoopGetDevices : function () {
+            $window.clearInterval(global.loopTimer);
+            global.loopTimer = null;
         },
 
         signout : function () {

@@ -23,10 +23,9 @@ link: function($scope, $element, $attribute, $control) {
     };
     wdGoogleSignIn.getProfileInfo().then(function(data) {
         $scope.profile = data;
-    });
-    wdGoogleSignIn.getAccount().then(function(data) {
-        $scope.profile = $scope.profile || {};
-        $scope.profile.email = data;
+        wdGoogleSignIn.getAccount().then(function(data) {
+            $scope.profile.email = data;
+        });
     });
 }
 
