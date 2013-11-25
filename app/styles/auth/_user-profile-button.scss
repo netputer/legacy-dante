@@ -72,9 +72,6 @@
             color: $color-black;
             padding-top: 10px;
             text-align: center; 
-            &:first-letter {
-                text-transform: uppercase;
-            }
         }
 
         .signout {

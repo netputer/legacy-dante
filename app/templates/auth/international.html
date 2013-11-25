@@ -72,18 +72,18 @@
                 <p class="num">1</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
             </div>
-            <div class="title" ng-click="goToUserGuide(1)" ng-class="{current: (userGuideStep === 1), step2: (userGuideStep === 2)}">
+            <div class="title" ng-class="{current: (userGuideStep === 1), step2: (userGuideStep === 2)}">
                 <p class="num">2</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP2}}</p>
             </div>
-            <div class="title" ng-click="goToUserGuide(2)" ng-class="{current: (userGuideStep === 2)}">
+            <div class="title" ng-class="{current: (userGuideStep === 2)}">
                 <p class="num">3</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP3}}</p>
             </div>
             <div class="angle step2"></div>
             <div class="angle active" ng-class="{step1: (userGuideStep === 1), step2: (userGuideStep === 2)}"></div>
         </div>
-        <div class="step1" ng-if="userGuideStep === 1">
+        <div class="step1-block" ng-class="{move:(userGuideStep === 2)}">
             <h1>{{$root.DICT.portal.USER_GUIDE.PAGE1_H1}}</h1>
             <h2>{{$root.DICT.portal.USER_GUIDE.PAGE1_H2}}</h2>
             <div class="content">
@@ -103,7 +103,7 @@
             </div>
             <div class="next btn" ng-click="nextUserGuide()">{{$root.DICT.portal.WORD.NEXT}}</div>
         </div>
-        <div class="step2" ng-if="userGuideStep === 2">
+        <div class="step2-block" ng-class="{move:(userGuideStep === 2)}" ng-if="(userGuideStep === 2)">
             <h1>{{$root.DICT.portal.USER_GUIDE.PAGE2_H1}}</h1>
             <h2>{{$root.DICT.portal.USER_GUIDE.PAGE2_H2}}</h2>
             <div class="content">
@@ -157,16 +157,19 @@
         <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
         <div class="list">
             <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectPhone(item);" ng-class="{'selected-device': item.loading}">
-                <div class="wd-loading phone-loading" data-visible="true" ng-if="item.loading"></div>
-                <div class="phone">
+                <div class="icon">
                     <i class="icon-phone-dark"></i>
                     <i class="icon-phone-white" ng-if="!item.loading"></i>
+                    <div class="wd-loading wd-loading-white phone-loading" data-visible="true" ng-if="item.loading"></div>
+                </div>
+                <div class="phone">
                     <p class="phone-name" title="{{item.model}}">{{item.model}}</p>
                 </div>
                 <div class="wifi">
-                    <i class="icon-wifi"></i>
-                    <i class="icon-wifi-white"></i>
-                    <p class="ssid" title="{{item.attributes.ssid}}">{{item.attributes.ssid}}</p>
+                    <p class="status" ng-if="item.loading">{{$root.DICT.portal.CONNECTING}}</p>
+                    <i class="icon-wifi" ng-if="!item.loading"></i>
+                    <i class="icon-wifi-white" ng-if="!item.loading"></i>
+                    <p class="ssid" title="{{item.attributes.ssid}}" ng-if="!item.loading">{{item.attributes.ssid}}</p>
                 </div>
             </div>
 

@@ -27,6 +27,7 @@
 		@include position(absolute, 0 0 0 0);
 		overflow-y:auto;
 		padding-top: 50px;
+        @include unselected-word;
         @include readonly {
             padding-top: 10px;
         }
@@ -76,7 +77,7 @@
                 height: 100%;
                 margin-left: 0;
                 opacity: 0;
-                @include transition(opacity 0.4s);
+                @include transition(opacity $global-transition-duration);
 
                 .icon-close {
                     cursor: pointer;
@@ -111,7 +112,7 @@
                 left: 0px;
                 opacity: 0;
                 cursor: default;
-                @include transition(opacity 0.4s);
+                @include transition(opacity $global-transition-duration);
 
                 i.icon-phone{
                     @include position(absolute, 12px 0 0 4px);
@@ -248,9 +249,9 @@
         right: 0px;
         bottom: 0px;
         background-color: rgba(9,9,9,0.9);
-        @include ui-layer-top;
+        @include ui-mask-top;
         text-align: center;
-        @include transition(opacity 0.4s);
+        @include transition(opacity $global-transition-duration);
 
         span.close-btn{
             position: absolute;
@@ -290,7 +291,7 @@
 
             span.close-btn:hover{
                 opacity: 1;
-                @include transition(opacity 0.3s);
+                @include transition(opacity $global-transition-duration);
             }
 
             hr{

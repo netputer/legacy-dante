@@ -85,6 +85,13 @@ img {
 
     .modal-body {
         color: #999;
+        ol {
+            margin-left: 18px;
+        }
+        strong {
+            color: #000;
+            font-weight: $global-font-weight-bold;
+        }
     }
     .modal-footer .btn {
         min-width: 65px;

@@ -271,7 +271,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         me.removeAccountInfo();
                         $log.log('Sign out success!');
                         defer.resolve('signout');
-                    });                    
+                    });
                 },
                 error: function(e) {
                     $rootScope.$apply(function() {

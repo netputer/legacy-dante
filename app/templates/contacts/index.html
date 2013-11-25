@@ -34,12 +34,12 @@
             <!-- 没有联系人时显示 end -->
 
             <!-- 每个联系人的模板 -->
-            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked:item.checked}">
+            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked: ( checkedList.indexOf(item.id) !== -1 )}">
                 <div wd-checkbox class="selected"
                     ng-class="{'wd-checkbox-light': !item.clicked}"
                     ng-show="!$root.READ_ONLY_FLAG"
-                    ng-click="clickChecked($event, item);$event.stopPropagation();"
-                    ng-checked="item.checked"
+                    ng-click="clickChecked($event);$event.stopPropagation();"
+                    ng-checked="( checkedList.indexOf(item.id) !== -1 )"
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">
