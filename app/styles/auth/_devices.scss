@@ -82,13 +82,11 @@
                     border-bottom: 7px solid $standard-green;
                 }
                 &.step1 {
-                    left: 342px;
-                    bottom: 0px;
+                    @include position(absolute, 0 0 0px 342px);
                 }
                 &.step2 {
                     @include transition(all $global-transition-duration);
-                    left: 623px;
-                    bottom: 0px;
+                    @include position(absolute, 0 0 0px 623px);
                 }
             }
         }
@@ -109,8 +107,7 @@
         $content-background-color: #fafafb;
         .step1-block {
             margin-left: 75px;
-            position: absolute;
-            top: 130px;
+            @include position(absolute, 130px 0 0 0);
             @include transition(visibility 2s);
             &.move {
                 @include animation(fadeOutLeftBig 2s);
@@ -299,9 +296,7 @@
                     width: 0px;
                     height: 0px;
                     display: inline;
-                    position: absolute;
-                    top: 26px;
-                    left: 20px;
+                    @include position(absolute, 26px 0 0 20px);
                     div {
                         width: 10px;
                         height: 10px;
