@@ -9,7 +9,6 @@ define([
 return ['wdKey', function(wdKey) {
     return {
         restrict: 'EAC',
-        replace: true,
         transclude: true,
         template: template,
         link: function($scope, element, attrs) {

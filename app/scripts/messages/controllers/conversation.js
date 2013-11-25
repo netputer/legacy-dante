@@ -320,7 +320,7 @@ $scope.removeMessage = function(c, m) {
     });
 };
 
-$scope.getPhotoColor = function() {
+$scope.getPhotoColor = function(index) {
 
     //默认头像显示颜色
     var photoColorList = [
@@ -334,7 +334,7 @@ $scope.getPhotoColor = function() {
         'contact-photo-bg-blue-green',
         'contact-photo-bg-light-green'
     ];
-    return photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
+    return photoColorList[ index % photoColorList.length ];
 };
 
 $scope.isDisplayNamePhoneNumber = function( name ) {
