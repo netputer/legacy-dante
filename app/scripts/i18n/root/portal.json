@@ -44,7 +44,7 @@
         "h1": "We can't find your phone.",
         "h2": "Please check the following. ",
         "step1": "SnapPea is running on your phone. <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">I haven't installed SnapPea yet</a>.",
-        "step2": "You're signed in with this account:",
+        "step2": "You're signed in with this account",
         "step3": "You're phone is connected to Wi-Fi.",
         "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">Still can't find your phone?</a>"
     },
