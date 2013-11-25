@@ -337,7 +337,7 @@ if (!READ_ONLY_FLAG) {
         });
 
         //feedback style hack 
-        jQuery('#zenbox_tab').prepend("<div class='background'></div>");
+        jQuery('#zenbox_tab').prepend('<div class="background"></div>');
     });
 
 }
