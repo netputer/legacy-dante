@@ -13,7 +13,7 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window', //'$interval',
+                '$q', 'wdToast',  '$timeout', '$window',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
                  $q,   wdToast,   $timeout, $window) {
@@ -49,8 +49,6 @@ return [function() {
                 wdGoogleSignIn.getProfileInfo().then(function(data) {
                     $scope.profileInfo = data;
                 });
-
-                loopRefreshDevices();
             });
 
             $rootScope.$on('sidebar:close', function() {
@@ -62,6 +60,7 @@ return [function() {
                 $scope.deviceList = [];
                 $scope.isLoadingDevices = true;
                 refreshDevices();
+                loopRefreshDevices();
                 clearLayersStatus();
 
                 $scope.settingsHide = true;
@@ -73,6 +72,7 @@ return [function() {
                 $scope.deviceList = [];
                 $scope.isLoadingDevices = true;
                 refreshDevices();
+                loopRefreshDevices();
                 clearLayersStatus();
 
                 $scope.settingsHideImmediate = true;
@@ -82,6 +82,7 @@ return [function() {
 
             $rootScope.$on('sidebar:settings:animate', function() {
                 clearLayersStatus();
+                stopLoopRefreshDevices();
                 $scope.settingsAnimate = true;
                 $scope.devicesHide = true;
                 $scope.currentSettingsLayer = true;
@@ -89,19 +90,7 @@ return [function() {
 
             $rootScope.$on('sidebar:settings:default', function() {
                 clearLayersStatus();
-                $scope.settingsDefault = true;
-                $scope.devicesHide = true;
-            });
-
-            $rootScope.$on('sidebar:settings:animate', function() {
-                clearLayersStatus();
-                $scope.settingsAnimate = true;
-                $scope.devicesHide = true;
-                $scope.currentSettingsLayer = true;
-            });
-
-            $rootScope.$on('sidebar:settings:default', function() {
-                clearLayersStatus();
+                stopLoopRefreshDevices();
                 $scope.settingsDefault = true;
                 $scope.devicesHide = true;
             });
@@ -147,7 +136,9 @@ return [function() {
             }
 
             function stopLoopRefreshDevices() {
-                $window.clearInterval(loopRefreshDevicesTimer);
+                if (loopRefreshDevicesTimer) {
+                    $window.clearInterval(loopRefreshDevicesTimer);
+                }
             }
 
             function getListData(list) {

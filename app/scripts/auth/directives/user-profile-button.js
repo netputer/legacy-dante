@@ -25,6 +25,7 @@ link: function($scope, $element, $attribute, $control) {
         $scope.profile = data;
     });
     wdGoogleSignIn.getAccount().then(function(data) {
+        $scope.profile = $scope.profile || {};
         $scope.profile.email = data;
     });
 }
