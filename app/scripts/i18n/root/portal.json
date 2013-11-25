@@ -36,45 +36,45 @@
     },
     "ANNOUNCEMENT": "Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.",
     "ADD_NEW_PHONE_TIPS": {
-        "STEP1": "1. Install SnapPea from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
+        "STEP1": "1. Install SnapPea from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google Play</a>.",
         "STEP2": "2. Open SnapPea and sign in with <span class='account'>$$$$</span>",
         "STEP3": "After you finish, your phone will appear here."
     },
     "NO_DEVICES": {
-        "h1": "We can't find your phone.",
-        "h2": "Please check the following. ",
+        "h1": "We can't find your phone",
+        "h2": "Please check the following:",
         "step1": "SnapPea is running on your phone. <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">I haven't installed SnapPea yet</a>.",
         "step2": "You're signed in with this account",
-        "step3": "You're phone is connected to Wi-Fi.",
-        "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">Still can't find your phone?</a>"
+        "step3": "Your phone is connected to Wi-Fi.",
+        "foot": "<a href=\"https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device\" target=\"_blank\">Still can't connect phone?</a>"
     },
     "WORD": {
         "OR": "or",
         "NEXT": "Next"
     },
     "SELECT_DEVICES": {
-        "h1": "Select a phone.",
+        "h1": "Select a phone",
         "h2_1": "We found",
         "h2_2": "phone(s) in your account.",
         "new_phone": "Add a new phone"
     },
     "SIGN_PROGRESS": {
         "STEP1": "Signing in with Google",
-        "STEP2": "Getting your signed in phones",
+        "STEP2": "Finding your phone(s)",
         "STEP3": "Connecting to $$$$"
     },
     "USER_GUIDE": {
-        "STEP1": "Sign in on computer",
+        "STEP1": "Sign in on your computer",
         "STEP2": "Install SnapPea",
         "STEP3": "Sign in on your phone",
         "PAGE1_H1": "Install SnapPea on your phone",
         "PAGE1_H2": "The Android app is required to get started.",
-        "PAGE2_H1": "Get it from Google Play",
+        "PAGE2_H1": "Sign in on your phone",
         "PAGE2_H2": "After you sign in, your phone will appear here.",
-        "PAGE1_WAY1": "Get it from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google play</a>.",
+        "PAGE1_WAY1": "Get it from <a href=\"https://play.google.com/store/apps/details?id=com.snappea\" target=\"_blank\">Google Play</a>.",
         "PAGE1_WAY2": "Use your phone to scan the QR code.",
         "PAGE2_WAY1": "Use <span class='account'>$$$$</span> to sign in. Your phone will appear here.",
-        "PAGE2_WAY2": "Still can't find your phone?"
+        "PAGE2_WAY2": "Still can't connect phone?"
     },
     "CONNECTING" : "Connecting"
 }

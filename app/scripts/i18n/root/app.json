@@ -19,13 +19,13 @@
         "button_cancel": "Cancel"
     },
     "LANGUAGE_MODAL_TITLE": "Change language",
-    "DISCONNECT_DEVICE": "Disconnected from your phone.",
+    "DISCONNECT_DEVICE": "Disconnected from your phone",
     "TRY_NOW": "Try now",
     "CONNECT_DELAY_TIME": {
         "pre": "Retrying in",
-        "after" : "seconds."
+        "after" : "seconds..."
     },
-    "CHECK_SAME_NETWORK": "Make sure your computer is on the Wi-Fi network of ",
+    "CHECK_SAME_NETWORK": "Make sure your computer is on the Wi-Fi network ",
     "SIGN_OUT_TOAST": "Signing out...",
     "SIGN_OUT_ERROR_TOAST": "Sign out failed.",
     "DISCONNECT_FACEBOOK_INFO": "Disconnect your Facebook you will no longer be able to share your photos on Facebook.",
