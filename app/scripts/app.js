@@ -313,9 +313,7 @@ window.googleSignInCallback = function (data) {
 if (!READ_ONLY_FLAG) {
     window.googleSignInOnload = function() {
         window.gapi.client.setApiKey('AIzaSyB-esy_FeXlxXXzx3IaTNER058UX9iL3R0');
-        window.gapi.auth.init(function() {
-            window.googleSignInOnloadDefer.resolve();
-        });
+        window.googleSignInOnloadDefer.resolve();
     };
 
     jQuery.ajax({

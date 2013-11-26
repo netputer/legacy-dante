@@ -7,7 +7,7 @@ define( [
 
 return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
 function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
-
+    
     // 检测的最多账号数
     var MAX_ACCOUNT_NUM = 5;
     var global = {
@@ -22,7 +22,14 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         hasAccessdDevice : false,
 
         //当前账号号码
-        accountNum: 0
+        accountNum: 0,
+
+        devicesList: [],
+
+        loopTimer : null,
+
+        // 用来标记是否正在刷新请求
+        refreshTokenDefer : null
     };
 
     var result = {
@@ -41,10 +48,60 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             }
         },
 
+        checkToken : function () {
+            var me = this;
+            var defer = $q.defer();
+            var url = 'https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + me.getStorageItem('googleToken');
+            $.ajax({
+                type: 'GET',
+                url: url,
+                async: false,
+                contentType: 'application/json',
+                dataType: 'jsonp',
+                timeout: 10000
+            }).done(function(data) {
+                $rootScope.$apply(function() {
+                    if (data && data.error) {
+                        error();
+                    } else {
+                        $log.log('Getting google account informations...');
+                        me.getAccount().then(function(data) {
+                            me.getProfileInfo().then(function(data) {
+                                $log.log('All google login process have successed!');
+                                defer.resolve();
+                            }, function() {
+                                $log.error('Get profile failed!');
+                                defer.reject();
+                            });
+                        },function(){
+                            $log.error('Get account failed!');
+                            defer.reject();
+                        });
+                    }
+                });
+            }).fail(function(xhr) {
+                error();
+            });
+
+            function error() {
+                me.refreshToken(true).then(function() {
+                    defer.resolve();
+                }, function() {
+                    defer.reject();
+                }); 
+            }
+            return defer.promise;
+        },
+
         //刷新Google token
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
-            var defer = $q.defer();
+
+            if (global.refreshTokenDefer) {
+                return global.refreshTokenDefer.promise;
+            } else {
+                global.refreshTokenDefer = $q.defer();
+            }
 
             if (immediate) {
                 immediate = true;
@@ -59,7 +116,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             if (immediate) {
                 timer = $timeout(function() {
                     $log.error('Refreshing google token timeout.');
-                    defer.reject();
+                    global.refreshTokenDefer.reject();
                 }, timeout);
             }
 
@@ -70,7 +127,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                     'immediate':immediate,
                     'authuser': global.accountNum,
-                    'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email',
+                    'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
                     'cookiepolicy' : 'single_host_origin',
                     'apppackagename' : 'com.snappea'
                 },function(authResult){
@@ -87,14 +144,17 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             me.getAccount().then(function(data) {
                                 me.getProfileInfo().then(function(data) {
                                     $log.log('All google login process have successed!');
-                                    defer.resolve();
+                                    global.refreshTokenDefer.resolve();
+                                    global.refreshTokenDefer = null;
                                 }, function() {
                                     $log.error('Get profile failed!');
-                                    defer.reject();
+                                    global.refreshTokenDefer.reject();
+                                    global.refreshTokenDefer = null;
                                 });
                             },function(){
                                 $log.error('Get account failed!');
-                                defer.reject();
+                                global.refreshTokenDefer.reject();
+                                global.refreshTokenDefer = null;
                             });
                         } else if (authResult === null) {
                             if (global.accountNum >= MAX_ACCOUNT_NUM) {
@@ -104,7 +164,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                                 }
                                 global.accountNum = 0;
                                 $log.error('User maybe sigout all accounts!');
-                                defer.reject();
+                                global.refreshTokenDefer.reject();
+                                global.refreshTokenDefer = null;
                             } else {
                                 // 账号的号码不对
                                 global.accountNum += 1;
@@ -117,14 +178,18 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             } else {
                                 $timeout.cancel(timer);
                             }
-                            defer.reject();
+                            global.refreshTokenDefer.reject();
+                            global.refreshTokenDefer = null;
                         }
                     });
                 });                
             }
 
-            refresh();
-            return defer.promise;
+            $window.googleSignInOnloadDefer.done(function() {
+                refresh();
+            });
+
+            return global.refreshTokenDefer.promise;
         },
 
         getAccount : function () {
@@ -133,16 +198,18 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             if (!global.account) {
                 var authResult = global.authResult;
                 var isTimeout;
-                gapi.client.load('oauth2', 'v2', function() {
-                    var request = gapi.client.oauth2.userinfo.get();
-                    request.execute(function(obj){
-                        if (isTimeout !== true) {
-                            isTimeout = false;
-                            global.account = obj.email;
-                            $rootScope.$apply(function() {
-                                defer.resolve(global.account);
-                            });
-                        }
+                $window.googleSignInOnloadDefer.done(function() {
+                    $window.gapi.client.load('oauth2', 'v2', function() {
+                        var request = $window.gapi.client.oauth2.userinfo.get();
+                        request.execute(function(obj){
+                            if (isTimeout !== true) {
+                                isTimeout = false;
+                                global.account = obj.email;
+                                $rootScope.$apply(function() {
+                                    defer.resolve(global.account);
+                                });
+                            }
+                        });
                     });
                 });
                 //超时处理
@@ -151,7 +218,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         isTimeout = true;
                         defer.reject();
                     }
-                },10000);
+
+                // 这个时间总是失败，居然总是达到超时时间，没办法才改成了 20s .
+                }, 20000);
             } else {
                 defer.resolve(global.account);
             }
@@ -164,20 +233,22 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
             if (!global.profileInfo.id) {
                 var isTimeout;
-                gapi.client.load('plus','v1', function() {
-                    var request = gapi.client.plus.people.get({
-                       'userId': 'me'
-                    });
+                $window.googleSignInOnloadDefer.done(function() {
+                    $window.gapi.client.load('plus','v1', function() {
+                        var request = $window.gapi.client.plus.people.get({
+                           'userId': 'me'
+                        });
 
-                    request.execute(function(obj) {
-                        if (isTimeout !== true) {
-                            isTimeout = false;
+                        request.execute(function(obj) {
+                            if (isTimeout !== true) {
+                                isTimeout = false;
 
-                            $rootScope.$apply(function() {
-                                global.profileInfo = obj;
-                                defer.resolve(global.profileInfo); 
-                            });
-                        }
+                                $rootScope.$apply(function() {
+                                    global.profileInfo = obj;
+                                    defer.resolve(global.profileInfo); 
+                                });
+                            }
+                        });
                     });
                 });
 
@@ -186,7 +257,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         isTimeout = true;
                         defer.reject();
                     }
-                },10000);
+
+                // 这个时间总是失败，居然总是达到超时时间，没办法才改成了 20s .
+                }, 20000);
             } else {
                 defer.resolve(global.profileInfo);
             }
@@ -247,6 +320,26 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             return defer.promise;
         },
 
+        loopGetDevices : function () {
+            var me = this;
+            if (!global.loopTimer) {
+                global.loopTimer = $window.setInterval(function () {
+                    me.getDevices().then(function(list) {
+                        global.devicesList.splice(0, global.devicesList.length);
+                        Array.prototype.push.apply(global.devicesList, list);
+                    });
+                }, 5000);
+            }
+
+            //因为给出去的是一个数组，在 Javascript 中传递的是指针，通过外层 $scope.$watch 函数可以监测其变化。
+            return global.devicesList;
+        },
+
+        stopLoopGetDevices : function () {
+            $window.clearInterval(global.loopTimer);
+            global.loopTimer = null;
+        },
+
         signout : function () {
             $log.log('Sign out from google ...');
             wdCommunicateSnappeaCom.googleSignOut();
@@ -263,7 +356,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 timeout: 7000,
                 success: function(nullResponse) {
                     $rootScope.$apply(function() {
-
                         // 客户取消了关联，据此执行相应操作
                         // 回应始终为未定义。
                         me.removeStorageItem('googleToken');
@@ -280,6 +372,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     });
                 }
             });
+
             return defer.promise;
         },
 

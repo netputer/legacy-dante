@@ -1,6 +1,6 @@
 <!-- 登陆页 -->
 <div>
-    <div class="wd-portal" ng-show="deviceNum<0">
+    <div class="wd-portal" ng-show="isShowNoSignInPage">
         <div class="a" ng-switch on="isSupport">
             <div class="container" ng-switch-when="true">
                 <h1>{{$root.DICT.portal.H1}}</h1>
@@ -62,13 +62,13 @@
 <!-- 登陆页 end -->
 
 <!-- 设备列表页 -->
-<div class="devices-tpl" ng-if="deviceNum>=0">
+<div class="devices-tpl" ng-if="!isShowNoSignInPage && (devicesList.length>=0)">
     <div wd-user-profile-button></div>
 
     <!-- 新用户引导 -->
-    <div class="user-guide" ng-if="!isOldUser && deviceNum === 0">
+    <div class="user-guide" ng-if="!isOldUser && devicesList.length === 0">
         <div class="header">
-            <div class="title current" ng-click="goToUserGuide(1)">
+            <div class="title current">
                 <p class="num">1</p>
                 <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
             </div>
@@ -122,7 +122,7 @@
     </div>
     
     <!-- no device start -->
-    <div class="no-device" ng-if="isOldUser && deviceNum === 0">
+    <div class="no-device" ng-if="isOldUser && devicesList.length === 0">
         <h1>{{$root.DICT.portal.NO_DEVICES.h1}}</h1>
         <h2>{{$root.DICT.portal.NO_DEVICES.h2}}</h2>
         <div class="step">
@@ -152,11 +152,11 @@
     <!-- no device end -->
 
     <!-- select devices start -->
-    <div class="select-device" ng-if="isOldUser && deviceNum >= 1">
+    <div class="select-device" ng-if="isOldUser && devicesList.length >= 1">
         <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
-        <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
+        <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{devicesList.length}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
         <div class="list">
-            <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectPhone(item);" ng-class="{'selected-device': item.loading}">
+            <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectDevice(item);" ng-class="{'selected-device': item.loading}">
                 <div class="icon">
                     <i class="icon-phone-dark"></i>
                     <i class="icon-phone-white" ng-if="!item.loading"></i>
@@ -195,7 +195,7 @@
 </div>
 <!-- 设备列表页 end -->
 
-<div class="loading-google"  ng-show="isLoadingDevices">
+<div class="loading-google" ng-show="isLoadingDevices">
     <div class="wd-loading" data-visible="true"></div>
     <div class="sign-in-progress">{{signInProgress}}...</div>
 </div>

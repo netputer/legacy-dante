@@ -52,10 +52,12 @@ return [function() {
 
             $rootScope.$on('sidebar:close', function() {
                 $scope.closeSidebar();
+                stopLoopRefreshDevices();
             });
 
             $rootScope.$on('sidebar:devices:animate', function() {
                 refreshDevices();
+                loopRefreshDevices();
                 clearLayersStatus();
 
                 $scope.settingsHide = true;
@@ -64,9 +66,11 @@ return [function() {
             });
 
             $rootScope.$on('sidebar:devices:default', function() {
+                $scope.deviceList = [];
+                $scope.isLoadingDevices = true;
                 refreshDevices();
+                loopRefreshDevices();
                 clearLayersStatus();
-
                 $scope.settingsHideImmediate = true;
                 $scope.devicesDefault = true;
                 $scope.currentDeviceLayer = true;
@@ -74,6 +78,7 @@ return [function() {
 
             $rootScope.$on('sidebar:settings:animate', function() {
                 clearLayersStatus();
+                stopLoopRefreshDevices();
                 $scope.settingsAnimate = true;
                 $scope.devicesHide = true;
                 $scope.currentSettingsLayer = true;
@@ -81,19 +86,7 @@ return [function() {
 
             $rootScope.$on('sidebar:settings:default', function() {
                 clearLayersStatus();
-                $scope.settingsDefault = true;
-                $scope.devicesHide = true;
-            });
-
-            $rootScope.$on('sidebar:settings:animate', function() {
-                clearLayersStatus();
-                $scope.settingsAnimate = true;
-                $scope.devicesHide = true;
-                $scope.currentSettingsLayer = true;
-            });
-
-            $rootScope.$on('sidebar:settings:default', function() {
-                clearLayersStatus();
+                stopLoopRefreshDevices();
                 $scope.settingsDefault = true;
                 $scope.devicesHide = true;
             });
@@ -106,6 +99,8 @@ return [function() {
                 if(item.ip !== wdDevice.getDevice().ip){
                     wdDevice.signout();
                     wdDevice.setDevice(item);
+                    $scope.deviceList = [];
+                    $scope.isLoadingDevices = true;
                     refreshDevices();
                 }
             };
@@ -118,14 +113,12 @@ return [function() {
                 $scope.deviceList = [];
                 $timeout(function() {
                     $scope.isLoadingDevices = true;
-
                     (function getDevices() {
                         wdGoogleSignIn.getDevices().then(function(list){
                             $scope.isLoadingDevices = false;
-
                             $scope.deviceList = getListData(list);
                         },function(){
-                            wdGoogleSignIn.refreshToken(true).then(function(){
+                            wdGoogleSignIn.checkToken().then(function(){
                                 getDevices();
                             }, function() {
                                 $scope.signout();
@@ -133,6 +126,17 @@ return [function() {
                         });
                     })();
                 }, 300);
+            }
+
+            function loopRefreshDevices() {
+                $scope.loopRefreshDevices = wdGoogleSignIn.loopGetDevices();
+                $scope.$watch('loopRefreshDevices', function(newData, oldData) {
+                    $scope.deviceList = getListData(newData);
+                }, true);
+            }
+
+            function stopLoopRefreshDevices() {
+                wdGoogleSignIn.stopLoopGetDevices();
             }
 
             function getListData(list) {
