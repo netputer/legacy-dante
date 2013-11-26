@@ -14,7 +14,7 @@ link: function(scope, element) {
             'authuser' : '',
             'apppackagename' : 'com.snappea',
             'callback' : 'googleSignInCallback',
-            'scope' : 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email'                
+            'scope' : 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'                
         });
         $window.gapi.signin.go(element[0]);
     });

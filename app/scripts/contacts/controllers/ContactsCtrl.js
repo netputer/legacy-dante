@@ -469,7 +469,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.isDeleteBtnShow = false;
                 }
             }
-
+            $scope.selectedNum = 0;
             wdcContacts.delContacts(delId).success(function(data) {
                 // toastDefer.resolve();
             }).error(function() {
@@ -495,7 +495,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     $scope.clickChecked = function(item) {
-        console.log(item);
         if ($scope.checkedList.indexOf(item.id) !== -1) {
             GA('Web Contacts:click checkbox unchecked');
             if ($scope.selectedNum > 0) {

@@ -33,15 +33,15 @@ link: function($scope, $element, $attribute, $control) {
         }, function() {
             getUserInfo();
         }).then(function(data) {
+            $scope.profile = $scope.profile || {};
             $scope.profile.email = data;
-            console.log($scope.profile);
             $scope.$apply();
         }, function() {
             getUserInfo();
         });
     }
 
-    // getUserInfo();
+    getUserInfo();
 }
 
 };

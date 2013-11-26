@@ -7,7 +7,7 @@ define( [
 
 return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
 function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
-
+    
     // 检测的最多账号数
     var MAX_ACCOUNT_NUM = 5;
     var global = {
@@ -64,7 +64,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         $log.log('Getting google account informations...');
                         me.getAccount().then(function(data) {
                             me.getProfileInfo().then(function(data) {
-                                console.log(data);
                                 $log.log('All google login process have successed!');
                                 defer.resolve();
                             }, function() {
@@ -120,7 +119,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
                     'immediate':immediate,
                     'authuser': global.accountNum,
-                    'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email',
+                    'scope':'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
                     'cookiepolicy' : 'single_host_origin',
                     'apppackagename' : 'com.snappea'
                 },function(authResult){
@@ -173,7 +172,10 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 });                
             }
 
-            refresh();
+            $window.googleSignInOnloadDefer.done(function() {
+                refresh();
+            });
+
             return defer.promise;
         },
 
@@ -225,7 +227,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         });
 
                         request.execute(function(obj) {
-console.warn(obj);
                             if (isTimeout !== true) {
                                 isTimeout = false;
 
@@ -328,6 +329,7 @@ console.warn(obj);
 
         signout : function () {
             $log.log('Sign out from google ...');
+            var tokenW = $window.localStorage.getItem('googleToken');
             wdCommunicateSnappeaCom.googleSignOut();
             $window.gapi.auth.signOut();
             var me = this;
@@ -358,6 +360,7 @@ console.warn(obj);
                     });
                 }
             });
+
             return defer.promise;
         },
 

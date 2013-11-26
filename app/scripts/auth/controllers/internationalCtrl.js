@@ -69,13 +69,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             }
             GA('connect_device:enter_snappea:'+ deviceData.model);
             GA('check_sign_in:auth_all:all');
-            // $scope.isLoadingDevices = true;
+            $scope.isLoadingDevices = true;
             stopLoopGetDevicesList();
 
             //检测下是否是从url跳转过来的
             if (wdGoogleSignIn.getForceShowDevices()) {
                 wdGoogleSignIn.setForceShowDevices(false);
-                // $scope.isLoadingDevices = false;
                 loopGetDevicesList(false);
                 return;
             }
@@ -127,7 +126,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 wdGoogleSignIn.getDevices().then(function(list) {
                     $scope.isLoadingDevices = false;
                     $scope.devicesList = list;
-
                     wdAlert.confirm(
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
@@ -265,12 +263,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isShowNoSignInPage = false;
             $scope.isLoadingDevices = true;
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-            wdGoogleSignIn.checkToken().then(function() {
+            wdGoogleSignIn.refreshToken(true).then(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
                     showDevicesList(list);
                     $scope.isOldUser = wdGoogleSignIn.isOldUser();
                 },function() {
-                    wdGoogleSignIn.checkToken().then(function() {
+                    wdGoogleSignIn.refreshToken(true).then(function() {
                         googleSignIn();
                     }, function() {
                         $scope.googleSignOut();
@@ -360,20 +358,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
             $window.googleSignInOnloadDefer.done(function() {
-                gapi.auth.authorize({
-                    'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
-                    'immediate': true,
-                    'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email',
-                    'cookiepolicy' : 'single_host_origin',               
-                }, function(data) {
-                    console.warn(data);
-                    console.log(gapi.auth.getToken('token', true));
+                wdGoogleSignIn.refreshToken(true).then(function() {
+                    autoAccess();
+                }, function() {
+                    $scope.googleSignOut();
                 });
-                // wdGoogleSignIn.checkToken().then(function() {
-                //     //autoAccess();
-                // }, function() {
-                //     $scope.googleSignOut();
-                // });
             });
         }
 
@@ -394,7 +383,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.devicesList = list;
                         loopGetDevicesList(false);
                     },function() {
-                        wdGoogleSignIn.checkToken().then(function(){
+                        wdGoogleSignIn.refreshToken(true).then(function(){
                             signoutFromDevices();
                         },function(){
                             $scope.googleSignOut();
