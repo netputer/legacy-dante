@@ -494,7 +494,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         $scope.checkedList = [];
     };
 
-    $scope.clickChecked = function(event, item) {
+    $scope.clickChecked = function(item) {
+        console.log(item);
         if ($scope.checkedList.indexOf(item.id) !== -1) {
             GA('Web Contacts:click checkbox unchecked');
             if ($scope.selectedNum > 0) {
