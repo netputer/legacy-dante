@@ -64,14 +64,13 @@ _.extend(Collection.prototype, {
                     item._collection.drop(item);
                 }
                 item._collection = this;
-                this.collection.push(item);
+                this.collection = [item].concat(this.collection);
                 this._hashMap[item.id] = item;
                 return item;
             }
         }, this);
-
+        
         this.sort();
-
         return updated;
     },
 
