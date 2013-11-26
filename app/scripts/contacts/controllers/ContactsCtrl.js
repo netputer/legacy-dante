@@ -200,10 +200,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
 
             if (!isUnshift) {
-                if (obj === 'undefined') {
-                    console.log('www');
+                if (obj) {
+                    G_list.push(obj);
                 }
-                G_list.push(obj);
             } else {
                 G_list.unshift(obj);
             }
