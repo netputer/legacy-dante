@@ -26,7 +26,10 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
         devicesList: [],
 
-        loopTimer : null
+        loopTimer : null,
+
+        // 用来标记是否正在刷新请求
+        refreshTokenDefer : null
     };
 
     var result = {
@@ -93,7 +96,12 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         //刷新Google token
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
-            var defer = $q.defer();
+
+            if (global.refreshTokenDefer) {
+                return global.refreshTokenDefer.promise;
+            } else {
+                global.refreshTokenDefer = $q.defer();
+            }
 
             if (immediate) {
                 immediate = true;
@@ -108,7 +116,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             if (immediate) {
                 timer = $timeout(function() {
                     $log.error('Refreshing google token timeout.');
-                    defer.reject();
+                    global.refreshTokenDefer.reject();
                 }, timeout);
             }
 
@@ -136,14 +144,17 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             me.getAccount().then(function(data) {
                                 me.getProfileInfo().then(function(data) {
                                     $log.log('All google login process have successed!');
-                                    defer.resolve();
+                                    global.refreshTokenDefer.resolve();
+                                    global.refreshTokenDefer = null;
                                 }, function() {
                                     $log.error('Get profile failed!');
-                                    defer.reject();
+                                    global.refreshTokenDefer.reject();
+                                    global.refreshTokenDefer = null;
                                 });
                             },function(){
                                 $log.error('Get account failed!');
-                                defer.reject();
+                                global.refreshTokenDefer.reject();
+                                global.refreshTokenDefer = null;
                             });
                         } else if (authResult === null) {
                             if (global.accountNum >= MAX_ACCOUNT_NUM) {
@@ -153,7 +164,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                                 }
                                 global.accountNum = 0;
                                 $log.error('User maybe sigout all accounts!');
-                                defer.reject();
+                                global.refreshTokenDefer.reject();
+                                global.refreshTokenDefer = null;
                             } else {
                                 // 账号的号码不对
                                 global.accountNum += 1;
@@ -166,7 +178,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             } else {
                                 $timeout.cancel(timer);
                             }
-                            defer.reject();
+                            global.refreshTokenDefer.reject();
+                            global.refreshTokenDefer = null;
                         }
                     });
                 });                
@@ -176,7 +189,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 refresh();
             });
 
-            return defer.promise;
+            return global.refreshTokenDefer.promise;
         },
 
         getAccount : function () {
