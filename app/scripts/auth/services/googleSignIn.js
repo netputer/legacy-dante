@@ -117,6 +117,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 timer = $timeout(function() {
                     $log.error('Refreshing google token timeout.');
                     global.refreshTokenDefer.reject();
+                    global.refreshTokenDefer = null;
                 }, timeout);
             }
 
