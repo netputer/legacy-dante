@@ -118,7 +118,7 @@ return [function() {
                             $scope.isLoadingDevices = false;
                             $scope.deviceList = getListData(list);
                         },function(){
-                            wdGoogleSignIn.refreshToken(true).then(function(){
+                            wdGoogleSignIn.checkToken().then(function(){
                                 getDevices();
                             }, function() {
                                 $scope.signout();

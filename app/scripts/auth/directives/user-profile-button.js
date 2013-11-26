@@ -6,7 +6,7 @@ define([
     $
 ) {
 'use strict';
-return ['wdGoogleSignIn', '$window', '$document', function(wdGoogleSignIn, $window, $document) {
+return ['wdGoogleSignIn', '$window', '$document', '$q', function(wdGoogleSignIn, $window, $document, $q) {
 return {
 template: template,
 scope: true,
@@ -21,12 +21,27 @@ link: function($scope, $element, $attribute, $control) {
             });
         }
     };
-    wdGoogleSignIn.getProfileInfo().then(function(data) {
-        $scope.profile = data;
-        wdGoogleSignIn.getAccount().then(function(data) {
+
+    function getUserInfo() {
+        wdGoogleSignIn.checkToken().then(function() {
+            return wdGoogleSignIn.getProfileInfo();
+        }, function() {
+            getUserInfo();
+        }).then(function(data) {
+            $scope.profile = data;
+            return wdGoogleSignIn.getAccount();
+        }, function() {
+            getUserInfo();
+        }).then(function(data) {
             $scope.profile.email = data;
+            console.log($scope.profile);
+            $scope.$apply();
+        }, function() {
+            getUserInfo();
         });
-    });
+    }
+
+    // getUserInfo();
 }
 
 };

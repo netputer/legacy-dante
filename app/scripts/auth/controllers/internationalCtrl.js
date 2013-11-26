@@ -123,6 +123,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             .error(function(reason, status, headers, config) {
                 wdDevice.lightDeviceScreen(deviceData.id);
                 deviceData.loading = false;
+                getUserInfo();
                 wdGoogleSignIn.getDevices().then(function(list) {
                     $scope.isLoadingDevices = false;
                     $scope.devicesList = list;
@@ -168,12 +169,21 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             }
             $scope.loopDevicesList = wdGoogleSignIn.loopGetDevices();
             $scope.$watch('loopDevicesList', function(newData, oldData) {
+                getUserInfo();
                 if (oldData.length < newData.length) {
                     GA('device_sign_in:add_new_device:new_device_page');
+                    for (var i = 0 , l = $scope.devicesList.length ; i < l ; i += 1) {
+                        if ($scope.devicesList[i].loading === true ) {
+                            for (var m = 0 , n = newData.length; m < n; m += 1) {
+                                if (newData[m].id === $scope.devicesList[i].id) {
+                                    newData[m].loading = true;
+                                }
+                            }
+                        } else {
+                            $scope.devicesList[i].loading = false;
+                        }
+                    }
                     $scope.devicesList = newData;
-                }
-                for (var i = 0 , l = $scope.devicesList.length ; i < l ; i += 1) {
-                    $scope.devicesList[i].loading = false;
                 }
                 switch ($scope.devicesList.length) {
                     case 1:
@@ -255,12 +265,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isShowNoSignInPage = false;
             $scope.isLoadingDevices = true;
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-            wdGoogleSignIn.refreshToken(true).then(function() {
+            wdGoogleSignIn.checkToken().then(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
                     showDevicesList(list);
                     $scope.isOldUser = wdGoogleSignIn.isOldUser();
                 },function() {
-                    wdGoogleSignIn.refreshToken(true).then(function() {
+                    wdGoogleSignIn.checkToken().then(function() {
                         googleSignIn();
                     }, function() {
                         $scope.googleSignOut();
@@ -350,11 +360,20 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
             $window.googleSignInOnloadDefer.done(function() {
-                wdGoogleSignIn.refreshToken(true).then(function() {
-                    autoAccess();
-                }, function() {
-                    $scope.googleSignOut();
+                gapi.auth.authorize({
+                    'client_id':'592459906195-7sjc6v1cg6kf46vdhdvn8g2pvjbdn5ae.apps.googleusercontent.com',
+                    'immediate': true,
+                    'scope':'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email',
+                    'cookiepolicy' : 'single_host_origin',               
+                }, function(data) {
+                    console.warn(data);
+                    console.log(gapi.auth.getToken('token', true));
                 });
+                // wdGoogleSignIn.checkToken().then(function() {
+                //     //autoAccess();
+                // }, function() {
+                //     $scope.googleSignOut();
+                // });
             });
         }
 
@@ -375,7 +394,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.devicesList = list;
                         loopGetDevicesList(false);
                     },function() {
-                        wdGoogleSignIn.refreshToken(true).then(function(){
+                        wdGoogleSignIn.checkToken().then(function(){
                             signoutFromDevices();
                         },function(){
                             $scope.googleSignOut();

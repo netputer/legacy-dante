@@ -45,6 +45,52 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             }
         },
 
+        checkToken : function () {
+            var me = this;
+            var defer = $q.defer();
+            var url = 'https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + me.getStorageItem('googleToken');
+            $.ajax({
+                type: 'GET',
+                url: url,
+                async: false,
+                contentType: 'application/json',
+                dataType: 'jsonp',
+                timeout: 10000
+            }).done(function(data) {
+                $rootScope.$apply(function() {
+                    if (data && data.error) {
+                        error();
+                    } else {
+                        $log.log('Getting google account informations...');
+                        me.getAccount().then(function(data) {
+                            me.getProfileInfo().then(function(data) {
+                                console.log(data);
+                                $log.log('All google login process have successed!');
+                                defer.resolve();
+                            }, function() {
+                                $log.error('Get profile failed!');
+                                defer.reject();
+                            });
+                        },function(){
+                            $log.error('Get account failed!');
+                            defer.reject();
+                        });
+                    }
+                });
+            }).fail(function(xhr) {
+                error();
+            });
+
+            function error() {
+                me.refreshToken(true).then(function() {
+                    defer.resolve();
+                }, function() {
+                    defer.reject();
+                }); 
+            }
+            return defer.promise;
+        },
+
         //刷新Google token
         refreshToken : function ( immediate ) {
             $log.log('Refreshing google tokening...');
@@ -179,6 +225,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         });
 
                         request.execute(function(obj) {
+console.warn(obj);
                             if (isTimeout !== true) {
                                 isTimeout = false;
 
