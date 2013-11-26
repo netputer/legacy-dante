@@ -64,7 +64,7 @@ _.extend(Collection.prototype, {
                     item._collection.drop(item);
                 }
                 item._collection = this;
-                this.collection = [item].concat(this.collection);
+                this.collection.unshift(item);
                 this._hashMap[item.id] = item;
                 return item;
             }
