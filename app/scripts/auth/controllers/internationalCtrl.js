@@ -69,7 +69,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             }
             GA('connect_device:enter_snappea:'+ deviceData.model);
             GA('check_sign_in:auth_all:all');
-            $scope.isLoadingDevices = true;
             stopLoopGetDevicesList();
 
             //检测下是否是从url跳转过来的
