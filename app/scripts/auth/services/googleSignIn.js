@@ -267,7 +267,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                         global.devicesList.splice(0, global.devicesList.length);
                         Array.prototype.push.apply(global.devicesList, list);
                     });
-                }, 3000);
+                }, 5000);
             }
 
             //因为给出去的是一个数组，在 Javascript 中传递的是指针，通过外层 $scope.$watch 函数可以监测其变化。
