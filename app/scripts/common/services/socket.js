@@ -125,6 +125,12 @@ Socket.prototype = {
             // $log.warn('Socket fails to establish.');
             GA('socket:connect_failed');
         });
+
+        this._transport.on('error', function() {
+            //Almost handshake error
+            GA('socket:connect_error');
+            self.refreshDeviceAndConnect();
+        });
     },
 
     close: function() {
