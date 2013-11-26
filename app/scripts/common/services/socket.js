@@ -25,6 +25,7 @@ Socket.prototype = {
     constructor: Socket,
     RECONNECT_TIMES : 0,
     MAX_RECONNECTION_ATTEMPTS : 2,
+    MAX_SOCKET_CONNECT_TIMES: 3,
     /**
      * Destroy everything.
      */
@@ -140,50 +141,47 @@ Socket.prototype = {
         return this;
     },
 
+    showDisconnectPanel: function() {
+        var self = this;
+        this.trigger('socket:disconnected');
+        this.off('socket:connect').on('socket:connect', function() {
+            self.MAX_SOCKET_CONNECT_TIMES -= 1;
+            if (self.MAX_SOCKET_CONNECT_TIMES) {
+                self.close();
+                self.connect();
+            } else {
+                self.refreshDeviceAndConnect();
+            }
+        });
+    },
+
     refreshDeviceAndConnect: function() {
         var self = this;
-        var MAX_GET_DEVICES_TIMES = 3;
-        var MAX_SOCKET_CONNECT_TIMES = 3;
-        (function getDevices() {
-            wdGoogleSignIn.getDevices().then(function(list) {
-                var device = wdDevice.getDevice();
+        this.MAX_SOCKET_CONNECT_TIMES = 3;
+        wdGoogleSignIn.getDevices().then(function(list) {
+            var device = wdDevice.getDevice();
 
-                var currentOnlineDevice = _.find(list, function(item) {
-                    return device && (item.id === device.id);
-                });
-
-                if (currentOnlineDevice && currentOnlineDevice.ip) {
-                    if (currentOnlineDevice.ip !== device.ip) {
-                        wdDevice.setDevice(currentOnlineDevice);
-                        wdDev.setServer(currentOnlineDevice.ip);
-
-                        self.close();
-                        self.connect();
-                    } else {
-                        wdDevice.lightDeviceScreen(device.id);
-                        self.trigger('socket:disconnected');
-                        self.off('socket:connect').on('socket:connect', function() {
-                            MAX_SOCKET_CONNECT_TIMES -= 1;
-                            if (MAX_SOCKET_CONNECT_TIMES) {
-                                self.close();
-                                self.connect();
-                            } else {
-                                self.refreshDeviceAndConnect();
-                            }
-                        });
-                    }
-                } else {
-                    wdDevice.signout();
-                }
-            }, function() {
-                MAX_GET_DEVICES_TIMES -= 1;
-                if (MAX_GET_DEVICES_TIMES) {
-                    getDevices();
-                } else {
-                    wdDevice.signout();
-                }
+            var currentOnlineDevice = _.find(list, function(item) {
+                return device && (item.id === device.id);
             });
-        })();
+
+            if (currentOnlineDevice && currentOnlineDevice.ip) {
+                if (currentOnlineDevice.ip !== device.ip) {
+                    wdDevice.setDevice(currentOnlineDevice);
+                    wdDev.setServer(currentOnlineDevice.ip);
+
+                    self.close();
+                    self.connect();
+                } else {
+                    wdDevice.lightDeviceScreen(device.id);
+                    self.showDisconnectPanel();
+                }
+            } else {
+                wdDevice.signout();
+            }
+        }, function() {
+            self.showDisconnectPanel();
+        });
     }
 };
 
