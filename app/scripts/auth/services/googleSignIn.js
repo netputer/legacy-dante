@@ -329,7 +329,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
         signout : function () {
             $log.log('Sign out from google ...');
-            var tokenW = $window.localStorage.getItem('googleToken');
             wdCommunicateSnappeaCom.googleSignOut();
             $window.gapi.auth.signOut();
             var me = this;
