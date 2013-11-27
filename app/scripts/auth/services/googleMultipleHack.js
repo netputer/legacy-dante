@@ -60,7 +60,7 @@ return {
 
     getLocalProfile: function() {
         // 这里是为了兼容 Google 目前不支持多账号的问题，所以增加的将用户数据存在本地的逻辑
-        var localData = $window.localStorage.getItem('user-profile');
+        var localData = JSON.parse($window.localStorage.getItem('user-profile'));
         if (localData) {
             return localData;
         } else {

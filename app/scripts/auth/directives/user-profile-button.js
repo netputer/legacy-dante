@@ -18,6 +18,7 @@ link: function($scope, $element, $attribute, $control) {
         if ($scope.showUserDetail) {
             $($document).one('click', function() {
                 $scope.showUserDetail = false;
+                $scope.$apply();
             });
         }
     };

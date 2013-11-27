@@ -184,7 +184,6 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 // 这里是为了兼容 Google 目前不支持多账号的问题，所以增加的将用户数据存在本地的逻辑
                 var localData = wdGoogleMultipleHack.getLocalProfile();
                 if (localData) {
-                    wdGoogleMultipleHack.setLocalProfile(localData);
                     defer.resolve(localData);
                     return defer.promise;
                 }
@@ -202,7 +201,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
                                 $rootScope.$apply(function() {
                                     global.profileInfo = obj;
-                                    wdGoogleMultipleHack.setLocalProfile(global.profileInfo);
+                                    wdGoogleMultipleHack.setLocalProfile(obj);
                                     defer.resolve(global.profileInfo);
                                 });
                             }
