@@ -40,9 +40,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //搜索出的数据
     var G_search = [];
 
-    //被点击选择了的元素id
-    $scope.checkedList = wdcContacts.checkedList;
-
     //每次拉取数据的长度
     var DATA_LENGTH_ONCE = 50;
 
@@ -157,7 +154,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             tooltip : $scope.$root.DICT.contacts.WORDS.select
         };
         
-        if ($scope.checkedList.indexOf(id) !== -1) {
+        if (wdcContacts.checkedList.indexOf(id) !== -1) {
             obj.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
         }
         
@@ -350,7 +347,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         } else {
             word = 'contacts';
             for (i = 0 , l = G_list.length; i < l; i += 1) {
-                if (($scope.checkedList.indexOf(G_list[i].id) !== -1) && G_list[i].read_only ) {
+                if ((wdcContacts.checkedList.indexOf(G_list[i].id) !== -1) && G_list[i].read_only ) {
                     read_only.push(G_list[i].name);
                 }
             }
@@ -386,7 +383,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             //生成delId
             if (!id) {
                 for (i = 0 , l = $scope.pageList.length; i < l; i += 1) {
-                    if (($scope.checkedList.indexOf($scope.pageList[i].id) !== -1) && !$scope.pageList[i].read_only ) {
+                    if ((wdcContacts.checkedList.indexOf($scope.pageList[i].id) !== -1) && !$scope.pageList[i].read_only ) {
                         delId.push($scope.pageList[i].id);
                     }
                 }
@@ -454,20 +451,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 $scope.isContactsEditShow = false;
             }
             
-            if (delId.length > 1) {
-                $scope.selectedNum = 0;
-                $scope.isDeselectBtnShow = false;
-                $scope.isDeleteBtnShow = false;
-            } else {
-                if ($scope.selectedNum>0) {
-                    $scope.selectedNum -= 1;
-                }
-                if ($scope.selectedNum < 1) {
-                    $scope.isDeselectBtnShow = false;
-                    $scope.isDeleteBtnShow = false;
-                }
-            }
             $scope.deselectAll();
+            $scope.isDeselectBtnShow = false;
+            $scope.isDeleteBtnShow = false;
             wdcContacts.delContacts(delId).success(function(data) {
                 // toastDefer.resolve();
             }).error(function() {
@@ -487,37 +473,31 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     $scope.deselectAll = function() {
         $scope.isDeselectBtnShow = false;
         $scope.isDeleteBtnShow = false;
-        $scope.selectedNum = 0;
-        $scope.checkedList.splice(0, $scope.checkedList.length);
+        wdcContacts.checkedList = [];
     };
 
     $scope.clickChecked = function(item) {
-        if ($scope.checkedList.indexOf(item.id) !== -1) {
+        if (wdcContacts.checkedList.indexOf(item.id) !== -1) {
             GA('Web Contacts:click checkbox unchecked');
-            if ($scope.selectedNum > 0) {
-                $scope.selectedNum -= 1;
-            }
             item.tooltip = $scope.$root.DICT.contacts.WORDS.select;
-            for (var i = 0 , l = $scope.checkedList.length ; i < l ; i += 1) {
-                if (item.id === $scope.checkedList[i]) {
-                    $scope.checkedList.splice(i,1);
+            for (var i = 0 , l = wdcContacts.checkedList.length ; i < l ; i += 1) {
+                if (item.id === wdcContacts.checkedList[i]) {
+                    wdcContacts.checkedList.splice(i,1);
                 }
             }
         } else {
             GA('Web Contacts:click checkbox checked');
             item.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
-            $scope.selectedNum += 1;
-            $scope.checkedList.push(item.id);
+            wdcContacts.checkedList.push(item.id);
         }
         if (event.shiftKey) {
             GA('Web Contacts:press shift and click checkbox checked');
             var startIndex = Math.max($scope.pageList.indexOf(G_lastChecked), 0);
             var stopIndex = $scope.pageList.indexOf(item);
             $scope.pageList.slice(Math.min(startIndex, stopIndex), Math.max(startIndex, stopIndex) + 1).forEach(function(v) {
-                if ($scope.checkedList.indexOf(v.id) === -1) {
+                if (wdcContacts.checkedList.indexOf(v.id) === -1) {
                     v.tooltip = item.tooltip = $scope.$root.DICT.contacts.WORDS.deselect;
-                    $scope.checkedList.push(v.id);
-                    $scope.selectedNum += 1;
+                    wdcContacts.checkedList.push(v.id);
                 }
             });
         }
@@ -922,6 +902,14 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         $scope.searchContacts();
     };
 
+    $scope.getCheckedList = function() {
+        return wdcContacts.checkedList;
+    };
+
+    $scope.setCheckedList = function(list) {
+        wdcContacts.checkedList = list;
+    };
+
     //搜索联系人功能
     $scope.searchContacts = _.debounce(function() {
         $scope.$apply(function() {
@@ -987,8 +975,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     function showSelectedNum() {
-        $scope.selectedNum = $scope.checkedList.length;
-        if ($scope.selectedNum > 0) {
+        if (wdcContacts.checkedList.length > 0) {
             $scope.isDeselectBtnShow = true;
             $scope.isDeleteBtnShow = true;
         } else {
@@ -1009,7 +996,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                 return;
             }
         } else {
-            if (G_isFirst || (pl < l)) {
+            if ((G_isFirst && pl > wdcContacts.config.dataLengthOnce) || (pl < l)) {
                 $scope.isLoadMoreBtnShow = true;
                 return; 
             }
@@ -1048,9 +1035,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     
     //当前的状态，“show” 正在显示某个联系人；“edit” 正在编辑；“new” 正在新建；这个状态也会用于检测“用户是否处于编辑状态突然点了旁边的联系人”。
     $scope.currentStatus = 'show';
-
-    //被选中的数量
-    $scope.selectedNum = 0;
 
     //用于版本检测
     $scope.serverMatchRequirement = $route.current.locals.versionSupport;

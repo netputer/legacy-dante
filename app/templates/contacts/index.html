@@ -14,7 +14,7 @@
             </button>
             <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll();$root.GA('Web Contacts:click deselect all button');" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-buticon"></i>
-                {{$root.DICT.contacts.BUTTONS.deselect}} ({{selectedNum}})
+                {{$root.DICT.contacts.BUTTONS.deselect}} ({{getCheckedList().length}})
             </button>
             <button class="btn btn-delete" type="button" ng-click="deleteContacts()" ng-show="isDeleteBtnShow" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-del-toolbar"></i>
@@ -34,12 +34,12 @@
             <!-- 没有联系人时显示 end -->
 
             <!-- 每个联系人的模板 -->
-            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked: ( checkedList.indexOf(item.id) !== -1 )}">
+            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked: ( getCheckedList().indexOf(item.id) !== -1 )}">
                 <div wd-checkbox class="selected"
                     ng-class="{'wd-checkbox-light': !item.clicked}"
                     ng-show="!$root.READ_ONLY_FLAG"
                     ng-click="clickChecked(item);$event.stopPropagation();"
-                    ng-checked="( checkedList.indexOf(item.id) !== -1 )"
+                    ng-checked="( getCheckedList().indexOf(item.id) !== -1 )"
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
                     <img ng-if="item.photo" class="photo" ng-src="{{item.photo}}">

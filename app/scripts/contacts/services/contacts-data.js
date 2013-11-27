@@ -151,7 +151,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
     //整个service返回接口
     return {
-
+        config : CONFIG,
         checkedList: global.checkedList,
         init : function(){
 
