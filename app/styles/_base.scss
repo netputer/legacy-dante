@@ -108,4 +108,10 @@ img {
     color: inherit;
 }
 
+.wd-upgrade-warning{    
+    a.btn-primary:hover {
+        color: #fff;
+    }
+}
+
 @import "scrollbar";
