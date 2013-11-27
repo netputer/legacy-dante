@@ -112,10 +112,10 @@
                     <img class="photo" ng-src="{{profile.image.url}}">
                     <div class="account">
                         <p class="name">{{profile.displayName}}</p>
-                        <p class="email">{{accountEmail}}</p>
+                        <p class="email">{{profile.emails[0].value}}</p>
                     </div>
                 </div>
-                <p class="tip" ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace('$$$$', accountEmail)"></p>
+                <p class="tip" ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace('$$$$', profile.emails[0].value)"></p>
             </div>
             <a target="_blank" class="help" href="https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY2}}</a>
         </div>
@@ -139,7 +139,7 @@
                     </div>
                 </dt>
                 <h2 class="num">2</h2>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} <span class="account">{{accountEmail}}</span></dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} <span class="account">{{profile.emails[0].value}}</span></dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
@@ -184,7 +184,7 @@
                 <a href="https://play.google.com/store/apps/details?id=com.snappea">
                     <i class="icon-googleplay"></i>
                 </a>
-                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP2.replace('$$$$', accountEmail)"></p>
+                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP2.replace('$$$$', profile.emails[0].value)"></p>
                 <p>{{$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP3}}</p>
             </div>
 

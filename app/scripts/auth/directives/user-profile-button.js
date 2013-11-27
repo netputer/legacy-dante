@@ -23,14 +23,10 @@ link: function($scope, $element, $attribute, $control) {
     };
 
     function getUserInfo() {
-        wdGoogleSignIn.refreshToken(true).then(function() {
+        wdGoogleSignIn.checkToken().then(function() {
             return wdGoogleSignIn.getProfileInfo();
         }).then(function(data) {
             $scope.profile = data;
-            return wdGoogleSignIn.getAccount();
-        }).then(function(data) {
-            $scope.profile = $scope.profile || {};
-            $scope.profile.email = data;
         }, function() {
             getUserInfo();
         });

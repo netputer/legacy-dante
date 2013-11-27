@@ -6,7 +6,7 @@
     </div>
     <div class="detail" ng-if="showUserDetail">
         <div class="angle"></div>
-        <p class="email">{{profile.email}}</p>
+        <p class="email">{{profile.emails[0].value}}</p>
         <hr>
         <div class="btn signout" ng-click="googleSignOut();">{{$root.DICT.portal.SIGN_OUT}}</div>
     </div>
