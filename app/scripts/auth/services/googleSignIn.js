@@ -202,7 +202,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
                                 $rootScope.$apply(function() {
                                     global.profileInfo = obj;
-                                    defer.resolve(global.profileInfo); 
+                                    wdGoogleMultipleHack.setLocalProfile(global.profileInfo);
+                                    defer.resolve(global.profileInfo);
                                 });
                             }
                         });
