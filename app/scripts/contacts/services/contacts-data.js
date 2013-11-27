@@ -151,7 +151,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
     //整个service返回接口
     return {
-
+        config : CONFIG,
         checkedList: global.checkedList,
         init : function(){
 
@@ -168,8 +168,12 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
             global.fun = fun;
             if (global.contacts.length) {
 
-                global.fun.call( me,global.contacts.slice( 0 , CONFIG.dataLengthOnce ) );
-                // global.fun.call( me,global.contacts.slice( CONFIG.dataLengthOnce + 1 ) );
+                global.fun.call(me, global.contacts.slice(0, CONFIG.dataLengthOnce));
+
+                //此时用户切换模块来获取数据，将剩余数据直接返回。
+                if (global.contacts[CONFIG.dataLengthOnce + 1]) {   
+                    global.fun.call(me, global.contacts.slice(CONFIG.dataLengthOnce + 1));
+                }
             }
         },
 

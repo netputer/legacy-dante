@@ -195,7 +195,9 @@ $sidebar-animation-time: 500ms;
             }
             a {
                 color: $standard-green;
-                text-decoration: underline;
+                &:hover {
+                    text-decoration: underline;
+                }
             }
             @include animation(fadeIn 0.4s);
         }
