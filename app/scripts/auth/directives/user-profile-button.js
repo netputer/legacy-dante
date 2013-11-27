@@ -18,19 +18,16 @@ link: function($scope, $element, $attribute, $control) {
         if ($scope.showUserDetail) {
             $($document).one('click', function() {
                 $scope.showUserDetail = false;
+                $scope.$apply();
             });
         }
     };
 
     function getUserInfo() {
-        wdGoogleSignIn.refreshToken(true).then(function() {
+        wdGoogleSignIn.checkToken().then(function() {
             return wdGoogleSignIn.getProfileInfo();
         }).then(function(data) {
             $scope.profile = data;
-            return wdGoogleSignIn.getAccount();
-        }).then(function(data) {
-            $scope.profile = $scope.profile || {};
-            $scope.profile.email = data;
         }, function() {
             getUserInfo();
         });

@@ -262,12 +262,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isShowNoSignInPage = false;
             $scope.isLoadingDevices = true;
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-            wdGoogleSignIn.refreshToken(true).then(function() {
+            wdGoogleSignIn.checkToken().then(function() {
                 wdGoogleSignIn.getDevices().then(function(list) {
                     showDevicesList(list);
                     $scope.isOldUser = wdGoogleSignIn.isOldUser();
                 },function() {
-                    wdGoogleSignIn.refreshToken(true).then(function() {
+                    wdGoogleSignIn.checkToken().then(function() {
                         googleSignIn();
                     }, function() {
                         $scope.googleSignOut();
@@ -344,9 +344,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         }
 
         function getUserInfo() {
-            wdGoogleSignIn.getAccount().then(function(data) {
-                $scope.accountEmail = data;
-            });
             wdGoogleSignIn.getProfileInfo().then(function(data) {
                 $scope.profile = data;
             });
@@ -357,7 +354,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
             $window.googleSignInOnloadDefer.done(function() {
-                wdGoogleSignIn.refreshToken(true).then(function() {
+                wdGoogleSignIn.checkToken().then(function() {
                     autoAccess();
                 }, function() {
                     $scope.googleSignOut();
@@ -382,7 +379,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.devicesList = list;
                         loopGetDevicesList(false);
                     },function() {
-                        wdGoogleSignIn.refreshToken(true).then(function(){
+                        wdGoogleSignIn.checkToken().then(function(){
                             signoutFromDevices();
                         },function(){
                             $scope.googleSignOut();

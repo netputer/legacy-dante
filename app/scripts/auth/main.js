@@ -3,6 +3,7 @@ define([
     'angular',
     'auth/services/device',
     'auth/services/googleSignIn',
+    'auth/services/googleMultipleHack',
     'auth/services/wandoujiaSignIn',
     'auth/controllers/internationalCtrl',
     'auth/controllers/cloudDataCtrl',
@@ -12,6 +13,7 @@ define([
     angular,
     device,
     googleSignIn,
+    googleMultipleHack,
     wandoujiaSignIn,
     internationalCtrl,
     cloudDataCtrl,
@@ -23,6 +25,7 @@ define([
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdDevice', device)
     .factory('wdGoogleSignIn', googleSignIn)
+    .factory('wdGoogleMultipleHack', googleMultipleHack)
     .factory('wandoujiaSignIn', wandoujiaSignIn)
     .controller('internationalController', internationalCtrl)
     .controller('cloudDataController', cloudDataCtrl)

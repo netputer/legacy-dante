@@ -5,14 +5,13 @@ define( [
 ) {
     'use strict';
 
-return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
-function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
+return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 'wdGoogleMultipleHack', 
+function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom, wdGoogleMultipleHack) {
     
     // 检测的最多账号数
     var MAX_ACCOUNT_NUM = 5;
     var global = {
         authResult : {},
-        account : '',
         profileInfo: {},
 
         //标记是否要强制显示设备列表，比如只有一个设备的时候，不自动进入。主要给url从/devices进入时使用。
@@ -28,8 +27,11 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
         loopTimer : null,
 
-        // 用来标记是否正在刷新请求
-        refreshTokenDefer : null
+        // 用来标记是否正在刷新 token ，来确保同时只有一个刷新 token 的请求。
+        refreshTokenDefer : null,
+
+        // 用来标记是否正在 checkToken ，来确保同时只有一个 check token 的请求。
+        checkTokenDefer : null
     };
 
     var result = {
@@ -49,48 +51,28 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         },
 
         checkToken : function () {
+            if (global.checkTokenDefer) {
+                return global.checkTokenDefer.promise;
+            } else {
+                global.checkTokenDefer = $q.defer();
+            }
+
             var me = this;
-            var defer = $q.defer();
-            var url = 'https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + me.getStorageItem('googleToken');
-            $.ajax({
-                type: 'GET',
-                url: url,
-                async: false,
-                contentType: 'application/json',
-                dataType: 'jsonp',
-                timeout: 10000
-            }).done(function(data) {
-                $rootScope.$apply(function() {
-                    if (data && data.error) {
-                        error();
-                    } else {
-                        $log.log('Getting google account informations...');
-                        me.getAccount().then(function(data) {
-                            me.getProfileInfo().then(function(data) {
-                                $log.log('All google login process have successed!');
-                                defer.resolve();
-                            }, function() {
-                                $log.error('Get profile failed!');
-                                defer.reject();
-                            });
-                        },function(){
-                            $log.error('Get account failed!');
-                            defer.reject();
-                        });
-                    }
-                });
-            }).fail(function(xhr) {
-                error();
+            wdGoogleMultipleHack.checkToken().then(function() {
+                return me.getProfileInfo();
+            }, function() {
+                return me.refreshToken(true);
+            }).then(function(data) {
+                global.checkTokenDefer.resolve();
+                global.checkTokenDefer = null;
+            }, function() {
+                global.checkTokenDefer.reject();
+                global.checkTokenDefer = null;
             });
 
             function error() {
-                me.refreshToken(true).then(function() {
-                    defer.resolve();
-                }, function() {
-                    defer.reject();
-                }); 
             }
-            return defer.promise;
+            return global.checkTokenDefer.promise;
         },
 
         //刷新Google token
@@ -141,19 +123,12 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                             }
                             me.authResult(authResult);
                             wdCommunicateSnappeaCom.googleSignIn();
-                            $log.log('Getting google account informations...');
-                            me.getAccount().then(function(data) {
-                                me.getProfileInfo().then(function(data) {
-                                    $log.log('All google login process have successed!');
-                                    global.refreshTokenDefer.resolve();
-                                    global.refreshTokenDefer = null;
-                                }, function() {
-                                    $log.error('Get profile failed!');
-                                    global.refreshTokenDefer.reject();
-                                    global.refreshTokenDefer = null;
-                                });
-                            },function(){
-                                $log.error('Get account failed!');
+                            me.getProfileInfo().then(function(data) {
+                                $log.log('All google login process have successed!');
+                                global.refreshTokenDefer.resolve();
+                                global.refreshTokenDefer = null;
+                            }, function() {
+                                $log.error('Get profile failed!');
                                 global.refreshTokenDefer.reject();
                                 global.refreshTokenDefer = null;
                             });
@@ -193,46 +168,20 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             return global.refreshTokenDefer.promise;
         },
 
-        getAccount : function () {
-            var defer = $q.defer();
-            var gapi = $window.gapi;
-            if (!global.account) {
-                var authResult = global.authResult;
-                var isTimeout;
-                $window.googleSignInOnloadDefer.done(function() {
-                    $window.gapi.client.load('oauth2', 'v2', function() {
-                        var request = $window.gapi.client.oauth2.userinfo.get();
-                        request.execute(function(obj){
-                            if (isTimeout !== true) {
-                                isTimeout = false;
-                                global.account = obj.email;
-                                $rootScope.$apply(function() {
-                                    defer.resolve(global.account);
-                                });
-                            }
-                        });
-                    });
-                });
-                //超时处理
-                $timeout(function() {
-                    if (isTimeout !== false) {
-                        isTimeout = true;
-                        defer.reject();
-                    }
-
-                // 这个时间总是失败，居然总是达到超时时间，没办法才改成了 20s .
-                }, 20000);
-            } else {
-                defer.resolve(global.account);
-            }
-            return defer.promise;
-        },
-
         getProfileInfo: function() {
             var defer = $q.defer();
             var gapi = $window.gapi;
+            var me = this;
 
             if (!global.profileInfo.id) {
+
+                // 这里是为了兼容 Google 目前不支持多账号的问题，所以增加的将用户数据存在本地的逻辑
+                var localData = wdGoogleMultipleHack.getLocalProfile();
+                if (localData) {
+                    defer.resolve(localData);
+                    return defer.promise;
+                }
+
                 var isTimeout;
                 $window.googleSignInOnloadDefer.done(function() {
                     $window.gapi.client.load('plus','v1', function() {
@@ -246,7 +195,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
                                 $rootScope.$apply(function() {
                                     global.profileInfo = obj;
-                                    defer.resolve(global.profileInfo); 
+                                    wdGoogleMultipleHack.setLocalProfile(obj);
+                                    defer.resolve(global.profileInfo);
                                 });
                             }
                         });
@@ -269,11 +219,12 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         },
 
         removeAccountInfo: function() {
-            global.account = '';
             global.profileInfo = {};
             global.authResult = {};
             global.accountNum = 0;
             global.hasAccessdDevice = false;
+            this.removeStorageItem('googleToken');
+            this.removeStorageItem('userProfile');
         },
 
         getDevices : function () {
@@ -347,67 +298,51 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             $window.gapi.auth.signOut();
             var me = this;
             var defer = $q.defer();
-            var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + global.authResult.access_token;
-            $.ajax({
-                type: 'GET',
-                url: revokeUrl,
-                async: false,
-                contentType: 'application/json',
-                dataType: 'jsonp',
-                timeout: 7000,
-                success: function(nullResponse) {
-                    $rootScope.$apply(function() {
-                        // 客户取消了关联，据此执行相应操作
-                        // 回应始终为未定义。
-                        me.removeStorageItem('googleToken');
-                        wdDevice.signout();
-                        me.removeAccountInfo();
-                        $log.log('Sign out success!');
-                        defer.resolve('signout');
-                    });
-                },
-                error: function(e) {
-                    $rootScope.$apply(function() {
-                        $log.error('google signout failed.');
-                        defer.reject();
-                    });
-                }
+            wdGoogleMultipleHack.revoke().then(function() {
+                // 客户取消了关联，据此执行相应操作
+                // 回应始终为未定义。
+                wdDevice.signout();
+                me.removeAccountInfo();
+                $log.log('Sign out success!');
+                defer.resolve('signout');
+            }, function() {
+                $log.error('google signout failed.');
+                defer.reject();
             });
-
             return defer.promise;
         },
 
         // 客户端记录是一个老用户
-        setOldUser : function () {
+        setOldUser: function () {
             this.setStorageItem('oldUserFlag', true);
         },
-        isOldUser : function () {
+        isOldUser: function () {
             return this.getStorageItem('oldUserFlag');
         },
 
         //是否本次登陆过，用于检测是否是跳转过来的设备
-        getHasAccessdDevice : function () {
+        getHasAccessdDevice: function () {
             return global.hasAccessdDevice;
         },
-        setHasAccessdDevice : function () {
+        setHasAccessdDevice: function () {
             global.hasAccessdDevice = true;
         },
 
-        setForceShowDevices : function ( flag ) {
+        setForceShowDevices: function (flag) {
             global.forceShowDevices = flag;
         },
-        getForceShowDevices : function () {
+        getForceShowDevices: function () {
             return global.forceShowDevices;
         },
 
-        removeStorageItem : function ( name ) {
-            $window.localStorage.removeItem( name );
+        removeStorageItem: function (name) {
+            $window.localStorage.removeItem(name);
         },
-        setStorageItem : function ( name , data ) {
-            $window.localStorage.setItem( name , data );
+        setStorageItem: function (name, data) {
+            $window.localStorage.setItem(name, data);
         },
-        getStorageItem : function ( name ) {
-            return $window.localStorage.getItem( name );
+        getStorageItem: function (name) {
+            return $window.localStorage.getItem(name);
         }
     };
 

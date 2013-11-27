@@ -17,7 +17,7 @@
             </a>
             <div class="add-new-phone-tips" ng-show="isShowAddNewPhoneTips">
                 <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP1"></p>
-                <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP2.replace('$$$$', account)"></p>
+                <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP2.replace('$$$$', profileInfo.emails[0].value)"></p>
                 <p class="steps">{{$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP3}}</p>
             </div>
         </div>
@@ -27,7 +27,7 @@
                     <img class="profile-img" ng-src="{{profileInfo.image.url}}"/>
                     <div>
                         <span class="display-name">{{profileInfo.displayName}}</span>
-                        <span class="email">{{account}}</span>
+                        <span class="email">{{profileInfo.emails[0].value}</span>
                     </div>
                 </div>
 

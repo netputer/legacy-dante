@@ -41,10 +41,6 @@ return [function() {
             };
 
             $rootScope.$on('sidebar:open', function() {
-                wdGoogleSignIn.getAccount().then(function(data){
-                    $scope.account = data;
-                });
-
                 wdGoogleSignIn.getProfileInfo().then(function(data) {
                     $scope.profileInfo = data;
                 });
