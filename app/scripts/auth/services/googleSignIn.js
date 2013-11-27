@@ -59,17 +59,11 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
 
             var me = this;
             wdGoogleMultipleHack.checkToken().then(function() {
-                me.getProfileInfo().then(function(data) {
-                    global.checkTokenDefer.resolve();
-                    global.checkTokenDefer = null;
-                }, function() {
-                    error();
-                });
+                return me.getProfileInfo();
+            }).then(function(data) {
+                global.checkTokenDefer.resolve();
+                global.checkTokenDefer = null;
             }, function() {
-                error();
-            });
-
-            function error() {
                 me.refreshToken(true).then(function() {
                     global.checkTokenDefer.resolve();
                     global.checkTokenDefer = null;
@@ -77,7 +71,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     global.checkTokenDefer.reject();
                     global.checkTokenDefer = null;
                 }); 
-            }
+            });
             return global.checkTokenDefer.promise;
         },
 
@@ -230,7 +224,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             global.accountNum = 0;
             global.hasAccessdDevice = false;
             this.removeStorageItem('googleToken');
-            this.removeStorageItem('user-profile');
+            this.removeStorageItem('userProfile');
         },
 
         getDevices : function () {
