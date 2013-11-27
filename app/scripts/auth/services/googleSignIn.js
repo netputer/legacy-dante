@@ -60,18 +60,18 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             var me = this;
             wdGoogleMultipleHack.checkToken().then(function() {
                 return me.getProfileInfo();
+            }, function() {
+                return me.refreshToken(true);
             }).then(function(data) {
                 global.checkTokenDefer.resolve();
                 global.checkTokenDefer = null;
             }, function() {
-                me.refreshToken(true).then(function() {
-                    global.checkTokenDefer.resolve();
-                    global.checkTokenDefer = null;
-                }, function() {
-                    global.checkTokenDefer.reject();
-                    global.checkTokenDefer = null;
-                }); 
+                global.checkTokenDefer.reject();
+                global.checkTokenDefer = null;
             });
+
+            function error() {
+            }
             return global.checkTokenDefer.promise;
         },
 
