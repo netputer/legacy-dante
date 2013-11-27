@@ -40,9 +40,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //搜索出的数据
     var G_search = [];
 
-    //每次拉取数据的长度
-    var DATA_LENGTH_ONCE = 50;
-
     //标示是否首次进入
     var G_isFirst = true;
 
@@ -197,7 +194,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
 
             if (!isUnshift) {
-                if (obj) {
+                if (obj && obj.id) {
                     G_list.push(obj);
                 }
             } else {
@@ -946,7 +943,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     G_keyContact = wdKey.push('contacts');
                     $scope.isNoContactsShow = false;
                     G_clicked.clicked = false;
-                    $scope.pageList = G_searchList.slice(0,DATA_LENGTH_ONCE);
+                    $scope.pageList = G_searchList.slice(0, wdcContacts.config.dataLengthOnce);
                     $scope.pageList[0].clicked = true;
                     G_clicked = $scope.pageList[0];
                     showContacts($scope.pageList[0].id);
@@ -965,7 +962,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //加载更多
     $scope.loadMore = function() {
         var pl = $scope.pageList.length;
-        var l = $scope.pageList.length + DATA_LENGTH_ONCE;
+        var l = $scope.pageList.length + wdcContacts.config.dataLengthOnce;
         if ($scope.searchText) {
             $scope.pageList = $scope.pageList.concat(G_searchList.slice(pl,l));
         } else {
