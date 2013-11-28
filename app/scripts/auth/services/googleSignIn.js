@@ -279,7 +279,18 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     me.getDevices().then(function(list) {
                         global.devicesList.splice(0, global.devicesList.length);
                         Array.prototype.push.apply(global.devicesList, list);
-                    });
+                    }, function() {
+                        return me.checkToken();
+                    }).then(null, function() {
+                        return me.refreshToken(true);
+                    }).then(null, function() {
+                        me.stopLoopGetDevices();
+                        return me.signout();
+                    }).then(function() {
+                        return me.refreshToken(false);
+                    }, null).then(function() {
+                        me.loopGetDevices();
+                    }, null);
                 }, 5000);
             }
 
