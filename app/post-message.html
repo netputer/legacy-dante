@@ -16,7 +16,6 @@
                 break;
             }
         };
-
         //相关方法
         function googleSignIn(token, profile) {
             if (window.localStorage) {
@@ -24,7 +23,6 @@
                 window.localStorage.setItem('userProfile', JSON.stringify(profile));
             }
         }
-
         function googleSignOut() {
             window.localStorage && window.localStorage.removeItem('googleToken');
         }
