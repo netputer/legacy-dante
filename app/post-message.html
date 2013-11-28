@@ -9,7 +9,7 @@
         window.onmessage = function(event) {
             switch (event.data.command) {
                 case 'google-sign-in':
-                    googleSignIn(event.data.token);
+                    googleSignIn(event.data.token, event.data.profile);
                 break;
                 case 'google-sign-out':
                     googleSignOut();
@@ -18,8 +18,8 @@
         };
 
         //相关方法
-        function googleSignIn(token) {
-            window.localStorage && window.localStorage.setItem('googleToken', token);
+        function googleSignIn(token, profile) {
+            window.localStorage && window.localStorage.setItem('googleToken', token) && window.localStorage.setItem('userProfile', profile);
         }
 
         function googleSignOut() {
