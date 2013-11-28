@@ -9,19 +9,20 @@
         window.onmessage = function(event) {
             switch (event.data.command) {
                 case 'google-sign-in':
-                    googleSignIn();
+                    googleSignIn(event.data.token, event.data.profile);
                 break;
                 case 'google-sign-out':
                     googleSignOut();
                 break;
             }
         };
-
         //相关方法
-        function googleSignIn() {
-            window.localStorage && window.localStorage.setItem('googleToken', true);
+        function googleSignIn(token, profile) {
+            if (window.localStorage) {
+                window.localStorage.setItem('googleToken', token);
+                window.localStorage.setItem('userProfile', JSON.stringify(profile));
+            }
         }
-
         function googleSignOut() {
             window.localStorage && window.localStorage.removeItem('googleToken');
         }
