@@ -19,7 +19,10 @@
 
         //相关方法
         function googleSignIn(token, profile) {
-            window.localStorage && window.localStorage.setItem('googleToken', token) && window.localStorage.setItem('userProfile', profile);
+            if (window.localStorage) {
+                window.localStorage.setItem('googleToken', token);
+                window.localStorage.setItem('userProfile', JSON.stringify(profile));
+            }
         }
 
         function googleSignOut() {
