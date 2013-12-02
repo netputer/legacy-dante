@@ -192,12 +192,20 @@ _.extend(ExtendedConversationsCollection.prototype, {
 
         return $http(config).then(function done(response) {
             var data = [].concat(response.data);
-            c.messages.drop(messages);
-            messages.forEach(function(m, i) {
-                m.extend(data[i]);
-            });
-            return this._placeMessages(c, messages);
-        }.bind(this), function fail() {
+            if (data.length) {
+                c.messages.drop(messages);
+                messages.forEach(function(m, i) {
+                    m.extend(data[i]);
+                });
+                return this._placeMessages(c, messages);
+            }
+            else {
+                // Android 4.4 will response with an empty array,
+                // should be regarded as sending failed in this case.
+                return $q.reject();
+            }
+
+        }.bind(this)).then(null, function fail() {
             messages.forEach(function(m) {
                 m.rawData.status = 64;
             });

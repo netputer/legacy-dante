@@ -1651,8 +1651,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
           } else if (xhr.status == 403) {
             self.onError(xhr.responseText);
           } else {
-            self.connecting = false;            
-            !self.reconnecting && self.onError(xhr.responseText);
+            self.connecting = false; 
+            var maxAttempts = self.options['max reconnection attempts'];
+            if (!self.reconnecting || self.reconnectionAttempts == maxAttempts) {
+              self.onError(xhr.responseText);
+            }           
+            
           }
         }
       };
