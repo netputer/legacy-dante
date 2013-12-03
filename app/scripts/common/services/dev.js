@@ -40,7 +40,7 @@ return function() {
         if (forResource) {
             server = encodeServer(server);
         }
-        var prefix = self.getAPIPrefix();
+        var prefix = self.getAPIPrefix() + '/nocache/' + new Date().getTime();
         return server + prefix + url;
     };
 
