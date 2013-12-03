@@ -286,11 +286,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     }).then(null, function() {
                         me.stopLoopGetDevices();
                         return me.signout();
-                    }).then(function() {
-                        return me.refreshToken(false);
-                    }, null).then(function() {
-                        me.loopGetDevices();
-                    }, null);
+                    });
                 }, 5000);
             }
 
