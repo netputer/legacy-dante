@@ -66,7 +66,7 @@
     <div wd-user-profile-button></div>
 
     <!-- 新用户引导 -->
-    <div class="user-guide" ng-if="(!isOldUser && devicesList.length === 0) && ($root.GA('onboard:guide:page1'))">
+    <div class="user-guide" ng-if="(!isOldUser && devicesList.length === 0) && ($root.GA('onboard:guide:page1') || true)">
         <div class="header">
             <div class="title current">
                 <p class="num">1</p>
