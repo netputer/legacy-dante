@@ -34,8 +34,8 @@
                 &:first-child {
                     cursor: default;
                     padding-left: 70px;
-                    border-bottom: 1px solid;
-                    border-image: linear-gradient(to right, #fff, $standard-green) 1 1 stretch;
+                    border-bottom: 1px solid $standard-green;
+                    @include border-image(linear-gradient(to right, #fff, $standard-green) 1 1 stretch);
                     border-top: 0px;
                     border-right: 0px;
                 }
