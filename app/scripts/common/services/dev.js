@@ -35,18 +35,21 @@ return function() {
     self.getAPIPrefix = function() {
         return '/api/v1';
     };
-    self.wrapURL = function(url, forResource) {
-        var server = self.getServer();
-        if (forResource) {
-            server = encodeServer(server);
-        }
-        var prefix = self.getAPIPrefix() + '/nocache/' + new Date().getTime();
-        return server + prefix + url;
-    };
 
-    self.$get = ['$window', function($window) {
+    self.$get = ['$window', '$rootScope', function($window, $rootScope) {
         return {
-            wrapURL: self.wrapURL,
+            wrapURL: function(url, forResource) {
+                var server = self.getServer();
+                if (forResource) {
+                    server = encodeServer(server);
+                }
+                var prefix = self.getAPIPrefix();
+                
+                if ($rootScope.READ_ONLY_FLAG) {
+                    prefix += '/nocache/' + new Date().getTime();
+                }
+                return server + prefix + url;
+            },
             setServer: self.setServer,
             getServer: self.getServer,
             setMetaData: self.setMetaData,
