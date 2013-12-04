@@ -1,5 +1,5 @@
 <div class="user-profile-button">
-    <div class="profile" ng-click="$event.stopPropagation();toggleUserProfile();">
+    <div class="profile" ng-click="$event.stopPropagation();toggleUserProfile();$root.GA('onboard:google_user_button:click')">
         <img class="photo" ng-src="{{profile.image.url}}">
         <p class="name" title="{{profile.displayName}}">{{profile.displayName}}</p>
         <i class="icon-angle-down"></i>
@@ -8,6 +8,6 @@
         <div class="angle"></div>
         <p class="email">{{profile.emails[0].value}}</p>
         <hr>
-        <div class="btn signout" ng-click="googleSignOut();">{{$root.DICT.portal.SIGN_OUT}}</div>
+        <div class="btn signout" ng-click="googleSignOut();$root.GA('onboard:google_user_button:signout')">{{$root.DICT.portal.SIGN_OUT}}</div>
     </div>
 <div>

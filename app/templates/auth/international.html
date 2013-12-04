@@ -66,7 +66,7 @@
     <div wd-user-profile-button></div>
 
     <!-- 新用户引导 -->
-    <div class="user-guide" ng-if="!isOldUser && devicesList.length === 0">
+    <div class="user-guide" ng-if="(!isOldUser && devicesList.length === 0) && ($root.GA('onboard:guide:page1') || true)">
         <div class="header">
             <div class="title current">
                 <p class="num">1</p>
@@ -101,7 +101,7 @@
                     <p>{{$root.DICT.portal.USER_GUIDE.PAGE1_WAY2}}</p>
                 </div>
             </div>
-            <div class="next btn" ng-click="nextUserGuide()">{{$root.DICT.portal.WORD.NEXT}}</div>
+            <div class="next btn" ng-click="nextUserGuide();$root.GA('onboard:guide:click-next');">{{$root.DICT.portal.WORD.NEXT}}</div>
         </div>
         <div class="step2-block" ng-class="{move:(userGuideStep === 2)}" ng-if="(userGuideStep === 2)">
             <h1>{{$root.DICT.portal.USER_GUIDE.PAGE2_H1}}</h1>
