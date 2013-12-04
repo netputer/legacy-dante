@@ -32,9 +32,6 @@ return function() {
     self.setMetaData = function(data) {
         meta = data;
     };
-    self.getAPIPrefix = function() {
-        return '/api/v1';
-    };
 
     self.$get = ['$window', '$rootScope', function($window, $rootScope) {
         return {
@@ -43,11 +40,12 @@ return function() {
                 if (forResource) {
                     server = encodeServer(server);
                 }
-                var prefix = self.getAPIPrefix();
                 
+                var prefix = '/api/v1';
                 if ($rootScope.READ_ONLY_FLAG) {
-                    prefix += '/nocache/' + new Date().getTime();
+                    prefix = '/api/v2/' + new Date().getTime();
                 }
+
                 return server + prefix + url;
             },
             setServer: self.setServer,
