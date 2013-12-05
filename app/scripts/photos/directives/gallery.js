@@ -8,7 +8,7 @@ return [function() {
 return {
 
 scope: true,
-controller: ['$scope', 'GA', 'wdAlert', 'wdDev', function($scope, GA, wdAlert, wdDev) {
+controller: ['$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', function($scope, GA, wdAlert, wdDev, wdpAlbums, $route) {
     // Selection logic.
     $scope.lastSelectedPhoto = null;
 
@@ -26,6 +26,7 @@ controller: ['$scope', 'GA', 'wdAlert', 'wdDev', function($scope, GA, wdAlert, w
         GA('photos:toolbar:deselect_all');
     };
     $scope.select = function(photo, shiftKey) {
+        photo.selected = !photo.selected;
         if (photo.selected) {
             if (shiftKey) {
                 GA('photos:photo:shift_select');

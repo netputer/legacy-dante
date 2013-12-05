@@ -1,18 +1,27 @@
 .contacts-edit{
-    position: fixed;
+    @include position(absolute, 0px 0px 0px 454px);
     overflow-y : auto;
     height:100%;
-    right: 0px;
-    left: 514px;
 
     div.photo{
+        $photo-width: 127px;
         margin-top: 25px;
-        width: 127px;
-        height: 127px;
+        width: $photo-width;
+        height: $photo-width;
         @include use-sprite("profile128");
         img{
-            width: 127px;
-            height: 127px;
+            width: $photo-width;
+            height: $photo-width;
+        }
+        .photo-color{
+            font-weight: $global-font-weight-normal;
+            text-transform: uppercase;
+            font-size: 64px;
+            line-height: $photo-width;
+            text-align: center;
+            width: $photo-width;
+            height: $photo-width;
+            color: #FFF;
         }
     }
 
@@ -134,7 +143,6 @@
             box-shadow:none;
             height: 28px;
             line-height: 28px;
-            font-family: arial, sans-serif;
         }
         input::-ms-clear {
             display: none;
@@ -231,10 +239,6 @@
                 p.labelFlag{
                     color: #b3b3b3;
                     width: 85px;
-                }
-
-                p.dn{
-                    display: none;
                 }
 
                 input.label{

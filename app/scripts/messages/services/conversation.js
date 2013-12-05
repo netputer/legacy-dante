@@ -12,7 +12,6 @@ function(wdmConversationMessagesCollection,   wdmBasicConversation,
 var _super = wdmBasicConversation.BasicConversation.prototype;
 
 function Conversation(data) {
-
     var instance = _super.constructor.call(this, data);
 
     Object.defineProperties(instance, {

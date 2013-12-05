@@ -1,12 +1,16 @@
 define([
-    'io'
+    'io',
+    'underscore',
+    'jquery'
 ], function(
-    io
+    io,
+    _,
+    $
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdDevice',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdDevice) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -19,7 +23,9 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-
+    RECONNECT_TIMES : 0,
+    MAX_RECONNECTION_ATTEMPTS : 2,
+    MAX_SOCKET_CONNECT_TIMES: 3,
     /**
      * Destroy everything.
      */
@@ -29,9 +35,7 @@ Socket.prototype = {
         return this;
     },
 
-    connect: function() {
-        if (this._transport) { return; }
-
+    _newTransport: function() {
         this._transport = io.connect(wdDev.getSocketServer(), {
             transports: [
                 'websocket',
@@ -39,8 +43,18 @@ Socket.prototype = {
                 'xhr-multipart',
                 'xhr-polling',
                 'jsonp-polling'
-            ]
+            ],
+            'max reconnection attempts': this.MAX_RECONNECTION_ATTEMPTS,
+            'connect timeout': 3000,
+            'reconnection delay': 100,
+            'force new connection': true
         });
+    },
+
+    connect: function() {
+        if (this._transport) { return; }
+
+        this._newTransport();
 
         this._delegateEventListeners();
 
@@ -51,6 +65,7 @@ Socket.prototype = {
         if (!this._transport) { return; }
 
         var self = this;
+        var lastTimestamp = 0;
 
         this._transport.on('message', function onMessage(message) {
             try {
@@ -61,27 +76,46 @@ Socket.prototype = {
                 return;
             }
             $log.log('socket: ', message);
+            lastTimestamp = message.timestamp;
             $rootScope.$apply(function() {
                 self.trigger(message.type.replace('.', '_'), [message]);
             });
         });
 
         this._transport.on('connect', function() {
+            if (!lastTimestamp) {
+                self._transport.emit({
+                    type: 'timestamp.sync',
+                });
+            }
+            
             GA('socket:connect');
+            self.trigger('socket:connected');
         });
 
-        // this._transport.on('disconnect', function disconnect() {
-        //     $log.error('Socket disconnected!');
-        // });
+        this._transport.on('disconnect', function disconnect() {
+            $log.error('Socket disconnected!');
+        });
 
         this._transport.on('reconnecting', function reconnecting(reconnectionDelay, reconnectionAttempts) {
-            // $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+            $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
+           
+            if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
+                self.refreshDeviceAndConnect();
+            }
         });
 
         this._transport.on('reconnect', function reconnect() {
-            // $log.log('Socket reconnected!');
+            $log.log('Socket reconnected!');
+
+            self.trigger('socket:connected');
+            self._transport.emit({
+                type: 'notifications.request',
+                timestamp : lastTimestamp 
+            });
         });
 
+        // There is a bug in socket.io, reconnect_failed gets never fired.
         this._transport.on('reconnect_failed', function failed() {
             $log.warn('Socket server seems cold dead...');
             GA('socket:dead');
@@ -91,15 +125,69 @@ Socket.prototype = {
             // $log.warn('Socket fails to establish.');
             GA('socket:connect_failed');
         });
+
+        this._transport.on('error', function() {
+            //Almost handshake error
+            GA('socket:connect_error');
+            self.refreshDeviceAndConnect();
+        });
     },
 
     close: function() {
         if (this._transport) {
-            this._transport.disconnect();
+            try {
+                this._transport.disconnect();
+            }
+            catch(err){
+            }
+
             this._transport.removeAllListeners();
             this._transport = null;
         }
         return this;
+    },
+
+    showDisconnectPanel: function() {
+        var self = this;
+        this.trigger('socket:disconnected');
+        this.off('socket:connect').on('socket:connect', function() {
+            self.MAX_SOCKET_CONNECT_TIMES -= 1;
+            if (self.MAX_SOCKET_CONNECT_TIMES) {
+                self.close();
+                self.connect();
+            } else {
+                self.refreshDeviceAndConnect();
+            }
+        });
+    },
+
+    refreshDeviceAndConnect: function() {
+        var self = this;
+        this.MAX_SOCKET_CONNECT_TIMES = 3;
+        wdGoogleSignIn.getDevices().then(function(list) {
+            var device = wdDevice.getDevice();
+
+            var currentOnlineDevice = _.find(list, function(item) {
+                return device && (item.id === device.id);
+            });
+
+            if (currentOnlineDevice && currentOnlineDevice.ip) {
+                if (currentOnlineDevice.ip !== device.ip) {
+                    wdDevice.setDevice(currentOnlineDevice);
+                    wdDev.setServer(currentOnlineDevice.ip);
+
+                    self.close();
+                    self.connect();
+                } else {
+                    wdDevice.lightDeviceScreen(device.id);
+                    self.showDisconnectPanel();
+                }
+            } else {
+                wdDevice.signout();
+            }
+        }, function() {
+            self.showDisconnectPanel();
+        });
     }
 };
 

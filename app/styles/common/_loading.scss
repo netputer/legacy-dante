@@ -34,6 +34,7 @@ $wd-loading-foreground-color: #000;
         top: -$width;
         opacity: 0;
     }
+
     &.wd-loading-animation-pause > * {
         @include animation-play-state(paused);
     }
@@ -44,17 +45,22 @@ $wd-loading-foreground-color: #000;
         width:  $dot-width;
         height: $dot-width;
         @include border-radius($dot-radius);
-        @include animation-name(wd-loading);
         @include animation-duration($duration * $n);
         @include animation-iteration-count(infinite);
         @include animation-direction(linear);
     }
+
     @for $i from 1 through $n {
         & > :nth-child(#{$i}) {
             @extend %wd-loading-dot;
             left: $width / 2 - cos(pi() * 2 / $n * $i) * $width / 2 - $dot-width / 2;
             top:  $width / 2 - sin(pi() * 2 / $n * $i) * $width / 2 - $dot-width / 2;
+            @include animation-name(wd-loading);
             @include animation-delay((-1 + $i) * $duration);
+        }
+
+        &.wd-loading-white > :nth-child(#{$i}) {
+            @include animation-name(wd-loading-white);
         }
     }
 }
@@ -62,4 +68,9 @@ $wd-loading-foreground-color: #000;
 @include keyframes (wd-loading) {
     0%   { background-color: $wd-loading-foreground-color; }
     100% { background-color: $wd-loading-background-color; }
+}
+
+@include keyframes (wd-loading-white) {
+    0%   { background-color: rgba(#fff, 0.1); }
+    100% { background-color: rgba(#fff, 1); }
 }

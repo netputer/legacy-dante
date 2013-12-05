@@ -5,6 +5,7 @@ define([
     ) {
 'use strict';
 return function() {
+    var DEFAULT_DEVICE_PORT = 10208;
     var ip = '';
     var port = '';
     var meta = {};
@@ -20,7 +21,7 @@ return function() {
         return ip ? ('//' + ip + ':' + 10209) : '';
     };
     self.getServer = function() {
-        return ip ? ('//' + ip + ':' + (port || 80)) : '';
+        return ip ? ('//' + ip + ':' + (port || DEFAULT_DEVICE_PORT )) : '';
     };
     self.setServer = function(newIP, newPort) {
         ip = newIP;
@@ -33,7 +34,8 @@ return function() {
         meta = data;
     };
 
-    self.$get = ['$window', '$rootScope', function($window, $rootScope) {
+    self.$get = ['$window', '$q', '$rootScope', '$timeout',
+        function( $window,   $q,   $rootScope,   $timeout) {
         return {
             wrapURL: function(url, forResource) {
                 var server = self.getServer();
@@ -61,6 +63,36 @@ return function() {
                     params[decodeURIComponent(query[0])] = decodeURIComponent(query[1]);
                 });
                 return key ? params[key] : params;
+            },
+            ping: function( host, port ) {
+                port = port || DEFAULT_DEVICE_PORT;
+                var defer = $q.defer();
+                var image = new Image();
+                var timeout = null;
+                var url = '//' + host + ':' + port;
+
+                url += '?_=' + Date.now();
+                image.onload = image.onerror = function(e) {
+                    $rootScope.$apply(function() {
+                        $timeout.cancel(timeout);
+                        if (e.type === 'error' &&
+                            $window.navigator.onLine === false) {
+                            defer.reject('offline');
+                        }
+                        else {
+                            defer.resolve();
+                        }
+                    });
+                };
+
+                image.src = url;
+
+                timeout = $timeout(function() {
+                    defer.reject('timeout');
+                    image.src = null;
+                }, 1500);
+
+                return defer.promise;
             }
         };
     }];

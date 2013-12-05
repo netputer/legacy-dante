@@ -1,0 +1,13 @@
+<div class="user-profile-button">
+    <div class="profile" ng-click="$event.stopPropagation();toggleUserProfile();">
+        <img class="photo" ng-src="{{profile.image.url}}">
+        <p class="name" title="{{profile.displayName}}">{{profile.displayName}}</p>
+        <i class="icon-angle-down"></i>
+    </div>
+    <div class="detail" ng-if="showUserDetail">
+        <div class="angle"></div>
+        <p class="email">{{profile.emails[0].value}}</p>
+        <hr>
+        <div class="btn signout" ng-click="googleSignOut();">{{$root.DICT.portal.SIGN_OUT}}</div>
+    </div>
+<div>

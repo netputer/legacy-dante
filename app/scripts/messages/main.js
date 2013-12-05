@@ -22,7 +22,10 @@ define([
     'messages/services/search-conversation',
     'messages/services/extended-conversations-collection',
     'messages/directives/keep-visible',
-    'messages/directives/selection'
+    'messages/directives/selection',
+    'messages/services/search',
+    'messages/directives/contact-card',
+    'messages/directives/audio'
 ], function(
     angular,
     common,
@@ -47,7 +50,10 @@ define([
     searchConversationFactory,
     extendedConversationsCollectionFactory,
     keepVisible,
-    selection
+    selection,
+    search,
+    contactCard,
+    audio
 ) {
 'use strict';
 // jshint unused:false
@@ -64,6 +70,7 @@ angular.module('wdMessages', ['wdCommon'])
     .factory('wdmConversationsCollection', conversationsCollectionFactory)
     .factory('wdmExtendedConversationsCollection', extendedConversationsCollectionFactory)
     .factory('wdmConversations', conversations)
+    .factory('wdmContactSearch', search)
     .directive('wdmAutoScroll', autoscroll)
     .directive('wdmLoadMore', loadmore)
     .directive('wdmRealtime', realtime)
@@ -71,6 +78,8 @@ angular.module('wdMessages', ['wdCommon'])
     .directive('wdmReceiver', receiver)
     .directive('wdmKeepVisible', keepVisible)
     .directive('wdmSelection', selection)
+    .directive('wdmContactCard', contactCard)
+    .directive('wdmAudio', audio)
     .filter('ms', msFilter)
     .filter('group', groupFilter)
     .filter('messageDate', messageDateFilter);

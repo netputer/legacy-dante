@@ -2,15 +2,12 @@
     p{
         display: inline-block;
         margin: 0px;
-        font-weight: normal;
+        font-weight: $global-font-weight-normal;
     }
 	.header{
-		position: fixed;
-		top: 0px;
-		left: 60px;
-		right: 0px;
+		@include position(absolute, 0 0 0 0);
 		height: 40px;
-		overflow: hidden;
+		width: 100%;
 		padding-left: 10px;
 		padding-top: 10px;
 		background: rgba(255, 255, 255, 0.9);
@@ -18,39 +15,45 @@
         .btn{
             margin-right: 5px;
         }
-	}
+    }
     ul{
         list-style: none;
         margin: 0px;
     }
+
 	.apps-list{
-		position: fixed;
-		top: 0px;
-		bottom: 0px;
+        height: 100%;
+        @include box-sizing(border-box);
+		@include position(absolute, 0 0 0 0);
 		overflow-y:auto;
 		padding-top: 50px;
+        @include unselected-word;
         @include readonly {
             padding-top: 10px;
         }
 
-		dl{
-			float: left;
-			width: 170px;
-			height: 170px;
-			background-color: #f5f5f5;
-			margin:0px 0px 10px 10px;
-			text-align: center;
+        dl{
+            float: left;
+            background-color: #f5f5f5;
+            margin:0px 0px 10px 10px;
+            text-align: center;
             position: relative;
             cursor: pointer;
 
-			img{
-                margin-top: 39px;
+            .content{
+                width: 100%;
+                position: absolute;
+                top: 50%;
+                margin-top: -50px;
+            }
+
+            img{
                 margin-bottom: 8px;
                 width: 72px;
                 height: 72px;
-			}
+            }
 
-            dd.title{
+            .title{
                 margin-left: 0px;
                 height: 20px;
                 line-height: 20px;
@@ -59,66 +62,48 @@
                 font-size: 16px;
             }
 
-            dd.toolbar{
-                opacity: 0;
-                height: 26px;
-                overflow: hidden;
-                text-align: left;
-                margin-left: 0px;
-                position: absolute;
-                background-color: #000;
-                bottom: 0px;
-                left: 0px;
-                right: 0px;
-                @include transition(opacity 0.1s);
-                cursor: default;
-
-                .btn-icon-check{
-                    width: 25px;
-                    height: 26px;
-                    padding-left: 5px;
-                    padding-top: 2px;
-                    display: inline-block;
-                }
-                .btn-icon-del{
-                    width: 20px;
-                    height: 22px;
-                    padding-top: 3px;
-                    padding-right: 1px;
-                    display: inline-block;
-                    float: right;
-                    opacity: 0.65;
-                    cursor: pointer;
-                }
-                .btn-icon-del:hover{
-                    opacity: 1;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-del:active{
-                    opacity: 0.5;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-download{
-                    width: 20px;
-                    height: 22px;
-                    padding-top: 3px;
-                    padding-right: 1px;
-                    display: inline-block;
-                    float: right;
-                    opacity: 0.65;
-                    cursor: pointer;
-                }
-                .btn-icon-download:hover{
-                    opacity: 1;
-                    @include transition(opacity 0.4s);
-                }
-                .btn-icon-download:active{
-                    opacity: 0.5;
-                    @include transition(opacity 0.4s);
-                }
+            .wd-block-actions {
+                background-image: none;
             }
 
-            dd.confirm{
+            .app-upload-tip.show-upload-tip {
+                opacity: 1;
+            }
+
+            .app-upload-tip {
+                @include position(absolute, 0 0 0px 0px);
+                background: rgba(255, 255, 255, 0.5);
+                width: 100%;
+                height: 100%;
+                margin-left: 0;
+                opacity: 0;
+                @include transition(opacity $global-transition-duration);
+
+                .icon-close {
+                    cursor: pointer;
+                    @include position(absolute, 2px 4px 0 0);
+                }
+
+                .icon-retry {
+                    cursor: pointer;
+                    @include position(absolute, 0 4px 0px 0);
+                    @include button-effect;
+                }
+
+                p {
+                    @include position(absolute, 0 0 0px 0px);
+                    width: 100%;
+                    height: 20px;
+                    background: #a00;
+                    text-align: left;
+
+                    span {
+                        margin-left: 10px;
+                        color: #fff;
+                    }
+                }
+            }
+            .confirm{
                 margin-left: 0px;
                 position: absolute;
                 bottom: 0px;
@@ -127,7 +112,7 @@
                 left: 0px;
                 opacity: 0;
                 cursor: default;
-                @include transition(opacity 0.4s);
+                @include transition(opacity $global-transition-duration);
 
                 i.icon-phone{
                     @include position(absolute, 12px 0 0 4px);
@@ -158,7 +143,7 @@
                 }
             }
 
-            dd.done{
+            .done{
                 margin-left: 0px;
                 position: absolute;
                 bottom: 0px;
@@ -187,18 +172,14 @@
                     color: #FFF;
                 }
             }
-		}
 
-        dl:hover{
-            dd.toolbar{
-                opacity: 1;
+            &.confirm {
+                .wd-block-select, .wd-block-actions {
+                    display: none;
+                }
             }
         }
-        dl.confirm:hover{
-            dd.toolbar{
-                opacity: 0;
-            }
-        }
+
         dl.new-list{
 
             dt{
@@ -222,7 +203,7 @@
             }
 
             dd.title{
-                font-weight: normal;
+                font-weight: $global-font-weight-normal;
                 width: 120px;
                 margin: -61px auto;
                 font-size: 12px;
@@ -257,7 +238,7 @@
 
         }
 
-	}
+    }
 
     .mask{
         opacity: 0;
@@ -268,9 +249,9 @@
         right: 0px;
         bottom: 0px;
         background-color: rgba(9,9,9,0.9);
-        @include ui-layer-top;
+        @include ui-mask-top;
         text-align: center;
-        @include transition(opacity 0.4s);
+        @include transition(opacity $global-transition-duration);
 
         span.close-btn{
             position: absolute;
@@ -278,13 +259,13 @@
             top: 10px;
             font-size: 22px;
             color: #333;
-            font-weight: bolder;
+            font-weight: $global-font-weight-bold;
             cursor: pointer;
             opacity: 0.65;
         }
 
         dl.info{
-            font-weight: normal;
+            font-weight: $global-font-weight-normal;
             display: none;
             width: 400px;
             background-color: #fff;
@@ -310,7 +291,7 @@
 
             span.close-btn:hover{
                 opacity: 1;
-                @include transition(opacity 0.3s);
+                @include transition(opacity $global-transition-duration);
             }
 
             hr{
@@ -328,7 +309,7 @@
                 }
                 h2{
                     font-size: 16px;
-                    font-weight: normal;
+                    font-weight: $global-font-weight-normal;
                     line-height: 14px;
                     margin: 8px 0px 0px 0px;
                 }
@@ -338,7 +319,7 @@
                 line-height: 22px;
                 p{
                     display: inline-block;
-                    font-weight: normal;
+                    font-weight: $global-font-weight-normal;
                 }
                 p.title{
                     width: 25%;
@@ -385,46 +366,45 @@
                 background-color: #f5f5f5;
                 border-top: 1px solid #dcdcdc;
                 color: #000;
-                opacity: 0.35;
                 cursor: pointer;
-                font-weight: normal;
+                font-weight: $global-font-weight-normal;
                 a{
                     text-decoration: none;
                 }
-                p{
+                span{
                     display: inline-block;
                     margin: 0px;
                     font-size: 12px;
                     color: #000;
-                    padding-bottom: 4px;
-                    line-height: 2px;
                 }
                 .icon-del{
                     margin-right: 4px;
                 }
                 .button-del{
                     text-align: center;
-                    padding-top: 5px;
+                    padding-top: 6px;
                     padding-left: 4px;
-                    opacity: 0.7;
+                    opacity: 0.75;
                     display: inline-block;
                     width: 200px;
                     height: 34px;
-                    border-right: 1px solid #999;
+                    border-right: 1px solid #CCC;
+                    @include button-effect-light;
                     &:hover{
-                        opacity:1;
+                        border-right: 1px solid #DDD;
+                    }
+                    &:active{
+                        border-right: 1px solid #CCC;
                     }
                 }
                 .button-download{
                     width: 190px;
                     height: 34px;
                     text-align: center;
-                    padding-top: 5px;
-                    opacity: 0.8;
+                    padding-top: 6px;
+                    opacity: 0.75;
                     display: inline-block;
-                    &:hover{
-                        opacity:1;
-                    }
+                    @include button-effect-light;
                 }
             }
 
@@ -445,7 +425,7 @@
 
             h2{
                 font-size: 16px;
-                font-weight: bold;
+                font-weight: $global-font-weight-bold;
                 line-height: 16px;
                 margin-bottom: 17px;
                 margin-top: 15px;

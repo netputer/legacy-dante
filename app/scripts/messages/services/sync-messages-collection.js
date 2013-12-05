@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmMessagesCollection', '$q', '$http',
-function(wdmMessagesCollection,   $q,   $http) {
+return ['wdmMessagesCollection', '$q', '$http', 'GA', 
+function(wdmMessagesCollection,   $q,   $http,   GA) {
 
 var _super = wdmMessagesCollection.MessagesCollection.prototype;
 
@@ -47,15 +47,33 @@ _.extend(SyncMessagesCollection.prototype, {
             config.method = 'GET';
             config.url = '/resource/conversations/' + this._conversation.id + '/messages';
 
+            var timeStart = (new Date()).getTime();
             done = function(response) {
+                GA('perf:messages_fetch_duration:success:' + ((new Date()).getTime() - timeStart));
+
                 var data = [].concat(response.data);
                 if (!refresh) {
                     this.loaded = response.headers('WD-Need-More') === 'false';
                 }
+                
                 return this.add(data.map(this.create.bind(this)));
             }.bind(this);
 
-            return $http(config).then(done, fail);
+            var RETRY_TIMES = 3;
+            var promise = (function tick() {
+                return $http(config).then(done, function() {
+                    GA('perf:messages_fetch_duration:fail:' + ((new Date()).getTime() - timeStart));
+
+                    RETRY_TIMES -= 1;
+                    if (!RETRY_TIMES) {
+                        return $q.reject();
+                    } else {
+                        tick();
+                    }
+                });
+            })();
+
+            return promise;
         }
         else {
             return $q.reject();

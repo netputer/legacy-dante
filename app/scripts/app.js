@@ -44,8 +44,7 @@ READ_ONLY_FLAG = false;
 //>>includeStart("debug", pragmas.debug);
 READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
 //>>includeEnd("debug");
-
-angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
+angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
 
@@ -53,10 +52,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         // Used for filter route changing which need auth.
-        var validateToken = ['$q', 'wdAuthToken', '$location',
-            function($q, wdAuthToken, $location) {
+        var validateToken = ['$q', 'wdDevice', '$location',
+            function($q, wdDevice, $location) {
 
-            if (wdAuthToken.valid()) {
+            if (wdDevice.valid()) {
                 return true;
             }
             else {
@@ -97,8 +96,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
         $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', function(wdAuthToken, $q, wdGoogleSignIn ) {
-                    wdAuthToken.signout();
+                signout: ['wdDevice', '$q', 'wdGoogleSignIn', function(wdDevice, $q, wdGoogleSignIn ) {
+                    wdDevice.signout();
                     wdGoogleSignIn.setForceShowDevices(true);
                     return $q.reject('signout');
                 }]
@@ -109,15 +108,14 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['wdAuthToken', '$q', 'wdGoogleSignIn', 'wdAlert', '$rootScope', function(wdAuthToken, $q, wdGoogleSignIn, wdAlert ,$rootScope) {
+                signout: ['wdGoogleSignIn', '$q', 'wdAlert', '$rootScope', function(wdGoogleSignIn, $q, wdAlert ,$rootScope) {
                     wdAlert.confirm(
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
-                        wdAuthToken.signout();
-                        wdGoogleSignIn.currentDevice({status:'signout'});
+                        wdGoogleSignIn.signout();
                     },function(){
 
                     });
@@ -134,7 +132,7 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('photos'),
-                versionSupport: minVersionRequirement(3819)
+                versionSupport: minVersionRequirement(3859)
             },
             reloadOnSearch: false
         });
@@ -144,9 +142,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('messages'),
-                versionSupport: minVersionRequirement(3819)
+                versionSupport: minVersionRequirement(3883)
             },
-            reloadOnSearch: false
+            reloadOnSearch: true
         });
         $routeProvider.when('/contacts', {
             template: ContactsTemplate,
@@ -173,7 +171,8 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         });
 
         // Global exception handling.
-        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdAuthToken', '$window', function(wdDev, $rootScope, $q, $log, wdAuthToken, $window) {
+        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdDevice', '$window', 'wdSocket',
+            function(wdDev, $rootScope, $q, $log, wdDevice, $window, wdSocket) {
             return {
                 request: function(config) {
                     // Using realtime data source url.
@@ -206,9 +205,10 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
                     }
                     // If auth error, always signout.
                     // 401 for auth invalid, 0 for server no response.
+
                     if (!rejection.config.disableErrorControl &&
                         (rejection.status === 401 /*|| response.status === 0 */)) {
-                        wdAuthToken.signout();
+                        wdDevice.signout();
                     }
                     return $q.reject(rejection);
                 }
@@ -230,9 +230,9 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase, wdWindowFocus, wdmConversations) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -260,7 +260,6 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
             wdLanguageEnvironment.apply(language);
         };
 
-
         $rootScope.notifyNewMessage = function() {
             wdTitleNotification.notify($rootScope.DICT.app.MESSAGE_NOTIFICATION_TITLE);
         };
@@ -271,35 +270,71 @@ angular.module('wdApp', ['wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage'
         $rootScope.$on('signin', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.connect();
+                wdDatabase.open(wdDev.getMetaData('phone_udid'));
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
         });
         $rootScope.$on('signout', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
+                wdDatabase.close();
+                wdTitleNotification.restore();
+                $rootScope.$broadcast('sidebar:close');
             }
         });
+
+        wdSocket.on('refresh', function() {
+            $route.reload();
+        });
+
+        $rootScope.globalControl = function(e) {
+            if (!jQuery(e.target).parents('.sidebar').length && !jQuery(e.target).parents('.nav-settings').length) {
+                $rootScope.showSidebar = false;
+            }
+        };
+
+        $window.onbeforeunload = function() {
+            wdDatabase.close();
+        };
+
+        wdWindowFocus.initialize();
+        wdmConversations.initialize();
+
     }]);
 
-
+// 一个全局对象用来接收和发送与 Google sign 有关的事件
+window.googleSignInEventCenter = jQuery({});
 window.googleSignInOnloadDefer = jQuery.Deferred();
 window.facebookInitDefer = jQuery.Deferred();
+window.googleSignInCallback = function (data) {
+    window.googleSignInEventCenter.trigger('googleSignInCallback', {'authResult': data});
+};
 
 if (!READ_ONLY_FLAG) {
     window.googleSignInOnload = function() {
+        window.gapi.client.setApiKey('AIzaSyB-esy_FeXlxXXzx3IaTNER058UX9iL3R0');
         window.googleSignInOnloadDefer.resolve();
     };
 
-    jQuery.getScript('https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload');
+    jQuery.ajax({
+        dataType: 'script',
+        cache: true,
+        url: 'https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload'
+    });
 
     jQuery(window).one('load', function() {
-        jQuery.getScript('http://connect.facebook.net/en_UK/all.js', function(){
+        jQuery.ajax({
+            dataType: 'script',
+            cache: true,
+            url: 'http://connect.facebook.net/en_UK/all.js'
+        }).done(function(){
             window.FB.init({
                 appId: '265004820250785'
             });
             window.facebookInitDefer.resolve(window.FB);
         });
     });
+
 }
 
 var GA_ID = READ_ONLY_FLAG ? 'UA-15790641-1' : 'UA-15790641-36';
@@ -312,8 +347,8 @@ window._gaq=[['_setAccount', GA_ID],['_trackPageview']];
     s.parentNode.insertBefore(g,s);
 }(document,'script'));
 
-
 angular.bootstrap(document, ['wdApp']);
 
 (function() {})(common, language, photos, auth, messages, contacts);
+
 });

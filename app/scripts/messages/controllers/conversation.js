@@ -5,9 +5,9 @@ define([
 ) {
 'use strict';
 return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
-        'GA', '$route', 'wdmConversations', '$location', 'wdKey',
+        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification',
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdmConversations,   $location,   wdKey) {
+         GA,   $route,   wdmConversations,   $location,   wdKey, wdDesktopNotification) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.conversationsCache = wdmConversations.conversations;
@@ -76,7 +76,10 @@ var searchConversationsFromServer = _.debounce(function(keyword) {
     });
 }, 500);
 
-$scope.$watch('searchQuery', function(keyword) {
+$scope.$watch('searchQuery', function(keyword, oldValue) {
+    if (keyword === oldValue) {
+        return;
+    }
     if (keyword) {
         $scope.searchLoading = true;
         $scope.resultsList = wdmConversations.searchConversationsFromCache(keyword);
@@ -97,6 +100,7 @@ $scope.$watch('searchQuery', function(keyword) {
 });
 
 $scope.searchContent = function() {
+    GA('messages:search:content');
     var keyword = $scope.searchQuery;
     return wdmConversations.searchMessagesFromServer(keyword).then(function done(list) {
         if ($scope.searchQuery !== keyword) { return; }
@@ -157,7 +161,6 @@ $scope.nextResults = function(c) {
 // };
 
 $scope.conversations.on('update.wdm', function(e, c) {
-    $scope.conversations.sort();
     if (c === $scope.activeConversation) {
         scrollIntoView();
     }
@@ -201,6 +204,8 @@ $scope.sendMessage = function(c) {
     $scope.$broadcast('wdm:beforeMessageSend', c);
 
     if (!c.addresses.length) { return; }
+
+    GA('messages:send');
 
     $scope.conversations.sendMessages(c).then(function(cc) {
         if (cc !== $scope.activeConversation) {
@@ -305,12 +310,40 @@ $scope.removeMessage = function(c, m) {
     });
 };
 
+$scope.getPhotoColor = function() {
+
+    //默认头像显示颜色
+    var photoColorList = [
+        'contact-photo-bg-green',
+        'contact-photo-bg-red',
+        'contact-photo-bg-blue',
+        'contact-photo-bg-pink',
+        'contact-photo-bg-orange',
+        'contact-photo-bg-wheat',
+        'contact-photo-bg-olive-green',
+        'contact-photo-bg-blue-green',
+        'contact-photo-bg-light-green'
+    ];
+    return photoColorList[ Math.floor( Math.random() * photoColorList.length ) ];
+};
+
+$scope.isDisplayNamePhoneNumber = function( name ) {
+
+    //以数字、星号、加号、减号、警号开头并且结尾的
+    return new RegExp(/^[\d\*\+\-\#]*$/g).test( name );
+};
+
+$scope.requestDesktopNotificationPermission = function () {
+    wdDesktopNotification.requestPermission();
+};
 
 // Startup
 var timer;
 if ($scope.serverMatchRequirement) {
-    $q.when($scope.conversations.length || $scope.conversations.fetch()).then(function() {
-        $scope.showConversation($scope.conversations.collection[0]);
+    $q.when($scope.conversations.hasFetched() || $scope.conversations.fetch()).then(function() {
+        if (!$scope.activeConversation) {
+            $scope.showConversation($scope.conversations.collection[0]);
+        }
         $scope.cvsListFirstLoading = false;
     });
 
@@ -318,15 +351,30 @@ if ($scope.serverMatchRequirement) {
        timer = $timeout(update, 60000 - Date.now() % 60000);
     }, 60000 - Date.now() % 60000);
 
+    var c;
     if ($route.current.params.create) {
         var parts = $route.current.params.create.split(',');
-        var c = $scope.createConversation();
+        c = $scope.createConversation();
         c.extend({
             addresses: [decodeURIComponent(parts[0])],
             contact_names: [decodeURIComponent(parts[1])],
+            contact_ids: [-1],
+            photo_paths: [''],
             date: Date.now()
         });
         $location.search('create', null).replace();
+    }
+    else if ($route.current.params.show) {
+        var cid = $route.current.params.show;
+        c = $scope.conversations.getById(cid);
+        if (c) {
+            $scope.showConversation(c);
+        } else {
+            $scope.conversations.fetch(cid).then(function(c) {
+                $scope.showConversation(c);
+            });
+        }
+        $location.search('show', null).replace();
     }
 }
 

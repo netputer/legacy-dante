@@ -1,15 +1,14 @@
 .wdp-actionbar {
     @include user-select(none);
-    @include position(fixed, 0px 0px 0 $global-left-offset);
+    @include position(absolute, 0px 0px 0px 0px);
+    height: 30px;
     padding: 10px 10px;
-    background: rgba(#fff, 0.9);
+    background: rgba(#fff, 0.95);
     .btn {
         font-size: 12px;
         min-width: 80px;
     }
     > .btn {
         margin-right: 5px;
-    }
-    .btn.action-select {
     }
 }

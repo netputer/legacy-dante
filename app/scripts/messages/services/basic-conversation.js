@@ -19,12 +19,12 @@ function BasicConversation(data) {
         snippet: '',
         addresses: [],
         contact_names: [],
-        photo_path: '',
+        contact_ids: [],
+        photo_paths: [],
         unread_message_count: 0,
         has_attachment: false,
         has_error: false
     }, data));
-
     return instance;
 }
 
@@ -41,7 +41,20 @@ BasicConversation.prototype = Object.create(_super, {
     hasError: {get: function() { return this.has_error; }},
     hasMMS: {get: function() { return this.has_attachment; }},
     hasUnread: {get: function() { return !!this.unread_message_count; }},
-    multiple: {get: function() { return this.addresses.length > 1; }}
+    multiple: {get: function() { return this.addresses.length > 1; }},
+    hasExistedContact: {
+        get: function() {
+            return this.contact_ids && this.contact_ids.some(function(id) {
+                return id !== -1;
+            });
+        }
+    },
+
+    avatarPaths: {
+        get: function() {
+            return (this.hasExistedContact || (this.contact_ids && this.contact_ids.length === 1) ) ? this.photo_paths.slice(0, 4) : [];
+        }
+    }
 });
 
 _.extend(BasicConversation.prototype, {

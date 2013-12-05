@@ -2,12 +2,12 @@ define([
 ], function(){
 'use strict';
 
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdAuthToken', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaSignIn', '$log', '$window',
-function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuthToken, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'wdKeeper', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaSignIn', '$log', '$window',
+function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, wdKeeper, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
 
     $scope.isSupport = window.Modernizr.cors && window.Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
-    $scope.auth = wdAuthToken.getToken() || '';
+    $scope.auth = wdDevice.getDevice() || '';
     $scope.autoAuth = !!$scope.auth;
     $scope.error = '';
     $scope.state = 'standby';
@@ -43,7 +43,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
         keeper.done();
         $scope.state = 'standby';
         // TODO: Maybe expiration?
-        wdAuthToken.setToken({ip:host});
+        wdDevice.setDevice({ip:host});
         $location.url($route.current.params.ref || '/');
         $rootScope.$broadcast('signin');
     };
@@ -70,7 +70,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdAuth
         $scope.submit(item);
     },function(){
         $scope.isCheckingLogin = false;
-        wdAuthToken.signout();
+        wdDevice.signout();
     });
 
 //return的最后括号

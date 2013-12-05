@@ -983,6 +983,26 @@ qq.FineUploaderBasic.prototype = {
             this._deleteFileEndpointStore.setEndpoint(endpoint, id);
         }
     },
+    isAllowedExtension: function(fileName){
+        var allowed = this._options.validation.allowedExtensions,
+            valid = false;
+
+        if (!allowed.length) {
+            return true;
+        }
+
+        qq.each(allowed, function(idx, allowedExt) {
+            /*jshint eqeqeq: true, eqnull: true*/
+            var extRegex = new RegExp('\\.' + allowedExt + "$", 'i');
+
+            if (fileName.match(extRegex) != null) {
+                valid = true;
+                return false;
+            }
+        });
+
+        return valid;
+    },
     _createUploadButton: function(element){
         var self = this;
 
@@ -1554,6 +1574,10 @@ qq.DragAndDrop = function(o) {
 
     function handleDataTransfer(dataTransfer) {
         var i, items, entry;
+
+        if (!dataTransfer.files.length) {
+            return;
+        }
 
         options.callbacks.dropProcessing(true);
         dz.dropDisabled(true);

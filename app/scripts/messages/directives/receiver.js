@@ -4,15 +4,14 @@ define([
     _
 ) {
 'use strict';
-return ['wdDev', 'wdcContacts', function(wdDev, wdcContacts) {
+return ['wdDev', 'wdcContacts', 'wdmContactSearch',
+function(wdDev,   wdcContacts,   wdmContactSearch) {
 return {
 
 link: function(scope, element) {
-    wdcContacts.init();
-
+    wdmContactSearch.init();
     var itemManager = {
-        stringToItem: function(str)
-        {
+        stringToItem: function(str) {
             var parts = str.split(':');
             return {
                 display_name: parts[1] || '',
@@ -20,13 +19,11 @@ link: function(scope, element) {
             };
         },
 
-        itemToString: function(item)
-        {
+        itemToString: function(item) {
             return item.number + ':' + item.display_name;
         },
 
-        compareItems: function(item1, item2)
-        {
+        compareItems: function(item1, item2) {
             return item1 != null && item2 != null && (item1 === item2 || (item1.number === item2.number && item1.display_name === item2.display_name));
         }
     };
@@ -92,7 +89,7 @@ link: function(scope, element) {
                     element.trigger('setSuggestions', { result: [] });
                 }
                 else {
-                    wdcContacts.getContactSuggestions(query).then(function(results) {
+                    wdmContactSearch.search(query).then(function(results) {
                         if (query !== element.data('currentQuery')) { return; }
 
                         var data = results.map(function(r) {
@@ -122,16 +119,23 @@ link: function(scope, element) {
 
     function setData(textext) {
         var items = JSON.parse(textext.hiddenInput().val());
-        var addresses = _(items).map(function(item) {
-            return item.number;
-        });
-        var names = _(items).map(function(item) {
-            return item.display_name;
+        var addresses = [];
+        var names = [];
+        var ids = [];
+        var photos = [];
+
+        _(items).forEach(function(item) {
+            addresses.push(item.number);
+            names.push(item.display_name);
+            ids.push(-1);
+            photos.push('');
         });
 
         scope.activeConversation.extend({
             addresses: addresses,
-            contact_names: names
+            contact_names: names,
+            contact_ids: ids,
+            photo_paths: photos
         });
     }
 

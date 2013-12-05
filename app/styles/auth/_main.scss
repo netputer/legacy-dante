@@ -1,9 +1,7 @@
-$auth-spacing: 4px;
-@import "auth/*.png";
 .wd-portal {
     @include position(fixed, 0px 0px 0px 0px);
     @include ui-layer-top;
-    background: #6eb800;
+    background: $standard-green;
 
     .announcement {
         font-size: 12px;
@@ -31,11 +29,7 @@ $auth-spacing: 4px;
     }
     .a:before {
         content: "";
-        // $name: "icon_logo_white";
         @include position(fixed, 27px 0 0 30px);
-        // @include auth-sprite($name);
-        // width: auth-sprite-width($name);
-        // height: auth-sprite-height($name);
         @include use-sprite("logo-white");
         width: icon-width("logo-white");
         height: icon-height("logo-white");
@@ -51,14 +45,17 @@ $auth-spacing: 4px;
         .container {
             @include position(absolute, 50% 0 0 50%);
             margin: -124px 0 0 -480px;
+            h1 {
+                font-weight: 100;
+            }
         }
-        h1, p, span {
+        h1, p {
             @include text-shadow(0 1px 0 rgba(#000, 0.2));
             color: #fff;
         }
         h1 {
             // margin-top: 175px;
-            font-weight: 100;
+            font-weight: $global-font-weight-normal;
             font-size: 42px;
         }
         h1 + p {
@@ -114,6 +111,8 @@ $auth-spacing: 4px;
             opacity: 0.7;
             display: block;
             margin-top: 3px;
+            @include text-shadow(0 1px 0 rgba(#000, 0.2));
+            color: #fff;
             &:hover {
                 opacity: 0.95;
             }
@@ -128,7 +127,7 @@ $auth-spacing: 4px;
             @include text-shadow(0 1px 0 rgba(#fff, 0.2));
         }
         h2 {
-            font-weight: 300;
+            font-weight: $global-font-weight-normal;
             font-size: 24px;
             margin-top: 44px;
             margin-bottom: 2px;
@@ -188,7 +187,6 @@ $auth-spacing: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     position: relative;
     span.google-btn-word{
-        color: #333;
         display: inline-block;
         margin-left: 5px;
         margin-bottom: 0px;
@@ -207,6 +205,16 @@ $auth-spacing: 4px;
     bottom: 0;
     background-color: #FFF;
     @include ui-layer-top;
+    text-align: center;
+    .sign-in-progress{
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        margin-top: 30px;
+        color: #666;
+    }
 }
 @import "devices";
 @import "wandoujia-sign-in";
+@import "user-profile-button";
+@import "no-support";

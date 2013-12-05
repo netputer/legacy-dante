@@ -1,25 +1,34 @@
 /*global Modernizr*/
 define([
     'angular',
-    'auth/services/token',
+    'auth/services/device',
     'auth/services/googleSignIn',
+    'auth/services/googleMultipleHack',
     'auth/services/wandoujiaSignIn',
     'auth/controllers/internationalCtrl',
-    'auth/controllers/cloudDataCtrl'
+    'auth/controllers/cloudDataCtrl',
+    'auth/directives/google-button',
+    'auth/directives/user-profile-button'
 ], function(
     angular,
-    authToken,
+    device,
     googleSignIn,
+    googleMultipleHack,
     wandoujiaSignIn,
     internationalCtrl,
-    cloudDataCtrl
+    cloudDataCtrl,
+    googleButton,
+    userProfileButton
 ) {
 'use strict';
 
 angular.module('wdAuth', ['wdCommon'])
-    .provider('wdAuthToken', authToken)
+    .provider('wdDevice', device)
     .factory('wdGoogleSignIn', googleSignIn)
+    .factory('wdGoogleMultipleHack', googleMultipleHack)
     .factory('wandoujiaSignIn', wandoujiaSignIn)
     .controller('internationalController', internationalCtrl)
-    .controller('cloudDataController', cloudDataCtrl);
+    .controller('cloudDataController', cloudDataCtrl)
+    .directive('wdGoogleButton', googleButton)
+    .directive('wdUserProfileButton', userProfileButton);
 });

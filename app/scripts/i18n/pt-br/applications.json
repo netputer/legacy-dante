@@ -1,36 +1,46 @@
 {
-	"BUTTONS":{
-		"INSTALL_APPS":"Instalar apk",
-		"SELECT_ALL":"Selecionar todas",
-		"DESELECT":"Desmarcar",
-		"UNINSTALL":"Desinstalar",
-		"REINSTALL":"Reinstalar",
-		"COMPLETE":"Concluído"
-	},
-	"CONFIRMS":{
-		"INSTALL":"Confirme a instalação em seu celular.",
-		"UNINSTALL":"Confirme a desinstalação em seu celular.",
-		"UNKNOWNTIPS":"Dicas de instalação",
-		"INSTALL_COMPLETE":"Instalação concluída"
-	},
-	"NOAPP":"Nenhum aplicativo em seu celular.",
-	"UPGRADE_TIP":"Atualize o SnapPea para gerenciar seus aplicativos pela internet.",
-	"DEL_ONE_APP":{
-		"TITLE":"Desinstalar aplicativo",
-		"CONTENT":"Desinstalar o aplicativo selecionado do seu celular?",
-		"AGREE":"Desinstalar",
-		"CANCEL":"Cancelar"
-	},
-	"DEL_MORE_APPS":{
-		"TITLE":"Desinstalar aplicativos",
-		"CONTENT":"Desinstalar os aplicativos selecionados do seu celular?",
-		"AGREE":"Desinstalar",
-		"CANCEL":"Cancelar"
-	},
-	"WORDS":{
-		"SIZE":"Tamanho",
-		"INSTALLATION":"Instalação",
-		"VERSION":"Versão",
-		"PERMISSIONS":"Permissões"
-	}
+  "BUTTONS":{
+    "INSTALL_APPS":"Instalar apk",
+    "SELECT_ALL":"Selecionar todas",
+    "DESELECT":"Desmarcar",
+    "UNINSTALL":"Desinstalar",
+    "REINSTALL":"Reinstalar",
+    "COMPLETE":"Concluído",
+    "DOWNLOAD":"Download"
+  },
+  "CONFIRMS":{
+    "INSTALL":"Confirme a instalação em seu celular.",
+    "UNINSTALL":"Confirme a desinstalação em seu celular.",
+    "UNKNOWNTIPS":"Dicas de instalação",
+    "INSTALL_COMPLETE":"Instalação concluída"
+  },
+  "NOAPP":"Nenhum aplicativo em seu celular.",
+  "UPGRADE_TIP":"Atualize o SnapPea para gerenciar seus aplicativos pela internet.",
+  "DEL_ONE_APP":{
+    "TITLE":"Desinstalar aplicativo",
+    "CONTENT":"Desinstalar o aplicativo selecionado do seu celular?",
+    "AGREE":"Desinstalar",
+    "CANCEL":"Cancelar"
+  },
+  "DEL_MORE_APPS":{
+    "TITLE":"Desinstalar aplicativos",
+    "CONTENT":"Desinstalar os aplicativos selecionados do seu celular?",
+    "AGREE":"Desinstalar",
+    "CANCEL":"Cancelar"
+  },
+  "WORDS":{
+    "SIZE":"Tamanho",
+    "INSTALLATION":"Instalação",
+    "VERSION":"Versão",
+    "PERMISSIONS":"Permissões",
+    "CANCEL":"Cancelar",
+    "SELECT":"Selecionar"
+  },
+  "ALL_FILES_UNSUPPORT_TITLE":"Arquivo(s) não reconhecido(s)",
+  "ALL_FILES_UNSUPPORT_CONTENT":"Extensão de arquivo inválida. Somente arquivos APK são suportados. ",
+  "SOME_FILES_UNSUPPORT_TITLE":"Incluir arquivo(s) não suportado(s)",
+  "SOME_FILES_UNSUPPORT_CONTENT":"Alguns arquivos possuem extensão inválida. Somente arquivos APK são suportados.",
+  "UNSUPPORT_MODAL_BUTTON_OK":"OK",
+  "DRAG_TITLE":"Arraste apps aqui",
+  "DRAG_TIP":"Adicionar aplicativos ao seu celular."
 }

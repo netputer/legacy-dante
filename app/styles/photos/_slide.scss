@@ -1,6 +1,6 @@
 .slides-container {
     @include user-select(none);
-    @include ui-layer-top;
+    @include ui-mask-top;
     position: fixed;
     left: 0;
     right: 0;

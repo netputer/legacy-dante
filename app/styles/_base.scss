@@ -2,7 +2,19 @@
 $global-line-height: 20px;
 $global-transition-duration: 0.4s;
 $global-left-offset: 60px;
+$global-sidebar-width: 310px;
+$global-font-weight-normal: 400;
+$global-font-weight-bold: 700;
 
+$standard-green: #3baa24;
+$standard-red: #f24949;
+$standard-pink: #eb6f67;
+$standard-orange: #e9bf31;
+$standard-wheat: #d4b526;
+$standard-olive-green: #79a800;
+$standard-blue-green: #34a97d;
+$standard-light-green: #95c60e;
+$standard-blue: #3788bb;
 
 // http://docs.angularjs.org/api/ng.directive:ngCloak
 [ng\:cloak], [ng-cloak] { display: none; }
@@ -21,8 +33,25 @@ html.cors .no-support-placeholder {
     @include position;
     height: 100%;
     margin-left: $global-left-offset;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
+    background-color: #fff;
+    @include transition(all 300ms linear);
+
+    .module-view {
+        @include position;
+        height: 100%;
+        overflow: hidden;
+    }
+}
+
+.open-sidebar .viewport {
+    @include transform(translate3d($global-sidebar-width, 0, 0));
+    pointer-events: none;
+    z-index: 3;
+}
+
+.open-sidebar .navigator {
+    z-index: 2;
 }
 
 body {
@@ -34,42 +63,10 @@ html.zh-cn body {
 }
 
 a, a:hover {
-    color: #3c7800;
+    color: #2f7c2f;
 }
 img {
     max-width: none;
-}
-input[type=checkbox] {
-    // WebKit-only hacks
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-        position: relative;
-        -webkit-appearance: none;
-        $height: icon-height("check");
-        $margin-top: round(($global-line-height - $height) / 2);
-        width: icon-width("check");
-        height: $height;
-        margin: $margin-top 0 ($global-line-height - $height - $margin-top);
-        border: 0;
-    }
-
-    &:not(:checked):after {
-        content: "";
-        @include position(absolute, 0px 0 0 0px);
-        width: icon-width("check");
-        height: icon-height("check");
-        @include use-sprite("check");
-    }
-    &:not(:checked):hover:after {
-        @include use-sprite("check-h");
-    }
-    &:checked:after{
-        content: "";
-        @include position(absolute, 0px 0 0 0px);
-        width: icon-width("checked");
-        height: icon-height("checked");
-        @include use-sprite("checked");
-    }
-
 }
 
 // Prevent tooltip wrap.
@@ -88,9 +85,16 @@ input[type=checkbox] {
 
     .modal-body {
         color: #999;
+        ol {
+            margin-left: 18px;
+        }
+        strong {
+            color: #000;
+            font-weight: $global-font-weight-bold;
+        }
     }
-    .modal-footer .btn + .btn {
-        min-width: 50px;
+    .modal-footer .btn {
+        min-width: 65px;
     }
 }
 .close {
@@ -102,6 +106,12 @@ input[type=checkbox] {
         color: inherit;
     }
     color: inherit;
+}
+
+.wd-upgrade-warning{    
+    a.btn-primary:hover {
+        color: #fff;
+    }
 }
 
 @import "scrollbar";

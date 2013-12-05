@@ -1,5 +1,5 @@
 .wd-blank {
-    @include position(fixed, 0px 0px 0px $global-left-offset);
+    @include position(absolute, 0px 0px 0px 0px);
     background: #fff;
 
     .wdb-t {
@@ -20,7 +20,7 @@
         margin-top: -50px;
         & > p {
             font-size: 14px;
-            font-weight: bold;
+            font-weight: $global-font-weight-bold;
             word-break: break-all;
             margin-bottom: 20px;
             display: block;
@@ -55,4 +55,5 @@
             @include import-icon("update");
         }
     }
+
 }

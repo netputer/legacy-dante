@@ -1,12 +1,15 @@
-<div ng-switch on="autoAuth">
-    <div class="wd-portal" ng-switch-when="false" ng-show="deviceNum<0">
+<!-- 登陆页 -->
+<div>
+    <div class="wd-portal" ng-show="isShowNoSignInPage">
         <div class="a" ng-switch on="isSupport">
             <div class="container" ng-switch-when="true">
                 <h1>{{$root.DICT.portal.H1}}</h1>
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn" ng-click="googleSigIn()" ng-disabled="signInBtnDisabled">
+                <button class="btn google-btn" wd-google-button
+                        ng-click = "clickSignInButton()"
+                        ng-disabled = "signInBtnDisabled">
                     <i class="icon-google-btn" ng-show="!signInBtnDisabled"></i>
                     <span class="google-btn-word" ng-show="!signInBtnDisabled">
                         {{$root.DICT.portal.GOOGLE_BUTTON}}
@@ -29,7 +32,7 @@
                 <div class="row">
                     <div class="span6">
                         <h2>{{$root.DICT.portal.H2}}</h2>
-                        <p ng-bind-html-unsafe="$root.DICT.portal.H2_P"></p>
+                        <p ng-bind-html="$root.DICT.portal.H2_P"></p>
                     </div>
                     <div class="span5">
                         <a href="https://play.google.com/store/apps/details?id=com.snappea" class="link-to-gp" target="_blank"></a>
@@ -55,84 +58,144 @@
             </div>
         </div>
     </div>
-
-    <div class="wd-loading" ng-switch-when="true" data-visible="true"></div>
 </div>
+<!-- 登陆页 end -->
 
-<div class="devices-tpl" ng-show="deviceNum>=0">
-    <div class="sign-out" ng-click="googleSignOut();">
-        <i class="icon-signoutdark"></i>
-        {{$root.DICT.portal.SIGN_OUT}}
+<!-- 设备列表页 -->
+<div class="devices-tpl" ng-if="!isShowNoSignInPage && (devicesList.length>=0)">
+    <div wd-user-profile-button></div>
+
+    <!-- 新用户引导 -->
+    <div class="user-guide" ng-if="!isOldUser && devicesList.length === 0">
+        <div class="header">
+            <div class="title current">
+                <p class="num">1</p>
+                <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP1}}</p>
+            </div>
+            <div class="title" ng-class="{current: (userGuideStep === 1), step2: (userGuideStep === 2)}">
+                <p class="num">2</p>
+                <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP2}}</p>
+            </div>
+            <div class="title" ng-class="{current: (userGuideStep === 2)}">
+                <p class="num">3</p>
+                <p class="step">{{$root.DICT.portal.USER_GUIDE.STEP3}}</p>
+            </div>
+            <div class="angle step2"></div>
+            <div class="angle active" ng-class="{step1: (userGuideStep === 1), step2: (userGuideStep === 2)}"></div>
+        </div>
+        <div class="step1-block" ng-class="{move:(userGuideStep === 2)}">
+            <h1>{{$root.DICT.portal.USER_GUIDE.PAGE1_H1}}</h1>
+            <h2>{{$root.DICT.portal.USER_GUIDE.PAGE1_H2}}</h2>
+            <div class="content">
+                <div class="left">
+                    <a target="_blank" class="googleplay" href="https://play.google.com/store/apps/details?id=com.snappea">
+                        <i class="icon-googleplay"></i>
+                    </a>
+                    <p ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE1_WAY1"></p>
+                </div>
+                <div class="or">
+                    <p>{{$root.DICT.portal.WORD.OR}}</p>
+                </div>
+                <div class="right">
+                    <div class="qr-code"></div>
+                    <p>{{$root.DICT.portal.USER_GUIDE.PAGE1_WAY2}}</p>
+                </div>
+            </div>
+            <div class="next btn" ng-click="nextUserGuide()">{{$root.DICT.portal.WORD.NEXT}}</div>
+        </div>
+        <div class="step2-block" ng-class="{move:(userGuideStep === 2)}" ng-if="(userGuideStep === 2)">
+            <h1>{{$root.DICT.portal.USER_GUIDE.PAGE2_H1}}</h1>
+            <h2>{{$root.DICT.portal.USER_GUIDE.PAGE2_H2}}</h2>
+            <div class="content">
+                <div class="phone"></div>
+                <div class="user-profile">
+                    <img class="photo" ng-src="{{profile.image.url}}">
+                    <div class="account">
+                        <p class="name">{{profile.displayName}}</p>
+                        <p class="email">{{profile.emails[0].value}}</p>
+                    </div>
+                </div>
+                <p class="tip" ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace('$$$$', profile.emails[0].value)"></p>
+            </div>
+            <a target="_blank" class="help" href="https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY2}}</a>
+        </div>
     </div>
-
+    
     <!-- no device start -->
-    <div class="no-device" ng-show="deviceNum==0">
+    <div class="no-device" ng-if="isOldUser && devicesList.length === 0">
         <h1>{{$root.DICT.portal.NO_DEVICES.h1}}</h1>
-        <p>{{$root.DICT.portal.NO_DEVICES.h2}}</p>
+        <h2>{{$root.DICT.portal.NO_DEVICES.h2}}</h2>
         <div class="step">
             <dl class="step1">
                 <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
+                <h2 class="num">1</h2>
+                <dd ng-bind-html="$root.DICT.portal.NO_DEVICES.step1"></dd>
             </dl>
             <dl class="step2">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step2}}</dd>
+                <dt>
+                    <div class="user-profile">
+                        <img class="photo" ng-src="{{profile.image.url}}">
+                        <p class="name">{{profile.displayName}}</p>
+                    </div>
+                </dt>
+                <h2 class="num">2</h2>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} <span class="account">{{profile.emails[0].value}}</span></dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span></dd>
+                <h2 class="num">3</h2>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step3}}</dd>
             </dl>
-            <p>{{$root.DICT.portal.NO_DEVICES.foot}}<a href="https://play.google.com/store/apps/details?id=com.snappea">{{$root.DICT.portal.NO_DEVICES.foot_updata}}</a>.</p>
+            <p ng-bind-html="$root.DICT.portal.NO_DEVICES.foot"></p>
         </div>
     </div>
     <!-- no device end -->
 
     <!-- select devices start -->
-    <div class="select-device" ng-show="deviceNum>=1">
+    <div class="select-device" ng-if="isOldUser && devicesList.length >= 1">
         <h1>{{$root.DICT.portal.SELECT_DEVICES.h1}}</h1>
-        <p>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{deviceNum}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</p>
+        <h2>{{$root.DICT.portal.SELECT_DEVICES.h2_1}} <span>{{devicesList.length}}</span> {{$root.DICT.portal.SELECT_DEVICES.h2_2}}</h2>
         <div class="list">
-            <div ng-repeat="item in devicesList" ng-click="connectPhone(item);">
-                <p>{{item.model}}</p>
-                <span class="wifi" ng-show="!item.loading">
-                    <i class="icon-wifi"></i><p>{{item.attributes.ssid}}</p>
-                </span>
-                <div class="wd-loading phone-loading" data-visible="true" ng-show="item.loading"></div>
+            <div class="devices-item" ng-repeat="item in devicesList" ng-click="connectDevice(item);" ng-class="{'selected-device': item.loading}">
+                <div class="icon">
+                    <i class="icon-phone-dark"></i>
+                    <i class="icon-phone-white" ng-if="!item.loading"></i>
+                    <div class="wd-loading wd-loading-white phone-loading" data-visible="true" ng-if="item.loading"></div>
+                </div>
+                <div class="phone">
+                    <p class="phone-name" title="{{item.model}}">{{item.model}}</p>
+                </div>
+                <div class="wifi">
+                    <p class="status" ng-if="item.loading">{{$root.DICT.portal.CONNECTING}}</p>
+                    <i class="icon-wifi" ng-if="!item.loading"></i>
+                    <i class="icon-wifi-white" ng-if="!item.loading"></i>
+                    <p class="ssid" title="{{item.attributes.ssid}}" ng-if="!item.loading">{{item.attributes.ssid}}</p>
+                </div>
             </div>
-            <p><a ng-click="showConnectNewPhone()" href=""> + {{$root.DICT.portal.SELECT_DEVICES.new_phone}}</a></p>
+
+            <div class="devices-item add-new-phone-button" ng-if="!isShowAddNewPhoneTip " ng-click="showAddNewPhoneTip()">
+                <i class="icon-add-dark"></i>
+                <i class="icon-add-white"></i>
+                <p>{{$root.DICT.portal.SELECT_DEVICES.new_phone}}</p>
+            </div>
+
+            <div class="add-new-phone-tip" ng-if="isShowAddNewPhoneTip ">
+                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP1"></p>
+                <a href="https://play.google.com/store/apps/details?id=com.snappea">
+                    <i class="icon-googleplay"></i>
+                </a>
+                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP2.replace('$$$$', profile.emails[0].value)"></p>
+                <p>{{$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP3}}</p>
+            </div>
+
         </div>
     </div>
     <!-- select devices end -->
 
-
-
 </div>
-
-<!-- connect new phone pop start -->
-<!-- data-ok 是事件 -->
-<div class="change-devices-pop bs-modal" data-toggle="isShowChangeDevicesPop" data-ok="" data-cancel="isShowChangeDevicesPop=false;" data-header="">
-    <div class="content">
-        <h1>{{$root.DICT.portal.CHANGE_DEVICES_POP.h1}}</h1>
-        <p>{{$root.DICT.portal.CHANGE_DEVICES_POP.h2}}</p>
-        <div class="step">
-            <dl class="step1">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step1}} <a href="https://play.google.com/store/apps/details?id=com.snappea">Google Play</a>.</dd>
-            </dl>
-            <dl class="step2">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step2}}</dd>
-            </dl>
-            <dl class="step3">
-                <dt></dt>
-                <dd>{{$root.DICT.portal.CHANGE_DEVICES_POP.step3}} <span>{{accountEmail || $root.DICT.portal.SHOW_ACCOUNT_NAME_DEFAULT}}</span> . </dd>
-            </dl>
-        </div>
-        <button class="btn btn-primary" bs-modal-cancel>{{$root.DICT.portal.CHANGE_DEVICES_POP.button}}</button>
-    </div>
-</div>
-<!-- connect new phone pop end -->
+<!-- 设备列表页 end -->
 
 <div class="loading-google" ng-show="isLoadingDevices">
     <div class="wd-loading" data-visible="true"></div>
+    <div class="sign-in-progress">{{signInProgress}}...</div>
 </div>

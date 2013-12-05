@@ -1,0 +1,30 @@
+.wd-toast {
+    @include position(fixed, 0px 0px 0px 0px);
+    @include ui-toast;
+    display: none;
+
+    > .toast {
+        @include position(absolute, 50% 0 0 50%);
+        @include transform(translate3d(-50%, -50%, 0));
+        font-weight: $global-font-weight-normal;
+
+        > .toast-inner {
+            background: rgba(#000, 0.85);
+            color: #fff;
+            font-size: 16px;
+            padding: 30px 50px;
+            border-radius: 8px;
+
+            > .content {
+                margin-left: 20px;
+            }
+        }
+    }
+
+    &.toast-error > .toast > .toast-inner {
+        background: rgba($standard-red, 0.85);
+        > .wd-loading {
+            display: none;
+        }
+    }
+}

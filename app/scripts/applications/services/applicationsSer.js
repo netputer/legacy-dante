@@ -6,14 +6,14 @@ define( [
     'use strict';
 
 //$q是promise
-return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
+return [ '$http', '$q','$rootScope', 'wdSocket', function ( $http, $q, $rootScope, wdSocket) {
 
     var global = {
         appsList:[],
-        fun : undefined,
+        firstLoadFunction : undefined,
         newAppList : []
     };
-    var result;
+    var apps;
 
     function getAppListData() {
         return $http({
@@ -22,28 +22,40 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
         }).success(function(data) {
             global.appsList = [];
             for( var i = 0,l = data.length ; i<l; i+=1 ){
-                global.appsList.push(result.changeInfo(data[i]));
+                global.appsList.push(apps.changeInfo(data[i]));
             }
         }).error(function(){
         });
     }
 
     $rootScope.$on('signout', function() {
-        global.appsList = [];
+        apps.clear(); 
     });
 
-    result = {
+    wdSocket.on('refresh', function() {
+        apps.clear();
+    });
+
+    apps = {
+        clear: function() {
+            global.appsList = [];
+            global.newAppList = [];
+        },
+
         getApplications : function(){
             return global.appsList ;
         },
 
         onchange : function(fun){
-            global.fun = fun;
+            global.firstLoadFunction = fun;
             if(global.appsList.length){
-                global.fun.call(this,global.appsList);
+                global.firstLoadFunction.call(this,global.appsList);
             }else{
                 getAppListData().success(function(){
-                    global.fun.call(this,global.appsList);
+                    global.firstLoadFunction.call(this,global.appsList);
+                }).error(function() {
+                    //第一次取数据失败重试
+                    apps.onchange(global.firstLoadFunction);
                 });
             }
         },
@@ -82,7 +94,7 @@ return [ '$http', '$q','$rootScope', function ( $http, $q, $rootScope ) {
 
     };
 
-    return result;
+    return apps;
 
 }];
 });

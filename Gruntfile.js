@@ -318,7 +318,8 @@ module.exports = function (grunt) {
                         '*.{ico,txt}',
                         '.htaccess',
                         'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/*'
+                        'styles/fonts/*',
+                        'audio/*'
                     ]
                 }, {
                     expand: true,
@@ -442,6 +443,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jshint',
         // 'test',
-        'build'
+        'build',
+        'build:cloud'
     ]);
 };

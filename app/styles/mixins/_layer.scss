@@ -15,3 +15,9 @@
         z-index: $z;
     }
 }
+@mixin ui-mask-top {
+    z-index: 99998;
+}
+@mixin ui-toast {
+    z-index: 99999;
+}

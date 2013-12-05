@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversationsCollection', '$q', '$http',
-function(wdmConversationsCollection,   $q,   $http) {
+return ['wdmConversationsCollection', '$q', '$http', 'GA',
+function(wdmConversationsCollection,   $q,   $http,   GA) {
 
 var _super = wdmConversationsCollection.ConversationsCollection.prototype;
 
@@ -59,6 +59,10 @@ _.extend(ExtendedConversationsCollection.prototype, {
         return cursor ? cursor.id : null;
     },
 
+    hasFetched: function() {
+        return !!this._cursor;
+    },
+
     _fetchById: function(id) {
         var c = this.getById(id) || this.create({ id: id });
         return $http.get(
@@ -84,17 +88,34 @@ _.extend(ExtendedConversationsCollection.prototype, {
                 params.cursor = cursor;
                 params.offset = 1;
             }
-            return $http.get(
-                '/resource/conversations',
-                { params: params }
-            ).then(function success(response) {
-                var rawData = [].concat(response.data);
-                if (response.data.length) {
-                    this._cursor = response.data[response.data.length - 1].date;
-                }
-                this.loaded = response.headers('WD-Need-More') === 'false';
-                return this.add(rawData.map(this.create.bind(this)));
-            }.bind(this));
+
+            var RETRY_TIMES = 3;
+            var data = (function tick() {
+                var timeStart = (new Date()).getTime();
+
+                return $http.get(
+                    '/resource/conversations',
+                    { params: params }
+                ).then(function success(response) {
+                    GA('perf:conversations_fetch_duration:success:' + ((new Date()).getTime() - timeStart));
+
+                    var rawData = [].concat(response.data);
+                    if (response.data.length) {
+                        this._cursor = response.data[response.data.length - 1].date;
+                    }
+                    this.loaded = response.headers('WD-Need-More') === 'false';
+                    return this.add(rawData.map(this.create.bind(this)));
+                }.bind(this), function() {
+                    GA('perf:conversations_fetch_duration:fail:' + ((new Date()).getTime() - timeStart));
+
+                    RETRY_TIMES -= 1;
+                    if (RETRY_TIMES) {
+                        tick();
+                    }
+                });
+            }.bind(this))();
+
+            return data;
         }
     },
 
@@ -155,7 +176,8 @@ _.extend(ExtendedConversationsCollection.prototype, {
 
         config = {
             method: method,
-            url: url
+            url: url,
+            timeout: 60 * 1000
         };
         if (method === 'POST') {
             config.data = {
@@ -170,12 +192,20 @@ _.extend(ExtendedConversationsCollection.prototype, {
 
         return $http(config).then(function done(response) {
             var data = [].concat(response.data);
-            c.messages.drop(messages);
-            messages.forEach(function(m, i) {
-                m.extend(data[i]);
-            });
-            return this._placeMessages(c, messages);
-        }.bind(this), function fail() {
+            if (data.length) {
+                c.messages.drop(messages);
+                messages.forEach(function(m, i) {
+                    m.extend(data[i]);
+                });
+                return this._placeMessages(c, messages);
+            }
+            else {
+                // Android 4.4 will response with an empty array,
+                // should be regarded as sending failed in this case.
+                return $q.reject();
+            }
+
+        }.bind(this)).then(null, function fail() {
             messages.forEach(function(m) {
                 m.rawData.status = 64;
             });

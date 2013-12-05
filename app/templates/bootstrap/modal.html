@@ -5,12 +5,10 @@
     <h3></h3>
   </div>
   <div class="modal-body" ng-transclude>
-    <span ng-bind-html-unsafe="content"></span>
+    <span ng-bind-html="content"></span>
   </div>
   <div class="modal-footer" wd-strip>
-    <a href="" class="btn"
-        bs-modal-cancel>Cancel</a>
-    <a href="" class="btn btn-primary"
-        bs-modal-ok>OK</a>
+    <button class="btn" bs-modal-cancel>Cancel</button>
+    <button class="btn btn-primary" bs-modal-ok>OK</button>
   </div>
 </div>

@@ -1,0 +1,6 @@
+<div>
+	<audio ng-src="{{audio.content}}" controls></audio>
+	<i class="icon-audio-stop audio-stop" ng-hide="audio.playing" ng-click="audio.controller()"></i>
+	<i class="icon-audio-play audio-play" ng-show="audio.playing" ng-click="audio.controller()"></i>
+	<span class="audio-duration">{{audio.formatedDuration || '00:00'}}</span>
+</div>

@@ -34,6 +34,7 @@ Message.prototype = Object.create(_super, {
         set: function(cid) { this.rawData.thread_id = cid; }
     },
     isRead:     {get: function() { return !!this.read; }},
+    isDelivered: {get: function() { return this.status === 0; }},
     isPending:  {get: function() { return this.status === 32; }},
     isError:    {get: function() { return this.status === 64; }},
     isSMS:      {get: function() { return this.category === 0; }},

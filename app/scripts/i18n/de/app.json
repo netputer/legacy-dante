@@ -1,29 +1,51 @@
 {
-	"UNLOAD_NETWORK_TIP":"Handy-Daten werden geladen. Wollen Sie warten?",
-	"NAVBAR_PHOTOS_TIP":"Fotos",
-	"NAVBAR_MESSAGES_TIP":"Nachrichten",
-	"NAVBAR_CONTACTS_TIP":"Kontakte",
-	"NAVBAR_APPS_TIP":"Apps",
-	"NAVBAR_FEEDBACK_TIP":"Feedback",
-	"NAVBAR_HELP_TIP":"Hilfe",
-	"NAVBAR_SETTING_TIP":"Einstellungen",
-	"NAVBAR_SELECT_DEVICES_TIP":"Handy auswählen",
-	"NAVBAR_SIGNOUT_TIP":"Abmelden",
-	"MESSAGE_NOTIFICATION_TITLE":"Neue Nachricht(en)",
-	"UPGRADE_BTN_TEXT":"Holen Sie sich die neueste Version auf Google Play",
-	"CHANGE_DEVICES_POP":{
-		"h1":"Verbinden Sie ein neues Handy.",
-		"h2":"Nur 3 Schritte, und Sie werden Ihr Handy hier finden.",
-		"step1":"1. Installieren Sie SnapPea von <a href=\"https://play.google.com/store/apps/details?id=com.snappea\">Google Play</a>.",
-		"step2":"2. Öffnen Sie SnapPea auf Ihrem Handy.",
-		"step3":"3. Melden Sie sich an mit $$.",
-		"button":"Verstanden"
-	},
-	"NAVBAR_NEW_PHONE_TIP":"Neues Handy",
-	"EXTENSION_SIGN_OUT":{
-		"title":"Abmelden bestätigen",
-		"content":"Die Abmeldung aus der Chrome Extension wird Sie gleichzeit aus dem SnapPea-Web abmelden.",
-		"button_ok":"Abmelden",
-		"button_cancel":"Abbrechen"
-	}
+  "UNLOAD_NETWORK_TIP":"Handy-Daten werden geladen. Wollen Sie warten?",
+  "NAVBAR_PHOTOS_TIP":"Fotos",
+  "NAVBAR_MESSAGES_TIP":"Nachrichten",
+  "NAVBAR_CONTACTS_TIP":"Kontakte",
+  "NAVBAR_APPS_TIP":"Apps",
+  "NAVBAR_LANGUAGE_TIP":"Sprache",
+  "NAVBAR_HELP_TIP":"Hilfe",
+  "NAVBAR_SELECT_DEVICES_TIP":"Handy auswählen",
+  "NAVBAR_SETTING_TIP":"Einstellungen",
+  "SINGOUT":"Abmelden",
+  "MESSAGE_NOTIFICATION_TITLE":"Neue Nachricht(en)",
+  "UPGRADE_BTN_TEXT":"Holen Sie sich die neueste Version auf Google Play",
+  "CHANGE_DEVICES_POP":{
+    "h1":"Verbinden Sie ein neues Handy.",
+    "h2":"Nur 3 Schritte, und Sie werden Ihr Handy hier finden.",
+    "step1":"1.  SnapPea von <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a> installieren.",
+    "step2":"2. Öffnen Sie SnapPea auf Ihrem Handy.",
+    "step3":"3. Mit $$ anmelden.",
+    "button":"Verstanden"
+  },
+  "NAVBAR_NEW_PHONE_TIP":"Neues Handy",
+  "EXTENSION_SIGN_OUT":{
+    "title":"Abmelden bestätigen",
+    "content":"Die Abmeldung aus der Chrome Extension wird Sie auch auf der Webseite von SnapPea abmelden.",
+    "button_ok":"Abmelden",
+    "button_cancel":"Abbrechen"
+  },
+  "LANGUAGE_MODAL_TITLE":"Sprache ändern",
+  "DISCONNECT_DEVICE":"Verbindung mit Ihrem Handy getrennt!",
+  "TRY_NOW":"Jetzt testen",
+  "CONNECT_DELAY_TIME":{
+    "pre":"Erneuter Versuch in",
+    "after":"Sekunden."
+  },
+  "CHECK_SAME_NETWORK":"Bitte stellen Sie sicher, dass Ihr Computer mit folgendem W-Lan-Netzwerk verbunden ist: ",
+  "SIGN_OUT_TOAST":"Abmelden...",
+  "SIGN_OUT_ERROR_TOAST":"Abmeldung fehlgeschlagen.",
+  "DISCONNECT_FACEBOOK_INFO":"Bei einer Trennung der Verbindung zu Facebook können Fotos auf Facebook nicht mehr gemeinsam genutzt werden.",
+  "DISCONNECT":"Trennen",
+  "FACEBOOK_TITLE":"Facebook",
+  "FACEBOOK_DISCONNECT_TIP":"Verbinden Sie sich mit Facebook, um einfach Fotos mit Ihren Freunden zu teilen.",
+  "FACEBOOK_CONNECT_TIP":"Ihr Facebook-Konto ist nicht verbunden.",
+  "DISCONNECT_FACEBOOK":"Verbindung mit Facebook trennen",
+  "LANGUAGE_TIP":"Sprache",
+  "CONNECT_NEW_PHONE_TIP":"Ein neues Handy verbinden",
+  "SELECT_DEVICES_TIP":"Handy auswählen",
+  "HELP":"Hilfe",
+  "FEEDBACK":"Feedback",
+  "TRANSLATE":"Helfen Sie uns beim Übersetzen"
 }

@@ -1,0 +1,339 @@
+$split-line-color: rgba(255,255,255, 0.1);
+$sidebar-bg-color: #2b2b2b;
+$sidebar-animation-time: 500ms;
+
+.open-sidebar {
+    .current-layer {
+        z-index: 1;
+    }
+
+    .close-sidebar {
+        z-index: 2;
+    }
+
+    .sidebar-inner {
+        .devices-container,
+        .settings-container {
+            opacity: 1;
+        }
+    }
+}
+
+
+.sidebar {
+    $flex-legacy-enabled: true;
+    $flex-support: not -moz, not -webkit, not -ms, not -o, not -khtml;
+
+    width: $global-sidebar-width;
+    height: 100%;
+    color: #fff;
+    background-color: $sidebar-bg-color;
+    @include position(absolute, 0 0 0 60px);
+
+    .sidebar-inner {
+        width: 100%;
+        height: 100%;
+    }
+
+    .devices-container,
+    .settings-container {
+        width: 273px;
+        height: 100%;
+        margin-left: 37px;
+        background-color: $sidebar-bg-color;
+        @include flex(1);
+        @include display-flex;
+        @include flex-direction(column);
+        opacity: 0;
+        @include transition(opacity $sidebar-animation-time ease);
+        @include transform(translate3d(0, 0, 0));
+
+        h2, h3 {
+            font-weight: $global-font-weight-normal;
+        }
+        a {
+            color: #fff;
+
+            &:hover {
+                color: $standard-green;
+                text-decoration: none;
+            }
+            &:active {
+                color: #999;
+            }
+        }
+
+        .content-wrapper {
+            @include flex(1);
+            overflow-y: auto;
+            width: 100%; // Firefox need a width to prevent flexbox turn into inline-block.
+            height: 1px;   // Flexbox need a height as refer.
+        }
+    }
+
+
+    .close-sidebar {
+        @include position(absolute, 16px 16px 0 0);
+        font-size: 16px;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        @include button-effect;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .devices-container {
+        &.devices-hide {
+            opacity: 0;
+            @include transform(translate3d($global-sidebar-width * -1, 0, 0));
+            @include transition(transform 0 ease $sidebar-animation-time, opacity $sidebar-animation-time ease);
+        }
+
+        &.devices-default {
+            @include transform(translate3d(0, 0, 0));
+        }
+
+        &.devices-animate {
+            @include transform(translate3d(0, 0, 0));
+            @include transition(transform $sidebar-animation-time, opacity $sidebar-animation-time ease);
+        }
+
+
+        .device-select-title {
+            width: 236px;
+            font-size: 24px;
+            line-height: 24px;
+            color: #999;
+            padding-bottom: 30px;
+            margin: 40px 0 0 0;
+            border-bottom: 1px solid $split-line-color;
+        }
+
+        .device-list-container {
+            width: 236px;
+            min-height: 88px;
+            @include transition(all 300ms ease);
+            border-bottom: 1px solid $split-line-color;
+        }
+        .devices-loading-container {
+            position: relative;
+            height: 88px;
+            width: 236px;
+        }
+
+        .device-list {
+            width: 216px;
+            padding: 26px 0 26px 26px;
+            margin: 0;
+
+            li {
+                font-size: 14px;
+                color: #fff;
+                padding: 0;
+                margin: 8px 0;
+                list-style: none;
+                cursor: pointer;
+
+                i {
+                    margin-right: 9px;
+                }
+
+                a {
+                    padding-left: 25px;
+                }
+
+                &.selected a{
+                    color: $standard-green;
+                    padding-left: 0px;
+                }
+
+                &:hover a {
+                    color: $standard-green;
+                }
+            }
+        }
+
+        .connect-new-phone {
+            width: 236px;
+            font-size: 14px;
+            margin-top: 20px;
+            padding: 10px 0;
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            @include display-flex;
+            @include align-content(flex-end);
+            @include align-items(flex-end);
+
+            &.disabled-connect-new-phone {
+                color: #505050;
+                pointer-events: none;
+            }
+        }
+
+        .add-new-phone-tips {
+            background-color: #222;
+            width: 186px;
+            padding: 25px 22px 25px 33px;
+            position: relative;
+            color: #949494;
+            margin-top: 5px;
+            .steps {
+                margin-bottom: 20px;
+                text-indent: -13px;
+                .account {
+                    color: #fff;
+                }
+                &:last-child{
+                    margin-bottom: 0px;
+                    margin-left: -11px;
+                    text-indent: 0px;
+                }
+            }
+            a {
+                color: $standard-green;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            @include animation(fadeIn 0.4s);
+        }
+    }
+
+    .settings-container { 
+        @include position(absolute, 0px 0px 0px 0px);
+
+        &.settings-hide {
+            opacity: 0;
+            @include transform(translate3d($global-sidebar-width * -1, 0, 0));
+            @include transition(transform 0 ease $sidebar-animation-time, opacity $sidebar-animation-time ease);
+        }
+
+        &.settings-hide-immediate {
+            @include transform(translate3d($global-sidebar-width * -1, 0, 0));
+            @include transition(transform 0 ease 0ms);
+        }
+
+        &.settings-default {
+            @include transform(translate3d(0, 0, 0));
+        }
+
+        &.settings-animate {
+            @include transform(translate3d(0, 0, 0));
+            @include transition(transform $sidebar-animation-time, opacity $sidebar-animation-time ease);
+        }
+        .profile-info {
+            @include position;
+            margin-top: 40px;
+            padding-bottom: 38px;
+
+            & > div {
+                @include position(absolute, 6px 0 0 63px); 
+            }
+            .profile-img {
+                width: 49px;
+                height: 49px;
+                border-radius: 3px;
+                display: inline-block;
+                margin-right: 14px;
+                @include use-sprite("profile48");
+            }
+            .display-name {
+                font-size: 16px;
+                margin-bottom: 4px;
+                display: inline-block;
+            }
+            .email {
+                font-size: 14px;
+                color: #505050;
+            }
+        }
+        .title {
+            font-size: 18px;
+            color: #999;
+            margin: 0 0 16px 0;
+            padding: 0;
+            line-height: 25px;
+        }
+        .language {
+            width: 236px;
+            padding-top: 20px;
+            border-top: 1px solid $split-line-color;
+            .language-list:last-child {
+                margin: 0;
+            }
+
+            li {
+                margin: 8px 0;
+                padding-left: 25px;
+
+                &:hover {
+                    color: $standard-green;
+                    cursor: pointer;
+                }
+
+                &.current {
+                    color: $standard-green;
+                    @include position;
+                }
+
+                i {
+                    @include position(absolute, 0px 0px 0px 0px);
+                }
+
+            }
+        }
+
+        .facebook {
+            width: 236px;
+            padding: 10px 0;
+            border-bottom: 1px solid  $split-line-color;
+
+            .connect-facebook-btn {
+                display: inline-block;
+                margin: 22px 0;
+            }
+            .disconnect-facebook-btn {
+                display: block;
+                cursor: pointer;
+                margin: 2px 0 8px 0;
+                padding: 4px 0;
+                font-size: 14px;
+            }
+            .facebook-tip {
+                color: #505050;
+                margin: 0;
+            }
+        }
+
+        .others {
+            padding-top: 24px;
+
+            a {
+                font-size: 14px;
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+
+        .signout {
+            @include display-flex;
+            @include align-content(flex-end);
+            @include align-items(flex-end);
+            width: 144px;
+            font-size: 14px;
+            padding: 6px 0;
+            margin: 14px 0 14px 46px;
+            border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+            span {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<div class="wdj-photos">
+<div class="wdj-photos" wd-scroll-detect bottom="autoFetch()">
     <div class="wdp-timeline-container" wdp-gallery>
         <div class="wdp-showcases-container">
             <div class="wdp-showcase">
@@ -17,6 +17,13 @@
             </div>
         </div>
         <div class="wdp-actionbar" ng-if="!$root.READ_ONLY_FLAG"></div>
+        <div class="btn album-settings"
+        ng-if="!$root.READ_ONLY_FLAG"
+            bs-tooltip="{{$root.DICT.photos.ALBUM_SETTINGS}}"
+            data-options="{placement: 'bottom'}"
+            ng-click="settingAlbums();$root.GA('photos:setting_album')">
+            <i class="icon-album-settings"></i>
+        </div>
         <div class="wd-loading" data-visible="!firstScreenLoaded"></div>
     </div>
     <div wdp-slides
@@ -30,7 +37,7 @@
 
     <div bs-modal toggle="isShowShareModal" data-header="{{$root.DICT.photos.BLOCK_SHARE_FB}}" class="wdp-share-modal" cancel="cancelShare();$root.GA('share:cancel_share_facebook')">
         <div class="facebook-user-name">
-            <i class="icon-facebookblue"></i>
+            <i class="icon-facebook-blue"></i>
             {{facebookUserName}}
         </div>
         <div class="thumbnail-wrapper">
@@ -41,7 +48,7 @@
             <div class="wd-loading wd-loading-inline share-loading in-footer" data-visible="visibleLoading"></div>
             <span class="share-success-tip share-tip" ng-show="isShowSuccessTip">{{$root.DICT.photos.SHARE_SUCCESS_TIP}}</span>
             <span class="share-faild-tip share-tip" ng-show="isShowFaildTip">
-                {{$root.DICT.photos.SHARE_FAIL_TIP}} 
+                {{$root.DICT.photos.SHARE_FAIL_TIP}}
                 <a href="" ng-click="uploadAndSharePhoto(true);$root.GA('share:retry_share_facebook')">{{$root.DICT.photos.SHARE_RETRY}}<a/>
             </span>
             <span class="share-faild-tip share-tip" ng-show="isShowExpiredTip">
@@ -55,16 +62,48 @@
             <a href="" class="btn btn-primary" ng-click="uploadAndSharePhoto();$root.GA('share:facebook_share')" ng-disabled="shareBtnDisabled">Share</a>
         </div>
     </div>
-    <div class="wd-blank" ui-if="!photos.length && firstScreenLoaded">
+
+    <div class="wd-blank" ng-if="!photos.length && firstScreenLoaded">
         <p>{{$root.DICT.photos.BLANK_TIP}}<p>
-        <div class="btn btn-primary"
-            ng-if="!$root.READ_ONLY_FLAG"
-            wdp-uploader
-            ng-click="$root.GA('photos:toolbar:add_photo')"
-            ><i class="icon-add"></i> {{$root.DICT.photos.ACTIONBAR_ADD_PHOTOS}}</div>
+        <div wd-strip>
+            <div class="btn btn-primary"
+                ng-if="!$root.READ_ONLY_FLAG"
+                wdp-uploader
+                ng-click="$root.GA('photos:toolbar:add_photo')"
+                ><i class="icon-add"></i> {{$root.DICT.photos.ACTIONBAR_ADD_PHOTOS}}</div>
+            <button class="btn wdp-blank-album-settings" ng-if="!$root.READ_ONLY_FLAG" ng-click="settingAlbums();$root.GA('photos:setting_album')">{{$root.DICT.photos.ALBUM_SETTINGS}}</button>
+        </div>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
             <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
-        </div>        
+        </div>
     </div>
-    <div ui-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.photos.UPGRADE_TIP}}"></div>
+
+    <div bs-modal toggle="isShowAlbumSettings" class="album-settings-modal" data-header="{{$root.DICT.photos.ALBUM_SETTINGS}}" cancel="hideAlbumSettings()" ok="updateAlbums()" data-button-ok-disabled="{{albumDisabledOkButton}}">
+        {{$root.DICT.photos.ALBUM_SETTINGS_INFO}}
+        <div class="wd-loading wd-loading-local in-footer" data-visible="visibleAlbumLoading"></div>
+        <div class="albums-blank-tip" ng-if="albumList.length === 0">
+            <p>{{$root.DICT.photos.ALBUM_BLANK_TIP}}</p>
+        </div>
+        <ul class="albums-container">
+            <li ng-repeat="album in albumList">
+                <div class="thumbnail-container" ng-click="selectAlbum(album, !album.visible)">
+                    <img ng-if="album.thumbnail_path" ng-src="{{album.thumbnail_path}}" class="album-thumbnail">
+                    <label class="action-select checkbox inline"
+                        bs-tooltip="{{album.visible ? $root.DICT.photos.BLOCK_DESELECT : $root.DICT.photos.BLOCK_SELECT}}"
+                        data-options="{container: false}">
+                        <input type="checkbox" ng-checked="album.visible" ng-model="selected" >
+                    </label>
+                </div>
+                <span class="album-name">
+                    {{album.bucket_name}}
+                </span>
+                <span class="photo-count">
+                    {{album.photo_count}} {{album.photo_count > 1 ? $root.DICT.photos.PHOTOS_TEXT : $root.DICT.photos.PHOTO_TEXT}}
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div ng-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.photos.UPGRADE_TIP}}"></div>
+
+    <div wd-drag-enter-area class="wd-drag-enter-area" data-title="{{$root.DICT.photos.DRAG_TITLE}}" data-tip="{{$root.DICT.photos.DRAG_TIP}}"></div>
 </div>

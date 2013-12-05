@@ -12,11 +12,14 @@ var _super = wdmBasicConversation.BasicConversation.prototype;
 function SearchConversation(results) {
     var addresses = [];
     var contactNames = [];
-
+    var contactIds = [];
+    var photoPaths = [];
     results.forEach(function(m) {
         if (addresses.indexOf(m.address) === -1) {
             addresses.push(m.address);
             contactNames.push(m.contact_name == null ? '' : m.contact_name);
+            contactIds.push(-1);
+            photoPaths.push('');
         }
     });
 
@@ -25,6 +28,8 @@ function SearchConversation(results) {
         snippet: results[0].body,
         addresses: addresses,
         contact_names: contactNames,
+        contact_ids: contactIds,
+        photo_paths: photoPaths,
         date: _.max(results, function(r) { return r.date; }).date
     });
 

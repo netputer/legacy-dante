@@ -1,9 +1,11 @@
 define([
     'fineuploader',
-    'jquery'
+    'jquery',
+    'underscore'
 ],function(
     fineuploader,
-    $
+    $,
+    _
 ){
     'use strict';
     /* jshint eqeqeq:false */
@@ -26,6 +28,10 @@ define([
         //数据是否加载完毕
         $scope.dataLoaded = false;
 
+        //每块的宽和高
+        $scope.appBlockWidth = 0;
+        $scope.appBlockHeight = 0;
+
         //全局
         //应用数据列表
         var G_appList = [];
@@ -45,17 +51,29 @@ define([
         //上传的实例
         var G_uploader;
 
+        function changeAppsBlock(){
+            // 减去左边的黑条，再减去10px的左侧边距，再减去自定义滚动条的10px宽。
+            var docWidth = $(document).width() - 60 - 10 - 10;
+            var n = Math.floor( docWidth / ( 180 + 10 ) );
+            var width = Math.floor( docWidth / n ) - 10 ;
+            $scope.appBlockWidth = $scope.appBlockHeight = width;
+            $(window).one('resize',function(){
+                changeAppsBlock();
+                $scope.$apply();
+            });
+        }
+
         function getAppListData(data){
             $scope.isLoadShow = false;
             $scope.dataLoaded = true;
             $scope.isInstallBtnDisable = false;
             G_appList = wdcApplications.getApplications();
             $scope.list = G_appList;
+            showSelectedNum();
             setTimeout(function(){
                 uploadApk($('.installApp'));
             },300);
         }
-
 
         //取得具体应用的数据信息
         function getAppInfo(data,package_name){
@@ -182,7 +200,9 @@ define([
                         endpoint: wdDev.wrapURL('/resource/apps/upload')
                     },
                     validation: {
-                        allowedExtensions:['apk']
+                        acceptFiles: '.apk',
+                        allowedExtensions: ['apk'],
+                        stopOnFirstInvalidFile: false
                     },
                     cors: {
                         expected: true,
@@ -201,22 +221,36 @@ define([
                             updateUpload(id,name,Math.floor(progress/total*100));
                         },
                         onComplete: function(id, name, data){
-                            var result = data.result[0];
-                            for(var i = 0, l = $scope.newList.length; i < l ; i += 1 ){
-                                if($scope.newList[i]['id'] === id){
-                                    $scope.newList[i]['package_name'] = result['package_name'];
-                                    $scope.newList[i]['apk_path'] =  result['apk_path'];
-                                    $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
-                                    if(!G_unknownTips){
-                                        G_unknownTips = result['unknown_sources'];
-                                    }
-                                    if(!G_unknownTips){
-                                        showUnknowTips();
+                            if (data.success) {
+                                var result = data.result[0];
+                                for(var i = 0, l = $scope.newList.length; i < l ; i += 1 ){
+                                    if($scope.newList[i]['id'] === id){
+                                        $scope.newList[i]['package_name'] = result['package_name'];
+                                        $scope.newList[i]['apk_path'] =  result['apk_path'];
+                                        $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
+                                        // Boss Wang 
+                                        $scope.newList[i].confirmTipShow = true;
+                                        $scope.newList[i].progressShow = false;
+                                        $('dd.confirm').css('opacity', 0.8);
+
+                                        if(!G_unknownTips){
+                                            G_unknownTips = result.unknown_sources;
+                                        }
+                                        if(!G_unknownTips){
+                                            showUnknowTips();
+                                        }
                                     }
                                 }
+                            } else {
+                                var app = _.find($scope.newList, function(item) {
+                                    return item.id === id;
+                                });
+                                $scope.$apply(function() {
+                                    app.showErrorTip = true;
+                                });
                             }
                         },
-                        onerror:function(){
+                        onError:function() {
                         }
                     }
                 });
@@ -225,9 +259,37 @@ define([
                     dropArea: $('.wdj-applications')[0],
                     multiple: true,
                     hideDropzones: false,
+                    classes: {
+                        dropActive: 'drag-enter-container'
+                    },
                     callbacks: {
                         dropProcessing: function(isProcessing, files) {
                             G_uploader.addFiles(files);
+
+                            if (files) {
+                                var validCount = 0;
+                                _.each(files, function(item) {
+                                    if (!G_uploader.isAllowedExtension(item.name)) {
+                                        validCount += 1;
+                                    }
+                                });
+
+                                $scope.$apply(function() {
+                                    if (files.length === validCount) {
+                                        wdAlert.alert(
+                                            $scope.$root.DICT.applications.ALL_FILES_UNSUPPORT_TITLE,
+                                            $scope.$root.DICT.applications.ALL_FILES_UNSUPPORT_CONTENT,
+                                            $scope.$root.DICT.applications.UNSUPPORT_MODAL_BUTTON_OK
+                                        );
+                                    } else if (files.length > validCount && validCount) {
+                                        wdAlert.alert(
+                                            $scope.$root.DICT.applications.SOME_FILES_UNSUPPORT_TITLE,
+                                            $scope.$root.DICT.applications.SOME_FILES_UNSUPPORT_CONTENT,
+                                            $scope.$root.DICT.applications.UNSUPPORT_MODAL_BUTTON_OK
+                                        );
+                                    }
+                                });
+                            }
                         },
                         error: function(code, filename) {},
                         log: function(message, level) {}
@@ -238,6 +300,15 @@ define([
             }
 
         }
+
+        $scope.retryUpload = function(id) {
+            G_uploader.retry(id);
+            var file = _.find($scope.newList, function(item) {
+                return item.id === id;
+            });
+            file.progress = 0;
+            file.showErrorTip = false;
+        };
 
         //上传安装应用时，显示对应的应用
         function showUploadApp(id,file_name){
@@ -257,15 +328,8 @@ define([
         function updateUpload(id,name,progress){
             for(var i = 0 , l = $scope.newList.length; i < l ; i += 1 ){
                 if( $scope.newList[i]['id'] === id ){
-                    if( progress == 100 ){
-                        $scope.newList[i]['confirmTipShow'] = true;
-                        $scope.newList[i]['progressShow'] = false;
-                        $('dd.confirm').css('opacity',0.8);
-                        $scope.$apply();
-                    }else{
-                        $scope.newList[i]['progress'] = '' + progress + '%';
-                        $scope.$apply();
-                    }
+                    $scope.newList[i].progress = '' + progress + '%';
+                    $scope.$apply();
                     break;
                 }
             }
@@ -369,12 +433,11 @@ define([
 
         function checkedApp(e, item){
             GA('Web applications : click Checkbox');
-            if(item.checked){
+            item.checked = !item.checked;
+            if (item.checked) {
                 $scope.selectedNum += 1;
-                $(e.target.parentNode.parentNode).css('opacity',1);
-            }else{
+            } else {
                 $scope.selectedNum -= 1;
-                $(e.target.parentNode.parentNode).css('opacity','');
             }
 
             if(e.shiftKey){
@@ -394,6 +457,17 @@ define([
                 }
             }
 
+            showSelectedNum();
+            G_lastChecked = item ;
+        }
+
+        function showSelectedNum() {
+            $scope.selectedNum = 0;
+            for (var i = 0 , l = $scope.list.length; i < l; i += 1) {
+                if ($scope.list[i].checked) {
+                    $scope.selectedNum += 1;
+                }
+            }
             if($scope.selectedNum > 0){
                 $scope.isDeleteBtnShow = true;
                 $scope.isDeselectBtnShow = true;
@@ -401,8 +475,6 @@ define([
                 $scope.isDeleteBtnShow = false;
                 $scope.isDeselectBtnShow = false;
             }
-
-            G_lastChecked = item ;
         }
 
         function showToolbar() {
@@ -428,8 +500,6 @@ define([
                     newListEles.eq(i).find('dd.confirm').css('opacity',1);
                 }
             }
-
-            $scope.$apply();
         }
 
         function clickInstallApk(){
@@ -485,7 +555,6 @@ define([
                 for(var i = 0,l = $scope.list.length;i<l;i += 1 ){
                     if($scope.list[i]['package_name']==name){
                         $scope.list.splice(i,1);
-                        $scope.$apply();
                         break;
                     }
                 }
@@ -507,6 +576,7 @@ define([
         });
 
         //主程序
+        changeAppsBlock();
         $scope.isLoadShow = true;
         $scope.selectedNum = 0;
         $scope.isDeleteBtnShow = false;

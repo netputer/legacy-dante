@@ -3,7 +3,8 @@
     $flex-legacy-enabled: true;
     $flex-support: not -moz, not -webkit, not -ms, not -o, not -khtml;
 
-    @include position(fixed, 0px 0px 0px $global-left-offset);
+    width: 100%;
+    height: 100%;
     font-size: 12px;
 
     // Position with override display in Firefox 19-.
@@ -41,17 +42,16 @@
         }
     }
 
-    $wdm-actions-height: 50px;
+    $wdm-actions-height: 48px;
 
     .wdm-actions {
         height: $wdm-actions-height;
         border-bottom: 1px solid $wdm-border-color;
-        margin-bottom: -1px;
     }
     .wdm-search {
-        height: 51px;;
+        height: 40px;
         border-bottom: 1px solid $wdm-border-color;
-        margin-bottom: -1px;
+        // margin-bottom: -1px;
     }
     .wdm-conversations {
         @include flex(1);
@@ -108,3 +108,5 @@
         visibility: hidden;
     }
 }
+
+@import "contact-card";

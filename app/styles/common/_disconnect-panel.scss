@@ -1,0 +1,56 @@
+.disconnect-panel {
+	width: 292px;
+	height: 170px;
+	@include position(absolute, 0 0 10px 0px);
+	background-color: #fff;
+	padding: 14px 14px 14px 38px;
+	border-radius: 4px;
+	@include box-shadow(0 0 5px rgba(0, 0, 0, 0.15));
+	@include transition(all ease 150ms);
+    @include transform(translate3d(-100%, 0, 0));
+
+	&.disconnect-panel-show {
+        @include ui-layer-top;
+        @include transform(translate3d(0, 0, 0));
+	}
+
+	.title {
+		font-size: 16px;
+		color: #000;
+		line-height: 16px;
+		padding: 0;
+		margin: 24px 0 12px 0;
+	}
+	.tip {
+		font-size: 12px;
+		color: #999;
+		margin-bottom: 16px;
+
+		p {
+			margin: 0;
+
+			&.delay-time {
+				color: #000;
+				margin-bottom: 5px;
+			}
+		}
+		.network-name {
+			font-weight: $global-font-weight-bold;
+		}
+	}
+	.close-btn {
+		font-size: 16px;
+		color: #ccc;
+		@include position(absolute, 10px 14px 0 0);
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.connect-device {
+		width: 100px;
+		margin-right: 10px;
+	}
+
+}

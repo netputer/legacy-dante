@@ -83,9 +83,8 @@
     }
     .wdmer-a-b {
         white-space: pre-wrap;
-        word-break: break-all;
-        -webkit-hyphens: auto;
-        -o-hyphens: auto;
+        word-break: break-word;
+        word-wrap: break-word;
     }
 
     .wdmer-b {
@@ -120,6 +119,52 @@
             }
         }
     }
+    .mms-part 
+    .mms-image-container {
+        text-align: center;
+    }
+
+    .mms-image {
+        max-width: 100%;
+        margin: 8px 0;
+        background-color: #f5f5f5;
+    }
+    .mms-title {
+        font-size: 16px;
+        color: #000;
+        margin: 8px 0;
+        display: inline-block;
+    }
+    .mms-text {
+        font-size: 12px;
+        color: #333;
+        margin: 6px 0;
+        word-break: break-word;
+    }
+    .mms-sep {
+        height: 20px;
+        line-height: 20px;
+
+        > *:before, > *:after {
+            @include box-shadow(0 1px 1px rgba(255, 255, 255, 0.15));
+        }
+
+        span {
+            height: 20px;
+            line-height: 20px;
+        }
+    }
+    .mms-audio {
+        audio {
+            display: none;
+        }
+        .audio-stop,
+        .audio-play {
+            cursor: pointer;
+            @include button-effect;
+        }
+    }
+    
 }
 .wdme-row-self {
     @extend .wdme-row;

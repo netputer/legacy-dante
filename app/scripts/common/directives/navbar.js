@@ -11,58 +11,32 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdAuthToken', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA',
-        function($scope,   wdAuthToken,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA) {
+                '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
+                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification',
+        function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
+                 wdAlert,   $window, GA, $rootScope, wdDevice, wdDesktopNotification) {
+
             $scope.messageNotification = false;
-            $scope.isChangeDevicesPopShow = false;
-            $scope.shownLanguageModal = false;
-            $scope.account = '';
-            $scope.authCallbackURL = encodeURIComponent($window.location.href);
 
-            $scope.open = function() {
-                $scope.isLoadDevices = true;
-                wdGoogleSignIn.getDevices().then(function(list){
-                    $scope.isLoadDevices = false;
+            var currentLayer = '';
 
-                    //设备列表
-                    $scope.devicesList = getListData (list);
-                },function(){
-                    wdGoogleSignIn.setToken().then(function(){
-                        $scope.open();
-                    });
-                });
+            $scope.controlSidebar = function(layer) {
+                if (!$rootScope.showSidebar) {
+                    $rootScope.$broadcast('sidebar:open');
+                    $rootScope.$broadcast('sidebar:' + layer + ':default');
 
-                //取得账号
-                wdGoogleSignIn.getAccount().then(function(data){
-                    $scope.account = data;
-                });
+                    currentLayer = layer;
+                    $rootScope.showSidebar = true;
+                } else if (currentLayer === layer) {
+                    $rootScope.$broadcast('sidebar:close');
 
-            };
+                    currentLayer = '';
+                    $rootScope.showSidebar = false;
+                } else {
+                    $rootScope.$broadcast('sidebar:' + layer + ':animate');
 
-            //处理原始的设备列表数据
-            function getListData (list) {
-                var ip = wdGoogleSignIn.currentDevice().ip;
-                for ( var i = 0 , l = list.length ; i < l ; i += 1 ) {
-                    if ( ip === list[i]['ip'] ) {
-                        list[i]['selected'] = true;
-                    }else{
-                        list[i]['selected'] = false;
-                    }
-                }
-                return list;
-            }
-
-            $scope.signout = function() {
-                wdGoogleSignIn.currentDevice({status:'signout'});
-                wdAuthToken.signout();
-            };
-
-            $scope.changeDevice = function (item) {
-                if(item['ip'] !== wdGoogleSignIn.currentDevice().ip){
-                    wdGoogleSignIn.currentDevice(item);
-                    wdAuthToken.signout();
+                    currentLayer = layer;
+                    $rootScope.showSidebar = true;
                 }
             };
 
@@ -78,7 +52,9 @@ return [function() {
                 }
             });
 
+            $window.playAlert.content['message'] = ['audio/message.ogg', 'audio/message.mp3'];
             wdSocket.on('messages_add.wdNavbar', function(e) {
+                $window.playAlert('message');
                 if ($scope.currentModule !== 'messages') {
                     $scope.messageNotification = true;
                     if ($route.current.locals.nav != null &&
@@ -88,36 +64,27 @@ return [function() {
                 }
             });
 
-            $scope.clickAddNewPhone = function () {
-                $scope.isShowChangeDevicesPop = true;
+            $scope.requestDesktopNotificationPermission = function () {
+                wdDesktopNotification.requestPermission();
             };
-
-            //facebook
-            $scope.isConnectedFacebook = function() {
-                return wdShare.getIsConnectedFacebook();
-            };
-
-            wdShare.getFacebookLoginStatus();
-
-            $scope.handleFacebookConnect = function() {
-                if (wdShare.getIsConnectedFacebook()) {
-                    wdAlert.confirm(
-                        $scope.$root.DICT.app.NAVBAR_DISCONNECT_FACEBOOK_TIP,
-                        $scope.$root.DICT.app.DISCONNECT_FACEBOOK_INFO,
-                        $scope.$root.DICT.app.DISCONNECT
-                    ).then(function() {
-                        wdShare.disconnectFacebook();
-                    });
-
-                    GA('navbar:facebook_logout');
-                } else {
-                    wdShare.connectFacebook();
-
-                    GA('navbar:facebook_login');
+        }],
+        link: function($scope, $element, $attrs, $controller) {
+            var highlight = $element.find('.active-module-bg');
+            $controller.highlightMoveTo = function(offset) {
+                if (!highlight.hasClass('ready')) {
+                    highlight.offset(offset).width();
+                    highlight.addClass('ready');
+                }
+                else {
+                    highlight.offset(offset);
                 }
             };
 
-        }]
+            $scope.$on('signout', function() {
+                highlight.removeClass('ready');
+                $scope.currentModule = null;
+            });
+        }
     };
 }];
 });

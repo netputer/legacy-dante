@@ -1,164 +1,540 @@
-.devices-tpl{
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    @include ui-layer-top;
+.devices-tpl {
+    font-weight: $global-font-weight-normal;
+    @include position(fixed, 0px 0 0 0px);
+    @include ui-layer-content-top;
     background-color: #FFF;
     width: 100%;
     height: 100%;
-    overflow-y:auto;
-
-    div.sign-out{
-        background-color: #e6e6e6;
-        border-radius: 35px;
-        display: inline-block;
-        width: 95px;
-        height: 27px;
-        font-size: 12px;
-        cursor: pointer;
-        padding-top: 6px;
-        padding-left: 30px;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        opacity: 0.7;
-        &:hover {
-            opacity: 1;
-        }
-    }
-
-    h1{
-        font-weight: 300;
+    overflow-y: auto;
+    h1 {
+        font-weight: $global-font-weight-normal;
         font-size: 35px;
     }
 
-    p{
-        color: #999;
-        font-size: 15px;
+    a {
+        font-weight: $global-font-weight-normal;
     }
 
-    .select-device{
-        margin:110px auto 0px auto;
-        width: 700px;
-        div.list{
-            div{
-                cursor: pointer;
-                width: 200px;
-                height: 190px;
-                background-color: #e6e6e6;
-                float: left;
-                margin-right: 25px;
-                margin-bottom: 20px;
-                border-radius: 5px;
-                text-align: center;
-                opacity: 0.7;
-                &:hover {
-                    opacity: 1;
+    .user-guide {
+        width: 910px;
+        margin: 100px auto 0px auto;
+        .header {
+            @include transition(all 0.4s);
+            position: relative;
+            @include clearfix;
+            .title {
+                display: inline-block;
+                width: 280px;
+                height: 40px;
+                cursor: default;
+                margin-left: -3px;
+                border-bottom: 1px solid #f5f5f5;
+                vertical-align: top;
+                @include transition(all $global-transition-duration);
+                &:first-child {
+                    cursor: default;
+                    padding-left: 70px;
+                    border-bottom: 1px solid $standard-green;
                 }
-
-                p{
-                    width: 200px;
-                    float: none;
-                    overflow: hidden;
-                    font-size: 16px;
-                    height: 20px;
-                    line-height: 20px;
-                    color: #000;
-                    text-overflow: ellipsis;
-                    display: inline-block;
-                    margin: 70px 0 0 0;
+                .num {
+                    display: block;
+                    float: left;
+                    line-height: 33px;
+                    color: #999;
+                    font-size: 25px;
+                    margin-bottom: 0px;
                 }
-
-                span.wifi{
-                    width: 200px;
-                    line-height: 22px;
-                    display: inline-block;
-                    margin-top: 10px;
-                    p{
-                        margin: 0 0 0 5px;
-                        width: auto;
+                .step {
+                    margin-left: 5px;
+                    display: block;
+                    float: left;
+                    color: #999;
+                }
+                &.current{
+                    .step {
+                        color: #000;
+                    }
+                    .num {
+                        color: $standard-green;
+                    }
+                }
+                &.step2 {
+                    .step {
+                        color: #000;
+                    }
+                    .num {
+                        color: $standard-green;
+                    }
+                    border-bottom: 1px solid $standard-green;
+                }
+            }
+            .angle {
+                width: 0px;
+                height: 0px;
+                font-weight: 100;
+                border-bottom: 7px solid #f5f5f5;
+                border-top: 0px solid transparent;
+                border-left: 12px solid transparent;
+                border-right: 12px solid transparent;
+                @include position(absolute, 0 0 5px 0);
+                margin: 0px;
+                &.active {
+                    border-bottom: 7px solid $standard-green;
+                }
+                &.step1 {
+                    @include position(absolute, 0 0 0px 342px);
+                }
+                &.step2 {
+                    @include transition(all $global-transition-duration);
+                    @include position(absolute, 0 0 0px 623px);
+                }
+            }
+        }
+        h1 {
+            font-size: 27px;
+            font-weight: $global-font-weight-normal;
+            margin-bottom: 0px;
+            margin-top: 50px;
+        }
+        h2 {
+            margin: 0px 0px 20px 0px;
+            color: #999;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: $global-font-weight-normal;
+        }
+        $content-with: 750px;
+        $content-background-color: #fafafb;
+        .step1-block {
+            margin-left: 75px;
+            @include position(absolute, 130px 0 0 0);
+            @include transition(visibility 2s);
+            &.move {
+                @include animation(fadeOutLeftBig 2s);
+                visibility: hidden;
+            }
+            .content {
+                padding-top: 25px;
+                width: $content-with;
+                height: 265px;
+                background-color: $content-background-color;
+                position: relative;
+                .left {
+                    float: left;
+                    width: 375px;
+                    height: 241px;
+                    text-align: center;
+                    border-right: 1px solid #e9e9ea;
+                    .icon-googleplay {
+                        margin-top: 74px;
+                        margin-bottom: 70px;
+                    }
+                }
+                .or {
+                    @include position(absolute, 140px 0 0 0);
+                    width: $content-with;
+                    text-align: center;
+                    p {
                         color: #999;
-                        font-size: 12px;
-                        text-overflow: ellipsis;
+                        display: inline-block;
+                        line-height: 30px;
+                        background-color: #fafafb;
+                    }
+                }
+                .right {
+                    width: 373px;
+                    float: left;
+                    text-align: center;
+                    .qr-code {
+                        display: inline-block;
+                        border: 1px solid #d5d5d6;
+                        border-radius: 5px;
+                        margin-top: 31px;
+                        margin-bottom: 31px;
+                        $filename: "isolate/QR-code.png";
+                        @include background-retina("isolate/QR-code.png", "isolate/QR-code-2x.png");
+                        width: image-width($filename);
+                        height: image-height($filename);
+                    }   
+                }
+            }
+            .next {
+                background-color: $standard-green;
+                color: #fff;
+                @include button-effect-dark;
+                float: right;
+                margin-top: 10px;
+                font-size: 15px;
+                padding: 8px 25px;
+            }
+        }
+
+        .step2-block {
+            margin-left: 75px;
+            &.move {
+                @include animation(fadeInRightBig 1s);
+            }
+            .content {
+                position: relative;
+                text-align: center;
+                width: $content-with;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                padding-top: 45px;
+                height: 300px;
+                background-color: $content-background-color;
+                .phone {
+                    $filename: "isolate/phone.png";
+                    @include background-retina("isolate/phone.png", "isolate/phone-2x.png");
+                    width: 370px;
+                    height: 250px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    margin: 0 auto;
+                }
+                .user-profile {
+                    @include position(absolute, 64px 0 0 331px);
+                    min-width: 200px;
+                    display: inline-block;
+                    background-color: #333;
+                    border-radius: 5px;
+                    padding: 10px 15px;
+                    text-align: left;
+                    .photo {
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 45px;
+                        margin-right: 12px;
+                    }
+                    .account {
+                        .name {
+                            margin: 10px 0px 0px 0px;
+                            font-size: 15px;
+                            color: #999;
+                        }
+                        .email {
+                            font-size: 12px;
+                            color: #fff;
+                        }
+                        vertical-align: middle;
+                        display: inline-block;
+                    }
+                }
+                .tip {
+                    color: #000;
+                    .account {
+                        font-weight: $global-font-weight-bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .select-device {
+        margin: 110px auto 0px auto;
+        width: 770px;
+        h1 {
+            font-size: 30px;
+            margin: 3px 0px;
+        }
+        h2 {
+            font-size: 14px;
+            line-height: 20px;
+            color: #999;
+            margin: 0;
+            font-weight: $global-font-weight-normal;
+        }
+        .list {
+            margin-top: 30px;
+        }
+
+        .devices-item {
+            float: left;
+            background-color: #ededed;
+            width: 300px;
+            height: 26px;
+            cursor: pointer;
+            margin-right: 35px;
+            margin-bottom: 25px;
+            padding: 28px 25px;
+            border-radius: 5px;
+            @include display-flex;
+            @include transition(all $global-transition-duration);
+
+            &.add-new-phone-button {
+                white-space: nowrap;
+                text-align: center;
+                display: inline;
+                height: 26px;
+                line-height: 26px;
+                
+                p {
+                    font-size: 14px;
+                    display: inline;
+                    margin-left: 3px;
+                }
+                .icon-add-dark {
+                    margin-top: 5px;
+                }
+                .icon-add-white {
+                    margin-top: 5px;
+                    display: none;
+                }
+            }
+
+            .icon {
+                position: relative;
+                width: 20px;
+                height: 26px;
+                .icon-phone-white {
+                    display: none;
+                }
+                .icon-phone-dark {
+                    padding-top: 3px;
+                }
+                .phone-loading {
+                    width: 0px;
+                    height: 0px;
+                    display: inline;
+                    @include position(absolute, 26px 0 0 20px);
+                    div {
+                        width: 10px;
+                        height: 10px;
+                    }
+                    @include transform(scale(0.4));
+                }
+            }
+
+            .phone {
+                white-space: nowrap;
+                display: inline;
+                @include flex(1 0 40%);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding-top: 3px;
+                .phone-name {
+                    margin-left: 8px;
+                    font-size: 16px;
+                    color: #000;
+                    display: inline;
+                    overflow: hidden;
+                }
+            }
+
+            .wifi {
+                white-space: nowrap;
+                @include flex(1 0 50%);
+                display: inline;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: right;
+                padding-top: 3px;
+                .ssid {
+                    text-overflow: ellipsis;
+                    display: inline;
+                    font-size: 12px;
+                    color: #999;
+                    margin-left: 3px;
+                }
+                .icon-wifi-white {
+                    display: none;
+                }
+                .status {
+                    color: #fff;
+                    font-size: 15px;
+                    @include animation(fadeIn $global-transition-duration);
+                }
+            }
+
+            &:hover, &.selected-device {
+                background-color: $standard-green;
+                .icon {
+                    .icon-phone-white {
+                        padding-top: 3px;
+                        display: inline-block;
+                    }
+                    .icon-phone-dark {
+                        display: none;
+                    }                    
+                }
+                .phone {
+                    .phone-name {
+                        color: #fff;
+                    }
+                }
+                .wifi {
+                    .ssid {
+                        color: #fff;
+                    }
+                    .icon-wifi-white {
+                        display: inline-block;
+                    }
+                    .icon-wifi {
+                        display: none;
                     }
                 }
 
-            }
-
-            div.phone-loading{
-                width: auto;
-                height: auto;
-                display: inline-block;
-                position: static;
-                float: none;
-                margin-left: 6px;
-                margin-top: 10px;
-                div{
-                    width: 10px;
-                    height: 10px;
+                &.add-new-phone-button {
+                    .icon-add-white {
+                        display: inline-block;
+                    }
+                    .icon-add-dark {
+                        display: none;
+                    }
+                    p {
+                        font-size: 14px;
+                        color: #fff;
+                    }
                 }
-                @include transform(scale(0.4));
             }
-
-            p{
-                width: 700px;
-                float: left;
-                margin-bottom: 200px;
-            }
-            margin-top: 30px;
         }
+
+        .add-new-phone-tip {
+            background-color: #ededed;
+            width: 302px;
+            float: left;
+            border-radius: 5px;
+            padding: 25px 3px 25px 45px;
+            @include animation(fadeIn $global-transition-duration);
+            p {
+                line-height: 20px;
+                color: #000;
+                font-size: 12px;
+                text-indent: -15px;
+            }
+            .account {
+                font-weight: $global-font-weight-bold;
+                font-size: 13px;
+            }
+            .icon-googleplay {
+                margin: 0px 0px 18px 14px;
+            }
+        }
+
     }
 
-    .no-device{
-        width: 700px;
-        margin:110px auto 0px auto;
-        p{
+    .no-device {
+        width: 870px;
+        margin: 110px auto 0px auto;
+        p {
             color: #999;
         }
-        div.step{
-            dl{
-                width: auth-sprite-width("step1");
-                height: 300px;
+        h1 {
+            font-size: 30px;
+            margin-bottom: 0px;
+        }
+        h2 {
+            font-size: 14px;
+            color: #999;
+            margin-top: 0px;
+            font-weight: $global-font-weight-normal;
+            line-height: 20px;
+        }
+        div.step {
+            dl {
+                width: 200px;
+                height: 230px;
                 float: left;
+                padding-left: 70px;
+                padding-right: 40px;
+                margin-bottom: 90px;
+                position: relative;
+                &:first-child {
+                    padding-left: 40px;
+                    .num {
+                        left: 6px;
+                    }
+                }
+                .num {
+                    @include position(absolute, 173px 0 0 30px);
+                    font-size: 30px;
+                    font-weight: $global-font-weight-normal;
+                    line-height: 40px;
+                    color: $standard-green;
+                    &:first-child {
+                        left: 6px;
+                    }
+                }
             }
-            dd{
-                color: #999;
+            dt {
+                margin: 55px 0px;
+            }
+            dd {
+                color: #000;
                 margin-left: 0px;
                 font-size: 12px;
                 margin-top: 6px;
             }
-            dl.step1{
-                dt{
-                    @include auth-sprite("step1");
-                    width: auth-sprite-width("step1");
-                    height: auth-sprite-height("step1");
-                    margin: 0 auto;
+
+            .step1 {
+                dt {
+                    $filename: "isolate/install.png";
+                    @include background-retina("isolate/install.png", "isolate/install-2x.png");
+                    width: image-width($filename);
+                    height: image-height($filename);
+                }
+                dd a{
+                    display: inline-block;
+                }
+                border-right: 1px solid #efefef;
+            }
+            .step2 {
+                dt {
+                    width: 158px;
+                    height: 67px;
+                    line-height: 67px;
+                    text-align: center;
+                    overflow: hidden;
+                    .user-profile {
+                        border-radius: 5px;
+                        padding: 0px 10px;
+                        text-align: left;
+                        background-color: #2d2d2d;
+                        height: 67px;
+                        overflow: hidden;
+                        @include clearfix;
+                        .photo {
+                            float: left;
+                            border-radius: 5px;
+                            width: 40px;
+                            height: 40px;
+                            display: block;
+                            margin-top: 14px;
+                            margin-right: 8px;
+                        }
+                        .name {
+                            float: left;
+                            color: #fff;
+                            width: 87px;
+                            float: none;
+                            overflow: hidden;
+                            display: block;
+                            text-overflow: ellipsis;
+                            font-size: 14px;
+                        }
+                    }
+                }
+                border-right: 1px solid #efefef;
+                .account {
+                    font-weight: $global-font-weight-bold;
                 }
             }
-            dl.step2{
-                margin-left: 35px;
-                dt{
-                    @include auth-sprite("step2");
-                    width: auth-sprite-width("step2");
-                    height: auth-sprite-height("step2");
-                    margin: 0 auto;
+            .step3 {
+                padding-right: 0px;
+                dt {
+                    $filename: "isolate/open-wifi.png";
+                    @include background-retina("isolate/open-wifi.png", "isolate/open-wifi-2x.png");
+                    width: image-width($filename);
+                    height: image-height($filename);
+                    margin-bottom: 48px;
                 }
             }
-            dl.step3{
-                margin-left: 35px;
-                dt{
-                    @include auth-sprite("step3");
-                    width: auth-sprite-width("step3");
-                    height: auth-sprite-height("step3");
-                    margin: 0 auto;
-                }
-            }
-            p{
+            p {
                 float: left;
                 font-size: 12px;
             }
-            span{
-                font-weight: bold;
+            span {
+                font-weight: $global-font-weight-bold;
                 color: #000;
                 background-color: #fff;
             }
@@ -166,85 +542,3 @@
     }
 }
 
-@import "auth/*.png";
-.change-devices-pop{
-    width: 770px;
-    margin-left: -385px;
-    div.modal-footer{
-        display: none;
-    }
-    div.modal-body{
-        height: 400px;
-        overflow: hidden;
-    }
-    h1{
-        font-weight: 300;
-        margin-top: 33px;
-        font-size: 35px;
-        line-height: 22px;
-        color:#000;
-    }
-    p{
-        color: #999;
-        font-size: 15px;
-    }
-    div.content{
-        background-color: #fff;
-        padding-left: 30px;
-        button{
-            position: absolute;
-            bottom: 25px;
-            left: 310px;
-            width: 150px;
-            height: 36px;
-        }
-
-    }
-    div.step{
-        dl{
-            width: auth-sprite-width("step1");
-            float: left;
-            margin-bottom: 0px;
-        }
-        dd{
-            margin-left: 0px;
-            font-size: 12px;
-            margin-top: 6px;
-        }
-        dl.step1{
-            dt{
-                @include auth-sprite("step1");
-                width: auth-sprite-width("step1");
-                height: auth-sprite-height("step1");
-                margin: 0 auto;
-            }
-        }
-        dl.step2{
-            margin-left: 35px;
-            dt{
-                @include auth-sprite("step2");
-                width: auth-sprite-width("step2");
-                height: auth-sprite-height("step2");
-                margin: 0 auto;
-            }
-        }
-        dl.step3{
-            margin-left: 35px;
-            dt{
-                @include auth-sprite("step3");
-                width: auth-sprite-width("step3");
-                height: auth-sprite-height("step3");
-                margin: 0 auto;
-            }
-        }
-        p{
-            float: left;
-        }
-        span{
-            font-weight: bold;
-            font-style: italic;
-            color: #000;
-            background-color: #fff;
-        }
-    }
-}
