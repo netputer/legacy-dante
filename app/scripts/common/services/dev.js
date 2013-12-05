@@ -33,22 +33,23 @@ return function() {
     self.setMetaData = function(data) {
         meta = data;
     };
-    self.getAPIPrefix = function() {
-        return '/api/v1';
-    };
-    self.wrapURL = function(url, forResource) {
-        var server = self.getServer();
-        if (forResource) {
-            server = encodeServer(server);
-        }
-        var prefix = self.getAPIPrefix();
-        return server + prefix + url;
-    };
 
     self.$get = ['$window', '$q', '$rootScope', '$timeout',
         function( $window,   $q,   $rootScope,   $timeout) {
         return {
-            wrapURL: self.wrapURL,
+            wrapURL: function(url, forResource) {
+                var server = self.getServer();
+                if (forResource) {
+                    server = encodeServer(server);
+                }
+                
+                var prefix = '/api/v1';
+                if ($rootScope.READ_ONLY_FLAG) {
+                    prefix = '/api/v2/' + new Date().getTime();
+                }
+
+                return server + prefix + url;
+            },
             setServer: self.setServer,
             getServer: self.getServer,
             setMetaData: self.setMetaData,
