@@ -31,5 +31,10 @@
     "VIEW_CONTACT": "View contact",
     "ADD_CONTACT": "Add to contacts",
     "NEW_MESSAGE_TIP": "New messages from $$$$",
-    "MESSAGE_STATUS_REPORTER": "Delivered $$"
+    "MESSAGE_STATUS_REPORTER": "Delivered $$",
+    "UNSUPPORT_MESSAGE": {
+        "title": "Some messagaging features have been removed",
+        "content": "Android 4.4 restricts access to messages, so we’ve removed a few features here. ‘Delete’ and ‘mark as read’ are removed, but sending messages works just as before.",
+        "OK": "Got it"
+    }
 }

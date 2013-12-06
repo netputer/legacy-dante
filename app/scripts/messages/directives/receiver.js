@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdDev', 'wdcContacts', 'wdmContactSearch',
-function(wdDev,   wdcContacts,   wdmContactSearch) {
+return ['wdDev', 'wdcContacts', 'wdmContactSearch', '$rootScope',
+function(wdDev,   wdcContacts,   wdmContactSearch,   $rootScope) {
 return {
 
 link: function(scope, element) {
@@ -33,7 +33,20 @@ link: function(scope, element) {
     scope.$watch('activeConversation.addresses', function(addresses, old) {
         var items = [];
         var i;
-        for (i = 0; i < addresses.length; i += 1) {
+        var len = addresses.length;
+
+        if ($rootScope.IS_SPECIAL_SDK) {
+            if (len === 1) {
+                var marginLeftVal = element.css('padding-left');
+                element.css('margin-left', marginLeftVal)
+                        .attr('disabled', true);
+            } else if (!len){
+                element.css('margin-left', 0)
+                        .removeAttr('disabled');
+            }
+        }
+
+        for (i = 0; i < len; i += 1) {
             var a = addresses[i];
             var n = scope.activeConversation.contact_names[i] || '';
             items.push({

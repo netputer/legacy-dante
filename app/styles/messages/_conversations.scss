@@ -17,6 +17,7 @@
     border-left: 0;
     border-right: 0;
     margin-bottom: -1px;
+    padding-left: 10px;
     @include transition(background-color $global-transition-duration / 4,
                         border-color $global-transition-duration / 4,
                         opacity $global-transition-duration);
@@ -68,7 +69,7 @@
 }
 
 .wdmcr-a {
-    width: 44px;
+    width: 34px;
     height: 100%;
     margin: 0;
 

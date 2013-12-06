@@ -5,9 +5,19 @@ define([
 ) {
 'use strict';
 return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
-        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification',
+        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope',
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdmConversations,   $location,   wdKey, wdDesktopNotification) {
+         GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope) {
+
+var IS_FIRST_VIEW = $window.localStorage.getItem('FIRST_VIEW_MESSAGE');
+if ($rootScope.IS_SPECIAL_SDK && !IS_FIRST_VIEW) {
+    wdAlert.alert(
+        $scope.$root.DICT.messages.UNSUPPORT_MESSAGE.title,
+        $scope.$root.DICT.messages.UNSUPPORT_MESSAGE.content,
+        $scope.$root.DICT.messages.UNSUPPORT_MESSAGE.OK
+    );
+    $window.localStorage.setItem('FIRST_VIEW_MESSAGE', true);
+} 
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.conversationsCache = wdmConversations.conversations;
