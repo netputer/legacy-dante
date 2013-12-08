@@ -11,6 +11,34 @@
             padding-top: 10px;
         }
     }
+
+    .real-time-photo-intro {
+        height: 300px;
+        @include transition(all $global-transition-duration);
+        h1 {
+            font-size: 25px;
+        }
+        h2 {
+            font-size: 15px;
+            color: #999;
+        }
+        .left {
+            width: 400px;
+            height: 200px;
+            float: left;
+        }
+        .right {
+            width: 430px;
+            float: left;
+            float: left;
+        }
+        &.hide {
+            display: block;
+            opacity: 0;
+            height: 0px;
+        }
+    }
+
     .user-help a{
         font-size: 12px;
     }

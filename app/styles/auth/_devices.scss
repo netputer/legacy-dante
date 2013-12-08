@@ -19,7 +19,7 @@
         width: 910px;
         margin: 100px auto 0px auto;
         .header {
-            @include transition(all 0.4s);
+            @include transition(all $global-transition-duration);
             position: relative;
             @include clearfix;
             .title {

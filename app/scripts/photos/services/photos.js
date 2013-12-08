@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdEventEmitter', '$rootScope', 'wdSocket', 'Photos',
-function(wdEventEmitter,   $rootScope,   wdSocket,   Photos) {
+return ['wdEventEmitter', '$rootScope', 'wdSocket', 'Photos', '$q',
+function(wdEventEmitter,   $rootScope,   wdSocket,   Photos, $q) {
 
 var photos = {
     collection: [],
@@ -39,6 +39,7 @@ wdSocket.on('photos_add.wdp', function(e, message) {
         var photo = photos.getById(id);
         if (!photo) {
             Photos.get({id: id}, function(p) {
+                p.newPhotoLoadedDeferred = $q.defer();
                 photos.merge(p);
                 photos.trigger('add', [photos.getById(p.id)]);
             });

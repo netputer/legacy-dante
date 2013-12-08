@@ -74,3 +74,12 @@ $wd-loading-foreground-color: #000;
     0%   { background-color: rgba(#fff, 0.1); }
     100% { background-color: rgba(#fff, 1); }
 }
+
+.wd-circle-loading {
+    @include animation-name(wd-circle-loading);
+}
+
+@include keyframes (wd-circle-loading) {
+    0%   {  }
+    100% {  }
+}

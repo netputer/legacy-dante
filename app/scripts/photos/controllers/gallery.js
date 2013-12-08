@@ -11,10 +11,10 @@ define([
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
-        'wdSharing', 'wdpAlbums', 'wdToast',
+        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
-         wdSharing,   wdpAlbums,   wdToast) {
+         wdSharing,   wdpAlbums,   wdToast, wdDevice) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -23,8 +23,7 @@ $scope.loaded = false;
 $scope.allLoaded = false;
 $scope.layout = null;
 $scope.previewPhoto = null;
-
-
+$scope.deviceName = wdDevice.getDevice().model;
 
 // A temp solution.
 // Delegate '$scope.photos' to 'wdpPhotos.photos'
@@ -72,7 +71,9 @@ if ($scope.serverMatchRequirement) {
     }
 
     wdpPhotos.on('add.wdp', function(e, p) {
-        // do nothing...
+        p.newPhotoLoadedDeferred.promise.then(function() {
+            $scope.hideRealTimePhotoIntro();
+        });
     }).on('remove.wdp', function(e, p) {
         $scope.$broadcast('wdp:photos:remove', [p]);
     });
@@ -474,6 +475,18 @@ $scope.updateAlbums = function() {
 
 $scope.selectAlbum = function(album, selected) {
     album.visible = selected;
+};
+
+// Real-time photo tips
+if ($window.localStorage.getItem('knownRealTimePhoto')) {
+    $scope.showRealTimePhotoIntro = false;
+} else {
+    $scope.showRealTimePhotoIntro = true;
+}
+
+$scope.hideRealTimePhotoIntro = function() {
+    $scope.addRealTimePhotoIntroHideClass = true;
+    $window.localStorage.setItem('knownRealTimePhoto', true);
 };
 
 
