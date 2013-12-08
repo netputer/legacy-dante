@@ -72,10 +72,7 @@ if ($scope.serverMatchRequirement) {
 
     wdpPhotos.on('add.wdp', function(e, p) {
         p.newPhotoLoadedDeferred.promise.then(function() {
-            if($scope.showRealTimePhotoIntro) {
-                $scope.hideRealTimePhotoIntro();
-            }
-            p.newPhotoLoadedDeferred = null;
+            $scope.hideRealTimePhotoIntro();
         });
     }).on('remove.wdp', function(e, p) {
         $scope.$broadcast('wdp:photos:remove', [p]);
@@ -481,7 +478,6 @@ $scope.selectAlbum = function(album, selected) {
 };
 
 // Real-time photo tips
-if ($window.localStorage.getItem('photoSnapIntroHide')) {
     $scope.showRealTimePhotoIntro = false;
 } else {
     $scope.showRealTimePhotoIntro = true;
@@ -489,7 +485,6 @@ if ($window.localStorage.getItem('photoSnapIntroHide')) {
 
 $scope.hideRealTimePhotoIntro = function() {
     $scope.addRealTimePhotoIntroHideClass = true;
-    $window.localStorage.setItem('photoSnapIntroHide', true);
 };
 
 
