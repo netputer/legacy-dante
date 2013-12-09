@@ -117,6 +117,10 @@ return [function() {
                             wdGoogleSignIn.checkToken().then(function(){
                                 getDevices();
                             }, function() {
+                                return wdGoogleSignIn.refreshToken(true);
+                            }).then(function () {
+                                getDevices();
+                            }, function() {
                                 $scope.signout();
                             });
                         });

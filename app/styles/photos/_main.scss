@@ -14,6 +14,8 @@
 
     .real-time-photo-intro {
         height: 300px;
+        width: 1080px;
+        margin: 0 auto;
         @include transition(all $global-transition-duration);
         h1 {
             font-size: 25px;
@@ -23,9 +25,11 @@
             color: #999;
         }
         .left {
-            width: 400px;
-            height: 200px;
+            width: 620px;
             float: left;
+            .icon-take-photo {
+                margin: 0px;
+            }
         }
         .right {
             width: 430px;
@@ -105,9 +109,38 @@
         padding: 4px;
         @include position(absolute, 10px 21px 0 0);
     }
-    .wdp-blank-album-settings{
-        margin-left: 5px;
+
+    .wd-photo-blank {
+        @include position(absolute, 50px 0px 0px 0px);
+        background-color: #fff;
+        .content {
+            width: 1080px;
+            height: 270px;
+            @include position(absolute, 50% 0 0 50%);
+            margin-top: -135px;
+            margin-left: -540px;
+            h1 {
+                font-size: 25px;
+            }
+            h2 {
+                font-size: 15px;
+                color: #999;
+            }
+            .left {
+                width: 620px;
+                float: left;
+                .icon-take-photo {
+                    margin: 0px;
+                }
+            }
+            .right {
+                width: 430px;
+                float: left;
+                float: left;
+            }
+        }
     }
+
     @import "showcase"; // showcase consists of group of photos
     @import "block";    // each photos is contained in a block
 
