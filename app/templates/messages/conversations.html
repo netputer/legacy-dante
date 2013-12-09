@@ -39,7 +39,7 @@
                         ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)"
                         bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}"
                         data-options="{offset: -15}"
-                        ng-checked="c.selected" ng-hide="$root.IS_SPECIAL_SDK"></div>
+                        ng-checked="c.selected" ng-hide="$root.SDK_19"></div>
 
                     <div class="wdmcr-b">
                         <div class="composited-avatar" ng-class="'multiple-' + c.avatarPaths.length">
@@ -114,7 +114,7 @@
                 </div>
                 <div class="btn wdmct-d"
                     ng-if="!$root.READ_ONLY_FLAG"
-                    ng-show="activeConversation && !$root.IS_SPECIAL_SDK"
+                    ng-show="activeConversation && !$root.SDK_19"
                     bs-tooltip="{{ $root.DICT.messages.ACTION_DELETE }}"
                     data-options="{ placement: 'bottom' }"
                     ng-click="remove(activeConversation);$root.GA('messages:delete_conversation_single')"><i class="icon-del-toolbar"></i></div>
@@ -179,7 +179,7 @@
                                     ng-show="!m.isPending"
                                     bs-tooltip="{{$root.DICT.messages.ACTION_DELETE}}"
                                     ng-click="removeMessage(activeConversation, m);$root.GA('messages:delete_message')"
-                                    ng-hide="$root.IS_SPECIAL_SDK"><i class="icon-del-toolbar"></i></a>
+                                    ng-hide="$root.SDK_19"><i class="icon-del-toolbar"></i></a>
                             </div>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                 </div>
             </section>
             <section class="wdm-editor"
-                ng-hide="$root.READ_ONLY_FLAG || cvsChanging || cvsListFirstLoading || !activeConversation || ($root.IS_SPECIAL_SDK && activeConversation.multiple)">
+                ng-hide="$root.READ_ONLY_FLAG || cvsChanging || cvsListFirstLoading || !activeConversation || ($root.SDK_19 && activeConversation.multiple)">
                 <form ng-submit="sendMessage(activeConversation)">
                     <div class="wdme-ta">
                         <textarea

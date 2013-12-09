@@ -35,14 +35,14 @@ link: function(scope, element) {
         var i;
         var len = addresses.length;
 
-        if ($rootScope.IS_SPECIAL_SDK) {
+        if ($rootScope.SDK_19) {
+            var placeholder = element.parent().find('.text-prompt');
             if (len === 1) {
                 var marginLeftVal = element.css('padding-left');
-                element.css('margin-left', marginLeftVal)
-                        .attr('disabled', true);
+                element.hide();
+                placeholder.hide();
             } else if (!len){
-                element.css('margin-left', 0)
-                        .removeAttr('disabled');
+                element.show();
             }
         }
 

@@ -272,7 +272,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdSocket.connect();
                 wdDatabase.open(wdDev.getMetaData('phone_udid'));
                 // SDK version equals 19 means SDK 4.4
-                $rootScope.IS_SPECIAL_SDK = wdDev.getMetaData('SDK_version') === 19 ? true : false;
+                $rootScope.SDK_19 = wdDev.getMetaData('SDK_version') === 19 ? true : false;
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
         });
