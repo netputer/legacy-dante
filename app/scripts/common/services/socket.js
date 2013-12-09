@@ -186,6 +186,14 @@ Socket.prototype = {
                 wdDevice.signout();
             }
         }, function() {
+            return wdGoogleSignIn.checkToken();
+        }).then(function() {
+            self.refreshDeviceAndConnect();
+        }, function() {
+            return wdGoogleSignIn.refreshToken(true);
+        }).then(function() {
+            self.refreshDeviceAndConnect();
+        }, function() {
             self.showDisconnectPanel();
         });
     }

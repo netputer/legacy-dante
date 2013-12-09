@@ -184,6 +184,7 @@ function loadScreen() {
                 else {
                     fetchLoop(defer, viewportHeight, lastLayoutHeight);
                 }
+                $scope.photos = [];
             }, function fail() {
                 defer.reject();
             });
