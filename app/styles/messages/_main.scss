@@ -7,6 +7,26 @@
     height: 100%;
     font-size: 12px;
 
+    .wdm-alert {
+        height: 20px;
+        padding: 6px 10px;
+        background-color: #ED9A4D;
+        color: #fff;
+        @include position;
+
+        &.hide-alert {
+            height: 0;
+            padding: 0px 10px;
+        }
+        &.closing-alert {
+            @include transition(all 200ms linear);
+        }
+        .close-alert {
+            @include position(absolute, 6px 10px 0 0);
+            cursor: pointer;
+        }
+    }
+
     // Position with override display in Firefox 19-.
     // We need a other element to apply flexbox.
     .wdm-layout {

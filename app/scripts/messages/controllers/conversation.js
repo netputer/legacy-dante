@@ -9,15 +9,19 @@ return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'w
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
          GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope) {
 
-var IS_FIRST_VIEW = $window.localStorage.getItem('firstViewMessage');
-if ($rootScope.SDK_19 && !IS_FIRST_VIEW) {
-    wdAlert.alert(
-        $scope.$root.DICT.messages.UNSUPPORT_MESSAGE.title,
-        $scope.$root.DICT.messages.UNSUPPORT_MESSAGE.content,
-        $scope.$root.DICT.messages.UNSUPPORT_MESSAGE.OK
-    );
-    $window.localStorage.setItem('firstViewMessage', true);
+//wdm alert
+var closeWdmAlert = $window.localStorage.getItem('closeWdmAlert');
+if ($rootScope.SDK_19 && !closeWdmAlert) {
+    $scope.showWdmAlert = true;
 } 
+$scope.hideWdmAlert = function() {
+    $scope.showWdmAlert = false;
+    $scope.closingAlert = true;
+    $timeout(function() {
+        $scope.closingAlert = false;
+    }, 200);
+    $window.localStorage.setItem('closeWdmAlert', true);
+};
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.conversationsCache = wdmConversations.conversations;
