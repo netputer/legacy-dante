@@ -72,7 +72,10 @@ if ($scope.serverMatchRequirement) {
 
     wdpPhotos.on('add.wdp', function(e, p) {
         p.newPhotoLoadedDeferred.promise.then(function() {
-            $scope.hideRealTimePhotoIntro();
+            if($scope.showRealTimePhotoIntro) {
+                $scope.hideRealTimePhotoIntro();
+            }
+            p.newPhotoLoadedDeferred = null;
         });
     }).on('remove.wdp', function(e, p) {
         $scope.$broadcast('wdp:photos:remove', [p]);
