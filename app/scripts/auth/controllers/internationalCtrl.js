@@ -131,9 +131,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
                     ).then(function() {
+                        GA('onboard:connect_confirm:retry');
                         $scope.isLoadingDevices = false;
                         $scope.connectDevice(deviceData);
                     }, function() {
+                        GA('onboard:connect_confirm:cancel');
                         $scope.isLoadingDevices = false;
                         wdDevice.clearDevice();
                         loopGetDevicesList(false);

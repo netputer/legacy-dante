@@ -5,7 +5,7 @@ define([
     'underscore'
     ], function(template, $, moment, _) {
 'use strict';
-return ['$window', function($window) {
+return ['$window', 'GA', function($window, GA) {
     var audioList = [];
 
     return {
@@ -29,6 +29,7 @@ return ['$window', function($window) {
 
                 downloadAudio: function() {
                     $window.location = $scope.audio.content;
+                    GA('messages:audio:download');
                 },
 
                 pause: function() {
@@ -41,6 +42,7 @@ return ['$window', function($window) {
                     audioElement.src = $scope.audio.content;
                     audioElement.play();
                     $scope.audio.playing = true;
+                    GA('messages:audio:play');
                 }
             };
             
