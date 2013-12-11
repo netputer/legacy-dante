@@ -1,4 +1,8 @@
 <section class="wdj-messages">
+    <div class="wdm-alert" ng-if="showWdmAlert" ng-class="{'closing-alert': closingAlert}">
+        {{$root.DICT.messages.MESSAGE_ALERT_FOR_ANDROID_44}}
+        <span class="close-alert" ng-click="hideWdmAlert()">×</span>
+    </div>
     <div class="wdm-layout">
         <section class="wdm-sub">
             <section class="wdm-actions" ng-switch on="$root.READ_ONLY_FLAG" wd-strip>

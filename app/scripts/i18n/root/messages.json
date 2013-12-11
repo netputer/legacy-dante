@@ -32,9 +32,5 @@
     "ADD_CONTACT": "Add to contacts",
     "NEW_MESSAGE_TIP": "New messages from $$$$",
     "MESSAGE_STATUS_REPORTER": "Delivered $$",
-    "UNSUPPORT_MESSAGE": {
-        "title": "Some messagaging features have been removed",
-        "content": "Android 4.4 restricts access to messages, so we’ve removed a few features here. ‘Delete’ and ‘mark as read’ are removed, but sending messages works just as before.",
-        "OK": "Got it"
-    }
+    "MESSAGE_ALERT_FOR_ANDROID_44": "Your phone's running Android 4.4 (Kit Kat); currently some of the messaging functions are unavailable, including deleting messages, sending group messages, and displaying the read/unread status of messages."         
 }
