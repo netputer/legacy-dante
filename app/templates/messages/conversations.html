@@ -156,7 +156,10 @@
                                 <div class="wdmer-a-a"
                                     ng-show="m.isSent && activeConversation.multiple">
                                     {{$root.DICT.messages.BATCH_RECEIVER_TIP}}
-                                    <span bs-tooltip="{{m.address}}">{{ m.contact_name || m.address }}</span>:
+                                    <span ng-repeat="address in m.addresses">
+                                        <span bs-tooltip="{{address}}">{{ m.contact_names[$index] || address }}</span>
+                                    </span>
+                                    :
                                 </div>
                                 <div ng-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | linky:'_blank' "></div>
                                 <div ng-if="m.isMMS">
