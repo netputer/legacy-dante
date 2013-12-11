@@ -15,11 +15,7 @@ if ($rootScope.SDK_19 && !closeWdmAlert) {
     $scope.showWdmAlert = true;
 } 
 $scope.hideWdmAlert = function() {
-    $scope.showWdmAlert = false;
     $scope.closingAlert = true;
-    $timeout(function() {
-        $scope.closingAlert = false;
-    }, 200);
     $window.localStorage.setItem('closeWdmAlert', true);
 };
 

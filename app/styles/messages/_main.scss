@@ -13,13 +13,12 @@
         background-color: #ED9A4D;
         color: #fff;
         @include position;
+        @include transition(all 0.3s);
 
-        &.hide-alert {
-            height: 0;
-            padding: 0px 10px;
-        }
         &.closing-alert {
-            @include transition(all 200ms linear);
+            @include animation(slideOutUp 0.3s);
+            height: 0;
+            padding: 0;
         }
         .close-alert {
             @include position(absolute, 6px 10px 0 0);

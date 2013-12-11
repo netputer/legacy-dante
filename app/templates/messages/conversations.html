@@ -1,5 +1,5 @@
 <section class="wdj-messages">
-    <div class="wdm-alert" ng-class="{'hide-alert': !showWdmAlert, 'closing-alert': closingAlert}">
+    <div class="wdm-alert" ng-show="showWdmAlert" ng-class="{'closing-alert': closingAlert}">
         {{$root.DICT.messages.MESSAGE_ALERT_FOR_ANDROID_44}}
         <span class="close-alert" ng-click="hideWdmAlert()">×</span>
     </div>
