@@ -74,6 +74,19 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="sounds-setting">
+                    <h3 class="title">Sounds</h3>
+                    <div class="item">
+                        <p class="item-title">New message</p>
+                        <div class="setting-switch" ng-click="setMessageSoundOpen();">
+                            <div class="block" ng-class="{open: messageSoundOpen, close: !messageSoundOpen}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
                 <div class="others">
                     <a ng-if="$root.READ_ONLY_FLAG" target="_blank" href="http://help.wandoujia.com/entries/22604406">
                         {{$root.DICT.app.HELP}}

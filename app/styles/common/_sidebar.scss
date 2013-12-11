@@ -204,6 +204,12 @@ $sidebar-animation-time: 500ms;
     }
 
     .settings-container { 
+        hr {
+            border: none;
+            border-top: 1px solid  $split-line-color;
+            margin-right: 27px;
+        }
+
         @include position(absolute, 0px 0px 0px 0px);
 
         &.settings-hide {
@@ -290,7 +296,6 @@ $sidebar-animation-time: 500ms;
         .facebook {
             width: 236px;
             padding: 10px 0;
-            border-bottom: 1px solid  $split-line-color;
 
             .connect-facebook-btn {
                 display: inline-block;
@@ -306,6 +311,41 @@ $sidebar-animation-time: 500ms;
             .facebook-tip {
                 color: #505050;
                 margin: 0;
+            }
+        }
+
+        .sounds-setting {
+            margin-right: 27px;
+            .item {
+                .item-title {
+                    display: inline-block;
+                    color: #999;
+                    margin: 0px;
+                    vertical-align: top;
+                }
+            }
+            .setting-switch {
+                cursor: pointer;
+                float: right;
+                display: inline-block;
+                width: 50px;
+                height: 20px;
+                background-color: #565656;
+                border-radius: 2px;
+                .block {
+                    border-radius: 2px;
+                    width: 28px;
+                    height: 20px;
+                    @include transition(all $global-transition-duration);
+                    &.open {
+                        background-color: $standard-green;
+                        float: right;
+                    }
+                    &.close {
+                        background-color: $standard-red;
+                        float: left;
+                    }
+                }
             }
         }
 

@@ -189,6 +189,22 @@ return [function() {
                 }
             };
 
+            // 短信提醒声音设置
+            if ($window.localStorage.getItem('messageSoundOpen') !== 'false') {
+                $scope.messageSoundOpen = true;
+            } else {
+                $scope.messageSoundOpen = false;
+            }
+
+            $scope.setMessageSoundOpen = function() {
+                if ($scope.messageSoundOpen) {
+                    $window.localStorage.setItem('messageSoundOpen', false);
+                } else {
+                    $window.localStorage.setItem('messageSoundOpen', true);
+                }
+                $scope.messageSoundOpen = !$scope.messageSoundOpen;
+            };
+
         }]
     };
 }];

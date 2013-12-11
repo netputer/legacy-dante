@@ -1,6 +1,6 @@
 define([], function() {
 'use strict';
-return ['GA', function(GA) {
+return ['GA', 'wdmMessage', function(GA, wdmMessage) {
 return {
 
 link: function(scope, element, attributes) {
@@ -19,7 +19,12 @@ link: function(scope, element, attributes) {
     });
     element.on('focus', function() {
         GA('messages:focus_editor');
+        wdmMessage.focusTextarea(true);
     });
+    element.on('blur', function() {
+        wdmMessage.focusTextarea(false);
+    });
+
 }
 
 };
