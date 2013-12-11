@@ -1,0 +1,50 @@
+.wd-setting-switch {
+    $height: 12px;
+    $width: 28px;
+    cursor: pointer;
+    float: right;
+    display: inline-block;
+    width: $width;
+    padding: 10px;
+    height: $height;
+    border-radius: 2px;
+    @include position;
+    .bg-left {
+        @include transition(all $global-transition-duration);
+        width: 60%;
+        height: $height;
+        display: inline-block;
+        float: left;
+        background-color: #474747;
+        border-radius: 2px 0 0 2px;
+    }
+    .bg-right {
+        width: 40%;
+        height: $height;
+        display: inline-block;
+        float: left;
+        background-color: #474747;
+        border-radius: 0 2px 2px 0;
+    }
+    $block-margin-left: 10px;
+    $block-width: 12px;
+    .block {
+        @include transition(all $global-transition-duration);
+        margin: $block-margin-left;
+        @include position(absolute, 0px auto auto 0px);
+        cursor: pointer;
+        border-radius: 2px;
+        background-color: #dedede;
+        width: $block-width;
+        height: $height;
+    }
+    &.open {
+        .block {
+            margin-left: $block-margin-left + $width - $block-width;
+        }
+        .bg-left {
+            background-color: $standard-green;
+        }
+    }
+
+}

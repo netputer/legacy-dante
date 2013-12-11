@@ -31,7 +31,8 @@ define([
     'common/services/desktop-notification',
     'common/services/window-focus',
     'common/directives/scroll-detect',
-    'common/services/communicate-snappea-com'
+    'common/services/communicate-snappea-com',
+    'common/directives/setting-switch'
 ], function(
     angular,
     loading,
@@ -65,7 +66,8 @@ define([
     desktopNotification,
     windowFocus,
     scrollDetect,
-    communicateSnappeaCom
+    communicateSnappeaCom,
+    settingSwitch
 ) {
 // jshint unused:false
 'use strict';
@@ -86,6 +88,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('disconnectPanel', disconnectPanel)
     .directive('wdSidebar', sidebar)
     .directive('wdScrollDetect', scrollDetect)
+    .directive('wdSettingSwitch', settingSwitch)
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
