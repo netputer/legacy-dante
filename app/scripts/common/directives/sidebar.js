@@ -198,8 +198,10 @@ return [function() {
 
             $scope.setMessageSoundOpen = function() {
                 if ($scope.messageSoundOpen) {
+                    GA('navbar:sound_setting:Click_Unmute');
                     $window.localStorage.setItem('messageSoundOpen', false);
                 } else {
+                    GA('navbar:sound_setting:Click_Mute');
                     $window.localStorage.setItem('messageSoundOpen', true);
                 }
                 $scope.messageSoundOpen = !$scope.messageSoundOpen;
