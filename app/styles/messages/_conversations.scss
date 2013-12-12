@@ -4,6 +4,10 @@
     margin-right: -1px;
     @include user-select(none);
     cursor: default;
+
+    &.wdm-conversations-sdk-19 .wdmc-row {
+        padding-left: 10px;
+    }
 }
 
 .wdmc-row {
@@ -17,7 +21,6 @@
     border-left: 0;
     border-right: 0;
     margin-bottom: -1px;
-    padding-left: 10px;
     @include transition(background-color $global-transition-duration / 4,
                         border-color $global-transition-duration / 4,
                         opacity $global-transition-duration);
@@ -69,7 +72,7 @@
 }
 
 .wdmcr-a {
-    width: 34px;
+    width: 44px;
     height: 100%;
     margin: 0;
 

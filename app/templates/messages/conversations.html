@@ -31,7 +31,7 @@
                     <span class="clear" ng-show="searchQuery" ng-click="clearSearch();$root.GA('messages:search:clear')"></span>
                 </div>
             </div>
-            <ol class="wdm-conversations unstyled" wdm-keep-visible wdm-selection>
+            <ol class="wdm-conversations unstyled" ng-class="{'wdm-conversations-sdk-19': $root.SDK_19}" wdm-keep-visible wdm-selection>
                 <li class="wdmc-row"
                     ui-animate
                     ng-repeat="c in cvs()"
@@ -43,7 +43,7 @@
                         ng-click="$event.stopPropagation();select(c, $event.shiftKey);$root.GA('messages:' + ($event.shiftKey && 'shift_select' || 'select') + ':' + c.selected)"
                         bs-tooltip="{{ c.selected && $root.DICT.messages.ACTION_DESELECT || $root.DICT.messages.ACTION_SELECT }}"
                         data-options="{offset: -15}"
-                        ng-checked="c.selected" ng-hide="$root.SDK_19"></div>
+                        ng-checked="c.selected" ng-if="!$root.SDK_19"></div>
 
                     <div class="wdmcr-b">
                         <div class="composited-avatar" ng-class="'multiple-' + c.avatarPaths.length">
@@ -183,10 +183,11 @@
                                 <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && m.isDelivered">{{ $root.DICT.messages.MESSAGE_STATUS_REPORTER.replace('$$', (m.date | messageDate:'HH:mm')) }}</span>
                                 <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && !m.isDelivered">{{ m.date | messageDate:'HH:mm' }}</span>
                                 <a href="" class="wdmer-b-del"
+                                    ng-if="!$root.SDK_19"
                                     ng-show="!m.isPending"
                                     bs-tooltip="{{$root.DICT.messages.ACTION_DELETE}}"
                                     ng-click="removeMessage(activeConversation, m);$root.GA('messages:delete_message')"
-                                    ng-hide="$root.SDK_19"><i class="icon-del-toolbar"></i></a>
+                                    ><i class="icon-del-toolbar"></i></a>
                             </div>
                         </div>
                     </div>
