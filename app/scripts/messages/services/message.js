@@ -88,9 +88,9 @@ return {
     },
     focusTextarea: function(flag) {
         if (arguments.length) {
-            return focusTextarea;
-        } else {
             focusTextarea = flag;
+        } else {
+            return focusTextarea;
         }
     }
 };

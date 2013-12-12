@@ -54,7 +54,7 @@ return [function() {
 
             $window.playAlert.content['message'] = ['audio/message.ogg', 'audio/message.mp3'];
             wdSocket.on('messages_add.wdNavbar', function(e) {
-                if (($window.localStorage.getItem('messageSoundOpen') !== 'false') && wdmMessage.focusTextarea() ) {
+                if (($window.localStorage.getItem('messageSoundOpen') !== 'false') && !wdmMessage.focusTextarea() ) {
                     $window.playAlert('message');
                 }
                 if ($scope.currentModule !== 'messages') {
