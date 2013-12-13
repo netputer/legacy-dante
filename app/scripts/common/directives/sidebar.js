@@ -190,22 +190,24 @@ return [function() {
             };
 
             // 短信提醒声音设置    
-            if (wdUserSettings.receiveMessageSoundSetting()) {
+            if (wdUserSettings.incomingMessageSoundEnabled()) {
                 $scope.messageSoundOpen = true;
             } else {
                 $scope.messageSoundOpen = false;
             }
 
-            $scope.$watch('messageSoundOpen', function() {
-                if ($scope.messageSoundOpen) {
-                    GA('navbar:sound_setting:Click_Unmute');
-                    wdUserSettings.receiveMessageSoundSetting(false);
-                } else {
-                    GA('navbar:sound_setting:Click_Mute');
-                    wdUserSettings.receiveMessageSoundSetting(true);
+            $scope.$watch('messageSoundOpen', function(newValue, oldValue) {
+                if (newValue !== oldValue) {                
+                    if ($scope.messageSoundOpen) {
+                        GA('navbar:sound_setting:Click_Unmute');
+                        wdUserSettings.incomingMessageSoundEnabled(true);
+                    } else {
+                        GA('navbar:sound_setting:Click_Mute');
+                        wdUserSettings.incomingMessageSoundEnabled(false);
+                    }
                 }
-                $scope.messageSoundOpen = !$scope.messageSoundOpen;
             });
+
         }]
     };
 }];

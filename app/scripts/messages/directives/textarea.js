@@ -1,6 +1,6 @@
 define([], function() {
 'use strict';
-return ['GA', 'wdmMessage', '$rootScope', function(GA, wdmMessage, $rootScope) {
+return ['GA', '$rootScope', function(GA, $rootScope) {
 return {
 
 link: function(scope, element, attributes) {
