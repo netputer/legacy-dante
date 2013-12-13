@@ -1,13 +1,16 @@
 .wd-setting-switch {
     $height: 12px;
     $width: 28px;
+    $padding: 10px;
     cursor: pointer;
     float: right;
     display: inline-block;
     width: $width;
-    padding: 10px;
+    padding: $padding;
+    margin: ($global-line-height - $height - $padding) / 2;
     height: $height;
     border-radius: 2px;
+    vertical-align: top;
     @include position;
     .bg-left {
         @include transition(all $global-transition-duration);

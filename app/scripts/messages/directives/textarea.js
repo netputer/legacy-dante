@@ -19,7 +19,9 @@ link: function(scope, element, attributes) {
     });
     element.on('focus', function() {
         GA('messages:focus_editor');
-        $rootScope.messageFocusMessageTextarea = true;
+        scope.$apply(function() {
+            $rootScope.messageFocusMessageTextarea = true;
+        });
     });
     element.on('blur', function() {
         $rootScope.messageFocusMessageTextarea = false;

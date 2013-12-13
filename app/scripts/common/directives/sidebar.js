@@ -190,19 +190,15 @@ return [function() {
             };
 
             // 短信提醒声音设置    
-            if (wdUserSettings.incomingMessageSoundEnabled()) {
-                $scope.messageSoundOpen = true;
-            } else {
-                $scope.messageSoundOpen = false;
-            }
+            $scope.messageSoundOpen = wdUserSettings.incomingMessageSoundEnabled();
 
             $scope.$watch('messageSoundOpen', function(newValue, oldValue) {
                 if (newValue !== oldValue) {                
                     if ($scope.messageSoundOpen) {
-                        GA('navbar:sound_setting:Click_Unmute');
+                        GA('navbar:sound_setting:click_unmute');
                         wdUserSettings.incomingMessageSoundEnabled(true);
                     } else {
-                        GA('navbar:sound_setting:Click_Mute');
+                        GA('navbar:sound_setting:click_mute');
                         wdUserSettings.incomingMessageSoundEnabled(false);
                     }
                 }

@@ -10,18 +10,22 @@ template: template,
 replace: true,
 require: '?ngModel',
 link: function($scope, $element, $attribute, $ngModel) {
+    if($ngModel) {
+        $ngModel.$render = function() {
+            $element.toggleClass('open', $ngModel.$viewValue);
+        };
 
-    $ngModel.$render = function() {
-        $element.toggleClass('open', $ngModel.$viewValue);
-    };
-
-    $element.on('click', function() {
-        $scope.$apply(function() {
-            $ngModel.$setViewValue(!$ngModel.$viewValue);
-            $ngModel.$render();
+        $element.on('click', function() {
+            $scope.$apply(function() {
+                $ngModel.$setViewValue(!$ngModel.$viewValue);
+                $ngModel.$render();
+            });
         });
-    });
-
+    } else {
+        $element.on('click', function() {
+            $element.toggleClass('open');
+        });
+    }
 }
 };
 }];

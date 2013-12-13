@@ -8,11 +8,7 @@ return ['$window', function($window) {
             if (arguments.length > 0) {
                 $window.localStorage.setItem('messageSoundOpen', value);
             } else {
-                if ($window.localStorage.getItem('messageSoundOpen') !== 'false') {
-                    return true;
-                } else {
-                    return false;
-                }
+                return $window.localStorage.getItem('messageSoundOpen') !== 'false';
             }
         }
 
