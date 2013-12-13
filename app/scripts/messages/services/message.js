@@ -11,9 +11,6 @@ return ['$q', '$http', function($q, $http) {
 
 var _super = Model.prototype;
 
-// 用户是否 focus 到发送短信的窗体
-var focusTextarea = false;
-
 function Message(rawData) {
 
     var instance = _super.constructor.call(this, _.extend({

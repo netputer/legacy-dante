@@ -31,7 +31,8 @@ define([
     'common/services/desktop-notification',
     'common/services/window-focus',
     'common/directives/scroll-detect',
-    'common/services/communicate-snappea-com'
+    'common/services/communicate-snappea-com',
+    'common/services/user-settings'
 ], function(
     angular,
     loading,
@@ -65,7 +66,8 @@ define([
     desktopNotification,
     windowFocus,
     scrollDetect,
-    communicateSnappeaCom
+    communicateSnappeaCom,
+    userSettings
 ) {
 // jshint unused:false
 'use strict';
@@ -103,5 +105,6 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdDesktopNotification', desktopNotification)
     .factory('wdWindowFocus', windowFocus)
     .factory('wdDatabase', db)
-    .factory('wdCommunicateSnappeaCom', communicateSnappeaCom);
+    .factory('wdCommunicateSnappeaCom', communicateSnappeaCom)
+    .factory('wdUserSettings', userSettings);
 });

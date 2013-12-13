@@ -4,28 +4,20 @@ define([
     template
 ) {
 'use strict';
-return ['$timeout', function($timeout) {
+return [function() {
 return {
 template: template,
 scope: true,
 replace: true,
-link: function($scope, $element, $attribute, $control) {
+require: '?ngModel',
+link: function($scope, $element, $attribute, $ngModel) {
 
-    var settingStatus;
-    if ($attribute.defaultSwitch === 'true') {
-        settingStatus = true;
-    } else {
-        settingStatus = false;
-    }
-    changeClassName();
+    $ngModel.$render = function() {
+        changeClass($ngModel.$viewValue);
+    };
 
-    $element.on('click', function() {
-        settingStatus = !settingStatus;
-        changeClassName();
-    });
-
-    function changeClassName() {
-        if(settingStatus) {
+    function changeClass(status) {
+        if (status) {
             $element.addClass('open');
         } else {
             $element.removeClass('open');

@@ -13,10 +13,10 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window',
+                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast,   $timeout, $window) {
+                 $q,   wdToast,   $timeout, $window, wdUserSettings) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
@@ -190,7 +190,7 @@ return [function() {
             };
 
             // 短信提醒声音设置    
-            if ($window.localStorage.getItem('messageSoundOpen') !== 'false') {
+            if (wdUserSettings.newMessageSoundSetting()) {
                 $scope.messageSoundOpen = true;
             } else {
                 $scope.messageSoundOpen = false;
@@ -199,10 +199,10 @@ return [function() {
             $scope.toggleMessageSound = function() {
                 if ($scope.messageSoundOpen) {
                     GA('navbar:sound_setting:Click_Unmute');
-                    $window.localStorage.setItem('messageSoundOpen', false);
+                    wdUserSettings.newMessageSoundSetting(false);
                 } else {
                     GA('navbar:sound_setting:Click_Mute');
-                    $window.localStorage.setItem('messageSoundOpen', true);
+                    wdUserSettings.newMessageSoundSetting(true);
                 }
                 $scope.messageSoundOpen = !$scope.messageSoundOpen;
             };

@@ -12,9 +12,9 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification',
+                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification', 'wdUserSettings',
         function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA, $rootScope, wdDevice, wdDesktopNotification) {
+                 wdAlert,   $window, GA, $rootScope, wdDevice, wdDesktopNotification, wdUserSettings) {
 
             $scope.messageNotification = false;
 
@@ -54,7 +54,7 @@ return [function() {
 
             $window.playAlert.content['message'] = ['audio/message.ogg', 'audio/message.mp3'];
             wdSocket.on('messages_add.wdNavbar', function(e) {
-                if (($window.localStorage.getItem('messageSoundOpen') !== 'false') && !$rootScope.messageFocusMessageTextarea ) {
+                if (wdUserSettings.newMessageSoundSetting() && !$rootScope.messageFocusMessageTextarea ) {
                     $window.playAlert('message');
                 }
                 if ($scope.currentModule !== 'messages') {
