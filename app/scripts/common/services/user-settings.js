@@ -15,7 +15,7 @@ return ['$window', function($window) {
                 }
             }
         }
-        
-    }
+
+    };
 }];
 });
