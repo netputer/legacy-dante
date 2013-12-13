@@ -74,6 +74,17 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="sounds-setting">
+                    <h3 class="title">{{$root.DICT.app.SOUND_SETTING_TITLE}}</h3>
+                    <div class="item">
+                        <p class="item-title">{{$root.DICT.app.SOUND_SETTING_NEW_MESSAGE}}</p>
+                        <div class="switch" wd-setting-switch ng-model="messageSoundOpen"></div>
+                    </div>
+                </div>
+
+                <hr>
+
                 <div class="others">
                     <a ng-if="$root.READ_ONLY_FLAG" target="_blank" href="http://help.wandoujia.com/entries/22604406">
                         {{$root.DICT.app.HELP}}

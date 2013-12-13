@@ -1,6 +1,6 @@
 define([], function() {
 'use strict';
-return ['GA', function(GA) {
+return ['GA', '$rootScope', function(GA, $rootScope) {
 return {
 
 link: function(scope, element, attributes) {
@@ -19,6 +19,12 @@ link: function(scope, element, attributes) {
     });
     element.on('focus', function() {
         GA('messages:focus_editor');
+        scope.$apply(function() {
+            $rootScope.messageFocusMessageTextarea = true;
+        });
+    });
+    element.on('blur', function() {
+        $rootScope.messageFocusMessageTextarea = false;
     });
 }
 

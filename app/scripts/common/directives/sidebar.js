@@ -13,10 +13,10 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window',
+                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast,   $timeout, $window) {
+                 $q,   wdToast,   $timeout, $window, wdUserSettings) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
@@ -188,6 +188,21 @@ return [function() {
                     GA('navbar:facebook_login');
                 }
             };
+
+            // 短信提醒声音设置    
+            $scope.messageSoundOpen = wdUserSettings.incomingMessageSoundEnabled();
+
+            $scope.$watch('messageSoundOpen', function(newValue, oldValue) {
+                if (newValue !== oldValue) {                
+                    if ($scope.messageSoundOpen) {
+                        GA('navbar:sound_setting:click_unmute');
+                        wdUserSettings.incomingMessageSoundEnabled(true);
+                    } else {
+                        GA('navbar:sound_setting:click_mute');
+                        wdUserSettings.incomingMessageSoundEnabled(false);
+                    }
+                }
+            });
 
         }]
     };
