@@ -109,16 +109,6 @@
         padding-right: 3px;
     }
 
-    @include not-readonly {
-        &:hover {
-            .wdmer-b-date {
-                display: none;
-            }
-            .wdmer-b-del {
-                display: inline-block;
-            }
-        }
-    }
     .mms-part 
     .mms-image-container {
         text-align: center;
@@ -165,6 +155,17 @@
         }
     }
     
+}
+
+@include not-readonly {
+    .wdj-messages:not(.wdm-sdk-19) .wdme-row:hover {
+        .wdmer-b-date {
+            display: none;
+        }
+        .wdmer-b-del {
+            display: inline-block;
+        }
+    }
 }
 .wdme-row-self {
     @extend .wdme-row;

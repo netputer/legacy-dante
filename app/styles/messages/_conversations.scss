@@ -4,10 +4,6 @@
     margin-right: -1px;
     @include user-select(none);
     cursor: default;
-
-    &.wdm-conversations-sdk-19 .wdmc-row {
-        padding-left: 10px;
-    }
 }
 
 .wdmc-row {
