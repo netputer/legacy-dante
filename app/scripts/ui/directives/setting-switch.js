@@ -19,11 +19,17 @@ link: function($scope, $element, $attribute, $ngModel) {
     function changeClass(status) {
         if (status) {
             $element.addClass('open');
+            $ngModel.$setViewValue(true);           
         } else {
             $element.removeClass('open');
+            $ngModel.$setViewValue(false);
         }
     }
 
+    $element.on('click', function() {
+        $ngModel.$setViewValue(!$ngModel.$viewValue);
+        $ngModel.$render();
+    });
 }
 };
 }];
