@@ -189,14 +189,14 @@ return [function() {
                 }
             };
 
-            // 短信提醒声音设置
+            // 短信提醒声音设置    
             if ($window.localStorage.getItem('messageSoundOpen') !== 'false') {
                 $scope.messageSoundOpen = true;
             } else {
                 $scope.messageSoundOpen = false;
             }
 
-            $scope.setMessageSoundOpen = function() {
+            $scope.toggleMessageSound = function() {
                 if ($scope.messageSoundOpen) {
                     GA('navbar:sound_setting:Click_Unmute');
                     $window.localStorage.setItem('messageSoundOpen', false);

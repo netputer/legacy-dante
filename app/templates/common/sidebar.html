@@ -76,10 +76,10 @@
                 </div>
 
                 <div class="sounds-setting">
-                    <h3 class="title">Sounds</h3>
+                    <h3 class="title">{{$root.DICT.app.SOUND_SETTING_TITLE}}</h3>
                     <div class="item">
-                        <p class="item-title">New message</p>
-                        <div class="switch" wd-setting-switch default-switch="{{messageSoundOpen}}" ng-click="setMessageSoundOpen();"></div>
+                        <p class="item-title">{{$root.DICT.app.SOUND_SETTING_NEW_MESSAGE}}</p>
+                        <div class="switch" wd-setting-switch default-switch="{{messageSoundOpen}}" ng-click="toggleMessageSound();"></div>
                     </div>
                 </div>
 

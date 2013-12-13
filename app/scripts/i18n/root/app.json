@@ -34,6 +34,8 @@
     "FACEBOOK_DISCONNECT_TIP": "Connect to Facebook to easily share photos with your friends.",
     "FACEBOOK_CONNECT_TIP": "Your Facebook account is connected.",
     "DISCONNECT_FACEBOOK": "Disconnect Facebook",
+    "SOUND_SETTING_TITLE": "Sound",
+    "SOUND_SETTING_NEW_MESSAGE": "New message",
     "LANGUAGE_TIP": "Language",
     "CONNECT_NEW_PHONE_TIP" : "Connect a new phone",
     "CONNECT_NEW_PHONE_TIPS": {

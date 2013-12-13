@@ -3,13 +3,15 @@ define([
     'ui/directives/popmenu',
     'ui/services/toast',
     'ui/directives/checkbox',
-    'ui/directives/drag-enter-area'
+    'ui/directives/drag-enter-area',
+    'ui/directives/setting-switch'
 ], function(
     angular,
     popmenu,
     toast,
     checkbox,
-    dragEnterArea
+    dragEnterArea,
+    settingSwitch
 ) {
 'use strict';
 
@@ -20,5 +22,6 @@ angular.module('wd.ui', [])
     .directive('wdMenuItem', popmenu.MenuItem)
     .directive('wdCheckbox', checkbox)
     .directive('wdDragEnterArea', dragEnterArea)
+    .directive('wdSettingSwitch', settingSwitch)
     .factory('wdToast', toast);
 });

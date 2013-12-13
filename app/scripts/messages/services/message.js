@@ -85,13 +85,6 @@ return {
     Message: Message,
     createMessage: function(rawData) {
         return new Message(rawData);
-    },
-    focusTextarea: function(flag) {
-        if (arguments.length) {
-            focusTextarea = flag;
-        } else {
-            return focusTextarea;
-        }
     }
 };
 
