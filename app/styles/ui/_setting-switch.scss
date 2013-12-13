@@ -7,7 +7,7 @@
     display: inline-block;
     width: $width;
     padding: $padding;
-    margin: ($global-line-height - $height - $padding) / 2;
+    margin: ($global-line-height - $height - $padding * 2) / 2;
     height: $height;
     border-radius: 2px;
     vertical-align: top;
