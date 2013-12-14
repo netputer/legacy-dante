@@ -1,4 +1,4 @@
-<section class="wdj-messages">
+<section class="wdj-messages" ng-class="{'wdm-sdk-19': $root.SDK_19, 'show-wdm-alert': showWdmAlert, 'wdm-closing-alert': closingAlert}" >
     <div class="wdm-alert" ng-if="showWdmAlert" ng-class="{'closing-alert': closingAlert}">
         {{$root.DICT.messages.MESSAGE_ALERT_FOR_ANDROID_44}}
         <span class="close-alert" ng-click="hideWdmAlert()">×</span>
@@ -31,7 +31,7 @@
                     <span class="clear" ng-show="searchQuery" ng-click="clearSearch();$root.GA('messages:search:clear')"></span>
                 </div>
             </div>
-            <ol class="wdm-conversations unstyled" ng-class="{'wdm-conversations-sdk-19': $root.SDK_19}" wdm-keep-visible wdm-selection>
+            <ol class="wdm-conversations unstyled" wdm-keep-visible wdm-selection>
                 <li class="wdmc-row"
                     ui-animate
                     ng-repeat="c in cvs()"
