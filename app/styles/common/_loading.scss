@@ -75,8 +75,9 @@ $wd-loading-foreground-color: #000;
     100% { background-color: rgba(#fff, 1); }
 }
 
+$circle-loading-foreground: $standard-green;
+$circle-loading-background: #f5f5f5;
 .wd-circle-loading {
-    $loadingColor: $standard-green;
     $diameter: 20px;
     $fix: 100%;
     $timer: 4s;
@@ -87,7 +88,7 @@ $wd-loading-foreground-color: #000;
     margin-top: -$diameter/2 + 1;
     width: $diameter;
     height: $diameter;
-    background-color: #f5f5f5;
+    background-color: $circle-loading-background;
 
     .hold {
         position: absolute;
@@ -98,19 +99,16 @@ $wd-loading-foreground-color: #000;
     }
 
     .pie {
-        background-color: $loadingColor;
-    }
-
-    .pie {
         position: absolute;
         width: $fix;
         height: $fix;
         border-radius: $fix;
         clip: rect(0px, $diameter/2, $diameter, 0px);
+        background-color: $circle-loading-foreground;
     }
 
     .left .pie {
-        @include animation(wd-process-left $timer/2 linear both);
+        @include animation(wd-circle-loading-left $timer/2 linear infinite);
     }
 
     .right {
@@ -118,25 +116,54 @@ $wd-loading-foreground-color: #000;
     }
 
     .right .pie {
-        @include animation(wd-process-right $timer/2 linear both);
-        @include animation-delay($timer/2 + 0.2);
+        @include animation(wd-circle-loading-right $timer/2 linear infinite);
     }
 }
 
-@include keyframes(wd-process-left) {
+@include keyframes(wd-circle-loading-left) {
     0% {
         @include transform(rotate(0deg));
     }
-    100% {
+    25% {
         @include transform(rotate(180deg));
+    }
+    50% {
+        @include transform(rotate(180deg));
+    }
+    51% {
+        @include transform(rotate(0deg));
+    }
+    75% {
+        @include transform(rotate(180deg));
+    }
+    99% {
+        @include transform(rotate(180deg));
+    }
+    100% {
+        @include transform(rotate(0deg));
     }
 }
 
-@include keyframes(wd-process-right) {
+@include keyframes(wd-circle-loading-right) {
     0% {
         @include transform(rotate(0deg));
     }
-    100% {
+    25% {
+        @include transform(rotate(0deg));
+    }
+    50% {
         @include transform(rotate(180deg));
+    }
+    51% {
+        @include transform(rotate(0deg));
+    }
+    75% {
+        @include transform(rotate(0deg));
+    }
+    99% {
+        @include transform(rotate(180deg));
+    }
+    100% {
+        @include transform(rotate(0deg));
     }
 }
