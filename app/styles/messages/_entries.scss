@@ -39,6 +39,7 @@
         }
     }
 }
+
 .wdme-row {
     @include display-flex;
     @include align-content(flex-end);
@@ -53,6 +54,16 @@
         margin-right: 8px;
     }
 
+    @include not-readonly {
+        &:hover {
+            .wdmer-b-date {
+                display: none;
+            }
+            .wdmer-b-del {
+                display: inline-block;
+            }
+        }
+    }
     .wdmer-a {
         @include position;
         max-width: 450px;
@@ -157,16 +168,6 @@
     
 }
 
-@include not-readonly {
-    .wdj-messages:not(.wdm-sdk-19) .wdme-row:hover {
-        .wdmer-b-date {
-            display: none;
-        }
-        .wdmer-b-del {
-            display: inline-block;
-        }
-    }
-}
 .wdme-row-self {
     @extend .wdme-row;
     @include flex-direction(row-reverse);
