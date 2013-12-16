@@ -6,9 +6,9 @@
         <div class="photo-snap-intro" ng-class="{hide: addRealTimePhotoIntroHideClass}" ng-if="showRealTimePhotoIntro">
             <div class="content">
                 <div class="left">
-                    <h1>Try PhotoSnap</h1>
-                    <h2>Take a picture on your {{deviceName}}. See it instantly.</h2>
-                    <div class="btn btn-primary" ng-click="hideRealTimePhotoIntro();">Got it</div>
+                    <h1>{{$root.DICT.photos.PHOTO_SNAP.H1}}</h1>
+                    <h2 ng-bind-html="$root.DICT.photos.PHOTO_SNAP.H2.replace('$$$$', deviceName)"></h2>
+                    <div class="btn btn-primary" ng-click="hideRealTimePhotoIntro();">{{$root.DICT.photos.PHOTO_SNAP.BUTTON}}</div>
                 </div>
                 <div class="right">
                     <i class="icon-take-photo"></i>
