@@ -39,7 +39,8 @@ wdSocket.on('photos_add.wdp', function(e, message) {
         var photo = photos.getById(id);
         if (!photo) {
             Photos.get({id: id}, function(p) {
-                p.newPhotoLoadedDeferred = $q.defer();
+                // 使用 PhotoSnap 功能通过手机拍照得到的图片
+                p.isPhotoSnap = true;
                 photos.merge(p);
                 photos.trigger('add', [photos.getById(p.id)]);
             });

@@ -3,12 +3,12 @@
     <div class="wdp-timeline-container" wdp-gallery>
 
         <!-- 拍照实时显示的介绍 -->
-        <div class="photo-snap-intro" ng-class="{hide: addRealTimePhotoIntroHideClass}" ng-if="showRealTimePhotoIntro">
+        <div class="photo-snap-intro" ng-class="{hide: addPhotoSnapIntroHideClass}" ng-if="showPhotoSnapIntro">
             <div class="content">
                 <div class="left">
                     <h1>{{$root.DICT.photos.PHOTO_SNAP.H1}}</h1>
                     <h2 ng-bind-html="$root.DICT.photos.PHOTO_SNAP.H2.replace('$$$$', deviceName)"></h2>
-                    <div class="btn btn-primary" ng-click="hideRealTimePhotoIntro();">{{$root.DICT.photos.PHOTO_SNAP.BUTTON}}</div>
+                    <div class="btn btn-primary" ng-click="hidePhotoSnapIntro();">{{$root.DICT.photos.PHOTO_SNAP.BUTTON}}</div>
                 </div>
                 <div class="right">
                     <i class="icon-take-photo"></i>

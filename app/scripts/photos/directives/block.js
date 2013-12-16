@@ -10,7 +10,7 @@ define([
         _
     ) {
 'use strict';
-return [function() {
+return ['$q', function($q) {
 return {
 
 template: template,
@@ -80,20 +80,21 @@ link: function($scope, element) {
     function renderImage() {
         preloadImage($scope.photo.thumbnail_path, function(path) {
             image.attr('src', path).addClass('fadeIn');
-
-            // 是否通过手机拍照新添加的图片
-            if ($scope.photo.newPhotoLoadedDeferred) {
-                $scope.$apply(function() {
-                    $scope.photo.newPhotoLoadedDeferred.resolve();
-                });
-            }
         });
     }
     function preloadImage(path, callback) {
         var temp = new Image();
+        if ($scope.photo.isPhotoSnap) {
+            $scope.photo.circleLoading = true;
+        }
         temp.onload = function() {
             temp = temp.onload = null;
             callback(path);
+            if ($scope.photo.isPhotoSnap) {
+                $scope.$apply(function() {
+                    $scope.photo.circleLoading = false;
+                });
+            }
         };
         temp.src = path;
     }
