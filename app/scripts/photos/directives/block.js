@@ -6,11 +6,11 @@ define([
     ], function(
         angular,
         template,
-        jQuery,
+        $,
         _
     ) {
 'use strict';
-return ['$q', function($q) {
+return [function() {
 return {
 
 template: template,
@@ -81,26 +81,27 @@ link: function($scope, element) {
         if ($scope.photo.isPhotoSnap) {
             $scope.photo.circleLoading = true;
         }
-        preloadImage($scope.photo.thumbnail_path).then(function(path) {
+        preloadImage($scope.photo.thumbnail_path).done(function(path) {
             image.attr('src', path).addClass('fadeIn');
             if ($scope.photo.isPhotoSnap) {
-                $scope.photo.circleLoading = false;
+                $scope.$apply(function() {
+                    $scope.photo.circleLoading = false;
+                });
             }
         });
     }
 
     function preloadImage(path) {
-        var defer = $q.defer();
+        var defer = $.Deferred();
         var temp = new Image();
         temp.onload = function() {
             temp = temp.onload = null;
-            $scope.$apply(function() {
-                defer.resolve(path);
-            });
+            defer.resolve(path);
         };
         temp.src = path;
-        return defer.promise;
+        return defer;
     }
+
     function relayout(layout) {
         layout = layout[$scope.$index];
         element.css({
