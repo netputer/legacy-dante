@@ -81,7 +81,7 @@ link: function($scope, element) {
         if ($scope.photo.isPhotoSnap) {
             $scope.photo.circleLoading = true;
         }
-        preloadImage($scope.photo.thumbnail_path).done(function(path) {
+        return preloadImage($scope.photo.thumbnail_path).then(function(path) {
             image.attr('src', path).addClass('fadeIn');
             if ($scope.photo.isPhotoSnap) {
                 $scope.$apply(function() {
@@ -99,7 +99,7 @@ link: function($scope, element) {
             defer.resolve(path);
         };
         temp.src = path;
-        return defer;
+        return defer.promise();
     }
 
     function relayout(layout) {
