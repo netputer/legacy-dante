@@ -481,7 +481,7 @@ $scope.selectAlbum = function(album, selected) {
 };
 
 // Real-time photo tips
-if ($window.localStorage.getItem('knownRealTimePhoto')) {
+if ($window.localStorage.getItem('photoSnapIntroHide')) {
     $scope.showRealTimePhotoIntro = false;
 } else {
     $scope.showRealTimePhotoIntro = true;
@@ -489,7 +489,7 @@ if ($window.localStorage.getItem('knownRealTimePhoto')) {
 
 $scope.hideRealTimePhotoIntro = function() {
     $scope.addRealTimePhotoIntroHideClass = true;
-    $window.localStorage.setItem('knownRealTimePhoto', true);
+    $window.localStorage.setItem('photoSnapIntroHide', true);
 };
 
 

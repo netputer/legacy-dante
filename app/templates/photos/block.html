@@ -1,13 +1,6 @@
 <div class="wd-block" ng-class="{'wd-block-selected': photo.selected, 'wd-block-selecting': selectedPhotos().length}">
     <div class="photo"></div>
-    <div class="wd-circle-loading" ng-if="photo.newPhotoLoadedDeferred">
-        <div class="left hold">
-            <div class="pie"></div>
-        </div>
-        <div class="right hold">
-            <div class="pie"></div>
-        </div>
-    </div>
+    <div wd-circle-loading ng-if="photo.newPhotoLoadedDeferred"></div>
     <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')"></div>
     <div wd-checkbox class="wd-block-select"
         ng-if="!$root.READ_ONLY_FLAG"
