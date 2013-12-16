@@ -141,7 +141,7 @@ wdEventEmitter(conversations);
 
 function notify(message) {
     if (!wdWindowFocus.getStatus() || $route.current.locals.nav !== 'messages') {
-        wdDesktopNotification.showNewMessage($rootScope.DICT.messages.NEW_MESSAGE_TIP.replace('$$$$', message.address), message.body, function() {
+        wdDesktopNotification.showNewMessage($rootScope.DICT.messages.NEW_MESSAGE_TIP.replace('$$$$', message.addresses[0]), message.body, function() {
             $location.path('/messages').search('show', message.cid);
             $window.focus();
         });
