@@ -78,25 +78,28 @@ link: function($scope, element) {
     }
 
     function renderImage() {
-        preloadImage($scope.photo.thumbnail_path, function(path) {
-            image.attr('src', path).addClass('fadeIn');
-        });
-    }
-    function preloadImage(path, callback) {
-        var temp = new Image();
         if ($scope.photo.isPhotoSnap) {
             $scope.photo.circleLoading = true;
         }
+        preloadImage($scope.photo.thumbnail_path).then(function(path) {
+            image.attr('src', path).addClass('fadeIn');
+            if ($scope.photo.isPhotoSnap) {
+                $scope.photo.circleLoading = false;
+            }
+        });
+    }
+
+    function preloadImage(path) {
+        var defer = $q.defer();
+        var temp = new Image();
         temp.onload = function() {
             temp = temp.onload = null;
-            callback(path);
-            if ($scope.photo.isPhotoSnap) {
-                $scope.$apply(function() {
-                    $scope.photo.circleLoading = false;
-                });
-            }
+            $scope.$apply(function() {
+                defer.resolve(path);
+            });
         };
         temp.src = path;
+        return defer.promise;
     }
     function relayout(layout) {
         layout = layout[$scope.$index];
