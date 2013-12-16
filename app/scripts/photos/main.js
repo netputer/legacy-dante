@@ -15,7 +15,8 @@ define([
     'photos/directives/gallery',
     'common/main',
     'photos/services/photos',
-    'photos/services/albums'
+    'photos/services/albums',
+    'photos/services/photo-setting'
 ], function(
     angular,
     showcase,
@@ -33,7 +34,8 @@ define([
     gallery,
     common,
     photos,
-    albums
+    albums,
+    photoSetting
 ) {
 'use strict';
 // jshint unused:false
@@ -58,6 +60,7 @@ angular.module('wdPhotos', ['wdCommon', 'ngResource'])
         return $resource('/resource/photos/:id', {id: '@id'});
     }])
     .factory('wdpAlbums', albums)
+    .factory('wdpPhotoSetting', photoSetting)
     .controller('galleryController', galleryController);
 
 });

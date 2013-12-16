@@ -11,10 +11,10 @@ define([
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
-        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice',
+        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', 
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
-         wdSharing,   wdpAlbums,   wdToast, wdDevice) {
+         wdSharing,   wdpAlbums,   wdToast, wdDevice, wdpPhotoSetting) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -60,12 +60,12 @@ if ($scope.serverMatchRequirement) {
     if ($window.chrome &&
         $window.chrome.webstore &&
         !$scope.$root.READ_ONLY_FLAG &&
-        !localStorage.getItem('photosExtensionInstalled') &&
+        wdpPhotoSetting.chromePhotoExtensionTipsEnabled() &&
         !angular.element($window.document.documentElement).hasClass('photos-extension-installed')) {
         chromeExtensionNotification = setTimeout(function() {
             wdNotification.notify($scope, extensionNotificationTemplate)
                 .then(null, function() {
-                    localStorage.setItem('photosExtensionInstalled', true);
+                    wdpPhotoSetting.chromePhotoExtensionTipsEnabled(true);
                 });
         }, 3000);
     }
@@ -476,12 +476,15 @@ $scope.selectAlbum = function(album, selected) {
 };
 
 // Real-time photo tips
-} else {
+if (wdpPhotoSetting.photoSnapIntroducesEnabled()) {
     $scope.showPhotoSnapIntro = true;
+} else {
+    $scope.showPhotoSnapIntro = false;
 }
 
-$scope.hideRealTimePhotoIntro = function() {
-    $scope.addRealTimePhotoIntroHideClass = true;
+$scope.hidePhotoSnapIntro = function() {
+    $scope.addPhotoSnapIntroHideClass = true;
+    wdpPhotoSetting.photoSnapIntroducesEnabled(true);
 };
 
 
