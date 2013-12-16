@@ -55,5 +55,6 @@
     "SOME_FILES_UNSUPPORT_CONTENT": "Some file extensions are invalid. Only JPG, GIF or PNG are supported.",
     "UNSUPPORT_MODAL_BUTTON_OK": "OK",
     "DRAG_TITLE": "Drop images here",
-    "DRAG_TIP": "Adds images to your phone."
+    "DRAG_TIP": "Adds images to your phone.",
+    "VIEW": "View"
 }

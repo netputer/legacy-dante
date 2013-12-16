@@ -358,6 +358,7 @@ $scope.connectFacebook = function(photo) {
 function uploadPhotoSuccessFun(resp) {
     $scope.visibleLoading = false;
     $scope.isShowSuccessTip = true;
+    $scope.photoId = resp.id;
 
     $timeout(function() {
         $scope.isShowShareModal = false;

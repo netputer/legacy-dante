@@ -46,7 +46,9 @@
         <textarea ng-model="$parent.shareText" class="share-textarea" placeholder="Write something about this photo..." ng-readonly="textareaReadonly"></textarea>
         <div class="share-tip-wrapper">
             <div class="wd-loading wd-loading-inline share-loading in-footer" data-visible="visibleLoading"></div>
-            <span class="share-success-tip share-tip" ng-show="isShowSuccessTip">{{$root.DICT.photos.SHARE_SUCCESS_TIP}}</span>
+            <span class="share-success-tip share-tip" ng-show="isShowSuccessTip">{{$root.DICT.photos.SHARE_SUCCESS_TIP}}
+                <a ng-href="https://www.facebook.com/photo.php?fbid={{photoId}}" target="_blank" class="view-facebook-photo">{{$root.DICT.photos.VIEW}}</a>
+            </span>
             <span class="share-faild-tip share-tip" ng-show="isShowFaildTip">
                 {{$root.DICT.photos.SHARE_FAIL_TIP}}
                 <a href="" ng-click="uploadAndSharePhoto(true);$root.GA('share:retry_share_facebook')">{{$root.DICT.photos.SHARE_RETRY}}<a/>
@@ -58,8 +60,8 @@
             <span class="checking-facebook-tip" ng-show="isShowCheckingFBTip">{{$root.DICT.photos.CHECKING_FACEBOOK_TIP}}</span>
         </div>
         <div class="footer-button-wrapper" ng-show="isShowFooter">
-            <a href="" class="btn" ng-click="cancelShare();$root.GA('share:cancel_share_facebook')">Cancel</a>
-            <a href="" class="btn btn-primary" ng-click="uploadAndSharePhoto();$root.GA('share:facebook_share')" ng-disabled="shareBtnDisabled">Share</a>
+            <button class="btn" ng-click="cancelShare();$root.GA('share:cancel_share_facebook')">Cancel</button> 
+            <button class="btn btn-primary" ng-click="uploadAndSharePhoto();$root.GA('share:facebook_share')" ng-disabled="shareBtnDisabled">Share</button>
         </div>
     </div>
 
