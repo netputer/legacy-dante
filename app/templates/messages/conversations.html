@@ -183,7 +183,6 @@
                                 <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && m.isDelivered">{{ $root.DICT.messages.MESSAGE_STATUS_REPORTER.replace('$$', (m.date | messageDate:'HH:mm')) }}</span>
                                 <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && !m.isDelivered">{{ m.date | messageDate:'HH:mm' }}</span>
                                 <a href="" class="wdmer-b-del"
-                                    ng-if="!$root.SDK_19"
                                     ng-show="!m.isPending"
                                     bs-tooltip="{{$root.DICT.messages.ACTION_DELETE}}"
                                     ng-click="removeMessage(activeConversation, m);$root.GA('messages:delete_message')"

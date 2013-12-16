@@ -14,6 +14,16 @@
         .text-prompt {
             display: none;
         }
+        .wdme-block {
+            .wdme-row:hover {
+                .wdmer-b-date {
+                    display: inline-block;
+                }
+                .wdmer-b-del {
+                    display: none;
+                }
+            }
+        }
     }
 
     .wdm-alert {
