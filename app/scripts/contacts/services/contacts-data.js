@@ -99,6 +99,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
     $rootScope.$on('signout', function() {
         global.contacts = [];
+        global.checkedList = [];
     });
 
     function deselectAll(){
