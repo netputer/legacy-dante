@@ -6,7 +6,7 @@ define([
     ], function(
         angular,
         template,
-        jQuery,
+        $,
         _
     ) {
 'use strict';
@@ -78,18 +78,30 @@ link: function($scope, element) {
     }
 
     function renderImage() {
-        preloadImage($scope.photo.thumbnail_path, function(path) {
+        if ($scope.photo.isPhotoSnap) {
+            $scope.photo.circleLoading = true;
+        }
+        return preloadImage($scope.photo.thumbnail_path).then(function(path) {
             image.attr('src', path).addClass('fadeIn');
+            if ($scope.photo.isPhotoSnap) {
+                $scope.$apply(function() {
+                    $scope.photo.circleLoading = false;
+                });
+            }
         });
     }
-    function preloadImage(path, callback) {
+
+    function preloadImage(path) {
+        var defer = $.Deferred();
         var temp = new Image();
         temp.onload = function() {
             temp = temp.onload = null;
-            callback(path);
+            defer.resolve(path);
         };
         temp.src = path;
+        return defer.promise();
     }
+
     function relayout(layout) {
         layout = layout[$scope.$index];
         element.css({

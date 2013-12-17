@@ -1,0 +1,92 @@
+$circle-loading-foreground: $standard-green;
+$circle-loading-background: #f5f5f5;
+.wd-circle-loading {
+    $diameter: 20px;
+    $fix: 100%;
+    $timer: 8s;
+    border: 1px solid $standard-green;
+    border-radius: 100%;
+    @include position(absolute, 50% 0 0 50%);
+    margin-left: -$diameter/2 + 1;
+    margin-top: -$diameter/2 + 1;
+    width: $diameter;
+    height: $diameter;
+    background-color: $circle-loading-background;
+
+    .hold {
+        position: absolute;
+        width: $fix;
+        height: $fix;
+        clip: rect(0px, $diameter, $diameter, $diameter/2);
+        border-radius: $fix;
+    }
+
+    .pie {
+        position: absolute;
+        width: $fix;
+        height: $fix;
+        border-radius: $fix;
+        clip: rect(0px, $diameter/2, $diameter, 0px);
+        background-color: $circle-loading-foreground;
+    }
+
+    .left .pie {
+        @include animation(wd-circle-loading-left $timer/2 linear infinite);
+    }
+
+    .right {
+        @include transform(rotate(180deg));
+    }
+
+    .right .pie {
+        @include animation(wd-circle-loading-right $timer/2 linear infinite);
+    }
+}
+
+@include keyframes(wd-circle-loading-left) {
+    0% {
+        @include transform(rotate(0deg));
+    }
+    25% {
+        @include transform(rotate(180deg));
+    }
+    50% {
+        @include transform(rotate(180deg));
+    }
+    51% {
+        @include transform(rotate(0deg));
+    }
+    75% {
+        @include transform(rotate(180deg));
+    }
+    99% {
+        @include transform(rotate(180deg));
+    }
+    100% {
+        @include transform(rotate(0deg));
+    }
+}
+
+@include keyframes(wd-circle-loading-right) {
+    0% {
+        @include transform(rotate(0deg));
+    }
+    25% {
+        @include transform(rotate(0deg));
+    }
+    50% {
+        @include transform(rotate(180deg));
+    }
+    51% {
+        @include transform(rotate(0deg));
+    }
+    75% {
+        @include transform(rotate(0deg));
+    }
+    99% {
+        @include transform(rotate(180deg));
+    }
+    100% {
+        @include transform(rotate(0deg));
+    }
+}

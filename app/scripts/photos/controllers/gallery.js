@@ -11,10 +11,10 @@ define([
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
-        'wdSharing', 'wdpAlbums', 'wdToast',
+        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', 
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
-         wdSharing,   wdpAlbums,   wdToast) {
+         wdSharing,   wdpAlbums,   wdToast, wdDevice, wdpPhotoSetting) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -23,8 +23,7 @@ $scope.loaded = false;
 $scope.allLoaded = false;
 $scope.layout = null;
 $scope.previewPhoto = null;
-
-
+$scope.deviceName = wdDevice.getDevice().model;
 
 // A temp solution.
 // Delegate '$scope.photos' to 'wdpPhotos.photos'
@@ -61,18 +60,18 @@ if ($scope.serverMatchRequirement) {
     if ($window.chrome &&
         $window.chrome.webstore &&
         !$scope.$root.READ_ONLY_FLAG &&
-        !localStorage.getItem('photosExtensionInstalled') &&
+        wdpPhotoSetting.chromePhotoExtensionTipsEnabled() &&
         !angular.element($window.document.documentElement).hasClass('photos-extension-installed')) {
         chromeExtensionNotification = setTimeout(function() {
             wdNotification.notify($scope, extensionNotificationTemplate)
                 .then(null, function() {
-                    localStorage.setItem('photosExtensionInstalled', true);
+                    wdpPhotoSetting.chromePhotoExtensionTipsEnabled(true);
                 });
         }, 3000);
     }
 
     wdpPhotos.on('add.wdp', function(e, p) {
-        // do nothing...
+        $scope.hidePhotoSnapIntro();
     }).on('remove.wdp', function(e, p) {
         $scope.$broadcast('wdp:photos:remove', [p]);
     });
@@ -474,6 +473,18 @@ $scope.updateAlbums = function() {
 
 $scope.selectAlbum = function(album, selected) {
     album.visible = selected;
+};
+
+// Real-time photo tips
+if (wdpPhotoSetting.photoSnapIntroducesEnabled()) {
+    $scope.showPhotoSnapIntro = true;
+} else {
+    $scope.showPhotoSnapIntro = false;
+}
+
+$scope.hidePhotoSnapIntro = function() {
+    $scope.addPhotoSnapIntroHideClass = true;
+    wdpPhotoSetting.photoSnapIntroducesEnabled(true);
 };
 
 

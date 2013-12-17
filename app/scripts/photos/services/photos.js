@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdEventEmitter', '$rootScope', 'wdSocket', 'Photos',
-function(wdEventEmitter,   $rootScope,   wdSocket,   Photos) {
+return ['wdEventEmitter', '$rootScope', 'wdSocket', 'Photos', '$q',
+function(wdEventEmitter,   $rootScope,   wdSocket,   Photos, $q) {
 
 var photos = {
     collection: [],
@@ -39,6 +39,8 @@ wdSocket.on('photos_add.wdp', function(e, message) {
         var photo = photos.getById(id);
         if (!photo) {
             Photos.get({id: id}, function(p) {
+                // 使用 PhotoSnap 功能通过手机拍照得到的图片
+                p.isPhotoSnap = true;
                 photos.merge(p);
                 photos.trigger('add', [photos.getById(p.id)]);
             });

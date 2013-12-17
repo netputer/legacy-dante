@@ -11,6 +11,59 @@
             padding-top: 10px;
         }
     }
+
+    .photo-snap-intro {
+        height: 360px;
+        width: auto;
+        margin: 0 auto;
+        @include transition(all $global-transition-duration);
+        @include background-retina("isolate/photo-snap-bg.png", "isolate/photo-snap-bg-2x.png");
+        background-repeat: no-repeat;
+        h1 {
+            font-size: 32px;
+            color: #333;
+            margin: 0;
+        }
+        h2 {
+            height: 16px;
+            line-height: 16px;
+            font-size: 16px;
+            color: #777;
+            margin: 20px 0 50px 0;
+        }
+        .content {
+            height: 100%;
+            width: 1140px;
+            margin: 0 auto;
+            .left {
+                width: 430px;
+                float: left;
+                text-align: right;
+                margin-right: 90px;
+                margin-top: 100px;
+                .btn {
+                    width: 92px;
+                    height: 34px;
+                    font-size: 14px;
+                    line-height: 34px;                    
+                }
+            }
+            .right {
+                width: 620px;
+                float: left;
+                margin-top: 50px;
+                .icon-take-photo {
+                    margin: 0px;
+                }
+            }
+        }
+        &.hide {
+            display: block;
+            opacity: 0;
+            height: 0px;
+        }
+    }
+
     .user-help a{
         font-size: 12px;
     }
@@ -77,9 +130,38 @@
         padding: 4px;
         @include position(absolute, 10px 21px 0 0);
     }
-    .wdp-blank-album-settings{
-        margin-left: 5px;
+
+    .wd-photo-blank {
+        @include position(absolute, 50px 0px 0px 0px);
+        background-color: #fff;
+        .content {
+            width: 1080px;
+            height: 270px;
+            @include position(absolute, 50% 0 0 50%);
+            margin-top: -135px;
+            margin-left: -540px;
+            h1 {
+                font-size: 25px;
+            }
+            h2 {
+                font-size: 15px;
+                color: #999;
+            }
+            .left {
+                width: 620px;
+                float: left;
+                .icon-take-photo {
+                    margin: 0px;
+                }
+            }
+            .right {
+                width: 430px;
+                float: left;
+                float: left;
+            }
+        }
     }
+
     @import "showcase"; // showcase consists of group of photos
     @import "block";    // each photos is contained in a block
 

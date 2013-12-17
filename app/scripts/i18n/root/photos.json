@@ -56,5 +56,10 @@
     "UNSUPPORT_MODAL_BUTTON_OK": "OK",
     "DRAG_TITLE": "Drop images here",
     "DRAG_TIP": "Adds images to your phone.",
-    "VIEW": "View"
+    "VIEW": "View",
+    "PHOTO_SNAP": {
+        "H1": "Try PhotoSnap",
+        "H2": "Take a picture on your $$$$. See it instantly.",
+        "BUTTON": "Got it"
+    }
 }

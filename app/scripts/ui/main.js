@@ -4,14 +4,16 @@ define([
     'ui/services/toast',
     'ui/directives/checkbox',
     'ui/directives/drag-enter-area',
-    'ui/directives/setting-switch'
+    'ui/directives/setting-switch',
+    'ui/directives/wd-circle-loading'    
 ], function(
     angular,
     popmenu,
     toast,
     checkbox,
     dragEnterArea,
-    settingSwitch
+    settingSwitch,
+    wdCircleLoading
 ) {
 'use strict';
 
@@ -23,5 +25,6 @@ angular.module('wd.ui', [])
     .directive('wdCheckbox', checkbox)
     .directive('wdDragEnterArea', dragEnterArea)
     .directive('wdSettingSwitch', settingSwitch)
+    .directive('wdCircleLoading', wdCircleLoading)    
     .factory('wdToast', toast);
 });
