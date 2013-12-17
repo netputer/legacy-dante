@@ -15,9 +15,9 @@ function SearchConversation(results) {
     var contactIds = [];
     var photoPaths = [];
     results.forEach(function(m) {
-        if (addresses.indexOf(m.address) === -1) {
-            addresses.push(m.address);
-            contactNames.push(m.contact_name == null ? '' : m.contact_name);
+        if (addresses.indexOf(m.addresses[0]) === -1) {
+            addresses.push(m.addresses[0]);
+            contactNames.push(m.contact_names[0] == null ? '' : m.contact_names[0]);
             contactIds.push(-1);
             photoPaths.push('');
         }
