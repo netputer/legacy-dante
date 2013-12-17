@@ -62,7 +62,6 @@
             "CONTENT": "Delete the selected contact(s) from your phone?",
             "OK": "Delete",
             "CANCEL": "Cancel",
-            "ASK": "Delete the selected contact(s) from your phone?",
             "READ_ONLY": "Those are read-only contact(s), so can't be deleted:"
         },
         "FAILED_DELETE": {
