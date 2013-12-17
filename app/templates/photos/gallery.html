@@ -80,7 +80,6 @@
             <button class="btn" ng-click="cancelShare();$root.GA('share:cancel_share_facebook')">Cancel</button> 
             <button class="btn btn-primary" ng-click="uploadAndSharePhoto();$root.GA('share:facebook_share')" ng-disabled="shareBtnDisabled">Share</button>
         </div>
-        <div class="wd-circle-loading"></div>
     </div>
 
     <div class="wd-photo-blank" ng-if="!photos.length && firstScreenLoaded">

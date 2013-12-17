@@ -350,7 +350,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
         }
 
-        var alertTpl = '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.ASK+'</p>';
+        var alertTpl = '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.CONTENT+'</p>';
         if (read_only.length > 0) {
             alertTpl += '<p>'+$scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.READ_ONLY+'</p><ul>';
             for (i = 0 , l = read_only.length; i < l ; i += 1) {
@@ -359,13 +359,9 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             alertTpl += '</ul>';
         }
 
-        setTimeout(function() {
-            $('.modal-body').html(alertTpl);
-        },300);
-
         wdAlert.confirm(
             $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.TITLE,
-            $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.CONTENT,
+            alertTpl,
             $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.OK,
             $scope.$root.DICT.contacts.DIALOG.DELETE_CONTACT.CANCEL
         ).then(function() {
