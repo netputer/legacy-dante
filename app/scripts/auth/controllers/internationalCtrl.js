@@ -321,7 +321,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
         function autoAccess() {
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
             wdGoogleSignIn.getDevices().then(function(list) {
-                if (!list.length) {
+                if (list.length > 0) {
+                    $scope.isOldUser = wdGoogleSignIn.isOldUser();
                     showDevicesList(list);
                     return;
                 }
