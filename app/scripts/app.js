@@ -142,7 +142,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('messages'),
-                versionSupport: minVersionRequirement(3883)
+                versionSupport: minVersionRequirement(3893)
             },
             reloadOnSearch: true
         });
