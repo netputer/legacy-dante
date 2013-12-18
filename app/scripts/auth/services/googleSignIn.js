@@ -266,7 +266,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 GA('check_sign_in:get_devices:failed_'+ xhr.status );
                 $rootScope.$apply(function() {
                     $log.error('Getting devices failed');
-                    defer.reject();
+                    defer.reject(xhr);
                 });
             });
             return defer.promise;
@@ -279,7 +279,8 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     me.getDevices().then(function(list) {
                         global.devicesList.splice(0, global.devicesList.length);
                         Array.prototype.push.apply(global.devicesList, list);
-                    }, function() {
+                    }, function(xhr) {
+                        GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_loopDevicesFailed');
                         return me.checkToken();
                     }).then(null, function() {
                         return me.refreshToken(true);

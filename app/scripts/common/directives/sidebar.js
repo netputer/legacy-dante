@@ -110,11 +110,12 @@ return [function() {
                 $timeout(function() {
                     $scope.isLoadingDevices = true;
                     (function getDevices() {
-                        wdGoogleSignIn.getDevices().then(function(list){
+                        wdGoogleSignIn.getDevices().then(function(list) {
                             $scope.isLoadingDevices = false;
                             $scope.deviceList = getListData(list);
-                        },function(){
-                            wdGoogleSignIn.checkToken().then(function(){
+                        }, function(xhr) {
+                            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_sidebarRefreshDevicesFailed');
+                            wdGoogleSignIn.checkToken().then(function() {
                                 getDevices();
                             }, function() {
                                 return wdGoogleSignIn.refreshToken(true);

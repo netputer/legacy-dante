@@ -141,8 +141,10 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         loopGetDevicesList(false);
                     });
 
-                }, function() {
-                    $scope.connectDevice(deviceData);
+                }, function(xhr) {
+                    GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
+                    // 可能死循环，暂时去掉，之后可以考虑增加重试次数。
+                    // $scope.connectDevice(deviceData);
                 });
 
                 $scope.state = 'standby';
@@ -268,7 +270,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 wdGoogleSignIn.getDevices().then(function(list) {
                     showDevicesList(list);
                     $scope.isOldUser = wdGoogleSignIn.isOldUser();
-                },function() {
+                },function(xhr) {
+                    GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_googleSignInFailed');
                     wdGoogleSignIn.checkToken().then(function() {
                         googleSignIn();
                     }, function() {
@@ -341,7 +344,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     showDevicesList(list);
                     $scope.autoAuth = false;
                 }
-            },function() {
+            },function(xhr) {
+                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_autoAccessFailed');
                 autoSignInGoogle();
             });
         }
@@ -381,7 +385,8 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                         $scope.isLoadingDevices = false;
                         $scope.devicesList = list;
                         loopGetDevicesList(false);
-                    },function() {
+                    },function(xhr) {
+                        GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
                         wdGoogleSignIn.checkToken().then(function(){
                             signoutFromDevices();
                         },function(){
