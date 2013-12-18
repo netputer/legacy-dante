@@ -20,11 +20,13 @@
         @include background-retina("isolate/photo-snap-bg.png", "isolate/photo-snap-bg-2x.png");
         background-repeat: no-repeat;
         h1 {
+            font-weight: $global-font-weight-normal;
             font-size: 32px;
             color: #333;
             margin: 0;
         }
         h2 {
+            font-weight: $global-font-weight-normal;
             height: 16px;
             line-height: 16px;
             font-size: 16px;
@@ -141,9 +143,11 @@
             margin-top: -135px;
             margin-left: -540px;
             h1 {
+                font-weight: $global-font-weight-normal;
                 font-size: 25px;
             }
             h2 {
+                font-weight: $global-font-weight-normal;
                 font-size: 15px;
                 color: #999;
             }
