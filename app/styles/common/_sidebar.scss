@@ -35,6 +35,14 @@ $sidebar-animation-time: 500ms;
         height: 100%;
     }
 
+    .sidebar-shadow-place {
+        @include position(absolute, 0px 0 0 0px);
+        height: 100%;
+        width: 2px;
+        @include box-shadow(0px 0 4px rgba(0, 0, 0, 0.3));
+        background: #2B2B2B;
+    }
+
     .devices-container,
     .settings-container {
         width: 273px;
