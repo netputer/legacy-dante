@@ -185,7 +185,8 @@ Socket.prototype = {
             } else {
                 wdDevice.signout();
             }
-        }, function() {
+        }, function(xhr) {
+            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_socketRefreshDeviceAndConnectFailed');
             self.showDisconnectPanel();
         });
     }
