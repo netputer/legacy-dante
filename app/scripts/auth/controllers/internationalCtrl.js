@@ -121,9 +121,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             .error(function(reason, status, headers, config) {
                 wdDevice.lightDeviceScreen(deviceData.id);
                 deviceData.loading = false;
+                $scope.isLoadingDevices = false;
                 getUserInfo();
                 wdGoogleSignIn.getDevices().then(function(list) {
-                    $scope.isLoadingDevices = false;
                     $scope.devicesList = list;
                     wdAlert.confirm(
                         $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
