@@ -88,8 +88,8 @@
                 <i class="icon-take-photo"></i>
             </div>
             <div class="right">
-                <h1>Take a picture on your {{deviceName}}</h1>
-                <h2>See it instantly.</h2>
+                <h1>{{$root.DICT.photos.PHOTO_SNAP.H1}}</h1>
+                <h2 ng-bind-html="$root.DICT.photos.PHOTO_SNAP.H2.replace('$$$$', deviceName)"></h2>
             </div>
         </div>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
