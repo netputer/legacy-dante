@@ -69,7 +69,7 @@
                         <div class="status">&nbsp;
                             <span ng-show="c.hasError"><i class="wdmcr-icon-alert"></i></span>
                             <span ng-if="c.hasPending"><i class="wdmcr-icon-running"></i></span>
-                            <span class="badge" ng-show="c.unreadMessageCount">{{ c.unreadMessageCount }}</span>
+                            <span class="badge" ng-show="c.unreadMessageCount && !$root.SDK_19">{{ c.unreadMessageCount }}</span>
                         </div>
                         <div>
                             {{ c.date | messageDate:'MMM D' }}
@@ -206,6 +206,7 @@
                 <form ng-submit="sendMessage(activeConversation)">
                     <div class="wdme-ta">
                         <textarea
+                            autofocus
                             ng-model="activeConversation.draft"
                             wdm-textarea
                             msd-elastic

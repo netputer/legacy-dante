@@ -1,7 +1,7 @@
 .wdm-results {
     @include position;
     height: $global-line-height;
-    padding: ($wdm-actions-height - $global-line-height)/2 10px;
+    padding: 10px;
     padding-right: 50px;
     @include ellipsis;
     background: #f5f5f5;
