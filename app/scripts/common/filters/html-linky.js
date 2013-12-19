@@ -24,7 +24,7 @@ return function(input, target) {
         url = match[0];
         // if we did not match ftp/http/mailto then assume mailto
         if (match[2] === match[3]) {
-        url = 'mailto:' + url;
+            url = 'mailto:' + url;
         }
         i = match.index;
         addText(raw.substr(0, i));
@@ -48,7 +48,7 @@ return function(input, target) {
             html.push(target);
             html.push('" ');
         }
-        
+
         html.push('href="');
         html.push(url);
         html.push('">');

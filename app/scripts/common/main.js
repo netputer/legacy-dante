@@ -33,7 +33,7 @@ define([
     'common/directives/scroll-detect',
     'common/services/communicate-snappea-com',
     'common/services/user-settings',
-    'common/filters/htmlLinky'
+    'common/filters/html-linky'
 ], function(
     angular,
     loading,
