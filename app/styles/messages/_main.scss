@@ -39,9 +39,17 @@
             height: 0;
             padding: 0;
         }
+        .tip-content {
+            width: 98%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0;
+        }
         .close-alert {
-            @include position(absolute, 6px 10px 0 0);
+            @include position(absolute, 6px 6px 0 0);
             cursor: pointer;
+            padding: 0 4px;
         }
     }
 
