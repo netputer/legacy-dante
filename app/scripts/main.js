@@ -14,6 +14,7 @@ require.config({
         bootstrap: 'vendor/bootstrap',
         fineuploader: 'vendor/fineuploader/fineuploader',
         moment: '../components/moment/moment',
+        emoji: '../components/emoji/lib/emoji',
         io: 'vendor/socket.io.wrapper',
         // requirejs plugins
         text: '../components/requirejs-text/text',

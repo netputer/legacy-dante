@@ -98,7 +98,6 @@ _.extend(ExtendedConversationsCollection.prototype, {
                     { params: params }
                 ).then(function success(response) {
                     GA('perf:conversations_fetch_duration:success:' + ((new Date()).getTime() - timeStart));
-
                     var rawData = [].concat(response.data);
                     if (response.data.length) {
                         this._cursor = response.data[response.data.length - 1].date;

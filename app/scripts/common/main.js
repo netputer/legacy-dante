@@ -32,7 +32,8 @@ define([
     'common/services/window-focus',
     'common/directives/scroll-detect',
     'common/services/communicate-snappea-com',
-    'common/services/user-settings'
+    'common/services/user-settings',
+    'common/filters/html-linky'
 ], function(
     angular,
     loading,
@@ -67,7 +68,8 @@ define([
     windowFocus,
     scrollDetect,
     communicateSnappeaCom,
-    userSettings
+    userSettings,
+    htmlLinky
 ) {
 // jshint unused:false
 'use strict';
@@ -106,5 +108,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdWindowFocus', windowFocus)
     .factory('wdDatabase', db)
     .factory('wdCommunicateSnappeaCom', communicateSnappeaCom)
-    .factory('wdUserSettings', userSettings);
+    .factory('wdUserSettings', userSettings)
+    // filters
+    .filter('htmlLinky', htmlLinky);
 });

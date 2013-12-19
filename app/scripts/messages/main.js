@@ -7,6 +7,7 @@ define([
     'messages/directives/loadmore',
     'messages/filters/ms',
     'messages/filters/message-date',
+    'messages/filters/emoji',
     'messages/directives/realtime',
     'messages/directives/textarea',
     'messages/directives/receiver',
@@ -35,6 +36,7 @@ define([
     loadmore,
     msFilter,
     messageDateFilter,
+    emojiFilter,
     realtime,
     textarea,
     receiver,
@@ -82,5 +84,6 @@ angular.module('wdMessages', ['wdCommon'])
     .directive('wdmAudio', audio)
     .filter('ms', msFilter)
     .filter('group', groupFilter)
-    .filter('messageDate', messageDateFilter);
+    .filter('messageDate', messageDateFilter)
+    .filter('emoji', emojiFilter);
 });

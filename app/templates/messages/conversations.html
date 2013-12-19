@@ -63,7 +63,10 @@
                             <span ng-switch-default>{{ c.displayNames.join(', ') }}</span>
                             <span ng-switch-when="0">New message</span>
                         </div>
-                        <div class="wdmcr-c-b"><span class="wdmcr-c-b-a" ng-if="c.isSearchResult">{{c.length}}</span>{{ c.snippet }}</div>
+                        <div class="wdmcr-c-b">
+                            <span class="wdmcr-c-b-a" ng-if="c.isSearchResult">{{c.length}}</span>
+                            <span ng-bind-html="c.snippet | emoji"></span>
+                        </div>
                     </div>
                     <div class="wdmcr-d">
                         <div class="status">&nbsp;
@@ -161,7 +164,7 @@
                                     </span>
                                     :
                                 </div>
-                                <div ng-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | linky:'_blank' "></div>
+                                <div ng-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | emoji | htmlLinky: '_blank'"></div>
                                 <div ng-if="m.isMMS">
                                     <h5 class="mms-title" ng-hide="!m.subject">{{ m.subject }}</h5>
                                     <div ng-repeat="part in m.mms_parts" class="mms-part">
