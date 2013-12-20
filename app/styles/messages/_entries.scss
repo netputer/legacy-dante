@@ -67,6 +67,7 @@
     .wdmer-a {
         @include position;
         max-width: 450px;
+        min-width: 20px;
         background: #e8e8e8;
         padding: 10px 15px;
         @include text-shadow(0 1px 0 rgba(#fff, 0.5));
