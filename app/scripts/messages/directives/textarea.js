@@ -22,7 +22,9 @@ link: function(scope, element, attributes) {
         $rootScope.messageFocusMessageTextarea = true;
     });
     element.on('blur', function() {
-        $rootScope.messageFocusMessageTextarea = false;
+        scope.$apply(function() {
+            $rootScope.messageFocusMessageTextarea = false;
+        });
     });
 }
 
