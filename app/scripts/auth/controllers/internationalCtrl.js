@@ -260,14 +260,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             $scope.userGuideStep += 1;
         };
 
-        //首次进入登陆界面
-        $window.googleSignInEventCenter.on('googleSignInCallback', function(e, data){
-            $scope.signInBtnDisabled = false;
-            if (data.authResult.access_token && !hasSignInGoogle()) {
-                googleSignIn();
-            }
-        });
-
         // 通过授权登陆后，执行的逻辑（第一次进入的登陆逻辑）
         function googleSignIn() {
             GA('check_sign_in:google_page:success');

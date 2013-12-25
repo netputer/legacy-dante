@@ -7,14 +7,12 @@
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
-                <button class="btn google-btn" wd-google-button
-                        ng-click = "clickSignInButton()"
-                        ng-disabled = "signInBtnDisabled">
-                    <i class="icon-google-btn" ng-show="!signInBtnDisabled"></i>
-                    <span class="google-btn-word" ng-show="!signInBtnDisabled">
+                <button class="btn google-btn"
+                        ng-click="clickGoogleSignInButton()">
+                    <i class="icon-google-btn"></i>
+                    <span class="google-btn-word">
                         {{$root.DICT.portal.GOOGLE_BUTTON}}
                     </span>
-                    <div class="wd-loading" data-visible="true" ng-show="signInBtnDisabled"></div>
                 </button>
                 <!-- google signin end -->
 
