@@ -33,7 +33,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             GA('check_sign_in:get_profile_all:all');
             var defer = $q.defer();
             var me = this;
-            var url = "http://push.snappea.com/v4/api/profile";
+            var url = 'http://push.snappea.com/v4/api/profile';
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -43,14 +43,14 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 timeout: 10000
             }).done(function( data ) {
                 GA('check_sign_in:get_profile:success');
-                $scope.$apply(function () {
+                $rootScope.$apply(function () {
                     global.profileInfo = data;
                     console.log(data);
                     defer.resolve(data);
                 });
             }).fail(function( data ) {
                 GA('check_sign_in:get_profile:failed');
-                $scope.$apply(function () {
+                $rootScope.$apply(function () {
                     console.log(data);
                     defer.reject(data);
                 });
@@ -128,7 +128,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             wdCommunicateSnappeaCom.googleSignOut();
             var defer = $q.defer();
             var me = this;
-            var url = "http://push.snappea.com/v4/api/profile";
+            var url = 'http://push.snappea.com/v4/api/logout';
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -138,7 +138,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 timeout: 10000
             }).done(function( data ) {
                 GA('check_sign_in:sign_out:success');
-                $scope.$apply(function () {
+                $rootScope.$apply(function () {
                     wdDevice.signout();
                     me.removeAccountInfo();
                     $log.log('Sign out success!');
@@ -147,7 +147,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             }).fail(function( data ) {
                 GA('check_sign_in:sign_out:failed');
                 $log.error('google signout failed.');
-                $scope.$apply(function () {
+                $rootScope.$apply(function () {
                     defer.reject();
                 });
             });
