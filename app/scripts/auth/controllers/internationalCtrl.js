@@ -81,6 +81,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
             deviceData = deviceData || wdDevice.getDevice();
             var authCode = deviceData.authcode;
             var ip = deviceData.ip;
+            var defer = $q.defer();
 
             $scope.state = 'loading';
             wdDev.setServer(ip);
@@ -115,6 +116,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 wdDevice.setDevice(deviceData);
                 wdDevice.startSignoutDetection();
                 wdDev.setMetaData(response);
+                defer.resolve();
                 $location.url($route.current.params.ref || '/');
                 $rootScope.$broadcast('signin');
             })
@@ -123,6 +125,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 deviceData.loading = false;
                 $scope.isLoadingDevices = false;
                 getUserInfo();
+                defer.reject();
                 wdGoogleSignIn.getDevices().then(function(list) {
                     $scope.devicesList = list;
                     wdAlert.confirm(
@@ -133,7 +136,11 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     ).then(function() {
                         GA('onboard:connect_confirm:retry');
                         $scope.isLoadingDevices = false;
-                        $scope.connectDevice(deviceData);
+                        $scope.connectDevice(deviceData).then(function() {
+                            GA('check_sign_in:connect_confirm_retry:success');
+                        }, function() {
+                            GA('check_sign_in:connect_confirm_retry:failed');
+                        });
                     }, function() {
                         GA('onboard:connect_confirm:cancel');
                         $scope.isLoadingDevices = false;
@@ -160,8 +167,9 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     action = 'unknown_' + status + ':' + duration;
                 }
                 GA('connect_device:connect:fail_' + action);
-                GA('check_sign_in:auth:fail_' + action);
+                GA('check_sign_in:auth:fail_' + action + '_' + deviceData.model);
             });
+            return defer.promise;
         };
 
         function loopGetDevicesList(isAutoSignIn) {
