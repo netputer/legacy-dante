@@ -160,7 +160,7 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     action = 'unknown_' + status + ':' + duration;
                 }
                 GA('connect_device:connect:fail_' + action);
-                GA('check_sign_in:auth:fail_' + action);
+                GA('check_sign_in:auth:fail_' + action + '_' + deviceData.model);
             });
         };
 
