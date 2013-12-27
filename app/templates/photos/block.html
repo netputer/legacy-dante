@@ -1,7 +1,13 @@
 <div class="wd-block" ng-class="{'wd-block-selected': photo.selected, 'wd-block-selecting': selectedPhotos().length}">
     <div class="photo"></div>
     <div wd-circle-loading ng-if="photo.circleLoading"></div>
-    <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')"></div>
+    <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')">
+        <div class="photo-info" ng-if="$root.remoteConnection.wap && !$root.remoteConnection.photos.loadImages">
+            <span>{{photo.display_name}}</span>
+            <span>{{photo.date_added | date:'MMM dd, yyyy'}}</span>
+            <span>{{photo.size | sizeFormat}} MB</span>
+        </div>
+    </div>
     <div wd-checkbox class="wd-block-select"
         ng-if="!$root.READ_ONLY_FLAG"
         ng-click="select(photo, $event.shiftKey);"

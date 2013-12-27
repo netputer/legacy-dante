@@ -1,7 +1,7 @@
 <section class="wdj-messages" ng-class="{'wdm-sdk-19': $root.SDK_19, 'show-wdm-alert': showWdmAlert, 'wdm-closing-alert': closingAlert}" >
-    <div class="wdm-alert" ng-if="showWdmAlert" ng-class="{'closing-alert': closingAlert}">
+    <div class="wd-alert" ng-if="showWdmAlert" ng-class="{'closing-alert': closingAlert}">
         <p class="tip-content">{{$root.DICT.messages.MESSAGE_ALERT_FOR_ANDROID_44}}</p>
-        <span class="close-alert" ng-click="hideWdmAlert()">×</span>
+        <span class="alert-action" ng-click="hideWdmAlert()">&times;</span>
     </div>
     <div class="wdm-layout">
         <section class="wdm-sub">
@@ -49,8 +49,8 @@
                         <div class="composited-avatar" ng-class="'multiple-' + c.avatarPaths.length">
                             <div ng-if="!c.avatarPaths.length" ng-class="c.addresses.length > 1 ? 'group-default' : 'single-default'"></div>
                             <div ng-repeat="path in c.avatarPaths track by $index">
-                                <img ng-if="c.contact_ids[$index] != -1 && path" ng-src="{{path}}"/>
-                                <div ng-if="c.contact_ids[$index] != -1 && !path" class="generated-avatar" ng-class="getPhotoColor">
+                                <img ng-if="c.contact_ids[$index] != -1 && path && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.messages.loadImages)" ng-src="{{path | wrapRemoteConnectionURL}}"/>
+                                <div ng-if="(c.contact_ids[$index] != -1 && !path) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.messages.loadImages && path)" class="generated-avatar" ng-class="getPhotoColor">
                                     {{c.displayNames[$index] | limitTo: 1}}
                                 </div>
                                 <div ng-if="c.contact_ids[$index] == -1" class="default-avatar"></div>
@@ -170,7 +170,7 @@
                                     <div ng-repeat="part in m.mms_parts" class="mms-part">
                                         <div ng-repeat="c in part" ng-switch="c.type" ng-class="{'mms-image-container': c.type === 'image'}">
                                             <p ng-switch-when="text" class="mms-text" ng-bind-html="c.content | linky:'_blank' "></p>
-                                            <img ng-switch-when="image" ng-src="{{ c.content }}" class="mms-image">
+                                            <img ng-switch-when="images" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.messages.loadImages ? '' : c.content}}" class="mms-image" >
                                             <div ng-switch-when="audio" wdm-audio class="mms-audio" audio="c">
                                             </div>
                                         </div>

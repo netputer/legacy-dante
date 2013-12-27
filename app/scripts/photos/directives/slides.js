@@ -8,8 +8,8 @@ define([
     angular
 ) {
 'use strict';
-return ['WDP_PLAYING_INTERVAL', '$rootScope', 'wdViewport', 'wdKey', 'GA',
-    function(WDP_PLAYING_INTERVAL, $rootScope, wdViewport, wdKey, GA) {
+return ['WDP_PLAYING_INTERVAL',   '$rootScope', 'wdViewport', 'wdKey', 'GA', 'wdAlert', '$filter', 'wdDev',
+    function(WDP_PLAYING_INTERVAL, $rootScope,   wdViewport,   wdKey,   GA,   wdAlert,   $filter,   wdDev) {
     return {
         template: template,
         replace: true,
@@ -76,8 +76,22 @@ return ['WDP_PLAYING_INTERVAL', '$rootScope', 'wdViewport', 'wdKey', 'GA',
                         GA('photos:slide:pause');
                     }
                     else {
-                        $scope.play();
-                        GA('photos:slide:play');
+                        if (wdDev.isWapRemoteConnection()) {
+                            wdAlert.confirm(
+                                $rootScope.DICT.photos.WAP_CONNECTION_SLIDES_COMFIRM.TITLE,
+                                $rootScope.DICT.photos.WAP_CONNECTION_SLIDES_COMFIRM.CONTENT,
+                                $rootScope.DICT.photos.WAP_CONNECTION_SLIDES_COMFIRM.OK,
+                                $rootScope.DICT.photos.WAP_CONNECTION_SLIDES_COMFIRM.CANCEL
+                            ).then(function() {
+                                $scope.play();
+                                GA('photos:slide:play');
+                            });
+                        } else {
+                            $scope.play();
+                            GA('photos:slide:play');
+                        }
+                        
+                        
                     }
                 };
                 $scope.togglePlayKeyboard = function() {
@@ -179,7 +193,9 @@ return ['WDP_PLAYING_INTERVAL', '$rootScope', 'wdViewport', 'wdKey', 'GA',
 
             function createAnimation() {
                 var img = angular.element('<img>');
-                img.attr('src', $scope.current.thumbnail_path);
+                if (!wdDev.isWapRemoteConnection() || !wdDev.getRemoteConnectionData('photos').loadImages){
+                    img.attr('src', $scope.current.thumbnail_path);
+                }
                 var body = angular.element('body');
 
                 var index = $scope.photos.indexOf($scope.current);

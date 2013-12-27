@@ -12,7 +12,7 @@
     <ul class="albums-container">
         <li ng-repeat="album in albumList" class="{{($index + 1) % 4 === 0 ? 'album-row-last-item' : ''}}">
             <div class="thumbnail-container">
-                <img ng-if="album.thumbnail_path" ng-src="{{album.thumbnail_path}}" class="album-thumbnail">
+                <img ng-if="album.thumbnail_path" ng-src="{{album.thumbnail_path | wrapRemoteConnectionURL}}" class="album-thumbnail">
                 <label class="action-select checkbox inline"
                     ng-click="selectAlbum(album, selected)">
                     <input type="checkbox" ng-checked="album.visible" ng-model="selected">

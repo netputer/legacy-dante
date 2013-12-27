@@ -61,5 +61,27 @@
         "H1": "Try PhotoSnap",
         "H2": "Take a picture on your $$$$. See it instantly.",
         "BUTTON": "Got it"
+    },
+    "WAP_CONNECTION_ALERT": {
+        "CONTENT": "You are using MobileConnect. To save your data plan, SnapPea isn’t loading photos.",
+        "ACTION": "Load pictures"
+    },
+    "WAP_CONNECTION_DOWNLOAD_COMFIRM": {
+        "TITLE": "This action uses mobile data",
+        "CONTENT": "MobileConnect will use $$$$ MB of your mobile data plan to download this photo.",
+        "OK": "Continue",
+        "CANCEL": "Cancel"
+    },
+    "WAP_CONNECTION_SLIDES_COMFIRM": {
+        "TITLE": "This action uses mobile data",
+        "CONTENT": "MobileConnect will use your mobile data plan to play slide show.",
+        "OK": "Continue",
+        "CANCEL": "Cancel"
+    },
+    "WAP_CONNECTION_UPLOAD_COMFIRM": {
+        "TITLE": "This action uses mobile data",
+        "CONTENT": "MobileConnect will use $$$$ MB of your mobile data plan to upload this photo.",
+        "OK": "Continue",
+        "CANCEL": "Cancel"
     }
 }

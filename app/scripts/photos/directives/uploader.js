@@ -8,8 +8,8 @@ define([
         _
     ) {
 'use strict';
-return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert',
-    function($q,   wdDev,   wdKeeper,   wdpImageHelper,   GA,   wdAlert) {
+return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filter',
+    function($q,   wdDev,   wdKeeper,   wdpImageHelper,   GA,   wdAlert,   $filter) {
     return {
         link: function(scope, element) {
             var keeper = null;
@@ -18,7 +18,7 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert',
             var uploader = new fineuploader.FineUploaderBasic({
                 button: element[0],
                 request: {
-                    endpoint: wdDev.wrapURL('/directive/photos/upload')
+                    endpoint: wdDev.wrapRemoteConnectionUploadURL('/directive/photos/upload')
                 },
                 validation: {
                     acceptFiles: 'image/*',
@@ -33,6 +33,32 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert',
                     onLeave: scope.$root.DICT.photos.UPLOAD_RELOAD
                 },
                 callbacks: {
+                    onValidateBatch: function(fileData) {
+                        var d = jQuery.Deferred();
+                        var size = 0;
+                        _.each(fileData, function(item) {
+                            size += item.size;
+                        });
+
+                        if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
+                            scope.$apply(function() {
+                                wdAlert.confirm(
+                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
+                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
+                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
+                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
+                                ).then(function() {
+                                    d.resolve();
+                                }, function() {
+                                    d.reject();
+                                });
+                            });
+                        } else {
+                            d.resolve();
+                        }
+                        
+                        return d.promise();
+                    },
                     onSubmit: function(id) {
                         var file = uploader.getFile(id);
                         var photoPromise = loadLocalPhoto(file);

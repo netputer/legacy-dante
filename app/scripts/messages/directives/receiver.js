@@ -143,7 +143,6 @@ link: function(scope, element) {
             ids.push(-1);
             photos.push('');
         });
-
         scope.activeConversation.extend({
             addresses: addresses,
             contact_names: names,

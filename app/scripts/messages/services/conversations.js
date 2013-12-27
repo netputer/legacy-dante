@@ -5,11 +5,11 @@ define([
 ) {
 'use strict';
 return ['wdmExtendedConversationsCollection', 'wdmConversationsCollection',
-        '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter',
-        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification', 'wdWindowFocus', '$route', '$location', '$window',
+        '$http', '$q', '$rootScope', 'wdSocket', 'wdEventEmitter', 
+        'wdmSearchConversation', 'wdmMessage', 'wdDatabase', 'GA', 'wdDesktopNotification', 'wdWindowFocus', '$route', '$location', '$window', 'wdDev',
 function(wdmExtendedConversationsCollection,   wdmConversationsCollection,
          $http,   $q,   $rootScope,   wdSocket,   wdEventEmitter,
-         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA, wdDesktopNotification, wdWindowFocus, $route, $location, $window) {
+         wdmSearchConversation,   wdmMessage,   wdDatabase,   GA,   wdDesktopNotification,   wdWindowFocus,   $route,   $location,   $window,   wdDev) {
 
 var conversations = wdmExtendedConversationsCollection.createExtendedConversationsCollection();
 var contactsCache = null;
@@ -152,7 +152,9 @@ return {
     conversations: conversations,
     initialize: function() {
         $rootScope.$on('signin', function() {
-            buildContactsCache();
+            if (!wdDev.isWapRemoteConnection()) {
+                buildContactsCache();
+            }
         });
 
         $rootScope.$on('signout', function() {

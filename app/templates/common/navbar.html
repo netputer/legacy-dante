@@ -31,6 +31,16 @@
             </li>
         </ul>
         <ul class="nav nav-settings">
+            <li ng-show="$root.remoteConnection && $root.remoteConnection.wap">
+                <a href="" bs-tooltip="{{ $root.DICT.portal.WAP_CONNECTION }}" data-options="{placement: 'right'}">
+                    <i class="icon-wap"></i>
+                </a>
+            </li>
+            <li ng-show="$root.remoteConnection && !$root.remoteConnection.wap">
+                <a href="" bs-tooltip="{{ $root.DICT.portal.REMOTE_CONNECTION }}" data-options="{placement: 'right'}">
+                    <i class="icon-wap"></i>
+                </a>
+            </li>
             <li ng-show="!$root.READ_ONLY_FLAG">
                 <a href=""
                     bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}"

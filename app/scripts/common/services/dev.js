@@ -9,6 +9,8 @@ return function() {
     var ip = '';
     var port = '';
     var meta = {};
+    var WAKE_UP_URL = 'http://60.29.246.132:8090/wakeup';
+    var remoteConnectionData;
 
     // $resouce service support :name in url as parameter.
     // If target url need : for presenting port, it should be encoded.
@@ -17,9 +19,6 @@ return function() {
     }
 
     var self = this;
-    self.getSocketServer = function() {
-        return ip ? ('//' + ip + ':' + 10209) : '';
-    };
     self.getServer = function() {
         return ip ? ('//' + ip + ':' + (port || DEFAULT_DEVICE_PORT )) : '';
     };
@@ -33,11 +32,33 @@ return function() {
     self.setMetaData = function(data) {
         meta = data;
     };
-
+    self.setRemoteConnectionData = function(data) {
+        if (!remoteConnectionData) {
+            remoteConnectionData = data;
+        } else {
+            _.extend(remoteConnectionData, data);
+        }
+    };
+    self.getRemoteConnectionData = function(key) {
+        var val;
+        if (remoteConnectionData && key) {
+            val = remoteConnectionData[key];
+        } else {
+            val = remoteConnectionData;
+        }
+        return val;
+    };
+    self.closeRemoteConnection = function() {
+        remoteConnectionData = null;
+    };
     self.$get = ['$window', '$q', '$rootScope', '$timeout',
         function( $window,   $q,   $rootScope,   $timeout) {
-        return {
-            wrapURL: function(url, forResource) {
+        var devAPIs = {
+            setServer: self.setServer,
+            getServer: self.getServer,
+            setMetaData: self.setMetaData,
+            getMetaData: self.getMetaData,
+            getURL: function(url, forResource) {
                 var server = self.getServer();
                 if (forResource) {
                     server = encodeServer(server);
@@ -50,11 +71,48 @@ return function() {
 
                 return server + prefix + url;
             },
-            setServer: self.setServer,
-            getServer: self.getServer,
-            setMetaData: self.setMetaData,
-            getMetaData: self.getMetaData,
-            getSocketServer: self.getSocketServer,
+            wrapURL: function(url, forResource) {
+                return devAPIs.wrapRemoteConnectionURL(devAPIs.getURL(url, forResource));
+            },
+            wrapRemoteConnectionURL: function(url, isUpload) {
+                if (devAPIs.isRemoteConnection()) {
+                    var proxyUrl = !!isUpload ? self.getRemoteConnectionData('httpUpoloadUrl') : self.getRemoteConnectionData('httpProxyUrl');
+                    url = proxyUrl + '?token=' + self.getRemoteConnectionData('token') + '&originUrl=' + encodeURIComponent(url);
+                } 
+                return url;
+            },
+            wrapRemoteConnectionUploadURL: function(url) {
+                return devAPIs.wrapRemoteConnectionURL(devAPIs.getURL(url), true);
+            },
+            getWakeUpUrl: function() {
+                return WAKE_UP_URL;
+            },
+            closeRemoteConnection: function() {
+                self.closeRemoteConnection();
+            },
+            setRemoteConnectionData: function(data) {
+                self.setRemoteConnectionData(data);
+                $rootScope.remoteConnection = self.getRemoteConnectionData();
+            },
+            getRemoteConnectionData: function(key) {
+                return self.getRemoteConnectionData(key);
+            },
+            isRemoteConnection: function() {
+                return !!self.getRemoteConnectionData();
+            },
+            isWapRemoteConnection: function() {
+                return !!self.getRemoteConnectionData() && !!self.getRemoteConnectionData('wap');
+            },
+            getSocketServer: function() {
+                var IP;
+                if (devAPIs.isRemoteConnection()) {
+                    IP = self.getRemoteConnectionData('socketIOUrl');
+                } else {
+                    IP = ip ? ('//' + ip + ':' + 10209) : '';
+                }
+
+                return IP;
+            },
             query: function(key) {
                 var queries = $window.location.search.slice(1).split('&');
                 var params = {};
@@ -95,6 +153,8 @@ return function() {
                 return defer.promise;
             }
         };
+
+        return devAPIs;
     }];
 };
 });

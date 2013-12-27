@@ -73,6 +73,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                 $rootScope.$apply(function() {
                     global.devicesList.splice(0, global.devicesList.length);
                     Array.prototype.push.apply(global.devicesList, list);
+
                     //标记下是否是老用户，该功能暂时有客户端记录，之后会由服务器端提供接口。老用户定义：该用户成功获取设备，并且设备列表中有设备。
                     if ( list.length > 0 && !me.isOldUser() ) {
                         me.setOldUser();

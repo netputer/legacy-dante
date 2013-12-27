@@ -3,6 +3,9 @@ define([
 'use strict';
 return ['$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', '$http',
 function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q, wdSignInDetection, $http) {
+    var remoteConnectionAuthDeivceTimes = 3;
+    var wakeUpTimes = 3;
+    var maxNormalAuthDeviceTimes = 2;
 
     $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
@@ -145,67 +148,145 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
         stopLoopGetDevicesList();
         
+        if (!deviceData.ip) {
+            wdAlert.confirm(
+                $rootScope.DICT.portal.WAP_CONNECTION_ALERT.TITLE,
+                $rootScope.DICT.portal.WAP_CONNECTION_ALERT.CONTENT,
+                $rootScope.DICT.portal.WAP_CONNECTION_ALERT.OK,
+                $rootScope.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
+            ).then(function() {
+                remoteConnect(deviceData, true);
+            }, function() {
+                clearStatus(deviceData);
+            });
+
+        } else {
+            return authDevice(deviceData);
+        }
+    };
+
+    function authDevice(deviceData) {
+        if (!wdDev.isRemoteConnection()) {
+            maxNormalAuthDeviceTimes -= 1;
+        }
+
+        var defer = $q.defer();
+
         // 调用纯净的连接设备接口
         connectDevice(deviceData).then(function () {
 
             //标记下已经登录设备，在切换设备的时候会判断这个。
             wdGoogleSignIn.setHasAccessdDevice();
-            $scope.isLoadingDevices = false;
+            clearStatus(deviceData);
+            defer.resolve();
 
             //跳转到对应模块
             $location.url($route.current.params.ref || '/');
             $rootScope.$broadcast('signin');
+
         }, function () {
-            deviceData.loading = false;
-            $scope.isLoadingDevices = false;
-            var tempDevicesList = [];
-            wdGoogleSignIn.getDevices().then(function (list) {
-                $scope.devicesList = list;
-                tempDevicesList = list;
-            }, function (xhr) {
-                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
-            }).always(function () {
-                wdAlert.confirm(
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
-                ).then(function() {
-                    GA('onboard:connect_confirm:retry');
-                    $scope.connectDevice(deviceData).then(function() {
-                        GA('check_sign_in:connect_confirm_retry:success');
-                    }, function() {
-                        GA('check_sign_in:connect_confirm_retry:failed');
-                    });
-
-                    // 刷新下当前界面状态
-                    $scope.isLoadingDevices = false;
-                    for (var i = 0, l = $scope.devicesList.length ; i < l ; i += 1) {
-                        if ($scope.devicesList[i].id === deviceData.id) {
-                            $scope.connectDevice($scope.devicesList[i]);
-                        }
-                    }
-                }, function() {
-                    GA('onboard:connect_confirm:cancel');
-                    $scope.isLoadingDevices = false;
+            if (wdDev.isRemoteConnection()) {
+                if (remoteConnectionAuthDeivceTimes) {
+                    remoteConnectionAuthDeivceTimes -= 1;
+                    authDevice(deviceData);
+                } else {
+                    clearStatus(deviceData);
                     loopGetDevicesList(false);
-                    $scope.devicesList = tempDevicesList;
-                });                    
-            });
+                    wdDev.closeRemoteConnection();
+                }
+                
+            } else if (maxNormalAuthDeviceTimes > 0) {
+                clearStatus(deviceData);
+                wdDevice.lightDeviceScreen(deviceData.id);
 
+                wdGoogleSignIn.getDevices().then(function (list) {
+                    $scope.devicesList = list;
+                }, function (xhr) {
+                    GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
+                }).always(function () {
+                    wdAlert.confirm(
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
+                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
+                    ).then(function() {
+                        GA('onboard:connect_confirm:retry');
+                        $scope.connectDevice(deviceData).then(function() {
+                            GA('check_sign_in:connect_confirm_retry:success');
+                        }, function() {
+                            GA('check_sign_in:connect_confirm_retry:failed');
+                        });
+                    }, function() {
+                        GA('onboard:connect_confirm:cancel');
+                        $scope.isLoadingDevices = false;
+                        loopGetDevicesList(false);
+                    });                    
+                });
+            } else {
+                // fire remote connect
+                remoteConnect(deviceData);
+            }
+            
+            defer.reject();
         });
-    };
+
+        return defer.promise;
+    }
+
+    function remoteConnect(deviceData, wap) {
+        wakeUpTimes -= 1;
+
+        $http({
+            method: 'get',
+            url: wdDev.getWakeUpUrl() + '?did=' + deviceData.id,
+            timeout: 2000,
+        })
+        .success(function(response) {
+            response.wap = !!wap;
+            response.limitSize = 5 * 1024 * 1024;
+            response.photos = {
+                loadImages: false
+            };
+            response.messages = {
+                loadImages: false
+            };
+            response.contacts = {
+                loadImages: false
+            };
+            response.applications = {
+                loadImages: false
+            };
+            wdDev.setRemoteConnectionData(response);
+
+            remoteConnectionAuthDeivceTimes -= 1;
+            authDevice(deviceData);
+        })
+        .error(function() {
+            if (wakeUpTimes) {
+                remoteConnect(deviceData, wap);
+            } else {
+                clearStatus(deviceData);
+            }
+        });
+    }
+
+    function clearStatus(deviceData) {
+        deviceData.loading = false;
+        $scope.isLoadingDevices = false;
+    }
 
     function loopGetDevicesList(isAutoSignIn) {
         
         // 默认轮训发现一台设备会自动登录
-        if (isAutoSignIn !== false) {
+        if (!arguments.length) {
             isAutoSignIn = true;
         }
         $scope.loopDevicesList = wdGoogleSignIn.loopGetDevices();
         $scope.$watch('loopDevicesList', function(newData, oldData) {
             $scope.isLoadingDevices = false;
-            if (newData !== oldData) {
+            
+            // 首先确认 oldData 是否和当前数据一致，如果一致再看新老数据是否一致。
+            if (oldData !== $scope.devicesList || newData !== oldData) {
                 GA('device_sign_in:add_new_device:new_device_page');
                 for (var i = 0 , l = $scope.devicesList.length ; i < l ; i += 1) {
                     if ($scope.devicesList[i].loading === true ) {

@@ -9,6 +9,8 @@ return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'w
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
          GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope) {
 
+$scope.$emit('currentModule', 'messages');
+
 //wdm alert
 var closeWdmAlert = $window.localStorage.getItem('closeWdmAlert');
 if ($rootScope.SDK_19 && !closeWdmAlert) {

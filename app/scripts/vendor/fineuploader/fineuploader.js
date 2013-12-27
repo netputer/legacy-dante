@@ -1243,24 +1243,35 @@ qq.FineUploaderBasic.prototype = {
     },
     _uploadFileOrBlobDataList: function(fileOrBlobDataList){
         var validationDescriptors, index, batchInvalid;
-
+        var self = this;
         validationDescriptors = this._getValidationDescriptors(fileOrBlobDataList);
-        batchInvalid = this._options.callbacks.onValidateBatch(validationDescriptors) === false;
 
-        if (!batchInvalid) {
+        // Add promise support by xiaomeng
+        var upload = function() {
             if (fileOrBlobDataList.length > 0) {
                 for (index = 0; index < fileOrBlobDataList.length; index++){
-                    if (this._validateFileOrBlobData(fileOrBlobDataList[index])){
-                        this._upload(fileOrBlobDataList[index]);
+                    if (self._validateFileOrBlobData(fileOrBlobDataList[index])){
+                        self._upload(fileOrBlobDataList[index]);
                     } else {
-                        if (this._options.validation.stopOnFirstInvalidFile){
+                        if (self._options.validation.stopOnFirstInvalidFile){
                             return;
                         }
                     }
                 }
             }
             else {
-                this._error('noFilesError', "");
+                self._error('noFilesError', "");
+            }
+        };
+
+        var batchInvalid = this._options.callbacks.onValidateBatch(validationDescriptors);
+        if (qq.isFunction(batchInvalid.then)) {
+            batchInvalid.then(function() {
+                upload();
+            });
+        } else {
+            if (!batchInvalid) {
+                upload();
             }
         }
     },

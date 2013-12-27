@@ -6,7 +6,7 @@ define( [
     'use strict';
 
 //$q是promise
-return [ '$http', '$q','$rootScope', 'wdSocket', function ( $http, $q, $rootScope, wdSocket) {
+return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, $rootScope, wdSocket, wdDev) {
 
     var global = {
         appsList:[],
@@ -21,10 +21,10 @@ return [ '$http', '$q','$rootScope', 'wdSocket', function ( $http, $q, $rootScop
             url: '/resource/apps?length=9999'
         }).success(function(data) {
             global.appsList = [];
-            for( var i = 0,l = data.length ; i<l; i+=1 ){
+            for(var i = 0, l = data.length; i < l; i += 1) {
                 global.appsList.push(apps.changeInfo(data[i]));
             }
-        }).error(function(){
+        }).error(function() {
         });
     }
 
@@ -89,6 +89,7 @@ return [ '$http', '$q','$rootScope', 'wdSocket', function ( $http, $q, $rootScop
             data['doneTipShow'] = false;
 
             data['checked'] = false;
+            
             return data;
         }
 
