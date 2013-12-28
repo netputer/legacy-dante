@@ -7,12 +7,20 @@
                 <p>{{$root.DICT.portal.H1_P}}</p>
 
                 <!-- google signin -->
+<<<<<<< HEAD
+                <button class="btn google-btn" ng-click="clickSignInButton();">
+                        <i class="icon-google-btn"></i>
+                        <span class="google-btn-word">
+                            {{$root.DICT.portal.GOOGLE_BUTTON}}
+                        </span>
+=======
                 <button class="btn google-btn"
                         ng-click="clickGoogleSignInButton()">
                     <i class="icon-google-btn"></i>
                     <span class="google-btn-word">
                         {{$root.DICT.portal.GOOGLE_BUTTON}}
                     </span>
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
                 </button>
                 <!-- google signin end -->
 
@@ -107,13 +115,13 @@
             <div class="content">
                 <div class="phone"></div>
                 <div class="user-profile">
-                    <img class="photo" ng-src="{{profile.image.url}}">
+                    <img class="photo" ng-src="{{profile.avatar}}">
                     <div class="account">
-                        <p class="name">{{profile.displayName}}</p>
-                        <p class="email">{{profile.emails[0].value}}</p>
+                        <p class="name" title="{{profile.nick}}">{{profile.nick}}</p>
+                        <p class="email" title="{{profile.email}}">{{profile.email}}</p>
                     </div>
                 </div>
-                <p class="tip" ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace('$$$$', profile.emails[0].value)"></p>
+                <p class="tip" ng-bind-html="$root.DICT.portal.USER_GUIDE.PAGE2_WAY1.replace('$$$$', profile.email)"></p>
             </div>
             <a target="_blank" class="help" href="https://snappea.zendesk.com/forums/20791302-Connecting-Your-Device">{{$root.DICT.portal.USER_GUIDE.PAGE2_WAY2}}</a>
         </div>
@@ -132,12 +140,12 @@
             <dl class="step2">
                 <dt>
                     <div class="user-profile">
-                        <img class="photo" ng-src="{{profile.image.url}}">
-                        <p class="name">{{profile.displayName}}</p>
+                        <img class="photo" ng-src="{{profile.avatar}}">
+                        <p class="name" title="{{profile.nick}}">{{profile.nick}}</p>
                     </div>
                 </dt>
                 <h2 class="num">2</h2>
-                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} <span class="account">{{profile.emails[0].value}}</span></dd>
+                <dd>{{$root.DICT.portal.NO_DEVICES.step2}} <span class="account">{{profile.email}}</span></dd>
             </dl>
             <dl class="step3">
                 <dt></dt>
@@ -182,7 +190,7 @@
                 <a href="https://play.google.com/store/apps/details?id=com.snappea">
                     <i class="icon-googleplay"></i>
                 </a>
-                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP2.replace('$$$$', profile.emails[0].value)"></p>
+                <p ng-bind-html="$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP2.replace('$$$$', profile.email)"></p>
                 <p>{{$root.DICT.portal.ADD_NEW_PHONE_TIPS.STEP3}}</p>
             </div>
 

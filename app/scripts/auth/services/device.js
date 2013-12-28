@@ -9,7 +9,6 @@ return function() {
     self.$get = ['$window', '$location', 'wdDev', '$rootScope',
         function($window, $location, wdDev, $rootScope ) {
         var valid = false;
-        var signoutDetectionTimer = null;
         return {
             valid: function() {
                 return valid;
@@ -43,19 +42,8 @@ return function() {
                     $location.url('/portal');
                 }
                 $rootScope.$broadcast('signout');
-                this.stopSignoutDetection();
             },
-            startSignoutDetection: function() {
-                var self = this;
-                signoutDetectionTimer = setInterval(function() {
-                    if (!$window.localStorage.getItem('googleToken')) {
-                        self.stopSignoutDetection();
-                        $rootScope.$apply(function() {
-                            self.signout();
-                        });
-                    }
-                }, 1000);
-            },
+
             lightDeviceScreen: function(deviceId) {
                 var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
                 $.ajax({
@@ -63,13 +51,9 @@ return function() {
                     url: url,
                     dataType: 'jsonp',
                     data: {
-                        did: deviceId,
-                        google_token: $window.localStorage.getItem('googleToken')
+                        did: deviceId
                     }
                 });
-            },
-            stopSignoutDetection: function() {
-                clearInterval(signoutDetectionTimer);
             }
         };
     }];

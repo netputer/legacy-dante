@@ -5,8 +5,8 @@ define( [
 ) {
     'use strict';
 
-return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 'wdGoogleMultipleHack', 
-function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom, wdGoogleMultipleHack) {
+return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
+function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
     
     var global = {
         profileInfo: {},
@@ -17,16 +17,54 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
         //标记是否本次登陆了，用于检测是否是跳转过来的用户
         hasAccessdDevice : false,
 
+<<<<<<< HEAD
+        loopTimer : null,
+
+        devicesList: [],
+
+        signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=http://localhost:3501'
+=======
         loopTimer : null
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
     };
 
     var result = {
+        signInUrl: global.signInUrl,
 
+<<<<<<< HEAD
+        // 判断是否已经登录
+        checkSignIn: function() {
+            var defer = $q.defer();
+            var me = this;
+            this.getDevices(true).then(function(){
+                
+                // 为了兼容 extension 及老版本，使用了 googleToken 这个名字。
+                me.setStorageItem('googleToken', true);
+                defer.resolve();
+            }, function() {
+                defer.reject();
+            });
+            return defer.promise;
+        },
+
+=======
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
         // 当用户 sign out 的时候应该清理的数据
         removeAccountInfo: function() {
             global.profileInfo = {};
             global.accountNum = 0;
             global.hasAccessdDevice = false;
+<<<<<<< HEAD
+
+            // 为了兼容 extension 及老版本，使用了 googleToken 这个名字。
+            this.removeStorageItem('googleToken');
+        },
+
+        // 是否需要移除之前没有用的 item？
+        removeOldVersionStorageData: function() {
+            this.removeStorageItem('');
+=======
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
         },
 
         getProfile: function () {
@@ -44,24 +82,39 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             }).done(function( data ) {
                 GA('check_sign_in:get_profile:success');
                 $rootScope.$apply(function () {
+<<<<<<< HEAD
+                    global.profileInfo = data.member;
+                    defer.resolve(data.member);
+=======
                     global.profileInfo = data;
                     console.log(data);
                     defer.resolve(data);
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
                 });
             }).fail(function( data ) {
                 GA('check_sign_in:get_profile:failed');
                 $rootScope.$apply(function () {
+<<<<<<< HEAD
+=======
                     console.log(data);
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
                     defer.reject(data);
                 });
             });
             return defer.promise;
         },
 
+<<<<<<< HEAD
+        getDevices: function (isCheckSignIn) {
+            $log.log('Connecting for getting devices...');
+            GA('check_sign_in:get_devices_all:all');
+            var defer = $.Deferred();
+=======
         getDevices: function () {
             $log.log('Connecting for getting devices...');
             GA('check_sign_in:get_devices_all:all');
             var defer = $q.defer();
+>>>>>>> 977ffb2afaf1daba479b29185252e55fff0ed31f
             var me = this;
 
             //调用服务器端接口
@@ -74,7 +127,9 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                 dataType: 'jsonp',
                 timeout: 10000
             }).done(function( data ) {
-                GA('check_sign_in:get_devices:success');
+                if (!isCheckSignIn) {
+                    GA('check_sign_in:get_devices:success');
+                }
                 $rootScope.$apply(function() {
                     $log.log('Getting devices success!',data);
                     var list = [];
@@ -91,13 +146,15 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
                     defer.resolve(list);
                 });
             }).fail(function( xhr ) {
-                GA('check_sign_in:get_devices:failed_'+ xhr.status );
+                if (!isCheckSignIn) {
+                    GA('check_sign_in:get_devices:failed_'+ xhr.status );
+                }
                 $rootScope.$apply(function() {
                     $log.error('Getting devices failed');
                     defer.reject(xhr);
                 });
             });
-            return defer.promise;
+            return defer.promise();
         },
 
         loopGetDevices : function () {
@@ -159,7 +216,7 @@ function ($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSn
             this.setStorageItem('oldUserFlag', true);
         },
         isOldUser: function () {
-            return this.getStorageItem('oldUserFlag');
+            return !!this.getStorageItem('oldUserFlag');
         },
 
         //是否本次登陆过，用于检测是否是跳转过来的设备
