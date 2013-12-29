@@ -6,8 +6,8 @@ define([
 'use strict';
 return function() {
     var self = this;
-    self.$get = ['$window', '$location', 'wdDev', '$rootScope',
-        function($window, $location, wdDev, $rootScope ) {
+    self.$get = ['$window', '$location', 'wdDev', '$rootScope', '$q', 'GA',
+        function($window, $location, wdDev, $rootScope, $q, GA) {
         var valid = false;
         return {
             valid: function() {
@@ -37,13 +37,13 @@ return function() {
                 this.setDevice({status:'devices'});
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
-                }
-                else {
+                } else {
                     $location.url('/portal');
                 }
                 $rootScope.$broadcast('signout');
             },
 
+            // 远程点亮一台手机
             lightDeviceScreen: function(deviceId) {
                 var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
                 $.ajax({
@@ -55,6 +55,7 @@ return function() {
                     }
                 });
             }
+
         };
     }];
 };
