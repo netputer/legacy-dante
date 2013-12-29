@@ -106,9 +106,6 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                 wdGoogleSignIn.setHasAccessdDevice();
                 $scope.isLoadingDevices = false;
                 wdDevice.setDevice(deviceData);
-
-                // 开启轮训检测是否退出系统，在其他 tab 下退出当前窗口也会退出。
-                wdSigninDetection.startSignoutDetection();
                 wdDev.setMetaData(response);
                 defer.resolve();
                 //跳转到对应模块
@@ -264,11 +261,12 @@ function internationalCtrl($scope, $location, $http, wdDev, $route, $timeout, wd
                     break;
                     case 1:
                         GA('device_sign_in:check_first_device:device_signed_in');
-                        //????防止已经登录在某手机中，又被登录一次。
-                        if (!wdGoogleSignIn.getHasAccessdDevice()) {
+                        
+                        // 防止已经登录在某手机中，又被登录一次。
+                        // if (!wdGoogleSignIn.getHasAccessdDevice()) {
                             $scope.isLoadingDevices = true;
                             $scope.connectDevice(list[0]);
-                        }
+                        // }
                         $scope.devicesList = list;
                     break;
                     default:
