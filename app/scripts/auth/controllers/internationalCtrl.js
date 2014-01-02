@@ -126,8 +126,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
             }
             stopLoopGetDevicesList();
+            
+            // 调用纯净的连接设备接口
             connectDevice(deviceData).then(function () {
-                stopLoopGetDevicesList();
 
                 //标记下已经登录设备，在切换设备的时候会判断这个。
                 wdGoogleSignIn.setHasAccessdDevice();
@@ -143,8 +144,10 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 deviceData.loading = false;
                 $scope.isLoadingDevices = false;
                 defer.reject();
+                var tempDevicesList = [];
                 wdGoogleSignIn.getDevices().then(function (list) {
                     $scope.devicesList = list;
+                    tempDevicesList = list;
                 }, function (xhr) {
                     GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
                 }).always(function () {
@@ -160,6 +163,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                         GA('onboard:connect_confirm:cancel');
                         $scope.isLoadingDevices = false;
                         loopGetDevicesList(false);
+                        $scope.devicesList = tempDevicesList;
                     });                    
                 });
 
@@ -187,7 +191,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.loopDevicesList = wdGoogleSignIn.loopGetDevices();
             $scope.$watch('loopDevicesList', function(newData, oldData) {
                 if (newData) {
-                    getUserInfo();
                     GA('device_sign_in:add_new_device:new_device_page');
                     for (var i = 0 , l = $scope.devicesList.length ; i < l ; i += 1) {
                         if ($scope.devicesList[i].loading === true ) {
@@ -238,7 +241,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         };
 
         $scope.showAddNewPhoneTip = function () {
-            getUserInfo();
             $scope.isShowAddNewPhoneTip = true;
             GA('device_sign_in:add_new_device:select_device_page');
         };
@@ -251,26 +253,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.userGuideStep += 1;
         };
 
-        // 通过授权登陆后，执行的逻辑
-        function googleSignIn() {
-            GA('check_sign_in:google_page:success');
-            $scope.isShowNoSignInPage = false;
-            $scope.isLoadingDevices = true;
-            $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
-            wdGoogleSignIn.getDevices().then(function(list) {
-                showDevicesList(list);
-                $scope.isOldUser = wdGoogleSignIn.isOldUser();
-            },function(xhr) {
-                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_googleSignInFailed');
-            });
-        }
-
         //登录并取得了设备列表后，会执行的逻辑。
         function showDevicesList(list) {
-            GA('user_sign_in:return_from_sign_in:google_sign_in');
-            getUserInfo();
             if (list) {
-                $scope.devicesList = list;
                 if ($scope.devicesList.length > 0) {
                     GA('device_sign_in:check_all_devices:device_signed_in');
                 }
@@ -280,6 +265,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                         GA('device_sign_in:check_all_devices:device_not_signed_in');
                         $scope.isLoadingDevices = false;
                         loopGetDevicesList();
+                        $scope.devicesList = list;
                     break;
                     case 1:
                         GA('device_sign_in:check_first_device:device_signed_in');
@@ -289,26 +275,20 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                             $scope.isLoadingDevices = true;
                             $scope.connectDevice(list[0]);
                         // }
-                        $scope.devicesList = list;
                     break;
                     default:
                         $scope.isLoadingDevices = false;
-                        $scope.devicesList = list;
                         loopGetDevicesList();
+                        $scope.devicesList = list;
                     break;
                 }
             }
         }
 
         //自动进入之前的设备
-        function autoAccess() {
+        function autoAccessDevice() {
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
             wdGoogleSignIn.getDevices().then(function(list) {
-                if (list.length > 0) {
-                    $scope.isOldUser = wdGoogleSignIn.isOldUser();
-                    showDevicesList(list);
-                    return;
-                }
                 if (list.length && $scope.autoAuth && $scope.auth && $scope.auth.ip) {
                     $scope.isLoadingDevices = true;
                     GA('device_sign_in:check_last_device:device_signed_in');
@@ -322,10 +302,10 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                     GA('device_sign_in:check_last_device:device_not_signed_in');
                     $scope.autoAuth = false;
                 }
-                showDevicesList(list);
-            },function(xhr) {
+                loopGetDevicesList();
+            }, function(xhr) {
                 GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_autoAccessFailed');
-                autoSignInGoogle();
+                loopGetDevicesList();
             });
         }
 
@@ -335,10 +315,22 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             });
         }
 
-        function autoSignInGoogle() {
+        // 已经登录自动进入的逻辑
+        function autoSignIn() {
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
-            autoAccess();
+            getUserInfo();
+            
+            // 是否自动进入上次连接过的设备
+            if ($scope.autoAuth) {
+                autoAccessDevice();
+            } else {
+                wdGoogleSignIn.getDevices().then(function (list) {
+                    showDevicesList(list);
+                }, function() {
+                    loopGetDevicesList();
+                });
+            }
         }
 
         function signoutFromDevices() {
@@ -370,14 +362,20 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         GA('user_sign_in:check_sign_in:total_visits');
 
         //检测是否曾经登录过
+        if (wdGoogleSignIn.isSignIn()) {
+            $scope.isShowNoSignInPage = false;
+            $scope.isLoadingDevices = true;
+        }
+
+        // 检测是否真正登录
         wdGoogleSignIn.checkSignIn().then(function() {
             $scope.isShowNoSignInPage = false;
-
+            
             //是否是从其他设备退出准备切换设备
             if (wdGoogleSignIn.getHasAccessdDevice()) {
                 signoutFromDevices();
             } else {
-                autoSignInGoogle();
+                autoSignIn();
             }
         }, function() {
 

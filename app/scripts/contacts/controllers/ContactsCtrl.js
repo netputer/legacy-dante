@@ -917,7 +917,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
             $scope.isLoadMoreBtnShow = false;
             $scope.isLeftLoadingShow = true;
-            var text = $scope.searchText.toLocaleLowerCase();
+            var text = $scope.searchText ? '' : $scope.searchText.toLocaleLowerCase();
             $scope.isNoContactsShow = false;
             $scope.isRightLoadShow = true;
             $scope.isContactsEditShow = false;
