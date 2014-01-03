@@ -60,8 +60,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             var defer = $q.defer();
             var authCode = deviceData.authcode;
             var ip = deviceData.ip;
-            var defer = $q.defer();
-            $scope.state = 'loading';
             wdDev.setServer(ip);
 
             // 下面方法统计是否超时会用到
@@ -139,9 +137,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 //标记下已经登录设备，在切换设备的时候会判断这个。
                 wdGoogleSignIn.setHasAccessdDevice();
                 $scope.isLoadingDevices = false;
-                wdDevice.setDevice(deviceData);
-                wdDev.setMetaData(response);
-                defer.resolve();
 
                 //跳转到对应模块
                 $location.url($route.current.params.ref || '/');
@@ -149,7 +144,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             }, function () {
                 deviceData.loading = false;
                 $scope.isLoadingDevices = false;
-                defer.reject();
+
                 var tempDevicesList = [];
                 wdGoogleSignIn.getDevices().then(function (list) {
                     $scope.devicesList = list;
@@ -165,6 +160,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                     ).then(function() {
                         GA('onboard:connect_confirm:retry');
                         $scope.isLoadingDevices = false;
+                        for (var i = 0, l = $scope.devicesList.length ; i < l ; i += 1) {
+                            if ($scope.devicesList[i].id === deviceData.id) {
+                                $scope.connectDevice($scope.devicesList[i]);
+                            }
+                        }
                     }, function() {
                         GA('onboard:connect_confirm:cancel');
                         $scope.isLoadingDevices = false;
@@ -173,19 +173,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                     });                    
                 });
 
-                var action;
-                var duration = Date.now() - timeStart;
-                if (status === 0) {
-                    action = (Math.round(duration / 1000) * 1000 < config.timeout) ? ('unreached:' + duration) : 'timeout';
-                } else if (status === 401) {
-                    action = 'reject:' + duration;
-                } else {
-                    action = 'unknown_' + status + ':' + duration;
-                }
-                GA('connect_device:connect:fail_' + action);
-                GA('check_sign_in:auth:fail_' + action + '_' + deviceData.model);
             });
-            return defer.promise;
         };
 
         function loopGetDevicesList(isAutoSignIn) {
