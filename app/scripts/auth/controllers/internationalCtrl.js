@@ -25,7 +25,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         $scope.accountEmail = '';
 
         //是否为老用户
-        $scope.isOldUser = wdGoogleSignIn.isOldUser();
+        $scope.isOldUser = false;
 
         //用户引导页面，显示到第几步
         $scope.userGuideStep = 1;
@@ -320,7 +320,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.isLoadingDevices = true;
             GA('user_sign_in:auto_sign_in:google_sign_in');
             getUserInfo();
-            
+            $scope.isOldUser = wdGoogleSignIn.isOldUser();
+
             // 是否自动进入上次连接过的设备
             if ($scope.autoAuth) {
                 autoAccessDevice();
@@ -367,10 +368,14 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.isLoadingDevices = true;
         }
 
+        // 检测是否在其他页面登陆，或者在弹出窗口登陆等
+        wdSigninDetection.startSigninDetection();
+
         // 检测是否真正登录
         wdGoogleSignIn.checkSignIn().then(function() {
             $scope.isShowNoSignInPage = false;
-            
+            wdSigninDetection.stopSigninDetection();
+
             //是否是从其他设备退出准备切换设备
             if (wdGoogleSignIn.getHasAccessdDevice()) {
                 signoutFromDevices();

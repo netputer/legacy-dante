@@ -82,6 +82,20 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             redirectTo: '/portal'
         });
 
+        // 登陆后关闭当前窗口
+        $routeProvider.when('/signInClose', {
+            resolve: {
+                closeWindow: ['$window', 'wdGoogleSignIn', function($window, wdGoogleSignIn) {
+                    wdGoogleSignIn.setSignIn();
+                    
+                    // 关闭当前窗口
+                    $window.opener = null;
+                    $window.open('', '_self');
+                    $window.close();
+                }]
+            }
+        });
+
         if (READ_ONLY_FLAG) {
             $routeProvider.when('/portal', {
                 template: cloudDataTemplate,

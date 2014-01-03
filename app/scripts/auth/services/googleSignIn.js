@@ -5,8 +5,8 @@ define( [
 ) {
     'use strict';
 
-return ['$q','$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', 
-function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom) {
+return ['$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', '$location',
+function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom, $location) {
     
     var global = {
         profileInfo: {},
@@ -21,16 +21,19 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
 
         devicesList: [],
 
-        signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=http://'
+        // 与服务器通信接口
+        signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=' + encodeURIComponent('http://' + $location.host() + ':' + $location.port() + '/#/signInClose'),
+        getDevicesUrl: 'https://push.snappea.com/apppush/limbo',
+        getProfileUrl: 'http://push.snappea.com/v4/api/profile',
+        signOutUrl: 'http://push.snappea.com/v4/api/logout'
     };
-
     
     var result = {
         signInUrl: global.signInUrl,
 
         // 判断是否已经登录
         checkSignIn: function() {
-            var defer = $q.defer();
+            var defer = $.Deferred();
             var me = this;
             this.getDevices(true).then(function(){
                 me.setSignIn();
@@ -38,7 +41,7 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
             }, function() {
                 defer.reject();
             });
-            return defer.promise;
+            return defer.promise();
         },
 
         // 当用户 sign out 的时候应该清理的数据
@@ -52,12 +55,11 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
 
         getProfile: function() {
             GA('check_sign_in:get_profile_all:all');
-            var defer = $q.defer();
+            var defer = $.Deferred();
             var me = this;
-            var url = 'http://push.snappea.com/v4/api/profile';
             $.ajax({
                 type: 'GET',
-                url: url,
+                url: global.getProfileUrl,
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
@@ -74,7 +76,7 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
                     defer.reject(data);
                 });
             });
-            return defer.promise;
+            return defer.promise();
         },
 
         getDevices: function(isCheckSignIn) {
@@ -83,11 +85,9 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
             var defer = $.Deferred();
             var me = this;
 
-            //调用服务器端接口
-            var url = 'https://push.snappea.com/apppush/limbo';
             $.ajax({
                 type: 'GET',
-                url: url,
+                url: global.getDevicesUrl,
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
@@ -144,12 +144,11 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
             $log.log('Sign out...');
             GA('check_sign_in:sign_out_all:all');
             wdCommunicateSnappeaCom.googleSignOut();
-            var defer = $q.defer();
+            var defer = $.Deferred();
             var me = this;
-            var url = 'http://push.snappea.com/v4/api/logout';
             $.ajax({
                 type: 'GET',
-                url: url,
+                url: global.signOutUrl,
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
@@ -169,7 +168,7 @@ function($q, $rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSna
                     defer.reject();
                 });
             });
-            return defer.promise;
+            return defer.promise();
        },
 
         // 客户端记录是一个老用户
