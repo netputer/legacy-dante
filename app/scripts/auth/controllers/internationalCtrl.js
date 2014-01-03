@@ -39,7 +39,13 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         };
 
         $scope.clickSignInButton = function() {
-            $window.open(wdGoogleSignIn.signInUrl);          
+            var width = 500;
+            var height = 600;
+            var top = 50;
+
+            // 居中
+            var left = Math.round($window.screen.width - width) / 2;
+            $window.open(wdGoogleSignIn.signInUrl, 'Limbo', 'fullscreen=no,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left);          
             GA('user_sign_in:click_sign_in:google_sign_in');
         };
 
