@@ -53,32 +53,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
             this.removeSignInFlag();
         },
 
-        getProfile: function() {
-            GA('check_sign_in:get_profile_all:all');
-            var defer = $.Deferred();
-            var me = this;
-            $.ajax({
-                type: 'GET',
-                url: global.getProfileUrl,
-                async: false,
-                contentType: 'application/json',
-                dataType: 'jsonp',
-                timeout: 10000
-            }).done(function( data ) {
-                GA('check_sign_in:get_profile:success');
-                $rootScope.$apply(function() {
-                    global.profileInfo = data.member;
-                    defer.resolve(data.member);
-                });
-            }).fail(function( data ) {
-                GA('check_sign_in:get_profile:failed');
-                $rootScope.$apply(function() {
-                    defer.reject(data);
-                });
-            });
-            return defer.promise();
-        },
-
         getDevices: function(isCheckSignIn) {
             $log.log('Connecting for getting devices...');
             GA('check_sign_in:get_devices_all:all');
@@ -92,7 +66,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 timeout: 10000
-            }).done(function( list ) {
+            }).done(function(list) {
                 if (!isCheckSignIn) {
                     GA('check_sign_in:get_devices:success');
                     $log.log('Getting devices success!', list);
@@ -106,7 +80,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                     }
                     defer.resolve(list);
                 });
-            }).fail(function( xhr ) {
+            }).fail(function(xhr, status, error) {
                 if (!isCheckSignIn) {
                     GA('check_sign_in:get_devices:failed_'+ xhr.status );
                     $log.error('Getting devices failed');
@@ -140,6 +114,32 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
             global.loopTimer = null;
         },
 
+        getProfile: function() {
+            GA('check_sign_in:get_profile_all:all');
+            var defer = $.Deferred();
+            var me = this;
+            $.ajax({
+                type: 'GET',
+                url: global.getProfileUrl,
+                async: false,
+                contentType: 'application/json',
+                dataType: 'jsonp',
+                timeout: 10000
+            }).done(function(data) {
+                GA('check_sign_in:get_profile:success');
+                $rootScope.$apply(function() {
+                    global.profileInfo = data.member;
+                    defer.resolve(data.member);
+                });
+            }).fail(function(xhr, status, error) {
+                GA('check_sign_in:get_profile:failed');
+                $rootScope.$apply(function() {
+                    defer.reject();
+                });
+            });
+            return defer.promise();
+        },
+
         signout : function() {
             $log.log('Sign out...');
             GA('check_sign_in:sign_out_all:all');
@@ -153,7 +153,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                 contentType: 'application/json',
                 dataType: 'jsonp',
                 timeout: 10000
-            }).done(function( data ) {
+            }).done(function(data) {
                 GA('check_sign_in:sign_out:success');
                 $rootScope.$apply(function() {
                     wdDevice.signout();
@@ -161,7 +161,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                     $log.log('Sign out success!');
                     defer.resolve('signout');
                 });
-            }).fail(function( data ) {
+            }).fail(function(xhr, status, error) {
                 GA('check_sign_in:sign_out:failed');
                 $log.error('google signout failed.');
                 $rootScope.$apply(function() {
@@ -169,7 +169,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                 });
             });
             return defer.promise();
-       },
+        },
 
         // 客户端记录是一个老用户
         setOldUser: function() {

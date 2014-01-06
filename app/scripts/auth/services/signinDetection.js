@@ -3,7 +3,7 @@ define([], function () {
 return ['$window', 'wdGoogleSignIn', 'wdDevice', '$rootScope', '$location',
 function ($window, wdGoogleSignIn, wdDevice, $rootScope, $location) {
     
-    // 该模块来监测用户在弹出窗口登陆或者在其他窗口登陆之后，当前页面也要登陆。如果是弹出层第一次登陆，登陆后弹出层应关闭。
+    // 该模块来监测用户在其他窗口下的登陆状态，如果登陆则全部登陆，如果退出则全部退出。
     var signinDetectionTimer = null;
     var signoutDetectionTimer = null;
 
@@ -13,7 +13,7 @@ function ($window, wdGoogleSignIn, wdDevice, $rootScope, $location) {
         startSigninDetection: function() {
             signinDetectionTimer = $window.setInterval(function () {
                 if (signinDetectionTimer && wdGoogleSignIn.isSignIn()) {
-                    // 重新登陆
+                    // 非主要窗口，直接刷新浏览器，自动重新登陆
                     $window.location.reload();
                 }
             }, 1000);
@@ -29,13 +29,11 @@ function ($window, wdGoogleSignIn, wdDevice, $rootScope, $location) {
         startSignoutDetection: function() {
             var me = this;
             signoutDetectionTimer = $window.setInterval(function() {
-                if (signoutDetectionTimer) {
-                    me.stopSignoutDetection();
-                    $rootScope.$apply(function() {
-                        wdDevice.signout();
-                    });
+                if (signoutDetectionTimer && !wdGoogleSignIn.isSignIn()) {
+                    // 非主要窗口，直接刷新浏览器，需重新登陆
+                    $window.location.reload();
                 }
-            }, 3000);
+            }, 5000);
         },
         stopSignoutDetection: function() {
             if (signoutDetectionTimer) {

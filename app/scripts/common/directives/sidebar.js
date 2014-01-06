@@ -126,7 +126,7 @@ return [function() {
                 $scope.$watch('loopRefreshDevices', function(newData, oldData) {
                     
                     // siderbar 的设备列表中至少有一台设备
-                    if(newData.length) {
+                    if(newData !== oldData) {
                         $scope.deviceList = getListData(newData);
                     }
                 }, true);
