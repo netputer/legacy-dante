@@ -40,18 +40,18 @@ function ($window, wdGoogleSignIn, wdDevice, $rootScope, $location) {
     var result = {
 
         //监视是否在其他窗口登陆了。
-        startSigninDetection: function() {
+        startSignInDetection: function() {
             addStorageEvent(signInDetectionFun);
         },
-        stopSigninDetection: function() {
+        stopSignInDetection: function() {
             removeStorageEvent(signInDetectionFun);
         },
         
         // 用来检测是否在其他窗口退出了
-        startSignoutDetection: function() {
+        startSignOutDetection: function() {
             addStorageEvent(signOutDetectionFun);
         },
-        stopSignoutDetection: function() {
+        stopSignOutDetection: function() {
             removeStorageEvent(signOutDetectionFun);
         }
 

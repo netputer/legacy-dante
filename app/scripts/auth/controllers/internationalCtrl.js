@@ -245,7 +245,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.isLoadingDevices = false;
             $scope.isShowNoSignInPage = true;
             stopLoopGetDevicesList();
-            wdSigninDetection.stopSignoutDetection();
+            wdSigninDetection.stopSignOutDetection();
         }, function() {
             $scope.isLoadingDevices = false;
             stopLoopGetDevicesList();
@@ -384,16 +384,16 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     } else {
 
         // 检测是否在其他页面登陆，或者在弹出窗口登陆等
-        wdSigninDetection.startSigninDetection();
+        wdSigninDetection.startSignInDetection();
     }
 
     // 检测是否真正登录
     wdGoogleSignIn.checkSignIn().then(function() {
         $scope.isShowNoSignInPage = false;
-        wdSigninDetection.stopSigninDetection();
+        wdSigninDetection.stopSignInDetection();
 
         // 检测是否在其他页面退出
-        wdSigninDetection.startSignoutDetection();
+        wdSigninDetection.startSignOutDetection();
 
         //是否是从其他设备退出准备切换设备
         if (wdGoogleSignIn.getHasAccessdDevice()) {
