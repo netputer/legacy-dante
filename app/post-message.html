@@ -9,7 +9,7 @@
         window.onmessage = function(event) {
             switch (event.data.command) {
                 case 'google-sign-in':
-                    googleSignIn(event.data.token, event.data.profile);
+                    googleSignIn();
                 break;
                 case 'google-sign-out':
                     googleSignOut();
@@ -17,14 +17,16 @@
             }
         };
         //相关方法
-        function googleSignIn(token, profile) {
+        function googleSignIn() {
             if (window.localStorage) {
-                window.localStorage.setItem('googleToken', token);
-                window.localStorage.setItem('userProfile', JSON.stringify(profile));
+                window.localStorage.setItem('signInFlag', true);
+
+                // 为了兼容 extension 及老版本，使用了 googleToken 这个名字。
+                window.localStorage.setItem('googleToken', true);
             }
         }
         function googleSignOut() {
-            window.localStorage && window.localStorage.removeItem('googleToken');
+            window.localStorage && window.localStorage.removeItem('signInFlag') && window.localStorage.removeItem('googleToken');
         }
     }();
     </script>

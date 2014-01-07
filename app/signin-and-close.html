@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    // 调用该页面会关闭当前窗口，用于弹出窗口登陆后，跳转至该页面关闭登陆窗口
+    void function() {
+
+        // 标记已经登陆
+        if (window.localStorage) {
+            window.localStorage.setItem('signInFlag', true);
+
+            // 为了兼容 extension，使用了 googleToken 这个名字。
+            window.localStorage.setItem('googleToken', true);
+        }
+
+        // 关闭当前窗口
+        window.opener = null;
+        window.open('', '_self');
+        window.close();
+    }();
+    </script>
+</head>
+<body>
+</body>
+</html>

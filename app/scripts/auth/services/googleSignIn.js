@@ -22,7 +22,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
         devicesList: [],
 
         // 与服务器通信接口
-        signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=' + encodeURIComponent('http://' + $location.host() + ':' + $location.port() + '/#/signInClose'),
+        signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=' + encodeURIComponent('http://' + $location.host() + ':' + $location.port() + '/signin-and-close.html'),
         getDevicesUrl: 'https://push.snappea.com/apppush/limbo',
         getProfileUrl: 'http://push.snappea.com/v4/api/profile',
         signOutUrl: 'http://push.snappea.com/v4/api/logout'
@@ -58,7 +58,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
             GA('check_sign_in:get_devices_all:all');
             var defer = $.Deferred();
             var me = this;
-
             $.ajax({
                 type: 'GET',
                 url: global.getDevicesUrl,
@@ -118,25 +117,33 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
             GA('check_sign_in:get_profile_all:all');
             var defer = $.Deferred();
             var me = this;
-            $.ajax({
-                type: 'GET',
-                url: global.getProfileUrl,
-                async: false,
-                contentType: 'application/json',
-                dataType: 'jsonp',
-                timeout: 10000
-            }).done(function(data) {
-                GA('check_sign_in:get_profile:success');
-                $rootScope.$apply(function() {
-                    global.profileInfo = data.member;
-                    defer.resolve(data.member);
+
+            // 如果本次已经获取的数据，则直接从本地读取
+            if (global.profileInfo.uid) {
+                $timeout(function() {
+                    defer.resolve(global.profileInfo);
+                }, 0);
+            } else {
+                $.ajax({
+                    type: 'GET',
+                    url: global.getProfileUrl,
+                    async: false,
+                    contentType: 'application/json',
+                    dataType: 'jsonp',
+                    timeout: 10000
+                }).done(function(data) {
+                    GA('check_sign_in:get_profile:success');
+                    $rootScope.$apply(function() {
+                        global.profileInfo = data.member;
+                        defer.resolve(data.member);
+                    });
+                }).fail(function(xhr, status, error) {
+                    GA('check_sign_in:get_profile:failed');
+                    $rootScope.$apply(function() {
+                        defer.reject();
+                    });
                 });
-            }).fail(function(xhr, status, error) {
-                GA('check_sign_in:get_profile:failed');
-                $rootScope.$apply(function() {
-                    defer.reject();
-                });
-            });
+            }
             return defer.promise();
         },
 
@@ -199,6 +206,8 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
         },
         removeSignInFlag: function() {
             this.removeStorageItem('signInFlag');
+
+            // 为了兼容 extension 及老版本，使用了 googleToken 这个名字。
             this.removeStorageItem('googleToken');
         },
 

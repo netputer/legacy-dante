@@ -51,6 +51,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     };
 
     // 连接设备的纯净方法 （该方法无法放到 wdDevice 模块中，因为 $http 会出现循环引用）
+    // 试着解了下冲突，发现解开一个又有一个，不太好解。
+    // 因为目前没有在其他模块调用该方法的需求，所以先放在这吧。
+    // 如果一定要别的模块调用，可以的替代解决方案是：
+    // 1、单独提出来一个 service;
+    // 2、将 $http 替换为 $.ajax.
     function connectDevice(deviceData) {
         GA('connect_device:enter_snappea:'+ deviceData.model);
         GA('check_sign_in:auth_all:all');
@@ -106,6 +111,10 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             GA('check_sign_in:auth:fail_' + action);
             // 统计失败的设备及该设备失败原因
             GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
+            // 统计失败的系统版本（接口待添加）
+            // GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
+            // 统计失败的 Rom 版本（接口待添加）
+            // GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
             defer.reject();
         });
         return defer.promise;
