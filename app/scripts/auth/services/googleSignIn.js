@@ -197,18 +197,12 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
         // 是否曾经登录过，用于进入展示 loading 
         setSignIn: function() {
             this.setStorageItem('signInFlag', true);
-
-            // 为了兼容 extension 及老版本，使用了 googleToken 这个名字。
-            this.setStorageItem('googleToken', true);            
         },
         isSignIn: function() {
             return !!this.getStorageItem('signInFlag');
         },
         removeSignInFlag: function() {
             this.removeStorageItem('signInFlag');
-
-            // 为了兼容 extension 及老版本，使用了 googleToken 这个名字。
-            this.removeStorageItem('googleToken');
         },
 
         setForceShowDevices: function(flag) {

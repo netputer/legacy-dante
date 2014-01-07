@@ -9,9 +9,6 @@
         // 标记已经登陆
         if (window.localStorage) {
             window.localStorage.setItem('signInFlag', true);
-
-            // 为了兼容 extension，使用了 googleToken 这个名字。
-            window.localStorage.setItem('googleToken', true);
         }
 
         // 关闭当前窗口
