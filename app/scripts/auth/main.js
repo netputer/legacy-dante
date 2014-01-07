@@ -7,7 +7,7 @@ define([
     'auth/controllers/internationalCtrl',
     'auth/controllers/cloudDataCtrl',
     'auth/directives/user-profile-button',
-    'auth/services/signinDetection'
+    'auth/services/signInDetection'
 ], function(
     angular,
     device,
@@ -16,7 +16,7 @@ define([
     internationalCtrl,
     cloudDataCtrl,
     userProfileButton,
-    signinDetection
+    signInDetection
 ) {
 'use strict';
 
@@ -27,5 +27,5 @@ angular.module('wdAuth', ['wdCommon'])
     .controller('internationalController', internationalCtrl)
     .controller('cloudDataController', cloudDataCtrl)
     .directive('wdUserProfileButton', userProfileButton)
-    .factory('wdSigninDetection', signinDetection);
+    .factory('wdSignInDetection', signInDetection);
 });
