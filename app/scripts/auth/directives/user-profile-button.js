@@ -24,12 +24,8 @@ link: function($scope, $element, $attribute, $control) {
     };
 
     function getUserInfo() {
-        wdGoogleSignIn.checkToken().then(function() {
-            return wdGoogleSignIn.getProfileInfo();
-        }).then(function(data) {
+        wdGoogleSignIn.getProfile().then(function(data) {
             $scope.profile = data;
-        }, function() {
-            getUserInfo();
         });
     }
 

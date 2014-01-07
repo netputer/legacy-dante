@@ -304,26 +304,9 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
 
     }]);
 
-// 一个全局对象用来接收和发送与 Google sign 有关的事件
-window.googleSignInEventCenter = jQuery({});
-window.googleSignInOnloadDefer = jQuery.Deferred();
 window.facebookInitDefer = jQuery.Deferred();
-window.googleSignInCallback = function (data) {
-    window.googleSignInEventCenter.trigger('googleSignInCallback', {'authResult': data});
-};
 
 if (!READ_ONLY_FLAG) {
-    window.googleSignInOnload = function() {
-        window.gapi.client.setApiKey('AIzaSyB-esy_FeXlxXXzx3IaTNER058UX9iL3R0');
-        window.googleSignInOnloadDefer.resolve();
-    };
-
-    jQuery.ajax({
-        dataType: 'script',
-        cache: true,
-        url: 'https://apis.google.com/js/client:plusone.js?onload=googleSignInOnload'
-    });
-
     jQuery(window).one('load', function() {
         jQuery.ajax({
             dataType: 'script',

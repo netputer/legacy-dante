@@ -41,7 +41,7 @@ return [function() {
             };
 
             $rootScope.$on('sidebar:open', function() {
-                wdGoogleSignIn.getProfileInfo().then(function(data) {
+                wdGoogleSignIn.getProfile().then(function(data) {
                     $scope.profileInfo = data;
                 });
             });
@@ -115,15 +115,7 @@ return [function() {
                             $scope.deviceList = getListData(list);
                         }, function(xhr) {
                             GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_sidebarRefreshDevicesFailed');
-                            wdGoogleSignIn.checkToken().then(function() {
-                                getDevices();
-                            }, function() {
-                                return wdGoogleSignIn.refreshToken(true);
-                            }).then(function () {
-                                getDevices();
-                            }, function() {
-                                $scope.signout();
-                            });
+                            $scope.signout();
                         });
                     })();
                 }, 300);
@@ -132,7 +124,11 @@ return [function() {
             function loopRefreshDevices() {
                 $scope.loopRefreshDevices = wdGoogleSignIn.loopGetDevices();
                 $scope.$watch('loopRefreshDevices', function(newData, oldData) {
-                    $scope.deviceList = getListData(newData);
+                    
+                    // siderbar 的设备列表中至少有一台设备
+                    if(newData !== oldData) {
+                        $scope.deviceList = getListData(newData);
+                    }
                 }, true);
             }
 

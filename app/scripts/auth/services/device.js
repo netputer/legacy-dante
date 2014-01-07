@@ -6,10 +6,9 @@ define([
 'use strict';
 return function() {
     var self = this;
-    self.$get = ['$window', '$location', 'wdDev', '$rootScope',
-        function($window, $location, wdDev, $rootScope ) {
+    self.$get = ['$window', '$location', 'wdDev', '$rootScope', '$q', 'GA',
+        function($window, $location, wdDev, $rootScope, $q, GA) {
         var valid = false;
-        var signoutDetectionTimer = null;
         return {
             valid: function() {
                 return valid;
@@ -38,24 +37,13 @@ return function() {
                 this.setDevice({status:'devices'});
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
-                }
-                else {
+                } else {
                     $location.url('/portal');
                 }
                 $rootScope.$broadcast('signout');
-                this.stopSignoutDetection();
             },
-            startSignoutDetection: function() {
-                var self = this;
-                signoutDetectionTimer = setInterval(function() {
-                    if (!$window.localStorage.getItem('googleToken')) {
-                        self.stopSignoutDetection();
-                        $rootScope.$apply(function() {
-                            self.signout();
-                        });
-                    }
-                }, 1000);
-            },
+
+            // 远程点亮一台手机
             lightDeviceScreen: function(deviceId) {
                 var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
                 $.ajax({
@@ -63,14 +51,11 @@ return function() {
                     url: url,
                     dataType: 'jsonp',
                     data: {
-                        did: deviceId,
-                        google_token: $window.localStorage.getItem('googleToken')
+                        did: deviceId
                     }
                 });
-            },
-            stopSignoutDetection: function() {
-                clearInterval(signoutDetectionTimer);
             }
+
         };
     }];
 };
