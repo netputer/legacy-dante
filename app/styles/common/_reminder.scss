@@ -1,6 +1,6 @@
 .wd-remind {
     width: 350px;
-    @include position(absolute, 0 0 10px 10px);
+    @include position(absolute, 0 0 10px 0px);
     background-color: #fff;
     border-radius: 4px;
     padding: 0;
@@ -10,7 +10,7 @@
 
     &.remind-open {
         @include ui-layer-top;
-        @include transform(translate3d(0, 0, 0));
+        @include transform(translate3d(10px, 0, 0));
     }
 
     .remind-help {

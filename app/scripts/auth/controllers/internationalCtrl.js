@@ -72,7 +72,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         wdDev.setServer(ip);
         
         // 下面方法统计是否超时会用到
-        var timeout = 20000;
+        var timeout = 10000;
         var timeStart = (new Date()).getTime();
         $http({
             method: 'get',
