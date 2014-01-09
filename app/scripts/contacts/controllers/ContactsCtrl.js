@@ -12,7 +12,7 @@ define([
 return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope',
 function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope) {
     $scope.$emit('currentModule', 'contacts');
-    
+
     //默认头像显示颜色
     var photoColorList = [
         'contact-photo-bg-green',
@@ -131,7 +131,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         getList(data);
         showLoadMore();
         G_isFirst = false;
-        showSelectedNum();
     }
 
     function getListItem(data) {
@@ -446,8 +445,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
             
             $scope.deselectAll();
-            $scope.isDeselectBtnShow = false;
-            $scope.isDeleteBtnShow = false;
             wdcContacts.delContacts(delId).success(function(data) {
                 // toastDefer.resolve();
             }).error(function() {
@@ -465,9 +462,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //取消所有
     $scope.deselectAll = function() {
-        $scope.isDeselectBtnShow = false;
-        $scope.isDeleteBtnShow = false;
-        wdcContacts.checkedList = [];
+        $scope.setCheckedList([]);
     };
 
     $scope.clickChecked = function(item) {
@@ -496,7 +491,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             });
         }
         G_lastChecked = item ;
-        showSelectedNum();
     };
 
     //编辑联系人
@@ -901,7 +895,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     };
 
     $scope.setCheckedList = function(list) {
-        wdcContacts.checkedList = list;
+        wdcContacts.checkedList.splice(0, wdcContacts.checkedList.length);
+        Array.prototype.push.apply(wdcContacts.checkedList, list);
     };
 
     //搜索联系人功能
@@ -950,7 +945,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                     $scope.isNoContactsShow = true;
                 }
                 showLoadMore();
-                showSelectedNum();
                 goToListTop();
             });
         });
@@ -967,16 +961,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         }
         showLoadMore();
     };
-
-    function showSelectedNum() {
-        if (wdcContacts.checkedList.length > 0) {
-            $scope.isDeselectBtnShow = true;
-            $scope.isDeleteBtnShow = true;
-        } else {
-            $scope.isDeselectBtnShow = false;
-            $scope.isDeleteBtnShow = false;
-        }
-    }
 
     function showLoadMore() {
 
@@ -1017,8 +1001,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     $scope.isListLoadShow = false;
     $scope.isPhotoUploadShow = false;
     $scope.isNoContactsShow = false;
-    $scope.isDeselectBtnShow = false;
-    $scope.isDeleteBtnShow = false;
     $scope.isEditBtnShow = true;
     $scope.isDelBtnShow = true;
     $scope.isSaveBtnShow = false;
