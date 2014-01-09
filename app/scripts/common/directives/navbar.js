@@ -14,10 +14,9 @@ return [function() {
                 '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification', 'wdUserSettings',
         function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window, GA, $rootScope, wdDevice, wdDesktopNotification, wdUserSettings) {
+                 wdAlert,   $window,   GA,   $rootScope,   wdDevice,   wdDesktopNotification,   wdUserSettings) {
 
             $scope.messageNotification = false;
-
             var currentLayer = '';
 
             $scope.controlSidebar = function(layer) {
@@ -65,10 +64,6 @@ return [function() {
                     }
                 }
             });
-
-            $scope.requestDesktopNotificationPermission = function () {
-                wdDesktopNotification.requestPermission();
-            };
         }],
         link: function($scope, $element, $attrs, $controller) {
             var highlight = $element.find('.active-module-bg');

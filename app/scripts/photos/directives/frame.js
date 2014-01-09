@@ -28,20 +28,19 @@ return ['wdpImageHelper', 'wdDev', function(wdpImageHelper, wdDev) {
                     .data('rotation', 0)
                     .attr('src', thumbnailPath);
                 layout($image);
-                if (!wdDev.isWapRemoteConnection() || wdDev.getRemoteConnectionData('photos').loadImages) {
-                    wdpImageHelper.preload(newPhoto.path).then(function() {
-                        $image
-                            .attr('src', newPhoto.path)
-                            .data('rotation', $image.data('rotation') + newPhoto.orientation)
-                            .data('width', newPhoto.width)
-                            .data('height', newPhoto.height)
-                            .css({
-                                transition: 'none',
-                                transform: 'rotate(' + $image.data('rotation') + 'deg)'
-                            });
-                            layout($image);
-                    });
-                }
+                
+                wdpImageHelper.preload(newPhoto.path).then(function() {
+                    $image
+                        .attr('src', newPhoto.path)
+                        .data('rotation', $image.data('rotation') + newPhoto.orientation)
+                        .data('width', newPhoto.width)
+                        .data('height', newPhoto.height)
+                        .css({
+                            transition: 'none',
+                            transform: 'rotate(' + $image.data('rotation') + 'deg)'
+                        });
+                        layout($image);
+                });
                 
                 return $image;
             };

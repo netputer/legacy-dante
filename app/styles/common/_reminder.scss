@@ -1,6 +1,6 @@
 .wd-remind {
     width: 350px;
-    @include position(absolute, 0 0 10px 0px);
+    @include position(absolute, 0 0 10px 10px);
     background-color: #fff;
     border-radius: 4px;
     padding: 0;
@@ -15,5 +15,14 @@
 
     .remind-help {
         float: left;
+    }
+    .modal-body {
+        padding: 3px 15px 15px;
+        color: #999;
+    }
+    .modal-footer {
+        button {
+            padding: 4px 15px;
+        }
     }
 }
