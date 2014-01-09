@@ -170,6 +170,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
         if (G_list.length < 1 && l < 1) {
             $scope.isNoneContacts = true;
+            checkUrlCommand();
         }
 
         for (var i = 0; i < l; i += 1) {
@@ -682,12 +683,13 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
 
     //添加新的联系人
     $scope.addNewContact = function(newData) {
-
         GA('Web Contacts:click add a New Contacts button');
         if ( $scope.currentStatus === 'new') { return; }
         $scope.isContactsEditShow = false;
-        $scope.isRightLoadShow = true;
+        $scope.isLeftLoadShow = false;
+        $scope.isRightLoadShow = false;
         $scope.isNoContactsShow = false;
+        $scope.isNoneContacts = false;
         var toastDefer = $q.defer();
         toastDefer.promise.content = $scope.$root.DICT.contacts.WAITING;
 
