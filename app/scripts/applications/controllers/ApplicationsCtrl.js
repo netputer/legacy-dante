@@ -197,6 +197,10 @@ define([
 
             for(var i = 0,l = btnEles.length;i<l;i += 1 ){
                 /* jshint -W083 */
+                // 防止重复创建
+                if (G_uploader) {
+                    return;
+                }
                 G_uploader = new fineuploader.FineUploaderBasic({
                     button: btnEles[i],
                     request: {
