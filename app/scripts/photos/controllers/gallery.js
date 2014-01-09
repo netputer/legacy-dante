@@ -46,16 +46,18 @@ $scope.$on('$routeUpdate', function(scope, next, current) {
 });
 
 function previewPhotoByUrl() {
-    Photos.get({ 
-        id: $route.current.params.preview
-    }, function(photo) {
-        $location.search('preview', null).replace();
-        mergePhotos(photo);
-        $scope.preview(photo);
-        loadScreen();
-    }, function() {
-        loadScreen();
-    });
+    if($route.current.params.preview) {
+        Photos.get({ 
+            id: $route.current.params.preview
+        }, function(photo) {
+            $location.search('preview', null).replace();
+            mergePhotos(photo);
+            $scope.preview(photo);
+            loadScreen();
+        }, function() {
+            loadScreen();
+        });
+    }
 }
 
 if ($scope.serverMatchRequirement) {
