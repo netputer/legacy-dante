@@ -327,6 +327,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.isShowNoSignInPage = true;
             stopLoopGetDevicesList();
             wdSignInDetection.stopSignOutDetection();
+            
+            // 检测是否在其他页面登陆，或者在弹出窗口登陆等
+            wdSignInDetection.startSignInDetection();
         }, function() {
             $scope.isLoadingDevices = false;
             stopLoopGetDevicesList();

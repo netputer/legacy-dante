@@ -17,7 +17,6 @@ function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAl
          wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
-
 $scope.firstScreenLoaded = false;
 $scope.loaded = false;
 $scope.allLoaded = false;
@@ -41,20 +40,30 @@ wdViewport.on('resize', function() {
     $scope.$apply(layout);
 });
 
+// 监听 URL 的变化，即 $routeUpdate 事件
+$scope.$on('$routeUpdate', function(scope, next, current) {
+    previewPhotoByUrl();
+});
+
+function previewPhotoByUrl() {
+    if($route.current.params.preview) {
+        Photos.get({ 
+            id: $route.current.params.preview
+        }, function(photo) {
+            $location.search('preview', null).replace();
+            mergePhotos(photo);
+            $scope.preview(photo);
+            loadScreen();
+        }, function() {
+            loadScreen();
+        });
+    }
+}
+
 if ($scope.serverMatchRequirement) {
     if ($route.current.params.preview) {
-        Photos.get(
-            { id: $route.current.params.preview },
-            function(photo) {
-                $location.search('preview', null).replace();
-                mergePhotos(photo);
-                $scope.preview(photo);
-                loadScreen();
-            }, function() {
-                loadScreen();
-            });
-    }
-    else {
+        previewPhotoByUrl();
+    } else {
         loadScreen();
     }
 
@@ -86,21 +95,9 @@ $scope.preview = function(photo) {
 };
 
 $scope.download = function(photo) {
-    // var f = $window.document.createElement('iframe');
-    // f.style.width = '1px';
-    // f.style.height = '1px';
-    // f.style.margin = '0 -1px -1px 0';
-    // f.style.visibility = 'hidden';
-    // $window.document.body.appendChild(f);
-    // setTimeout(function() {
-    //     $window.document.body.removeChild(f);
-    //     f = f.src = null;
-    // }, 2000);
-    // f.src = photo.path;
-    // $window.open(photo.path, '_self');
-    
     $window.location = photo.download_path || photo.path;
 };
+
 $scope['delete'] = function(photo) {
     return wdAlert.confirm(
             $scope.$root.DICT.photos.CONFIRM_DELETE_TITLE,
@@ -112,6 +109,7 @@ $scope['delete'] = function(photo) {
         $scope.$broadcast('wdp:photos:remove', [photo]);
     });
 };
+
 $scope.removePhotos = function(photos) {
     if (!_.isArray(photos)) {
         photos = [photos];
