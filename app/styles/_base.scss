@@ -41,6 +41,12 @@ html.cors .no-support-placeholder {
         @include position;
         height: 100%;
         overflow: hidden;
+
+        &.remote-connection-wap {
+            height: calc(100% - 32px);
+            height: -webkit-calc(100% - 32px);
+            height: -moz-calc(100% - 32px);
+        }
     }
 }
 
@@ -111,6 +117,41 @@ img {
 .wd-upgrade-warning{    
     a.btn-primary:hover {
         color: #fff;
+    }
+}
+
+.wd-tip {
+    height: 20px;
+    padding: 6px 10px;
+    background-color: #ED9A4D;
+    color: #fff;
+    @include position;
+    @include transition(all $global-transition-duration);
+
+    &.closing-tip {
+        @include animation(slideOutUp $global-transition-duration);
+        height: 0;
+        padding: 0;
+    }
+    &.remote-connection-tip {
+        .tip-content {
+            width: 80%;
+        }
+
+        .tip-action {
+            text-decoration: underline;
+        }
+    }
+
+    .tip-content {
+        width: 98%;
+        @include ellipsis;
+        margin: 0;
+    }
+    .tip-action {
+        @include position(absolute, 6px 6px 0 0);
+        cursor: pointer;
+        padding: 0 4px;
     }
 }
 

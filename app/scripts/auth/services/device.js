@@ -6,8 +6,8 @@ define([
 'use strict';
 return function() {
     var self = this;
-    self.$get = ['$window', '$location', 'wdDev', '$rootScope', '$q', 'GA',
-        function($window, $location, wdDev, $rootScope, $q, GA) {
+    self.$get = ['$window', '$location', 'wdDev', '$rootScope',
+        function($window,    $location,   wdDev,   $rootScope) {
         var valid = false;
         return {
             valid: function() {

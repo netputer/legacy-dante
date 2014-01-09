@@ -26,33 +26,6 @@
         }
     }
 
-    .wdm-alert {
-        height: 20px;
-        padding: 6px 10px;
-        background-color: #ED9A4D;
-        color: #fff;
-        @include position;
-        @include transition(all 0.3s);
-
-        &.closing-alert {
-            @include animation(slideOutUp 0.3s);
-            height: 0;
-            padding: 0;
-        }
-        .tip-content {
-            width: 98%;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0;
-        }
-        .close-alert {
-            @include position(absolute, 6px 6px 0 0);
-            cursor: pointer;
-            padding: 0 4px;
-        }
-    }
-
     // Position with override display in Firefox 19-.
     // We need a other element to apply flexbox.
     .wdm-layout {

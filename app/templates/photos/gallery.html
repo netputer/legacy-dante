@@ -1,7 +1,5 @@
 <div class="wdj-photos" wd-scroll-detect bottom="autoFetch()">
-        
     <div class="wdp-timeline-container" wdp-gallery>
-
         <!-- 拍照实时显示的介绍 -->
         <div class="photo-snap-intro" ng-class="{hide: addPhotoSnapIntroHideClass}" ng-if="showPhotoSnapIntro">
             <div class="content">
@@ -17,7 +15,7 @@
         </div>
         <!-- 拍照实时显示的介绍 end -->
 
-        <div class="wdp-showcases-container">
+        <div class="wdp-showcases-container">  
             <div class="wdp-showcase">
                 <div class="wdp-block"
                     wdp-repeat="photo in photos"
@@ -106,7 +104,7 @@
         <ul class="albums-container">
             <li ng-repeat="album in albumList">
                 <div class="thumbnail-container" ng-click="selectAlbum(album, !album.visible)">
-                    <img ng-if="album.thumbnail_path" ng-src="{{album.thumbnail_path}}" class="album-thumbnail">
+                    <img ng-src="{{$root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.photos.loadImages ? '' : album.thumbnail_path}}" class="album-thumbnail">
                     <label class="action-select checkbox inline"
                         bs-tooltip="{{album.visible ? $root.DICT.photos.BLOCK_DESELECT : $root.DICT.photos.BLOCK_SELECT}}"
                         data-options="{container: false}">

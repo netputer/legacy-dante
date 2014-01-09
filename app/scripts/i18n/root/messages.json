@@ -32,5 +32,9 @@
     "ADD_CONTACT": "Add to contacts",
     "NEW_MESSAGE_TIP": "New messages from $$$$",
     "MESSAGE_STATUS_REPORTER": "Delivered $$",
-    "MESSAGE_ALERT_FOR_ANDROID_44": "Your phone's running Android 4.4 (Kit Kat), currently some of the messaging functions are unavailable, including deleting messages, sending group messages, and displaying the read/unread status of messages."         
+    "MESSAGE_ALERT_FOR_ANDROID_44": "Your phone's running Android 4.4 (Kit Kat), currently some of the messaging functions are unavailable, including deleting messages, sending group messages, and displaying the read/unread status of messages.",
+    "WAP_CONNECTION_ALERT": {
+        "CONTENT": "You are using MobileConnect. To save your data plan, SnapPea isn’t loading avatars.",
+        "ACTION": "Load avatars"
+    }         
 }

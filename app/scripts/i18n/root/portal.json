@@ -29,9 +29,9 @@
     "GOOGLE_BUTTON": "Sign in with Google",
     "SHOW_ACCOUNT_NAME_DEFAULT": "the same account",
     "CONNECT_DEVICE_FAILED_POP": {
-        "title": "Failed to connect",
-        "content": "<ol><li>Confirm that SnapPea is running on your phone.</li><li>Confirm that your computer is on the <strong>$$$$</strong> Wi-Fi network. Your phone and computer have to be on the same Wi-Fi.</li>",
-        "OK": "Reconnect",
+        "title": "Connection failed",
+        "content": "Confirm that SnapPea is running on your phone.",
+        "OK": "Try again",
         "CANCEL": "Cancel"
     },
     "ANNOUNCEMENT": "Heya SnapPea user:  Version 1.5 is here! Sign in is now faster and more secure with your Google account.",
@@ -76,5 +76,13 @@
         "PAGE2_WAY1": "Use <span class='account'>$$$$</span> to sign in. Your phone will appear here.",
         "PAGE2_WAY2": "Still can't connect phone?"
     },
-    "CONNECTING" : "Connecting"
+    "CONNECTING" : "Connecting",
+    "WAP_CONNECTION_ALERT": {
+        "TITLE": "Use mobile data to connect to your phone",
+        "CONTENT": "Using MobileConnect may cost you money depending upon your data plan.",
+        "OK": "Continue",
+        "CANCEL": "Cancel"
+    },
+    "REMOTE_CONNECTION": "Remote Connection",
+    "WAP_CONNECTION": "3G MobileConnect"
 }

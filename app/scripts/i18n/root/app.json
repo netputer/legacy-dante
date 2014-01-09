@@ -19,13 +19,14 @@
         "button_cancel": "Cancel"
     },
     "LANGUAGE_MODAL_TITLE": "Change language",
-    "DISCONNECT_DEVICE": "Disconnected from your phone",
-    "TRY_NOW": "Try now",
-    "CONNECT_DELAY_TIME": {
-        "pre": "Retrying in",
-        "after" : "seconds..."
+    "SOCKET_DISCONNECT_REMIND": {
+        "TITLE": "Disconnected from your phone",
+        "OK": "Try now",
+        "CONNECT_DELAY_TIME": "<p class='socket-disconnect-countdown'>Retrying in $$$$ seconds...</p>",
+        "TIP": "Confirm that SnapPea is running on your phone and that it is connected to the internet.",
+        "LINK": "https://snappea.zendesk.com/hc/en-us/articles/201062727--Official-Signing-in-to-the-web-version",
+        "LINK_TEXT": "Unable to connect?"
     },
-    "CHECK_SAME_NETWORK": "Make sure your computer is on the Wi-Fi network ",
     "SIGN_OUT_TOAST": "Signing out...",
     "SIGN_OUT_ERROR_TOAST": "Sign out failed.",
     "DISCONNECT_FACEBOOK_INFO": "Disconnect your Facebook you will no longer be able to share your photos on Facebook.",
@@ -46,5 +47,12 @@
     "SELECT_DEVICES_TIP": "Select phone",
     "HELP": "Help",
     "FEEDBACK": "Feedback survey",
-    "TRANSLATE": "Get the Windows version"
+    "TRANSLATE": "Get the Windows version",
+    "REMOTE_CONNECTION_REMIND": {
+        "TITLE": "You are using Wi-Fi ConnectUnlimited",
+        "CONTENT": "Your phone and browser are on different Wi-Fi networks. SnapPea lets you transfer files without any limits.",
+        "OK": "Got it",
+        "HELP_LINK": "https://snappea.zendesk.com/hc/en-us/articles/201370443",
+        "HELP_TEXT": "Learn more"
+    }
 }

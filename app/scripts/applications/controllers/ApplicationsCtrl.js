@@ -10,7 +10,10 @@ define([
     'use strict';
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
-    return ['$scope','$http','wdDev','wdSocket','wdAlert','$route','GA','wdcApplications','wdKey',function($scope,$http,wdDev,wdSocket,wdAlert,$route,GA,wdcApplications,wdKey){
+    return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter',
+    function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter){
+
+        $scope.$emit('currentModule', 'applications');
 
         //$scope相关
         //展示应用列表
@@ -197,7 +200,7 @@ define([
                 G_uploader = new fineuploader.FineUploaderBasic({
                     button: btnEles[i],
                     request: {
-                        endpoint: wdDev.wrapURL('/resource/apps/upload')
+                        endpoint: wdDev.wrapRemoteConnectionUploadURL('/resource/apps/upload')
                     },
                     validation: {
                         acceptFiles: '.apk',
@@ -213,6 +216,32 @@ define([
                     },
                     autoUpload: true,
                     callbacks: {
+                        onValidateBatch: function(fileData) {
+                            var d = $.Deferred();
+                            var size = 0;
+                            _.each(fileData, function(item) {
+                                size += item.size;
+                            });
+
+                            if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
+                                $scope.$apply(function() {
+                                    wdAlert.confirm(
+                                        $rootScope.DICT.applications.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
+                                        $rootScope.DICT.applications.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
+                                        $rootScope.DICT.applications.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
+                                        $rootScope.DICT.applications.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
+                                    ).then(function() {
+                                        d.resolve();
+                                    }, function() {
+                                        d.reject();
+                                    });
+                                });
+                            } else {
+                                d.resolve();
+                            }
+                            
+                            return d.promise();
+                        },
                         onSubmit: function(id,name) {
                             showUploadApp(id,name);
                             $('.wd-blank').hide();
@@ -221,34 +250,36 @@ define([
                             updateUpload(id,name,Math.floor(progress/total*100));
                         },
                         onComplete: function(id, name, data){
-                            if (data.success) {
-                                var result = data.result[0];
-                                for(var i = 0, l = $scope.newList.length; i < l ; i += 1 ){
-                                    if($scope.newList[i]['id'] === id){
-                                        $scope.newList[i]['package_name'] = result['package_name'];
-                                        $scope.newList[i]['apk_path'] =  result['apk_path'];
-                                        $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
-                                        // Boss Wang 
-                                        $scope.newList[i].confirmTipShow = true;
-                                        $scope.newList[i].progressShow = false;
-                                        $('dd.confirm').css('opacity', 0.8);
+                            $scope.$apply(function() {
+                                if (data.success) {
+                                    var result = data.result[0];
+                                    for(var i = 0, l = $scope.newList.length; i < l ; i += 1 ){
+                                        if($scope.newList[i]['id'] === id){
+                                            $scope.newList[i]['package_name'] = result['package_name'];
+                                            $scope.newList[i]['apk_path'] =  result['apk_path'];
+                                            $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
+                                            // Boss Wang 
+                                            $scope.newList[i].confirmTipShow = true;
+                                            $scope.newList[i].progressShow = false;
+                                            $('dd.confirm').css('opacity', 0.8);
 
-                                        if(!G_unknownTips){
-                                            G_unknownTips = result.unknown_sources;
-                                        }
-                                        if(!G_unknownTips){
-                                            showUnknowTips();
+                                            if(!G_unknownTips){
+                                                G_unknownTips = result.unknown_sources;
+                                            }
+                                            if(!G_unknownTips){
+                                                showUnknowTips();
+                                            }
                                         }
                                     }
+                                } else {
+                                    var app = _.find($scope.newList, function(item) {
+                                        return item.id === id;
+                                    });
+                                    $scope.$apply(function() {
+                                        app.showErrorTip = true;
+                                    });
                                 }
-                            } else {
-                                var app = _.find($scope.newList, function(item) {
-                                    return item.id === id;
-                                });
-                                $scope.$apply(function() {
-                                    app.showErrorTip = true;
-                                });
-                            }
+                            });
                         },
                         onError:function() {
                         }

@@ -230,9 +230,9 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations', 'wdReminder', 'wdDevice',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase, wdWindowFocus, wdmConversations) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase,   wdWindowFocus,   wdmConversations,   wdReminder,   wdDevice) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -273,9 +273,24 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdDatabase.open(wdDev.getMetaData('phone_udid'));
                 // SDK version equals 19 means SDK 4.4
                 $rootScope.SDK_19 = wdDev.getMetaData('SDK_version') === 19 ? true : false;
+
+                if (wdDev.isRemoteConnection() && !wdDev.isWapRemoteConnection()) {
+                    wdReminder.open(
+                        $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.TITLE,
+                        $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.CONTENT,
+                        $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.OK,
+                        {
+                            link: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_LINK,
+                            text: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_TEXT
+                        } 
+                    );
+                }
+
+                remindSocketDisconnect();
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
         });
+
         $rootScope.$on('signout', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
@@ -283,6 +298,24 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdTitleNotification.restore();
                 $rootScope.$broadcast('sidebar:close');
             }
+        });
+
+        $rootScope.$on('currentModule', function(event, module) {
+            if (wdDev.isRemoteConnection()) {
+                var tip = {
+                    content: $rootScope.DICT[module].WAP_CONNECTION_ALERT.CONTENT,
+                    action: $rootScope.DICT[module].WAP_CONNECTION_ALERT.ACTION
+                };
+                wdDev.setRemoteConnectionData(tip);
+            }
+
+            $rootScope.loadImages = function() {
+                var tempObj = {};
+                tempObj[module] = {
+                    loadImages: true
+                };
+                wdDev.setRemoteConnectionData(tempObj);
+            };
         });
 
         wdSocket.on('refresh', function() {
@@ -298,6 +331,82 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         $window.onbeforeunload = function() {
             wdDatabase.close();
         };
+
+        function remindSocketDisconnect() {
+            var disconnected = false;
+            var connectTimer = null;
+            var INIT_DELAY_TIME = 10;
+            var delayTime = INIT_DELAY_TIME;
+
+            var refreshDelayTime = function() {
+                clearConnectTimer();
+
+                delayTime = INIT_DELAY_TIME;
+                showDisconnectRemind();
+                connectTimer = setInterval(function() {
+                    $rootScope.$apply(function() {
+                        delayTime -= 1;
+                        showDisconnectRemind();
+                        if (!delayTime) {
+                            connectSocket();
+                        }
+                    });
+                }, 1000);
+            };
+
+            var clearConnectTimer = function() {
+                if (connectTimer) {
+                    clearInterval(connectTimer);
+                    connectTimer = null;
+                }
+            };
+
+            var showDisconnectRemind = function() {
+                var content = $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.CONNECT_DELAY_TIME.replace('$$$$', delayTime) + 
+                              $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP;
+
+                wdReminder.open(
+                    $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TITLE,
+                    content,
+                    $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.OK,
+                    {
+                        link: $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.LINK,
+                        text: $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.LINK_TEXT
+                    },
+                    false
+                ).then(function() {
+                    wdSocket.trigger('socket:connect');
+                    connectSocket();
+                });
+            };
+
+            var closeDisconnectRemind = function() {
+                wdReminder.close();
+                clearConnectTimer();
+            };
+
+            var connectSocket = function() {
+                wdSocket.trigger('socket:connect');
+                refreshDelayTime();
+            };
+
+            wdSocket.on('socket:disconnected', function() {
+                disconnected = true;
+                if (!connectTimer) {
+                    refreshDelayTime();
+                }
+            });
+
+            wdSocket.on('socket:connected', function() {
+                if (disconnected) {
+                    closeDisconnectRemind();
+                }
+            });
+
+            $rootScope.$on('signout', function() {
+                closeDisconnectRemind();
+            });
+        }
 
         wdWindowFocus.initialize();
         wdmConversations.initialize();

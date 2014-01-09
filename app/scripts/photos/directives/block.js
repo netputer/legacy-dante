@@ -10,7 +10,7 @@ define([
         _
     ) {
 'use strict';
-return [function() {
+return ['$rootScope', 'wdDev', function($rootScope, wdDev) {
 return {
 
 template: template,
@@ -29,7 +29,16 @@ link: function($scope, element) {
     // Update thumbnail
     $scope.$watch('photo.thumbnail_path', function() {
         photo.addClass('fadeIn');
-        renderImage();
+        if (wdDev.isWapRemoteConnection()) {
+            $rootScope.$watch('remoteConnection.photos.loadImages', function(val) {
+                if (val) {
+                    renderImage();
+                }
+            });
+        } else {
+            renderImage();
+        }
+        
     });
     // Update layout
     $scope.$on('wdp:showcase:layout', function(e, layout) {

@@ -44,5 +44,15 @@
     "UNSUPPORT_MODAL_BUTTON_OK": "OK",
     "DRAG_TITLE": "Drop apk here",
     "DRAG_TIP": "Adds apk to your phone.",
-    "UPLOAD_ERROR_TIP": "Failed to install."
+    "UPLOAD_ERROR_TIP": "Failed to install.",
+    "WAP_CONNECTION_ALERT": {
+        "CONTENT": "You are using MobileConnect. To save your data plan, SnapPea isn’t loading icons. ",
+        "ACTION": "Load icons"
+    },
+    "WAP_CONNECTION_UPLOAD_COMFIRM": {
+        "TITLE": "This action uses mobile data",
+        "CONTENT": "MobileConnect will use $$$$ MB of your mobile data plan to upload this APK file.",
+        "OK": "Continue",
+        "CANCEL": "Cancel"
+    }
 }

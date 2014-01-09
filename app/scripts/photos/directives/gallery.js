@@ -8,7 +8,9 @@ return [function() {
 return {
 
 scope: true,
-controller: ['$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', function($scope, GA, wdAlert, wdDev, wdpAlbums, $route) {
+controller: [
+        '$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', '$rootScope', '$filter',
+function($scope,   GA,   wdAlert,   wdDev,   wdpAlbums,   $route,   $rootScope,   $filter) {
     // Selection logic.
     $scope.lastSelectedPhoto = null;
 
@@ -81,9 +83,31 @@ controller: ['$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', function
     };
 
     $scope.downloadSelected = function() {
+        var size = 0;
+        _.each($scope.selectedPhotos(), function(item) {
+            size += item.size;
+        });
+
+        if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
+            wdAlert.confirm(
+                $scope.$root.DICT.photos.WAP_CONNECTION_DOWNLOAD_COMFIRM.TITLE,
+                $scope.$root.DICT.photos.WAP_CONNECTION_DOWNLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
+                $scope.$root.DICT.portal.WAP_CONNECTION_DOWNLOAD_COMFIRM.OK,
+                $scope.$root.DICT.portal.WAP_CONNECTION_DOWNLOAD_COMFIRM.CANCEL
+            ).then(function() {
+                download();
+            });
+        } else {
+            download();
+        }
+        
+    };
+
+    function download() {
         var form = document.createElement('form');
         form.method = 'POST';
         form.action = wdDev.getServer() + '/static/photos';
+        form.action = wdDev.isRemoteConnection() ? wdDev.wrapRemoteConnectionURL(form.action) : form.action;
         form.target = '_self';
         var path = document.createElement('input');
         path.type = 'text';
@@ -93,7 +117,7 @@ controller: ['$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', function
         form.style.display = 'none';
         document.body.appendChild(form);
         form.submit();
-    };
+    }
 
     // Utils
     function confirm() {

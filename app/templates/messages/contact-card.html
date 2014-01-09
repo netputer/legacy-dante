@@ -1,6 +1,6 @@
 <div class="wdm-contact-card">
     <div class="wdm-contact-card-avatar">
-        <img ng-src="{{contactAvatar}}" ng-if="contactAvatar"/>
+        <img ng-src="{{contactAvatar | wrapRemoteConnectionURL}}" ng-if="contactAvatar"/>
     </div>
     <div class="wdm-contact-card-name">{{ contactExisted ? contactName : contactAddress }}</div>
     <div class="wdm-contact-card-info" ng-if="contactExisted">{{ contactAddress }}</div>

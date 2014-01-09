@@ -24,7 +24,6 @@ define([
     'common/services/share',
     'common/directives/auto-stretch-textarea',
     'common/directives/temporary-disabled',
-    'common/directives/disconnect-panel',
     'common/directives/sidebar',
     'common/services/db',
     'common/directives/nav-item',
@@ -33,7 +32,11 @@ define([
     'common/directives/scroll-detect',
     'common/services/communicate-snappea-com',
     'common/services/user-settings',
-    'common/filters/html-linky'
+    'common/filters/html-linky',
+    'common/services/reminder',
+    'common/directives/reminder',
+    'common/filters/size-format',
+    'common/filters/wrap-remote-connection-url'
 ], function(
     angular,
     loading,
@@ -60,7 +63,6 @@ define([
     share,
     autoStretchTextarea,
     temporaryDisabled,
-    disconnectPanel,
     sidebar,
     db,
     navItem,
@@ -69,7 +71,11 @@ define([
     scrollDetect,
     communicateSnappeaCom,
     userSettings,
-    htmlLinky
+    htmlLinky,
+    reminder,
+    reminderDirective,
+    sizeFormat,
+    wrapRemoteConnectionURL
 ) {
 // jshint unused:false
 'use strict';
@@ -87,9 +93,9 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .directive('wdBlank', blankDirective)
     .directive('wdUpgradeWarning', upgradeWarningDirective)
     .directive('wdTemporaryDisabled', temporaryDisabled)
-    .directive('disconnectPanel', disconnectPanel)
     .directive('wdSidebar', sidebar)
     .directive('wdScrollDetect', scrollDetect)
+    .directive('wdReminder', reminderDirective)
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
@@ -109,6 +115,9 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     .factory('wdDatabase', db)
     .factory('wdCommunicateSnappeaCom', communicateSnappeaCom)
     .factory('wdUserSettings', userSettings)
+    .factory('wdReminder', reminder)
     // filters
-    .filter('htmlLinky', htmlLinky);
+    .filter('htmlLinky', htmlLinky)
+    .filter('sizeFormat', sizeFormat)
+    .filter('wrapRemoteConnectionURL', wrapRemoteConnectionURL);
 });

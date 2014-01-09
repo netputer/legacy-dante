@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversationsCollection', '$q', '$http', 'GA',
-function(wdmConversationsCollection,   $q,   $http,   GA) {
+return ['wdmConversationsCollection', '$q', '$http', 'GA', '$rootScope', 'wdDev',
+function(wdmConversationsCollection,   $q,   $http,   GA,   $rootScope,   wdDev) {
 
 var _super = wdmConversationsCollection.ConversationsCollection.prototype;
 
@@ -98,6 +98,7 @@ _.extend(ExtendedConversationsCollection.prototype, {
                     { params: params }
                 ).then(function success(response) {
                     GA('perf:conversations_fetch_duration:success:' + ((new Date()).getTime() - timeStart));
+                    
                     var rawData = [].concat(response.data);
                     if (response.data.length) {
                         this._cursor = response.data[response.data.length - 1].date;

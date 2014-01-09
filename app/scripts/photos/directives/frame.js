@@ -12,11 +12,12 @@ define([
 
     photo: photo to show
 */
-return ['wdpImageHelper', function(wdpImageHelper) {
+return ['wdpImageHelper', 'wdDev', function(wdpImageHelper, wdDev) {
     return {
         link: function($scope, element, attrs) {
             var $current = null;
             var create = function(newPhoto) {
+                var thumbnailPath = (wdDev.isWapRemoteConnection() && wdDev.getRemoteConnectionData('photos').loadImages) ? '' : newPhoto.thumbnail_path;
                 // Create an img tag, then set its dimensions according to frame's.
                 // At last, fade it in after the image resource being fully loaded.
                 var $image = angular.element('<img>');
@@ -25,21 +26,23 @@ return ['wdpImageHelper', function(wdpImageHelper) {
                     .data('width', newPhoto.orientation % 180 === 0 ? newPhoto.width : newPhoto.height)
                     .data('height', newPhoto.orientation % 180 === 0 ? newPhoto.height : newPhoto.width)
                     .data('rotation', 0)
-                    .attr('src', newPhoto.thumbnail_path);
+                    .attr('src', thumbnailPath);
                 layout($image);
-                wdpImageHelper.preload(newPhoto.path).then(function() {
-                    $image
-                        .attr('src', newPhoto.path)
-                        .data('rotation', $image.data('rotation') + newPhoto.orientation)
-                        .data('width', newPhoto.width)
-                        .data('height', newPhoto.height)
-                        .css({
-                            transition: 'none',
-                            transform: 'rotate(' + $image.data('rotation') + 'deg)'
-                        });
-                        layout($image);
-                });
-
+                if (!wdDev.isWapRemoteConnection() || wdDev.getRemoteConnectionData('photos').loadImages) {
+                    wdpImageHelper.preload(newPhoto.path).then(function() {
+                        $image
+                            .attr('src', newPhoto.path)
+                            .data('rotation', $image.data('rotation') + newPhoto.orientation)
+                            .data('width', newPhoto.width)
+                            .data('height', newPhoto.height)
+                            .css({
+                                transition: 'none',
+                                transform: 'rotate(' + $image.data('rotation') + 'deg)'
+                            });
+                            layout($image);
+                    });
+                }
+                
                 return $image;
             };
             var destroy = function($image) {

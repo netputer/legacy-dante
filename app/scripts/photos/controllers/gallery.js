@@ -11,10 +11,10 @@ define([
 return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
-        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', 
+        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', 'wdDev',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
-         wdSharing,   wdpAlbums,   wdToast, wdDevice, wdpPhotoSetting) {
+         wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 
@@ -24,6 +24,8 @@ $scope.allLoaded = false;
 $scope.layout = null;
 $scope.previewPhoto = null;
 $scope.deviceName = wdDevice.getDevice().model;
+
+$scope.$emit('currentModule', 'photos');
 
 // A temp solution.
 // Delegate '$scope.photos' to 'wdpPhotos.photos'
@@ -96,6 +98,7 @@ $scope.download = function(photo) {
     // }, 2000);
     // f.src = photo.path;
     // $window.open(photo.path, '_self');
+    
     $window.location = photo.download_path || photo.path;
 };
 $scope['delete'] = function(photo) {
@@ -222,6 +225,13 @@ function fetchPhotos(amount) {
         Photos.query(
             params,
             function fetchSuccess(photos, headers) {
+                if (wdDev.isRemoteConnection()) {
+                    _.each(photos, function(item) {
+                        item.thumbnail_path = wdDev.wrapRemoteConnectionURL(item.thumbnail_path);
+                        item.path = wdDev.wrapRemoteConnectionURL(item.path);
+                        item.download_path = item.download_path ? wdDev.wrapRemoteConnectionURL(item.download_path) : item.download_path;
+                    });
+                }
                 mergePhotos(photos);
                 GA('perf:photos_query_duration:success:' + ((new Date()).getTime() - timeStart));
                 defer.resolve(headers('WD-Need-More') === 'false');

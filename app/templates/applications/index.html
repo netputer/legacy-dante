@@ -33,7 +33,9 @@
         <!-- 已安装的应用列表 -->
         <dl class="wd-block app-block" ng-repeat="item in list" ng-class="{'confirm':item.confirmTipShow, 'wd-block-selected': item.checked, 'wd-block-selecting': selectedNum}" ng-style="{width:appBlockWidth,height:appBlockHeight}">
             <div class="content">
-                <dt><img ng-src="{{item.icon}}"></dt>
+                <dt>
+                    <img ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.applications.loadImages? '' : item.icon | wrapRemoteConnectionURL }}">
+                </dt>
                 <dd class="title" title="{{item.name}}">{{item.name}}</dd>
             </div>
             <div class="wd-block-mask" ng-click="selectedNum ? checkedApp($event, item) : showAppInfo(item.package_name);"></div>
@@ -53,7 +55,7 @@
                         bs-tooltip="{{$root.DICT.applications.BUTTONS.UNINSTALL}}"
                         ng-if="$root.READ_ONLY_FLAG"><i class="icon-delete-dark"></i></span>
                     <a class="btn-icon-download"
-                        href="{{item.download_url}}"
+                        href="{{item.download_url | wrapRemoteConnectionURL}}"
                         download="{{item.name}}.apk"
                         bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}"><i class="icon-down-dark"></i></a>
                 </div>
@@ -102,7 +104,7 @@
         <dl class="info" ng-click="$event.stopPropagation();">
             <span class="close-btn" ng-click="closeMask()">&times;</span>
             <dt>
-                <img ng-src="{{info.icon}}">
+                <img ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.applications.loadImages? '' : info.icon | wrapRemoteConnectionURL }}">
                 <h2>{{info.name}}</h2>
             </dt>
             <hr>
@@ -136,7 +138,7 @@
                     <i class="icon-del-toolbar"></i><span>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</span>
                 </div>
                 <div class="button-download">
-                    <a href="{{info.download_url}}" download="{{info.name}}.apk">
+                    <a href="{{info.download_url | wrapRemoteConnectionURL}}" download="{{info.name}}.apk">
                         <i class="icon-down-toolbar"></i>
                         <span>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</span>
                     </a>
