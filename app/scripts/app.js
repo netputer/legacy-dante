@@ -298,23 +298,13 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             }
         });
 
-        $rootScope.$on('currentModule', function(event, module) {
-            if (wdDev.isRemoteConnection()) {
-                var tip = {
-                    content: $rootScope.DICT[module].WAP_CONNECTION_ALERT.CONTENT,
-                    action: $rootScope.DICT[module].WAP_CONNECTION_ALERT.ACTION
-                };
-                wdDev.setRemoteConnectionData(tip);
-            }
+        $rootScope.remoteConnectionLoadPicture = function() {
+            var tempObj = {};
+            tempObj.loadPictures = true;
+            wdDev.setRemoteConnectionData(tempObj);
 
-            $rootScope.loadImages = function() {
-                var tempObj = {};
-                tempObj[module] = {
-                    loadImages: true
-                };
-                wdDev.setRemoteConnectionData(tempObj);
-            };
-        });
+            $rootScope.closingWDTip = true;
+        };
 
         wdSocket.on('refresh', function() {
             $route.reload();

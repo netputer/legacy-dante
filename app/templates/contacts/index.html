@@ -42,8 +42,8 @@
                     ng-checked="( getCheckedList().indexOf(item.id) !== -1 )"
                     bs-tooltip="{{item.tooltip}}"></div>
                 <div class="photo">
-                    <img ng-if="item.photo && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.contacts.loadImages)" class="photo" ng-src="{{item.photo | wrapRemoteConnectionURL}}">
-                    <div ng-if="((!!item.id && !item.photo) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.contacts.loadImages)) && item.name" class="photo-color" ng-class="item.photo_color">
+                    <img ng-if="item.photo && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.loadPictures)" class="photo" ng-src="{{item.photo | wrapRemoteConnectionURL}}">
+                    <div ng-if="((!!item.id && !item.photo) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures)) && item.name" class="photo-color" ng-class="item.photo_color">
                         {{item.name|limitTo:1}}
                     </div>
                 </div>
@@ -70,8 +70,8 @@
         <!-- 查看和编辑用户信息 -->
         <div class="contacts-edit" ng-show="isContactsEditShow">
             <div class="photo">
-                <img ng-if="contact.photo_path && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.contacts.loadImages)" class="photo" ng-src="{{contact.photo_path | wrapRemoteConnectionURL}}">
-                <div ng-if="(!contact.photo_path || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.contacts.loadImages))&& contact.name.display_name" class="photo-color" ng-class="contact.photo_color">
+                <img ng-if="contact.photo_path && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.loadPictures)" class="photo" ng-src="{{contact.photo_path | wrapRemoteConnectionURL}}">
+                <div ng-if="(!contact.photo_path || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures))&& contact.name.display_name" class="photo-color" ng-class="contact.photo_color">
                     {{contact.name.display_name|limitTo:1}}
                 </div>
             </div>

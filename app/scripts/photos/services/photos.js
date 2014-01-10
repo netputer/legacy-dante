@@ -41,9 +41,6 @@ wdSocket.on('photos_add.wdp', function(e, message) {
             Photos.get({id: id}, function(p) {
                 // 使用 PhotoSnap 功能通过手机拍照得到的图片
                 p.isPhotoSnap = true;
-                p.thumbnail_path = wdDev.wrapRemoteConnectionURL(p.thumbnail_path);
-                p.path = wdDev.wrapRemoteConnectionURL(p.path);
-                p.download_path = p.download_path ? wdDev.wrapRemoteConnectionURL(p.download_path) : p.download_path;
                 photos.merge(p);
                 photos.trigger('add', [photos.getById(p.id)]);
             });

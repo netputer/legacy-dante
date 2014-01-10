@@ -56,7 +56,7 @@
             {{facebookUserName}}
         </div>
         <div class="thumbnail-wrapper">
-            <img ng-src="{{thumbnailSource}}" ng-style="thumbnailStyle" class="share-thumbnail">
+            <img ng-src="{{thumbnailSource | wrapRemoteConnectionURL}}" ng-style="thumbnailStyle" class="share-thumbnail">
         </div>
         <textarea ng-model="$parent.shareText" class="share-textarea" placeholder="Write something about this photo..." ng-readonly="textareaReadonly"></textarea>
         <div class="share-tip-wrapper">
@@ -104,7 +104,7 @@
         <ul class="albums-container">
             <li ng-repeat="album in albumList">
                 <div class="thumbnail-container" ng-click="selectAlbum(album, !album.visible)">
-                    <img ng-src="{{$root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.photos.loadImages ? '' : album.thumbnail_path}}" class="album-thumbnail">
+                    <img ng-src="{{$root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : album.thumbnail_path | wrapRemoteConnectionURL}}" class="album-thumbnail">
                     <label class="action-select checkbox inline"
                         bs-tooltip="{{album.visible ? $root.DICT.photos.BLOCK_DESELECT : $root.DICT.photos.BLOCK_SELECT}}"
                         data-options="{container: false}">

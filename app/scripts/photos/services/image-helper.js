@@ -4,7 +4,7 @@ define([
         jQuery
     ) {
 'use strict';
-return [function() {
+return ['$filter', function($filter) {
     // When done, resolve by image.
     function preload(url, onload) {
         var TIMEOUT = 5000;

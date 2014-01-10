@@ -11,8 +11,6 @@ define([
 
 return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope',
 function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope) {
-    $scope.$emit('currentModule', 'contacts');
-
     //默认头像显示颜色
     var photoColorList = [
         'contact-photo-bg-green',

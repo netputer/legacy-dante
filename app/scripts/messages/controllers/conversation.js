@@ -5,15 +5,13 @@ define([
 ) {
 'use strict';
 return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
-        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope',
+        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev',
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope) {
-
-$scope.$emit('currentModule', 'messages');
+         GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev) {
 
 //wdm alert
 var closeWdmAlert = $window.localStorage.getItem('closeWdmAlert');
-if ($rootScope.SDK_19 && !closeWdmAlert) {
+if ($rootScope.SDK_19 && !closeWdmAlert && !wdDev.isWapRemoteConnection()) {
     $scope.showWdmAlert = true;
 } 
 $scope.hideWdmAlert = function() {
