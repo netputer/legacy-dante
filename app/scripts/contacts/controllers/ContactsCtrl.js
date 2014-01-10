@@ -905,7 +905,6 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //搜索联系人功能
     $scope.searchContacts = _.debounce(function() {
         $scope.$apply(function() {
-
             //不是空则执行搜索
             if ( $scope.searchText && (G_contacts.length > 1) ) {
                 G_searchIsNull = false;
@@ -916,7 +915,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             }
             $scope.isLoadMoreBtnShow = false;
             $scope.isLeftLoadingShow = true;
-            var text = $scope.searchText ? '' : $scope.searchText.toLocaleLowerCase();
+            var text = $scope.searchText ? $scope.searchText.toLocaleLowerCase() : '';
             $scope.isNoContactsShow = false;
             $scope.isRightLoadShow = true;
             $scope.isContactsEditShow = false;
