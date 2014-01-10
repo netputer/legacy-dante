@@ -13,10 +13,10 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings',
+                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings', 'wdSignInDetection',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast,   $timeout, $window, wdUserSettings) {
+                 $q,   wdToast,   $timeout, $window, wdUserSettings, wdSignInDetection) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.account = '';
@@ -156,7 +156,10 @@ return [function() {
 
             $scope.signout = function() {
                 var toastPromise = wdGoogleSignIn.signout().then(function() {
-                    // $window.location.reload();
+
+                    // 检测是否在其他页面登陆，或者在弹出窗口登陆等
+                    wdSignInDetection.stopSignOutDetection();
+                    wdSignInDetection.startSignInDetection();
                 }, function() {
                     return $q.reject($scope.$root.DICT.app.SIGN_OUT_ERROR_TOAST);
                 });
