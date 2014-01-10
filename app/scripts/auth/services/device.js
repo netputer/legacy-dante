@@ -45,7 +45,7 @@ return function() {
 
             // 远程点亮一台手机
             lightDeviceScreen: function(deviceId) {
-                var url = 'https://push.snappea.com/accept?data=d2FrZV91cA==';
+                var url = 'https://push.snappea.com/accept?data=wake_up';
                 $.ajax({
                     type: 'GET',
                     url: url,

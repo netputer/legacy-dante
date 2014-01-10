@@ -12,11 +12,11 @@
                 <i class="icon-add"></i>
                 {{$root.DICT.contacts.BUTTONS.newContact}}
             </button>
-            <button class="btn btn-selectAll" ng-show="isDeselectBtnShow" type="button" ng-click="deselectAll();$root.GA('Web Contacts:click deselect all button');" ng-show="!$root.READ_ONLY_FLAG">
+            <button class="btn btn-selectAll" ng-show="getCheckedList().length" type="button" ng-click="deselectAll();$root.GA('Web Contacts:click deselect all button');" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-buticon"></i>
                 {{$root.DICT.contacts.BUTTONS.deselect}} ({{getCheckedList().length}})
             </button>
-            <button class="btn btn-delete" type="button" ng-click="deleteContacts()" ng-show="isDeleteBtnShow" ng-show="!$root.READ_ONLY_FLAG">
+            <button class="btn btn-delete" type="button" ng-click="deleteContacts()" ng-show="getCheckedList().length" ng-show="!$root.READ_ONLY_FLAG">
                 <i class="icon-del-toolbar"></i>
                 {{$root.DICT.contacts.BUTTONS.delete}}
             </button>

@@ -54,6 +54,9 @@ define([
         //上传的实例
         var G_uploader;
 
+        // 用来保存拖拽的上传实例
+        var G_dragAndDropUploader;
+
         function changeAppsBlock(){
             // 减去左边的黑条，再减去10px的左侧边距，再减去自定义滚动条的10px宽。
             var docWidth = $(document).width() - 60 - 10 - 10;
@@ -285,8 +288,12 @@ define([
                         }
                     }
                 });
-
-                var dnd = new fineuploader.DragAndDrop({
+                
+                // 防止拖拽重复创建实例
+                if (G_dragAndDropUploader) {
+                    return;
+                }
+                G_dragAndDropUploader = new fineuploader.DragAndDrop({
                     dropArea: $('.wdj-applications')[0],
                     multiple: true,
                     hideDropzones: false,
@@ -326,8 +333,7 @@ define([
                         log: function(message, level) {}
                     }
                 });
-                dnd.setup();
-
+                G_dragAndDropUploader.setup();
             }
 
         }
@@ -604,6 +610,11 @@ define([
 
         $scope.$on('$destroy', function() {
             wdKey.deleteScope('applications');
+
+            // 当 directive 销毁时，将拖拽实例 dispose 掉，防止切换模块后，可能产生多个上传实例。
+            if (G_dragAndDropUploader) {
+                G_dragAndDropUploader.dispose();
+            }
         });
 
         //主程序
