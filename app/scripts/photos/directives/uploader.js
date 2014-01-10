@@ -153,6 +153,7 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filt
                     log: function(message, level) {}
                 }
             });
+            
             dnd.setup();
 
             function loadLocalPhoto(file) {
@@ -199,6 +200,7 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filt
                     keeper = wdKeeper.push('仍有图片在上传中');
                 }
             }
+
             function uncount() {
                 counter -= 1;
                 if (counter === 0) {
@@ -206,6 +208,16 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filt
                     keeper = null;
                 }
             }
+
+            element.on('$destroy', function() {
+
+                // 当 directive 销毁时，将拖拽实例 dispose 掉，防止切换模块后，可能产生多个上传实例。
+                if (dnd) {
+                    dnd.dispose();
+                }
+            });
+           
+
         }
     };
 }];
