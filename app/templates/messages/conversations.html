@@ -1,7 +1,7 @@
 <section class="wdj-messages" ng-class="{'wdm-sdk-19': $root.SDK_19, 'show-wdm-alert': showWdmAlert, 'wdm-closing-alert': closingAlert}" >
-    <div class="wd-alert" ng-if="showWdmAlert" ng-class="{'closing-alert': closingAlert}">
+    <div class="wd-tip" ng-if="showWdmAlert" ng-class="{'closing-tip': closingAlert}">
         <p class="tip-content">{{$root.DICT.messages.MESSAGE_ALERT_FOR_ANDROID_44}}</p>
-        <span class="alert-action" ng-click="hideWdmAlert()">&times;</span>
+        <span class="tip-action" ng-click="hideWdmAlert()">&times;</span>
     </div>
     <div class="wdm-layout">
         <section class="wdm-sub">

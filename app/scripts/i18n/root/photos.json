@@ -64,7 +64,7 @@
     },
     "WAP_CONNECTION_ALERT": {
         "CONTENT": "You are using MobileConnect. To save your data plan, SnapPea isn’t loading photos.",
-        "ACTION": "Load pictures"
+        "ACTION": "Load thumbnails"
     },
     "WAP_CONNECTION_DOWNLOAD_COMFIRM": {
         "TITLE": "This action uses mobile data",

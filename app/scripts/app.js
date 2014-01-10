@@ -273,7 +273,6 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdDatabase.open(wdDev.getMetaData('phone_udid'));
                 // SDK version equals 19 means SDK 4.4
                 $rootScope.SDK_19 = wdDev.getMetaData('SDK_version') === 19 ? true : false;
-
                 if (wdDev.isRemoteConnection() && !wdDev.isWapRemoteConnection()) {
                     wdReminder.open(
                         $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.TITLE,
@@ -283,9 +282,8 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                             link: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_LINK,
                             text: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_TEXT
                         } 
-                    );
+                    ); 
                 }
-
                 remindSocketDisconnect();
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
@@ -362,12 +360,9 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             };
 
             var showDisconnectRemind = function() {
-                var content = $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.CONNECT_DELAY_TIME.replace('$$$$', delayTime) + 
-                              $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP;
-
                 wdReminder.open(
                     $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TITLE,
-                    content,
+                    $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP.replace('$$$$', delayTime),
                     $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.OK,
                     {
                         link: $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.LINK,

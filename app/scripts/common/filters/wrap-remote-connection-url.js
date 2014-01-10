@@ -5,7 +5,7 @@ define([
 return ['wdDev', function(wdDev) {
 
 return function(url, isUpload) {
-    var wrappedURL = '';
+    var wrappedURL = url;
     if (url && wdDev.isRemoteConnection()) {
         wrappedURL = isUpload ? wdDev.wrapRemoteConnectionUploadURL(url) : wdDev.wrapRemoteConnectionURL(url);
     }

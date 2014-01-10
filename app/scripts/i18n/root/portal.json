@@ -78,7 +78,7 @@
     },
     "CONNECTING" : "Connecting",
     "WAP_CONNECTION_ALERT": {
-        "TITLE": "Use mobile data to connect to your phone",
+        "TITLE": "Will use mobile data",
         "CONTENT": "Using MobileConnect may cost you money depending upon your data plan.",
         "OK": "Continue",
         "CANCEL": "Cancel"

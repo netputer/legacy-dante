@@ -72,7 +72,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         wdDev.setServer(ip);
         
         // 下面方法统计是否超时会用到
-        var timeout = 20000;
+        var timeout = 10000;
         var timeStart = (new Date()).getTime();
         $http({
             method: 'get',
@@ -147,7 +147,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
         }
         stopLoopGetDevicesList();
-        
+
         if (!deviceData.ip) {
             wdAlert.confirm(
                 $rootScope.DICT.portal.WAP_CONNECTION_ALERT.TITLE,
@@ -158,6 +158,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 remoteConnect(deviceData, true);
             }, function() {
                 clearStatus(deviceData);
+                loopGetDevicesList(false);
             });
 
         } else {
@@ -196,7 +197,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 }
                 
             } else if (maxNormalAuthDeviceTimes > 0) {
-                clearStatus(deviceData);
                 wdDevice.lightDeviceScreen(deviceData.id);
 
                 wdGoogleSignIn.getDevices().then(function (list) {
@@ -204,23 +204,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 }, function (xhr) {
                     GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
                 }).always(function () {
-                    wdAlert.confirm(
-                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
-                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
-                        $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
-                    ).then(function() {
-                        GA('onboard:connect_confirm:retry');
-                        $scope.connectDevice(deviceData).then(function() {
-                            GA('check_sign_in:connect_confirm_retry:success');
-                        }, function() {
-                            GA('check_sign_in:connect_confirm_retry:failed');
-                        });
-                    }, function() {
-                        GA('onboard:connect_confirm:cancel');
-                        $scope.isLoadingDevices = false;
-                        loopGetDevicesList(false);
-                    });                    
+                    authDevice(deviceData);
                 });
             } else {
                 // fire remote connect
@@ -265,7 +249,18 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             if (wakeUpTimes) {
                 remoteConnect(deviceData, wap);
             } else {
-                clearStatus(deviceData);
+                wdAlert.confirm(
+                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
+                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
+                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
+                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
+                ).then(function() {
+                    $scope.connectDevice(deviceData);
+                }, function() {
+                    clearStatus(deviceData);
+                    wdDev.closeRemoteConnection();
+                    loopGetDevicesList(false);
+                });  
             }
         });
     }

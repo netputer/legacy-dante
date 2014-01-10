@@ -10,10 +10,19 @@
 
     &.remind-open {
         @include ui-layer-top;
-        @include transform(translate3d(0, 0, 0));
+        @include transform(translate3d(10px, 0, 0));
     }
 
     .remind-help {
         float: left;
+    }
+    .modal-body {
+        padding: 3px 15px 15px;
+        color: #999;
+    }
+    .modal-footer {
+        button {
+            padding: 4px 15px;
+        }
     }
 }

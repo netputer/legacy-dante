@@ -22,8 +22,7 @@
     "SOCKET_DISCONNECT_REMIND": {
         "TITLE": "Disconnected from your phone",
         "OK": "Try now",
-        "CONNECT_DELAY_TIME": "<p class='socket-disconnect-countdown'>Retrying in $$$$ seconds...</p>",
-        "TIP": "Confirm that SnapPea is running on your phone and that it is connected to the internet.",
+        "TIP": "Confirm that SnapPea is running on your phone and that it is connected to the internet. Retrying in $$$$ seconds...",
         "LINK": "https://snappea.zendesk.com/hc/en-us/articles/201062727--Official-Signing-in-to-the-web-version",
         "LINK_TEXT": "Unable to connect?"
     },
