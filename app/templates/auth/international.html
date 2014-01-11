@@ -1,6 +1,6 @@
 <!-- 登陆页 -->
-<div>
-    <div class="wd-portal" ng-show="isShowNoSignInPage">
+<div ng-if="isShowNoSignInPage">
+    <div class="wd-portal">
         <div class="a" ng-switch on="isSupport">
             <div class="container" ng-switch-when="true">
                 <h1>{{$root.DICT.portal.H1}}</h1>
