@@ -1,11 +1,19 @@
 define([
-], function() {
+    'underscore'
+], function(_) {
 'use strict';
 return ['$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', '$http',
 function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q, wdSignInDetection, $http) {
-    var remoteConnectionAuthDeivceTimes = 3;
-    var wakeUpTimes = 3;
-    var maxNormalAuthDeviceTimes = 2;
+    var remoteConnectionAuthDeivceTimes;
+    var wakeUpTimes;
+    var maxNormalAuthDeviceTimes;
+
+    function resetDefaultMaxRetryTimes() {
+        remoteConnectionAuthDeivceTimes = 3;
+        wakeUpTimes = 3;
+        maxNormalAuthDeviceTimes = 2;
+    }
+    resetDefaultMaxRetryTimes();
 
     $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
@@ -125,28 +133,25 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
     // 进入某个设备
     $scope.connectDevice = function(deviceData) {
-        
         //检测下是否是从url跳转过来的
         if (wdGoogleSignIn.getForceShowDevices()) {
             wdGoogleSignIn.setForceShowDevices(false);
             loopGetDevicesList(false);
             return;
         }
-        GA('device_sign_in:select_existing_device:select_device_page');
-
         // 防止用户已经开始尝试连手机，但是没有结束，又再次连接。(防止多次点击)
         for (var m = 0, n = $scope.devicesList.length; m < n; m += 1) {
             if ($scope.devicesList[m].loading === true) {
                 return;
             }
-            if ($scope.devicesList[m].id === deviceData.id) {
-                $scope.devicesList[m].loading = true;
-            }
         }
         if (deviceData.model) {
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
         }
+
         stopLoopGetDevicesList();
+
+        GA('device_sign_in:select_existing_device:select_device_page');
 
         if (!deviceData.ip) {
             wdAlert.confirm(
@@ -162,6 +167,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             });
 
         } else {
+            resetDefaultMaxRetryTimes();
             return authDevice(deviceData);
         }
     };
@@ -170,7 +176,21 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         if (!wdDev.isRemoteConnection()) {
             maxNormalAuthDeviceTimes -= 1;
         }
+        var device = _.find($scope.devicesList, function(item) {
+            return item.id === deviceData.id;
+        });
 
+        if (device) {
+            $scope.devicesList.forEach(function(item, index) {
+                if (item.id === deviceData.id && !item.loading) {
+                    item.loading = true;
+                }
+            });
+        } else {
+            clearStatus(deviceData);
+            return;
+        }
+        
         var defer = $q.defer();
 
         // 调用纯净的连接设备接口
@@ -178,7 +198,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
             //标记下已经登录设备，在切换设备的时候会判断这个。
             wdGoogleSignIn.setHasAccessdDevice();
-            clearStatus(deviceData);
+            $scope.isLoadingDevices = false;
             defer.resolve();
 
             //跳转到对应模块
@@ -192,8 +212,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                     authDevice(deviceData);
                 } else {
                     clearStatus(deviceData);
-                    loopGetDevicesList(false);
                     wdDev.closeRemoteConnection();
+
+                    confirmConnect(deviceData);
                 }
                 
             } else if (maxNormalAuthDeviceTimes > 0) {
@@ -228,18 +249,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         .success(function(response) {
             response.wap = !!wap;
             response.limitSize = 5 * 1024 * 1024;
-            response.photos = {
-                loadImages: false
-            };
-            response.messages = {
-                loadImages: false
-            };
-            response.contacts = {
-                loadImages: false
-            };
-            response.applications = {
-                loadImages: false
-            };
+
             wdDev.setRemoteConnectionData(response);
 
             remoteConnectionAuthDeivceTimes -= 1;
@@ -249,25 +259,55 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             if (wakeUpTimes) {
                 remoteConnect(deviceData, wap);
             } else {
-                wdAlert.confirm(
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
-                    $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
-                ).then(function() {
-                    $scope.connectDevice(deviceData);
-                }, function() {
-                    clearStatus(deviceData);
-                    wdDev.closeRemoteConnection();
-                    loopGetDevicesList(false);
-                });  
+                confirmConnect(deviceData);
             }
         });
     }
 
+    function confirmConnect(deviceData) {
+        var defer = $q.defer();
+
+        $scope.devicesList.forEach(function(item, index) {
+            if (item.id === deviceData.id && !item.loading) {
+                item.loading = true;
+            }
+        });
+
+        wdAlert.confirm(
+            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
+            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
+            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
+            $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
+        ).then(function() {
+            resetDefaultMaxRetryTimes();
+
+            wdGoogleSignIn.getDevices().then(function (list) {
+                $scope.devicesList = list;
+            }, function (xhr) {
+                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
+            }).always(function () {
+                authDevice(deviceData);
+            });
+
+            defer.resolve();
+        }, function() {
+            clearStatus(deviceData);
+            wdDev.closeRemoteConnection();
+            loopGetDevicesList(false);
+
+            defer.reject();
+        });
+
+        return defer.promise;
+    }
+
     function clearStatus(deviceData) {
-        deviceData.loading = false;
         $scope.isLoadingDevices = false;
+        $scope.devicesList.forEach(function(item, index) {
+            if (item.id === deviceData.id) {
+                item.loading = false;
+            }
+        });
     }
 
     function loopGetDevicesList(isAutoSignIn) {
@@ -350,6 +390,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     //登录并取得了设备列表后，会执行的逻辑。
     function showDevicesList(list) {
         if (list) {
+            $scope.devicesList = list;
             if ($scope.devicesList.length > 0) {
                 GA('device_sign_in:check_all_devices:device_signed_in');
             }
@@ -359,11 +400,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                     GA('device_sign_in:check_all_devices:device_not_signed_in');
                     $scope.isLoadingDevices = false;
                     loopGetDevicesList();
-                    $scope.devicesList = list;
                 break;
                 case 1:
                     GA('device_sign_in:check_first_device:device_signed_in');
-                    
                     // 防止已经登录在某手机中，又被登录一次。
                     // if (!wdGoogleSignIn.getHasAccessdDevice()) {
                         $scope.isLoadingDevices = true;
@@ -373,7 +412,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 default:
                     $scope.isLoadingDevices = false;
                     loopGetDevicesList();
-                    $scope.devicesList = list;
                 break;
             }
         }
@@ -383,6 +421,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     function autoAccessDevice() {
         $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
         wdGoogleSignIn.getDevices().then(function(list) {
+            $scope.devicesList = list;
             if (list.length && $scope.autoAuth && $scope.auth && $scope.auth.ip) {
                 $scope.isLoadingDevices = true;
                 GA('device_sign_in:check_last_device:device_signed_in');

@@ -12,15 +12,15 @@ define([
 
     photo: photo to show
 */
-return ['wdpImageHelper', 'wdDev', function(wdpImageHelper, wdDev) {
+return ['wdpImageHelper', 'wdDev', '$filter', function(wdpImageHelper, wdDev, $filter) {
     return {
         link: function($scope, element, attrs) {
             var $current = null;
             var create = function(newPhoto) {
-                var thumbnailPath = (wdDev.isWapRemoteConnection() && wdDev.getRemoteConnectionData('photos').loadImages) ? '' : newPhoto.thumbnail_path;
                 // Create an img tag, then set its dimensions according to frame's.
                 // At last, fade it in after the image resource being fully loaded.
                 var $image = angular.element('<img>');
+                var thumbnailPath = $filter('wrapRemoteConnectionURL')(newPhoto.thumbnail_path);
                 $image
                     .data('photo', newPhoto)
                     .data('width', newPhoto.orientation % 180 === 0 ? newPhoto.width : newPhoto.height)
@@ -31,7 +31,7 @@ return ['wdpImageHelper', 'wdDev', function(wdpImageHelper, wdDev) {
                 
                 wdpImageHelper.preload(newPhoto.path).then(function() {
                     $image
-                        .attr('src', newPhoto.path)
+                        .attr('src', $filter('wrapRemoteConnectionURL')(newPhoto.path))
                         .data('rotation', $image.data('rotation') + newPhoto.orientation)
                         .data('width', newPhoto.width)
                         .data('height', newPhoto.height)

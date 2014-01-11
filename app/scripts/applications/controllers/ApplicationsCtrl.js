@@ -13,8 +13,6 @@ define([
     return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter',
     function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter){
 
-        $scope.$emit('currentModule', 'applications');
-
         //$scope相关
         //展示应用列表
         $scope.list = [];

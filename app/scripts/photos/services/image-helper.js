@@ -4,7 +4,7 @@ define([
         jQuery
     ) {
 'use strict';
-return [function() {
+return ['$filter', function($filter) {
     // When done, resolve by image.
     function preload(url, onload) {
         var TIMEOUT = 5000;
@@ -28,7 +28,7 @@ return [function() {
             defer.resolve('error');
         };
 
-        image.src = url;
+        image.src = $filter('wrapRemoteConnectionURL')(url);
 
         // timeout = setTimeout(function() {
         //     image.onerror = image.onload = null;

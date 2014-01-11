@@ -193,7 +193,7 @@ return ['WDP_PLAYING_INTERVAL',   '$rootScope', 'wdViewport', 'wdKey', 'GA', 'wd
 
             function createAnimation() {
                 var img = angular.element('<img>');
-                img.attr('src', $scope.current.thumbnail_path);
+                img.attr('src', $filter('wrapRemoteConnectionURL')($scope.current.thumbnail_path));
                 var body = angular.element('body');
 
                 var index = $scope.photos.indexOf($scope.current);

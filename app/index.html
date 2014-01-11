@@ -108,11 +108,11 @@
 
     <div class="sidebar ng-cloak" wd-sidebar></div>
     <div class="viewport ng-cloak">
-        <div class="wd-tip remote-connection-tip" ng-if="$root.remoteConnection.wap">
-            <p class="tip-content">{{$root.remoteConnection.content}}</p>
-            <span class="tip-action" ng-click="$root.loadImages()">{{$root.remoteConnection.action}}</span>
+        <div class="wd-tip remote-connection-tip" ng-if="remoteConnection.wap" ng-class="{'closing-tip': closingWDTip}">
+            <p class="tip-content">{{$root.DICT.app.WAP_CONNECTION_TIP.CONTENT}}</p>
+            <span class="tip-action" ng-click="remoteConnectionLoadPicture()">{{$root.DICT.app.WAP_CONNECTION_TIP.ACTION}}</span>
         </div>
-        <div class="module-view" ng-view ng-class="{'remote-connection-wap': $root.remoteConnection.wap}"></div>
+        <div class="module-view" ng-view ng-class="{'remote-connection-wap': remoteConnection.wap && !remoteConnection.loadPictures}"></div>
         <div class="ng-cloak" wd-reminder></div>
     </div>
     <div class="ng-cloak" wd-navbar></div>

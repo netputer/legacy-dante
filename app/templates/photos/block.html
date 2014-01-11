@@ -2,7 +2,7 @@
     <div class="photo"></div>
     <div wd-circle-loading ng-if="photo.circleLoading"></div>
     <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')">
-        <div class="photo-info" ng-if="$root.remoteConnection.wap && !$root.remoteConnection.photos.loadImages">
+        <div class="photo-info" ng-if="$root.remoteConnection.wap && !$root.remoteConnection.loadPictures">
             <span>{{photo.date_added | date:'MMM dd, yyyy'}}</span>
             <span>{{photo.size | sizeFormat}} MB</span>
         </div>

@@ -49,8 +49,8 @@
                         <div class="composited-avatar" ng-class="'multiple-' + c.avatarPaths.length">
                             <div ng-if="!c.avatarPaths.length" ng-class="c.addresses.length > 1 ? 'group-default' : 'single-default'"></div>
                             <div ng-repeat="path in c.avatarPaths track by $index">
-                                <img ng-if="c.contact_ids[$index] != -1 && path && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.messages.loadImages)" ng-src="{{path | wrapRemoteConnectionURL}}"/>
-                                <div ng-if="(c.contact_ids[$index] != -1 && !path) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.messages.loadImages && path)" class="generated-avatar" ng-class="getPhotoColor">
+                                <img ng-if="c.contact_ids[$index] != -1 && path && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.loadPictures)" ng-src="{{path | wrapRemoteConnectionURL}}"/>
+                                <div ng-if="(c.contact_ids[$index] != -1 && !path) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures && path)" class="generated-avatar" ng-class="getPhotoColor">
                                     {{c.displayNames[$index] | limitTo: 1}}
                                 </div>
                                 <div ng-if="c.contact_ids[$index] == -1" class="default-avatar"></div>
@@ -170,7 +170,7 @@
                                     <div ng-repeat="part in m.mms_parts" class="mms-part">
                                         <div ng-repeat="c in part" ng-switch="c.type" ng-class="{'mms-image-container': c.type === 'image'}">
                                             <p ng-switch-when="text" class="mms-text" ng-bind-html="c.content | linky:'_blank' "></p>
-                                            <img ng-switch-when="images" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.messages.loadImages ? '' : c.content}}" class="mms-image" >
+                                            <img ng-switch-when="image" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : c.content | wrapRemoteConnectionURL}}" class="mms-image" >
                                             <div ng-switch-when="audio" wdm-audio class="mms-audio" audio="c">
                                             </div>
                                         </div>
@@ -183,8 +183,8 @@
                             </div>
                             <div class="wdmer-c">
                                 <i ng-if="m.isPending" class="icon-sending"></i>
-                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && m.isDelivered">{{ $root.DICT.messages.MESSAGE_STATUS_REPORTER.replace('$$', (m.date | messageDate:'HH:mm')) }}</span>
-                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && !m.isDelivered">{{ m.date | messageDate:'HH:mm' }}</span>
+                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && m.isDelivered && m.isSent">{{ $root.DICT.messages.MESSAGE_STATUS_REPORTER.replace('$$', (m.date | messageDate:'HH:mm')) }}</span>
+                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && (!m.isDelivered || !m.isSent)">{{ m.date | messageDate:'HH:mm' }}</span>
                                 <a href="" class="wdmer-b-del"
                                     ng-show="!m.isPending"
                                     bs-tooltip="{{$root.DICT.messages.ACTION_DELETE}}"

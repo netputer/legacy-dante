@@ -53,5 +53,9 @@
         "OK": "Got it",
         "HELP_LINK": "https://snappea.zendesk.com/hc/en-us/articles/201370443",
         "HELP_TEXT": "Learn more"
+    },
+    "WAP_CONNECTION_TIP": {
+        "CONTENT": "You are using MobileConnect. To save your data plan, SnapPea isn’t loading pictures. ",
+        "ACTION": "Load pictures"
     }
 }

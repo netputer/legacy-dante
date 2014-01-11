@@ -10,7 +10,7 @@ define([
         _
     ) {
 'use strict';
-return ['$rootScope', 'wdDev', function($rootScope, wdDev) {
+return ['$rootScope', 'wdDev', '$filter', function($rootScope, wdDev, $filter) {
 return {
 
 template: template,
@@ -30,7 +30,7 @@ link: function($scope, element) {
     $scope.$watch('photo.thumbnail_path', function() {
         photo.addClass('fadeIn');
         if (wdDev.isWapRemoteConnection()) {
-            $rootScope.$watch('remoteConnection.photos.loadImages', function(val) {
+            $rootScope.$watch('remoteConnection.loadPictures', function(val) {
                 if (val) {
                     renderImage();
                 }
@@ -91,7 +91,8 @@ link: function($scope, element) {
             $scope.photo.circleLoading = true;
         }
         return preloadImage($scope.photo.thumbnail_path).then(function(path) {
-            image.attr('src', path).addClass('fadeIn');
+            var wrappedPath = $filter('wrapRemoteConnectionURL')(path);
+            image.attr('src', wrappedPath).addClass('fadeIn');
             if ($scope.photo.isPhotoSnap) {
                 $scope.$apply(function() {
                     $scope.photo.circleLoading = false;
@@ -107,7 +108,7 @@ link: function($scope, element) {
             temp = temp.onload = null;
             defer.resolve(path);
         };
-        temp.src = path;
+        temp.src = $filter('wrapRemoteConnectionURL')(path);
         return defer.promise();
     }
 
