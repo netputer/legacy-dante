@@ -133,6 +133,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
     // 进入某个设备
     $scope.connectDevice = function(deviceData) {
+        wdDev.closeRemoteConnection();
+        
         //检测下是否是从url跳转过来的
         if (wdGoogleSignIn.getForceShowDevices()) {
             wdGoogleSignIn.setForceShowDevices(false);
@@ -244,7 +246,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         $http({
             method: 'get',
             url: wdDev.getWakeUpUrl() + '?did=' + deviceData.id,
-            timeout: 2000,
+            timeout: 4000,
         })
         .success(function(response) {
             response.wap = !!wap;
@@ -286,7 +288,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             }, function (xhr) {
                 GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
             }).always(function () {
-                authDevice(deviceData);
+                if (deviceData.ip) {
+                    authDevice(deviceData);
+                } else {
+                    remoteConnect(deviceData, true);
+                }
             });
 
             defer.resolve();
