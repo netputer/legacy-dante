@@ -170,7 +170,7 @@
                                     <div ng-repeat="part in m.mms_parts" class="mms-part">
                                         <div ng-repeat="c in part" ng-switch="c.type" ng-class="{'mms-image-container': c.type === 'image'}">
                                             <p ng-switch-when="text" class="mms-text" ng-bind-html="c.content | linky:'_blank' "></p>
-                                            <img ng-switch-when="image" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : c.content}}" class="mms-image" >
+                                            <img ng-switch-when="image" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : c.content | wrapRemoteConnectionURL}}" class="mms-image" >
                                             <div ng-switch-when="audio" wdm-audio class="mms-audio" audio="c">
                                             </div>
                                         </div>

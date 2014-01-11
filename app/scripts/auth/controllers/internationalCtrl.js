@@ -8,12 +8,12 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     var wakeUpTimes;
     var maxNormalAuthDeviceTimes;
 
-    function setDefaultMaxRetryTimes() {
+    function resetDefaultMaxRetryTimes() {
         remoteConnectionAuthDeivceTimes = 3;
         wakeUpTimes = 3;
         maxNormalAuthDeviceTimes = 2;
     }
-    setDefaultMaxRetryTimes();
+    resetDefaultMaxRetryTimes();
 
     $scope.isSupport = $window.Modernizr.cors && $window.Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
@@ -167,7 +167,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             });
 
         } else {
-            setDefaultMaxRetryTimes();
+            resetDefaultMaxRetryTimes();
             return authDevice(deviceData);
         }
     };
@@ -279,7 +279,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
         ).then(function() {
-            setDefaultMaxRetryTimes();
+            resetDefaultMaxRetryTimes();
 
             wdGoogleSignIn.getDevices().then(function (list) {
                 $scope.devicesList = list;

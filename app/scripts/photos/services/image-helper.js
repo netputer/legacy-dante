@@ -28,7 +28,7 @@ return ['$filter', function($filter) {
             defer.resolve('error');
         };
 
-        image.src = url;
+        image.src = $filter('wrapRemoteConnectionURL')(url);
 
         // timeout = setTimeout(function() {
         //     image.onerror = image.onload = null;

@@ -29,8 +29,7 @@ return ['wdpImageHelper', 'wdDev', '$filter', function(wdpImageHelper, wdDev, $f
                     .attr('src', thumbnailPath);
                 layout($image);
                 
-                var wrappedPath = $filter('wrapRemoteConnectionURL')(newPhoto.path);
-                wdpImageHelper.preload(wrappedPath).then(function() {
+                wdpImageHelper.preload(newPhoto.path).then(function() {
                     $image
                         .attr('src', $filter('wrapRemoteConnectionURL')(newPhoto.path))
                         .data('rotation', $image.data('rotation') + newPhoto.orientation)
