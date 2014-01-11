@@ -1,7 +1,7 @@
 define([], function () {
 'use strict';
-return ['$window', 'wdGoogleSignIn', 'wdDevice', '$rootScope', '$location',
-function ($window, wdGoogleSignIn, wdDevice, $rootScope, $location) {
+return ['$window', 'wdGoogleSignIn', '$rootScope', '$location',
+function ($window, wdGoogleSignIn, $rootScope, $location) {
     
     // 该模块来监测用户在其他窗口下的登陆状态，如果登陆则全部登陆，如果退出则全部退出。
     var signInDetectionFun = function(e) {
