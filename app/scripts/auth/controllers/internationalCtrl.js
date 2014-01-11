@@ -481,6 +481,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
     }
 
+    // 从设备退出，会走这个逻辑，判断是要完全退出 Limbo 还是要切换设备，还是直接要显示设备列表。
     function signoutFromDevices() {
         $scope.isLoadingDevices = true;
         
@@ -502,7 +503,14 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         } else if (!!item && !!item.ip) {
 
             //切换设备
-            $scope.connectDevice(item);
+            wdGoogleSignIn.getDevices().then(function(list) {
+                $scope.isLoadingDevices = false;
+                $scope.devicesList = list;
+                $scope.connectDevice(item);
+            },function(xhr) {
+                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
+            });
+
         }
     }
 
