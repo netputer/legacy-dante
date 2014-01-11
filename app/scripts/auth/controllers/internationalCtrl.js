@@ -141,12 +141,14 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             loopGetDevicesList(false);
             return;
         }
+
         // 防止用户已经开始尝试连手机，但是没有结束，又再次连接。(防止多次点击)
         for (var m = 0, n = $scope.devicesList.length; m < n; m += 1) {
             if ($scope.devicesList[m].loading === true) {
                 return;
             }
         }
+
         if (deviceData.model) {
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
         }
@@ -174,6 +176,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
     };
 
+    // 请求 auth
     function authDevice(deviceData) {
         if (!wdDev.isRemoteConnection()) {
             maxNormalAuthDeviceTimes -= 1;
@@ -425,7 +428,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 break;
                 default:
                     $scope.isLoadingDevices = false;
-                    loopGetDevicesList();
+                    loopGetDevicesList(false);
                 break;
             }
         }
@@ -483,7 +486,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
     // 从设备退出，会走这个逻辑，判断是要完全退出 Limbo 还是要切换设备，还是直接要显示设备列表。
     function signoutFromDevices() {
-        $scope.isLoadingDevices = true;
+        getUserInfo();
         
         //用户是想要切换到另一个设备
         var item = wdDevice.getDevice();
@@ -491,27 +494,26 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         //判断用户是否在设备数据页面退出
         if (!item) {
             $scope.googleSignOut();
-        } else if (!!item.status && item.status === 'devices') {
-            wdGoogleSignIn.getDevices().then(function(list) {
-                getUserInfo();
+            return;
+        }
+
+        wdGoogleSignIn.getDevices().then(function(list) {
+
+            $scope.devicesList = list;
+            // 显示设备列表
+            if (!!item.status && item.status === 'devices') {
                 $scope.isLoadingDevices = false;
-                $scope.devicesList = list;
                 loopGetDevicesList(false);
-            },function(xhr) {
-                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
-            });
-        } else if (!!item && !!item.ip) {
+            } else {
 
             //切换设备
-            wdGoogleSignIn.getDevices().then(function(list) {
                 $scope.isLoadingDevices = false;
                 $scope.devicesList = list;
                 $scope.connectDevice(item);
-            },function(xhr) {
-                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
-            });
-
-        }
+            }
+        },function(xhr) {
+            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
+        });
     }
 
 // 登录逻辑开始（进入系统后首先走这个逻辑）
