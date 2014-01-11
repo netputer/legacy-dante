@@ -112,7 +112,7 @@
             <p class="tip-content">{{$root.DICT.app.WAP_CONNECTION_TIP.CONTENT}}</p>
             <span class="tip-action" ng-click="remoteConnectionLoadPicture()">{{$root.DICT.app.WAP_CONNECTION_TIP.ACTION}}</span>
         </div>
-        <div class="module-view" ng-view ng-class="{'remote-connection-wap': !remoteConnection.loadPictures}"></div>
+        <div class="module-view" ng-view ng-class="{'remote-connection-wap': remoteConnection.wap && !remoteConnection.loadPictures}"></div>
         <div class="ng-cloak" wd-reminder></div>
     </div>
     <div class="ng-cloak" wd-navbar></div>

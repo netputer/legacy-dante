@@ -170,7 +170,7 @@
                                     <div ng-repeat="part in m.mms_parts" class="mms-part">
                                         <div ng-repeat="c in part" ng-switch="c.type" ng-class="{'mms-image-container': c.type === 'image'}">
                                             <p ng-switch-when="text" class="mms-text" ng-bind-html="c.content | linky:'_blank' "></p>
-                                            <img ng-switch-when="images" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : c.content}}" class="mms-image" >
+                                            <img ng-switch-when="image" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : c.content}}" class="mms-image" >
                                             <div ng-switch-when="audio" wdm-audio class="mms-audio" audio="c">
                                             </div>
                                         </div>
@@ -183,8 +183,8 @@
                             </div>
                             <div class="wdmer-c">
                                 <i ng-if="m.isPending" class="icon-sending"></i>
-                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && m.isDelivered">{{ $root.DICT.messages.MESSAGE_STATUS_REPORTER.replace('$$', (m.date | messageDate:'HH:mm')) }}</span>
-                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && !m.isDelivered">{{ m.date | messageDate:'HH:mm' }}</span>
+                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && m.isDelivered && m.isSent">{{ $root.DICT.messages.MESSAGE_STATUS_REPORTER.replace('$$', (m.date | messageDate:'HH:mm')) }}</span>
+                                <span class="wdmer-b-date" ng-if="!m.isError && !m.isPending && (!m.isDelivered || !m.isSent)">{{ m.date | messageDate:'HH:mm' }}</span>
                                 <a href="" class="wdmer-b-del"
                                     ng-show="!m.isPending"
                                     bs-tooltip="{{$root.DICT.messages.ACTION_DELETE}}"
