@@ -117,14 +117,15 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 action = 'unknown_' + status + ':' + duration;
             }
             GA('connect_device:connect:fail_' + action);
-            // 统计失败原因
+           
+            // 统计失败原因（总）
             GA('check_sign_in:auth:fail_' + action);
             // 统计失败的设备及该设备失败原因
             GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
-            // 统计失败的系统版本（接口待添加）
-            // GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
-            // 统计失败的 Rom 版本（接口待添加）
-            // GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
+            // 统计失败的系统版本
+            GA('check_sign_in:auth_fall_sdk:fail_' + action + '_' + deviceData.attributes.sdk_version);
+            // 统计失败的 Rom 版本
+            GA('check_sign_in:auth_fall_rom:fail_' + action + '_' + deviceData.attributes.rom);
             defer.reject();
         });
         return defer.promise;
@@ -338,7 +339,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             
             // 首先确认 oldData 是否和当前数据一致，如果一致再看新老数据是否一致。
             if (oldData !== $scope.devicesList || newData !== oldData) {
-                GA('device_sign_in:add_new_device:new_device_page');
+                // GA('device_sign_in:add_new_device:new_device_page');
                 for (var i = 0 , l = $scope.devicesList.length ; i < l ; i += 1) {
                     if ($scope.devicesList[i].loading === true ) {
                         for (var m = 0 , n = newData.length; m < n; m += 1) {
