@@ -29,9 +29,17 @@ return ['wdpImageHelper', 'wdDev', '$filter', function(wdpImageHelper, wdDev, $f
                     .attr('src', thumbnailPath);
                 layout($image);
                 
-                wdpImageHelper.preload(newPhoto.path).then(function() {
+                var path;
+                if (wdDev.isWapRemoteConnection()) {
+                    var size = $filter('customSize')(newPhoto);
+                    path = newPhoto.thumbnail_custom + '?width=' + size.width + '&height=' + size.height;
+                } else {
+                    path = newPhoto.path;
+                }
+                
+                wdpImageHelper.preload(path).then(function() {
                     $image
-                        .attr('src', $filter('wrapRemoteConnectionURL')(newPhoto.path))
+                        .attr('src', $filter('wrapRemoteConnectionURL')(path))
                         .data('rotation', $image.data('rotation') + newPhoto.orientation)
                         .data('width', newPhoto.width)
                         .data('height', newPhoto.height)

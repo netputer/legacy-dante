@@ -16,7 +16,8 @@ define([
     'common/main',
     'photos/services/photos',
     'photos/services/albums',
-    'photos/services/photo-setting'
+    'photos/services/photo-setting',
+    'photos/filters/custom-size'
 ], function(
     angular,
     showcase,
@@ -35,7 +36,8 @@ define([
     common,
     photos,
     albums,
-    photoSetting
+    photoSetting,
+    customSize
 ) {
 'use strict';
 // jshint unused:false
@@ -61,6 +63,7 @@ angular.module('wdPhotos', ['wdCommon', 'ngResource'])
     }])
     .factory('wdpAlbums', albums)
     .factory('wdpPhotoSetting', photoSetting)
-    .controller('galleryController', galleryController);
+    .controller('galleryController', galleryController)
+    .filter('customSize', customSize);
 
 });

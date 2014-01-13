@@ -5,8 +5,8 @@ define([
 ) {
     'use strict';
 
-    return ['$q', '$http', '$rootScope', 'GA',
-        function($q, $http, $rootScope, GA) {
+    return ['$q', '$http', '$rootScope', 'GA', '$filter',
+        function($q, $http, $rootScope,   GA,   $filter) {
             var constNum = 3;
             var retryGetPhotoBlobTimes = constNum;
             var isConnectedFacebook = false;
@@ -148,26 +148,11 @@ define([
                     getBlobDefer = $q.defer();
 
                     var path = photo.thumbnail_custom ? photo.thumbnail_custom : photo.path;
-                    var maxLength = Math.max(photo.width, photo.height);
-                    var MAX = 1200;
-                    var width = photo.width;
-                    var height = photo.height;
-
-                    if (maxLength > MAX) {
-                        if (photo.width > photo.height) {
-                            width = MAX;
-                            height = parseInt(MAX / photo.width * photo.height, 10);
-                        } else {
-                            height = MAX;
-                            width = parseInt(MAX / photo.height * photo.width, 10);
-                        }
-
-                    }
-
+                    var size = $filter('customSize')(photo);
                     return $http.get(path, {
                         params : {
-                            width: width,
-                            height: height,
+                            width: size.width,
+                            height: size.height,
                             v: new Date().getTime()
                         },
                         responseType: 'arraybuffer',

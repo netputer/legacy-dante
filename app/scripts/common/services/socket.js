@@ -94,11 +94,9 @@ Socket.prototype = {
         });
 
         this._transport.on('disconnect', function disconnect() {
-            $rootScope.$apply(function() {
-                if (wdDev.isRemoteConnection()) {
-                    wdDevice.signout();
-                }
-            });
+            if (wdDev.isRemoteConnection()) {
+                wdDevice.signout();
+            }
             $log.error('Socket disconnected!');
         });
 

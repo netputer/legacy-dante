@@ -89,6 +89,7 @@ return function() {
             },
             closeRemoteConnection: function() {
                 self.closeRemoteConnection();
+                $rootScope.remoteConnection = null;
             },
             setRemoteConnectionData: function(data) {
                 self.setRemoteConnectionData(data);
