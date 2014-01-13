@@ -419,11 +419,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 break;
                 case 1:
                     GA('device_sign_in:check_first_device:device_signed_in');
-                    // 防止已经登录在某手机中，又被登录一次。
-                    // if (!wdGoogleSignIn.getHasAccessdDevice()) {
-                        $scope.isLoadingDevices = true;
-                        $scope.connectDevice(list[0]);
-                    // }
+                    $scope.isLoadingDevices = true;
+                    $scope.connectDevice(list[0]);
                 break;
                 default:
                     $scope.isLoadingDevices = false;
@@ -508,7 +505,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 //切换设备
                 $scope.isLoadingDevices = false;
                 $scope.devicesList = list;
-                // $scope.connectDevice(item);
+                $scope.connectDevice(item);
             }
         },function(xhr) {
             GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');

@@ -21,6 +21,7 @@ $standard-blue: #3788bb;
 .ng-cloak { display: none; }
 
 html, body {
+    width: 100%;
     height: 100%;
     overflow: hidden;
 }
@@ -36,7 +37,6 @@ html.cors .no-support-placeholder {
     overflow: hidden;
     background-color: #fff;
     @include transition(all 300ms linear);
-
     .module-view {
         @include position;
         height: 100%;
