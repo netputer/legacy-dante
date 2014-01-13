@@ -505,10 +505,10 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 loopGetDevicesList(false);
             } else {
 
-            //切换设备
+                //切换设备
                 $scope.isLoadingDevices = false;
                 $scope.devicesList = list;
-                $scope.connectDevice(item);
+                // $scope.connectDevice(item);
             }
         },function(xhr) {
             GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
@@ -527,7 +527,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         // 检测是否在其他页面登陆，或者在弹出窗口登陆等
         wdSignInDetection.startSignInDetection();
     }
-
+    
     // 检测是否真正登录
     wdGoogleSignIn.checkSignIn().then(function() {
         $scope.isShowNoSignInPage = false;

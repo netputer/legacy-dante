@@ -94,12 +94,9 @@ Socket.prototype = {
         });
 
         this._transport.on('disconnect', function disconnect() {
-            $rootScope.$apply(function() {
-                if (wdDev.isRemoteConnection()) {
-                    wdDevice.signout();
-                }
-            });
-            
+            if (wdDev.isRemoteConnection()) {
+                wdDevice.signout();
+            }
             $log.error('Socket disconnected!');
         });
 
@@ -147,8 +144,10 @@ Socket.prototype = {
             catch(err){
             }
 
-            this._transport.removeAllListeners();
-            this._transport = null;
+            if (this._transport) {
+                this._transport.removeAllListeners();
+                this._transport = null;
+            }
         }
         return this;
     },

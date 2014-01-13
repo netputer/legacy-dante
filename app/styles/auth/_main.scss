@@ -191,21 +191,14 @@
         margin-left: 5px;
         margin-bottom: 0px;
     }
-    .wd-loading{
-        position: absolute;
-        @include transform(scale(0.4));
-    }
 }
 
-.loading-google{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.loading-devices{
+    @include position(fixed, 0px 0px 0px 0px);
     background-color: #FFF;
     @include ui-layer-top;
     text-align: center;
+
     .sign-in-progress{
         position: absolute;
         top: 50%;
