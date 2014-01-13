@@ -43,6 +43,15 @@
                 @include ellipsis;
                 max-width: 90px;
             }
+            @include transition(all, 0.2s);
+        }
+    }
+    &.wd-block-selected {
+        .wd-block-mask {
+            .photo-info {
+                padding: 2px 6px 0 0;
+                color: #aaa;
+            }
         }
     }
 }

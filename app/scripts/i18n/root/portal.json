@@ -83,6 +83,6 @@
         "OK": "Continue",
         "CANCEL": "Cancel"
     },
-    "REMOTE_CONNECTION": "Remote Connection",
+    "REMOTE_CONNECTION": "wifi connect unlimited",
     "WAP_CONNECTION": "3G MobileConnect"
 }

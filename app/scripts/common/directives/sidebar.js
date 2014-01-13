@@ -92,7 +92,8 @@ return [function() {
             };
 
             $scope.changeDevice = function (item) {
-                if(item.ip !== wdDevice.getDevice().ip){
+                var currentDevice = wdDevice.getDevice();
+                if(item.id !== currentDevice.id || item.ip !== currentDevice.ip){
                     wdDevice.signout();
                     wdDevice.setDevice(item);
                     $scope.deviceList = [];
@@ -138,11 +139,11 @@ return [function() {
 
             function getListData(list) {
                 var device = wdDevice.getDevice();
-                var ip ;
+                var id ;
                 if (device) {
-                    ip = device.ip;
+                    id = device.id;
                     for (var i = 0 , l = list.length ; i < l ; i += 1) {
-                        if (ip === list[i].ip) {
+                        if (id === list[i].id) {
                             list[i].selected = true;
                         } else {
                             list[i].selected = false;

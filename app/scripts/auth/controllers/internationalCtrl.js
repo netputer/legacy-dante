@@ -178,17 +178,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         if (!wdDev.isRemoteConnection()) {
             maxNormalAuthDeviceTimes -= 1;
         }
-        var device = _.find($scope.devicesList, function(item) {
-            return item.id === deviceData.id;
-        });
-
-        if (device) {
-            $scope.devicesList.forEach(function(item, index) {
-                if (item.id === deviceData.id && !item.loading) {
-                    item.loading = true;
-                }
-            });
-        } else {
+        
+        if (!setDeviceConnectingStatus(deviceData)) {
             clearStatus(deviceData);
             return;
         }
@@ -240,8 +231,25 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         return defer.promise;
     }
 
+    function setDeviceConnectingStatus(deviceData) {
+        var device = _.find($scope.devicesList, function(item) {
+            return item.id === deviceData.id;
+        });
+
+        if (device) {
+            $scope.devicesList.forEach(function(item, index) {
+                if (item.id === deviceData.id && !item.loading) {
+                    item.loading = true;
+                }
+            });
+        }
+
+        return device;
+    }
+
     function remoteConnect(deviceData, wap) {
         wakeUpTimes -= 1;
+        setDeviceConnectingStatus(deviceData);
 
         $http({
             method: 'get',
