@@ -2,12 +2,11 @@ define([
     'underscore'
 ], function(_) {
 'use strict';
-return ['$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', '$http',
-function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q, wdSignInDetection, $http) {
+return ['$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', '$http', 'wdConnect',
+function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q, wdSignInDetection, $http, wdConnect) {
     var remoteConnectionAuthDeivceTimes;
     var wakeUpTimes;
     var maxNormalAuthDeviceTimes;
-
     function resetDefaultMaxRetryTimes() {
         remoteConnectionAuthDeivceTimes = 3;
         wakeUpTimes = 3;
@@ -61,76 +60,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         GA('user_sign_in:click_sign_in:google_sign_in');
     };
 
-    // 连接设备的纯净方法 （该方法无法放到 wdDevice 模块中，因为 $http 会出现循环引用）
-    // 试着解了下冲突，发现解开一个又有一个，不太好解。
-    // 因为目前没有在其他模块调用该方法的需求，所以先放在这吧。
-    // 如果一定要别的模块调用，可以的替代解决方案是：
-    // 1、单独提出来一个 service;
-    // 2、将 $http 替换为 $.ajax.
-    function connectDevice(deviceData) {
-        GA('connect_device:enter_snappea:'+ deviceData.model);
-        GA('check_sign_in:auth_all:all');
-        
-        // 远程唤醒一下设备
-        wdDevice.lightDeviceScreen(deviceData.id);
-        
-        var defer = $q.defer();
-        var authCode = deviceData.authcode;
-        var ip = deviceData.ip;
-        wdDev.setServer(ip);
-        
-        // 下面方法统计是否超时会用到
-        var timeout = 10000;
-        var timeStart = (new Date()).getTime();
-        $http({
-            method: 'get',
-            url: '/directive/auth',
-            timeout: timeout,
-            params: {
-                authcode: authCode,
-                'client_time': (new Date()).getTime(),
-                'client_name': 'Browser',
-                'client_type': 3
-            },
-            // 自定义的，默认底层做错误控制，但是可以被调用方禁止，这样有些不合规则或遗留的api可以在应用层自己处理错误。
-            disableErrorControl: !$scope.autoAuth
-        }).success(function(response) {
-            GA('connect_device:connect:success');
-            GA('check_sign_in:auth:sucess');
-            wdDevice.setDevice(deviceData);
-            wdDev.setMetaData(response);
-            defer.resolve();
-        }).error(function(reason, status, headers, config) {
-
-            // 再次远程唤醒设备
-            wdDevice.lightDeviceScreen(deviceData.id);
-            
-            // 清除之前的设备信息
-            wdDevice.clearDevice();
-
-            var action;
-            var duration = Date.now() - timeStart;
-            if (status === 0) {
-                action = (Math.round(duration / 1000) * 1000 < timeout) ? ('unreached:' + duration) : 'timeout';
-            } else if (status === 401) {
-                action = 'reject:' + duration;
-            } else {
-                action = 'unknown_' + status + ':' + duration;
-            }
-            GA('connect_device:connect:fail_' + action);
-            // 统计失败原因
-            GA('check_sign_in:auth:fail_' + action);
-            // 统计失败的设备及该设备失败原因
-            GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
-            // 统计失败的系统版本（接口待添加）
-            // GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
-            // 统计失败的 Rom 版本（接口待添加）
-            // GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
-            defer.reject();
-        });
-        return defer.promise;
-    }
-
     // 进入某个设备
     $scope.connectDevice = function(deviceData) {
         wdDev.closeRemoteConnection();
@@ -141,12 +70,14 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             loopGetDevicesList(false);
             return;
         }
+
         // 防止用户已经开始尝试连手机，但是没有结束，又再次连接。(防止多次点击)
         for (var m = 0, n = $scope.devicesList.length; m < n; m += 1) {
             if ($scope.devicesList[m].loading === true) {
                 return;
             }
         }
+
         if (deviceData.model) {
             $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP3.replace('$$$$', deviceData.model);
         }
@@ -174,6 +105,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
     };
 
+    // 请求 auth
     function authDevice(deviceData) {
         if (!wdDev.isRemoteConnection()) {
             maxNormalAuthDeviceTimes -= 1;
@@ -185,9 +117,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
         
         var defer = $q.defer();
-
+        
         // 调用纯净的连接设备接口
-        connectDevice(deviceData).then(function () {
+        wdConnect.connectDevice(deviceData).then(function () {
 
             //标记下已经登录设备，在切换设备的时候会判断这个。
             wdGoogleSignIn.setHasAccessdDevice();
@@ -336,7 +268,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             
             // 首先确认 oldData 是否和当前数据一致，如果一致再看新老数据是否一致。
             if (oldData !== $scope.devicesList || newData !== oldData) {
-                GA('device_sign_in:add_new_device:new_device_page');
+                // GA('device_sign_in:add_new_device:new_device_page');
                 for (var i = 0 , l = $scope.devicesList.length ; i < l ; i += 1) {
                     if ($scope.devicesList[i].loading === true ) {
                         for (var m = 0 , n = newData.length; m < n; m += 1) {
@@ -417,15 +349,12 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 break;
                 case 1:
                     GA('device_sign_in:check_first_device:device_signed_in');
-                    // 防止已经登录在某手机中，又被登录一次。
-                    // if (!wdGoogleSignIn.getHasAccessdDevice()) {
-                        $scope.isLoadingDevices = true;
-                        $scope.connectDevice(list[0]);
-                    // }
+                    $scope.isLoadingDevices = true;
+                    $scope.connectDevice(list[0]);
                 break;
                 default:
                     $scope.isLoadingDevices = false;
-                    loopGetDevicesList();
+                    loopGetDevicesList(false);
                 break;
             }
         }
@@ -481,8 +410,9 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
     }
 
+    // 从设备退出，会走这个逻辑，判断是要完全退出 Limbo 还是要切换设备，还是直接要显示设备列表。
     function signoutFromDevices() {
-        $scope.isLoadingDevices = true;
+        getUserInfo();
         
         //用户是想要切换到另一个设备
         var item = wdDevice.getDevice();
@@ -490,20 +420,26 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         //判断用户是否在设备数据页面退出
         if (!item) {
             $scope.googleSignOut();
-        } else if (!!item.status && item.status === 'devices') {
-            wdGoogleSignIn.getDevices().then(function(list) {
-                getUserInfo();
+            return;
+        }
+
+        wdGoogleSignIn.getDevices().then(function(list) {
+
+            $scope.devicesList = list;
+            // 显示设备列表
+            if (!!item.status && item.status === 'devices') {
+                $scope.isLoadingDevices = false;
+                loopGetDevicesList(false);
+            } else {
+
+                //切换设备
                 $scope.isLoadingDevices = false;
                 $scope.devicesList = list;
-                loopGetDevicesList(false);
-            },function(xhr) {
-                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
-            });
-        } else if (!!item && !!item.ip) {
-
-            //切换设备
-            $scope.connectDevice(item);
-        }
+                $scope.connectDevice(item);
+            }
+        },function(xhr) {
+            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
+        });
     }
 
 // 登录逻辑开始（进入系统后首先走这个逻辑）
@@ -518,7 +454,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         // 检测是否在其他页面登陆，或者在弹出窗口登陆等
         wdSignInDetection.startSignInDetection();
     }
-
+    
     // 检测是否真正登录
     wdGoogleSignIn.checkSignIn().then(function() {
         $scope.isShowNoSignInPage = false;
