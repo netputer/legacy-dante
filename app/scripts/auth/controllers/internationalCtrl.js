@@ -117,7 +117,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         }
         
         var defer = $q.defer();
-
+        
         // 调用纯净的连接设备接口
         wdConnect.connectDevice(deviceData).then(function () {
 

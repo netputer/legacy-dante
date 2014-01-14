@@ -51,7 +51,7 @@ html.cors .no-support-placeholder {
 }
 
 .open-sidebar .viewport {
-    @include transform(translate3d($global-sidebar-width, 0, 0));
+    margin-left: $global-left-offset + $global-sidebar-width;
     pointer-events: none;
     z-index: 3;
 }

@@ -40,21 +40,7 @@ return [function() {
 
             $scope.closeSidebar = function() {
                 $rootScope.showSidebar = false;
-                reflow();
             };
-
-            // 手动触发下浏览器 reflow，用来 hack 浏览器 translate 的 bug。
-            function reflow() {
-                // 时间差不多是 closeSidebar 结束的时间。
-                var time = 800;
-                var htmlEle = $('html');
-                setTimeout(function() {
-                    htmlEle.css('position', 'fixed');
-                }, time);
-                setTimeout(function() {
-                    htmlEle.css('position', 'static');
-                }, time + 5);
-            }
 
             $rootScope.$on('sidebar:open', function() {
                 wdGoogleSignIn.getProfile().then(function(data) {
