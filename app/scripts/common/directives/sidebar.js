@@ -1,9 +1,7 @@
 define([
-        'text!templates/common/sidebar.html',
-        'jquery'
+        'text!templates/common/sidebar.html'
     ], function(
-        template,
-        $
+        template
     ) {
 'use strict';
 return [function() {
