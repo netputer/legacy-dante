@@ -10,8 +10,8 @@ define([
     'use strict';
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
-    return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter',
-    function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter){
+    return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter', 'wdDownload',
+    function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter,   wdDownload){
 
         //$scope相关
         //展示应用列表
@@ -240,7 +240,7 @@ define([
                             } else {
                                 d.resolve();
                             }
-                            
+
                             return d.promise();
                         },
                         onSubmit: function(id,name) {
@@ -259,7 +259,7 @@ define([
                                             $scope.newList[i]['package_name'] = result['package_name'];
                                             $scope.newList[i]['apk_path'] =  result['apk_path'];
                                             $scope.newList[i]['unknown_sources'] = result['unknown_sources'];
-                                            // Boss Wang 
+                                            // Boss Wang
                                             $scope.newList[i].confirmTipShow = true;
                                             $scope.newList[i].progressShow = false;
                                             $('dd.confirm').css('opacity', 0.8);
@@ -286,7 +286,7 @@ define([
                         }
                     }
                 });
-                
+
                 // 防止拖拽重复创建实例
                 if (G_dragAndDropUploader) {
                     return;
@@ -537,6 +537,10 @@ define([
             }
         }
 
+        function download(url) {
+            wdDownload.download($filter('wrapRemoteConnectionURL')(url));
+        }
+
         function clickInstallApk(){
             GA('Web applications :click install apk button');
         }
@@ -634,6 +638,7 @@ define([
         $scope.delApp = delApp;
         $scope.delCloudApp = delCloudApp;
         $scope.delMoreApps = delMoreApps;
+        $scope.download = download;
         $scope.closeUploadApp = closeUploadApp;
         $scope.reinstall = reinstall;
         $scope.deselectAll = deselectAll;

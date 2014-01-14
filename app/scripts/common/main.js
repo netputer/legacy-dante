@@ -36,7 +36,8 @@ define([
     'common/services/reminder',
     'common/directives/reminder',
     'common/filters/size-format',
-    'common/filters/wrap-remote-connection-url'
+    'common/filters/wrap-remote-connection-url',
+    'common/services/download'
 ], function(
     angular,
     loading,
@@ -75,7 +76,8 @@ define([
     reminder,
     reminderDirective,
     sizeFormat,
-    wrapRemoteConnectionURL
+    wrapRemoteConnectionURL,
+    download
 ) {
 // jshint unused:false
 'use strict';
@@ -99,6 +101,7 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     // Services
     .provider('wdDev', dev)
     .provider('wdEventEmitter', emitter)
+    .provider('wdDownload', download)
     .factory('wdSocket', socket)
     .factory('wdBrowser', browser)
     .factory('wdViewport', viewport)

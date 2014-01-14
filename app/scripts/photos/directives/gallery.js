@@ -9,8 +9,8 @@ return {
 
 scope: true,
 controller: [
-        '$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', '$rootScope', '$filter',
-function($scope,   GA,   wdAlert,   wdDev,   wdpAlbums,   $route,   $rootScope,   $filter) {
+        '$scope', 'GA', 'wdAlert', 'wdDev', 'wdpAlbums', '$route', '$rootScope', '$filter', 'wdDownload',
+function($scope,   GA,   wdAlert,   wdDev,   wdpAlbums,   $route,   $rootScope,   $filter,   wdDownload) {
     // Selection logic.
     $scope.lastSelectedPhoto = null;
 
@@ -100,7 +100,7 @@ function($scope,   GA,   wdAlert,   wdDev,   wdpAlbums,   $route,   $rootScope, 
         } else {
             download();
         }
-        
+
     };
 
     function download() {
@@ -108,7 +108,7 @@ function($scope,   GA,   wdAlert,   wdDev,   wdpAlbums,   $route,   $rootScope, 
         form.method = 'POST';
         form.action = wdDev.getServer() + '/static/photos';
         form.action = wdDev.isRemoteConnection() ? wdDev.wrapRemoteConnectionURL(form.action) : form.action;
-        form.target = '_self';
+        form.target = wdDownload.createTarget();
         var path = document.createElement('input');
         path.type = 'text';
         path.name = 'ids';

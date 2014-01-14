@@ -57,7 +57,7 @@
                         ng-if="$root.READ_ONLY_FLAG"><i class="icon-delete-dark"></i></span>
                     <a class="btn-icon-download"
                         href="{{item.download_url | wrapRemoteConnectionURL}}"
-                        download="{{item.name}}.apk"
+                        ng-click="download(item.download_url);$event.preventDefault()"
                         bs-tooltip="{{$root.DICT.applications.BUTTONS.DOWNLOAD}}"><i class="icon-down-dark"></i></a>
                 </div>
             </dd>
@@ -139,7 +139,9 @@
                     <i class="icon-del-toolbar"></i><span>{{$root.DICT.applications.BUTTONS.UNINSTALL}}</span>
                 </div>
                 <div class="button-download">
-                    <a href="{{info.download_url | wrapRemoteConnectionURL}}" download="{{info.name}}.apk">
+                    <a href="{{info.download_url | wrapRemoteConnectionURL}}"
+                        ng-click="download(info.download_url);$event.preventDefault()"
+                        download="{{info.name}}.apk">
                         <i class="icon-down-toolbar"></i>
                         <span>{{$root.DICT.applications.BUTTONS.DOWNLOAD}}</span>
                     </a>

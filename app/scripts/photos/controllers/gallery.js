@@ -12,9 +12,11 @@ return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
         'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', 'wdDev', '$filter',
+        'wdDownload',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
-         wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev,   $filter) {
+         wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev,   $filter,
+         wdDownload) {
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.firstScreenLoaded = false;
@@ -45,7 +47,7 @@ $scope.$on('$routeUpdate', function(scope, next, current) {
 
 function previewPhotoByUrl() {
     if($route.current.params.preview) {
-        Photos.get({ 
+        Photos.get({
             id: $route.current.params.preview
         }, function(photo) {
             $location.search('preview', null).replace();
@@ -93,7 +95,7 @@ $scope.preview = function(photo) {
 };
 
 $scope.download = function(photo) {
-    $window.location = $filter('wrapRemoteConnectionURL')(photo.download_path || photo.path);
+    wdDownload.download($filter('wrapRemoteConnectionURL')(photo.download_path || photo.path));
 };
 
 $scope['delete'] = function(photo) {
