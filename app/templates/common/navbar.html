@@ -31,9 +31,11 @@
             </li>
         </ul>
         <ul class="nav nav-settings">
-            <li ng-show="$root.remoteConnection && $root.remoteConnection.wap">
-                <a href="" bs-tooltip="{{ $root.DICT.portal.WAP_CONNECTION }}" data-options="{placement: 'right'}">
-                    <i class="icon-wap"></i>
+            <li ng-show="$root.remoteConnection && $root.remoteConnection.wap" ng-switch="$root.remoteConnection.networkType">
+                <a href="" bs-tooltip="{{ $root.DICT.portal.3G_CONNECTION }}" data-options="{placement: 'right'}" ng-switch-when="3G">{{ $root.DICT.portal.3G }}</a>
+                <a href="" bs-tooltip="{{ $root.DICT.portal.4G_CONNECTION }}" data-options="{placement: 'right'}" ng-switch-when="4G">{{ $root.DICT.portal.4G }}</a>
+                <a href="" bs-tooltip="{{ $root.DICT.portal[$root.remoteConnection.networkType + '_CONNECTION'] }}" data-options="{placement: 'right'}" ng-switch-default>
+                    <i class="icon-{{$root.remoteConnection.networkType}}"></i>
                 </a>
             </li>
             <li ng-show="$root.remoteConnection && !$root.remoteConnection.wap">

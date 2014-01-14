@@ -71,6 +71,27 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                     $log.log('Getting devices success!', list);
                 }
                 $rootScope.$apply(function() {
+                    list.forEach(function(item) {
+                        if (!item.ip) {
+                            switch(item.attributes.network_type) {
+                                case 'LTE':
+                                case 'CDMA - eHRPD':
+                                    item.networkType = '4G';
+                                    break;
+                                case 'CDMA':
+                                    item.networkType = '2G';
+                                    break;
+                                case 'GPRS':
+                                    item.networkType = 'GPRS';
+                                    break;
+                                case 'EDGE':
+                                    item.networkType = 'EDGE';
+                                    break;
+                                default: item.networkType = '3G';
+                            }
+                        }
+                    });
+                    
                     global.devicesList.splice(0, global.devicesList.length);
                     Array.prototype.push.apply(global.devicesList, list);
 

@@ -84,5 +84,10 @@
         "CANCEL": "Cancel"
     },
     "REMOTE_CONNECTION": "wifi connect unlimited",
-    "WAP_CONNECTION": "3G MobileConnect"
+    "3G_CONNECTION": "3G MobileConnect",
+    "4G_CONNECTION": "4G MobileConnect",
+    "EDGE_CONNECTION": "EDGE MobileConnect",
+    "GPRS_CONNECTION": "GPRS MobileConnect",
+    "3G": "3G",
+    "4G": "4G"
 }
