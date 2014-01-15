@@ -6,10 +6,20 @@ return ['wdDev', function(wdDev) {
 
 return function(url, type) {
     var wrappedURL = url;
-    if (url && url.indexOf('data:image/jpeg;base64') === -1 && wdDev.isRemoteConnection()) {
-        url = wdDev.wrapPrefixURL(url);
-        wrappedURL = wdDev.wrapRemoteConnectionURL(url, type);
+
+    if (wrappedURL && wrappedURL.indexOf('data:image/jpeg;base64') === -1 ) {
+        wrappedURL = wdDev.wrapPrefixURL(wrappedURL);
+        var host = wdDev.getIP().length ? wdDev.getIP() : 'null';
+        var urlHostArray = wrappedURL.match(/\/\/([^:\/ ]+).?.*/);
+        if (urlHostArray && urlHostArray.length > 1 && host !== urlHostArray[1]) {
+            var urlHost = urlHostArray[1];
+            wrappedURL = 'http://' + host + wrappedURL.split(urlHost)[1];
+        }
+        if (wdDev.isRemoteConnection()) {
+            wrappedURL = wdDev.wrapRemoteConnectionURL(url, type);
+        }
     }
+    
     return wrappedURL;
 };
 

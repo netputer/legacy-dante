@@ -6,7 +6,7 @@ return ['$q', function($q) {
         registerModal: function(newModal) {
             modal = newModal;
         },
-        open: function(header, content, ok, help, clickToHide) {
+        open: function(header, content, ok, help, clickToHide, disabledButton) {
             if (modal === null) {
                 throw new Error('Not Found Remind Modal');
             }
@@ -15,7 +15,8 @@ return ['$q', function($q) {
                 content: content,
                 ok: ok,
                 help: help,
-                clickToHide: clickToHide === undefined ? true : false
+                clickToHide: clickToHide === undefined ? true : false,
+                disabledButton: disabledButton === undefined ? false : disabledButton
             }));
         },
         close: function(header, content, ok, cancel) {

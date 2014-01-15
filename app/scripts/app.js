@@ -171,8 +171,8 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
         });
 
         // Global exception handling.
-        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', 'wdDevice', '$window', 'wdSocket',
-            function(wdDev, $rootScope, $q, $log, wdDevice, $window, wdSocket) {
+        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', '$injector', '$window', 'wdSocket',
+            function(wdDev, $rootScope, $q, $log, $injector, $window, wdSocket) {
             return {
                 request: function(config) {
                     // Using realtime data source url.
@@ -208,7 +208,9 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
 
                     if (!rejection.config.disableErrorControl &&
                         (rejection.status === 401 /*|| response.status === 0 */)) {
-                        wdDevice.signout();
+                        $injector.invoke(['wdDevice', function(wdDevice){
+                            wdDevice.signout();
+                        }]);
                     }
                     return $q.reject(rejection);
                 }
@@ -273,17 +275,19 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdDatabase.open(wdDev.getMetaData('phone_udid'));
                 // SDK version equals 19 means SDK 4.4
                 $rootScope.SDK_19 = wdDev.getMetaData('SDK_version') === 19 ? true : false;
-                if (wdDev.isRemoteConnection() && !wdDev.isWapRemoteConnection()) {
-                    wdReminder.open(
-                        $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.TITLE,
-                        $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.CONTENT,
-                        $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.OK,
-                        {
-                            link: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_LINK,
-                            text: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_TEXT
-                        } 
-                    ); 
-                }
+                $rootScope.$watch('remoteConnection', function(newVal, oldVal) {
+                    if (newVal && !newVal.wap) {
+                        wdReminder.open(
+                            $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.TITLE,
+                            $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.CONTENT,
+                            $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.OK,
+                            {
+                                link: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_LINK,
+                                text: $rootScope.DICT.app.REMOTE_CONNECTION_REMIND.HELP_TEXT
+                            } 
+                        ); 
+                    }
+                });
                 remindSocketDisconnect();
             }
             GA('login:phone_model:' + wdDev.getMetaData('phone_model'));
@@ -295,6 +299,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 wdDatabase.close();
                 wdTitleNotification.restore();
                 wdDev.closeRemoteConnection();
+                wdReminder.close();
                 $rootScope.$broadcast('sidebar:close');
             }
         });
@@ -331,12 +336,12 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 clearConnectTimer();
 
                 delayTime = INIT_DELAY_TIME;
-                showDisconnectRemind();
+                showDisconnectRemind(true);
                 connectTimer = setInterval(function() {
                     $rootScope.$apply(function() {
                         delayTime -= 1;
-                        showDisconnectRemind();
-                        if (!delayTime) {
+                        showDisconnectRemind(true);
+                        if (delayTime <= 0) {
                             connectSocket();
                         }
                     });
@@ -350,19 +355,23 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
                 }
             };
 
-            var showDisconnectRemind = function() {
+            var showDisconnectRemind = function(countdown) {
+                var tip = $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP;
+                tip += countdown ? $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP_TIMER_END : $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP_END;
                 wdReminder.open(
                     $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TITLE,
-                    $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.TIP.replace('$$$$', delayTime),
+                    tip.replace('$$$$', delayTime),
                     $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.OK,
                     {
                         link: $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.LINK,
                         text: $rootScope.DICT.app.SOCKET_DISCONNECT_REMIND.LINK_TEXT
                     },
-                    false
+                    false,
+                    !countdown
                 ).then(function() {
-                    wdSocket.trigger('socket:connect');
                     connectSocket();
+                }, function() {
+                    closeDisconnectRemind();
                 });
             };
 
@@ -372,13 +381,19 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             };
 
             var connectSocket = function() {
-                wdSocket.trigger('socket:connect');
-                refreshDelayTime();
+                showDisconnectRemind(false);
+                clearConnectTimer();
+                //wdSocket.trigger('socket:connect');
+                wdSocket.refreshDeviceAndConnect().then(function() {
+                    closeDisconnectRemind();
+                }, function() {
+                    refreshDelayTime();
+                });
             };
 
-            wdSocket.on('socket:disconnected', function() {
+            wdSocket.on('socket:disconnected', function(forceRefreshRetyTimes) {
                 disconnected = true;
-                if (!connectTimer) {
+                if (!connectTimer || forceRefreshRetyTimes) {
                     refreshDelayTime();
                 }
             });

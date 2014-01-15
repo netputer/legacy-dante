@@ -32,27 +32,18 @@
 
     .wd-block-mask {
         cursor: pointer;
-
-        .photo-info {
-            padding: 8px 12px 0 0;
-            text-align: right;
-            float: right;
-            color: #999;
-            span {
-                display: block;
-                @include ellipsis;
-                max-width: 90px;
-            }
-            @include transition(all, 0.2s);
-        }
     }
-    &.wd-block-selected {
-        .wd-block-mask {
-            .photo-info {
-                padding: 2px 6px 0 0;
-                color: #aaa;
-            }
+    .photo-info {
+        @include position(absolute, 8px 12px 0 0);
+        text-align: right;
+        float: right;
+        color: #999;
+        span {
+            display: block;
+            @include ellipsis;
+            max-width: 90px;
         }
+        @include transition(all, 0.2s);
     }
 }
 
