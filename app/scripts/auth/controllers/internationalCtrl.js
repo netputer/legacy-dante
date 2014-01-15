@@ -115,7 +115,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             clearStatus(deviceData);
             return;
         }
-        
+        var TIME_SPAN = 3000;
+        var timestamp = new Date().getTime();
         var defer = $q.defer();
         
         // 调用纯净的连接设备接口
@@ -134,7 +135,16 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             if (wdDev.isRemoteConnection()) {
                 if (remoteConnectionAuthDeivceTimes) {
                     remoteConnectionAuthDeivceTimes -= 1;
-                    authDevice(deviceData);
+                    var nowTimestamp = new Date().getTime();
+                    var diff = nowTimestamp - timestamp;
+                    if (diff > TIME_SPAN) {
+                        authDevice(deviceData);
+                    } else {
+                        $timeout(function() {
+                            authDevice(deviceData);
+                        }, diff);
+                    }
+                    
                 } else {
                     clearStatus(deviceData);
                     wdDev.closeRemoteConnection();
