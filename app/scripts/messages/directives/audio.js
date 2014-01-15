@@ -5,7 +5,7 @@ define([
     'underscore'
     ], function(template, $, moment, _) {
 'use strict';
-return ['$window', 'GA', function($window, GA) {
+return ['$window', 'GA', 'wdDownload', '$filter', function($window, GA, wdDownload, $filter) {
     var audioList = [];
 
     return {
@@ -28,7 +28,7 @@ return ['$window', 'GA', function($window, GA) {
                 },
 
                 downloadAudio: function() {
-                    $window.location = $scope.audio.content;
+                    wdDownload.download($filter('wrapRemoteConnectionURL')($scope.audio.content));
                     GA('messages:audio:download');
                 },
 
@@ -39,7 +39,7 @@ return ['$window', 'GA', function($window, GA) {
                 },
 
                 play: function() {
-                    audioElement.src = $scope.audio.content;
+                    audioElement.src = $filter('wrapRemoteConnectionURL')($scope.audio.content);
                     audioElement.play();
                     $scope.audio.playing = true;
                     GA('messages:audio:play');
