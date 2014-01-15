@@ -93,7 +93,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $rootScope.DICT.portal.WAP_CONNECTION_ALERT.OK,
                 $rootScope.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
             ).then(function() {
-                remoteConnect(deviceData, true);
+                remoteConnect(deviceData);
             }, function() {
                 clearStatus(deviceData);
                 loopGetDevicesList(false);
@@ -179,7 +179,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         return device;
     }
 
-    function remoteConnect(deviceData, wap) {
+    function remoteConnect(deviceData) {
         wakeUpTimes -= 1;
         setDeviceConnectingStatus(deviceData);
 
@@ -189,7 +189,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             timeout: 4000,
         })
         .success(function(response) {
-            response.wap = !!wap;
+            response.wap = deviceData.ip ? false : true;
+            response.networkType = deviceData.networkType;
             response.limitSize = 5 * 1024 * 1024;
 
             wdDev.setRemoteConnectionData(response);
@@ -199,7 +200,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         })
         .error(function() {
             if (wakeUpTimes) {
-                remoteConnect(deviceData, wap);
+                remoteConnect(deviceData);
             } else {
                 confirmConnect(deviceData);
             }

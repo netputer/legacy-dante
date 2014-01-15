@@ -348,6 +348,12 @@
                     @include animation(fadeIn $global-transition-duration);
                 }
             }
+            .white-icon {
+                display: none;
+            }
+            .gray-icon {
+                display: inline-block;
+            }
 
             &:hover, &.selected-device {
                 background-color: $standard-green;
@@ -376,7 +382,12 @@
                         display: none;
                     }
                 }
-
+                .white-icon {
+                    display: inline-block;
+                }
+                .gray-icon {
+                    display: none;
+                }
                 &.add-new-phone-button {
                     .icon-add-white {
                         display: inline-block;
