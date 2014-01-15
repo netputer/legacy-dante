@@ -201,7 +201,7 @@ define([
                 G_uploader = new fineuploader.FineUploaderBasic({
                     button: btnEles[i],
                     request: {
-                        endpoint: wdDev.wrapRemoteConnectionUploadURL('/resource/apps/upload')
+                        endpoint: $filter('wrapRemoteConnectionURL')('/resource/apps/upload', 'upload')
                     },
                     validation: {
                         acceptFiles: '.apk',

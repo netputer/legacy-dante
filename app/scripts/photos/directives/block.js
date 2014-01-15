@@ -91,7 +91,7 @@ link: function($scope, element) {
             $scope.photo.circleLoading = true;
         }
         return preloadImage($scope.photo.thumbnail_path).then(function(path) {
-            var wrappedPath = $filter('wrapRemoteConnectionURL')(path);
+            var wrappedPath = $filter('wrapRemoteConnectionURL')(path, 'image');
             image.attr('src', wrappedPath).addClass('fadeIn');
             if ($scope.photo.isPhotoSnap) {
                 $scope.$apply(function() {
@@ -108,7 +108,7 @@ link: function($scope, element) {
             temp = temp.onload = null;
             defer.resolve(path);
         };
-        temp.src = $filter('wrapRemoteConnectionURL')(path);
+        temp.src = $filter('wrapRemoteConnectionURL')(path, 'image');
         return defer.promise();
     }
 

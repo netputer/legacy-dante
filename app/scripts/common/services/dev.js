@@ -58,7 +58,11 @@ return function() {
             getServer: self.getServer,
             setMetaData: self.setMetaData,
             getMetaData: self.getMetaData,
-            getURL: function(url, forResource) {
+            wrapPrefixURL: function(url, forResource) {
+                if (url.indexOf('http://') === 0) {
+                    return url;
+                }
+
                 var server = self.getServer();
                 if (forResource) {
                     server = encodeServer(server);
@@ -72,17 +76,24 @@ return function() {
                 return server + prefix + url;
             },
             wrapURL: function(url, forResource) {
-                return devAPIs.wrapRemoteConnectionURL(devAPIs.getURL(url, forResource));
+                return devAPIs.wrapRemoteConnectionURL(devAPIs.wrapPrefixURL(url, forResource));
             },
-            wrapRemoteConnectionURL: function(url, isUpload) {
+            wrapRemoteConnectionURL: function(url, type) {
                 if (devAPIs.isRemoteConnection()) {
-                    var proxyUrl = !!isUpload ? self.getRemoteConnectionData('httpUpoloadUrl') : self.getRemoteConnectionData('httpProxyUrl');
+                    var proxyUrl;
+                    switch(type) {
+                        case 'upload':
+                            proxyUrl = self.getRemoteConnectionData('httpUploadUrl');
+                            break;
+                        case 'image':
+                            proxyUrl = self.getRemoteConnectionData('httpDownloadUrl');
+                            break;
+                        default:
+                            proxyUrl = self.getRemoteConnectionData('httpProxyUrl');
+                    }
                     url = proxyUrl + '?token=' + self.getRemoteConnectionData('token') + '&originUrl=' + encodeURIComponent(url);
                 } 
                 return url;
-            },
-            wrapRemoteConnectionUploadURL: function(url) {
-                return devAPIs.wrapRemoteConnectionURL(devAPIs.getURL(url), true);
             },
             getWakeUpUrl: function() {
                 return WAKE_UP_URL;
