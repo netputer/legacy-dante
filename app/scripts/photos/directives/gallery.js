@@ -107,7 +107,7 @@ function($scope,   GA,   wdAlert,   wdDev,   wdpAlbums,   $route,   $rootScope, 
         var form = document.createElement('form');
         form.method = 'POST';
         form.action = wdDev.getServer() + '/static/photos';
-        form.action = wdDev.isRemoteConnection() ? wdDev.wrapRemoteConnectionURL(form.action) : form.action;
+        form.action = wdDev.wrapRemoteConnectionURL(form.action);
         form.target = wdDownload.createTarget();
         var path = document.createElement('input');
         path.type = 'text';

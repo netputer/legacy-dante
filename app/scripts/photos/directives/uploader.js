@@ -18,7 +18,7 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filt
             var uploader = new fineuploader.FineUploaderBasic({
                 button: element[0],
                 request: {
-                    endpoint: wdDev.wrapRemoteConnectionUploadURL('/directive/photos/upload')
+                    endpoint: $filter('wrapRemoteConnectionURL')('/directive/photos/upload', 'upload')
                 },
                 validation: {
                     acceptFiles: 'image/*',
