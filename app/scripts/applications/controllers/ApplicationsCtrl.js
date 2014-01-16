@@ -198,6 +198,7 @@ define([
 
             for(var i = 0,l = btnEles.length;i<l;i += 1 ){
                 /* jshint -W083 */
+
                 G_uploader = new fineuploader.FineUploaderBasic({
                     button: btnEles[i],
                     request: {
@@ -276,9 +277,7 @@ define([
                                     var app = _.find($scope.newList, function(item) {
                                         return item.id === id;
                                     });
-                                    $scope.$apply(function() {
-                                        app.showErrorTip = true;
-                                    });
+                                    app.showErrorTip = true;
                                 }
                             });
                         },
@@ -289,7 +288,8 @@ define([
 
                 // 防止拖拽重复创建实例
                 if (G_dragAndDropUploader) {
-                    return;
+                    G_dragAndDropUploader.dispose();
+                    G_dragAndDropUploader = null;
                 }
                 G_dragAndDropUploader = new fineuploader.DragAndDrop({
                     dropArea: $('.wdj-applications')[0],

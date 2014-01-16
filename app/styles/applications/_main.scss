@@ -64,6 +64,11 @@
                 font-size: 16px;
             }
 
+            .icon-close {
+                cursor: pointer;
+                @include position(absolute, 2px 4px 0 0);
+            }
+
             .wd-block-actions {
                 background-image: none;
             }
@@ -80,11 +85,6 @@
                 margin-left: 0;
                 opacity: 0;
                 @include transition(opacity $global-transition-duration);
-
-                .icon-close {
-                    cursor: pointer;
-                    @include position(absolute, 2px 4px 0 0);
-                }
 
                 .icon-retry {
                     cursor: pointer;

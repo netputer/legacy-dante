@@ -9,8 +9,8 @@ define([
 ) {
 'use strict';
 
-return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope',
-function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope) {
+return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope', '$filter',
+function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope, $filter) {
     //默认头像显示颜色
     var photoColorList = [
         'contact-photo-bg-green',
@@ -834,18 +834,45 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
         G_uploader = new fineuploader.FineUploaderBasic({
             button: $('.contacts-edit .photoUpload')[0],
             request: {
-                endpoint: wdDev.wrapURL('/resource/contacts/'+ $scope.contact.id +'/upload/')
+                endpoint: $filter('wrapRemoteConnectionURL')('/resource/contacts/'+ $scope.contact.id +'/upload/', 'upload')
             },
             validation: {
-                acceptFiles: 'image/*'
+                acceptFiles: 'image/*',
+                allowedExtensions: ['jpg', 'jpeg', 'gif', 'png'],
+                stopOnFirstInvalidFile: false
             },
             cors: {
                 expected: true,
                 sendCredentials: true
             },
             multiple:false,
-            autoUpload: false,
             callbacks: {
+                onValidateBatch: function(fileData) {
+                    var d = $.Deferred();
+                    var size = 0;
+                    _.each(fileData, function(item) {
+                        size += item.size;
+                    });
+
+                    if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
+                        $scope.$apply(function() {
+                            wdAlert.confirm(
+                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
+                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
+                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
+                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
+                            ).then(function() {
+                                d.resolve();
+                            }, function() {
+                                d.reject();
+                            });
+                        });
+                    } else {
+                        d.resolve();
+                    }
+                    
+                    return d.promise();
+                },
                 onSubmit: function(id) {
                     var file = G_uploader.getFile(id);
                     if (!file.type.match('image.*')) {
@@ -862,6 +889,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         };
                     }
                 },
+
                 onComplete : function() {
                     setPhoto(base64);
                 }
