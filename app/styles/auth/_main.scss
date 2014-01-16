@@ -2,7 +2,7 @@
     @include position(fixed, 0px 0px 0px 0px);
     @include ui-layer-top;
     background: $standard-green;
-
+    min-height: 500px;
     .announcement {
         font-size: 12px;
         color: #333;
@@ -41,6 +41,8 @@
     }
 
     .a {
+        min-width: 950px;
+        min-height: 400px;
         @include position(fixed, 0px 0px 234px 0px);
         .container {
             @include position(absolute, 50% 0 0 50%);
@@ -120,7 +122,7 @@
     }
 
     .b {
-        @include position(fixed, 0 0px 0px 0px);
+        @include position(absolute, 0 0px 0px 0px);
         height: 234px;
         background: #fff;
         h2, p {
