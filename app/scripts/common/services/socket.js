@@ -92,8 +92,10 @@ Socket.prototype = {
             }
             
             self.trigger('socket:connected');
-            self.defer.resolve();
-            
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
+
             GA('socket:connect');
         });
 
@@ -102,9 +104,9 @@ Socket.prototype = {
                 if (wdDev.isRemoteConnection()) {
                     self.showDisconnectPanel();   
                 }
+                self.defer.reject();
             });
             
-            self.defer.reject();
             $log.error('Socket disconnected!');
         });
 
@@ -124,25 +126,35 @@ Socket.prototype = {
                 type: 'notifications.request',
                 timestamp : lastTimestamp 
             });
-            self.defer.resolve();
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
+            
         });
 
         // There is a bug in socket.io, reconnect_failed gets never fired.
         this._transport.on('reconnect_failed', function failed() {
             $log.warn('Socket server seems cold dead...');
-            self.defer.reject();
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
             GA('socket:dead');
         });
 
         this._transport.on('connect_failed', function() {
             // $log.warn('Socket fails to establish.');
-            self.defer.reject();
+
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
             GA('socket:connect_failed');
         });
 
         this._transport.on('error', function() {
             //Almost handshake error
-            self.defer.reject();
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
             self.showDisconnectPanel(true);
             GA('socket:connect_error');
         });
@@ -187,11 +199,13 @@ Socket.prototype = {
                             wdDev.setRequestWithRemote(data);
 
                             wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                wdDev.setRemoteConnectionData(data);
                                 self.close();
                                 self.connect().then(function() {
-                                    wdDev.setRemoteConnectionData(data);
+                                    defer.resolve();
+                                }, function() {
+                                    defer.reject();
                                 });
-                                defer.resolve();
                             }, function() {
                                 defer.reject();
                             }).always(function() {
@@ -215,11 +229,13 @@ Socket.prototype = {
                                 wdDev.setRequestWithRemote(data);
 
                                 wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                    wdDev.setRemoteConnectionData(data);
                                     self.close();
                                     self.connect().then(function() {
-                                        wdDev.setRemoteConnectionData(data);
+                                        defer.resolve();
+                                    }, function() {
+                                        defer.reject();
                                     });
-                                    defer.resolve();
                                 }, function() {
                                     defer.reject();
                                 }).always(function() {

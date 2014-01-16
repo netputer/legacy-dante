@@ -130,6 +130,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $rootScope.$broadcast('signin');
 
         }, function () {
+            // 再次远程唤醒设备
+            wdDevice.lightDeviceScreen(deviceData.id);
+            
+            // 清除之前的设备信息
+            wdDevice.clearDevice();
             if (wdDev.isRemoteConnection()) {
                 if (remoteConnectionAuthDeivceTimes) {
                     remoteConnectionAuthDeivceTimes -= 1;

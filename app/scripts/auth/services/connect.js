@@ -53,13 +53,6 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 wdDev.setMetaData(response);
                 defer.resolve();
             }).error(function(reason, status, headers, config) {
-
-                // 再次远程唤醒设备
-                wdDevice.lightDeviceScreen(deviceData.id);
-                
-                // 清除之前的设备信息
-                //wdDevice.clearDevice();
-
                 var action;
                 var duration = Date.now() - timeStart;
                 if (status === 0) {
