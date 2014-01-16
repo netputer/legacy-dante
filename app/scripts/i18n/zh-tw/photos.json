@@ -55,5 +55,11 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"有些文件副檔名無效。僅支持 JPG、GIF或者PNG文件。",
   "UNSUPPORT_MODAL_BUTTON_OK":"確定 ",
   "DRAG_TITLE":"將圖片放在這里 ",
-  "DRAG_TIP":"將圖片添加至您的手機。"
+  "DRAG_TIP":"將圖片添加至您的手機。",
+  "VIEW":"查看 ",
+  "PHOTO_SNAP":{
+    "H1":"嘗試 PhotoSnap",
+    "H2":"在您的$$$$上拍照。立即看照片。",
+    "BUTTON":"明白了"
+  }
 }

@@ -28,5 +28,9 @@
   "CONFIRM_DELETE_CONTENT":"Excluir as mensagens selecionadas do seu celular?",
   "CONFIRM_DELETE_OK":"Excluir",
   "CONFIRM_DELETE_CANCEL":"Cancelar",
-  "NEW_MESSAGE_TIP":"Novas mensagens de"
+  "VIEW_CONTACT":"Visualizar contato",
+  "ADD_CONTACT":"Adicionar contatos",
+  "NEW_MESSAGE_TIP":"Novas mensagens de",
+  "MESSAGE_STATUS_REPORTER":"Entregue $$",
+  "MESSAGE_ALERT_FOR_ANDROID_44":"Seu telefone está utilizando o Android 4.4 (Kit Kat), atualmente algumas das funcionalidades de mensagem estão indisponíveis, incluindo a exclusão de mensagens, envio de mensagens para grupos e a exibição do estado lido\/não lido das mensagens."
 }

@@ -62,7 +62,6 @@
       "CONTENT":"Sollen die ausgewählten Nachrichten von Ihrem Telefon gelöscht werden?",
       "OK":"Löschen",
       "CANCEL":"Abbrechen",
-      "ASK":"Sollen die ausgewählten Nachrichten von Ihrem Telefon gelöscht werden?",
       "READ_ONLY":"Kontakt(e) sind schreibgeschützt und können nicht gelöscht werden:"
     },
     "FAILED_DELETE":{
@@ -83,5 +82,8 @@
     }
   },
   "SAVE_TOAST":"Speichern...",
-  "SAVE_ERROR_TOAST":"Speichern fehlgeschlagen."
+  "SAVE_ERROR_TOAST":"Speichern fehlgeschlagen.",
+  "DEL_TOAST":"Deleting...",
+  "DEL_ERROR_TOAST":"Delete failed.",
+  "WAITING":"Waiting..."
 }

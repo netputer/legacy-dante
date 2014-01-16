@@ -62,7 +62,6 @@
       "CONTENT":"Excluir o(s) contato(s) selecionado(s) do seu celular?",
       "OK":"Excluir",
       "CANCEL":"Cancelar",
-      "ASK":"Excluir o(s) contato(s) selecionado(s) do seu celular?",
       "READ_ONLY":"Esses são contatos somente leitura, por isso não podem ser excluídos:"
     },
     "FAILED_DELETE":{
@@ -83,5 +82,8 @@
     }
   },
   "SAVE_TOAST":"Salvando...",
-  "SAVE_ERROR_TOAST":"Salvar falhou."
+  "SAVE_ERROR_TOAST":"Salvar falhou.",
+  "DEL_TOAST":"Excluindo...",
+  "DEL_ERROR_TOAST":"Falha ao excluir.",
+  "WAITING":"Aguardando..."
 }

@@ -28,5 +28,9 @@
   "CONFIRM_DELETE_CONTENT":"從你的手機上刪除選定短訊？",
   "CONFIRM_DELETE_OK":"刪除",
   "CONFIRM_DELETE_CANCEL":"取消",
-  "NEW_MESSAGE_TIP":"來自...的新信息 "
+  "VIEW_CONTACT":"查看連絡人 ",
+  "ADD_CONTACT":"添加至連絡人",
+  "NEW_MESSAGE_TIP":"來自...的新信息 ",
+  "MESSAGE_STATUS_REPORTER":"已提交的 $$",
+  "MESSAGE_ALERT_FOR_ANDROID_44":"您的手機正在運行安卓4.4 （Kit Kat）版本，目前，一些訊息傳送功能不可用，包括：刪除短訊，短訊群發，以及顯示短訊的已讀\/未讀狀態。"
 }

@@ -29,37 +29,52 @@
   "GOOGLE_BUTTON":"Entrar com o Google",
   "SHOW_ACCOUNT_NAME_DEFAULT":"a mesma conta",
   "CONNECT_DEVICE_FAILED_POP":{
-    "title":"Falha na conexão",
-    "content":"Certifique-se de que seu computador esteja na rede Wi-Fi de ",
-    "button":"OK"
+    "title":"Falha ao conectar",
+    "content":"<ol><li>Confirme que o SnapPea está funcionando em seu telefone.<\/li><li>Confirme que seu computador está conectado à rede Wi-Fi <strong>$$$$<\/strong>. Seu telefone e computador precisam estar na mesma rede Wi-Fi.<\/li>",
+    "OK":"Reconectar",
+    "CANCEL":"Cancelar"
   },
   "ANNOUNCEMENT":"E aí usuário SnapPea: a versão 1.5 chegou! O acesso agora é mais rápido e mais seguro com sua conta Google.",
+  "ADD_NEW_PHONE_TIPS":{
+    "STEP1":"1. Instale o SnapPea a partir do<a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Google Play<\/a>.",
+    "STEP2":"2. Abra o SnapPea e entre com <span class='account'>$$$$<\/span>",
+    "STEP3":"Após concluir, seu telefone aparecerá aqui."
+  },
   "NO_DEVICES":{
-    "h1":"Entre com seu celular.",
-    "h2":"Suas fotos, mensagens, contatos e aplicativos serão exibidos aqui.",
-    "step1":"1. Instale o SnapPea de",
-    "step2":"2. Abra o SnapPea em seu celular.",
-    "step3":"3. Entre com",
-    "foot":"Caso não veja um botão \"entrar\" em seu celular, por favor ",
-    "foot_updata":"atualize para a versão mais recente do SnapPea."
+    "h1":"Impossível encontrar seu telefone",
+    "h2":"Por favor, verifique o seguinte:",
+    "step1":"SnapPea está funcionando em seu telefone. <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Eu ainda não instalei o SnapPea<\/a>.",
+    "step2":"Você entrou com esta conta",
+    "step3":"Seu telefone está conectado à Wi-Fi.",
+    "foot":"<a href=\"https:\/\/snappea.zendesk.com\/forums\/20791302-Connecting-Your-Device\" target=\"_blank\">Ainda não consegue conectar o telefone?<\/a>"
+  },
+  "WORD":{
+    "OR":"ou",
+    "NEXT":"Próximo"
   },
   "SELECT_DEVICES":{
-    "h1":"Selecione um celular.",
+    "h1":"Selecione um celular",
     "h2_1":"Encontramos",
     "h2_2":"celular(es) em sua conta.",
-    "new_phone":"Conectar um novo celular"
-  },
-  "CHANGE_DEVICES_POP":{
-    "h1":"Conecte um novo celular.",
-    "h2":"Apenas 3 passos e você encontrará seu celular aqui.",
-    "step1":"1. Instale o SnapPea de",
-    "step2":"2. Abra o SnapPea em seu celular.",
-    "step3":"3. Entre com",
-    "button":"Entendi"
+    "new_phone":"Adicionar um novo telefone"
   },
   "SIGN_PROGRESS":{
     "STEP1":"Logando com Google",
-    "STEP2":"Reconhecendo seus dispositivos cadastrados",
-    "STEP3":"Conectando a "
-  }
+    "STEP2":"Buscando seu(s) telefone(s)",
+    "STEP3":"Conectando a $$$$"
+  },
+  "USER_GUIDE":{
+    "STEP1":"Entre em seu computador",
+    "STEP2":"Instale o SnapPea",
+    "STEP3":"Entre com seu celular",
+    "PAGE1_H1":"Instale o SnapPea em seu telefone",
+    "PAGE1_H2":"O aplicativo Android é exigido para começar a utilização.",
+    "PAGE2_H1":"Entre com seu celular",
+    "PAGE2_H2":"Uma vez que você tenha feito o login, seu telefone aparecerá aqui.",
+    "PAGE1_WAY1":"Obtenha-o em <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Google Play<\/a>.",
+    "PAGE1_WAY2":"Utilize seu telefone para escanear o código QR.",
+    "PAGE2_WAY1":"Utilize <span class='account'>$$$$<\/span> para fazer login. Seu telefone aparecerá aqui.",
+    "PAGE2_WAY2":"Ainda não consegue conectar o telefone?"
+  },
+  "CONNECTING":"Conectando"
 }

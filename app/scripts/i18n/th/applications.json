@@ -1,6 +1,6 @@
 {
   "BUTTONS":{
-    "INSTALL_APPS":"ติดตั้ง apk",
+    "INSTALL_APPS":"ติดตั้ง APK",
     "SELECT_ALL":"เลือกทั้งหมด",
     "DESELECT":"ยกเลิกการเลือก",
     "UNINSTALL":"ถอนการติดตั้ง",
@@ -34,7 +34,8 @@
     "VERSION":"รุ่น",
     "PERMISSIONS":"การอนุญาต",
     "CANCEL":"ยกเลิก",
-    "SELECT":"เลือก"
+    "SELECT":"เลือก",
+    "RETRY":"ลองใหม่"
   },
   "ALL_FILES_UNSUPPORT_TITLE":"ไม่รองรับไฟล์",
   "ALL_FILES_UNSUPPORT_CONTENT":"นามสกุลไฟล์ไม่ถูกต้อง รองรับเฉพาะไฟล์ APK เท่านั้น",
@@ -42,5 +43,6 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"นามสกุลไฟล์บางตัวไม่ถูกต้อง รองรับเฉพาะไฟล์ APK เท่านั้น",
   "UNSUPPORT_MODAL_BUTTON_OK":"ตกลง",
   "DRAG_TITLE":"หย่อนแอปลงที่นี่",
-  "DRAG_TIP":"เพิ่มแอปในโทรศัพท์ของคุณ"
+  "DRAG_TIP":"เพิ่มแอปในโทรศัพท์ของคุณ",
+  "UPLOAD_ERROR_TIP":"ไม่สามารถติดตั้งได้"
 }

@@ -28,5 +28,9 @@
   "CONFIRM_DELETE_CONTENT":"¿Borrar del teléfono los mensajes seleccionados?",
   "CONFIRM_DELETE_OK":"Borrar",
   "CONFIRM_DELETE_CANCEL":"Cancelar",
-  "NEW_MESSAGE_TIP":"Nuevos mensajes de "
+  "VIEW_CONTACT":"Ver contacto",
+  "ADD_CONTACT":"Añadir a contactos",
+  "NEW_MESSAGE_TIP":"Nuevos mensajes de ",
+  "MESSAGE_STATUS_REPORTER":"Entregado $$",
+  "MESSAGE_ALERT_FOR_ANDROID_44":"Tu teléfono está ejecutando Android 4.4 (Kit Kat), actualmente no hay disponibles algunas de las funciones de mensajería, incluyendo borrar mensajes, enviar mensajes a grupos y mostrar el estado leído\/no leído de los mensajes."
 }

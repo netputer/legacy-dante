@@ -55,5 +55,11 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"Einige Dateierweiterungen sind ungültig. Nur JPG, GIF- oder PNG-Dateien werden unterstützt.",
   "UNSUPPORT_MODAL_BUTTON_OK":"OK",
   "DRAG_TITLE":"Bilder hier ablegen",
-  "DRAG_TIP":"Fügen Sie Ihrem Handy Bilder hinzu."
+  "DRAG_TIP":"Fügen Sie Ihrem Handy Bilder hinzu.",
+  "VIEW":"View",
+  "PHOTO_SNAP":{
+    "H1":"Try PhotoSnap",
+    "H2":"Take a picture on your $$$$. See it instantly.",
+    "BUTTON":"Got it"
+  }
 }

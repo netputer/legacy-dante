@@ -1,6 +1,6 @@
 {
   "BUTTONS":{
-    "INSTALL_APPS":"安裝apk",
+    "INSTALL_APPS":"安裝APK",
     "SELECT_ALL":"全選",
     "DESELECT":"取消選擇",
     "UNINSTALL":"卸載",
@@ -34,7 +34,8 @@
     "VERSION":"版本",
     "PERMISSIONS":"許可",
     "CANCEL":"取消 ",
-    "SELECT":"選擇 "
+    "SELECT":"選擇 ",
+    "RETRY":"重試"
   },
   "ALL_FILES_UNSUPPORT_TITLE":"不受支持的文件 ",
   "ALL_FILES_UNSUPPORT_CONTENT":"無效文件副檔名。僅支持APK文件。",
@@ -42,5 +43,6 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"有些文件副檔名無效。僅支持APK文件。",
   "UNSUPPORT_MODAL_BUTTON_OK":"確定 ",
   "DRAG_TITLE":"將應用拖放到這里",
-  "DRAG_TIP":"添加應用至您的手機。"
+  "DRAG_TIP":"添加應用至您的手機。",
+  "UPLOAD_ERROR_TIP":"安裝失敗。"
 }
