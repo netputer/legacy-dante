@@ -27,6 +27,7 @@ return [function() {
                     $scope.header = options.header;
                     $scope.content = options.content;
                     $scope.okText = options.ok;
+                    $scope.disabled = options.disabledButton;
 
                     if (options.help) {
                         $scope.helpLink = options.help.link;

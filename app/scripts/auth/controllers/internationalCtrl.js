@@ -2,14 +2,12 @@ define([
     'underscore'
 ], function(_) {
 'use strict';
-return ['$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', '$http', 'wdConnect',
-function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q, wdSignInDetection, $http, wdConnect) {
+return ['$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wdGoogleSignIn', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', 'wdConnect',
+function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wdGoogleSignIn, $log, $window, wdLanguageEnvironment, wdToast, $q, wdSignInDetection, wdConnect) {
     var remoteConnectionAuthDeivceTimes;
-    var wakeUpTimes;
     var maxNormalAuthDeviceTimes;
     function resetDefaultMaxRetryTimes() {
         remoteConnectionAuthDeivceTimes = 3;
-        wakeUpTimes = 3;
         maxNormalAuthDeviceTimes = 2;
     }
     resetDefaultMaxRetryTimes();
@@ -132,6 +130,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $rootScope.$broadcast('signin');
 
         }, function () {
+            // 再次远程唤醒设备
+            wdDevice.lightDeviceScreen(deviceData.id);
+            
+            // 清除之前的设备信息
+            wdDevice.clearDevice();
             if (wdDev.isRemoteConnection()) {
                 if (remoteConnectionAuthDeivceTimes) {
                     remoteConnectionAuthDeivceTimes -= 1;
@@ -190,30 +193,30 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     }
 
     function remoteConnect(deviceData) {
-        wakeUpTimes -= 1;
         setDeviceConnectingStatus(deviceData);
 
-        $http({
-            method: 'get',
-            url: wdDev.getWakeUpUrl() + '?did=' + deviceData.id,
-            timeout: 4000,
-        })
-        .success(function(response) {
-            response.wap = deviceData.ip ? false : true;
-            response.networkType = deviceData.networkType;
-            response.limitSize = 5 * 1024 * 1024;
+        wdConnect.remoteConnectWithRetry(deviceData).then(function(data) {
+            wdDev.setRemoteConnectionData(data);
 
-            wdDev.setRemoteConnectionData(response);
+            //remoteConnectionAuthDeivceTimes -= 1;
+            //authDevice(deviceData);
 
-            remoteConnectionAuthDeivceTimes -= 1;
-            authDevice(deviceData);
-        })
-        .error(function() {
-            if (wakeUpTimes) {
-                remoteConnect(deviceData);
-            } else {
+            wdConnect.connectDeviceWithRetry(deviceData).then(function() {
+                //标记下已经登录设备，在切换设备的时候会判断这个。
+                wdGoogleSignIn.setHasAccessdDevice();
+                $scope.isLoadingDevices = false;
+
+                //跳转到对应模块
+                $location.url($route.current.params.ref || '/');
+                $rootScope.$broadcast('signin');
+            }, function() {
+                clearStatus(deviceData);
+                wdDev.closeRemoteConnection();
+
                 confirmConnect(deviceData);
-            }
+            });
+        }, function() {
+            confirmConnect(deviceData);
         });
     }
 

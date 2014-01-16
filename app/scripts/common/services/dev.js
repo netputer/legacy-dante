@@ -11,6 +11,7 @@ return function() {
     var meta = {};
     var WAKE_UP_URL = 'http://60.29.246.132:8090/wakeup';
     var remoteConnectionData;
+    var tryRequestWithRemote = false;
 
     // $resouce service support :name in url as parameter.
     // If target url need : for presenting port, it should be encoded.
@@ -19,6 +20,9 @@ return function() {
     }
 
     var self = this;
+    self.getIP = function() {
+        return ip;
+    };
     self.getServer = function() {
         return ip ? ('//' + ip + ':' + (port || DEFAULT_DEVICE_PORT )) : '';
     };
@@ -41,8 +45,12 @@ return function() {
     };
     self.getRemoteConnectionData = function(key) {
         var val;
-        if (remoteConnectionData && key) {
-            val = remoteConnectionData[key];
+        if (key) {
+            if (remoteConnectionData) {
+                val = remoteConnectionData[key];
+            } else if (tryRequestWithRemote) {
+                val = tryRequestWithRemote[key];
+            }
         } else {
             val = remoteConnectionData;
         }
@@ -54,6 +62,7 @@ return function() {
     self.$get = ['$window', '$q', '$rootScope', '$timeout',
         function( $window,   $q,   $rootScope,   $timeout) {
         var devAPIs = {
+            getIP: self.getIP,
             setServer: self.setServer,
             getServer: self.getServer,
             setMetaData: self.setMetaData,
@@ -79,7 +88,7 @@ return function() {
                 return devAPIs.wrapRemoteConnectionURL(devAPIs.wrapPrefixURL(url, forResource));
             },
             wrapRemoteConnectionURL: function(url, type) {
-                if (devAPIs.isRemoteConnection()) {
+                if (devAPIs.isRemoteConnection() || tryRequestWithRemote) {
                     var proxyUrl;
                     switch(type) {
                         case 'upload':
@@ -91,6 +100,7 @@ return function() {
                         default:
                             proxyUrl = self.getRemoteConnectionData('httpProxyUrl');
                     }
+
                     url = proxyUrl + '?token=' + self.getRemoteConnectionData('token') + '&originUrl=' + encodeURIComponent(url);
                 } 
                 return url;
@@ -114,6 +124,12 @@ return function() {
             },
             isWapRemoteConnection: function() {
                 return !!self.getRemoteConnectionData() && !!self.getRemoteConnectionData('wap');
+            },
+            setRequestWithRemote:function(data) {
+                tryRequestWithRemote = data;
+            },
+            getRequestWithRemote: function() {
+                return tryRequestWithRemote;
             },
             getSocketServer: function() {
                 var IP;

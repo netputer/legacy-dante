@@ -9,8 +9,8 @@ define([
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdDevice',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdDevice) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdDevice', '$injector', '$q',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdDevice,   $injector,   $q) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -26,6 +26,7 @@ Socket.prototype = {
     RECONNECT_TIMES : 0,
     MAX_RECONNECTION_ATTEMPTS : 2,
     MAX_SOCKET_CONNECT_TIMES: 3,
+    defer: null,
     /**
      * Destroy everything.
      */
@@ -53,12 +54,13 @@ Socket.prototype = {
 
     connect: function() {
         if (this._transport) { return; }
+        this.defer = $q.defer();
 
         this._newTransport();
 
         this._delegateEventListeners();
 
-        return this;
+        return this.defer.promise;
     },
 
     _delegateEventListeners: function() {
@@ -89,16 +91,22 @@ Socket.prototype = {
                 });
             }
             
-            GA('socket:connect');
             self.trigger('socket:connected');
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
+
+            GA('socket:connect');
         });
 
         this._transport.on('disconnect', function disconnect() {
             $rootScope.$apply(function() {
                 if (wdDev.isRemoteConnection()) {
-                    wdDevice.signout();
+                    self.showDisconnectPanel();   
                 }
+                self.defer.reject();
             });
+            
             $log.error('Socket disconnected!');
         });
 
@@ -106,7 +114,7 @@ Socket.prototype = {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
            
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
-                self.refreshDeviceAndConnect();
+                self.showDisconnectPanel();
             }
         });
 
@@ -118,23 +126,37 @@ Socket.prototype = {
                 type: 'notifications.request',
                 timestamp : lastTimestamp 
             });
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
+            
         });
 
         // There is a bug in socket.io, reconnect_failed gets never fired.
         this._transport.on('reconnect_failed', function failed() {
             $log.warn('Socket server seems cold dead...');
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
             GA('socket:dead');
         });
 
         this._transport.on('connect_failed', function() {
             // $log.warn('Socket fails to establish.');
+
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
             GA('socket:connect_failed');
         });
 
         this._transport.on('error', function() {
             //Almost handshake error
+            $rootScope.$apply(function() {
+                self.defer.resolve();
+            });
+            self.showDisconnectPanel(true);
             GA('socket:connect_error');
-            self.refreshDeviceAndConnect();
         });
     },
 
@@ -151,26 +173,18 @@ Socket.prototype = {
                 this._transport = null;
             }
         }
+        this.defer.reject();
         return this;
     },
 
-    showDisconnectPanel: function() {
-        var self = this;
-        this.trigger('socket:disconnected');
-        this.off('socket:connect').on('socket:connect', function() {
-            self.MAX_SOCKET_CONNECT_TIMES -= 1;
-            if (self.MAX_SOCKET_CONNECT_TIMES) {
-                self.close();
-                self.connect();
-            } else {
-                self.refreshDeviceAndConnect();
-            }
-        });
+    showDisconnectPanel: function(forceRefreshRetyTimes) {
+        this.trigger('socket:disconnected', [forceRefreshRetyTimes]);
     },
 
     refreshDeviceAndConnect: function() {
+        var defer = $q.defer();
         var self = this;
-        this.MAX_SOCKET_CONNECT_TIMES = 3;
+        //this.MAX_SOCKET_CONNECT_TIMES = 3;
         wdGoogleSignIn.getDevices().then(function(list) {
             var device = wdDevice.getDevice();
 
@@ -178,24 +192,70 @@ Socket.prototype = {
                 return device && (item.id === device.id);
             });
 
-            if (currentOnlineDevice && currentOnlineDevice.ip) {
-                if (currentOnlineDevice.ip !== device.ip) {
-                    wdDevice.setDevice(currentOnlineDevice);
-                    wdDev.setServer(currentOnlineDevice.ip);
+            if (currentOnlineDevice) {
+                if (!currentOnlineDevice.ip) {
+                    $injector.invoke(['wdConnect', function(wdConnect) {
+                        wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data) {
+                            wdDev.setRequestWithRemote(data);
 
-                    self.close();
-                    self.connect();
+                            wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                wdDev.setRemoteConnectionData(data);
+                                self.close();
+                                self.connect().then(function() {
+                                    defer.resolve();
+                                }, function() {
+                                    defer.reject();
+                                });
+                            }, function() {
+                                defer.reject();
+                            }).always(function() {
+                                wdDev.setRequestWithRemote(false);
+                            });
+                        }, function(){
+                            defer.reject();
+                        });
+                    }]);
                 } else {
                     wdDevice.lightDeviceScreen(device.id);
-                    self.showDisconnectPanel();
+                    wdDev.closeRemoteConnection();
+                    $injector.invoke(['wdConnect', function(wdConnect) {
+                        wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                            self.close();
+                            self.connect().then(function(){
+                                defer.resolve();
+                            });
+                        }, function() {
+                            wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data){
+                                wdDev.setRequestWithRemote(data);
+
+                                wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                    wdDev.setRemoteConnectionData(data);
+                                    self.close();
+                                    self.connect().then(function() {
+                                        defer.resolve();
+                                    }, function() {
+                                        defer.reject();
+                                    });
+                                }, function() {
+                                    defer.reject();
+                                }).always(function() {
+                                    wdDev.setRequestWithRemote(false);
+                                });
+                            }, function() {
+                                defer.reject();
+                            });
+                        });
+                    }]);
                 }
             } else {
-                wdDevice.signout();
+                defer.reject();
             }
         }, function(xhr) {
             GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_socketRefreshDeviceAndConnectFailed');
-            self.showDisconnectPanel();
+            defer.reject();
         });
+
+        return defer.promise;
     }
 };
 
