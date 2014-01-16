@@ -202,6 +202,7 @@ Socket.prototype = {
                                 wdDev.setRemoteConnectionData(data);
                                 self.close();
                                 self.connect().then(function() {
+                                    $rootScope.$broadcast('connection:changed');
                                     defer.resolve();
                                 }, function() {
                                     defer.reject();
@@ -222,6 +223,7 @@ Socket.prototype = {
                         wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
                             self.close();
                             self.connect().then(function(){
+                                $rootScope.$broadcast('connection:changed');
                                 defer.resolve();
                             });
                         }, function() {
@@ -232,6 +234,7 @@ Socket.prototype = {
                                     wdDev.setRemoteConnectionData(data);
                                     self.close();
                                     self.connect().then(function() {
+                                        $rootScope.$broadcast('connection:changed');
                                         defer.resolve();
                                     }, function() {
                                         defer.reject();

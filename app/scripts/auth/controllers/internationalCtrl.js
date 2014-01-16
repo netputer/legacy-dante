@@ -8,7 +8,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     var maxNormalAuthDeviceTimes;
     function resetDefaultMaxRetryTimes() {
         remoteConnectionAuthDeivceTimes = 3;
-        maxNormalAuthDeviceTimes = 2;
+        maxNormalAuthDeviceTimes = 3;
     }
     resetDefaultMaxRetryTimes();
 
