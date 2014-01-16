@@ -1,19 +1,19 @@
 define([], function () {
 'use strict';
-return ['$window', 'wdGoogleSignIn', '$rootScope', '$location',
-function ($window, wdGoogleSignIn, $rootScope, $location) {
+return ['$window', '$rootScope', '$location',
+function ($window, $rootScope, $location) {
     
     // 该模块来监测用户在其他窗口下的登陆状态，如果登陆则全部登陆，如果退出则全部退出。
     var signInDetectionFun = function(e) {
-        if (e && event.key === 'signInFlag' && wdGoogleSignIn.isSignIn()) {
-            
+        if (e && e.key === 'signInFlag' && e.newValue) {
+
             // 非主要窗口，直接刷新浏览器，自动重新登陆
             $window.location.reload();
         }
     };
 
     var signOutDetectionFun = function(e) {
-        if (e && event.key === 'signInFlag' && !wdGoogleSignIn.isSignIn()) {
+        if (e && e.key === 'signInFlag' && !e.newValue) {
             
             // 非主要窗口，直接刷新浏览器，需重新登陆
             $window.location.reload();

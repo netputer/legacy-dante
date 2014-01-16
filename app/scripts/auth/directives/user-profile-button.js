@@ -26,6 +26,8 @@ link: function($scope, $element, $attribute, $control) {
     function getUserInfo() {
         wdGoogleSignIn.getProfile().then(function(data) {
             $scope.profile = data;
+        }, function() {
+            getUserInfo();
         });
     }
 

@@ -99,7 +99,6 @@ Socket.prototype = {
                     wdDevice.signout();
                 }
             });
-            
             $log.error('Socket disconnected!');
         });
 
