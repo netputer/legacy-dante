@@ -105,12 +105,9 @@
                 position: relative;
                 background: #f5f5f5;
                 cursor: pointer;
-                
-                img {
-                    width: 96px;
-                    height: 96px;
-                    border: 1px solid #eee;
-                }
+                width: 96px;
+                height: 96px;
+                border: 1px solid #eee;
                 label {
                     @include position(absolute, 0 0 2px 5px);
                 }
