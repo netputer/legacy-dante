@@ -11,14 +11,6 @@
   "SINGOUT":"Abmelden",
   "MESSAGE_NOTIFICATION_TITLE":"Neue Nachricht(en)",
   "UPGRADE_BTN_TEXT":"Holen Sie sich die neueste Version auf Google Play",
-  "CHANGE_DEVICES_POP":{
-    "h1":"Verbinden Sie ein neues Handy.",
-    "h2":"Nur 3 Schritte, und Sie werden Ihr Handy hier finden.",
-    "step1":"1.  SnapPea von <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a> installieren.",
-    "step2":"2. Öffnen Sie SnapPea auf Ihrem Handy.",
-    "step3":"3. Mit $$ anmelden.",
-    "button":"Verstanden"
-  },
   "NAVBAR_NEW_PHONE_TIP":"Neues Handy",
   "EXTENSION_SIGN_OUT":{
     "title":"Abmelden bestätigen",
@@ -27,11 +19,11 @@
     "button_cancel":"Abbrechen"
   },
   "LANGUAGE_MODAL_TITLE":"Sprache ändern",
-  "DISCONNECT_DEVICE":"Verbindung mit Ihrem Handy getrennt!",
+  "DISCONNECT_DEVICE":"Disconnected from your phone",
   "TRY_NOW":"Jetzt testen",
   "CONNECT_DELAY_TIME":{
     "pre":"Erneuter Versuch in",
-    "after":"Sekunden."
+    "after":"seconds..."
   },
   "CHECK_SAME_NETWORK":"Bitte stellen Sie sicher, dass Ihr Computer mit folgendem W-Lan-Netzwerk verbunden ist: ",
   "SIGN_OUT_TOAST":"Abmelden...",
@@ -42,10 +34,17 @@
   "FACEBOOK_DISCONNECT_TIP":"Verbinden Sie sich mit Facebook, um einfach Fotos mit Ihren Freunden zu teilen.",
   "FACEBOOK_CONNECT_TIP":"Ihr Facebook-Konto ist nicht verbunden.",
   "DISCONNECT_FACEBOOK":"Verbindung mit Facebook trennen",
+  "SOUND_SETTING_TITLE":"Sound",
+  "SOUND_SETTING_NEW_MESSAGE":"New message",
   "LANGUAGE_TIP":"Sprache",
   "CONNECT_NEW_PHONE_TIP":"Ein neues Handy verbinden",
+  "CONNECT_NEW_PHONE_TIPS":{
+    "STEP1":"1. Install SnapPea on your phone from <a target=\"_blank\" href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>",
+    "STEP2":"2. Open SnapPea and sign in with <span class='account'>$$$$<\/span>",
+    "STEP3":"After you finish, your phone will appear here."
+  },
   "SELECT_DEVICES_TIP":"Handy auswählen",
   "HELP":"Hilfe",
-  "FEEDBACK":"Feedback",
-  "TRANSLATE":"Helfen Sie uns beim Übersetzen"
+  "FEEDBACK":"Feedback survey",
+  "TRANSLATE":"Get the Windows version"
 }

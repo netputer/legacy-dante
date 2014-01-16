@@ -11,14 +11,6 @@
   "SINGOUT":"Desconectarse",
   "MESSAGE_NOTIFICATION_TITLE":"Mensaje(s) nuevo(s)",
   "UPGRADE_BTN_TEXT":"Consigue la última versión en Google Play",
-  "CHANGE_DEVICES_POP":{
-    "h1":"Conectar otro teléfono.",
-    "h2":"Solo 3 pasos y podrás encontrar aquí tu teléfono.",
-    "step1":"1. Instalar SnapPea desde <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>.",
-    "step2":"2. Abrir SnapPea en tu teléfono.",
-    "step3":"3. Iniciar sesión con $$.",
-    "button":"Lo tengo"
-  },
   "NAVBAR_NEW_PHONE_TIP":"Teléfono nuevo",
   "EXTENSION_SIGN_OUT":{
     "title":"Confirmar desconexión",
@@ -31,7 +23,7 @@
   "TRY_NOW":"Probar ahora",
   "CONNECT_DELAY_TIME":{
     "pre":"Reintentándolo",
-    "after":"segundos."
+    "after":"segundos..."
   },
   "CHECK_SAME_NETWORK":"Asegúrate de que tu ordenador esté conectado a la red Wi-Fi de",
   "SIGN_OUT_TOAST":"Desconectando...",
@@ -42,10 +34,17 @@
   "FACEBOOK_DISCONNECT_TIP":"Conéctate a Facebook para compartir fotos con tus amigos.",
   "FACEBOOK_CONNECT_TIP":"Tu cuenta de Facebook está conectada.",
   "DISCONNECT_FACEBOOK":"Desconectar Facebook",
+  "SOUND_SETTING_TITLE":"Sonido",
+  "SOUND_SETTING_NEW_MESSAGE":"Mensaje nuevo",
   "LANGUAGE_TIP":"Idioma",
   "CONNECT_NEW_PHONE_TIP":"Conecta un nuevo teléfono",
+  "CONNECT_NEW_PHONE_TIPS":{
+    "STEP1":"1. Instala SnapPea en tu teléfono desde <a target=\"_blank\" href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>",
+    "STEP2":"2. Abre SnapPea e inicia sesión con <span class='account'>$$$$<\/span>",
+    "STEP3":"Después de finalizar, tu teléfono aparecerá aquí."
+  },
   "SELECT_DEVICES_TIP":"Seleccionar teléfono",
   "HELP":"Ayuda",
-  "FEEDBACK":"Comentarios",
-  "TRANSLATE":"Ayúdanos a traducir"
+  "FEEDBACK":"Encuesta de opinión",
+  "TRANSLATE":"Consigue la versión de Windows"
 }

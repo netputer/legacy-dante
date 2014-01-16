@@ -62,7 +62,6 @@
       "CONTENT":"從你的手機上刪除選定的聯絡人？",
       "OK":"刪除",
       "CANCEL":"取消",
-      "ASK":"從你的手機上刪除選定的聯絡人？",
       "READ_ONLY":"這些為只讀聯繫人，所以無法被刪除："
     },
     "FAILED_DELETE":{
@@ -83,5 +82,8 @@
     }
   },
   "SAVE_TOAST":"正在保存... ",
-  "SAVE_ERROR_TOAST":"保存失敗。"
+  "SAVE_ERROR_TOAST":"保存失敗。",
+  "DEL_TOAST":"正在刪除...",
+  "DEL_ERROR_TOAST":"刪除失敗。",
+  "WAITING":"等待中..."
 }

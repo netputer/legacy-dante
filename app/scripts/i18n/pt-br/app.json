@@ -11,14 +11,6 @@
   "SINGOUT":"Sair",
   "MESSAGE_NOTIFICATION_TITLE":"Nova(s) mensagem(ns)",
   "UPGRADE_BTN_TEXT":"Baixe a última versão no Google Play",
-  "CHANGE_DEVICES_POP":{
-    "h1":"Conectar um novo celular.",
-    "h2":"Apenas 3 passos e você encontrará seu celular aqui.",
-    "step1":"1.  Instale SnapPea do <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>.",
-    "step2":"2. Abra o SnapPea em seu celular.",
-    "step3":"3.  Cadastre-se com $$.",
-    "button":"Entendi"
-  },
   "NAVBAR_NEW_PHONE_TIP":"Novo celular",
   "EXTENSION_SIGN_OUT":{
     "title":"Confirmar Saída",
@@ -27,11 +19,11 @@
     "button_cancel":"Cancelar"
   },
   "LANGUAGE_MODAL_TITLE":"Mudar idioma",
-  "DISCONNECT_DEVICE":"Desconectado do seu celular!",
+  "DISCONNECT_DEVICE":"Desconectado de seu telefone",
   "TRY_NOW":"Tente agora",
   "CONNECT_DELAY_TIME":{
     "pre":"Nova tentativa em",
-    "after":"segundos."
+    "after":"segundos..."
   },
   "CHECK_SAME_NETWORK":"Tenha certeza que seu computador se encontra na rede Wi-Fi ",
   "SIGN_OUT_TOAST":"Saindo...",
@@ -42,10 +34,17 @@
   "FACEBOOK_DISCONNECT_TIP":"Conecte ao Facebook para compartilhar fotos mais facilmente com seus amigos.",
   "FACEBOOK_CONNECT_TIP":"Sua conta do Facebook está conectada.",
   "DISCONNECT_FACEBOOK":"Desconectar Facebook",
+  "SOUND_SETTING_TITLE":"Som",
+  "SOUND_SETTING_NEW_MESSAGE":"Nova mensagem",
   "LANGUAGE_TIP":"Idioma",
   "CONNECT_NEW_PHONE_TIP":"Conecte um novo celular",
+  "CONNECT_NEW_PHONE_TIPS":{
+    "STEP1":"1 Instale o SnapPea em seu telefone a partir do <a target=\"_blank\" href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>",
+    "STEP2":"2. Abra o SnapPea e entre com <span class='account'>$$$$<\/span>",
+    "STEP3":"Após concluir, seu telefone aparecerá aqui."
+  },
   "SELECT_DEVICES_TIP":"Selecione o celular",
   "HELP":"Ajuda",
-  "FEEDBACK":"Feedback",
-  "TRANSLATE":"Ajude-nos a traduzir"
+  "FEEDBACK":"Pesquisa de comentários",
+  "TRANSLATE":"Obter a versão para Windows"
 }

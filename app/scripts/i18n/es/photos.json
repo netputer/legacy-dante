@@ -55,5 +55,11 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"Algunas extensiones de archivo no son válidas. Solo se respaldan JPG, GIF o PNG.",
   "UNSUPPORT_MODAL_BUTTON_OK":"OK",
   "DRAG_TITLE":"Suelta las imágenes aquí",
-  "DRAG_TIP":"Añade imágenes a tu teléfono."
+  "DRAG_TIP":"Añade imágenes a tu teléfono.",
+  "VIEW":"Vista",
+  "PHOTO_SNAP":{
+    "H1":"Prueba PhotoSnap",
+    "H2":"Toma una foto en tu $$$$. La puedes ver al instante.",
+    "BUTTON":"Lo tengo"
+  }
 }

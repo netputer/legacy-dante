@@ -28,5 +28,9 @@
   "CONFIRM_DELETE_CONTENT":"Sollen die ausgewählten Nachrichten von Ihrem Telefon gelöscht werden?",
   "CONFIRM_DELETE_OK":"Löschen",
   "CONFIRM_DELETE_CANCEL":"Abbrechen",
-  "NEW_MESSAGE_TIP":"Neue Nachrichten von"
+  "VIEW_CONTACT":"View contact",
+  "ADD_CONTACT":"Add to contacts",
+  "NEW_MESSAGE_TIP":"Neue Nachrichten von",
+  "MESSAGE_STATUS_REPORTER":"Delivered $$",
+  "MESSAGE_ALERT_FOR_ANDROID_44":"Your phone's running Android 4.4 (Kit Kat), currently some of the messaging functions are unavailable, including deleting messages, sending group messages, and displaying the read\/unread status of messages."
 }

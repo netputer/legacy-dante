@@ -30,36 +30,51 @@
   "SHOW_ACCOUNT_NAME_DEFAULT":"相同帳戶",
   "CONNECT_DEVICE_FAILED_POP":{
     "title":"連接失敗",
-    "content":"請確保你的電腦在  該Wi-Fi網路上",
-    "button":"確定"
+    "content":"<ol><li>確認SnapPea 正在您的手機上運行。<\/li><li>確認您的電腦在 <strong>$$$$<\/strong> 無線網路上。 您的手機和電腦必須連接至相同的無線網路。<\/li>",
+    "OK":"重新連接",
+    "CANCEL":"取消 "
   },
   "ANNOUNCEMENT":"SnapPea用戶：1.5版就在這裡！登錄利用你的Google帳戶更快、更安全地登錄。",
+  "ADD_NEW_PHONE_TIPS":{
+    "STEP1":"1. 從<a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Google Play<\/a>安裝SnapPea。",
+    "STEP2":"2. 打開SnapPea并使用<span class='account'>$$$$<\/span>登錄",
+    "STEP3":"完成后，您的手機會顯示在這里。 "
+  },
   "NO_DEVICES":{
-    "h1":"在你的手機上登錄。",
-    "h2":"此處將會顯示你的照片、短訊、聯絡人和應用。",
-    "step1":"1.安裝SnapPea，通過",
-    "step2":"2.在你的手機上打開SnapPea。",
-    "step3":"3.登錄時使用",
-    "foot":"如果在你的手機上沒有看到一個標誌按鈕，請",
-    "foot_updata":"升級到最新版本的SnapPea。"
+    "h1":"我們無法找到您的手機 ",
+    "h2":"請勾選以下選項：",
+    "step1":"SnapPea正在您的手機上運行。<a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">我還沒有安裝SnapPea<\/a>。",
+    "step2":"您已使用這個帳戶登錄",
+    "step3":"您的手機已連接至無線網路。",
+    "foot":"<a href=\"https:\/\/snappea.zendesk.com\/forums\/20791302-Connecting-Your-Device\" target=\"_blank\">仍然無法連接手機？<\/a>"
+  },
+  "WORD":{
+    "OR":"或者",
+    "NEXT":"下一张"
   },
   "SELECT_DEVICES":{
-    "h1":"選擇一部手機。",
+    "h1":"選擇一部手機",
     "h2_1":"我們在你的帳戶中",
     "h2_2":"發現手機",
-    "new_phone":"連接一部新手機"
-  },
-  "CHANGE_DEVICES_POP":{
-    "h1":"連接一部新手機。",
-    "h2":"只需3個步驟，你便會在這裡找到你的手機。",
-    "step1":"1. 安裝SnapPea，通過",
-    "step2":"2. 在你的手機上打開SnapPea",
-    "step3":"3. 登錄時使用",
-    "button":"成功啦"
+    "new_phone":"添加一部新手機"
   },
   "SIGN_PROGRESS":{
     "STEP1":"登錄Google",
-    "STEP2":"獲得您的已登錄設備 ",
-    "STEP3":"正在連接至"
-  }
+    "STEP2":"查找您的手機",
+    "STEP3":"正在連接至$$$$"
+  },
+  "USER_GUIDE":{
+    "STEP1":"在您的電腦上登錄 ",
+    "STEP2":"安裝SnapPea",
+    "STEP3":"在您的手機上登錄。",
+    "PAGE1_H1":"在您的手機上安裝SnapPea",
+    "PAGE1_H2":"需要安卓應用才能啟動。",
+    "PAGE2_H1":"在您的手機上登錄。",
+    "PAGE2_H2":"登錄后，您的手機會出現在這里。",
+    "PAGE1_WAY1":"從<a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Google Play<\/a>獲得。",
+    "PAGE1_WAY2":"使用您的手機掃描QR 碼。",
+    "PAGE2_WAY1":"使用<span class='account'>$$$$<\/span>登錄。您的手機會出現在這里。",
+    "PAGE2_WAY2":"仍然無法連接手機？"
+  },
+  "CONNECTING":"正在連接 "
 }

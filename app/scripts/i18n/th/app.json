@@ -11,14 +11,6 @@
   "SINGOUT":"ออกจากระบบ",
   "MESSAGE_NOTIFICATION_TITLE":"ข้อความใหม่",
   "UPGRADE_BTN_TEXT":"รับรุ่นใหม่ล่าสุดบนกูเกิล เพลย์",
-  "CHANGE_DEVICES_POP":{
-    "h1":"เชื่อมต่อกับโทรศัพท์ใหม่",
-    "h2":"เพียงแค่ 3 ขั้นตอน แล้วคุณจะพบโทรศัพท์ของคุณที่นี่",
-    "step1":"1.  ติดตั้ง SnapPea จาก <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>.",
-    "step2":"2.   เปิด SnapPea บนโทรศัพท์ของคุณ",
-    "step3":"3.  เข้าใช้งานด้วย $$.",
-    "button":"ได้แล้ว"
-  },
   "NAVBAR_NEW_PHONE_TIP":"โทรศัพท์ใหม่",
   "EXTENSION_SIGN_OUT":{
     "title":"ยืนยันการลงชื่อออก",
@@ -27,11 +19,11 @@
     "button_cancel":"ยกเลิก"
   },
   "LANGUAGE_MODAL_TITLE":"เปลี่ยนภาษา",
-  "DISCONNECT_DEVICE":"ตัดการเชื่อมต่อกับโทรศัพท์ของคุณแล้ว!",
+  "DISCONNECT_DEVICE":"ตัดการเชื่อมต่อจากโทรศัพท์ของคุณแล้ว",
   "TRY_NOW":"ลองเดี๋ยวนี้",
   "CONNECT_DELAY_TIME":{
     "pre":"กำลังลองใหม่ในอีก",
-    "after":"วินาที"
+    "after":"วินาที..."
   },
   "CHECK_SAME_NETWORK":"ให้มั่นใจว่าคอมพิวเตอร์ของคุณใช้เครือข่าย Wi-Fi ของ ",
   "SIGN_OUT_TOAST":"กำลังออกจากระบบ...",
@@ -42,10 +34,17 @@
   "FACEBOOK_DISCONNECT_TIP":"เชื่อมต่อกับ Facebook เพื่อแชร์รูปภาพกับเพื่อนๆ ได้อย่างง่ายดาย",
   "FACEBOOK_CONNECT_TIP":"เชื่อมต่อบัญชี Facebook ของคุณแล้ว",
   "DISCONNECT_FACEBOOK":"ตัดการเชื่อมต่อ Facebook",
+  "SOUND_SETTING_TITLE":"เสียง",
+  "SOUND_SETTING_NEW_MESSAGE":"ข้อความใหม่",
   "LANGUAGE_TIP":"ภาษา",
   "CONNECT_NEW_PHONE_TIP":"เชื่อมต่อกับโทรศัพท์เครื่องใหม่",
+  "CONNECT_NEW_PHONE_TIPS":{
+    "STEP1":"1. ติดตั้ง SnapPea บนโทรศัพท์ของคุณจาก <a target=\"_blank\" href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\">Google Play<\/a>",
+    "STEP2":"2. เปิด SnapPea และลงชื่อเข้าใช้ด้วย <span class='account'>$$$$<\/span>",
+    "STEP3":"หลังจากคุณทำเสร็จ โทรศัพท์ของคุณจะปรากฏขึ้นที่นี่"
+  },
   "SELECT_DEVICES_TIP":"เลือกโทรศัพท์",
   "HELP":"ช่วยเหลือ",
-  "FEEDBACK":"ผลตอบรับ",
-  "TRANSLATE":"ช่วยเราแปล"
+  "FEEDBACK":"แบบสำรวจผลตอบรับ",
+  "TRANSLATE":"โหลดเวอร์ชัน Windows"
 }

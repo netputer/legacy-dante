@@ -62,7 +62,6 @@
       "CONTENT":"¿Borrar el(los) contacto(s) de tu teléfono?",
       "OK":"Borrar",
       "CANCEL":"Cancelar",
-      "ASK":"¿Borrar el(los) contacto(s) seleccionado(s) de tu teléfono?",
       "READ_ONLY":"Son contacto(s) de solo lectura, por lo que no pueden eliminarse:"
     },
     "FAILED_DELETE":{
@@ -83,5 +82,8 @@
     }
   },
   "SAVE_TOAST":"Guardando...",
-  "SAVE_ERROR_TOAST":"Error de guardado."
+  "SAVE_ERROR_TOAST":"Error de guardado.",
+  "DEL_TOAST":"Borrando...",
+  "DEL_ERROR_TOAST":"Error al borrar.",
+  "WAITING":"Esperando..."
 }

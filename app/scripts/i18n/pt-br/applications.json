@@ -1,6 +1,6 @@
 {
   "BUTTONS":{
-    "INSTALL_APPS":"Instalar apk",
+    "INSTALL_APPS":"Instalar APK",
     "SELECT_ALL":"Selecionar todas",
     "DESELECT":"Desmarcar",
     "UNINSTALL":"Desinstalar",
@@ -34,7 +34,8 @@
     "VERSION":"Versão",
     "PERMISSIONS":"Permissões",
     "CANCEL":"Cancelar",
-    "SELECT":"Selecionar"
+    "SELECT":"Selecionar",
+    "RETRY":"Tentar novamente"
   },
   "ALL_FILES_UNSUPPORT_TITLE":"Arquivo(s) não reconhecido(s)",
   "ALL_FILES_UNSUPPORT_CONTENT":"Extensão de arquivo inválida. Somente arquivos APK são suportados. ",
@@ -42,5 +43,6 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"Alguns arquivos possuem extensão inválida. Somente arquivos APK são suportados.",
   "UNSUPPORT_MODAL_BUTTON_OK":"OK",
   "DRAG_TITLE":"Arraste apps aqui",
-  "DRAG_TIP":"Adicionar aplicativos ao seu celular."
+  "DRAG_TIP":"Adicionar aplicativos ao seu celular.",
+  "UPLOAD_ERROR_TIP":"Falha ao instalar."
 }

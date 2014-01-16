@@ -55,5 +55,11 @@
   "SOME_FILES_UNSUPPORT_CONTENT":"Algumas extensões são invalidas. Somente JPG, GIF ou PNG são suportadas.",
   "UNSUPPORT_MODAL_BUTTON_OK":"OK",
   "DRAG_TITLE":"Arraste imagens aqui",
-  "DRAG_TIP":"Adicionar imagens ao seu celular."
+  "DRAG_TIP":"Adicionar imagens ao seu celular.",
+  "VIEW":"Visualizar",
+  "PHOTO_SNAP":{
+    "H1":"Testar o PhotoSnap",
+    "H2":"Tire uma foto com seu $$$$. Visualize-a instantaneamente.",
+    "BUTTON":"Entendi"
+  }
 }

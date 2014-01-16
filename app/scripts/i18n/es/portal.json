@@ -29,37 +29,52 @@
   "GOOGLE_BUTTON":"Iniciar sesión con Google",
   "SHOW_ACCOUNT_NAME_DEFAULT":"la misma cuenta",
   "CONNECT_DEVICE_FAILED_POP":{
-    "title":"Falló la conexión",
-    "content":"Asegúrate de que tu ordenador esté en la red Wi-Fi de ",
-    "button":"ACEPTAR"
+    "title":"Error al conectarse",
+    "content":"<ol><li>Confirma que SnapPea se está ejecutando en tu teléfono.<\/li><li>Confirma que tu ordenador está en la red Wi-Fi de <strong>$$$$<\/strong>. Tu teléfono y tu ordenador tienen que estar en la misma red Wi-Fi.<\/li>",
+    "OK":"Volver a conectar",
+    "CANCEL":"Cancelar"
   },
   "ANNOUNCEMENT":"Oye, usuario de SnapPea: ¡La versión 1.5 ha llegado! Inscribirse es ahora más rápido y más seguro con tu cuenta de Google.",
+  "ADD_NEW_PHONE_TIPS":{
+    "STEP1":"1. Instala SnapPea desde <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Google Play<\/a>.",
+    "STEP2":"2. Abre SnapPea e inicia sesión con <span class='account'>$$$$<\/span>",
+    "STEP3":"Después de finalizar, tu teléfono aparecerá aquí."
+  },
   "NO_DEVICES":{
-    "h1":"Iniciar sesión en tu teléfono.",
-    "h2":"Aquí se mostrarán tus fotos, mensajes, contactos y aplicaciones.",
-    "step1":"1. Instalar SnapPea desde",
-    "step2":"2. Abrir SnapPea en tu teléfono.",
-    "step3":"3. Iniciar sesión con",
-    "foot":"Si no ves un botón para iniciar sesión en tu teléfono, por favor, ",
-    "foot_updata":"Actualizar a la última versión de SnapPea."
+    "h1":"No podemos encontrar tu teléfono",
+    "h2":"Por favor, comprueba lo siguiente:",
+    "step1":"SnapPea se está ejecutando en tu teléfono. <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Todavía no he instalado SnapPea<\/a>.",
+    "step2":"Has iniciado sesión con esta cuenta",
+    "step3":"Tu teléfono está conectado a la red Wi-Fi.",
+    "foot":"<a href=\"https:\/\/snappea.zendesk.com\/forums\/20791302-Connecting-Your-Device\" target=\"_blank\">¿No puedes conectar todavía el teléfono?<\/a>"
+  },
+  "WORD":{
+    "OR":"o",
+    "NEXT":"Siguiente"
   },
   "SELECT_DEVICES":{
-    "h1":"Seleccionar un teléfono.",
+    "h1":"Seleccionar un teléfono",
     "h2_1":"Encontramos",
     "h2_2":"teléfono(s) en tu cuenta.",
-    "new_phone":"Conectar otro teléfono"
-  },
-  "CHANGE_DEVICES_POP":{
-    "h1":"Conectar otro teléfono.",
-    "h2":"Solo 3 pasos y podrás encontrar aquí tu teléfono.",
-    "step1":"1. Instalar SnapPea desde",
-    "step2":"2. Abrir SnapPea en tu teléfono.",
-    "step3":"3. Iniciar sesión con",
-    "button":"Lo tengo"
+    "new_phone":"Añadir un nuevo teléfono"
   },
   "SIGN_PROGRESS":{
     "STEP1":"Registrando con Google",
-    "STEP2":"Obteniendo tus aparatos registrados",
-    "STEP3":"Conectando a "
-  }
+    "STEP2":"Encontrando tu teléfono\/s",
+    "STEP3":"Conectando a $$$$"
+  },
+  "USER_GUIDE":{
+    "STEP1":"Inicia sesión en tu ordenador",
+    "STEP2":"Instala SnapPea",
+    "STEP3":"Inicia sesión en tu teléfono",
+    "PAGE1_H1":"Instala SnapPea en tu teléfono",
+    "PAGE1_H2":"Se necesaria la aplicación Android para comenzar.",
+    "PAGE2_H1":"Inicia sesión en tu teléfono",
+    "PAGE2_H2":"Después de iniciar sesión, tu teléfono aparecerá aquí.",
+    "PAGE1_WAY1":"Consíguela desde <a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.snappea\" target=\"_blank\">Google Play<\/a>.",
+    "PAGE1_WAY2":"Utiliza tu teléfono para escanear el código QR.",
+    "PAGE2_WAY1":"Utiliza <span class='account'>$$$$<\/span> para iniciar sesión. Tu teléfono aparecerá aquí.",
+    "PAGE2_WAY2":"¿No puedes todavía conectar el teléfono?"
+  },
+  "CONNECTING":"Conectando"
 }

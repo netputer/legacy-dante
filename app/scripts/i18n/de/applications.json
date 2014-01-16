@@ -1,6 +1,6 @@
 {
   "BUTTONS":{
-    "INSTALL_APPS":"Apk installieren",
+    "INSTALL_APPS":"APK installieren",
     "SELECT_ALL":"Alle auswählen",
     "DESELECT":"Auswahl aufheben",
     "UNINSTALL":"Deinstallieren",
@@ -15,7 +15,7 @@
     "INSTALL_COMPLETE":"Installation abgeschlossen"
   },
   "NOAPP":"Keine Apps auf Ihrem Handy.",
-  "UPGRADE_TIP":"Aktualisieren Sie SnapPea, um Apps im Internet zu verwalten.",
+  "UPGRADE_TIP":"Aktualisieren Sie SnapPea, um Apps über das Web zu verwalten.",
   "DEL_ONE_APP":{
     "TITLE":"App deinstallieren",
     "CONTENT":"Sollen das ausgewählte App von Ihrem Handy gelöscht werden?",
@@ -24,7 +24,7 @@
   },
   "DEL_MORE_APPS":{
     "TITLE":"Apps deinstallieren",
-    "CONTENT":"Soll das ausgewählte App von Ihrem Handy gelöscht werden?",
+    "CONTENT":"Sollen die ausgewählten Apps von Ihrem Handy gelöscht werden?",
     "AGREE":"Deinstallieren",
     "CANCEL":"Abbrechen"
   },
@@ -32,15 +32,17 @@
     "SIZE":"Größe",
     "INSTALLATION":"Installation",
     "VERSION":"Version",
-    "PERMISSIONS":"Zulassungen",
+    "PERMISSIONS":"Berechtigungen",
     "CANCEL":"Abbruch",
-    "SELECT":"Auswählen"
+    "SELECT":"Auswählen",
+    "RETRY":"Retry"
   },
   "ALL_FILES_UNSUPPORT_TITLE":"Nicht unterstützte Datei(en)",
-  "ALL_FILES_UNSUPPORT_CONTENT":"Ungültige Dateierweitung. Nur APK-Dateien werden unterstützt.",
+  "ALL_FILES_UNSUPPORT_CONTENT":"Ungültige Dateierweiterung. Nur APK-Dateien werden unterstützt.",
   "SOME_FILES_UNSUPPORT_TITLE":"Enthält nicht unterstützte Datei(en)",
   "SOME_FILES_UNSUPPORT_CONTENT":"Einige Dateierweiterungen sind ungültig. Es werden nur APK-Dateien unterstützt.",
   "UNSUPPORT_MODAL_BUTTON_OK":"OK",
   "DRAG_TITLE":"Apps hier ablegen",
-  "DRAG_TIP":"Fügen Sie Ihrem Handy Apps hinzu."
+  "DRAG_TIP":"Füge Apps dem Handy zu.",
+  "UPLOAD_ERROR_TIP":"Failed to install."
 }
