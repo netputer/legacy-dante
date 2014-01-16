@@ -59,7 +59,7 @@
         "new_phone": "Add a new phone"
     },
     "SIGN_PROGRESS": {
-        "STEP1": "Signing in with Google",
+        "STEP1": "Signing in",
         "STEP2": "Finding your phone(s)",
         "STEP3": "Connecting to $$$$"
     },
