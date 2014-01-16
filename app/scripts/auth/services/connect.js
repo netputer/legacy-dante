@@ -129,7 +129,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             return defer.promise;
         },
 
-        remoteConnectWithRety: function(deviceData, times) {
+        remoteConnectWithRetry: function(deviceData, times) {
             resetMaxWakeupTrytimes(times);
             var defer = $q.defer();
 

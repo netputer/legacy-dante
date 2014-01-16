@@ -16,7 +16,7 @@ return function(url, type) {
             wrappedURL = 'http://' + host + wrappedURL.split(urlHost)[1];
         }
         if (wdDev.isRemoteConnection()) {
-            wrappedURL = wdDev.wrapRemoteConnectionURL(url, type);
+            wrappedURL = wdDev.wrapRemoteConnectionURL(wrappedURL, type);
         }
     }
     

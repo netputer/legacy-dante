@@ -195,7 +195,7 @@ Socket.prototype = {
             if (currentOnlineDevice) {
                 if (!currentOnlineDevice.ip) {
                     $injector.invoke(['wdConnect', function(wdConnect) {
-                        wdConnect.remoteConnectWithRety(currentOnlineDevice).then(function(data) {
+                        wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data) {
                             wdDev.setRequestWithRemote(data);
 
                             wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
@@ -225,7 +225,7 @@ Socket.prototype = {
                                 defer.resolve();
                             });
                         }, function() {
-                            wdConnect.remoteConnectWithRety(currentOnlineDevice).then(function(data){
+                            wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data){
                                 wdDev.setRequestWithRemote(data);
 
                                 wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {

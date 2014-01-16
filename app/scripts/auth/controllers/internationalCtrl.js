@@ -195,7 +195,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     function remoteConnect(deviceData) {
         setDeviceConnectingStatus(deviceData);
 
-        wdConnect.remoteConnectWithRety(deviceData).then(function(data) {
+        wdConnect.remoteConnectWithRetry(deviceData).then(function(data) {
             wdDev.setRemoteConnectionData(data);
 
             //remoteConnectionAuthDeivceTimes -= 1;
