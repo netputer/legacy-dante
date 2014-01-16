@@ -7,7 +7,7 @@ return ['wdDev', function(wdDev) {
 return function(url, type) {
     var wrappedURL = url;
 
-    if (wrappedURL && wrappedURL.indexOf('data:image/jpeg;base64') === -1 ) {
+    if (wrappedURL && wrappedURL.indexOf('data:image') === -1 ) {
         wrappedURL = wdDev.wrapPrefixURL(wrappedURL);
         var host = wdDev.getIP().length ? wdDev.getIP() : 'null';
         var urlHostArray = wrappedURL.match(/\/\/([^:\/ ]+).?.*/);
