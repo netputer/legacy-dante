@@ -11,7 +11,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
     resetMaxWakeupTrytimes();
 
     function resetMaxconnectTrytimes(times) {
-        connectDeviceTimes = times || 3;
+        connectDeviceTimes = times || 4;
     }
     resetMaxconnectTrytimes();
 
@@ -32,7 +32,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             wdDev.setServer(ip);
             
             // 下面方法统计是否超时会用到
-            var timeout = 10000;
+            var timeout = 3000;
             var timeStart = (new Date()).getTime();
             $http({
                 method: 'get',
