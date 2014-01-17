@@ -9,7 +9,7 @@ return function() {
     var ip = '';
     var port = '';
     var meta = {};
-    var WAKE_UP_URL = 'http://60.29.246.132:8090/wakeup';
+    var WAKE_UP_URL = 'http://lb.snappea.com/wakeup';
     var remoteConnectionData;
     var tryRequestWithRemote = false;
 
