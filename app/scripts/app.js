@@ -132,7 +132,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('photos'),
-                versionSupport: minVersionRequirement(3859)
+                versionSupport: minVersionRequirement(3896)
             },
             reloadOnSearch: false
         });
@@ -142,7 +142,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('messages'),
-                versionSupport: minVersionRequirement(3893)
+                versionSupport: minVersionRequirement(3896)
             },
             reloadOnSearch: true
         });
@@ -152,7 +152,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('contacts'),
-                versionSupport: minVersionRequirement(3819)
+                versionSupport: minVersionRequirement(3896)
             },
             reloadOnSearch: false
         });
@@ -162,7 +162,7 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             resolve: {
                 auth: validateToken,
                 nav: reflectNavbar('applications'),
-                versionSupport: minVersionRequirement(3819)
+                versionSupport: minVersionRequirement(3896)
             },
             reloadOnSearch: false
         });

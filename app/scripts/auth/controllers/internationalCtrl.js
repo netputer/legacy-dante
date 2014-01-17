@@ -196,12 +196,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         setDeviceConnectingStatus(deviceData);
 
         wdConnect.remoteConnectWithRetry(deviceData).then(function(data) {
-            wdDev.setRemoteConnectionData(data);
-
-            //remoteConnectionAuthDeivceTimes -= 1;
-            //authDevice(deviceData);
+            wdDev.setRequestWithRemote(data);
 
             wdConnect.connectDeviceWithRetry(deviceData).then(function() {
+                wdDev.setRemoteConnectionData(data);
+
                 //标记下已经登录设备，在切换设备的时候会判断这个。
                 wdGoogleSignIn.setHasAccessdDevice();
                 $scope.isLoadingDevices = false;
@@ -214,6 +213,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 wdDev.closeRemoteConnection();
 
                 confirmConnect(deviceData);
+            }).always(function() {
+                wdDev.setRequestWithRemote(false);
             });
         }, function() {
             confirmConnect(deviceData);
