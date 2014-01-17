@@ -156,16 +156,32 @@ $sidebar-animation-time: 500ms;
                     padding-left: 25px;
                 }
 
+                .network-light-icon {
+                    display: none;
+                }
+
                 &.selected a,
                 &.selected .network-icon{
                     color: $standard-green;
                     padding-left: 0px;
+                }
 
+                &.selected .network-icon {
+                    display: none;
+                }
+
+                &.selected .network-light-icon{
+                    display: inline-block;
                 }
 
                 &:hover a,
-                &:hover .network-icon{
+                &:hover .network-icon.network-light-icon{
                     color: $standard-green;
+                    display: inline-block;
+                }
+
+                &:hover .network-icon {
+                    display: none;
                 }
                 .network-icon {
                     font-size: 13px;
