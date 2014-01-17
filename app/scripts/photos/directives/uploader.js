@@ -8,154 +8,164 @@ define([
         _
     ) {
 'use strict';
-return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filter',
-    function($q,   wdDev,   wdKeeper,   wdpImageHelper,   GA,   wdAlert,   $filter) {
+return ['$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filter', '$rootScope',
+    function($q, wdDev, wdKeeper, wdpImageHelper, GA, wdAlert, $filter, $rootScope) {
     return {
         link: function(scope, element) {
             var keeper = null;
             var counter = 0;
+            var uploader = null;
+            var dnd = null;
 
-            var uploader = new fineuploader.FineUploaderBasic({
-                button: element[0],
-                request: {
-                    endpoint: $filter('wrapRemoteConnectionURL')('/directive/photos/upload', 'upload')
-                },
-                validation: {
-                    acceptFiles: 'image/*',
-                    allowedExtensions: ['jpg', 'jpeg', 'gif', 'png'],
-                    stopOnFirstInvalidFile: false
-                },
-                cors: {
-                    expected: true,
-                    sendCredentials: true
-                },
-                messages: {
-                    onLeave: scope.$root.DICT.photos.UPLOAD_RELOAD
-                },
-                callbacks: {
-                    onValidateBatch: function(fileData) {
-                        var d = jQuery.Deferred();
-                        var size = 0;
-                        _.each(fileData, function(item) {
-                            size += item.size;
-                        });
+            function initUploader() {
+                uploader = new fineuploader.FineUploaderBasic({
+                    button: element[0],
+                    request: {
+                        endpoint: $filter('wrapRemoteConnectionURL')('/directive/photos/upload', 'upload')
+                    },
+                    validation: {
+                        acceptFiles: 'image/*',
+                        allowedExtensions: ['jpg', 'jpeg', 'gif', 'png'],
+                        stopOnFirstInvalidFile: false
+                    },
+                    cors: {
+                        expected: true,
+                        sendCredentials: true
+                    },
+                    messages: {
+                        onLeave: scope.$root.DICT.photos.UPLOAD_RELOAD
+                    },
+                    callbacks: {
+                        onValidateBatch: function(fileData) {
+                            var d = jQuery.Deferred();
+                            var size = 0;
+                            _.each(fileData, function(item) {
+                                size += item.size;
+                            });
 
-                        if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
-                            scope.$apply(function() {
-                                wdAlert.confirm(
-                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
-                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
-                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
-                                    scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
-                                ).then(function() {
-                                    d.resolve();
-                                }, function() {
-                                    d.reject();
+                            if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
+                                scope.$apply(function() {
+                                    wdAlert.confirm(
+                                        scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
+                                        scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
+                                        scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
+                                        scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
+                                    ).then(function() {
+                                        d.resolve();
+                                    }, function() {
+                                        d.reject();
+                                    });
                                 });
+                            } else {
+                                d.resolve();
+                            }
+                            
+                            return d.promise();
+                        },
+                        onSubmit: function(id) {
+                            var file = uploader.getFile(id);
+                            var photoPromise = loadLocalPhoto(file);
+
+                            file.defer = jQuery.Deferred();
+                            var uploadPromise = file.defer.promise();
+
+                            uploadPromise.cancelUpload = function() {
+                                uploader.cancel(id);
+                            };
+                            uploadPromise.retryUpload = function() {
+                                uploader.retry(id);
+                            };
+
+                            count();
+
+                            scope.startUpload({
+                                photo: photoPromise,
+                                upload: uploadPromise
                             });
-                        } else {
-                            d.resolve();
-                        }
-                        
-                        return d.promise();
-                    },
-                    onSubmit: function(id) {
-                        var file = uploader.getFile(id);
-                        var photoPromise = loadLocalPhoto(file);
-
-                        file.defer = jQuery.Deferred();
-                        var uploadPromise = file.defer.promise();
-
-                        uploadPromise.cancelUpload = function() {
-                            uploader.cancel(id);
-                        };
-                        uploadPromise.retryUpload = function() {
-                            uploader.retry(id);
-                        };
-
-                        count();
-
-                        scope.startUpload({
-                            photo: photoPromise,
-                            upload: uploadPromise
-                        });
-                    },
-                    onProgress: function(id, name, uploadedBytes, totalBytes) {
-                        var file = uploader.getFile(id);
-                        var percent = Math.round((uploadedBytes / totalBytes) * 100);
-                        file.defer.notify({
-                            status: 'uploading',
-                            percent: percent
-                        });
-                    },
-                    onComplete: function(id, name, response) {
-                        var file = uploader.getFile(id);
-
-                        uncount();
-
-                        if (response.success) {
-                            file.defer.resolve(response.result);
-                            GA('photos:upload:success');
-                        }
-                        else {
+                        },
+                        onProgress: function(id, name, uploadedBytes, totalBytes) {
+                            var file = uploader.getFile(id);
+                            var percent = Math.round((uploadedBytes / totalBytes) * 100);
                             file.defer.notify({
-                                status: 'failed'
+                                status: 'uploading',
+                                percent: percent
                             });
-                            GA('photos:upload:fail_' + response.status);
+                        },
+                        onComplete: function(id, name, response) {
+                            var file = uploader.getFile(id);
+
+                            uncount();
+
+                            if (response.success) {
+                                file.defer.resolve(response.result);
+                                GA('photos:upload:success');
+                            }
+                            else {
+                                file.defer.notify({
+                                    status: 'failed'
+                                });
+                                GA('photos:upload:fail_' + response.status);
+                            }
+                        },
+                        onManualRetry: function() {
+                            count();
+                        },
+                        onCancel: function() {
+                            uncount();
                         }
-                    },
-                    onManualRetry: function() {
-                        count();
-                    },
-                    onCancel: function() {
-                        uncount();
                     }
+                });
+
+                if (dnd) {
+                    dnd.dispose();
+                    dnd = null;
                 }
-            });
 
-            var dnd = new fineuploader.DragAndDrop({
-                dropArea: jQuery('.wdj-photos')[0],
-                multiple: true,
-                hideDropzones: false,
-                classes: {
-                    dropActive: 'drag-enter-container'
-                },
-                callbacks: {
-                    dropProcessing: function(isProcessing, files) {
-                        uploader.addFiles(files);
-
-                        if (files) {
-                            var validCount = 0;
-                            _.each(files, function(item) {
-                                if (!uploader.isAllowedExtension(item.name)) {
-                                    validCount += 1;
-                                }
-                            });
-
-                            scope.$apply(function() {
-                                if (files.length === validCount) {
-                                    wdAlert.alert(
-                                        scope.$root.DICT.photos.ALL_FILES_UNSUPPORT_TITLE,
-                                        scope.$root.DICT.photos.ALL_FILES_UNSUPPORT_CONTENT,
-                                        scope.$root.DICT.photos.UNSUPPORT_MODAL_BUTTON_OK
-                                    );
-                                } else if (files.length > validCount && validCount) {
-                                    wdAlert.alert(
-                                        scope.$root.DICT.photos.SOME_FILES_UNSUPPORT_TITLE,
-                                        scope.$root.DICT.photos.SOME_FILES_UNSUPPORT_CONTENT,
-                                        scope.$root.DICT.photos.UNSUPPORT_MODAL_BUTTON_OK
-                                    );
-                                }
-                            });
-                        }
+                dnd = new fineuploader.DragAndDrop({
+                    dropArea: jQuery('.wdj-photos')[0],
+                    multiple: true,
+                    hideDropzones: false,
+                    classes: {
+                        dropActive: 'drag-enter-container'
                     },
-                    error: function(code, filename) {},
-                    log: function(message, level) {}
-                }
-            });
-            
-            dnd.setup();
+                    callbacks: {
+                        dropProcessing: function(isProcessing, files) {
+                            uploader.addFiles(files);
 
+                            if (files) {
+                                var validCount = 0;
+                                _.each(files, function(item) {
+                                    if (!uploader.isAllowedExtension(item.name)) {
+                                        validCount += 1;
+                                    }
+                                });
+
+                                scope.$apply(function() {
+                                    if (files.length === validCount) {
+                                        wdAlert.alert(
+                                            scope.$root.DICT.photos.ALL_FILES_UNSUPPORT_TITLE,
+                                            scope.$root.DICT.photos.ALL_FILES_UNSUPPORT_CONTENT,
+                                            scope.$root.DICT.photos.UNSUPPORT_MODAL_BUTTON_OK
+                                        );
+                                    } else if (files.length > validCount && validCount) {
+                                        wdAlert.alert(
+                                            scope.$root.DICT.photos.SOME_FILES_UNSUPPORT_TITLE,
+                                            scope.$root.DICT.photos.SOME_FILES_UNSUPPORT_CONTENT,
+                                            scope.$root.DICT.photos.UNSUPPORT_MODAL_BUTTON_OK
+                                        );
+                                    }
+                                });
+                            }
+                        },
+                        error: function(code, filename) {},
+                        log: function(message, level) {}
+                    }
+                });
+                dnd.setup();
+            }
+
+            initUploader();
+            
             function loadLocalPhoto(file) {
                 var defer = $q.defer();
                 var reader = new FileReader();
@@ -208,6 +218,10 @@ return [    '$q', 'wdDev', 'wdKeeper', 'wdpImageHelper', 'GA', 'wdAlert', '$filt
                     keeper = null;
                 }
             }
+            
+            $rootScope.$on('connection:changed', function() {
+                initUploader();
+            });
 
             element.on('$destroy', function() {
 

@@ -619,6 +619,10 @@ define([
             }
         });
 
+        $rootScope.$on('connection:changed', function() {
+            uploadApk($('.installApp'));
+        });
+        
         //主程序
         changeAppsBlock();
         $scope.isLoadShow = true;
