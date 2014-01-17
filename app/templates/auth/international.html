@@ -164,17 +164,17 @@
                 </div>
                 <div class="wifi">
                     <p class="status" ng-if="item.loading">{{$root.DICT.portal.CONNECTING}}</p>
-                    <i class="icon-wifi" ng-if="!item.loading && item.ip"></i>
+                    <i class="icon-wifi-gray" ng-if="!item.loading && item.ip"></i>
                     <i class="icon-wifi-white" ng-if="!item.loading && item.ip"></i>
                     <p class="ssid" title="{{item.ip && item.attributes.ssid}}" ng-if="!item.loading && item.ip && item.attributes.ssid">
                         {{item.ip && item.attributes.ssid}}
                     </p>
-                    <p class="ssid" ng-if="item.networkType" ng-switch="item.networkType">
-                        <span ng-switch-when="3G">{{ $root.DICT.portal.3G }}</span>
-                        <span ng-switch-when="4G">{{ $root.DICT.portal.4G }}</span>
+                    <p class="ssid" ng-if="!item.ip" ng-switch="item.networkType">
+                        <span ng-switch-when="3g">{{ $root.DICT.portal.3G }}</span>
+                        <span ng-switch-when="4g">{{ $root.DICT.portal.4G }}</span>
                         <span ng-switch-default>
-                            <i class="icon-gray-{{item.networkType}} gray-icon"></i>
-                            <i class="icon-white-{{item.networkType}} white-icon"></i>
+                            <i class="icon-{{item.networkType}}-gray gray-icon"></i>
+                            <i class="icon-{{item.networkType}}-white white-icon"></i>
                         </span>
                     </p>
                 </div>
