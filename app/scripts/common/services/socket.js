@@ -135,9 +135,6 @@ Socket.prototype = {
         // There is a bug in socket.io, reconnect_failed gets never fired.
         this._transport.on('reconnect_failed', function failed() {
             $log.warn('Socket server seems cold dead...');
-            $rootScope.$apply(function() {
-                self.defer.resolve();
-            });
             GA('socket:dead');
         });
 
@@ -145,7 +142,7 @@ Socket.prototype = {
             // $log.warn('Socket fails to establish.');
 
             $rootScope.$apply(function() {
-                self.defer.resolve();
+                self.defer.reject();
             });
             GA('socket:connect_failed');
         });
@@ -153,9 +150,8 @@ Socket.prototype = {
         this._transport.on('error', function() {
             //Almost handshake error
             $rootScope.$apply(function() {
-                self.defer.resolve();
+                self.defer.reject();
             });
-            self.showDisconnectPanel(true);
             GA('socket:connect_error');
         });
     },
@@ -173,12 +169,11 @@ Socket.prototype = {
                 this._transport = null;
             }
         }
-        this.defer.reject();
         return this;
     },
 
-    showDisconnectPanel: function(forceRefreshRetyTimes) {
-        this.trigger('socket:disconnected', [forceRefreshRetyTimes]);
+    showDisconnectPanel: function() {
+        this.trigger('socket:disconnected');
     },
 
     refreshDeviceAndConnect: function() {
