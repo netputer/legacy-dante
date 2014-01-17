@@ -108,6 +108,17 @@ link: function($scope, element) {
             temp = temp.onload = null;
             defer.resolve(path);
         };
+
+        $rootScope.$on('connection:changed', function() {
+            if (temp) {
+                temp.src = $filter('wrapRemoteConnectionURL')(path, 'image');
+                temp.onload = function() {
+                    temp = temp.onload = null;
+                    defer.resolve(path);
+                };
+            }
+        });
+
         temp.src = $filter('wrapRemoteConnectionURL')(path, 'image');
         return defer.promise();
     }

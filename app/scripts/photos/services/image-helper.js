@@ -32,11 +32,6 @@ function($filter, $rootScope) {
 
         image.src = $filter('wrapRemoteConnectionURL')(url, 'image');
 
-        $rootScope.on('connection:changed', function() {
-            if (!image.isOnload) {
-                image.src = $filter('wrapRemoteConnectionURL')(url, 'image');
-            }
-        });
         // timeout = setTimeout(function() {
         //     image.onerror = image.onload = null;
         //     defer.reject('timeout');
