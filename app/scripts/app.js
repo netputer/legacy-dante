@@ -331,21 +331,25 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             var connectTimer = null;
             var INIT_DELAY_TIME = 10;
             var delayTime = INIT_DELAY_TIME;
+            var firstTime = true;
 
             var refreshDelayTime = function() {
-                clearConnectTimer();
-
-                delayTime = INIT_DELAY_TIME;
-                showDisconnectRemind(true);
-                connectTimer = setInterval(function() {
-                    $rootScope.$apply(function() {
-                        delayTime -= 1;
-                        showDisconnectRemind(true);
-                        if (delayTime <= 0) {
-                            connectSocket();
-                        }
-                    });
-                }, 1000);
+                if (firstTime) {
+                    connectSocket();
+                    firstTime = false;
+                } else {
+                    delayTime = INIT_DELAY_TIME;
+                    showDisconnectRemind(true);
+                    connectTimer = setInterval(function() {
+                        $rootScope.$apply(function() {
+                            delayTime -= 1;
+                            showDisconnectRemind(true);
+                            if (delayTime <= 0) {
+                                connectSocket();
+                            }
+                        });
+                    }, 1000);
+                }
             };
 
             var clearConnectTimer = function() {
@@ -378,12 +382,13 @@ angular.module('wdApp', ['ng', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdP
             var closeDisconnectRemind = function() {
                 wdReminder.close();
                 clearConnectTimer();
+                firstTime = true;
             };
 
             var connectSocket = function() {
                 showDisconnectRemind(false);
                 clearConnectTimer();
-                //wdSocket.trigger('socket:connect');
+
                 wdSocket.refreshDeviceAndConnect().then(function() {
                     closeDisconnectRemind();
                 }, function() {
