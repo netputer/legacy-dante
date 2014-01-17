@@ -72,23 +72,24 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                 }
                 $rootScope.$apply(function() {
                     list.forEach(function(item) {
-                        if (!item.ip) {
-                            switch(item.attributes.network_type) {
-                                case 'LTE':
-                                case 'CDMA - eHRPD':
-                                    item.networkType = '4G';
-                                    break;
-                                case 'CDMA':
-                                    item.networkType = '2G';
-                                    break;
-                                case 'GPRS':
-                                    item.networkType = 'GPRS';
-                                    break;
-                                case 'EDGE':
-                                    item.networkType = 'EDGE';
-                                    break;
-                                default: item.networkType = '3G';
-                            }
+                        switch(item.attributes.network_type) {
+                            case 'LTE':
+                            case 'CDMA - eHRPD':
+                                item.networkType = '4g';
+                                break;
+                            case 'CDMA':
+                                item.networkType = '2g';
+                                break;
+                            case 'GPRS':
+                                item.networkType = 'gprs';
+                                break;
+                            case 'EDGE':
+                                item.networkType = 'edge';
+                                break;
+                            case 'WIFI':
+                                item.networkType = 'wifi';
+                                break;
+                            default: item.networkType = '3g';
                         }
                     });
                     

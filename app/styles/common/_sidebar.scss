@@ -146,6 +146,7 @@ $sidebar-animation-time: 500ms;
                 margin: 8px 0;
                 list-style: none;
                 cursor: pointer;
+                @include position(relative);
 
                 i {
                     margin-right: 9px;
@@ -155,13 +156,27 @@ $sidebar-animation-time: 500ms;
                     padding-left: 25px;
                 }
 
-                &.selected a{
+                &.selected a,
+                &.selected .network-icon{
                     color: $standard-green;
                     padding-left: 0px;
+
                 }
 
-                &:hover a {
+                &:hover a,
+                &:hover .network-icon{
                     color: $standard-green;
+                }
+                .network-icon {
+                    font-size: 13px;
+                    padding: 0;
+                    margin: 0;
+                }
+                i.network-icon {
+                    @include position(absolute, 3px 26px 0 0);
+                }
+                span.network-icon {
+                    @include position(absolute, 0px 26px 0 0);
                 }
             }
         }

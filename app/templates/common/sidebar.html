@@ -6,6 +6,14 @@
                 <ul class="device-list" ng-hide="isLoadingDevices">
                     <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
                         <a href=""><i class="icon-mark" ng-show="item.selected"></i>{{item.model}}</a>
+                        <span ng-switch="item.networkType">
+                            <span ng-switch-when="3g" class="network-icon">{{ $root.DICT.portal.3G }}</span>
+                            <span ng-switch-when="4g" class="network-icon">{{ $root.DICT.portal.4G }}</span>
+                            <span ng-switch-default>
+                                <i class="icon-{{item.networkType}}-white network-icon" ng-show="!item.selected"></i>
+                                <i class="icon-{{item.networkType}}-green network-icon" ng-show="item.selected"></i>
+                            </span>
+                        </span>
                     </li>
                 </ul>
                 <div class="devices-loading-container" ng-show="isLoadingDevices">
