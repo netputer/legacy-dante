@@ -83,7 +83,7 @@
         "OK": "Continue",
         "CANCEL": "Cancel"
     },
-    "REMOTE_CONNECTION": "wifi connect unlimited",
+    "REMOTE_CONNECTION": "Wi-Fi connect unlimited",
     "3G_CONNECTION": "3G MobileConnect",
     "4G_CONNECTION": "4G MobileConnect",
     "EDGE_CONNECTION": "EDGE MobileConnect",
