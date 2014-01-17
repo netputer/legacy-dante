@@ -4,7 +4,8 @@ define([
         jQuery
     ) {
 'use strict';
-return ['$filter', function($filter) {
+return ['$filter', '$rootScope',
+function($filter, $rootScope) {
     // When done, resolve by image.
     function preload(url, onload) {
         var TIMEOUT = 5000;
@@ -21,6 +22,7 @@ return ['$filter', function($filter) {
             image.onerror = image.onload = null;
             clearTimeout(timeout);
             defer.resolve(image);
+            image.isOnload = true;
         };
         image.onerror = function() {
             image.onerror = image.onload = null;
@@ -30,6 +32,11 @@ return ['$filter', function($filter) {
 
         image.src = $filter('wrapRemoteConnectionURL')(url, 'image');
 
+        $rootScope.on('connection:changed', function() {
+            if (!image.isOnload) {
+                image.src = $filter('wrapRemoteConnectionURL')(url, 'image');
+            }
+        });
         // timeout = setTimeout(function() {
         //     image.onerror = image.onload = null;
         //     defer.reject('timeout');
