@@ -379,7 +379,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.STEP2;
         wdGoogleSignIn.getDevices().then(function(list) {
             $scope.devicesList = list;
-            if (list.length && $scope.autoAuth && $scope.auth && $scope.auth.ip) {
+            if (list.length && $scope.autoAuth && $scope.auth) {
                 $scope.isLoadingDevices = true;
                 GA('device_sign_in:check_last_device:device_signed_in');
                 for (var i = 0, l = list.length; i < l; i += 1) {
@@ -391,8 +391,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             } else {
                 GA('device_sign_in:check_last_device:device_not_signed_in');
                 $scope.autoAuth = false;
+                loopGetDevicesList();
             }
-            loopGetDevicesList();
         }, function(xhr) {
             GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_autoAccessFailed');
             loopGetDevicesList();
