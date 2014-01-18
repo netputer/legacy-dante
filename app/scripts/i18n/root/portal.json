@@ -62,8 +62,8 @@
         "STEP1": "Signing in",
         "STEP2": "Finding your phone(s)",
         "STEP3": "Connecting to $$$$",
-        "USE_UER_DATA": "Testing mobile data connection",
-        "WIFI": "Testing ConnectUnlimited connection"
+        "USE_UER_DATA": "Trying mobile data connection",
+        "WIFI": "Trying ConnectUnlimited connection"
     },
     "USER_GUIDE": {
         "STEP1": "Sign in on your computer",
