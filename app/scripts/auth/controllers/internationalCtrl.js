@@ -66,6 +66,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         if (wdGoogleSignIn.getForceShowDevices()) {
             wdGoogleSignIn.setForceShowDevices(false);
             loopGetDevicesList(false);
+            $scope.isLoadingDevices = false;
             return;
         }
 
