@@ -149,7 +149,9 @@ define([
 
                     var path = photo.thumbnail_custom ? photo.thumbnail_custom : photo.path;
                     var size = $filter('customSize')(photo);
-                    return $http.get(path, {
+                    return $http({
+                        method: 'get',
+                        url: path,
                         params : {
                             width: size.width,
                             height: size.height,
