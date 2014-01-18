@@ -6,13 +6,15 @@ define([
     $
 ) {
 'use strict';
-return ['wdGoogleSignIn', '$window', '$document', '$q', function(wdGoogleSignIn, $window, $document, $q) {
+return ['wdGoogleSignIn', '$window', '$document', '$q', '$timeout', function(wdGoogleSignIn, $window, $document, $q, $timeout) {
 return {
 template: template,
 scope: true,
 replace: true,
 link: function($scope, $element, $attribute, $control) {
     $scope.showUserDetail = false;
+    var MAX_RETRY_TIMES = 3;
+    var retryNum = 0;
     $scope.toggleUserProfile = function() {
         $scope.showUserDetail = !$scope.showUserDetail;
         if ($scope.showUserDetail) {
@@ -27,7 +29,12 @@ link: function($scope, $element, $attribute, $control) {
         wdGoogleSignIn.getProfile().then(function(data) {
             $scope.profile = data;
         }, function() {
-            getUserInfo();
+            $timeout(function() {
+                retryNum += 1;
+                if (retryNum <= MAX_RETRY_TIMES) {
+                    getUserInfo();
+                }
+            }, 500);
         });
     }
 

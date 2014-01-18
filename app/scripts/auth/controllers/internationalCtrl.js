@@ -66,6 +66,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         if (wdGoogleSignIn.getForceShowDevices()) {
             wdGoogleSignIn.setForceShowDevices(false);
             loopGetDevicesList(false);
+            $scope.isLoadingDevices = false;
             return;
         }
 
@@ -92,6 +93,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $rootScope.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
             ).then(function() {
                 GA('connection:confirm_ask_use_3g:use');
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.USE_UER_DATA;
                 remoteConnect(deviceData);
             }, function() {
                 GA('connection:confirm_ask_use_3g:cancel');
@@ -168,6 +170,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 });
             } else {
                 // fire remote connect
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.WIFI;
                 remoteConnect(deviceData);
             }
             
@@ -224,13 +227,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
     function confirmConnect(deviceData) {
         var defer = $q.defer();
-
-        $scope.devicesList.forEach(function(item, index) {
-            if (item.id === deviceData.id && !item.loading) {
-                item.loading = true;
-            }
-        });
-
+        clearStatus(deviceData);
         wdAlert.confirm(
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
@@ -239,7 +236,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         ).then(function() {
             GA('connection:confirm_ask_retry:retry');
             resetDefaultMaxRetryTimes();
-
+            $scope.devicesList.forEach(function(item, index) {
+                if (item.id === deviceData.id && !item.loading) {
+                    item.loading = true;
+                }
+            });
             wdGoogleSignIn.getDevices().then(function (list) {
                 $scope.devicesList = list;
             }).always(function () {
