@@ -25,6 +25,9 @@
             margin-top: 10px;
         }
     }
+    .no-device .step {
+        height: 350px;
+    }
     .user-guide {
         width: 910px;
         margin: 100px auto 0px auto;
@@ -58,7 +61,6 @@
                     margin-bottom: 0px;
                 }
                 .step {
-                    height: 350px;
                     margin-left: 5px;
                     display: block;
                     float: left;
