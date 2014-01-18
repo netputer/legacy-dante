@@ -79,17 +79,17 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 if (!deviceData.ip) {
                     GA('connection:3G:success');
                     if (totalRetryConnectNum) {
-                        GA('connection:connection_retry_connect_3g' + totalRetryConnectNum + ':success');
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_3g:success');
                     }
                 } else if (wdDev.getRequestWithRemote()) {
                     GA('connection:wifi:success');
                     if (totalRetryConnectNum) {
-                        GA('connection:connection_retry_connect_wifi' + totalRetryConnectNum + ':success');
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_wifi:success');
                     }
                 } else {
                     GA('connection:direct:success');
                     if (totalRetryConnectNum) {
-                        GA('connection:connection_retry_connect_direct' + totalRetryConnectNum + ':success');
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_direct:success');
                     }
                 }
                 totalRetryConnectNum = 0;
@@ -105,7 +105,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                     GA('connection:3G:fail_' + deviceData.attributes.sdk_version);
                     GA('connection:3G:fail_' + deviceData.attributes.rom);
                     if (totalRetryConnectNum) {
-                        GA('connection:connection_retry_connect_3g' + totalRetryConnectNum + ':failed');
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_3g:failed');
                     }
                 } else if (deviceData.ip && wdDev.getRequestWithRemote()) {
                     GA('connection:wifi:fail_' + action);
@@ -113,7 +113,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                     GA('connection:wifi:fail_' + deviceData.attributes.sdk_version);
                     GA('connection:wifi:fail_' + deviceData.attributes.rom);
                     if (totalRetryConnectNum) {
-                        GA('connection:connection_retry_connect_wifi' + totalRetryConnectNum + ':failed');
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_wifi:failed');
                     }
                 } else {
                     GA('connection:direct:fail_' + action);
@@ -121,7 +121,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                     GA('connection:direct:fail_' + deviceData.attributes.sdk_version);
                     GA('connection:direct:fail_' + deviceData.attributes.rom);
                     if (totalRetryConnectNum) {
-                        GA('connection:connection_retry_connect_direct' + totalRetryConnectNum + ':failed');
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_direct:failed');
                     }
                 }
 
