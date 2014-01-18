@@ -91,8 +91,10 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $rootScope.DICT.portal.WAP_CONNECTION_ALERT.OK,
                 $rootScope.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
             ).then(function() {
+                GA('connection:confirm_ask_use_3g:use');
                 remoteConnect(deviceData);
             }, function() {
+                GA('connection:confirm_ask_use_3g:cancel');
                 clearStatus(deviceData);
                 loopGetDevicesList(false);
             });
@@ -130,6 +132,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $rootScope.$broadcast('signin');
 
         }, function () {
+         
             // 再次远程唤醒设备
             wdDevice.lightDeviceScreen(deviceData.id);
             
@@ -160,8 +163,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
                 wdGoogleSignIn.getDevices().then(function (list) {
                     $scope.devicesList = list;
-                }, function (xhr) {
-                    GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
                 }).always(function () {
                     authDevice(deviceData);
                 });
@@ -235,12 +236,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.OK,
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
         ).then(function() {
+            GA('connection:confirm_ask_retry:retry');
             resetDefaultMaxRetryTimes();
 
             wdGoogleSignIn.getDevices().then(function (list) {
                 $scope.devicesList = list;
-            }, function (xhr) {
-                GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_connectDeviceFailed');
             }).always(function () {
                 if (deviceData.ip) {
                     authDevice(deviceData);
@@ -251,6 +251,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
             defer.resolve();
         }, function() {
+            GA('connection:confirm_ask_retry:cancel');
             clearStatus(deviceData);
             wdDev.closeRemoteConnection();
             loopGetDevicesList(false);
@@ -394,7 +395,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 loopGetDevicesList();
             }
         }, function(xhr) {
-            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_autoAccessFailed');
             loopGetDevicesList();
         });
     }
@@ -414,8 +414,10 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
         // 是否自动进入上次连接过的设备
         if ($scope.autoAuth) {
+            GA('connection:request_category:auto_access');
             autoAccessDevice();
         } else {
+            GA('connection:request_category:switch_device_devices_list');
             wdGoogleSignIn.getDevices().then(function (list) {
                 showDevicesList(list);
             }, function() {
@@ -451,8 +453,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $scope.devicesList = list;
                 $scope.connectDevice(item);
             }
-        },function(xhr) {
-            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_signoutFromDevicesFailed');
         });
     }
 
