@@ -392,6 +392,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                         return;
                     }
                 }
+                loopGetDevicesList(false);
             } else {
                 GA('device_sign_in:check_last_device:device_not_signed_in');
                 $scope.autoAuth = false;
