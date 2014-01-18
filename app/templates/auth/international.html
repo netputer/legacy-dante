@@ -199,6 +199,10 @@
     </div>
     <!-- select devices end -->
 
+    <div class="update-SDK-tip" ng-if="isOldUser && devicesList.length === 0">
+        {{ $root.DICT.portal.UPDATE_SDK_TIP }}
+        <a href="https://play.google.com/store/apps/details?id=com.snappea" target="_blank" class="google-play">{{ $root.DICT.portal.GOOGLE_PLAY }}</a>
+    </div>
 </div>
 <!-- 设备列表页 end -->
 

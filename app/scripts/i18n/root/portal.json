@@ -89,5 +89,7 @@
     "EDGE_CONNECTION": "EDGE MobileConnect",
     "GPRS_CONNECTION": "GPRS MobileConnect",
     "3G": "3G",
-    "4G": "4G"
+    "4G": "4G",
+    "UPDATE_SDK_TIP": "Rejoice, your connection has been upgraded! SnapPea can now connect when your phone is on a different Wi-Fi network and on mobile data (3G, 4G).Because this is a major update, it's necessary to update to the latest version of the SnapPea mobile app to connect.",
+    "GOOGLE_PLAY": "Get the update on Google Play"
 }

@@ -14,7 +14,20 @@
     a {
         font-weight: $global-font-weight-normal;
     }
-
+    .update-SDK-tip {
+        width: 790px;
+        padding: 30px 40px;
+        color: #999;
+        background-color: #f4f4f4;
+        margin: 20px auto auto;
+        .google-play {
+            display: block;
+            margin-top: 10px;
+        }
+    }
+    .no-device .step {
+        height: 350px;
+    }
     .user-guide {
         width: 910px;
         margin: 100px auto 0px auto;
@@ -553,6 +566,7 @@
                 background-color: #fff;
             }
         }
+
     }
 }
 

@@ -175,7 +175,8 @@ $sidebar-animation-time: 500ms;
                 }
 
                 &:hover a,
-                &:hover .network-icon.network-light-icon{
+                &:hover .network-icon.network-light-icon,
+                &:hover .network-icon.network-icon-text{
                     color: $standard-green;
                     display: inline-block;
                 }
@@ -184,15 +185,10 @@ $sidebar-animation-time: 500ms;
                     display: none;
                 }
                 .network-icon {
+                    @include position(absolute, 0px 26px 0 0);
                     font-size: 13px;
                     padding: 0;
                     margin: 0;
-                }
-                i.network-icon {
-                    @include position(absolute, 3px 26px 0 0);
-                }
-                span.network-icon {
-                    @include position(absolute, 0px 26px 0 0);
                 }
             }
         }

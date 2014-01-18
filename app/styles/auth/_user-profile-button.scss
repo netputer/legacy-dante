@@ -6,7 +6,7 @@
     min-width: 170px;
     width: auto;
     height: auto;
-    @include position(absolute, 20px 30px 0 0);
+    @include position(absolute, 35px 30px 0 0);
     color: $color-black;
     @include unselected-word;
 
