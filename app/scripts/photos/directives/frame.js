@@ -30,7 +30,7 @@ return ['wdpImageHelper', 'wdDev', '$filter', function(wdpImageHelper, wdDev, $f
                 layout($image);
                 
                 var path;
-                if (wdDev.isWapRemoteConnection()) {
+                if (wdDev.isRemoteConnection()) {
                     var size = $filter('customSize')(newPhoto);
                     path = newPhoto.thumbnail_custom + '?width=' + size.width + '&height=' + size.height;
                 } else {
