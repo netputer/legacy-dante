@@ -147,7 +147,7 @@ define([
                 getPhotoBlob : function(photo) {
                     getBlobDefer = $q.defer();
 
-                    var path = photo.thumbnail_custom ? photo.thumbnail_custom : photo.path;
+                    var path = $filter('wrapRemoteConnectionURL')(photo.thumbnail_custom ? photo.thumbnail_custom : photo.path);
                     var size = $filter('customSize')(photo);
                     return $http({
                         method: 'get',
