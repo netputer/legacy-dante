@@ -65,6 +65,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         //检测下是否是从url跳转过来的
         if (wdGoogleSignIn.getForceShowDevices()) {
             wdGoogleSignIn.setForceShowDevices(false);
+            stopLoopGetDevicesList();
             loopGetDevicesList(false);
             $scope.isLoadingDevices = false;
             return;
