@@ -61,7 +61,9 @@
     "SIGN_PROGRESS": {
         "STEP1": "Signing in",
         "STEP2": "Finding your phone(s)",
-        "STEP3": "Connecting to $$$$"
+        "STEP3": "Connecting to $$$$",
+        "USE_UER_DATA": "Testing mobile data connection",
+        "WIFI": "Testing ConnectUnlimited connection"
     },
     "USER_GUIDE": {
         "STEP1": "Sign in on your computer",

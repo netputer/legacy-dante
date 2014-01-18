@@ -92,6 +92,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $rootScope.DICT.portal.CONNECT_DEVICE_FAILED_POP.CANCEL
             ).then(function() {
                 GA('connection:confirm_ask_use_3g:use');
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.USE_UER_DATA;
                 remoteConnect(deviceData);
             }, function() {
                 GA('connection:confirm_ask_use_3g:cancel');
@@ -139,6 +140,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             // 清除之前的设备信息
             wdDevice.clearDevice();
             if (wdDev.isRemoteConnection()) {
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.WIFI;
                 if (remoteConnectionAuthDeivceTimes) {
                     remoteConnectionAuthDeivceTimes -= 1;
                     var nowTimestamp = new Date().getTime();
@@ -224,13 +226,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
 
     function confirmConnect(deviceData) {
         var defer = $q.defer();
-
-        $scope.devicesList.forEach(function(item, index) {
-            if (item.id === deviceData.id && !item.loading) {
-                item.loading = true;
-            }
-        });
-
+        clearStatus(deviceData);
         wdAlert.confirm(
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.title,
             $scope.$root.DICT.portal.CONNECT_DEVICE_FAILED_POP.content.replace('$$$$', deviceData.attributes.ssid),
@@ -239,7 +235,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
         ).then(function() {
             GA('connection:confirm_ask_retry:retry');
             resetDefaultMaxRetryTimes();
-
+            $scope.devicesList.forEach(function(item, index) {
+                if (item.id === deviceData.id && !item.loading) {
+                    item.loading = true;
+                }
+            });
             wdGoogleSignIn.getDevices().then(function (list) {
                 $scope.devicesList = list;
             }).always(function () {
