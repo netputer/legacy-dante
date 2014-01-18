@@ -3,13 +3,6 @@
     @include ui-layer-top;
     background: $standard-green;
     min-height: 500px;
-    .update-sdk-tip {
-        .tip-content,
-        .tip-action {
-            height: inherit;
-            overflow: hidden;
-        }
-    }
     .announcement {
         font-size: 12px;
         color: #333;

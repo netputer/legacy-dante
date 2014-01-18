@@ -38,17 +38,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
     //用户引导页面，显示到第几步
     $scope.userGuideStep = 1;
 
-    //show update SDK tip for oldusers 
-    var closeUpdateSDKTip = $window.localStorage.getItem('closeUpdateSDKTip');
-    if (!closeUpdateSDKTip) {
-        $scope.showUpdateSDKTip = true;
-    }
-    $scope.closeUpdateSDKTip = function() {
-        $scope.closingUpdateSDKTip = true;
-        $window.localStorage.setItem('closeUpdateSDKTip', true);
-    };
-
-
     if (!$scope.isSupport) {
         GA('login:not_support');
     }

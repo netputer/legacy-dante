@@ -175,7 +175,8 @@ $sidebar-animation-time: 500ms;
                 }
 
                 &:hover a,
-                &:hover .network-icon.network-light-icon{
+                &:hover .network-icon.network-light-icon,
+                &:hover .network-icon.network-icon-text{
                     color: $standard-green;
                     display: inline-block;
                 }
