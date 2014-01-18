@@ -60,6 +60,13 @@
 
 <!-- 设备列表页 -->
 <div class="devices-tpl" ng-if="!isShowNoSignInPage && (devicesList.length>=0)">
+    <!-- tip start: update SDK for olduser -->
+    <div class="wd-tip update-sdk-tip" ng-if="isOldUser && showUpdateSDKTip" ng-class="{'closing-tip': closingUpdateSDKTip}">
+        <p class="tip-content">{{$root.DICT.portal.UPDATE_SDK_TIP}}</p>
+        <span class="tip-action" ng-click="closeUpdateSDKTip()">&times;</span>
+    </div>
+    <!-- tip end: update SDK for olduser -->
+
     <div wd-user-profile-button></div>
 
     <!-- 新用户引导 -->

@@ -89,5 +89,6 @@
     "EDGE_CONNECTION": "EDGE MobileConnect",
     "GPRS_CONNECTION": "GPRS MobileConnect",
     "3G": "3G",
-    "4G": "4G"
+    "4G": "4G",
+    "UPDATE_SDK_TIP": "If you are unable to connect, please make sure the version number of SnapPea on your phone is above 3.27. If not, please update it from Google Play. Thanks."
 }
