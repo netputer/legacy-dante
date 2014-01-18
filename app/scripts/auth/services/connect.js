@@ -14,6 +14,21 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
         connectDeviceTimes = times || 4;
     }
     resetMaxconnectTrytimes();
+    // 记录成功之前一共 retry 过多少次，成功了再次清零，从 -1 开始是因为第一次是正常连接。
+    var totalRetryConnectNum = -1;
+    // 返回 http 错误的原因
+    function getHttpErrorReason(timeout, httpStatus, startTime) {
+        var action;
+        var duration = Date.now() - startTime;
+        if (httpStatus === 0) {
+            action = (Math.round(duration / 1000) * 1000 < timeout) ? ('unreached:' + duration) : 'timeout';
+        } else if (httpStatus === 401) {
+            action = 'reject:' + duration;
+        } else {
+            action = 'unknown_' + status + ':' + duration;
+        }
+        return action;
+    }
 
     var api = {
 
@@ -21,8 +36,17 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
         connectDevice : function(deviceData) {
 
             GA('connect_device:enter_snappea:'+ deviceData.model);
-            GA('check_sign_in:auth_all:all');
             
+            // 区分用户类别
+            if (!deviceData.ip) {
+                GA('connection:user_category:3G');
+            } else if (wdDev.getRequestWithRemote()) {
+                GA('connection:user_category:wifi');
+            } else {
+                GA('connection:user_category:direct');
+            }
+            totalRetryConnectNum += 1;
+
             // 远程唤醒一下设备
             wdDevice.lightDeviceScreen(deviceData.id);
             
@@ -33,7 +57,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             
             // 下面方法统计是否超时会用到
             var timeout = 3000;
-            var timeStart = (new Date()).getTime();
+            var startTime = (new Date()).getTime();
             $http({
                 method: 'get',
                 url: '/directive/auth',
@@ -47,31 +71,60 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 // 自定义的，默认底层做错误控制，但是可以被调用方禁止，这样有些不合规则或遗留的api可以在应用层自己处理错误。
                 // disableErrorControl: !$scope.autoAuth
             }).success(function(response) {
-                GA('connect_device:connect:success');
-                GA('check_sign_in:auth:sucess');
                 wdDevice.setDevice(deviceData);
                 wdDev.setMetaData(response);
+
+                GA('connect_device:connect:success');
+                
+                if (!deviceData.ip) {
+                    GA('connection:3G:success');
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_3g:success');
+                    }
+                } else if (wdDev.getRequestWithRemote()) {
+                    GA('connection:wifi:success');
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_wifi:success');
+                    }
+                } else {
+                    GA('connection:direct:success');
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_direct:success');
+                    }
+                }
+                totalRetryConnectNum = 0;
+
                 defer.resolve();
             }).error(function(reason, status, headers, config) {
-                var action;
-                var duration = Date.now() - timeStart;
-                if (status === 0) {
-                    action = (Math.round(duration / 1000) * 1000 < timeout) ? ('unreached:' + duration) : 'timeout';
-                } else if (status === 401) {
-                    action = 'reject:' + duration;
+                var action = getHttpErrorReason(timeout, status, startTime);
+
+                // 区分用户类别
+                if (!deviceData.ip) {
+                    GA('connection:3G:fail_' + action);
+                    GA('connection:3G:fail_' + deviceData.model);
+                    GA('connection:3G:fail_' + deviceData.attributes.sdk_version);
+                    GA('connection:3G:fail_' + deviceData.attributes.rom);
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_3g:failed');
+                    }
+                } else if (deviceData.ip && wdDev.getRequestWithRemote()) {
+                    GA('connection:wifi:fail_' + action);
+                    GA('connection:wifi:fail_' + deviceData.model);
+                    GA('connection:wifi:fail_' + deviceData.attributes.sdk_version);
+                    GA('connection:wifi:fail_' + deviceData.attributes.rom);
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_wifi:failed');
+                    }
                 } else {
-                    action = 'unknown_' + status + ':' + duration;
+                    GA('connection:direct:fail_' + action);
+                    GA('connection:direct:fail_' + deviceData.model);
+                    GA('connection:direct:fail_' + deviceData.attributes.sdk_version);
+                    GA('connection:direct:fail_' + deviceData.attributes.rom);
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_direct:failed');
+                    }
                 }
-                GA('connect_device:connect:fail_' + action);
-               
-                // 统计失败原因（总）
-                GA('check_sign_in:auth:fail_' + action);
-                // 统计失败的设备及该设备失败原因
-                GA('check_sign_in:auth_fall_model:fail_' + action + '_' + deviceData.model);
-                // 统计失败的系统版本
-                GA('check_sign_in:auth_fall_sdk:fail_' + action + '_' + deviceData.attributes.sdk_version);
-                // 统计失败的 Rom 版本
-                GA('check_sign_in:auth_fall_rom:fail_' + action + '_' + deviceData.attributes.rom);
+
                 defer.reject();
             });
             return defer.promise;            
@@ -107,22 +160,32 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             return defer.promise;
         },
 
+        // 远程唤醒服务器，准备 wifi 中转或 3G 连接
         remoteConnect: function(deviceData) {
             var defer = $q.defer();
-
+ 
+            // 下面方法统计是否超时会用到
+            var timeout = 4000;
+            var startTime = (new Date()).getTime();            
             $http({
                 method: 'get',
                 url: wdDev.getWakeUpUrl() + '?did=' + deviceData.id,
-                timeout: 4000,
+                timeout: timeout
             })
             .success(function(response) {
                 response.wap = deviceData.ip ? false : true;
                 response.networkType = deviceData.networkType;
                 response.limitSize = 5 * 1024 * 1024;
-
+                GA('connection:server_wake_up:success');
                 defer.resolve(response);
             })
-            .error(function() {
+            .error(function(reason, status, headers) {
+                var action = getHttpErrorReason(timeout, status, startTime);
+                if (deviceData.ip) {
+                    GA('connection:server_wake_up:fail_3G_' + action);
+                } else {
+                    GA('connection:server_wake_up:fail_wifi_' + action);
+                }
                 defer.reject();
             });
 

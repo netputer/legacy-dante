@@ -179,6 +179,8 @@ Socket.prototype = {
     refreshDeviceAndConnect: function() {
         var defer = $q.defer();
         var self = this;
+        GA('connection:request_category:socket');
+
         //this.MAX_SOCKET_CONNECT_TIMES = 3;
         wdGoogleSignIn.getDevices().then(function(list) {
             var device = wdDevice.getDevice();
@@ -188,6 +190,7 @@ Socket.prototype = {
             });
 
             if (currentOnlineDevice) {
+                // 3G
                 if (!currentOnlineDevice.ip) {
                     $injector.invoke(['wdConnect', function(wdConnect) {
                         wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data) {
@@ -197,17 +200,21 @@ Socket.prototype = {
                                 wdDev.setRemoteConnectionData(data);
                                 self.close();
                                 self.connect().then(function() {
+                                    GA('connection:socket_retry_connect:success_3g');
                                     $rootScope.$broadcast('connection:changed');
                                     defer.resolve();
                                 }, function() {
                                     defer.reject();
+                                    GA('connection:socket_retry_connect:failed_socket_3g');
                                 });
                             }, function() {
+                                GA('connection:socket_retry_connect:failed_connect_3g');
                                 defer.reject();
                             }).always(function() {
                                 wdDev.setRequestWithRemote(false);
                             });
                         }, function(){
+                            GA('connection:socket_retry_connect:failed_server_3g');
                             defer.reject();
                         });
                     }]);
@@ -218,6 +225,7 @@ Socket.prototype = {
                         wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
                             self.close();
                             self.connect().then(function(){
+                                GA('connection:socket_retry_connect:success_direct');
                                 $rootScope.$broadcast('connection:changed');
                                 defer.resolve();
                             });
@@ -230,16 +238,20 @@ Socket.prototype = {
                                     self.close();
                                     self.connect().then(function() {
                                         $rootScope.$broadcast('connection:changed');
+                                        GA('connection:socket_retry_connect:success_wifi');
                                         defer.resolve();
                                     }, function() {
+                                        GA('connection:socket_retry_connect:failed_socket_wifi');
                                         defer.reject();
                                     });
                                 }, function() {
+                                    GA('connection:socket_retry_connect:failed_connect_wifi');
                                     defer.reject();
                                 }).always(function() {
                                     wdDev.setRequestWithRemote(false);
                                 });
                             }, function() {
+                                GA('connection:socket_retry_connect:failed_server_wifi');
                                 defer.reject();
                             });
                         });
@@ -249,10 +261,8 @@ Socket.prototype = {
                 defer.reject();
             }
         }, function(xhr) {
-            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_socketRefreshDeviceAndConnectFailed');
             defer.reject();
         });
-
         return defer.promise;
     }
 };
