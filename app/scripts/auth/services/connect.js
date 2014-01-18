@@ -14,8 +14,8 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
         connectDeviceTimes = times || 4;
     }
     resetMaxconnectTrytimes();
-    // 记录成功之前一共 retry 过多少次，成功了再次清零
-    var totalRetryConnectNum = 0;
+    // 记录成功之前一共 retry 过多少次，成功了再次清零，从 -1 开始是因为第一次是正常连接。
+    var totalRetryConnectNum = -1;
     // 返回 http 错误的原因
     function getHttpErrorReason(timeout, httpStatus, startTime) {
         var action;
@@ -45,6 +45,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             } else {
                 GA('connection:user_category:direct');
             }
+            totalRetryConnectNum += 1;
 
             // 远程唤醒一下设备
             wdDevice.lightDeviceScreen(deviceData.id);
@@ -123,7 +124,6 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                         GA('connection:connection_retry_connect_direct' + totalRetryConnectNum + ':failed');
                     }
                 }
-                totalRetryConnectNum += 1;
 
                 defer.reject();
             });
