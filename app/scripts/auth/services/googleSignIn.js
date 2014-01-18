@@ -55,7 +55,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
 
         getDevices: function(isCheckSignIn) {
             $log.log('Connecting for getting devices...');
-            GA('check_sign_in:get_devices_all:all');
             var defer = $.Deferred();
             var me = this;
             $.ajax({
@@ -121,8 +120,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
                     me.getDevices().then(function(list) {
                         global.devicesList.splice(0, global.devicesList.length);
                         Array.prototype.push.apply(global.devicesList, list);
-                    }, function(xhr) {
-                        GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_loopDevicesFailed');
                     });
                 }, 5000);
             }
@@ -137,7 +134,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
         },
 
         getProfile: function() {
-            GA('check_sign_in:get_profile_all:all');
             var defer = $.Deferred();
             var me = this;
 
@@ -172,7 +168,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
 
         signout : function() {
             $log.log('Sign out...');
-            GA('check_sign_in:sign_out_all:all');
             wdCommunicateSnappeaCom.googleSignOut();
             var defer = $.Deferred();
             var me = this;

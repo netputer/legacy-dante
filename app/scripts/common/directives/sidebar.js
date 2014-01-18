@@ -93,6 +93,7 @@ return [function() {
 
             $scope.changeDevice = function (item) {
                 var currentDevice = wdDevice.getDevice();
+                GA('connection:request_category:switch_device_sidebar');
                 if(item.id !== currentDevice.id || item.ip !== currentDevice.ip){
                     wdDevice.signout();
                     wdDevice.setDevice(item);
@@ -115,7 +116,6 @@ return [function() {
                             $scope.isLoadingDevices = false;
                             $scope.deviceList = getListData(list);
                         }, function(xhr) {
-                            GA('check_sign_in:get_devices_failed:xhrError_' + xhr.status + '_sidebarRefreshDevicesFailed');
                             $scope.signout();
                         });
                     })();
