@@ -140,7 +140,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             // 清除之前的设备信息
             wdDevice.clearDevice();
             if (wdDev.isRemoteConnection()) {
-                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.WIFI;
                 if (remoteConnectionAuthDeivceTimes) {
                     remoteConnectionAuthDeivceTimes -= 1;
                     var nowTimestamp = new Date().getTime();
@@ -170,6 +169,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 });
             } else {
                 // fire remote connect
+                $scope.signInProgress = $scope.$root.DICT.portal.SIGN_PROGRESS.WIFI;
                 remoteConnect(deviceData);
             }
             
