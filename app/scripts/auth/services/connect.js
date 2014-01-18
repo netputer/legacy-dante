@@ -77,11 +77,21 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 
                 if (!deviceData.ip) {
                     GA('connection:3G:success');
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_connect_3g' + totalRetryConnectNum + ':success');
+                    }
                 } else if (wdDev.getRequestWithRemote()) {
                     GA('connection:wifi:success');
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_connect_wifi' + totalRetryConnectNum + ':success');
+                    }
                 } else {
                     GA('connection:direct:success');
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_connect_direct' + totalRetryConnectNum + ':success');
+                    }
                 }
+                totalRetryConnectNum = 0;
 
                 defer.resolve();
             }).error(function(reason, status, headers, config) {
@@ -93,17 +103,27 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                     GA('connection:3G:fail_' + deviceData.model);
                     GA('connection:3G:fail_' + deviceData.attributes.sdk_version);
                     GA('connection:3G:fail_' + deviceData.attributes.rom);
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_connect_3g' + totalRetryConnectNum + ':failed');
+                    }
                 } else if (deviceData.ip && wdDev.getRequestWithRemote()) {
                     GA('connection:wifi:fail_' + action);
                     GA('connection:wifi:fail_' + deviceData.model);
                     GA('connection:wifi:fail_' + deviceData.attributes.sdk_version);
                     GA('connection:wifi:fail_' + deviceData.attributes.rom);
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_connect_wifi' + totalRetryConnectNum + ':failed');
+                    }
                 } else {
                     GA('connection:direct:fail_' + action);
                     GA('connection:direct:fail_' + deviceData.model);
                     GA('connection:direct:fail_' + deviceData.attributes.sdk_version);
                     GA('connection:direct:fail_' + deviceData.attributes.rom);
+                    if (totalRetryConnectNum) {
+                        GA('connection:connection_retry_connect_direct' + totalRetryConnectNum + ':failed');
+                    }
                 }
+                totalRetryConnectNum += 1;
 
                 defer.reject();
             });
@@ -117,12 +137,9 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             var tick = function() {
                 var timestamp = new Date().getTime();
                 connectDeviceTimes -= 1;
-                totalRetryConnectNum += 1;
                 api.connectDevice(deviceData).then(function() {
-                    GA('connection:connection_retry_' + totalRetryConnectNum + ':success');
                     defer.resolve();
                 }, function() {
-                    GA('connection:connection_retry_' + totalRetryConnectNum + ':failed');
                     if (connectDeviceTimes > 0) {
                         var nowTimestamp = new Date().getTime();
                         if ((wdDev.isRemoteConnection() || wdDev.getRequestWithRemote()) && (nowTimestamp - timestamp) < TIME_SPAN) {
