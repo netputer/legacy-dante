@@ -128,7 +128,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             //标记下已经登录设备，在切换设备的时候会判断这个。
             wdGoogleSignIn.setHasAccessdDevice();
             $scope.isLoadingDevices = false;
-            if (!wdDev.isRemoteConnection()) {
+            if (!wdDev.getRequestWithRemote()) {
                 GA('connection:access_device:success_direct');
             } else {
                 GA('connection:access_device:success_wifi');
