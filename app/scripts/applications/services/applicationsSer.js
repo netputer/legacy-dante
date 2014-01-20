@@ -11,10 +11,11 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
     var global = {
         appsList:[],
         firstLoadFunction : undefined,
-        newAppList : []
+        newAppList : [],
+        retryTimes: 0
     };
     var apps;
-
+    var MAX_RETRY_TIMES = 3;
     function getAppListData() {
         return $http({
             method: 'get',
@@ -38,6 +39,7 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
 
     apps = {
         clear: function() {
+            global.retryTimes = 0;
             global.appsList = [];
             global.newAppList = [];
         },
@@ -52,10 +54,16 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
                 global.firstLoadFunction.call(this,global.appsList);
             }else{
                 getAppListData().success(function(){
+                    global.retryTimes = 0;
                     global.firstLoadFunction.call(this,global.appsList);
                 }).error(function() {
+                    global.retryTimes += 1;
                     //第一次取数据失败重试
-                    apps.onchange(global.firstLoadFunction);
+                    if (global.retryTimes <= MAX_RETRY_TIMES) {
+                        apps.onchange(global.firstLoadFunction);
+                    } else {
+                        global.retryTimes = 0;
+                    }
                 });
             }
         },
@@ -91,6 +99,10 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
             data['checked'] = false;
             
             return data;
+        },
+
+        resetRetryTimes: function() {
+            global.retryTimes = 0;
         }
 
     };

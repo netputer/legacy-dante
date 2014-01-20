@@ -1088,6 +1088,7 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
             G_keyContact.done();
         }
         wdKey.deleteScope('contacts');
+        wdcContacts.resetRetryTimes();
     });
 
     init();
