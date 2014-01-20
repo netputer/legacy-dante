@@ -18,7 +18,10 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         'searchLength' : 30,
 
         //统一的超时时间
-        'timeout' : 7000
+        'timeout' : 7000,
+
+        // 数据失败重试次数
+        'maxRetryTimes': 3
     };
 
     var global = {
@@ -36,6 +39,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
         'query' : '',
         checkedList : []
     };
+
+    var retryTimes = 0;
 
     wdSocket.on('refresh', function() {
         global.contacts = [];
@@ -61,6 +66,7 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 'offset':offset
             }
         }).success( function( data, status, headers ) {
+            retryTimes = 0;
             _.each( data, function( value ) {
                 if (!checkRepeat(value.id, global.contacts)) {
                     global.contacts.push( value );
@@ -90,7 +96,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
         }).error(function() {
             $timeout(function() {
-                if (!global.dataFinish) {
+                retryTimes += 1;
+                if (!global.dataFinish && (retryTimes <= CONFIG.maxRetryTimes)) {
                     getData( global.contacts.length, CONFIG.dataLengthOnce, null );
                 }
             }, 1000);
