@@ -25,7 +25,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
         } else if (httpStatus === 401) {
             action = 'reject:' + duration;
         } else {
-            action = 'unknown_' + status + ':' + duration;
+            action = 'unknown_' + httpStatus + ':' + duration;
         }
         return action;
     }
@@ -40,11 +40,8 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             // 区分用户类别
             if (!deviceData.ip) {
                 GA('connection:user_category:3G');
-            } else if (wdDev.getRequestWithRemote()) {
-                GA('connection:user_category:wifi');
-            } else {
-                GA('connection:user_category:direct');
             }
+
             totalRetryConnectNum += 1;
 
             // 远程唤醒一下设备
@@ -82,11 +79,13 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                         GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_3g:success');
                     }
                 } else if (wdDev.getRequestWithRemote()) {
+                    GA('connection:user_category:wifi');
                     GA('connection:wifi:success');
                     if (totalRetryConnectNum) {
                         GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_wifi:success');
                     }
                 } else {
+                    GA('connection:user_category:direct');
                     GA('connection:direct:success');
                     if (totalRetryConnectNum) {
                         GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_direct:success');
@@ -101,25 +100,25 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 // 区分用户类别
                 if (!deviceData.ip) {
                     GA('connection:3G:fail_' + action);
-                    GA('connection:3G:fail_' + deviceData.model);
-                    GA('connection:3G:fail_' + deviceData.attributes.sdk_version);
-                    GA('connection:3G:fail_' + deviceData.attributes.rom);
+                    GA('connection:3G_fail_model:fail_' + deviceData.model);
+                    GA('connection:3G_fail_sdk:fail_' + deviceData.attributes.sdk_version);
+                    GA('connection:3G_fail_rom:fail_' + deviceData.attributes.rom);
                     if (totalRetryConnectNum) {
                         GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_3g:failed');
                     }
                 } else if (deviceData.ip && wdDev.getRequestWithRemote()) {
                     GA('connection:wifi:fail_' + action);
-                    GA('connection:wifi:fail_' + deviceData.model);
-                    GA('connection:wifi:fail_' + deviceData.attributes.sdk_version);
-                    GA('connection:wifi:fail_' + deviceData.attributes.rom);
+                    GA('connection:wifi_fail_model:fail_' + deviceData.model);
+                    GA('connection:wifi_fail_sdk:fail_' + deviceData.attributes.sdk_version);
+                    GA('connection:wifi_fail_rom:fail_' + deviceData.attributes.rom);
                     if (totalRetryConnectNum) {
                         GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_wifi:failed');
                     }
                 } else {
                     GA('connection:direct:fail_' + action);
-                    GA('connection:direct:fail_' + deviceData.model);
-                    GA('connection:direct:fail_' + deviceData.attributes.sdk_version);
-                    GA('connection:direct:fail_' + deviceData.attributes.rom);
+                    GA('connection:direct_fail_model:fail_' + deviceData.model);
+                    GA('connection:direct_fail_sdk:fail_' + deviceData.attributes.sdk_version);
+                    GA('connection:direct_fail_rom:fail_' + deviceData.attributes.rom);
                     if (totalRetryConnectNum) {
                         GA('connection:connection_retry_' + totalRetryConnectNum + '_connect_direct:failed');
                     }
