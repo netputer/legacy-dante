@@ -128,6 +128,11 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             //标记下已经登录设备，在切换设备的时候会判断这个。
             wdGoogleSignIn.setHasAccessdDevice();
             $scope.isLoadingDevices = false;
+            if (!wdDev.isRemoteConnection()) {
+                GA('connection:access_device:success_direct');
+            } else {
+                GA('connection:access_device:success_wifi');
+            }
             defer.resolve();
 
             //跳转到对应模块
@@ -157,7 +162,7 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 } else {
                     clearStatus(deviceData);
                     wdDev.closeRemoteConnection();
-
+                    GA('connection:access_device:failed_wifi');
                     confirmConnect(deviceData);
                 }
                 
@@ -209,19 +214,32 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 //标记下已经登录设备，在切换设备的时候会判断这个。
                 wdGoogleSignIn.setHasAccessdDevice();
                 $scope.isLoadingDevices = false;
-
+                if (!deviceData.ip) {
+                    GA('connection:access_device:success_3g');
+                } else {
+                    GA('connection:access_device:success_wifi');
+                }
                 //跳转到对应模块
                 $location.url($route.current.params.ref || '/');
                 $rootScope.$broadcast('signin');
             }, function() {
                 clearStatus(deviceData);
                 wdDev.closeRemoteConnection();
-
+                if (!deviceData.ip) {
+                    GA('connection:access_device:failed_3g');
+                } else {
+                    GA('connection:access_device:failed_wifi');
+                }
                 confirmConnect(deviceData);
             }).always(function() {
                 wdDev.setRequestWithRemote(false);
             });
         }, function() {
+            if (!deviceData.ip) {
+                GA('connection:access_device:failed_3g_server');
+            } else {
+                GA('connection:access_device:failed_wifi_server');
+            }
             confirmConnect(deviceData);
         });
     }

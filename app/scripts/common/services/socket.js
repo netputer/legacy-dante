@@ -204,8 +204,8 @@ Socket.prototype = {
                                     $rootScope.$broadcast('connection:changed');
                                     defer.resolve();
                                 }, function() {
-                                    defer.reject();
                                     GA('connection:socket_retry_connect:failed_socket_3g');
+                                    defer.reject();
                                 });
                             }, function() {
                                 GA('connection:socket_retry_connect:failed_connect_3g');
