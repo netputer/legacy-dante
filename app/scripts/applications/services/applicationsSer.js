@@ -39,6 +39,7 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
 
     apps = {
         clear: function() {
+            global.retryTimes = 0;
             global.appsList = [];
             global.newAppList = [];
         },
@@ -60,6 +61,8 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
                     //第一次取数据失败重试
                     if (global.retryTimes <= MAX_RETRY_TIMES) {
                         apps.onchange(global.firstLoadFunction);
+                    } else {
+                        global.retryTimes = 0;
                     }
                 });
             }
@@ -96,6 +99,10 @@ return [ '$http', '$q','$rootScope', 'wdSocket', 'wdDev', function ( $http, $q, 
             data['checked'] = false;
             
             return data;
+        },
+
+        resetRetryTimes: function() {
+            global.retryTimes = 0;
         }
 
     };

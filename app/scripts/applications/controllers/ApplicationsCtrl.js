@@ -617,6 +617,7 @@ define([
             if (G_dragAndDropUploader) {
                 G_dragAndDropUploader.dispose();
             }
+            wdcApplications.resetRetryTimes();
         });
 
         $rootScope.$on('connection:changed', function() {

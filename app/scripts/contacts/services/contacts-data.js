@@ -99,6 +99,8 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
                 retryTimes += 1;
                 if (!global.dataFinish && (retryTimes <= CONFIG.maxRetryTimes)) {
                     getData( global.contacts.length, CONFIG.dataLengthOnce, null );
+                } else {
+                    retryTimes = 0;
                 }
             }, 1000);
         });
@@ -516,9 +518,10 @@ return [ '$http', '$q','$rootScope', '$timeout', 'wdSocket', function ( $http, $
 
             //用户没有输入，返回true
             return true;
+        },
+        resetRetryTimes: function() {
+            retryTimes = 0;
         }
-
-
     };
 }];
 });
