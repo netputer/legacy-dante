@@ -50,7 +50,7 @@
                             <div ng-if="!c.avatarPaths.length" ng-class="c.addresses.length > 1 ? 'group-default' : 'single-default'"></div>
                             <div ng-repeat="path in c.avatarPaths track by $index">
                                 <img ng-if="c.contact_ids[$index] != -1 && path && (!$root.remoteConnection || !$root.remoteConnection.wap || $root.remoteConnection.loadPictures)" ng-src="{{path | wrapRemoteConnectionURL:'image'}}"/>
-                                <div ng-if="(c.contact_ids[$index] != -1 && !path) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures && path)" class="generated-avatar" ng-class="getPhotoColor">
+                                <div ng-if="(c.contact_ids[$index] != -1 && !path) || ($root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures && path)" class="generated-avatar" ng-class="c.avatarClass">
                                     {{c.displayNames[$index] | limitTo: 1}}
                                 </div>
                                 <div ng-if="c.contact_ids[$index] == -1" class="default-avatar"></div>

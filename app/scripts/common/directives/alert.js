@@ -3,7 +3,6 @@ define([], function() {
 return [function() {
     var noop = function() {};
     return {
-        scope: {},
         controller: ['wdAlert', '$scope', '$q', '$attrs', '$element',
         function(wdAlert, $scope, $q, $attrs, $element) {
             $scope.toggle = false;

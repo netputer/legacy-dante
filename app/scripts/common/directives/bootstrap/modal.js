@@ -8,9 +8,8 @@ define([
 'use strict';
 return ['wdKey', function(wdKey) {
     return {
-        restrict: 'EAC',
         replace: true,
-        transclude: true,
+        restrict: 'EAC',
         template: template,
         link: function($scope, element, attrs) {
             // Unique ID for keyboard shortcuts 'Scope' indication.

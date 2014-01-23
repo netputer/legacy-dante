@@ -1,123 +1,121 @@
-<div>
-    <div class="sidebar-inner">
-        <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'current-layer': currentDeviceLayer, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
-            <h2 class="device-select-title">{{$root.DICT.app.SELECT_DEVICES_TIP}}</h2>
-            <div class="device-list-container">
-                <ul class="device-list" ng-hide="isLoadingDevices">
-                    <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
-                        <a href=""><i class="icon-mark" ng-show="item.selected"></i>{{item.model}}</a>
-                        <span ng-switch="item.networkType">
-                            <span ng-switch-when="3g" class="network-icon network-icon-text" ng-class="{'network-light-icon': item.selected}">{{ $root.DICT.portal.3G }}</span>
-                            <span ng-switch-when="4g" class="network-icon network-icon-text" ng-class="{'network-light-icon': item.selected}">{{ $root.DICT.portal.4G }}</span>
-                            <span ng-switch-default>
-                                <i class="icon-{{item.networkType}}-white network-icon" ng-show="!item.selected" bs-tooltip="{{item.networkType === 'wifi' ? item.attributes.ssid : ''}}" data-options="{placement: 'right'}"></i>
-                                <i class="icon-{{item.networkType}}-green network-icon network-light-icon"  bs-tooltip="{{item.networkType === 'wifi' ? item.attributes.ssid : ''}}" data-options="{placement: 'right'}"></i>
-                            </span>
+<div class="sidebar-inner">
+    <div class="devices-container" ng-class="{'devices-animate': devicesAnimate, 'current-layer': currentDeviceLayer, 'devices-default': devicesDefault, 'devices-hide': devicesHide}">
+        <h2 class="device-select-title">{{$root.DICT.app.SELECT_DEVICES_TIP}}</h2>
+        <div class="device-list-container">
+            <ul class="device-list" ng-hide="isLoadingDevices">
+                <li ng-repeat="item in deviceList" ng-click="changeDevice(item)" ng-class="{'selected':item.selected}">
+                    <a href=""><i class="icon-mark" ng-show="item.selected"></i>{{item.model}}</a>
+                    <span ng-switch="item.networkType">
+                        <span ng-switch-when="3g" class="network-icon network-icon-text" ng-class="{'network-light-icon': item.selected}">{{ $root.DICT.portal.3G }}</span>
+                        <span ng-switch-when="4g" class="network-icon network-icon-text" ng-class="{'network-light-icon': item.selected}">{{ $root.DICT.portal.4G }}</span>
+                        <span ng-switch-default>
+                            <i class="icon-{{item.networkType}}-white network-icon" ng-show="!item.selected" bs-tooltip="{{item.networkType === 'wifi' ? item.attributes.ssid : ''}}" data-options="{placement: 'right'}"></i>
+                            <i class="icon-{{item.networkType}}-green network-icon network-light-icon"  bs-tooltip="{{item.networkType === 'wifi' ? item.attributes.ssid : ''}}" data-options="{placement: 'right'}"></i>
                         </span>
+                    </span>
+                </li>
+            </ul>
+            <div class="devices-loading-container" ng-show="isLoadingDevices">
+                <div class="wd-loading wd-loading-local devices-loading" data-visible="true" ng-show="isLoadingDevices"></div>
+            </div>
+        </div>
+        <a href="" ng-click="addNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
+            {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
+        </a>
+        <div class="add-new-phone-tips" ng-show="isShowAddNewPhoneTips">
+            <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP1"></p>
+            <p class="steps" title="{{profileInfo.email}}" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP2.replace('$$$$', profileInfo.email)"></p>
+            <p class="steps">{{$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP3}}</p>
+        </div>
+    </div>
+    <div class="settings-container" ng-class="{'settings-animate': settingsAnimate, 'current-layer': currentSettingsLayer, 'settings-default': settingsDefault, 'settings-hide': settingsHide, 'settings-hide-immediate': settingsHideImmediate}">
+        <div class="content-wrapper">
+            <div class="profile-info">
+                <img class="profile-img" ng-src="{{profileInfo.avatar}}"/>
+                <div>
+                    <span class="display-name" title="{{profileInfo.nick}}">{{profileInfo.nick}}</span>
+                    <span class="email" title="{{profileInfo.email}}">{{profileInfo.email}}</span>
+                </div>
+            </div>
+
+            <div class="language" ng-if="!$root.READ_ONLY_FLAG">
+                <h3 class="language-title title">{{$root.DICT.app.LANGUAGE_TIP}}</h3>
+                <ul class="unstyled language-list">
+                    <li ng-class="{'current': selectedLanguage('en')}" ng-click="$root.applyLanguage('en')">
+                        <i class="icon-mark" ng-show="selectedLanguage('en')"></i>
+                        English
+                    </li>
+                    <li ng-class="{'current': selectedLanguage('de')}" ng-click="$root.applyLanguage('de')">
+                        <i class="icon-mark" ng-show="selectedLanguage('de')"></i>
+                        Deutsch
+                    </li>
+                    <li ng-class="{'current': selectedLanguage('pt-br')}" ng-click="$root.applyLanguage('pt-br')">
+                        <i class="icon-mark" ng-show="selectedLanguage('pt-br')"></i>
+                        Português (Brasil)
+                    </li>
+                    <li ng-class="{'current': selectedLanguage('zh-tw')}" ng-click="$root.applyLanguage('zh-tw')">
+                        <i class="icon-mark" ng-show="selectedLanguage('zh-tw')"></i>
+                        中文 (正體)
+                    </li>
+                    <li ng-class="{'current': selectedLanguage('es')}" ng-click="$root.applyLanguage('es')">
+                        <i class="icon-mark" ng-show="selectedLanguage('es')"></i>
+                        Español
+                    </li>
+                    <li ng-class="{'current': selectedLanguage('th')}" ng-click="$root.applyLanguage('th')">
+                        <i class="icon-mark" ng-show="selectedLanguage('th')"></i>
+                        ภาษาไทย
                     </li>
                 </ul>
-                <div class="devices-loading-container" ng-show="isLoadingDevices">
-                    <div class="wd-loading wd-loading-local devices-loading" data-visible="true" ng-show="isLoadingDevices"></div>
+            </div>
+
+            <div class="facebook"  ng-if="!$root.READ_ONLY_FLAG">
+                <h3 class="facebook-title title">{{$root.DICT.app.FACEBOOK_TITLE}}</h3>
+                <div class="connect-facebook-wrapper" ng-show="!isConnectedFacebook()">
+                    <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_DISCONNECT_TIP}}</p>
+                    <a href="" class="connect-facebook-btn" ng-click="handleFacebookConnect()"><i class="icon-facebook-btn"></i></a>
+                </div>
+                <div class="disconnect-facebook-wrapper" ng-show="isConnectedFacebook()">
+                    <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_CONNECT_TIP}}</p>
+                    <a class="disconnect-facebook-btn" ng-click="handleFacebookConnect()">
+                        {{$root.DICT.app.DISCONNECT_FACEBOOK}}
+                    </a>
                 </div>
             </div>
-            <a href="" ng-click="addNewPhone()" class="connect-new-phone {{isLoadingDevices ? 'disabled-connect-new-phone' : ''}}">
-                {{$root.DICT.app.CONNECT_NEW_PHONE_TIP}}
-            </a>
-            <div class="add-new-phone-tips" ng-show="isShowAddNewPhoneTips">
-                <p class="steps" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP1"></p>
-                <p class="steps" title="{{profileInfo.email}}" ng-bind-html="$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP2.replace('$$$$', profileInfo.email)"></p>
-                <p class="steps">{{$root.DICT.app.CONNECT_NEW_PHONE_TIPS.STEP3}}</p>
+
+            <div class="sounds-setting">
+                <h3 class="title">{{$root.DICT.app.SOUND_SETTING_TITLE}}</h3>
+                <div class="item">
+                    <p class="item-title">{{$root.DICT.app.SOUND_SETTING_NEW_MESSAGE}}</p>
+                    <div class="switch" wd-setting-switch ng-model="messageSoundOpen"></div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="others">
+                <a ng-if="$root.READ_ONLY_FLAG" target="_blank" href="http://help.wandoujia.com/entries/22604406">
+                    {{$root.DICT.app.HELP}}
+                </a>
+                <a ng-if="!$root.READ_ONLY_FLAG" target="_blank" class="help" href="http://snappea.zendesk.com/forums/21871852-Web-version">
+                    {{$root.DICT.app.HELP}}
+                </a>
+                <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
+                    href="https://snappea.wufoo.com/forms/web-snappea-survey/">
+                    {{$root.DICT.app.FEEDBACK}}
+                </a>
+                <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
+                    href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
+                    {{$root.DICT.app.FEEDBACK}}
+                </a>
+                <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
+                    href="http://www.snappea.com/windows.html">
+                    {{$root.DICT.app.TRANSLATE}}
+                </a>
             </div>
         </div>
-        <div class="settings-container" ng-class="{'settings-animate': settingsAnimate, 'current-layer': currentSettingsLayer, 'settings-default': settingsDefault, 'settings-hide': settingsHide, 'settings-hide-immediate': settingsHideImmediate}">
-            <div class="content-wrapper">
-                <div class="profile-info">
-                    <img class="profile-img" ng-src="{{profileInfo.avatar}}"/>
-                    <div>
-                        <span class="display-name" title="{{profileInfo.nick}}">{{profileInfo.nick}}</span>
-                        <span class="email" title="{{profileInfo.email}}">{{profileInfo.email}}</span>
-                    </div>
-                </div>
-
-                <div class="language" ng-if="!$root.READ_ONLY_FLAG">
-                    <h3 class="language-title title">{{$root.DICT.app.LANGUAGE_TIP}}</h3>
-                    <ul class="unstyled language-list">
-                        <li ng-class="{'current': selectedLanguage('en')}" ng-click="$root.applyLanguage('en')">
-                            <i class="icon-mark" ng-show="selectedLanguage('en')"></i>
-                            English
-                        </li>
-                        <li ng-class="{'current': selectedLanguage('de')}" ng-click="$root.applyLanguage('de')">
-                            <i class="icon-mark" ng-show="selectedLanguage('de')"></i>
-                            Deutsch
-                        </li>
-                        <li ng-class="{'current': selectedLanguage('pt-br')}" ng-click="$root.applyLanguage('pt-br')">
-                            <i class="icon-mark" ng-show="selectedLanguage('pt-br')"></i>
-                            Português (Brasil)
-                        </li>
-                        <li ng-class="{'current': selectedLanguage('zh-tw')}" ng-click="$root.applyLanguage('zh-tw')">
-                            <i class="icon-mark" ng-show="selectedLanguage('zh-tw')"></i>
-                            中文 (正體)
-                        </li>
-                        <li ng-class="{'current': selectedLanguage('es')}" ng-click="$root.applyLanguage('es')">
-                            <i class="icon-mark" ng-show="selectedLanguage('es')"></i>
-                            Español
-                        </li>
-                        <li ng-class="{'current': selectedLanguage('th')}" ng-click="$root.applyLanguage('th')">
-                            <i class="icon-mark" ng-show="selectedLanguage('th')"></i>
-                            ภาษาไทย
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="facebook"  ng-if="!$root.READ_ONLY_FLAG">
-                    <h3 class="facebook-title title">{{$root.DICT.app.FACEBOOK_TITLE}}</h3>
-                    <div class="connect-facebook-wrapper" ng-show="!isConnectedFacebook()">
-                        <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_DISCONNECT_TIP}}</p>
-                        <a href="" class="connect-facebook-btn" ng-click="handleFacebookConnect()"><i class="icon-facebook-btn"></i></a>
-                    </div>
-                    <div class="disconnect-facebook-wrapper" ng-show="isConnectedFacebook()">
-                        <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_CONNECT_TIP}}</p>
-                        <a class="disconnect-facebook-btn" ng-click="handleFacebookConnect()">
-                            {{$root.DICT.app.DISCONNECT_FACEBOOK}}
-                        </a>
-                    </div>
-                </div>
-
-                <div class="sounds-setting">
-                    <h3 class="title">{{$root.DICT.app.SOUND_SETTING_TITLE}}</h3>
-                    <div class="item">
-                        <p class="item-title">{{$root.DICT.app.SOUND_SETTING_NEW_MESSAGE}}</p>
-                        <div class="switch" wd-setting-switch ng-model="messageSoundOpen"></div>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="others">
-                    <a ng-if="$root.READ_ONLY_FLAG" target="_blank" href="http://help.wandoujia.com/entries/22604406">
-                        {{$root.DICT.app.HELP}}
-                    </a>
-                    <a ng-if="!$root.READ_ONLY_FLAG" target="_blank" class="help" href="http://snappea.zendesk.com/forums/21871852-Web-version">
-                        {{$root.DICT.app.HELP}}
-                    </a>
-                    <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
-                        href="https://snappea.wufoo.com/forms/web-snappea-survey/">
-                        {{$root.DICT.app.FEEDBACK}}
-                    </a>
-                    <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
-                        href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
-                        {{$root.DICT.app.FEEDBACK}}
-                    </a>
-                    <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
-                        href="http://www.snappea.com/windows.html">
-                        {{$root.DICT.app.TRANSLATE}}
-                    </a>
-                </div>
-            </div>
-            <button class="btn btn-danger signout" ng-click="signout()">
-                <span>{{$root.DICT.app.SINGOUT}}</span>
-            </button>
-        </div>
-        <a href="" ng-click="closeSidebar()" class="close-sidebar">&times;</a>
+        <button class="btn btn-danger signout" ng-click="signout()">
+            <span>{{$root.DICT.app.SINGOUT}}</span>
+        </button>
     </div>
+    <a href="" ng-click="closeSidebar()" class="close-sidebar">&times;</a>
 </div>

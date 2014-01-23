@@ -7,7 +7,6 @@ define([
 return [function() {
     return {
         restrict: 'EAC',
-        replace: true,
         template: template,
         scope: true,
         controller: [
