@@ -209,6 +209,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
             wdDev.setRequestWithRemote(data);
 
             wdConnect.connectDeviceWithRetry(deviceData).then(function() {
+                wdDev.setRequestWithRemote(false);
+                
                 wdDev.setRemoteConnectionData(data);
 
                 //标记下已经登录设备，在切换设备的时候会判断这个。
@@ -223,6 +225,8 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                 $location.url($route.current.params.ref || '/');
                 $rootScope.$broadcast('signin');
             }, function() {
+                wdDev.setRequestWithRemote(false);
+
                 clearStatus(deviceData);
                 wdDev.closeRemoteConnection();
                 if (!deviceData.ip) {
@@ -231,8 +235,6 @@ function internationalCtrl($scope, $location, wdDev, $route, $timeout, wdDevice,
                     GA('connection:access_device:failed_wifi');
                 }
                 confirmConnect(deviceData);
-            }).always(function() {
-                wdDev.setRequestWithRemote(false);
             });
         }, function() {
             if (!deviceData.ip) {

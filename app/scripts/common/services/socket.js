@@ -197,6 +197,8 @@ Socket.prototype = {
                             wdDev.setRequestWithRemote(data);
 
                             wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                wdDev.setRequestWithRemote(false);
+
                                 wdDev.setRemoteConnectionData(data);
                                 self.close();
                                 self.connect().then(function() {
@@ -208,10 +210,10 @@ Socket.prototype = {
                                     defer.reject();
                                 });
                             }, function() {
+                                wdDev.setRequestWithRemote(false);
+
                                 GA('connection:socket_retry_connect:failed_connect_3g');
                                 defer.reject();
-                            }).always(function() {
-                                wdDev.setRequestWithRemote(false);
                             });
                         }, function(){
                             GA('connection:socket_retry_connect:failed_server_3g');
@@ -234,6 +236,8 @@ Socket.prototype = {
                                 wdDev.setRequestWithRemote(data);
 
                                 wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                    wdDev.setRequestWithRemote(false);
+
                                     wdDev.setRemoteConnectionData(data);
                                     self.close();
                                     self.connect().then(function() {
@@ -245,10 +249,10 @@ Socket.prototype = {
                                         defer.reject();
                                     });
                                 }, function() {
+                                    wdDev.setRequestWithRemote(false);
+
                                     GA('connection:socket_retry_connect:failed_connect_wifi');
                                     defer.reject();
-                                }).always(function() {
-                                    wdDev.setRequestWithRemote(false);
                                 });
                             }, function() {
                                 GA('connection:socket_retry_connect:failed_server_wifi');

@@ -8,7 +8,6 @@ return [function() {
         restrict: 'A',
         scope: {},
         template: template,
-        replace: true,
         controller: ['wdReminder', '$scope', '$q', '$attrs', '$element',
         function(wdReminder, $scope, $q, $attrs, $element) {
             $scope.toggle = false;

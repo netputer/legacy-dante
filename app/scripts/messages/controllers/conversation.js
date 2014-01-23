@@ -50,6 +50,9 @@ $scope.cvs = function() {
     if (!result.length) {
         $scope.activeConversation = null;
     }
+    result.forEach(function(item, index){
+        item.avatarClass = getAvatarClass(index);
+    });
     return result;
 };
 
@@ -320,23 +323,6 @@ $scope.removeMessage = function(c, m) {
     });
 };
 
-$scope.getPhotoColor = function(index) {
-
-    //默认头像显示颜色
-    var photoColorList = [
-        'contact-photo-bg-green',
-        'contact-photo-bg-red',
-        'contact-photo-bg-blue',
-        'contact-photo-bg-pink',
-        'contact-photo-bg-orange',
-        'contact-photo-bg-wheat',
-        'contact-photo-bg-olive-green',
-        'contact-photo-bg-blue-green',
-        'contact-photo-bg-light-green'
-    ];
-    return photoColorList[ index % photoColorList.length ];
-};
-
 $scope.isDisplayNamePhoneNumber = function( name ) {
 
     //以数字、星号、加号、减号、警号开头并且结尾的
@@ -421,6 +407,23 @@ $scope.$on('$destroy', function() {
 });
 
 //=================================================================================
+function getAvatarClass(index) {
+
+    //默认头像显示颜色
+    var photoColorList = [
+        'contact-photo-bg-green',
+        'contact-photo-bg-red',
+        'contact-photo-bg-blue',
+        'contact-photo-bg-pink',
+        'contact-photo-bg-orange',
+        'contact-photo-bg-wheat',
+        'contact-photo-bg-olive-green',
+        'contact-photo-bg-blue-green',
+        'contact-photo-bg-light-green'
+    ];
+    return photoColorList[ index % photoColorList.length ];
+}
+
 function scrollIntoView() {
     _.defer(function() {
         $scope.$broadcast('wdm:autoscroll:bottom');
