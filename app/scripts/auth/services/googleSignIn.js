@@ -214,6 +214,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
 
         // 是否曾经登录过，用于进入展示 loading 
         setSignIn: function() {
+            wdCommunicateSnappeaCom.googleSignIn();
             this.setStorageItem('signInFlag', true);
         },
         isSignIn: function() {
