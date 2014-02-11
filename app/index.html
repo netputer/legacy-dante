@@ -153,7 +153,16 @@
 
             //feedback style hack 
             if (window.jQuery) {
-                jQuery('#zenbox_tab').prepend('<div class="background"></div>');
+                var zenboxBtn = jQuery('#zenbox_tab');
+                zenboxBtn.prepend('<div class="background"></div>');
+                zenboxBtn.on('click', insertZenbox);
+                function insertZenbox() {
+                    var ele = jQuery('#zenbox_body').find('fieldset');
+                    if (!ele) {
+                        setTimeout(insertZenbox, 500);
+                    }
+                    console.log(ele);
+                }
             }
         }
     }
