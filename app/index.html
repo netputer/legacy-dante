@@ -151,19 +151,23 @@
                 tabPosition: 'Right'
             });
 
-            //feedback style hack 
             if (window.jQuery) {
+
+                //feedback style hack 
                 var zenboxBtn = jQuery('#zenbox_tab');
                 zenboxBtn.prepend('<div class="background"></div>');
-                zenboxBtn.on('click', insertZenbox);
-                function insertZenbox() {
-                    var ele = jQuery('#zenbox_body').find('fieldset');
-                    if (!ele) {
-                        setTimeout(insertZenbox, 500);
+
+                //feedback insert a survey link
+                var html = '<a target="_blank" class="survey" href="https://snappea.wufoo.com/forms/web-snappea-survey/">Take 1 minute to fill out our survey, let us know how we doing! </a>';
+                zenboxBtn.on('click', function() {
+                    var ele = jQuery('#zenbox_container');
+                    ele.find('a.survey').remove();
+                    jQuery('#zenbox_body')[0].onload = function() {
+                        ele.append(html);
                     }
-                    console.log(ele);
-                }
+                });
             }
+
         }
     }
     </script>
