@@ -28,7 +28,8 @@
     "connect-livereload": "~0.1.1",
     "grunt-requirejs": "~0.4.0",
     "grunt-targethtml": "~0.2.4",
-    "grunt-text-replace": "~0.3.6"
+    "grunt-text-replace": "~0.3.6",
+    "grunt-wandoulabs-deploy": "git+ssh://git@github.com:wandoulabs/grunt-wandoulabs-deploy.git"
   },
   "scripts": {
     "test": "grunt"
