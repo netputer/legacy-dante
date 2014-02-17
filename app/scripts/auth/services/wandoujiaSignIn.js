@@ -19,11 +19,15 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 dataType: 'jsonp',
                 success: function( data ) {
                     $rootScope.$apply(function(){
-                        defer.resolve( data );
+                        if (data.error === 0) {
+                            defer.resolve(data);
+                        } else {
+                            defer.reject();
+                        }
                     });
                 },
                 error: function(e) {
-                    $log.log('Need login in wandoujia.');
+                    $log.log('Wandoujia server error.');
                     $rootScope.$apply(function(){
                         defer.reject();
                     });
