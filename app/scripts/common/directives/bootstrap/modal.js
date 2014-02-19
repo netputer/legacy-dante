@@ -10,6 +10,7 @@ return ['wdKey', function(wdKey) {
     return {
         replace: true,
         restrict: 'EAC',
+        transclude: true,
         template: template,
         link: function($scope, element, attrs) {
             // Unique ID for keyboard shortcuts 'Scope' indication.
