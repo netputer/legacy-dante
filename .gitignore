@@ -9,3 +9,7 @@ app/images/*.*
 node_modules
 
 *.sublime*
+
+.wdrc
+
+npm-debug.log
