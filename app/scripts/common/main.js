@@ -37,6 +37,7 @@ define([
     'common/directives/reminder',
     'common/filters/size-format',
     'common/filters/wrap-remote-connection-url',
+    'common/filters/trust-as-html',
     'common/services/download'
 ], function(
     angular,
@@ -77,6 +78,7 @@ define([
     reminderDirective,
     sizeFormat,
     wrapRemoteConnectionURL,
+    trustAsHtml,
     download
 ) {
 // jshint unused:false
@@ -122,5 +124,6 @@ angular.module('wdCommon', ['wdBootstrap', 'ui', 'monospaced.elastic'])
     // filters
     .filter('htmlLinky', htmlLinky)
     .filter('sizeFormat', sizeFormat)
-    .filter('wrapRemoteConnectionURL', wrapRemoteConnectionURL);
+    .filter('wrapRemoteConnectionURL', wrapRemoteConnectionURL)
+    .filter('trustAsHtml', trustAsHtml);
 });

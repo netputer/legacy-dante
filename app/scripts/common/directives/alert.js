@@ -1,8 +1,10 @@
-define([], function() {
+define([], function(
+    ) {
 'use strict';
 return [function() {
     var noop = function() {};
     return {
+        scope: true,
         controller: ['wdAlert', '$scope', '$q', '$attrs', '$element',
         function(wdAlert, $scope, $q, $attrs, $element) {
             $scope.toggle = false;
