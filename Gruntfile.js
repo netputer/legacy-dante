@@ -279,22 +279,23 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        replace: {
-            cdn: {
-                src: ['<%= yeoman.dist %>/index.html'],
-                overwrite: true,
-                replacements: [
-                    {
-                        from: /<script(.+)src=['"]([^"']+)["']/gm,
-                        to: '<script$1src="http://s.wdjimg.com/me/$2"'
-                    },
-                    {
-                        from: /<link([^\>]+)href=['"]([^"']+)["']/gm,
-                        to: '<link$1href="http://s.wdjimg.com/me/$2"'
-                    }
-                ]
-            }
-        },
+        // 因为 Travis 没办法取得私有库，所以抓取不到，在 build 的时候会失败
+        // replace: {
+        //     cdn: {
+        //         src: ['<%= yeoman.dist %>/index.html'],
+        //         overwrite: true,
+        //         replacements: [
+        //             {
+        //                 from: /<script(.+)src=['"]([^"']+)["']/gm,
+        //                 to: '<script$1src="http://s.wdjimg.com/me/$2"'
+        //             },
+        //             {
+        //                 from: /<link([^\>]+)href=['"]([^"']+)["']/gm,
+        //                 to: '<link$1href="http://s.wdjimg.com/me/$2"'
+        //             }
+        //         ]
+        //     }
+        // },
         // Put files not handled in other tasks here
         copy: {
             tmp: {
