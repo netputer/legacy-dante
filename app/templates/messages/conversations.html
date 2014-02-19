@@ -65,7 +65,7 @@
                         </div>
                         <div class="wdmcr-c-b">
                             <span class="wdmcr-c-b-a" ng-if="c.isSearchResult">{{c.length}}</span>
-                            <span ng-bind-html="c.snippet | emoji"></span>
+                            <span ng-bind-html="c.snippet | emoji | trustAsHtml"></span>
                         </div>
                     </div>
                     <div class="wdmcr-d">
@@ -164,12 +164,12 @@
                                     </span>
                                     :
                                 </div>
-                                <div ng-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | emoji | htmlLinky: '_blank'"></div>
+                                <div ng-if="m.isSMS" class="wdmer-a-b" ng-bind-html="m.body | emoji | htmlLinky: '_blank' | trustAsHtml"></div>
                                 <div ng-if="m.isMMS">
                                     <h5 class="mms-title" ng-hide="!m.subject">{{ m.subject }}</h5>
                                     <div ng-repeat="part in m.mms_parts" class="mms-part">
                                         <div ng-repeat="c in part" ng-switch="c.type" ng-class="{'mms-image-container': c.type === 'image'}">
-                                            <p ng-switch-when="text" class="mms-text" ng-bind-html="c.content | linky:'_blank' "></p>
+                                            <p ng-switch-when="text" class="mms-text" ng-bind-html="c.content | linky:'_blank' | trustAsHtml"></p>
                                             <img ng-switch-when="image" ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures ? '' : c.content | wrapRemoteConnectionURL:'image'}}" class="mms-image" >
                                             <div ng-switch-when="audio" wdm-audio class="mms-audio" audio="c" ng-if="!$root.remoteConnection">
                                             </div>
