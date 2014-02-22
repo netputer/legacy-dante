@@ -6,9 +6,9 @@ define( [
     'use strict';
 
 return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $rootScope, $log, $window ) {
-
+    var userProfile;
     var result = {
-        getAccount : function() {
+        checkSignIn: function() {
             var defer = $q.defer();
             var url = 'https://account.wandoujia.com/v4/api/profile';
             $.ajax({
@@ -20,9 +20,11 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 success: function( data ) {
                     $rootScope.$apply(function(){
                         if (data.error === 0) {
-                            defer.resolve(data);
+                            userProfile = data.member;
+                            console.log(userProfile);
+                            defer.resolve(data.member);
                         } else {
-                            defer.reject();
+                            defer.reject(data);
                         }
                     });
                 },
@@ -33,6 +35,19 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     });
                 }
             });
+            return defer.promise;
+        },
+        getProfile: function() {
+            var defer = $q.defer();
+            if (userProfile) {
+                defer.resolve(userProfile);
+            } else {
+                this.checkSignIn().then(function(data){
+                    defer.resolve(data);
+                }, function(data){
+                    defer.reject(data);
+                });
+            }
             return defer.promise;
         }
     };
