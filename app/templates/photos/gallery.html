@@ -1,7 +1,7 @@
 <div class="wdj-photos" wd-scroll-detect bottom="autoFetch()">
     <div class="wdp-timeline-container" wdp-gallery>
         <!-- 拍照实时显示的介绍 -->
-        <div class="photo-snap-intro" ng-class="{hide: addPhotoSnapIntroHideClass}" ng-if="showPhotoSnapIntro">
+        <div class="photo-snap-intro" ng-class="{hide: addPhotoSnapIntroHideClass}" ng-if="!$root.READ_ONLY_FLAG && showPhotoSnapIntro">
             <div class="content">
                 <div class="left">
                     <h1>{{$root.DICT.photos.PHOTO_SNAP.H1}}</h1>

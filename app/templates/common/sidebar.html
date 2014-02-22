@@ -68,7 +68,7 @@
                 </ul>
             </div>
 
-            <div class="facebook"  ng-if="!$root.READ_ONLY_FLAG">
+            <div class="facebook" ng-if="!$root.READ_ONLY_FLAG">
                 <h3 class="facebook-title title">{{$root.DICT.app.FACEBOOK_TITLE}}</h3>
                 <div class="connect-facebook-wrapper" ng-show="!isConnectedFacebook()">
                     <p class="facebook-tip">{{$root.DICT.app.FACEBOOK_DISCONNECT_TIP}}</p>
@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="sounds-setting">
+            <div class="sounds-setting" ng-if="!$root.READ_ONLY_FLAG">
                 <h3 class="title">{{$root.DICT.app.SOUND_SETTING_TITLE}}</h3>
                 <div class="item">
                     <p class="item-title">{{$root.DICT.app.SOUND_SETTING_NEW_MESSAGE}}</p>
@@ -105,7 +105,7 @@
                 </a>
                 <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
                     href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
-                    {{$root.DICT.app.FEEDBACK}}
+                    {{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
                 </a>
                 <a ng-if="!$root.READ_ONLY_FLAG" target="_blank"
                     href="http://www.snappea.com/windows.html">

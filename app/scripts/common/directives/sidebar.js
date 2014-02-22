@@ -12,13 +12,12 @@ return [function() {
         controller: [
                 '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings', 'wdSignInDetection',
+                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings', 'wdSignInDetection', 'wandoujiaSignIn',
         function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast,   $timeout, $window, wdUserSettings, wdSignInDetection) {
+                 $q,   wdToast,   $timeout, $window, wdUserSettings, wdSignInDetection, wandoujiaSignIn) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
-            $scope.account = '';
 
             function clearLayersStatus() {
                 $scope.devicesAnimate = false;
@@ -40,9 +39,15 @@ return [function() {
             };
 
             $rootScope.$on('sidebar:open', function() {
-                wdGoogleSignIn.getProfile().then(function(data) {
-                    $scope.profileInfo = data;
-                });
+                if ($rootScope.READ_ONLY_FLAG) {
+                    wandoujiaSignIn.getProfile().then(function(data) {
+                        $scope.profileInfo = data;
+                    });
+                } else {
+                    wdGoogleSignIn.getProfile().then(function(data) {
+                        $scope.profileInfo = data;
+                    });                    
+                }
             });
 
             $rootScope.$on('sidebar:close', function() {
