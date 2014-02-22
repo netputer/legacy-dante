@@ -21,7 +21,6 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                     $rootScope.$apply(function(){
                         if (data.error === 0) {
                             userProfile = data.member;
-                            console.log(userProfile);
                             defer.resolve(data.member);
                         } else {
                             defer.reject(data);
