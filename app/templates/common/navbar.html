@@ -43,18 +43,47 @@
                     <i class="icon-remote"></i>
                 </a>
             </li>
-            <li ng-show="!$root.READ_ONLY_FLAG">
+            <li ng-if="!$root.READ_ONLY_FLAG">
                 <a href=""
                     bs-tooltip="{{$root.DICT.app.NAVBAR_SELECT_DEVICES_TIP}}"
                     ng-click="controlSidebar('devices');$root.GA('navbar:click_switch_device');" data-options="{placement: 'right'}">
                     <i class="icon-phoneswitch"></i>
                 </a>
             </li>
-            <li>
+            <li ng-if="!$root.READ_ONLY_FLAG">
                 <a href=""
                     bs-tooltip="{{$root.DICT.app.NAVBAR_SETTING_TIP}}"
                     data-options="{placement: 'right'}" ng-click="controlSidebar('settings');$root.GA('navbar:click_setting');"><i class="icon-setting"></i></a>
             </li>
+            <li wd-menu ng-if="$root.READ_ONLY_FLAG" ng-if="$root.READ_ONLY_FLAG">
+                <a href=""
+                    bs-tooltip="{{$root.DICT.app.NAVBAR_SETTING_TIP}}"
+                    data-options="{placement: 'right'}"
+                    wd-menu-trigger><i class="icon-setting"></i></a>
+                <div class="menu"
+                    wd-menu-popover
+                    placement="right">
+                    <div wd-menu-item>
+                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
+                            href="http://help.wandoujia.com/entries/22604406">
+                            <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_HELP_TIP}}
+                        </a>
+                    </div>
+                    <div wd-menu-item>
+                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
+                            href="http://help.wandoujia.com/anonymous_requests/new?guid=null&clientVersion=web-wandoujia">
+                            <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
+                        </a>
+                    </div>
+                    <div wd-menu-sep></div>
+                    <div wd-menu-item class="signout" ng-if="$root.READ_ONLY_FLAG">
+                        <a href="{{wandoujiaSignOutUrl}}">
+                            <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
+                        </a>
+                    </div>
+                </div>
+            </li>
+
         </ul>
     </div>
 </div>

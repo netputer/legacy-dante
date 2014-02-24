@@ -113,8 +113,15 @@
                 </a>
             </div>
         </div>
-        <button class="btn btn-danger signout" ng-click="signout()">
+        <button ng-if="!$root.READ_ONLY_FLAG" class="btn btn-danger signout" ng-click="signout()">
             <span>{{$root.DICT.app.SINGOUT}}</span>
+        </button>
+        <button ng-if="$root.READ_ONLY_FLAG" class="btn btn-danger signout">
+            <span>
+                <a href="{{wandoujiaSignOutUrl}}">
+                    {{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
+                </a>
+            </span>
         </button>
     </div>
     <a href="" ng-click="closeSidebar()" class="close-sidebar">&times;</a>

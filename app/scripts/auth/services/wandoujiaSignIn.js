@@ -48,6 +48,10 @@ return [ '$http','$q','$rootScope', '$log','$window', function ( $http, $q, $roo
                 });
             }
             return defer.promise;
+        },
+        getSignOutUrl: function() {
+            var url = 'https://account.wandoujia.com/v1/user/?do=logout&callback=' + encodeURIComponent('http://www.wandoujia.com/cloud');
+            return url;
         }
     };
 
