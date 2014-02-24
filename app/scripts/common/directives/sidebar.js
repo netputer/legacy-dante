@@ -18,6 +18,7 @@ return [function() {
                  $q,   wdToast,   $timeout, $window, wdUserSettings, wdSignInDetection, wandoujiaSignIn) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
+            $scope.wandoujiaSignOutUrl = '';
 
             function clearLayersStatus() {
                 $scope.devicesAnimate = false;
@@ -40,6 +41,7 @@ return [function() {
 
             $rootScope.$on('sidebar:open', function() {
                 if ($rootScope.READ_ONLY_FLAG) {
+                    $scope.wandoujiaSignOutUrl = wandoujiaSignIn.getSignOutUrl();
                     wandoujiaSignIn.getProfile().then(function(data) {
                         $scope.profileInfo = data;
                     });

@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    <div class="wd-blank" ui-if="$root.READ_ONLY_FLAG && !photos.length && firstScreenLoaded">
+    <div class="wd-blank" ng-if="$root.READ_ONLY_FLAG && !photos.length && firstScreenLoaded">
         <p>{{$root.DICT.photos.BLANK_TIP}}<p>
         <div class="user-help">
             <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
