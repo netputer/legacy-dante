@@ -2,12 +2,14 @@ define([
 ], function(
 ) {
 'use strict';
-return ['wdDev', function(wdDev) {
+return [
+'wdDev', '$rootScope', 
+function(wdDev, $rootScope) {
 
 return function(url, type) {
     var wrappedURL = url;
 
-    if (wrappedURL && wrappedURL.indexOf('data:image') === -1 ) {
+    if ( !$rootScope.READ_ONLY_FLAG && wrappedURL && wrappedURL.indexOf('data:image') === -1 ) {
         wrappedURL = wdDev.wrapPrefixURL(wrappedURL);
         var host = wdDev.getIP().length ? wdDev.getIP() : 'null';
         var urlHostArray = wrappedURL.match(/\/\/([^:\/ ]+).?.*/);

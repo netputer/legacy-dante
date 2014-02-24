@@ -42,7 +42,7 @@
             <div class="wd-block-mask" ng-click="selectedNum ? checkedApp($event, item) : showAppInfo(item.package_name);"></div>
             <div wd-checkbox class="btn-icon-check wd-block-select wd-checkbox-light"
                 bs-tooltip="{{$root.DICT.applications.WORDS.SELECT}}"
-                ng-show="!$root.READ_ONLY_FLAG"
+                ng-if="!$root.READ_ONLY_FLAG"
                 ng-checked="item.checked"
                 ng-click="checkedApp($event,item)"></div>
             <dd class="wd-block-actions">
@@ -82,7 +82,7 @@
     <!-- 应用列表 end -->
 
     <!-- header -->
-    <div class="header" ng-show="!$root.READ_ONLY_FLAG" wd-strip>
+    <div class="header" ng-if="!$root.READ_ONLY_FLAG" wd-strip>
         <div class="btn btn-primary installApp" ng-click="clickInstallApk()" ng-disabled="isInstallBtnDisable">
             <i class="icon-add"></i>
             {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}

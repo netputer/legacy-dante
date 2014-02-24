@@ -376,6 +376,17 @@ module.exports = function (grunt) {
                     }
                 }
             }
+        },
+        wandoulabs_deploy: {
+            options: {
+                authKey : '.wdrc'
+            },
+            cdn: {
+                deployCDN : {
+                    src : 'dist', // The path related to the folder you want to deploy,
+                    target : 'me' // Target folder on server
+                }
+            }
         }
     });
 

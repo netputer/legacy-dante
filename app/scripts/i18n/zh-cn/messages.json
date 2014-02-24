@@ -27,5 +27,6 @@
     "CONFIRM_DELETE_TITLE": "删除短信",
     "CONFIRM_DELETE_CONTENT": "从手机中删除选定的短信？",
     "CONFIRM_DELETE_OK": "删除",
-    "CONFIRM_DELETE_CANCEL": "取消"
+    "CONFIRM_DELETE_CANCEL": "取消",
+    "MESSAGE_STATUS_REPORTER": "已送达 $$"
 }
