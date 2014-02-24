@@ -11,12 +11,16 @@ return [function() {
         scope: true,
         controller: [
                 '$scope', '$route', 'wdSocket', 'wdGoogleSignIn', 'wdShare',
-                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification', 'wdUserSettings',
+                'wdAlert', '$window', 'GA', '$rootScope', 'wdDevice', 'wdDesktopNotification', 'wdUserSettings', 'wandoujiaSignIn',
         function($scope,   $route,   wdSocket ,  wdGoogleSignIn,   wdShare,
-                 wdAlert,   $window,   GA,   $rootScope,   wdDevice,   wdDesktopNotification,   wdUserSettings) {
+                 wdAlert,   $window,   GA,   $rootScope,   wdDevice,   wdDesktopNotification,   wdUserSettings, wandoujiaSignIn) {
 
             $scope.messageNotification = false;
             var currentLayer = '';
+
+            if ($rootScope.READ_ONLY_FLAG) {
+                $scope.wandoujiaSignOutUrl = wandoujiaSignIn.getSignOutUrl();
+            }
 
             $scope.controlSidebar = function(layer) {
                 if (!$rootScope.showSidebar) {
