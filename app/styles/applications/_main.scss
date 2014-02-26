@@ -279,6 +279,11 @@
             left: 50%;
             margin-left: -200px;
             overflow: hidden;
+            
+            &.cloud {
+                height: 260px;
+                top: 20%;
+            }
 
             div.detail-info{
                 position: absolute;
