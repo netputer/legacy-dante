@@ -152,7 +152,7 @@ return {
     conversations: conversations,
     initialize: function() {
         $rootScope.$on('signin', function() {
-            if (!wdDev.isWapRemoteConnection()) {
+            if (!$rootScope.READ_ONLY_FLAG && !wdDev.isWapRemoteConnection()) {
                 buildContactsCache();
             }
         });

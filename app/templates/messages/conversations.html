@@ -75,7 +75,7 @@
                             <span class="badge" ng-show="c.unreadMessageCount && !$root.SDK_19">{{ c.unreadMessageCount }}</span>
                         </div>
                         <div>
-                            {{ c.date | messageDate:'MMM D' }}
+                            {{ c.date | messageDate:'MMM d' }}
                         </div>
                     </div>
                 </li>
@@ -152,7 +152,7 @@
                     <div class="wdme-block" ui-animate
                         ng-repeat="m in activeConversation.messages.collection"
                         >
-                        <div class="wdme-sep" ng-if="m.isSeparator"><span>{{ m.date | date:'MMM d' }}</span></div>
+                        <div class="wdme-sep" ng-if="m.isSeparator"><span>{{ m.date | messageDate:'MMM d' }}</span></div>
                         <div class="wdme-row"
                             ng-class="{'wdme-row-self': m.isSent, 'wdme-row-highlight': activeConversation.messages.isCursor(m)}">
                             <div class="wdmer-a">

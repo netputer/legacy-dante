@@ -1,14 +1,19 @@
 define([
-    'moment'
+    'moment',
+    '/components/moment/lang/zh-cn.js'
 ], function(
-    moment
+    moment,
+    zhCn
 ) {
 'use strict';
-return [function() {
+return ['$rootScope', function($rootScope) {
     return function(input, format) {
         input = parseInt(input, 10);
         var startOfYesterday = moment().startOf('day').subtract('days', 1);
         var date = moment(input);
+        if (!$rootScope.READ_ONLY_FLAG) {
+            moment.lang('en');
+        }
         if (date.isAfter(startOfYesterday)) {
             return date.fromNow();
         }

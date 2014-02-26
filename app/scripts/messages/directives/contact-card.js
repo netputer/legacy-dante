@@ -67,7 +67,11 @@ function($compile,   $window,   $rootScope,   $location) {
                     commonScope.contactName = $attrs.contactName;
                     commonScope.contactAddress = $attrs.contactAddress;
                     commonScope.contactId = $attrs.contactId;
-                    commonScope.contactExisted = $attrs.contactId !== '-1';
+                    if (!$attrs.contactId) {
+                        commonScope.contactExisted = false;
+                    } else {
+                        commonScope.contactExisted = $attrs.contactId !== '-1';
+                    }
                     show();
                     var offset = $element.offset();
                     var width = $element.outerWidth();
