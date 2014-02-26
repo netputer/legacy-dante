@@ -1,9 +1,9 @@
 define([
-    'moment',
-    '/components/moment/lang/zh-cn.js'
+    'moment'
+    // 'components/moment/lang/zh-cn.js'
 ], function(
-    moment,
-    zhCn
+    moment
+    // zhCn
 ) {
 'use strict';
 return ['$rootScope', function($rootScope) {
