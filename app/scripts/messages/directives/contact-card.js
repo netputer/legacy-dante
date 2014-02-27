@@ -6,6 +6,7 @@ define([
 'use strict';
 return ['$compile', '$window', '$rootScope', '$location',
 function($compile,   $window,   $rootScope,   $location) {
+
     var CLASS_VISIBLE = 'wdm-contact-card-visible';
     var commonScope = $rootScope.$new();
     var card = null;
@@ -71,10 +72,6 @@ function($compile,   $window,   $rootScope,   $location) {
                         commonScope.contactExisted = false;
                     } else {
                         commonScope.contactExisted = $attrs.contactId !== '-1';
-                    }
-                    // 云端版不显示
-                    if ($rootScope.READ_ONLY_FLAG) {
-                        return;
                     }
                     show();
                     var offset = $element.offset();
