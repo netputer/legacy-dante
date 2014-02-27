@@ -1,9 +1,9 @@
 define([
-    'moment'
-    // 'components/moment/lang/zh-cn.js'
+    'moment',
+    'moment-zh-cn'
 ], function(
-    moment
-    // zhCn
+    moment,
+    zhCn
 ) {
 'use strict';
 return ['$rootScope', function($rootScope) {
@@ -14,7 +14,7 @@ return ['$rootScope', function($rootScope) {
         if (!$rootScope.READ_ONLY_FLAG) {
             moment.lang('en');
         }
-        if (date.isAfter(startOfYesterday)) {
+        if (!$rootScope.READ_ONLY_FLAG && date.isAfter(startOfYesterday)) {
             return date.fromNow();
         }
         else {

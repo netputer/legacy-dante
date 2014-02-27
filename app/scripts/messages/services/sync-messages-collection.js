@@ -43,7 +43,6 @@ _.extend(SyncMessagesCollection.prototype, {
         var fail = function() { return $q.reject(); };
 
         if (action === 'read') {
-
             config.method = 'GET';
             config.url = '/resource/conversations/' + this._conversation.id + '/messages';
 
@@ -99,8 +98,6 @@ _.extend(SyncMessagesCollection.prototype, {
             });
         }));
     }
-
-
 
 });
 

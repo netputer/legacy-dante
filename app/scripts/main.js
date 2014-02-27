@@ -14,6 +14,7 @@ require.config({
         bootstrap: 'vendor/bootstrap',
         fineuploader: 'vendor/fineuploader/fineuploader',
         moment: '../components/moment/moment',
+        'moment-zh-cn': '../components/moment/lang/zh-cn',
         emoji: '../components/emoji/lib/emoji',
         io: 'vendor/socket.io.wrapper',
         // requirejs plugins
