@@ -72,6 +72,10 @@ function($compile,   $window,   $rootScope,   $location) {
                     } else {
                         commonScope.contactExisted = $attrs.contactId !== '-1';
                     }
+                    // 云端版不显示
+                    if ($rootScope.READ_ONLY_FLAG) {
+                        return;
+                    }
                     show();
                     var offset = $element.offset();
                     var width = $element.outerWidth();
