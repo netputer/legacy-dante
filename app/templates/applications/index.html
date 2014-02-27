@@ -102,7 +102,7 @@
     <div class="mask" ng-click="closeMask()">
 
         <!-- 显示应用信息 -->
-        <dl class="info" ng-click="$event.stopPropagation();">
+        <dl class="info" ng-class="{cloud: $root.READ_ONLY_FLAG}" ng-click="$event.stopPropagation();">
             <span class="close-btn" ng-click="closeMask()">&times;</span>
             <dt>
                 <img ng-src="{{ $root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures? '' : info.icon | wrapRemoteConnectionURL:'image' }}">
@@ -177,7 +177,7 @@
             {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}
         </div>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
-            <a href="http://help.wandoujia.com/entries/21895693" target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
+            <a href="http://www.wandoujia.com/help/?do=topic&id=29170747" target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
         </div>
     </div>
     <!-- 为空检测 end -->

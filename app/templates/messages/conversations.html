@@ -106,11 +106,18 @@
                 <div ng-if="!activeConversation.isNew" class="wdmct-a">
                     <span
                         ng-repeat="a in activeConversation.addresses"
+                        ng-if="!$root.READ_ONLY_FLAG"
                         wdm-contact-card
                         data-contact-avatar="{{activeConversation.photo_paths[$index]}}"
                         data-contact-name="{{activeConversation.displayNames[$index]}}"
                         data-contact-address="{{a}}"
                         data-contact-id="{{activeConversation.contact_ids[$index]}}">
+                        {{ activeConversation.contact_names[$index] || a }}
+                        <span ng-hide="$last">, </span>
+                    </span>
+                    <span 
+                        ng-repeat="a in activeConversation.addresses"
+                        ng-if="$root.READ_ONLY_FLAG">
                         {{ activeConversation.contact_names[$index] || a }}
                         <span ng-hide="$last">, </span>
                     </span>
@@ -152,7 +159,7 @@
                     <div class="wdme-block" ui-animate
                         ng-repeat="m in activeConversation.messages.collection"
                         >
-                        <div class="wdme-sep" ng-if="m.isSeparator"><span>{{ m.date | date:'MMM d' }}</span></div>
+                        <div class="wdme-sep" ng-if="m.isSeparator"><span>{{ m.date | messageDate:'MMM D' }}</span></div>
                         <div class="wdme-row"
                             ng-class="{'wdme-row-self': m.isSent, 'wdme-row-highlight': activeConversation.messages.isCursor(m)}">
                             <div class="wdmer-a">
@@ -231,7 +238,7 @@
             ng-if="!$root.READ_ONLY_FLAG"
             ng-click="createConversation();$root.GA('messages:create')"><i class="icon-add"></i> {{$root.DICT.messages.ACTION_NEW}}</div>
         <div ng-if="$root.READ_ONLY_FLAG" class="user-help">
-            <a href="http://help.wandoujia.com/entries/21895693"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
+            <a href="http://www.wandoujia.com/help/?do=topic&id=29170747"  target="_blank">{{$root.DICT.cloudDataSignIn.USER_HELP}} »</a>
         </div>
     </div>
     <div ng-if="!serverMatchRequirement" class="wd-upgrade-warning" data-text="{{$root.DICT.messages.UPGRADE_TIP}}"></div>

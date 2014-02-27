@@ -28,5 +28,7 @@
     "CONFIRM_DELETE_CONTENT": "从手机中删除选定的短信？",
     "CONFIRM_DELETE_OK": "删除",
     "CONFIRM_DELETE_CANCEL": "取消",
-    "MESSAGE_STATUS_REPORTER": "已送达 $$"
+    "MESSAGE_STATUS_REPORTER": "已送达 $$",
+    "VIEW_CONTACT": "查看该联系人",
+    "ADD_CONTACT": "查看通讯录"
 }
