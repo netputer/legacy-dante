@@ -6,7 +6,7 @@ define( [
     'use strict';
 
 return ['$rootScope', '$log', '$window', 'GA', '$timeout', 'wdDevice', 'wdCommunicateSnappeaCom', '$location',
-function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappeaCom, $location) {
+function($rootScope,   $log,   $window,   GA,   $timeout,   wdDevice,   wdCommunicateSnappeaCom,   $location) {
     
     var global = {
         profileInfo: {},
@@ -17,13 +17,8 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
         //标记是否本次登陆了，用于检测是否是跳转过来的用户
         hasAccessdDevice : false,
 
-        loopTimer : null,
-
-        devicesList: [],
-
         // 与服务器通信接口
         signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=' + encodeURIComponent('http://' + $location.host() + ':' + $location.port() + '/signin-and-close.html'),
-        getDevicesUrl: 'https://push.snappea.com/apppush/limbo',
         getProfileUrl: 'http://push.snappea.com/v4/api/profile',
         signOutUrl: 'http://push.snappea.com/v4/api/logout'
     };
@@ -35,7 +30,7 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
         checkSignIn: function() {
             var defer = $.Deferred();
             var me = this;
-            this.getDevices(true).then(function(){
+            wdDevice.getDeviceList(true).then(function(){
                 me.setSignIn();
                 defer.resolve();
             }, function() {
@@ -51,86 +46,6 @@ function($rootScope, $log, $window, GA, $timeout, wdDevice, wdCommunicateSnappea
             global.hasAccessdDevice = false;
             wdDevice.clearDevice();
             this.removeSignInFlag();
-        },
-
-        getDevices: function(isCheckSignIn) {
-            $log.log('Connecting for getting devices...');
-            var defer = $.Deferred();
-            var me = this;
-            $.ajax({
-                type: 'GET',
-                url: global.getDevicesUrl,
-                async: false,
-                contentType: 'application/json',
-                dataType: 'jsonp',
-                timeout: 10000
-            }).done(function(list) {
-                if (!isCheckSignIn) {
-                    GA('check_sign_in:get_devices:success');
-                    $log.log('Getting devices success!', list);
-                }
-                $rootScope.$apply(function() {
-                    list.forEach(function(item) {
-                        switch(item.attributes.network_type) {
-                            case 'LTE':
-                            case 'CDMA - eHRPD':
-                                item.networkType = '4g';
-                                break;
-                            case 'CDMA':
-                                item.networkType = '2g';
-                                break;
-                            case 'GPRS':
-                                item.networkType = 'gprs';
-                                break;
-                            case 'EDGE':
-                                item.networkType = 'edge';
-                                break;
-                            case 'WIFI':
-                                item.networkType = 'wifi';
-                                break;
-                            default: item.networkType = '3g';
-                        }
-                    });
-                    
-                    global.devicesList.splice(0, global.devicesList.length);
-                    Array.prototype.push.apply(global.devicesList, list);
-
-                    //标记下是否是老用户，该功能暂时有客户端记录，之后会由服务器端提供接口。老用户定义：该用户成功获取设备，并且设备列表中有设备。
-                    if ( list.length > 0 && !me.isOldUser() ) {
-                        me.setOldUser();
-                    }
-                    defer.resolve(list);
-                });
-            }).fail(function(xhr, status, error) {
-                if (!isCheckSignIn) {
-                    GA('check_sign_in:get_devices:failed_'+ xhr.status );
-                    $log.error('Getting devices failed');
-                }
-                $rootScope.$apply(function() {
-                    defer.reject(xhr);
-                });
-            });
-            return defer.promise();
-        },
-
-        loopGetDevices : function() {
-            var me = this;
-            if (!global.loopTimer) {
-                global.loopTimer = $window.setInterval(function() {
-                    me.getDevices().then(function(list) {
-                        global.devicesList.splice(0, global.devicesList.length);
-                        Array.prototype.push.apply(global.devicesList, list);
-                    });
-                }, 5000);
-            }
-
-            //因为给出去的是一个数组，在 Javascript 中传递的是指针，通过外层 $scope.$watch 函数可以监测其变化。
-            return global.devicesList;
-        },
-
-        stopLoopGetDevices : function() {
-            $window.clearInterval(global.loopTimer);
-            global.loopTimer = null;
         },
 
         getProfile: function() {

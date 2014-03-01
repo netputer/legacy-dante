@@ -2,9 +2,8 @@ define([
 ], function(){
 'use strict';
 
-return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaSignIn', '$log', '$window',
-function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, GA, wdAlert, wdBrowser, $rootScope, wandoujiaSignIn, $log, $window) {
-
+return ['$scope', '$location', '$http', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 'wandoujiaAccount', '$log', '$window',
+function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevice, GA,   wdAlert,   wdBrowser,   $rootScope,   wandoujiaAccount,   $log,   $window) {
     $scope.isSupport = window.Modernizr.cors && window.Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
     $scope.auth = wdDevice.getDevice() || '';
@@ -47,11 +46,8 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevi
     });
 
     //进入系统的主逻辑
-    wandoujiaSignIn.checkSignIn().then(function(){
-        var item = {
-            ip : HOST
-        };
-        $scope.submit(item);
+    wandoujiaAccount.getAccount().then(function(data){
+        $scope.submit();
         GA('auth:wandoujia:success');
     },function(){
         $scope.isCheckingLogin = false;

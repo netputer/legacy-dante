@@ -2,8 +2,8 @@
 define([
     'angular',
     'auth/services/device',
-    'auth/services/googleSignIn',
-    'auth/services/wandoujiaSignIn',
+    'auth/services/internationalAccount',
+    'auth/services/wandoujiaAccount',
     'auth/controllers/internationalCtrl',
     'auth/controllers/cloudDataCtrl',
     'auth/directives/user-profile-button',
@@ -12,8 +12,8 @@ define([
 ], function(
     angular,
     device,
-    googleSignIn,
-    wandoujiaSignIn,
+    internationalAccount,
+    wandoujiaAccount,
     internationalCtrl,
     cloudDataCtrl,
     userProfileButton,
@@ -24,8 +24,8 @@ define([
 
 angular.module('wdAuth', ['wdCommon'])
     .provider('wdDevice', device)
-    .factory('wdGoogleSignIn', googleSignIn)
-    .factory('wandoujiaSignIn', wandoujiaSignIn)
+    .factory('internationalAccount', internationalAccount)
+    .factory('wandoujiaAccount', wandoujiaAccount)
     .controller('internationalController', internationalCtrl)
     .controller('cloudDataController', cloudDataCtrl)
     .directive('wdUserProfileButton', userProfileButton)

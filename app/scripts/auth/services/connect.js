@@ -1,7 +1,11 @@
-define([], function() {
+define([
+    'underscore'
+    ], function(
+    _
+    ) {
 'use strict';
-return ['GA', 'wdDevice', '$q', '$http', 'wdDev', '$timeout',
-function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
+return ['GA', 'wdDevice', '$q', '$http', 'wdDev', '$timeout', 'wdSocket', '$rootScope',
+function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout,   wdSocket,   $rootScope) {
     var TIME_SPAN = 3000;
     var wakeUpTimes;
     var connectDeviceTimes;
@@ -14,9 +18,11 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
         connectDeviceTimes = times || 4;
     }
     resetMaxconnectTrytimes();
-    // 记录成功之前一共 retry 过多少次，成功了再次清零，从 -1 开始是因为第一次是正常连接。
+
+    // if connect success totalRetryConnectNum will be 0
     var totalRetryConnectNum = -1;
-    // 返回 http 错误的原因
+    
+    // return http error reason
     function getHttpErrorReason(timeout, httpStatus, startTime) {
         var action;
         var duration = Date.now() - startTime;
@@ -31,20 +37,16 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
     }
 
     var api = {
-
-        // 通过同一局域网连接
         connectDevice : function(deviceData) {
 
             GA('connect_device:enter_snappea:'+ deviceData.model);
             
-            // 区分用户类别
             if (!deviceData.ip) {
                 GA('connection:user_category:3G');
             }
 
             totalRetryConnectNum += 1;
 
-            // 远程唤醒一下设备
             wdDevice.lightDeviceScreen(deviceData.id);
             
             var defer = $q.defer();
@@ -52,7 +54,6 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             var ip = deviceData.ip;
             wdDev.setServer(ip);
             
-            // 下面方法统计是否超时会用到
             var timeout = 3000;
             var startTime = (new Date()).getTime();
             $http({
@@ -65,8 +66,6 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                     'client_name': 'Browser',
                     'client_type': 3
                 }
-                // 自定义的，默认底层做错误控制，但是可以被调用方禁止，这样有些不合规则或遗留的api可以在应用层自己处理错误。
-                // disableErrorControl: !$scope.autoAuth
             }).success(function(response) {
                 wdDevice.setDevice(deviceData);
                 wdDev.setMetaData(response);
@@ -97,7 +96,6 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             }).error(function(reason, status, headers, config) {
                 var action = getHttpErrorReason(timeout, status, startTime);
 
-                // 区分用户类别
                 if (!deviceData.ip) {
                     GA('connection:3G:fail_' + action);
                     GA('connection:3G_fail_model:fail_' + deviceData.model);
@@ -137,6 +135,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 var timestamp = new Date().getTime();
                 connectDeviceTimes -= 1;
                 api.connectDevice(deviceData).then(function() {
+                    wdDev.setRequestWithRemote(false);
                     defer.resolve();
                 }, function() {
                     if (connectDeviceTimes > 0) {
@@ -150,6 +149,7 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                         }
                         
                     } else {
+                        wdDev.setRequestWithRemote(false);
                         defer.reject();
                     }
                 });
@@ -159,11 +159,10 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             return defer.promise;
         },
 
-        // 远程唤醒服务器，准备 wifi 中转或 3G 连接
-        remoteConnect: function(deviceData) {
+        // wakeup server for remote connection
+        wakeupServer: function(deviceData) {
             var defer = $q.defer();
  
-            // 下面方法统计是否超时会用到
             var timeout = 4000;
             var startTime = (new Date()).getTime();            
             $http({
@@ -175,11 +174,13 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 response.wap = deviceData.ip ? false : true;
                 response.networkType = deviceData.networkType;
                 response.limitSize = 5 * 1024 * 1024;
+
                 GA('connection:server_wake_up:success');
                 defer.resolve(response);
             })
             .error(function(reason, status, headers) {
                 var action = getHttpErrorReason(timeout, status, startTime);
+
                 if (deviceData.ip) {
                     GA('connection:server_wake_up:fail_3G_' + action);
                 } else {
@@ -191,13 +192,15 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
             return defer.promise;
         },
 
-        remoteConnectWithRetry: function(deviceData, times) {
+        wakeupServerWithRetry: function(deviceData, times) {
             resetMaxWakeupTrytimes(times);
             var defer = $q.defer();
 
             var tick = function() {
                 wakeUpTimes -= 1;
-                api.remoteConnect(deviceData).then(function(data) {
+                api.wakeupServer(deviceData).then(function(data) {
+                    wdDev.setRequestWithRemote(data);
+
                     defer.resolve(data);
                 }, function(){
                     if (wakeUpTimes > 0) {
@@ -208,6 +211,92 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout) {
                 });
             };
             tick();
+            return defer.promise;
+        },
+
+        refreshDeviceAndConnect: function() {
+            var defer = $q.defer();
+            
+            GA('connection:request_category:socket');
+
+            wdDevice.getDeviceList().then(function(list) {
+                var device = wdDevice.getDevice();
+
+                var currentOnlineDevice = _.find(list, function(item) {
+                    return device && (item.id === device.id);
+                });
+
+                if (currentOnlineDevice) {
+                    if (!currentOnlineDevice.ip) {
+                        
+                        api.wakeupServerWithRetry(currentOnlineDevice).then(function(data) {
+
+                            api.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                wdDev.setRemoteConnectionData(data);
+                                wdSocket.close();
+                                wdSocket.connect().then(function() {
+                                    $rootScope.$broadcast('connection:changed');
+                                    GA('connection:socket_retry_connect:success_3g');
+
+                                    defer.resolve();
+                                }, function() {
+                                    GA('connection:socket_retry_connect:failed_socket_3g');
+                                    defer.reject();
+                                });
+                            }, function() {
+                                GA('connection:socket_retry_connect:failed_connect_3g');
+                                defer.reject();
+                            });
+                        }, function(){
+                            GA('connection:socket_retry_connect:failed_server_3g');
+                            defer.reject();
+                        });
+                        
+                    } else {
+                        wdDevice.lightDeviceScreen(device.id);
+                        wdDev.closeRemoteConnection();
+                        
+                        api.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                            wdSocket.close();
+                            wdSocket.connect().then(function(){
+                                $rootScope.$broadcast('connection:changed');
+                                GA('connection:socket_retry_connect:success_direct');
+
+                                defer.resolve();
+                            });
+                        }, function() {
+                            api.wakeupServerWithRetry(currentOnlineDevice).then(function(data){
+                                
+                                api.connectDeviceWithRetry(currentOnlineDevice).then(function() {
+                                    wdDev.setRemoteConnectionData(data);
+
+                                    wdSocket.close();
+                                    wdSocket.connect().then(function() {
+                                        $rootScope.$broadcast('connection:changed');
+                                        GA('connection:socket_retry_connect:success_wifi');
+                                        
+                                        defer.resolve();
+                                    }, function() {
+                                        GA('connection:socket_retry_connect:failed_socket_wifi');
+                                        defer.reject();
+                                    });
+                                }, function() {
+                                    GA('connection:socket_retry_connect:failed_connect_wifi');
+                                    defer.reject();
+                                });
+                            }, function() {
+                                GA('connection:socket_retry_connect:failed_server_wifi');
+                                defer.reject();
+                            });
+                        });
+                    }
+                } else {
+                    defer.reject();
+                }
+            }, function(xhr) {
+                defer.reject();
+            });
+
             return defer.promise;
         }
     };

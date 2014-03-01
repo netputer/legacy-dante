@@ -96,9 +96,9 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         }
         $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdDevice', '$q', 'wdGoogleSignIn', function(wdDevice, $q, wdGoogleSignIn ) {
+                signout: ['wdDevice', '$q', 'internationalAccount', function(wdDevice, $q, internationalAccount ) {
                     wdDevice.signout();
-                    wdGoogleSignIn.setForceShowDevices(true);
+                    internationalAccount.setForceShowDevices(true);
                     return $q.reject('signout');
                 }]
             }
@@ -108,14 +108,14 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['wdGoogleSignIn', '$q', 'wdAlert', '$rootScope', function(wdGoogleSignIn, $q, wdAlert ,$rootScope) {
+                signout: ['internationalAccount', '$q', 'wdAlert', '$rootScope', function(internationalAccount, $q, wdAlert ,$rootScope) {
                     wdAlert.confirm(
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
-                        wdGoogleSignIn.signout();
+                        internationalAccount.signout();
                     },function(){
 
                     });
@@ -232,9 +232,9 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations', 'wdReminder', 'wdDevice',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations', 'wdReminder', 'wdDevice', 'wdConnect',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase,   wdWindowFocus,   wdmConversations,   wdReminder,   wdDevice) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase,   wdWindowFocus,   wdmConversations,   wdReminder,   wdDevice,   wdConnect) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -389,7 +389,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
                 showDisconnectRemind(false);
                 clearConnectTimer();
 
-                wdSocket.refreshDeviceAndConnect().then(function() {
+                wdConnect.refreshDeviceAndConnect().then(function() {
                     closeDisconnectRemind();
                 }, function() {
                     refreshDelayTime();

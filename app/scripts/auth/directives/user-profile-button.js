@@ -6,7 +6,7 @@ define([
     $
 ) {
 'use strict';
-return ['wdGoogleSignIn', '$window', '$document', '$q', '$timeout', function(wdGoogleSignIn, $window, $document, $q, $timeout) {
+return ['internationalAccount', '$window', '$document', '$q', '$timeout', function(internationalAccount, $window, $document, $q, $timeout) {
 return {
 template: template,
 scope: true,
@@ -26,7 +26,7 @@ link: function($scope, $element, $attribute, $control) {
     };
 
     function getUserInfo() {
-        wdGoogleSignIn.getProfile().then(function(data) {
+        internationalAccount.getProfile().then(function(data) {
             $scope.profile = data;
         }, function() {
             $timeout(function() {
