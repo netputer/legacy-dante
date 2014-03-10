@@ -18,13 +18,13 @@ function($rootScope,   $log,   $window,   GA,   $timeout,   wdDevice,   wdCommun
         hasAccessdDevice : false,
 
         // 与服务器通信接口
-        signInUrl: 'https://push.snappea.com/web/oauth2/google/login?callback=' + encodeURIComponent('http://' + $location.host() + ':' + $location.port() + '/signin-and-close.html'),
-        getProfileUrl: 'http://push.snappea.com/v4/api/profile',
-        signOutUrl: 'http://push.snappea.com/v4/api/logout'
+        SIGN_IN_URL: 'https://push.snappea.com/web/oauth2/google/login?callback=' + encodeURIComponent('http://' + $location.host() + ':' + $location.port() + '/signin-and-close.html'),
+        GET_PROFILE_URL: 'http://push.snappea.com/v4/api/profile',
+        SIGN_OUT_URL: 'http://push.snappea.com/v4/api/logout'
     };
     
     var result = {
-        signInUrl: global.signInUrl,
+        signInUrl: global.SIGN_IN_URL,
 
         // 判断是否已经登录
         checkSignIn: function() {
@@ -60,7 +60,7 @@ function($rootScope,   $log,   $window,   GA,   $timeout,   wdDevice,   wdCommun
             } else {
                 $.ajax({
                     type: 'GET',
-                    url: global.getProfileUrl,
+                    url: global.GET_PROFILE_URL,
                     async: false,
                     contentType: 'application/json',
                     dataType: 'jsonp',
@@ -88,7 +88,7 @@ function($rootScope,   $log,   $window,   GA,   $timeout,   wdDevice,   wdCommun
             var me = this;
             $.ajax({
                 type: 'GET',
-                url: global.signOutUrl,
+                url: global.SIGN_OUT_URL,
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',

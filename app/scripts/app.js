@@ -232,9 +232,9 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         }
     }])
     .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations', 'wdReminder', 'wdDevice', 'wdConnect',
+            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations', 'wdReminder', 'wdDevice', 'wdConnection',
         function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase,   wdWindowFocus,   wdmConversations,   wdReminder,   wdDevice,   wdConnect) {
+             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase,   wdWindowFocus,   wdmConversations,   wdReminder,   wdDevice,   wdConnection) {
         // Tip users when leaving.
         // 提醒用户是否重新加载数据
         // $window.onbeforeunload = function () {
@@ -389,7 +389,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
                 showDisconnectRemind(false);
                 clearConnectTimer();
 
-                wdConnect.refreshDeviceAndConnect().then(function() {
+                wdConnection.refreshDeviceAndConnect().then(function() {
                     closeDisconnectRemind();
                 }, function() {
                     refreshDelayTime();

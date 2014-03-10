@@ -4,10 +4,10 @@ define([
 'use strict';
 return [
     '$scope', '$location', 'wdDev', '$route', '$timeout', 'wdDevice', 'GA', 'wdAlert', 'wdBrowser', '$rootScope', 
-    'internationalAccount', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', 'wdConnect',
+    'internationalAccount', '$log', '$window', 'wdLanguageEnvironment', 'wdToast', '$q', 'wdSignInDetection', 'wdConnection',
 function internationalCtrl(
     $scope,    $location,   wdDev,   $route,   $timeout,   wdDevice,   GA,   wdAlert,   wdBrowser,   $rootScope,
-    internationalAccount,   $log,    $window,   wdLanguageEnvironment,   wdToast,   $q,   wdSignInDetection,   wdConnect) {
+    internationalAccount,   $log,    $window,   wdLanguageEnvironment,   wdToast,   $q,   wdSignInDetection,   wdConnection) {
     
     var remoteConnectionAuthDeivceTimes;
     var maxNormalAuthDeviceTimes;
@@ -51,7 +51,7 @@ function internationalCtrl(
 
         // make panel is centered horizontally
         var left = Math.round($window.screen.width - width) / 2;
-        $window.open(internationalAccount.signInUrl, 'Limbo', 'fullscreen=no,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left);          
+        $window.open(internationalAccount.SIGN_IN_URL, 'Limbo', 'fullscreen=no,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left);          
         GA('user_sign_in:click_sign_in:google_sign_in');
     };
 
@@ -123,7 +123,7 @@ function internationalCtrl(
             return;
         }
 
-        wdConnect.connectDevice(deviceData).then(function () {
+        wdConnection.connectDevice(deviceData).then(function () {
             connectDeivceSuccessCallback();
 
             GA('connection:access_device:success_direct');
@@ -165,9 +165,9 @@ function internationalCtrl(
     function remoteConnect(deviceData) {
         setDeviceConnectingStatus(deviceData);
 
-        wdConnect.wakeupServerWithRetry(deviceData).then(function(data) {
+        wdConnection.wakeupServerWithRetry(deviceData).then(function(data) {
 
-            wdConnect.connectDeviceWithRetry(deviceData).then(function() {
+            wdConnection.connectDeviceWithRetry(deviceData).then(function() {
                 wdDev.setRemoteConnectionData(data);
                 connectDeivceSuccessCallback();
 
