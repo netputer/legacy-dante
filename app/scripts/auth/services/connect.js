@@ -7,12 +7,7 @@ define([
 return ['GA', 'wdDevice', '$q', '$http', 'wdDev', '$timeout', 'wdSocket', '$rootScope',
 function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout,   wdSocket,   $rootScope) {
     var TIME_SPAN = 3000;
-    var wakeUpTimes;
     var connectDeviceTimes;
-    function resetMaxWakeupTrytimes(times) {
-        wakeUpTimes = times || 3;
-    }
-    resetMaxWakeupTrytimes();
 
     function resetMaxconnectTrytimes(times) {
         connectDeviceTimes = times || 4;
@@ -193,25 +188,19 @@ function(GA,   wdDevice,   $q,   $http,   wdDev,   $timeout,   wdSocket,   $root
         },
 
         wakeupServerWithRetry: function(deviceData, times) {
-            resetMaxWakeupTrytimes(times);
-            var defer = $q.defer();
+            if (arguments.length === 1) {
+                times = 3;
+            }
+            if (times === 0) { 
+                return $q.reject(); 
+            }
+            return api.wakeupServer(deviceData).then(function(data) {
+                wdDev.setRequestWithRemote(data);
+                return data;
+            }, function() {
+                return api.wakeupServerWithRetry(deviceData, times - 1);
+            });
 
-            var tick = function() {
-                wakeUpTimes -= 1;
-                api.wakeupServer(deviceData).then(function(data) {
-                    wdDev.setRequestWithRemote(data);
-
-                    defer.resolve(data);
-                }, function(){
-                    if (wakeUpTimes > 0) {
-                        tick();
-                    } else {
-                        defer.reject();
-                    } 
-                });
-            };
-            tick();
-            return defer.promise;
         },
 
         refreshDeviceAndConnect: function() {
