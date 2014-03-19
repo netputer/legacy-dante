@@ -8,6 +8,7 @@ define([
     'text!templates/contacts/index.html',
     'text!templates/applications/index.html',
     'text!templates/messages/conversations.html',
+    'data/main',
     'common/main',
     'common/language',
     'messages/main',
@@ -25,6 +26,7 @@ define([
     ContactsTemplate,
     ApplicationsTemplate,
     MessagesTemplate,
+    Data,
     common,
     language,
     messages,
@@ -44,7 +46,18 @@ READ_ONLY_FLAG = false;
 //>>includeStart("debug", pragmas.debug);
 READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
 //>>includeEnd("debug");
-angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
+
+/*
+    CURRENT_DEVICE_TYPE value
+        0: SnapPea
+        1: Cloud Backup
+        2: Cloud Locker 
+*/
+var CURRENT_DEVICE_TYPE = 1;
+READ_ONLY_FLAG = true;
+
+angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdData', 'wdPhotos', 
+                        'wdLanguage', 'wdMessages', 'wdContacts', 'wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
 
@@ -52,10 +65,10 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         // Used for filter route changing which need auth.
-        var validateToken = ['$q', 'wdDevice', '$location',
-            function($q, wdDevice, $location) {
+        var validateToken = ['$q', 'wdDataBasic', '$location',
+            function($q, wdDataBasic, $location) {
 
-            if (wdDevice.valid()) {
+            if (wdDataBasic.valid()) {
                 return true;
             }
             else {
@@ -63,6 +76,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
                 $location.url('/portal?ref=' + encodeURIComponent($location.url()));
                 return $q.reject('Authentication failed.');
             }
+            //return true;
         }];
 
         var reflectNavbar = function(moduleName) {
@@ -72,8 +86,8 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         };
 
         var minVersionRequirement = function(versionCode) {
-            return ['wdDev', function(wdDev) {
-                return wdDev.getMetaData('version_code') >= versionCode;
+            return ['wdDataBasic', function(wdDataBasic) {
+                return true;//wdDataBasic.dev().getMetaData('version_code') >= versionCode;
             }];
         };
 
@@ -85,20 +99,20 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         if (READ_ONLY_FLAG) {
             $routeProvider.when('/portal', {
                 template: cloudDataTemplate,
-                controller: 'cloudDataController'
+                controller: 'wandoujiaAuthController'
             });
         }
         else {
             $routeProvider.when('/portal', {
                 template: InternationalTemplate,
-                controller: 'internationalController'
+                controller: 'internationalAuthController'
             });
         }
         $routeProvider.when('/devices', {
             resolve: {
-                signout: ['wdDevice', '$q', 'internationalAccount', function(wdDevice, $q, internationalAccount ) {
-                    wdDevice.signout();
-                    internationalAccount.setForceShowDevices(true);
+                signout: ['wdDevice', '$q', 'wdInternationalAuth', function(wdDevice, $q, wdInternationalAuth ) {
+                    wdDevice.signOut();
+                    wdInternationalAuth.setForceShowDevices(true);
                     return $q.reject('signout');
                 }]
             }
@@ -108,14 +122,14 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         });
         $routeProvider.when('/extension-signout', {
             resolve: {
-                signout: ['internationalAccount', '$q', 'wdAlert', '$rootScope', function(internationalAccount, $q, wdAlert ,$rootScope) {
+                signout: ['wdInternationalAuth', '$q', 'wdAlert', '$rootScope', function(wdInternationalAuth, $q, wdAlert ,$rootScope) {
                     wdAlert.confirm(
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.title,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.content,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_ok,
                         $rootScope.DICT.app.EXTENSION_SIGN_OUT.button_cancel
                     ).then(function(){
-                        internationalAccount.signout();
+                        wdInternationalAuth.signout();
                     },function(){
 
                     });
@@ -171,13 +185,15 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         });
 
         // Global exception handling.
-        $httpProvider.interceptors.push(['wdDev', '$rootScope', '$q', '$log', '$injector', '$window', 'wdSocket',
-            function(wdDev, $rootScope, $q, $log, $injector, $window, wdSocket) {
+        $httpProvider.interceptors.push(['$rootScope', '$q', '$log', '$injector', '$window', 'wdSocket',
+            function($rootScope, $q, $log, $injector, $window, wdSocket) {
             return {
                 request: function(config) {
                     // Using realtime data source url.
                     if (config.url && !/^(http|https):/.test(config.url)) {
-                        config.url = wdDev.wrapURL(config.url);
+                        $injector.invoke(['wdDataBasic', function(wdDataBasic) {
+                            config.url = wdDataBasic.dev().wrapURL(config.url);
+                        }]);
                     }
                     // Global timeout
                     if (angular.isUndefined(config.timeout)) {
@@ -209,7 +225,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
                     if (!rejection.config.disableErrorControl &&
                         (rejection.status === 401 /*|| response.status === 0 */)) {
                         $injector.invoke(['wdDevice', function(wdDevice){
-                            wdDevice.signout();
+                            wdDevice.signOut();
                         }]);
                     }
                     return $q.reject(rejection);
@@ -231,15 +247,12 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
             }
         }
     }])
-    .run([      '$window', '$rootScope', 'wdKeeper', 'GA', 'wdLanguageEnvironment', 'wdSocket',
-            'wdTitleNotification', 'wdDev', '$q', '$document', '$route', 'wdDatabase', 'wdWindowFocus', 'wdmConversations', 'wdReminder', 'wdDevice', 'wdConnection',
-        function($window,   $rootScope,   wdKeeper,   GA,   wdLanguageEnvironment,   wdSocket,
-             wdTitleNotification,   wdDev,   $q,   $document,   $route,   wdDatabase,   wdWindowFocus,   wdmConversations,   wdReminder,   wdDevice,   wdConnection) {
-        // Tip users when leaving.
-        // 提醒用户是否重新加载数据
-        // $window.onbeforeunload = function () {
-        //     return wdKeeper.getTip();
-        // };
+    .run([      '$window',             '$rootScope', 'wdKeeper', 'GA',        'wdLanguageEnvironment', 'wdSocket',
+                'wdTitleNotification', 'wdDev',      '$q',       '$document', '$route',                'wdDatabase', 'wdWindowFocus', 
+                'wdReminder', 'wdDevice', 'wdConnection', 'wdDataBasic',        '$location',
+        function($window,               $rootScope,   wdKeeper,   GA,          wdLanguageEnvironment,   wdSocket,
+                wdTitleNotification,    wdDev,        $q,         $document,   $route,                  wdDatabase,   wdWindowFocus,  
+                wdReminder,   wdDevice,   wdConnection,   wdDataBasic,          $location) {
 
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
@@ -269,6 +282,19 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
             wdTitleNotification.restore();
         };
 
+        $rootScope.$on('SignInSucceed', function() {
+        });
+
+        $rootScope.$on('SelectDevice', function(event, deviceInfo) {
+            deviceInfo.currentDeviceType = CURRENT_DEVICE_TYPE;
+            wdDataBasic
+                .init(deviceInfo)
+                .buildConnection()
+                .then(function() {
+                    $location.url($route.current.params.ref || '/');
+                });
+        });
+
         $rootScope.$on('signin', function() {
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.connect();
@@ -294,6 +320,8 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         });
 
         $rootScope.$on('signout', function() {
+            wdDataBasic.clearDeviceData();
+
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
                 wdDatabase.close();
@@ -313,6 +341,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         };
 
         wdSocket.on('refresh', function() {
+            wdDataBasic.clearDeviceData();
             $route.reload();
         });
 
@@ -415,7 +444,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         }
 
         wdWindowFocus.initialize();
-        wdmConversations.initialize();
+        //wdmConversations.initialize();
 
     }]);
 

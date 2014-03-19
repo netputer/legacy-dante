@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdDev', 'wdcContacts', 'wdmContactSearch', '$rootScope',
-function(wdDev,   wdcContacts,   wdmContactSearch,   $rootScope) {
+return ['wdmContactSearch', '$rootScope',
+function(wdmContactSearch,   $rootScope) {
 return {
 
 link: function(scope, element) {

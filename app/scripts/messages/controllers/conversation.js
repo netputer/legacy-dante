@@ -5,10 +5,12 @@ define([
 ) {
 'use strict';
 return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
-        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev',
+        'GA', '$route', 'wdDataBasic', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev',
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev) {
+         GA,   $route,   wdDataBasic,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev) {
 GA('vertical:messages');
+
+var wdmConversations = wdDataBasic.getMessagesService();
 
 //wdm alert
 var closeWdmAlert = $window.localStorage.getItem('closeWdmAlert');

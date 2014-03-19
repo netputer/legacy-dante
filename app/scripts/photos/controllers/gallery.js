@@ -9,15 +9,17 @@ define([
 ) {
 'use strict';
 return [
-        '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
+        '$scope', '$window', '$log', '$route', '$location', 'wdAlert', 'wdSocket',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
-        'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', 'wdDev', '$filter',
-        'wdDownload',
-function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
+        'wdSharing', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', '$filter',
+        'wdDownload', 'wdDataBasic',
+function($scope,  $window,   $log,   $route,   $location,   wdAlert,    wdSocket,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
-         wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev,   $filter,
-         wdDownload) {
+         wdSharing,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   $filter,
+         wdDownload,  wdDataBasic) {
 GA('vertical:photos');
+
+var wdpPhotos = wdDataBasic.getPhotosService();
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.firstScreenLoaded = false;
@@ -34,6 +36,31 @@ Object.defineProperty($scope, 'photos', {
     set: function(photos) { wdpPhotos.collection = photos; }
 });
 
+wdSocket.on('photos_add.wdp', function(e, message) {
+    _(message.data).each(function(id) {
+        var photo = wdpPhotos.getById(id);
+        if (!photo) {
+            wdpPhotos.service().get({id: id}, function(p) {
+                // 使用 PhotoSnap 功能通过手机拍照得到的图片
+                p.isPhotoSnap = true;
+                wdpPhotos.merge(p);
+                wdpPhotos.trigger('add', [wdpPhotos.getById(p.id)]);
+            });
+        }
+    });
+}).on('photos_remove.wdp', function(e, message) {
+    _(message.data).each(function(id) {
+        var photo = wdpPhotos.getById(id);
+        if (photo) {
+            var index = wdpPhotos.collection.indexOf(photo);
+            wdpPhotos.collection.splice(index, 1);
+            wdpPhotos.trigger('remove', [photo]);
+        }
+    });
+});
+
+
+
 // Layout when photos amount change. Not a robust way...
 $scope.$watch('photos.length', layout);
 
@@ -48,7 +75,7 @@ $scope.$on('$routeUpdate', function(scope, next, current) {
 
 function previewPhotoByUrl() {
     if($route.current.params.preview) {
-        Photos.get({
+        wdpPhotos.service().get({
             id: $route.current.params.preview
         }, function(photo) {
             $location.search('preview', null).replace();
@@ -127,7 +154,7 @@ $scope.startUpload = function(file) {
     var photo;
     // Insert a photo placeholder.
     file.photo.then(function(data) {
-        photo = new Photos({
+        photo = new wdpPhotos.photos({
             'id': _.uniqueId('WDP_MERGE_'),
             'thumbnail_path': data.dataURI,
             'thumbnail_width': data.width,
@@ -139,7 +166,7 @@ $scope.startUpload = function(file) {
     // After uploaded, fetch the real photo data and merge into placeholder.
     file.upload.then(function(res) {
         photo.id = res[0].id;
-        Photos.get({id: res[0].id}, function(newPhoto) {
+        wdpPhotos.service().get({id: res[0].id}, function(newPhoto) {
             _.extend(photo, newPhoto);
             mergePhotos(newPhoto);
         });
@@ -221,7 +248,7 @@ function fetchPhotos(amount) {
 
     (function tick() {
         var timeStart = (new Date()).getTime();
-        Photos.query(
+        wdpPhotos.service().query(
             params,
             function fetchSuccess(photos, headers) {
                 mergePhotos(photos);
@@ -449,7 +476,7 @@ $scope.visibleAlbumLoading = true;
 $scope.settingAlbums = function() {
     $scope.isShowAlbumSettings = true;
 
-    wdpAlbums.getData().then(function(response) {
+    wdpPhotos.getAlbums().then(function(response) {
         $scope.visibleAlbumLoading = false;
         $scope.albumList = response.data;
     }, function() {
@@ -462,7 +489,7 @@ $scope.hideAlbumSettings = function() {
 };
 
 $scope.updateAlbums = function() {
-    var toastPromise = wdpAlbums.updateData($scope.albumList).then(function() {
+    var toastPromise = wdpPhotos.updateAlbums($scope.albumList).then(function() {
         wdpPhotos.clear();
         $route.reload();
     }, function() {

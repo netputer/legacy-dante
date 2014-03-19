@@ -10,19 +10,27 @@ define([
     'use strict';
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
-    return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter', 'wdDownload',
-    function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter,   wdDownload){
+
+    return ['$scope', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdDataBasic', 'wdKey', '$rootScope', '$filter', 'wdDownload',
+    function($scope,   wdDev,   wdSocket,   wdAlert,   $route,   GA,   wdDataBasic,   wdKey,   $rootScope,   $filter,   wdDownload){
         GA('vertical:apps');
+        
+        var wdAppsService = wdDataBasic.getAppsService();
 
         //$scope相关
         //展示应用列表
         $scope.list = [];
 
+        Object.defineProperty($scope, 'list', {
+            get: function() { return wdAppsService.list; },
+            set: function(list) { wdAppsService.list = list; }
+        });
+
         //当前显示的应用详情
         $scope.info = {};
 
         //新安装的应用列表
-        $scope.newList = wdcApplications.getNewAppList();
+        $scope.newList = wdAppsService.getInstalledList();
 
         //版本监测
         $scope.serverMatchRequirement = $route.current.locals.versionSupport;
@@ -72,8 +80,10 @@ define([
             $scope.isLoadShow = false;
             $scope.dataLoaded = true;
             $scope.isInstallBtnDisable = false;
-            G_appList = wdcApplications.getApplications();
-            $scope.list = G_appList;
+            // G_appList = data;
+            // $scope.list = G_appList;
+
+            $scope.list = data;
             showSelectedNum();
             setTimeout(function(){
                 uploadApk($('.installApp'));
@@ -100,12 +110,8 @@ define([
                 $scope.$root.DICT.applications.DEL_ONE_APP.AGREE,
                 $scope.$root.DICT.applications.DEL_ONE_APP.CANCEL
             ).then(function(){
-                $http({
-                    method: 'delete',
-                    url: '/resource/apps/'+package_name
-                }).success(function(data) {
-                }).error(function(){
-                });
+                wdAppsService.delete(package_name);
+
                 var mask = $('.mask').css('opacity',0);
                 setTimeout(function(){
                     mask.hide().find('.info').hide();
@@ -129,12 +135,8 @@ define([
                 $scope.$root.DICT.applications.DEL_ONE_APP.AGREE,
                 $scope.$root.DICT.applications.DEL_ONE_APP.CANCEL
             ).then(function(){
-                $http({
-                    method: 'delete',
-                    url: '/resource/apps/'+package_name
-                }).success(function(data) {
-                }).error(function(){
-                });
+                wdAppsService.delete(package_name);
+
                 for(var i = 0 , l = $scope.list.length;i < l ; i += 1 ){
                     if($scope.list[i]['package_name'] == package_name ){
                         $scope.list[i]['confirmTipShow'] = true;
@@ -178,16 +180,13 @@ define([
                 i = 0;
                 del(dels[i]);
                 function del(package_name){
-                    $http({
-                        method: 'delete',
-                        url: '/resource/apps/'+ package_name
-                    }).success(function(data) {
-                        if(!!dels[i]){
-                            del(dels[i]);
-                            i += 1;
-                        }
-                    }).error(function(){
-                    });
+                    wdAppsService.delete(package_name)
+                        .then(function() {
+                            if(!!dels[i]){
+                                del(dels[i]);
+                                i += 1;
+                            }
+                        });
                 }
             },function(){
 
@@ -356,7 +355,7 @@ define([
                 doneTipShow: false
             };
             $scope.newList.unshift(item);
-            wdcApplications.setNewAppList($scope.newList);
+            wdAppsService.setInstalledList($scope.newList);
             $scope.$apply();
         }
 
@@ -399,15 +398,7 @@ define([
                 $('.mask').hide().children('.unknowApkTips').hide();
             }
 
-            $http({
-                method: 'post',
-                url: '/resource/apps/install',
-                data:apk_paths
-            }).success(function(data) {
-
-            }).error(function(){
-
-            });
+            wdAppsService.install(apk_paths);
         }
 
         //上传之后或者过程中关闭那个应用
@@ -435,7 +426,7 @@ define([
         function showAppInfo(package_name){
             G_keyInfo = wdKey.push('applications');
             var mask = $('.mask');
-            $scope.info = getAppInfo(G_appList,package_name);
+            $scope.info = getAppInfo($scope.list, package_name);
             setTimeout(function(){
                 mask.show().children('.info').show();
                 setTimeout(function(){
@@ -547,33 +538,31 @@ define([
         wdSocket
             .on('app_install', function(e, message) {
                 var name = message.data.packageName;
-                $http({
-                    method: 'get',
-                    url: '/resource/apps/'+name
-                }).success(function(data){
-                    var i, l;
-                    for(i = 0,l = $scope.newList.length;i<l; i += 1 ){
-                        if( $scope.newList[i]['package_name'] == data['package_name'] ){
-                            $scope.newList.splice(i,1);
-                            break;
-                        }
-                    }
 
-                    //如果已经安装，移除掉之前版本
-                    for(i = 0,l = $scope.list.length; i<l; i += 1 ){
-                        if($scope.list[i]['package_name'] == data['package_name'] ){
-                            $scope.list.splice(i,1);
-                            break;
+                wdAppsService.getApp(name)
+                    .then(function(data){
+                        var i, l;
+                        for(i = 0,l = $scope.newList.length;i<l; i += 1 ){
+                            if( $scope.newList[i]['package_name'] == data['package_name'] ){
+                                $scope.newList.splice(i,1);
+                                break;
+                            }
                         }
-                    }
-                    data['doneTipShow'] = true;
-                    $scope.list.unshift(wdcApplications.changeInfo(data));
-                    setTimeout(function(){
-                        data['doneTipShow'] = false;
-                        $scope.$apply();
-                    },4000);
-                }).error(function(){
-                });
+
+                        //如果已经安装，移除掉之前版本
+                        for(i = 0,l = $scope.list.length; i<l; i += 1 ){
+                            if($scope.list[i]['package_name'] == data['package_name'] ){
+                                $scope.list.splice(i,1);
+                                break;
+                            }
+                        }
+                        data['doneTipShow'] = true;
+                        $scope.list.unshift(wdAppsService.format(data));
+                        setTimeout(function(){
+                            data['doneTipShow'] = false;
+                            $scope.$apply();
+                        },4000);
+                    });
             })
             .on('app_uninstall', function(e, message) {
                 var name = message.data.packageName;
@@ -603,7 +592,6 @@ define([
             if (G_dragAndDropUploader) {
                 G_dragAndDropUploader.dispose();
             }
-            wdcApplications.resetRetryTimes();
         });
 
         $rootScope.$on('connection:changed', function() {
@@ -618,7 +606,9 @@ define([
         $scope.isDeselectBtnShow = false;
         $scope.isInstallBtnDisable = true;
 
-        wdcApplications.onchange(getAppListData);
+        wdAppsService.getAppList()
+            .then(getAppListData);
+
         setTimeout(showToolbar,150);
 
         //需要挂载到socpe上面的方法

@@ -34,8 +34,10 @@ return function() {
                 valid = false;
             },
             
+
+            // 拆开 不应该有界面上的操作跳转
             //signout current device to device list
-            signout: function() {
+            signOut: function() {
                 this.setDevice({status:'devices'});
                 if (wdDev.query('ac')) {
                     $window.location = $window.location.pathname + '#/portal';
@@ -74,6 +76,10 @@ return function() {
                     }
                     $rootScope.$apply(function() {
                         list.forEach(function(item) {
+                            // var map = {
+                            //     'LTE': '4g'
+                            // }
+                            // item.networkType = map[item.attributes.network_type] || '3g';
                             switch(item.attributes.network_type) {
                                 case 'LTE':
                                 case 'CDMA - eHRPD':
@@ -96,9 +102,9 @@ return function() {
                         });
                         
                         //标记下是否是老用户，该功能暂时有客户端记录，之后会由服务器端提供接口。老用户定义：该用户成功获取设备，并且设备列表中有设备。
-                        $injector.invoke(['internationalAccount', function(internationalAccount) {
-                            if ( list.length > 0 && !internationalAccount.isOldUser() ) {
-                                internationalAccount.setOldUser();
+                        $injector.invoke(['wdInternationalAuth', function(wdInternationalAuth) {
+                            if ( list.length > 0 && !wdInternationalAuth.isOldUser() ) {
+                                wdInternationalAuth.setOldUser();
                             }
                         }]);
                         

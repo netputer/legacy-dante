@@ -5,6 +5,7 @@ require.config({
         }
     },
     locale: 'en_us',
+    waitSeconds: 20,
     paths: {
         // lib
         jquery: 'vendor/jquery.wrapper',

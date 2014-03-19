@@ -3,40 +3,28 @@ define([
     'photos/directives/showcase',
     'photos/directives/actionbar',
     'photos/directives/slides',
-    'photos/services/layout-algorithm',
     'photos/directives/block',
     'photos/directives/uploader',
     'photos/directives/frame',
     'photos/directives/progress',
     'photos/directives/repeat',
-    'photos/services/image-helper',
-    'photos/services/message-pusher',
     'photos/controllers/gallery',
     'photos/directives/gallery',
     'common/main',
-    'photos/services/photos',
-    'photos/services/albums',
-    'photos/services/photo-setting',
     'photos/filters/custom-size'
 ], function(
     angular,
     showcase,
     actionbar,
     slides,
-    layoutAlgorithm,
     block,
     uploader,
     frame,
     progress,
     repeat,
-    imageHelper,
-    messagePusher,
     galleryController,
     gallery,
     common,
-    photos,
-    albums,
-    photoSetting,
     customSize
 ) {
 'use strict';
@@ -54,15 +42,6 @@ angular.module('wdPhotos', ['wdCommon', 'ngResource'])
     .directive('wdpFrame', frame)
     .directive('wdpProgress', progress)
     .directive('wdpRepeat', repeat)
-    .factory('PhotosLayoutAlgorithm', layoutAlgorithm)
-    .factory('wdpPhotos', photos)
-    .factory('wdpImageHelper', imageHelper)
-    .factory('wdpMessagePusher', messagePusher)
-    .factory('Photos', ['$resource', function($resource) {
-        return $resource('/resource/photos/:id', {id: '@id'});
-    }])
-    .factory('wdpAlbums', albums)
-    .factory('wdpPhotoSetting', photoSetting)
     .controller('galleryController', galleryController)
     .filter('customSize', customSize);
 

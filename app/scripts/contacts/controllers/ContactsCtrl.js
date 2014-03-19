@@ -9,9 +9,13 @@ define([
 ) {
 'use strict';
 
-return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope', '$filter',
-function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope, $filter) {
+return [ '$scope', 'wdAlert',  '$route', 'GA', 'wdDataBasic', '$timeout', 'wdKey', '$location', '$window', 
+         'wdToast', '$q', '$rootScope', '$filter',
+function ($scope,   wdAlert,    $route,   GA,   wdDataBasic,   $timeout,   wdKey,   $location,   $window, 
+          wdToast,   $q,   $rootScope,   $filter) {
     GA('vertical:contacts');
+
+    var wdcContacts = wdDataBasic.getContactsService();
 
     //默认头像显示颜色
     var photoColorList = [
@@ -856,23 +860,23 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
                         size += item.size;
                     });
 
-                    if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
-                        $scope.$apply(function() {
-                            wdAlert.confirm(
-                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
-                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
-                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
-                                $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
-                            ).then(function() {
-                                d.resolve();
-                            }, function() {
-                                d.reject();
-                            });
-                        });
-                    } else {
-                        d.resolve();
-                    }
-                    
+                    // if (wdDev.isWapRemoteConnection() && size >= wdDev.getRemoteConnectionData('limitSize')) {
+                    //     $scope.$apply(function() {
+                    //         wdAlert.confirm(
+                    //             $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.TITLE,
+                    //             $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CONTENT.replace('$$$$', $filter('sizeFormat')(size)),
+                    //             $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.OK,
+                    //             $scope.$root.DICT.photos.WAP_CONNECTION_UPLOAD_COMFIRM.CANCEL
+                    //         ).then(function() {
+                    //             d.resolve();
+                    //         }, function() {
+                    //             d.reject();
+                    //         });
+                    //     });
+                    // } else {
+                    //     d.resolve();
+                    // }
+                    d.resolve();
                     return d.promise();
                 },
                 onSubmit: function(id) {
