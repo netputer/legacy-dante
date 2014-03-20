@@ -51,11 +51,11 @@ function($window,   $timeout,   $rootScope) {
         },
         requestPermission: function() {
             if (this.checkSupport() || hasPermitted === false) {
-                if ($window.Notification) {
-                    // safrai 下必须传入参数，所以传了一个空的函数
-                    $window.Notification.requestPermission(function(){});
-                } else if ($window.webkitNotifications) {
+                if ($window.webkitNotifications) {
                     $window.webkitNotifications.requestPermission();
+                } else if ($window.Notification) {
+                    // Safari started supporting notification with Safari 6 but only on Mac OSX 10.8+ (Mountain Lion)
+                    $window.Notification.requestPermission();
                 }
             }
         },
@@ -91,6 +91,7 @@ function($window,   $timeout,   $rootScope) {
     };
 
     //进入系统时提示获取授权，如果未授权会申请用户授权。
+
     result.requestPermission();
     return result;
 //结束
