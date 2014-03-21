@@ -65,19 +65,23 @@
                     placement="right">
                     <div wd-menu-item>
                         <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
-                            href="http://www.wandoujia.com/help/?do=topic&id=29170747">
+                            href="http://www.wandoujia.com/help/?do=topic&id=29170747"
+                            ng-click="$root.GA('navbar:settings:help')"
+                            >
                             <i class="icon-help"></i>&nbsp;&nbsp;{{$root.DICT.app.HELP}}
                         </a>
                     </div>
                     <div wd-menu-item>
                         <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
-                            href="http://www.wandoujia.com/help/?do=add_ticket">
+                            href="http://www.wandoujia.com/help/?do=add_ticket"
+                            ng-click="$root.GA('navbar:settings:feedback')">
                             <i class="icon-feedback"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_FEEDBACK_TIP}}
                         </a>
                     </div>
                     <div wd-menu-sep></div>
                     <div wd-menu-item class="signout" ng-if="$root.READ_ONLY_FLAG">
-                        <a href="{{wandoujiaSignOutUrl}}">
+                        <a href="{{wandoujiaSignOutUrl}}"
+                        ng-click="$root.GA('navbar:settings:signout')">
                             <i class="icon-signout"></i>&nbsp;&nbsp;{{$root.DICT.app.NAVBAR_SIGNOUT_TIP}}
                         </a>
                     </div>

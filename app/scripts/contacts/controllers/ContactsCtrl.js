@@ -11,6 +11,8 @@ define([
 
 return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope', '$filter',
 function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope, $filter) {
+    GA('vertical:contacts');
+
     //默认头像显示颜色
     var photoColorList = [
         'contact-photo-bg-green',
@@ -931,6 +933,8 @@ function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout,
     //搜索联系人功能
     $scope.searchContacts = _.debounce(function() {
         $scope.$apply(function() {
+            GA('contacts:search');
+
             //不是空则执行搜索
             if ( $scope.searchText && (G_contacts.length > 1) ) {
                 G_searchIsNull = false;

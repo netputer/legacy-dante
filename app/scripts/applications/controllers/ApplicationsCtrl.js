@@ -12,6 +12,7 @@ define([
     /* jshint  -W041 */
     return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter', 'wdDownload',
     function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter,   wdDownload){
+        GA('vertical:apps');
 
         //$scope相关
         //展示应用列表
@@ -432,7 +433,6 @@ define([
 
         //显示对应的应用
         function showAppInfo(package_name){
-            GA('Web applications : show the app detail informations');
             G_keyInfo = wdKey.push('applications');
             var mask = $('.mask');
             $scope.info = getAppInfo(G_appList,package_name);
@@ -442,6 +442,8 @@ define([
                     mask.css('opacity',1);
                 },30);
             },200);
+
+            GA('apps:app:view');
         }
 
         function closeMask(){
@@ -541,22 +543,6 @@ define([
             wdDownload.download($filter('wrapRemoteConnectionURL')(url));
         }
 
-        function clickInstallApk(){
-            GA('Web applications :click install apk button');
-        }
-
-        function clickHoverUninstall(){
-            GA('Web applications : click the hover uninstall button');
-        }
-
-        function clickInfoUninstall(){
-            GA('Web applications : click the uninstall button of detail info page');
-        }
-
-        function clickRetryUninstall(){
-            GA('Web applications : click retry uninstall button');
-        }
-
         //webSocket处理
         wdSocket
             .on('app_install', function(e, message) {
@@ -647,10 +633,6 @@ define([
         $scope.closeUploadApp = closeUploadApp;
         $scope.reinstall = reinstall;
         $scope.deselectAll = deselectAll;
-        $scope.clickInstallApk = clickInstallApk;
-        $scope.clickHoverUninstall = clickHoverUninstall;
-        $scope.clickInfoUninstall = clickInfoUninstall;
-        $scope.clickRetryUninstall = clickRetryUninstall;
 
 //最后的括号
     }];

@@ -52,6 +52,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevi
             ip : HOST
         };
         $scope.submit(item);
+        GA('auth:wandoujia:success');
     },function(){
         $scope.isCheckingLogin = false;
         wdDevice.signout();

@@ -36,7 +36,8 @@
                     ui-animate
                     ng-repeat="c in cvs()"
                     ng-class="{ selected: c.selected, highlight: c == activeConversation }"
-                    ng-click="showConversation(c)">
+                    ng-click="showConversation(c)"
+                    $root.GA('messages:conversation:click')>
 
                     <div wd-checkbox class="wdmcr-a"
                         ng-class="{'wd-checkbox-light': c != activeConversation}"
