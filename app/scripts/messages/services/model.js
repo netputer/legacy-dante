@@ -19,7 +19,7 @@ function Model(rawData) {
 }
 
 Object.defineProperties(Model.prototype, {
-    isNew: {get: function() { return typeof this.id !== 'string' && typeof this.id !== 'number'; }}
+    isNew: {get: function() {return typeof this.id !== 'number' && !Number(this.id); }}
 });
 
 _.extend(Model.prototype, {
