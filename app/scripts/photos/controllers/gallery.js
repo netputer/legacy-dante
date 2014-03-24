@@ -17,6 +17,7 @@ function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAl
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
          wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev,   $filter,
          wdDownload) {
+GA('vertical:photos');
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.firstScreenLoaded = false;
