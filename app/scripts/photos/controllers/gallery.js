@@ -489,6 +489,17 @@ $scope.hidePhotoSnapIntro = function() {
     wdpPhotoSetting.photoSnapIntroducesEnabled(true);
 };
 
+// Photo extension tips
+if (wdpPhotoSetting.photoExtensionIntroducesEnabled()) {
+    $scope.showPhotoExtensionIntro = true;
+} else {
+    $scope.showPhotoExtensionIntro = false;
+}
+
+$scope.hidePhotoExtensionIntro = function() {
+    $scope.addPhotoExtensionIntroHideClass = true;
+    wdpPhotoSetting.photoExtensionIntroducesEnabled(true);
+};
 
 }];
 });

@@ -15,6 +15,17 @@
         </div>
         <!-- 拍照实时显示的介绍 end -->
 
+        <!-- 云相册 extenion 的引导安装 -->
+        <div class="photo-extension-intro" ng-class="{hide: addPhotoExtensionIntroHideClass}" ng-if="$root.READ_ONLY_FLAG && showPhotoExtensionIntro">
+            <i class="icon-photo-extension"></i>
+            <div class="describe">
+                <p class="title">{{$root.DICT.photos.PHOTO_EXTENSION.H1}}</p>
+                <p class="des">{{$root.DICT.photos.PHOTO_EXTENSION.DESCRIBE}}</p>
+            </div>
+            <div class="btn" ng-click="hidePhotoExtensionIntro();">{{$root.DICT.photos.PHOTO_EXTENSION.BUTTON}}</div>
+        </div>
+        <!-- 云相册 extenion 的引导安装 end -->
+
         <div class="wdp-showcases-container">  
             <div class="wdp-showcase">
                 <div class="wdp-block"

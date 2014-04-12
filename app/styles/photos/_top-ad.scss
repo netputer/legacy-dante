@@ -1,0 +1,95 @@
+.photo-snap-intro {
+    height: 360px;
+    width: auto;
+    margin: 0 auto;
+    @include transition(all $global-transition-duration);
+    @include background-retina("isolate/photo-snap-bg.png", "isolate/photo-snap-bg-2x.png");
+    background-repeat: no-repeat;
+    h1 {
+        font-weight: $global-font-weight-normal;
+        font-size: 32px;
+        color: #333;
+        margin: 0;
+    }
+    h2 {
+        font-weight: $global-font-weight-normal;
+        height: 16px;
+        line-height: 16px;
+        font-size: 16px;
+        color: #777;
+        margin: 20px 0 50px 0;
+    }
+    .content {
+        height: 100%;
+        width: 1140px;
+        margin: 0 auto;
+        .left {
+            width: 430px;
+            float: left;
+            text-align: right;
+            margin-right: 90px;
+            margin-top: 100px;
+            .btn {
+                width: 92px;
+                height: 34px;
+                font-size: 14px;
+                line-height: 34px;
+            }
+        }
+        .right {
+            width: 620px;
+            float: left;
+            margin-top: 50px;
+            .icon-take-photo {
+                margin: 0px;
+            }
+        }
+    }
+    &.hide {
+        display: block;
+        opacity: 0;
+        height: 0px;
+    }
+}
+
+.photo-extension-intro {
+    height: 190px;
+    width: auto;
+    margin: 0 auto;
+    text-align: center;
+    @include transition(all $global-transition-duration);
+    &.hide {
+        display: block;
+        opacity: 0;
+        height: 0px;
+    }
+    .icon-photo-extension {
+        display: inline-block;
+        margin-top: 39px;
+        margin-right: 20px;
+    }
+    .describe {
+        width: 290px;
+        text-align: left;
+        display: inline-block;
+        margin-top: 54px;
+        margin-right: 60px;
+        .title {
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
+        .des {
+            color: #999;
+            font-size: 14px;
+        }
+    }
+    .btn {
+        width: 125px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        color: #fff;
+        margin-top: -58px;
+        background-color: $standard-green;
+    }
+}
