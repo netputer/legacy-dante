@@ -14,9 +14,6 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevi
     $scope.isCheckingLogin = true;
 
     var HOST = 'sync.wandoujia.com';
-    //>>includeStart("debug", pragmas.debug);
-    HOST = 'sync-test.wandoujia.com';
-    //>>includeEnd("debug");
 
     // if (!$scope.isSupport) {
     //     GA('login:not_support');

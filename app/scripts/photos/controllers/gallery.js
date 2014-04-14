@@ -205,7 +205,8 @@ function fetchPhotos(amount) {
     var defer = $q.defer();
     var params = {
         offset: 0,
-        length: amount.toString()
+        length: amount.toString(),
+        client: 'web'
     };
     var lastPhoto = $scope.photos[$scope.photos.length - 1];
     // If photos.length equals 1.
@@ -259,10 +260,10 @@ function mergePhotos(photos) {
 
 function calculateLayout() {
     $scope.layout = PhotosLayoutAlgorithm['default']({
-        fixedHeight: 170,
+        fixedHeight: 250,
         minWidth: 120,
-        gapWidth:  10,
-        gapHeight: 10,
+        gapWidth:  2,
+        gapHeight: 2,
         borderWidth: 0,
         containerWidth: wdViewport.width() - 60 - 10 - 20,
         containerHeight: -1,
