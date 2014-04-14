@@ -8,12 +8,16 @@ define([
     'text!templates/contacts/index.html',
     'text!templates/applications/index.html',
     'text!templates/messages/conversations.html',
+    'text!templates/videos/index.html',
+    'text!templates/ebooks/index.html',
     'data/main',
     'common/main',
     'common/language',
     'messages/main',
     'contacts/main',
     'applications/main',
+    'videos/main',
+    'ebooks/main',
     'ui/main',
     'jquery'
 ], function(
@@ -26,12 +30,16 @@ define([
     ContactsTemplate,
     ApplicationsTemplate,
     MessagesTemplate,
+    VideosTemplate,
+    EbooksTemplate,
     Data,
     common,
     language,
     messages,
     contacts,
     applications,
+    videos,
+    ebooks,
     ui,
     jQuery
 ) {
@@ -57,7 +65,7 @@ var CURRENT_DEVICE_TYPE = 1;
 READ_ONLY_FLAG = true;
 
 angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdData', 'wdPhotos', 
-                        'wdLanguage', 'wdMessages', 'wdContacts', 'wdApplications'])
+                        'wdLanguage', 'wdMessages', 'wdContacts', 'wdApplications', 'wdVideos', 'wdEbooks'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
 
@@ -180,6 +188,27 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
             },
             reloadOnSearch: false
         });
+
+        $routeProvider.when('/videos', {
+            template:VideosTemplate,
+            controller: 'wdVideosController',
+            resolve: {
+                auth: validateToken,
+                nav: reflectNavbar('videos'),
+                versionSupport:minVersionRequirement(3896)
+            }
+        });
+
+        $routeProvider.when('/ebooks', {
+            template:EbooksTemplate,
+            controller: 'wdEbooksController',
+            resolve: {
+                auth: validateToken,
+                nav: reflectNavbar('ebooks'),
+                versionSupport:minVersionRequirement(3896)
+            }
+        });
+
         $routeProvider.otherwise({
             redirectTo: '/portal'
         });

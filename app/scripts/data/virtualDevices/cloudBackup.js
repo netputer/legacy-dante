@@ -5,8 +5,11 @@ define([
     ) {
     'use strict';
 
-    return ['wdBackupChannelDev', '$q', 'wdBackupAppsService', 'wdBackupContactsService', 'wdBackupMessagesService', 'wdBackupPhotosService',
-    function(wdBackupChannelDev,   $q,   wdBackupAppsService,   wdBackupContactsService,   wdBackupMessagesService,   wdBackupPhotosService) {
+    return ['wdBackupChannelDev', '$q', 'wdBackupAppsService', 'wdBackupContactsService', 'wdBackupMessagesService',
+            'wdBackupPhotosService', 'wdBackupVideosService',  'wdBackupEbooksService',
+    function(wdBackupChannelDev,   $q,   wdBackupAppsService,   wdBackupContactsService,   wdBackupMessagesService, 
+             wdBackupPhotosService,   wdBackupVideosService,    wdBackupEbooksService
+        ) {
         var device;
         var app;
 
@@ -65,6 +68,14 @@ define([
 
             getContactsService: function() {
                 return wdBackupContactsService;
+            },
+
+            getVideosService: function() {
+                return wdBackupVideosService;
+            },
+
+            getEbooksService: function() {
+                return wdBackupEbooksService;
             }
 
         };

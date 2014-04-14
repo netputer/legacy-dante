@@ -138,7 +138,7 @@
         }
     }
 
-    @each $icon in "app", "contact", "img", "sms" {
+    @each $icon in "app", "contact", "img", "sms", "video", "ebook" {
         i.icon-#{$icon} {
             width: icon-width($icon);
             $height: icon-height($icon);

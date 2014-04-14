@@ -28,11 +28,15 @@ define([
     'data/services/common/photos/message-pusher',
     'data/services/common/photos/photo-setting',
 
+    'data/services/common/videos',
+    'data/services/common/ebooks',
 
     'data/services/cloudBackup/applications',
     'data/services/cloudBackup/contacts',
     'data/services/cloudBackup/messages',
-    'data/services/cloudBackup/photos'
+    'data/services/cloudBackup/photos',
+    'data/services/cloudBackup/videos',
+    'data/services/cloudBackup/ebooks',
 ], function(
     angular,
     basic,
@@ -63,10 +67,15 @@ define([
     messagePusher,
     photoSetting,
 
+    videos,
+    ebooks,
+
     backupApps,
     backupContacts,
     backupMessages,
-    backupPhotos
+    backupPhotos,
+    backupVideos,
+    backupEbooks
 ) {
 'use strict';
 
@@ -81,6 +90,9 @@ angular.module('wdData', [])
     .factory('wdpMessagePusher', messagePusher)
     .factory('wdpPhotoSetting', photoSetting)
     .factory('wdPhotosService', photos)
+
+    .factory('wdVideosService', videos)
+    .factory('wdEbooksService', ebooks)
 
     .factory('wdmMessage', messageFactory)
     .factory('wdmMessagesCollection', messagesCollectionFactory)
@@ -100,7 +112,9 @@ angular.module('wdData', [])
     .factory('wdBackupContactsService', backupContacts)
     .factory('wdBackupMessagesService', backupMessages)
     .factory('wdBackupPhotosService', backupPhotos)
-
+    .factory('wdBackupVideosService', backupVideos)
+    .factory('wdBackupEbooksService', backupEbooks)
+    
     .factory('wdVirtualDeviceCloud', cloud)
     .factory('wdVirtualDeviceCloudLocker', cloudLocker)
     .factory('wdVirtualDeviceCloudBackup', cloudBackup)

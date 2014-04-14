@@ -66,6 +66,14 @@ define([], function() {
 
             getPhotosService: function() {
                 return currentVirtualDevice.getPhotosService();
+            },
+
+            getVideosService: function() {
+                return currentVirtualDevice.getVideosService();
+            },
+
+            getEbooksService: function() {
+                return currentVirtualDevice.getEbooksService();
             }
 
         };

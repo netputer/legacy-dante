@@ -16,9 +16,6 @@ function ($scope,    $http,        wdDev,             wdDevice,
     $scope.isCheckingLogin = true;
 
     var HOST = 'sync.wandoujia.com';
-    //>>includeStart("debug", pragmas.debug);
-    HOST = 'sync-test.wandoujia.com';
-    //>>includeEnd("debug");
     var PORT = '80';
 
     $scope.safariHelp = function() {
