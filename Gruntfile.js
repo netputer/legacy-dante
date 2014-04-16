@@ -434,6 +434,24 @@ module.exports = function (grunt) {
             ]);
         }
 
+        if (target === 'testcloud') {
+            return grunt.task.run([
+                'clean:dist',
+                'useminPrepare',
+                'compass:dist',
+                'concurrent:dist',
+                'targethtml:cloud',
+                'requirejs:cloud',
+                'copy:tmp',
+                'cssmin',
+                'concat',
+                'uglify',
+                'copy:dist',
+                'rev',
+                'usemin'
+            ]);
+        }
+
         return grunt.task.run([
             'clean:dist',
             'useminPrepare',
