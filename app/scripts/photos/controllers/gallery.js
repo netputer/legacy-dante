@@ -498,6 +498,7 @@ if (wdpPhotoSetting.photoExtensionIntroducesEnabled()) {
 }
 
 $scope.installCloudPhotoExtension = function() {
+    GA('photos:photo_extension:install');
     var url = $scope.$root.DICT.app.EXTENSION_STORE_URL;
     $window.open(url);
     $scope.hidePhotoExtensionIntro();
