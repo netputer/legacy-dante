@@ -4,8 +4,8 @@ define([
     _
     ) {
     'use strict';
-    return ['$http', '$q', '$timeout',
-    function($http,   $q,   $timeout) {
+    return ['$q', '$timeout',
+    function($q,   $timeout) {
         // Temporary retain the original logic and writing by boss wang.
 
         var CONFIG = {
@@ -67,12 +67,14 @@ define([
             return new RegExp( query , 'g' ).test( str );
         }
 
-        function Contact() {
+        function Contact(dataChannel) {
             this.contacts = [];
             this.dataFinish = false;
             this.fun = undefined;
             this.query = '';
             this.checkedList = [];
+
+            _.extend(this, dataChannel);
         }
 
         _.extend(Contact.prototype, {
@@ -93,7 +95,7 @@ define([
                 var self = this;
                 cursor = cursor || 0;
 
-                return $http({
+                return this.http({
                     method: 'get',
                     url: '/resource/contacts',
                     timeout:CONFIG.timeout,
@@ -203,7 +205,7 @@ define([
 
                     //如果数据未加载完整，从后端搜索，数据完整从前端搜索
                     if (!self.dataFinish && !searchCache) {
-                        $http({
+                        this.http({
                             method: 'get',
                             url: '/resource/contacts/search',
                             params: {
@@ -351,7 +353,7 @@ define([
                         defer.resolve(contact);
                     }, 0);
                 } else {
-                    $http({
+                    this.http({
                         method: 'get',
                         url: '/resource/contacts/' + id
                     }).success(function(data){
@@ -363,7 +365,7 @@ define([
 
             //取得账号
             getAccount : function() {
-                return $http({
+                return this.http({
                     method: 'get',
                     url: '/resource/accounts'
                 }).success(function(data) {
@@ -397,7 +399,7 @@ define([
                     }
                 }
 
-                return $http({
+                return this.http({
                     method: 'post',
                     url: '/resource/contacts/delete',
                     data: {'ids':list},
@@ -415,7 +417,7 @@ define([
                     newData.push(news);
                 }
 
-                return $http({
+                return this.http({
                     method: 'post',
                     url: '/resource/contacts/',
                     data:newData,
@@ -431,7 +433,7 @@ define([
             //编辑联系人
             editContact:function(editData){
 
-                return $http({
+                return this.http({
                     method: 'put',
                     url: '/resource/contacts/' + editData.id,
                     data:editData,

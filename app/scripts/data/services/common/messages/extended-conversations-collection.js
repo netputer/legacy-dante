@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversationsCollection', '$q', '$http', 'GA', '$rootScope', 'wdDev',
-function(wdmConversationsCollection,   $q,   $http,   GA,   $rootScope,   wdDev) {
+return ['wdmConversationsCollection', '$q', 'GA', '$rootScope', 'wdDev',
+function(wdmConversationsCollection,   $q,   GA,   $rootScope,   wdDev) {
 
 var _super = wdmConversationsCollection.ConversationsCollection.prototype;
 
@@ -65,7 +65,7 @@ _.extend(ExtendedConversationsCollection.prototype, {
 
     _fetchById: function(id) {
         var c = this.getById(id) || this.create({ id: id });
-        return $http.get(
+        return this.http.get(
             '/resource/conversations/' + id
         ).then(function success(response) {
             c.extend(response.data);
@@ -92,7 +92,7 @@ _.extend(ExtendedConversationsCollection.prototype, {
             var RETRY_TIMES = 3;
             var data = (function tick() {
                 var timeStart = (new Date()).getTime();
-                return $http.get(
+                return this.http.get(
                     '/resource/conversations',
                     { params: params }
                 ).then(function success(response) {
@@ -189,7 +189,7 @@ _.extend(ExtendedConversationsCollection.prototype, {
             m.rawData.status = 32;
         });
 
-        return $http(config).then(function done(response) {
+        return this.http(config).then(function done(response) {
             var data = [].concat(response.data);
             if (data.length) {
                 c.messages.drop(messages);

@@ -6,8 +6,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmConversation', '$q', '$http',
-function(wdmConversation,   $q,   $http) {
+return ['wdmConversation', '$q',
+function(wdmConversation,   $q) {
 
 var _super = Collection.prototype;
 

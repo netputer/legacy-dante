@@ -1,6 +1,10 @@
-define([], function() {
+define([
+    'underscore'
+    ], function(
+    _
+    ) {
     'use strict';
-    return [function() {
+    return ['$http', function($http) {
         var DEFAULT_PORT = '80';
         var ip;
         var port = '80';
@@ -12,7 +16,6 @@ define([], function() {
             return server.replace(':', '\\:');
         }
         var api = {
-
             setServer: function(newIP, newPort) {
                 ip = newIP;
                 port = newPort;
@@ -39,8 +42,46 @@ define([], function() {
                 var prefix = '/api/v2/' + Date.now();
 
                 return server + prefix + url;
+            },
+
+            http: function(parameters) {
+                parameters.url = api.wrapURL(parameters.url);
+
+                return $http(parameters);
             }
         };
+
+        createShortMethods('get', 'delete', 'head', 'jsonp');
+        createShortMethodsWithData('post', 'put');
+
+        function createShortMethods(names) {
+            _.each(arguments, function(name) {
+                api.http[name] = function(url, config) {
+                    url = api.wrapURL(url);
+
+                    return $http(_.extend(config || {}, {
+                        method: name,
+                        url: url
+                    }));
+                };
+            });
+        }
+
+
+        function createShortMethodsWithData(name) {
+            _.each(arguments, function(name) {
+                api.http[name] = function(url, data, config) {
+                    url = api.wrapURL(url);
+
+                    return $http(_.extend(config || {}, {
+                        method: name,
+                        url: url,
+                        data: data
+                    }));
+                };
+            });
+        }
+
 
         return api;
     }];

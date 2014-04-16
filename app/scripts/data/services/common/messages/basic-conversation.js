@@ -6,8 +6,8 @@ define([
     _
 ) {
 'use strict';
-return ['$q', '$http',
-function($q,   $http) {
+return ['$q',
+function($q) {
 
 var _super = Model.prototype;
 
@@ -66,7 +66,7 @@ _.extend(BasicConversation.prototype, {
             return $q.when(this);
         }
 
-        return $http.get(
+        return this.http.get(
            '/resource/conversations/' + this.id
         ).then(function done(response) {
             this.extend(response.data);
@@ -75,7 +75,7 @@ _.extend(BasicConversation.prototype, {
     },
 
     destroy: function() {
-        return $http.delete(
+        return this.http.delete(
             '/resource/conversations/' + this.id
         ).then(function done() {
             return this;
@@ -90,7 +90,7 @@ _.extend(BasicConversation.prototype, {
         var cachedUnreadCount = this.unread_message_count;
         this.rawData.unread_message_count = 0;
 
-        return $http.post(
+        return this.http.post(
             '/resource/conversations/' + this.id + '/messages/update',
             { read: 1 }
         ).then(function success() {

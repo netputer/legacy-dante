@@ -4,12 +4,12 @@ define([
 	_
 	) {
 	'use strict';
-	return ['wdPhotosService',
-	function(WdPhotosService) {
+	return ['wdPhotosService', 'wdBackupChannelDev',
+	function(WdPhotosService,   wdBackupChannelDev) {
 		function Photo() {
 		}
 
-		var wdPhotosService = new WdPhotosService();
+		var wdPhotosService = new WdPhotosService(wdBackupChannelDev);
 		_.extend(Photo.prototype, wdPhotosService);
 
 		return	new Photo();

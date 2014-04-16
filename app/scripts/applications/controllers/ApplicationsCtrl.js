@@ -11,11 +11,11 @@ define([
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
 
-    return ['$scope', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdDataBasic', 'wdKey', '$rootScope', '$filter', 'wdDownload',
-    function($scope,   wdDev,   wdSocket,   wdAlert,   $route,   GA,   wdDataBasic,   wdKey,   $rootScope,   $filter,   wdDownload){
+    return ['$scope', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdVirtualDeviceFactory', 'wdKey', '$rootScope', '$filter', 'wdDownload',
+    function($scope,   wdDev,   wdSocket,   wdAlert,   $route,   GA,   wdVirtualDeviceFactory,   wdKey,   $rootScope,   $filter,   wdDownload){
         GA('vertical:apps');
         
-        var wdAppsService = wdDataBasic.getAppsService();
+        var wdAppsService = wdVirtualDeviceFactory.getCurrentDevice().getAppsService();
 
         //$scope相关
         //展示应用列表

@@ -7,7 +7,7 @@ define([
 ) {
 'use strict';
 
-return ['$q', '$http', function($q, $http) {
+return ['$q', function($q) {
 
 var _super = Model.prototype;
 
@@ -56,7 +56,7 @@ _.extend(Message.prototype, {
             return $q.when(this);
         }
 
-        return $http.get(this.url).then(function done(response) {
+        return this.http.get(this.url).then(function done(response) {
             return this.extend(response.data);
         }.bind(this));
     },
@@ -66,7 +66,7 @@ _.extend(Message.prototype, {
      * @return {Promise} Resolve by Message
      */
     destroy: function() {
-        return $http['delete'](this.url).then(function done() {
+        return this.http['delete'](this.url).then(function done() {
             return this;
         }.bind(this), function fail(response) {
             return response.status === 404 ? this : $q.reject();

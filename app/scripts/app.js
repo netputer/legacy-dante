@@ -73,10 +73,10 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         // Used for filter route changing which need auth.
-        var validateToken = ['$q', 'wdDataBasic', '$location',
-            function($q, wdDataBasic, $location) {
+        var validateToken = ['$q', 'wdVirtualDeviceFactory', '$location',
+            function($q, wdVirtualDeviceFactory, $location) {
 
-            if (wdDataBasic.valid()) {
+            if (wdVirtualDeviceFactory.getCurrentDevice() && wdVirtualDeviceFactory.getCurrentDevice().valid) {
                 return true;
             }
             else {
@@ -94,7 +94,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         };
 
         var minVersionRequirement = function(versionCode) {
-            return ['wdDataBasic', function(wdDataBasic) {
+            return ['wdVirtualDeviceFactory', function(wdVirtualDeviceFactory) {
                 return true;//wdDataBasic.dev().getMetaData('version_code') >= versionCode;
             }];
         };
@@ -219,11 +219,11 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
             return {
                 request: function(config) {
                     // Using realtime data source url.
-                    if (config.url && !/^(http|https):/.test(config.url)) {
-                        $injector.invoke(['wdDataBasic', function(wdDataBasic) {
-                            config.url = wdDataBasic.dev().wrapURL(config.url);
-                        }]);
-                    }
+                    // if (config.url && !/^(http|https):/.test(config.url)) {
+                    //     $injector.invoke(['wdDataBasic', function(wdDataBasic) {
+                    //         config.url = wdDataBasic.dev().wrapURL(config.url);
+                    //     }]);
+                    // }
                     // Global timeout
                     if (angular.isUndefined(config.timeout)) {
                         config.timeout = 20 * 1000;
@@ -278,10 +278,10 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
     }])
     .run([      '$window',             '$rootScope', 'wdKeeper', 'GA',        'wdLanguageEnvironment', 'wdSocket',
                 'wdTitleNotification', 'wdDev',      '$q',       '$document', '$route',                'wdDatabase', 'wdWindowFocus', 
-                'wdReminder', 'wdDevice', 'wdConnection', 'wdDataBasic',        '$location',
+                'wdReminder', 'wdConnection', 'wdVirtualDeviceFactory',        '$location',
         function($window,               $rootScope,   wdKeeper,   GA,          wdLanguageEnvironment,   wdSocket,
                 wdTitleNotification,    wdDev,        $q,         $document,   $route,                  wdDatabase,   wdWindowFocus,  
-                wdReminder,   wdDevice,   wdConnection,   wdDataBasic,          $location) {
+                wdReminder,    wdConnection,   wdVirtualDeviceFactory,          $location) {
 
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
@@ -316,8 +316,8 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
 
         $rootScope.$on('SelectDevice', function(event, deviceInfo) {
             deviceInfo.currentDeviceType = CURRENT_DEVICE_TYPE;
-            wdDataBasic
-                .init(deviceInfo)
+            wdVirtualDeviceFactory
+                .create(deviceInfo)
                 .buildConnection()
                 .then(function() {
                     $location.url($route.current.params.ref || '/');
@@ -349,7 +349,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         });
 
         $rootScope.$on('signout', function() {
-            wdDataBasic.clearDeviceData();
+            wdVirtualDeviceFactory.getCurrentDevice().clearDeviceData();
 
             if (!$rootScope.READ_ONLY_FLAG) {
                 wdSocket.close();
@@ -370,7 +370,7 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         };
 
         wdSocket.on('refresh', function() {
-            wdDataBasic.clearDeviceData();
+            wdVirtualDeviceFactory.getCurrentDevice().clearDeviceData();
             $route.reload();
         });
 

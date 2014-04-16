@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmSyncMessagesCollection', '$http',
-function(wdmSyncMessagesCollection,   $http) {
+return ['wdmSyncMessagesCollection',
+function(wdmSyncMessagesCollection) {
 
 var _super = wdmSyncMessagesCollection.SyncMessagesCollection.prototype;
 

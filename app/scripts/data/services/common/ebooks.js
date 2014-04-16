@@ -288,7 +288,6 @@ define([
                     ]
                 }
             ];
-            //this.list = [];
         }
 
         _.extend(Ebooks.prototype, {

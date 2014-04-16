@@ -5,9 +5,9 @@ define([
 ) {
 'use strict';
 return ['wdmConversationMessagesCollection', 'wdmBasicConversation',
-        '$q', '$http',
+        '$q',
 function(wdmConversationMessagesCollection,   wdmBasicConversation,
-         $q,   $http) {
+         $qp) {
 
 var _super = wdmBasicConversation.BasicConversation.prototype;
 

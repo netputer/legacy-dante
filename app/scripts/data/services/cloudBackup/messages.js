@@ -4,12 +4,12 @@ define([
 	_
 	) {
 	'use strict';
-	return ['wdMessagesService',
-	function(WdMessagesService) {
+	return ['wdMessagesService', 'wdBackupChannelDev',
+	function(WdMessagesService,   wdBackupChannelDev) {
 		function Message() {
 		}
 
-		var wdMessagesService = new WdMessagesService();
+		var wdMessagesService = new WdMessagesService(wdBackupChannelDev);
 		_.extend(Message.prototype, wdMessagesService);
 
 		return new Message();

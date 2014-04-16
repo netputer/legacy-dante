@@ -4,22 +4,24 @@ define([
     _
     ) {
     'use strict';
-    return ['$http', '$resource', 'wdEventEmitter',
-    function($http,   $resource,   wdEventEmitter) {
+    return ['$resource', 'wdEventEmitter',
+    function($resource,   wdEventEmitter) {
 
-        function Photo() {
+        function Photo(dataChannel) {
             this.collection = [];
 
             wdEventEmitter(this);
+
+            _.extend(this, dataChannel);
         }
 
         _.extend(Photo.prototype, {
             getAlbums : function() {
-                return $http.get('/resource/albums');
+                return this.http.get('/resource/albums');
             },
 
             updateAlbums : function(data) {
-                return $http.put('/resource/albums', data);
+                return this.http.put('/resource/albums', data);
             },
 
             getById: function(id) {
@@ -43,7 +45,7 @@ define([
             },
 
             service: function() {
-                return $resource('/resource/photos/:id', {id: '@id'});
+                return $resource(this.wrapURL('/resource/photos/:id'), {id: '@id'});
             }
 
         });

@@ -4,12 +4,12 @@ define([
     _
     ) {
     'use strict';
-    return ['wdContactsService',
-    function(WdContactsService) {
+    return ['wdContactsService', 'wdBackupChannelDev',
+    function(WdContactsService,   wdBackupChannelDev) {
         function Contacts() {
         }
 
-        var wdContactsService = new WdContactsService();
+        var wdContactsService = new WdContactsService(wdBackupChannelDev);
         _.extend(Contacts.prototype, wdContactsService);
 
 

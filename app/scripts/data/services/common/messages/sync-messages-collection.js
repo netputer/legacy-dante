@@ -4,8 +4,8 @@ define([
     _
 ) {
 'use strict';
-return ['wdmMessagesCollection', '$q', '$http', 'GA', 
-function(wdmMessagesCollection,   $q,   $http,   GA) {
+return ['wdmMessagesCollection', '$q', 'GA', 
+function(wdmMessagesCollection,   $q,   GA) {
 
 var _super = wdmMessagesCollection.MessagesCollection.prototype;
 
@@ -60,7 +60,7 @@ _.extend(SyncMessagesCollection.prototype, {
 
             var RETRY_TIMES = 3;
             var promise = (function tick() {
-                return $http(config).then(done, function() {
+                return this.http(config).then(done, function() {
                     GA('perf:messages_fetch_duration:fail:' + ((new Date()).getTime() - timeStart));
 
                     RETRY_TIMES -= 1;
@@ -70,7 +70,7 @@ _.extend(SyncMessagesCollection.prototype, {
                         tick();
                     }
                 });
-            })();
+            }.bind(this))();
 
             return promise;
         }

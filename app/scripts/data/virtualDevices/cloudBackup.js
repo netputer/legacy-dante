@@ -10,32 +10,33 @@ define([
     function(wdBackupChannelDev,   $q,   wdBackupAppsService,   wdBackupContactsService,   wdBackupMessagesService, 
              wdBackupPhotosService,   wdBackupVideosService,    wdBackupEbooksService
         ) {
-        var device;
-        var app;
 
-        var api = {
-            init: function(deviceInfo) {
-                wdBackupChannelDev.setServer(deviceInfo.ip, deviceInfo.port);
+        function VirtaulDevice(deviceInfo) {
+            wdBackupChannelDev.setServer(deviceInfo.ip, deviceInfo.port);
 
-                // set a huge verison code for turning off version control
-                wdBackupChannelDev.setMeta({
-                     version_code : 9999
-                });
+            // set a huge verison code for turning off version control
+            wdBackupChannelDev.setMeta({
+                 version_code : 9999
+            });
 
-                device = deviceInfo;
+            this.device = deviceInfo;
+            this.valid = false;
 
-                wdBackupMessagesService.initialize();
-            },
+            wdBackupMessagesService.initialize();
+        }
 
+        _.extend(VirtaulDevice.prototype, {
             buildConnection: function() {
                 var defer = $q.defer();
                 defer.resolve();
+                this.valid = true;
                 return defer.promise;
             },
 
             shutDownConnection: function() {
                 var defer = $q.defer();
                 defer.resolve();
+                this.valid = false;
                 return defer.promise;
             },
 
@@ -44,7 +45,7 @@ define([
             },
 
             getCurrentDevice: function() {
-                return device;
+                return this.device;
             },
 
             clearDeviceData: function() {
@@ -77,9 +78,31 @@ define([
             getEbooksService: function() {
                 return wdBackupEbooksService;
             }
+        });
 
-        };
+        return VirtaulDevice;
 
-        return api;
+        // var device;
+        // var app;
+
+        // var api = {
+        //     init: function(deviceInfo) {
+        //         wdBackupChannelDev.setServer(deviceInfo.ip, deviceInfo.port);
+
+        //         // set a huge verison code for turning off version control
+        //         wdBackupChannelDev.setMeta({
+        //              version_code : 9999
+        //         });
+
+        //         device = deviceInfo;
+
+        //         wdBackupMessagesService.initialize();
+        //     },
+
+            
+
+        // };
+
+        // return api;
     }];
 });

@@ -1,6 +1,6 @@
 define([
     'angular',
-    'data/basic',
+    'data/virtualDeviceFactory',
     'data/virtualDevices/cloud',
     'data/virtualDevices/cloudBackup',
     'data/virtualDevices/cloudLocker',
@@ -39,7 +39,7 @@ define([
     'data/services/cloudBackup/ebooks',
 ], function(
     angular,
-    basic,
+    virtualDeviceFactory,
     cloud,
     cloudBackup,
     cloudLocker,
@@ -120,6 +120,6 @@ angular.module('wdData', [])
     .factory('wdVirtualDeviceCloudBackup', cloudBackup)
     .factory('wdVirtualDeviceSnapPea', snapPea)
 
-    .factory('wdDataBasic', basic)
+    .factory('wdVirtualDeviceFactory', virtualDeviceFactory)
     ;
 });

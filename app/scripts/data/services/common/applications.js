@@ -4,11 +4,13 @@ define([
     _
     ) {
     'use strict';
-    return ['$http', '$q',
-    function($http,   $q) {
-        function APP() {
+    return ['$q',
+    function($q) {
+        function APP(dataChannel) {
             this.list = [];
             this.installedList = [];
+
+            _.extend(this, dataChannel);
         }
 
         _.extend(APP.prototype, {
@@ -18,7 +20,7 @@ define([
                     defer.resolve(this.list);
                     return defer.promise;
                 } else {
-                    return $http({
+                    return this.http({
                         method: 'get',
                         url: '/resource/apps?length=9999',
                         data: parameters || {}
@@ -31,14 +33,14 @@ define([
             },
 
             delete: function(packageName) {
-                return $http({
+                return this.http({
                     method: 'delete',
                     url: '/resource/apps/' + packageName
                 });
             },
 
             install: function(apkPaths) {
-                return $http({
+                return this.http({
                     method: 'post',
                     url: '/resource/apps/install',
                     data: apkPaths
@@ -46,7 +48,7 @@ define([
             },
 
             getApp: function(packageName) {
-                return $http({
+                return this.http({
                     method: 'get',
                     url: '/resource/apps/'+ packageName
                 });

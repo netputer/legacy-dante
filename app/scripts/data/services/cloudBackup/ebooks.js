@@ -6,7 +6,7 @@ function(
 	) {
 	'use strict';
 
-	return ['wdEbooksService', 
+	return ['wdEbooksService',
 	function(
 			WdEbooksService
 		) {
