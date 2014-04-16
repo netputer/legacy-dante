@@ -498,7 +498,7 @@ if (wdpPhotoSetting.photoExtensionIntroducesEnabled()) {
 }
 
 $scope.installCloudPhotoExtension = function() {
-    var url = 'https://chrome.google.com/webstore/detail/lmjilpodaefodkchkcodkmplleffcina';
+    var url = $scope.$root.DICT.app.EXTENSION_STORE_URL;
     $window.open(url);
     $scope.hidePhotoExtensionIntro();
 };
