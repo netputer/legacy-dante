@@ -78,8 +78,7 @@
             width: 100%;
             margin: 0 auto;
             text-align: center;
-            position: absolute;
-            top: 430px;
+            @include position(absolute, 400px 0 0 0);
             @include transition(all $global-transition-duration);
             &.hide {
                 display: block;
@@ -113,11 +112,12 @@
         color: #999;
         display: block;
         width: 960px;
+        height: 80px;
         float: left;
         font-size: 12px;
         padding-top: 30px;
-        position: absolute;
-        bottom: 20px;
+        @include position(absolute, 0 0 0px 0);
+        background: #fff;
         a {
             color: #999;
         }

@@ -497,6 +497,12 @@ if (wdpPhotoSetting.photoExtensionIntroducesEnabled()) {
     $scope.showPhotoExtensionIntro = false;
 }
 
+$scope.installCloudPhotoExtension = function() {
+    var url = $scope.$root.DICT.app.EXTENSION_STORE_URL;
+    $window.open(url);
+    $scope.hidePhotoExtensionIntro();
+};
+
 $scope.hidePhotoExtensionIntro = function() {
     $scope.addPhotoExtensionIntroHideClass = true;
     wdpPhotoSetting.photoExtensionIntroducesEnabled(true);
