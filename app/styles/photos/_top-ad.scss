@@ -98,14 +98,8 @@
     }
     .icon-close {
         cursor: pointer;
-        position: absolute;
-        right: 20px;
-        &:hover {
-            opacity: 0.8;
-        }
-        &:active {
-            opacity: 1;
-        }
+        @include position(absolute, 0 20px 0 0);
+        @include button-effect-dark;
     }
 
 }
