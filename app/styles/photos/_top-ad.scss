@@ -91,5 +91,21 @@
         color: #fff;
         margin-top: -58px;
         background-color: $standard-green;
+
+        &:hover {
+            background-color: #50ba3a;
+        }
     }
+    .icon-close {
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        &:hover {
+            opacity: 0.8;
+        }
+        &:active {
+            opacity: 1;
+        }
+    }
+
 }
