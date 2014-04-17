@@ -91,5 +91,15 @@
         color: #fff;
         margin-top: -58px;
         background-color: $standard-green;
+
+        &:hover {
+            background-color: #50ba3a;
+        }
     }
+    .icon-close {
+        cursor: pointer;
+        @include position(absolute, 0 20px 0 0);
+        @include button-effect-dark;
+    }
+
 }
