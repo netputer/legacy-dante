@@ -74,10 +74,11 @@
         }
 
         .photo-extension-intro {
-            height: 120px;
+            height: 110px;
             width: 100%;
             margin: 0 auto;
             text-align: center;
+            background-color: #f4f4f4;
             @include position(absolute, 400px 0 0 0);
             @include transition(all $global-transition-duration);
             &.hide {
@@ -99,7 +100,7 @@
                 }
                 text-align: left;
                 display: inline-block;
-                margin-top: 44px;
+                margin-top: 30px;
                 margin-right: 20px;
             }
         }

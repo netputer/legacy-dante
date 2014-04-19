@@ -38,7 +38,9 @@
     "PHOTO_EXTENSION": {
         "H1": "一键查看云相册",
         "DESCRIBE": "只需一点，轻松查看手机最新照片，并可下载或分享给好友。",
-        "BUTTON": "立即安装",
-        "CHECK": "查看详情"
+        "CHROME_BUTTON": "Chrome 浏览器安装",
+        "360SE_BUTTON": "360 安全浏览器安装",
+        "CHROME": "Chrome 浏览器",
+        "360SE": "360 安全浏览器"
     }
 }
