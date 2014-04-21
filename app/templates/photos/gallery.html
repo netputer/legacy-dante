@@ -22,8 +22,10 @@
                 <p class="title">{{$root.DICT.photos.PHOTO_EXTENSION.H1}}</p>
                 <p class="des">{{$root.DICT.photos.PHOTO_EXTENSION.DESCRIBE}}</p>
             </div>
-            <div class="btn chrome" ng-click="installCloudPhotoExtension();">{{$root.DICT.photos.PHOTO_EXTENSION.CHROME_BUTTON}}</div>
-            <div class="btn se360" ng-click="installCloudPhotoExtension();">{{$root.DICT.photos.PHOTO_EXTENSION.360SE_BUTTON}}</div>
+            <div class="btns">
+                <div class="btn chrome" ng-click="installCloudPhotoExtension();">{{$root.DICT.photos.PHOTO_EXTENSION.CHROME_BUTTON}}</div>
+                <!-- <div class="btn se360" ng-click="installCloudPhotoExtension();">{{$root.DICT.photos.PHOTO_EXTENSION.360SE_BUTTON}}</div> -->
+            </div>
             <i class="icon-close" ng-click="hidePhotoExtensionIntro();"></i>
         </div>
         <!-- 云相册 extenion 的引导安装 end -->

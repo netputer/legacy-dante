@@ -53,7 +53,7 @@
 }
 
 .photo-extension-intro {
-    position: relative;
+    @include position(relative, 0 0 0 0);
     height: 190px;
     width: auto;
     margin: 0 auto;
@@ -66,7 +66,7 @@
     }
     .icon-photo-extension {
         display: inline-block;
-        margin-top: 39px;
+        margin-top: 45px;
         margin-right: 20px;
     }
     .describe {
@@ -84,28 +84,29 @@
             font-size: 14px;
         }
     }
-    .btn {
-        width: 125px;
-        height: 40px;
-        line-height: 40px;
-        font-size: 16px;
-        color: #fff;
-        background-color: $standard-green;
-        &:hover {
-            background-color: #50ba3a;
-        }
-        &.chrome {
-            position: absolute;
-            top: 45px;
-        }
-        &.se360 {
-            position: absolute;
-            top: 100px;
+    .btns {
+        display: inline-block;
+        vertical-align: top;
+        width: 160px;
+        height: auto;
+        .btn {
+            width: 125px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            color: #fff;
+            background-color: $standard-green;
+            &:hover {
+                background-color: #50ba3a;
+            }
+        }        
+        .chrome {
+            margin-top: 65px;
         }
     }
     .icon-close {
         cursor: pointer;
-        @include position(absolute, 0 20px 0 0);
+        @include position(absolute, 0px 0px 0 0);
         @include button-effect-dark;
     }
 
