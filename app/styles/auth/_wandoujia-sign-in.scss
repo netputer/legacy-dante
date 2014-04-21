@@ -66,9 +66,8 @@
                 }
 
                 .no-support {
+                    @include position(absolute, 120px 0 0 0px);
                     width: 368px;
-                    left: 0;
-                    top: 120px;
                     margin: 0;
                     height: auto;
                     background-color: #eee;
