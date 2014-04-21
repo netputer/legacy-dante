@@ -12,14 +12,14 @@ return [
         '$scope', '$window', '$log', '$route', '$location', 'wdAlert', 'wdSocket',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
         'wdSharing', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', '$filter',
-        'wdDownload', 'wdDataBasic',
+        'wdDownload', 'wdVirtualDeviceFactory',
 function($scope,  $window,   $log,   $route,   $location,   wdAlert,    wdSocket,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
          wdSharing,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   $filter,
-         wdDownload,  wdDataBasic) {
+         wdDownload,  wdVirtualDeviceFactory) {
 GA('vertical:photos');
 
-var wdpPhotos = wdDataBasic.getPhotosService();
+var wdpPhotos = wdVirtualDeviceFactory.getCurrentDevice().getPhotosService();
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.firstScreenLoaded = false;

@@ -4,26 +4,27 @@ define([
     _
 ) {
 'use strict';
-return [ 'wdDataBasic', '$q',
-function( wdDataBasic,   $q) {
-var wdcContacts = wdDataBasic.getContactsService();
-var wdmConversations = wdDataBasic.getMessagesService();
+return [ 'wdVirtualDeviceFactory', '$q',
+function( wdVirtualDeviceFactory,   $q) {
+    var currentDevice = wdVirtualDeviceFactory.getCurrentDevice();
+    var wdcContacts = currentDevice.getContactsService();
+    var wdmConversations = currentDevice.getMessagesService();
 
-return {
-    init: function() {
-        wdcContacts.init();
-    },
-    search: function(query) {
-        var cache = wdmConversations.getContactsCache();
-        var config = {
-            sms: true
-        };
-        if (cache) {
-            config.cache = cache;
+    return {
+        init: function() {
+            wdcContacts.init();
+        },
+        search: function(query) {
+            var cache = wdmConversations.getContactsCache();
+            var config = {
+                sms: true
+            };
+            if (cache) {
+                config.cache = cache;
+            }
+            return wdcContacts.searchContacts(query, config);
         }
-        return wdcContacts.searchContacts(query, config);
-    }
-};
+    };
 
 }];
 });

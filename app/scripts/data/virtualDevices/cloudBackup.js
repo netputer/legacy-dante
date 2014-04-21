@@ -81,28 +81,5 @@ define([
         });
 
         return VirtaulDevice;
-
-        // var device;
-        // var app;
-
-        // var api = {
-        //     init: function(deviceInfo) {
-        //         wdBackupChannelDev.setServer(deviceInfo.ip, deviceInfo.port);
-
-        //         // set a huge verison code for turning off version control
-        //         wdBackupChannelDev.setMeta({
-        //              version_code : 9999
-        //         });
-
-        //         device = deviceInfo;
-
-        //         wdBackupMessagesService.initialize();
-        //     },
-
-            
-
-        // };
-
-        // return api;
     }];
 });

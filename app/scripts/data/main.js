@@ -37,6 +37,8 @@ define([
     'data/services/cloudBackup/photos',
     'data/services/cloudBackup/videos',
     'data/services/cloudBackup/ebooks',
+
+    'data/connection',
 ], function(
     angular,
     virtualDeviceFactory,
@@ -75,7 +77,9 @@ define([
     backupMessages,
     backupPhotos,
     backupVideos,
-    backupEbooks
+    backupEbooks,
+
+    connection
 ) {
 'use strict';
 
@@ -115,11 +119,12 @@ angular.module('wdData', [])
     .factory('wdBackupVideosService', backupVideos)
     .factory('wdBackupEbooksService', backupEbooks)
     
-    .factory('wdVirtualDeviceCloud', cloud)
-    .factory('wdVirtualDeviceCloudLocker', cloudLocker)
-    .factory('wdVirtualDeviceCloudBackup', cloudBackup)
-    .factory('wdVirtualDeviceSnapPea', snapPea)
+    .factory('wdCloudVirtualDevice', cloud)
+    .factory('wdCloudLockerVirtualDevice', cloudLocker)
+    .factory('wdCloudBackupVirtualDevice', cloudBackup)
+    .factory('wdSnapPeaVirtualDevice', snapPea)
 
     .factory('wdVirtualDeviceFactory', virtualDeviceFactory)
+    .factory('wdConnection', connection)
     ;
 });

@@ -1,8 +1,6 @@
 /*global Modernizr*/
 define([
     'angular',
-    'auth/services/device',
-    'auth/services/connection',
     'auth/internationalAuth/services/auth',
     'auth/internationalAuth/services/signInDetection',
     'auth/internationalAuth/controllers/auth',
@@ -11,8 +9,6 @@ define([
     'auth/wandoujiaAuth/controllers/auth'
 ], function(
     angular,
-    device,
-    connection,
     internationalAuth,
     signInDetection,
     internationalAuthController,
@@ -23,9 +19,6 @@ define([
 'use strict';
 
 angular.module('wdAuth', ['wdCommon'])
-    .provider('wdDevice', device)
-    .factory('wdConnection', connection)
-
     .factory('wdInternationalAuth', internationalAuth)
     .factory('wdSignInDetection', signInDetection)
     .controller('internationalAuthController', internationalAuthController)

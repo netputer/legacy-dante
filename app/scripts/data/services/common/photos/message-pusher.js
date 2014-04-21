@@ -5,8 +5,8 @@ define([
 ) {
 'use strict';
 // Message Pusher Service
-return ['wdDataBasic', '$log', '$timeout',
-function(wdDataBasic,   $log,   $timeout) {
+return ['wdVirtualDeviceFactory', '$log', '$timeout',
+function(wdVirtualDeviceFactory,   $log,   $timeout) {
 
 var INIT_TIMEOUT = 30;
 
@@ -72,7 +72,7 @@ var pusher = {
     start: function() {
         if (websocket) { return; }
         // Attempt connecting.
-        websocket = new WebSocket('ws:' + wdDataBasic.dev().wrapURL('/service/notification'));
+        websocket = new WebSocket('ws:' + wdVirtualDeviceFactory.getCurrentDevice().dev().wrapURL('/service/notification'));
         // Failed when attempting.
         websocket.onerror = function(e) {
             $log.warn('Cannot connect with server!', e);

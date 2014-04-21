@@ -9,13 +9,13 @@ define([
 ) {
 'use strict';
 
-return [ '$scope', 'wdAlert',  '$route', 'GA', 'wdDataBasic', '$timeout', 'wdKey', '$location', '$window', 
+return [ '$scope', 'wdAlert',  '$route', 'GA', 'wdVirtualDeviceFactory', '$timeout', 'wdKey', '$location', '$window', 
          'wdToast', '$q', '$rootScope', '$filter',
-function ($scope,   wdAlert,    $route,   GA,   wdDataBasic,   $timeout,   wdKey,   $location,   $window, 
+function ($scope,   wdAlert,    $route,   GA,   wdVirtualDeviceFactory,   $timeout,   wdKey,   $location,   $window, 
           wdToast,   $q,   $rootScope,   $filter) {
     GA('vertical:contacts');
 
-    var wdcContacts = wdDataBasic.getContactsService();
+    var wdcContacts = wdVirtualDeviceFactory.getCurrentDevice().getContactsService();
 
     //默认头像显示颜色
     var photoColorList = [

@@ -33,7 +33,6 @@ return function() {
                 $window.localStorage.removeItem('currentDevice');
                 valid = false;
             },
-            
 
             // 拆开 不应该有界面上的操作跳转
             //signout current device to device list
@@ -76,29 +75,15 @@ return function() {
                     }
                     $rootScope.$apply(function() {
                         list.forEach(function(item) {
-                            // var map = {
-                            //     'LTE': '4g'
-                            // }
-                            // item.networkType = map[item.attributes.network_type] || '3g';
-                            switch(item.attributes.network_type) {
-                                case 'LTE':
-                                case 'CDMA - eHRPD':
-                                    item.networkType = '4g';
-                                    break;
-                                case 'CDMA':
-                                    item.networkType = '2g';
-                                    break;
-                                case 'GPRS':
-                                    item.networkType = 'gprs';
-                                    break;
-                                case 'EDGE':
-                                    item.networkType = 'edge';
-                                    break;
-                                case 'WIFI':
-                                    item.networkType = 'wifi';
-                                    break;
-                                default: item.networkType = '3g';
-                            }
+                            var map = {
+                                'LTE': '4g',
+                                'CDMA - eHRPD': '4g',
+                                'CDMA': '2g',
+                                'GPRS': 'gprs',
+                                'EDGE': 'edge',
+                                'WIFI': 'wifi'
+                            };
+                            item.networkType = map[item.attributes.network_type] || '3g';
                         });
                         
                         //标记下是否是老用户，该功能暂时有客户端记录，之后会由服务器端提供接口。老用户定义：该用户成功获取设备，并且设备列表中有设备。

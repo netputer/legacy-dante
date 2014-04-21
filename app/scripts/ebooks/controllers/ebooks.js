@@ -2,12 +2,12 @@ define([], function() {
     'use strict';
 
     return [
-        '$scope', 'wdDataBasic', 'wdAlert', '$timeout',
+        '$scope', 'wdVirtualDeviceFactory', 'wdAlert', '$timeout',
     function(
-         $scope,   wdDataBasic,   wdAlert,   $timeout
+         $scope,   wdVirtualDeviceFactory,   wdAlert,   $timeout
     ) {
 
-        var videosService = wdDataBasic.getVideosService();
+        var videosService = wdVirtualDeviceFactory.getCurrentDevice().getVideosService();
 
         videosService.getVideoList()
             .then(function(data) {

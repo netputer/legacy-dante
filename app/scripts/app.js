@@ -1,6 +1,7 @@
 define([
     'angular',
     'auth/main',
+    'deviceList/main',
     'photos/main',
     'text!templates/auth/international.html',
     'text!templates/auth/cloudData.html',
@@ -23,6 +24,7 @@ define([
 ], function(
     angular,
     auth,
+    deviceList,
     photos,
     InternationalTemplate,
     cloudDataTemplate,
@@ -64,7 +66,7 @@ READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY
 var CURRENT_DEVICE_TYPE = 1;
 READ_ONLY_FLAG = true;
 
-angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdData', 'wdPhotos', 
+angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdDeviceList', 'wdData', 'wdPhotos', 
                         'wdLanguage', 'wdMessages', 'wdContacts', 'wdApplications', 'wdVideos', 'wdEbooks'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
