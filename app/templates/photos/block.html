@@ -9,7 +9,6 @@
     <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')">
     </div>
     <div wd-checkbox class="wd-block-select"
-        ng-if="!$root.READ_ONLY_FLAG"
         ng-click="select(photo, $event.shiftKey);"
         bs-tooltip="{{checkboxTipText}}"
         ng-checked="photo.selected"></div>

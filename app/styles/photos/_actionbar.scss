@@ -11,4 +11,13 @@
     > .btn {
         margin-right: 5px;
     }
-}
+
+    &.hide-actionbar {
+        @include transform(translateY(-50px));
+    }
+    &.show-actionbar {
+        @include transform(translateY(0px));
+        @include transition(all $global-transition-duration);
+    }
+} 
+
