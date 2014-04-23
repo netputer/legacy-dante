@@ -9,9 +9,16 @@ define([
 ) {
 'use strict';
 
-return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope', '$filter',
-function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope, $filter) {
-    GA('vertical:contacts');
+return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope', '$filter', 
+    'wdActiveDuraionTracker', 'wdInteractiveDurationTracker',
+function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope, $filter,
+     wdActiveDuraionTracker,   wdInteractiveDurationTracker) {
+
+    $scope.vertical = 'contacts';
+    wdInteractiveDurationTracker.count($scope.vertical);
+    wdActiveDuraionTracker.track($scope.vertical);
+
+    GA('vertical:' + $scope.vertical);
 
     //默认头像显示颜色
     var photoColorList = [

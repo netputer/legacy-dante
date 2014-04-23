@@ -10,10 +10,17 @@ define([
     'use strict';
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
-    return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 'wdKey', '$rootScope', '$filter', 'wdDownload',
-    function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   wdKey,   $rootScope,   $filter,   wdDownload){
-        GA('vertical:apps');
+    return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 
+    'wdKey', '$rootScope', '$filter', 'wdDownload', 'wdActiveDuraionTracker', 'wdInteractiveDurationTracker',
+    function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   
+     wdKey,   $rootScope,   $filter,   wdDownload,   wdActiveDuraionTracker,   wdInteractiveDurationTracker){
 
+        $scope.vertical = 'applications';
+        wdInteractiveDurationTracker.count($scope.vertical);
+        wdActiveDuraionTracker.track($scope.vertical);
+        
+        GA('vertical:' + $scope.vertical);
+        
         //$scope相关
         //展示应用列表
         $scope.list = [];

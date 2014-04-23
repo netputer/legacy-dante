@@ -12,12 +12,17 @@ return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
         'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', 'wdDev', '$filter',
-        'wdDownload',
+        'wdDownload', 'wdActiveDuraionTracker', 'wdInteractiveDurationTracker',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
          wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev,   $filter,
-         wdDownload) {
-GA('vertical:photos');
+         wdDownload,  wdActiveDuraionTracker,    wdInteractiveDurationTracker) {
+
+$scope.vertical = 'photos';
+wdInteractiveDurationTracker.count($scope.vertical);
+wdActiveDuraionTracker.track($scope.vertical);
+
+GA('vertical:' + $scope.vertical);
 
 $scope.serverMatchRequirement = $route.current.locals.versionSupport;
 $scope.firstScreenLoaded = false;

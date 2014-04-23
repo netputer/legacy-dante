@@ -4,11 +4,18 @@ define([
     _
 ) {
 'use strict';
-return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
-        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev',
-function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev) {
-GA('vertical:messages');
+return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert', 'wdActiveDuraionTracker',
+        'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev', 
+        'wdInteractiveDurationTracker',
+function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,   wdActiveDuraionTracker,
+         GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev,
+         wdInteractiveDurationTracker) {
+
+$scope.vertical = 'messages';
+wdInteractiveDurationTracker.count($scope.vertical);
+wdActiveDuraionTracker.track($scope.vertical);
+
+GA('vertical:' + $scope.vertical);
 
 //wdm alert
 var closeWdmAlert = $window.localStorage.getItem('closeWdmAlert');

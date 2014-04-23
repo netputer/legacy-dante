@@ -34,7 +34,7 @@
             <!-- 没有联系人时显示 end -->
 
             <!-- 每个联系人的模板 -->
-            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id)" ng-class="{clicked:item.clicked, checked: ( getCheckedList().indexOf(item.id) !== -1 )}">
+            <li class="contacts-item" ng-repeat="item in pageList" ng-click="showContacts(item.id); GA('contacts:contact_item:click');" ng-class="{clicked:item.clicked, checked: ( getCheckedList().indexOf(item.id) !== -1 )}" wd-list-perf-tracker>
                 <div wd-checkbox class="selected"
                     ng-class="{'wd-checkbox-light': !item.clicked}"
                     ng-show="!$root.READ_ONLY_FLAG"

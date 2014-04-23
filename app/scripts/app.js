@@ -13,6 +13,7 @@ define([
     'messages/main',
     'contacts/main',
     'applications/main',
+    'tracker/main',
     'ui/main',
     'jquery'
 ], function(
@@ -30,6 +31,7 @@ define([
     messages,
     contacts,
     applications,
+    tracker,
     ui,
     jQuery
 ) {
@@ -44,7 +46,8 @@ READ_ONLY_FLAG = false;
 //>>includeStart("debug", pragmas.debug);
 READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY_FLAG;
 //>>includeEnd("debug");
-angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
+angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wdTracker', 'wd.ui', 'wdAuth', 
+                        'wdPhotos', 'wdLanguage', 'wdMessages', 'wdContacts','wdApplications'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {
 
@@ -240,7 +243,6 @@ angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wd
         // $window.onbeforeunload = function () {
         //     return wdKeeper.getTip();
         // };
-
         $rootScope.READ_ONLY_FLAG = READ_ONLY_FLAG;
 
         (function(keeper) {
