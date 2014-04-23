@@ -50,6 +50,7 @@ function cloudDataCtrl($scope, $location, $http, wdDev, $route, $timeout, wdDevi
         };
         $scope.submit(item);
         GA('auth:wandoujia:success');
+        GA('perf:webapp:enter_duration:' + (Date.now() - $window.perfTracker.openPageTimestamp));
     },function(){
         $scope.isCheckingLogin = false;
         wdDevice.signout();

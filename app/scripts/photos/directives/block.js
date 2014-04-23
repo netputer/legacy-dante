@@ -10,7 +10,8 @@ define([
         _
     ) {
 'use strict';
-return ['$rootScope', 'wdDev', '$filter', function($rootScope, wdDev, $filter) {
+return ['$rootScope', 'wdDev', '$filter', 'GA', 'wdInteractiveDurationTracker', 
+function($rootScope,   wdDev,   $filter,   GA,   wdInteractiveDurationTracker) {
 return {
 
 template: template,
@@ -97,6 +98,11 @@ link: function($scope, element) {
                 $scope.$apply(function() {
                     $scope.photo.circleLoading = false;
                 });
+            }
+
+
+            if ($scope.$last) {
+                wdInteractiveDurationTracker.track($scope.$parent.$parent.vertical);
             }
         });
     }
