@@ -11,13 +11,13 @@ define([
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
     return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 
-    'wdKey', '$rootScope', '$filter', 'wdDownload', 'wdActiveDuraionTracker', 'wdInteractiveDurationTracker',
+    'wdKey', '$rootScope', '$filter', 'wdDownload', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
     function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   
-     wdKey,   $rootScope,   $filter,   wdDownload,   wdActiveDuraionTracker,   wdInteractiveDurationTracker){
+     wdKey,   $rootScope,   $filter,   wdDownload,   wdActiveDurationTracker,   wdInteractiveDurationTracker){
 
         $scope.vertical = 'applications';
         wdInteractiveDurationTracker.count($scope.vertical);
-        wdActiveDuraionTracker.track($scope.vertical);
+        wdActiveDurationTracker.track($scope.vertical);
         
         GA('vertical:' + $scope.vertical);
         

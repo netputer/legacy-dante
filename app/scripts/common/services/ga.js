@@ -19,10 +19,10 @@ return ['$log', '$interval', '$injector', function($log, $interval, $injector) {
             } else {
                 times += 1;
                 if (times >= maxDuration) {
-                    $injector.invoke(['wdActiveDuraionTracker', '$location', function(wdActiveDuraionTracker, $location) {
+                    $injector.invoke(['wdActiveDurationTracker', '$location', function(wdActiveDurationTracker, $location) {
                         var vertical = $location.path().replace('/', '');
 
-                        wdActiveDuraionTracker.endActive();
+                        wdActiveDurationTracker.endActive();
                     }]);
 
                     resetData();
@@ -49,8 +49,8 @@ return ['$log', '$interval', '$injector', function($log, $interval, $injector) {
         if (counter === 1) {
             listenUserGone();
 
-            $injector.invoke(['wdActiveDuraionTracker', function(wdActiveDuraionTracker) {
-                wdActiveDuraionTracker.startActive();
+            $injector.invoke(['wdActiveDurationTracker', function(wdActiveDurationTracker) {
+                wdActiveDurationTracker.startActive();
             }]);
         }
     };

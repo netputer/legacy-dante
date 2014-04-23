@@ -4,16 +4,16 @@ define([
     _
 ) {
 'use strict';
-return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert', 'wdActiveDuraionTracker',
+return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert', 'wdActiveDurationTracker',
         'GA', '$route', 'wdmConversations', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev', 
         'wdInteractiveDurationTracker',
-function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,   wdActiveDuraionTracker,
+function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,   wdActiveDurationTracker,
          GA,   $route,   wdmConversations,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev,
          wdInteractiveDurationTracker) {
 
 $scope.vertical = 'messages';
 wdInteractiveDurationTracker.count($scope.vertical);
-wdActiveDuraionTracker.track($scope.vertical);
+wdActiveDurationTracker.track($scope.vertical);
 
 GA('vertical:' + $scope.vertical);
 

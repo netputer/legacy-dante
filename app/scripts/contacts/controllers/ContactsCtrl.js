@@ -10,13 +10,13 @@ define([
 'use strict';
 
 return ['$scope', 'wdAlert', 'wdDev', '$route', 'GA', 'wdcContacts', '$timeout', 'wdKey', '$location', '$window', 'wdToast', '$q', '$rootScope', '$filter', 
-    'wdActiveDuraionTracker', 'wdInteractiveDurationTracker',
+    'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
 function ContactsCtrl($scope, wdAlert, wdDev, $route, GA, wdcContacts, $timeout, wdKey, $location, $window, wdToast, $q, $rootScope, $filter,
-     wdActiveDuraionTracker,   wdInteractiveDurationTracker) {
+     wdActiveDurationTracker,   wdInteractiveDurationTracker) {
 
     $scope.vertical = 'contacts';
     wdInteractiveDurationTracker.count($scope.vertical);
-    wdActiveDuraionTracker.track($scope.vertical);
+    wdActiveDurationTracker.track($scope.vertical);
 
     GA('vertical:' + $scope.vertical);
 

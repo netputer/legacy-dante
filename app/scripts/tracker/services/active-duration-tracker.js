@@ -41,7 +41,7 @@ define([], function() {
                 if (!currentVertical.length) {
                     currentVertical = vertical;
                     timestamp = Date.now();
-                } else if (currentVertical !== vertical && status !== 'end') {
+                } else if (currentVertical !== vertical && status !== END) {
                     if (status === START) {
                         currentVertical = vertical;
                         timestamp = Date.now();

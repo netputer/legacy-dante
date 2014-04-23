@@ -14,7 +14,7 @@ define([
 
     angular.module('wdTracker', [])
         .directive('wdListPerfTracker', listPerfTracker)
-        .factory('wdActiveDuraionTracker', activeDurationTracker)
+        .factory('wdActiveDurationTracker', activeDurationTracker)
         .factory('wdInteractiveDurationTracker', interactiveDurationTracker)
     ;
 });

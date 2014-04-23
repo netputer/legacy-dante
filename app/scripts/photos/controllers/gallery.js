@@ -12,15 +12,15 @@ return [
         '$scope', '$window', '$http', 'Photos', '$log', '$route', '$location', 'wdAlert', 'wdpPhotos',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
         'wdSharing', 'wdpAlbums', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', 'wdDev', '$filter',
-        'wdDownload', 'wdActiveDuraionTracker', 'wdInteractiveDurationTracker',
+        'wdDownload', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
 function($scope,  $window, $http,  Photos,   $log,   $route,   $location,   wdAlert,   wdpPhotos,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
          wdSharing,   wdpAlbums,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   wdDev,   $filter,
-         wdDownload,  wdActiveDuraionTracker,    wdInteractiveDurationTracker) {
+         wdDownload,  wdActiveDurationTracker,    wdInteractiveDurationTracker) {
 
 $scope.vertical = 'photos';
 wdInteractiveDurationTracker.count($scope.vertical);
-wdActiveDuraionTracker.track($scope.vertical);
+wdActiveDurationTracker.track($scope.vertical);
 
 GA('vertical:' + $scope.vertical);
 
