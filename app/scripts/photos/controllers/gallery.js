@@ -42,6 +42,7 @@ Object.defineProperty($scope, 'photos', {
 // Layout when photos amount change. Not a robust way...
 $scope.$watch('photos.length', layout);
 
+
 wdViewport.on('resize', function() {
     $scope.$apply(layout);
 });

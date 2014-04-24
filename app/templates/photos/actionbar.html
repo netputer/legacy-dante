@@ -2,6 +2,7 @@
     <div class="btn btn-primary"
         wdp-uploader
         ng-click="$root.GA('photos:toolbar:add_photo')"
+        ng-if="!$root.READ_ONLY_FLAG"
         ><i class="icon-add"></i> {{$root.DICT.photos.ACTIONBAR_ADD_PHOTOS}}</div>
     <div class="btn action-select"
         ng-click="deselectAll()"
@@ -9,7 +10,7 @@
         <i class="icon-buticon"></i>
         {{$root.DICT.photos.ACTIONBAR_DESELECT_ALL}} ({{selectedPhotos().length}})
     </div>
-    <div class="btn-group" ng-hide="!selectedPhotos().length">
+    <div class="btn-group" ng-hide="!selectedPhotos().length" ng-if="!$root.READ_ONLY_FLAG">
         <div class="btn"
             ng-click="deleteSelected();$root.GA('photos:delete_selected')"
             ><i class="icon-del-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DELETE}}</div>
@@ -18,4 +19,10 @@
             ng-click="downloadSelected();$root.GA('photos:download_selected')"
             ><i class="icon-down-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DOWNLOAD}}</button>
     </div>
+
+    <div class="btn"
+        ng-click="deleteSelected();$root.GA('photos:delete_selected')"
+        ng-hide="!selectedPhotos().length"
+        ng-if="$root.READ_ONLY_FLAG"
+        ><i class="icon-del-toolbar"></i> {{$root.DICT.photos.ACTIONBAR_DELETE}}</div>
 </div>
