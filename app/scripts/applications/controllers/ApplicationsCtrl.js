@@ -11,9 +11,9 @@ define([
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
     return ['$scope', '$http', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdcApplications', 
-    'wdKey', '$rootScope', '$filter', 'wdDownload', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
+    'wdKey', '$rootScope', '$filter', 'wdDownload', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker', '$timeout',
     function($scope,  $http,   wdDev,    wdSocket,   wdAlert,   $route,   GA,   wdcApplications,   
-     wdKey,   $rootScope,   $filter,   wdDownload,   wdActiveDurationTracker,   wdInteractiveDurationTracker){
+     wdKey,   $rootScope,   $filter,   wdDownload,   wdActiveDurationTracker,   wdInteractiveDurationTracker,   $timeout){
 
         $scope.vertical = 'applications';
         wdInteractiveDurationTracker.count($scope.vertical);
@@ -63,6 +63,12 @@ define([
         // 用来保存拖拽的上传实例
         var G_dragAndDropUploader;
 
+        function getSelectedAppList() {
+            return _.filter($scope.list, function(item) {
+                return !!item.checked;
+            });
+        }
+        
         function changeAppsBlock(){
             // 减去左边的黑条，再减去10px的左侧边距，再减去自定义滚动条的10px宽。
             var docWidth = $(document).width() - 60 - 10 - 10;
@@ -81,6 +87,8 @@ define([
             $scope.isInstallBtnDisable = false;
             G_appList = wdcApplications.getApplications();
             $scope.list = G_appList;
+            
+            $scope.showActionbar = !!getSelectedAppList().length;
             showSelectedNum();
             setTimeout(function(){
                 uploadApk($('.installApp'));
@@ -100,6 +108,28 @@ define([
             }
         }
 
+        function doDelCloudApp(package_name) {
+            $http({
+                    method: 'delete',
+                    url: '/resource/apps/'+package_name
+                }).success(function(data) {
+                }).error(function(){
+                });
+                var mask = $('.mask').css('opacity',0);
+                $timeout(function(){
+                    mask.hide().find('.info').hide();
+                    for(var i = 0,l = $scope.list.length; i < l; i += 1 ){
+                        if( $scope.list[i]['package_name'] == package_name ){
+                            $scope.list.splice(i,1);
+                            $scope.selectedNum -= 1;
+                            break;
+                        }
+                    }
+
+                    $scope.showActionbar = !!getSelectedAppList().length;
+                },500);
+        }
+
         function delCloudApp(package_name) {
             wdAlert.confirm(
                 $scope.$root.DICT.applications.DEL_ONE_APP.TITLE,
@@ -107,23 +137,7 @@ define([
                 $scope.$root.DICT.applications.DEL_ONE_APP.AGREE,
                 $scope.$root.DICT.applications.DEL_ONE_APP.CANCEL
             ).then(function(){
-                $http({
-                    method: 'delete',
-                    url: '/resource/apps/'+package_name
-                }).success(function(data) {
-                }).error(function(){
-                });
-                var mask = $('.mask').css('opacity',0);
-                setTimeout(function(){
-                    mask.hide().find('.info').hide();
-                    for(var i = 0,l = $scope.list.length; i < l; i += 1 ){
-                        if( $scope.list[i]['package_name'] == package_name ){
-                            $scope.list.splice(i,1);
-                            $scope.$apply();
-                            break;
-                        }
-                    }
-                },500);
+                doDelCloudApp(package_name);
             },function(){
             });
         }
@@ -166,35 +180,44 @@ define([
                 $scope.$root.DICT.applications.DEL_MORE_APPS.AGREE,
                 $scope.$root.DICT.applications.DEL_MORE_APPS.CANCEL
             ).then(function(){
-                var dels = [];
-                var i, l;
-                for(i = 0 , l = $scope.list.length ; i<l ; i += 1 ){
-                    if( $scope.list[i]['checked'] == true ){
-                        dels.push($scope.list[i]['package_name']);
-                        $scope.list[i]['confirmTipShow'] = true;
-                        $scope.list[i]['checked'] = false;
-                    }
-                }
-                $scope.isDeleteBtnShow = false;
-                $scope.selectedNum = 0;
-                setTimeout(function(){
-                    $('dd.toolbar').css('opacity','');
-                    $('dd.confirm').css('opacity',0.8);
-                },500);
-
-                i = 0;
-                del(dels[i]);
-                function del(package_name){
-                    $http({
-                        method: 'delete',
-                        url: '/resource/apps/'+ package_name
-                    }).success(function(data) {
-                        if(!!dels[i]){
-                            del(dels[i]);
-                            i += 1;
-                        }
-                    }).error(function(){
+                if ($rootScope.READ_ONLY_FLAG) {
+                    getSelectedAppList().forEach(function(item) {
+                        doDelCloudApp(item.package_name);
                     });
+                } else {
+                    var del = function(package_name){
+                        $http({
+                            method: 'delete',
+                            url: '/resource/apps/'+ package_name
+                        }).success(function(data) {
+                            if(!!dels[i]){
+                                del(dels[i]);
+                                i += 1;
+                            }
+                        }).error(function(){
+                        });
+                    };
+                
+                    var dels = [];
+                    var i, l;
+                    for(i = 0 , l = $scope.list.length ; i<l ; i += 1 ){
+                        if( $scope.list[i]['checked'] == true ){
+                            dels.push($scope.list[i]['package_name']);
+                            $scope.list[i]['confirmTipShow'] = true;
+                            $scope.list[i]['checked'] = false;
+                        }
+                    }
+                    $scope.isDeleteBtnShow = false;
+                    $scope.selectedNum = 0;
+                    $timeout(function(){
+                        $('dd.toolbar').css('opacity','');
+                        $('dd.confirm').css('opacity',0.8);
+                    },500);
+
+                    i = 0;
+                    del(dels[i]);
+                    
+
                 }
             },function(){
 
@@ -473,6 +496,8 @@ define([
             $scope.isDeleteBtnShow = false;
             $scope.isDeselectBtnShow = false;
             $scope.selectedNum = 0;
+
+            $scope.showActionbar = !!getSelectedAppList().length;
         }
 
         function checkedApp(e, item){
@@ -503,6 +528,8 @@ define([
 
             showSelectedNum();
             G_lastChecked = item ;
+
+            $scope.showActionbar = !!getSelectedAppList().length;
         }
 
         function showSelectedNum() {
