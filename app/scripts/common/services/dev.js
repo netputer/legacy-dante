@@ -80,6 +80,10 @@ return function() {
                 var prefix = '/api/v1';
                 if ($rootScope.READ_ONLY_FLAG) {
                     prefix = '/api/v2/' + new Date().getTime();
+
+                    // for get string id
+                    url += (url.indexOf('?') === -1 ? '?' : '&');
+                    url += 'client=web';
                 }
 
                 return server + prefix + url;
