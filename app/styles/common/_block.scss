@@ -24,8 +24,9 @@
         @include background-image(linear-gradient(top, rgba(#000, 0), rgba(#000, 0.8)));
 
         > .wd-block-actions-inner {
-            @include position(absolute, 0 0 10px 50%);
-            @include transform(translate(-50%, 0));
+            width: inherit;
+            text-align: center;
+            margin-top: 20px;
             @include nowrap;
             > * {
                 $height: 30px;
