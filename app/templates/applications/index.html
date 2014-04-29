@@ -1,9 +1,9 @@
-<div class="wdj-applications">
+<div class="wdj-applications" >
 
     <div class="wd-loading wd-loading-local" data-visible="true" ng-show="isLoadShow"></div>
 
     <!-- 应用列表 -->
-    <div class="apps-list">
+    <div class="apps-list" ng-class="{'show-actionbar': showActionbar && !containerScrolled}" wd-scroll-detect bottom="">
 
         <!-- 新安装的应用列表 -->
         <dl class="new-list" ng-repeat="item in newList" ng-style="{width:appBlockWidth,height:appBlockHeight}">
@@ -41,8 +41,6 @@
             </div>
             <div class="wd-block-mask" ng-click="selectedNum ? checkedApp($event, item) : showAppInfo(item.package_name);"></div>
             <div wd-checkbox class="btn-icon-check wd-block-select wd-checkbox-light"
-                bs-tooltip="{{$root.DICT.applications.WORDS.SELECT}}"
-                ng-if="!$root.READ_ONLY_FLAG"
                 ng-checked="item.checked"
                 ng-click="checkedApp($event,item)"></div>
             <dd class="wd-block-actions">
@@ -82,8 +80,8 @@
     <!-- 应用列表 end -->
 
     <!-- header -->
-    <div class="header" ng-if="!$root.READ_ONLY_FLAG" wd-strip>
-        <div class="btn btn-primary installApp" ng-click="clickInstallApk()" ng-disabled="isInstallBtnDisable">
+    <div class="header" wd-strip ng-class="{'show-actionbar': $root.READ_ONLY_FLAG && showActionbar, 'hide-actionbar': $root.READ_ONLY_FLAG}">
+        <div class="btn btn-primary installApp" ng-click="clickInstallApk()" ng-disabled="isInstallBtnDisable"  ng-if="!$root.READ_ONLY_FLAG">
             <i class="icon-add"></i>
             {{$root.DICT.applications.BUTTONS.INSTALL_APPS}}
         </div>

@@ -30,7 +30,7 @@
         </div>
         <!-- 云相册 extenion 的引导安装 end -->
 
-        <div class="wdp-showcases-container" ng-class="{'show-actionbar': showActionbar}">  
+        <div class="wdp-showcases-container" ng-class="{'show-actionbar': showActionbar && !containerScrolled}">  
             <div class="wdp-showcase">
                 <div class="wdp-block"
                     wdp-repeat="photo in photos"
