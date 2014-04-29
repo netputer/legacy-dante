@@ -1,7 +1,7 @@
 define([], function() {
 'use strict';
-return ['$window', function($window) {
-    var content = '来自 @豌豆荚 云相册照片即时上传';
+return ['$window', '$rootScope', function($window, $rootScope) {
+    var content = $rootScope.DICT.app.SHARE_TEXT;
 
     return {
         weibo: function(photo) {
