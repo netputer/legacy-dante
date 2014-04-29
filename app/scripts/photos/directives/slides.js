@@ -141,7 +141,7 @@ return ['WDP_PLAYING_INTERVAL',   '$rootScope', 'wdViewport', 'wdKey', 'GA', 'wd
                     $scope.$broadcast('rotate');
                 };
 
-                $scope.shareToweibo = function(photo) {
+                $scope.shareToWeibo = function(photo) {
                     wdSharing.weibo(photo);
                 };
 
