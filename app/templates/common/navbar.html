@@ -66,9 +66,17 @@
                     <div wd-menu-item>
                         <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
                             href="{{$root.DICT.app.EXTENSION_STORE_URL}}"
-                            ng-click="$root.GA('navbar:settings:extension')"
+                            ng-click="$root.GA('navbar:settings:chrome_extension')"
                             >
                             <i class="icon-extension"></i>&nbsp;&nbsp;{{$root.DICT.app.PHOTO_EXTENSION}}
+                        </a>
+                    </div>
+                    <div wd-menu-item>
+                        <a ng-if="$root.READ_ONLY_FLAG" target="_blank"
+                            href="{{$root.DICT.app.SE360_EXTENSION_STORE_URL}}"
+                            ng-click="$root.GA('navbar:settings:360se_extension')"
+                            >
+                            <i class="icon-extension"></i>&nbsp;&nbsp;{{$root.DICT.app.SE360_PHOTO_EXTENSION}}
                         </a>
                     </div>
                     <div wd-menu-item>

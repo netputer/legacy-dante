@@ -506,9 +506,16 @@ if (wdpPhotoSetting.photoExtensionIntroducesEnabled()) {
     $scope.showPhotoExtensionIntro = false;
 }
 
-$scope.installCloudPhotoExtension = function() {
-    GA('photos:photo_extension:install');
+$scope.installChromePhotoExtension = function() {
+    GA('photos:photo_extension:chrome_install');
     var url = $scope.$root.DICT.app.EXTENSION_STORE_URL;
+    $window.open(url);
+    $scope.hidePhotoExtensionIntro();
+};
+
+$scope.install360PhotoExtension = function() {
+    GA('photos:photo_extension:360se_install');
+    var url = $scope.$root.DICT.app.SE360_EXTENSION_STORE_URL;
     $window.open(url);
     $scope.hidePhotoExtensionIntro();
 };
