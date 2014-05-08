@@ -11,7 +11,8 @@
     "NAVBAR_SIGNOUT_TIP": "退出登录",
     "MESSAGE_NOTIFICATION_TITLE": "新短信",
     "UPGRADE_BTN_TEXT": "在Google Play上获取最新版本",
-    "PHOTO_EXTENSION": "云相册插件",
+    "PHOTO_EXTENSION": "Chrome 云相册插件",
+    "SE360_PHOTO_EXTENSION": "360 云相册插件",
     "CHANGE_DEVICES_POP": {
         "h1": "连接一个新手机.",
         "h2": "只需3步，就能在这里找到您的手机。",
@@ -29,5 +30,6 @@
     },
     "ACCOUNT_LOCKED": "豌豆荚在 8 月 25 日碰到技术故障，当天我们暂时关闭了豌豆荚的账号服务，12 个小时后账号服务修复完成。但为了您的信息安全考虑，目前通过旧的密码将不能使用云恢复、云相册等功能。请您立即修改密码，以便正常使用豌豆荚。",
     "EXTENSION_STORE_URL": "https://chrome.google.com/webstore/detail/lmjilpodaefodkchkcodkmplleffcina",
+    "SE360_EXTENSION_STORE_URL": "https://ext.se.360.cn/webstore/detail/fnbmednijhkmmbblhidkgbeoonimmkbp",
     "SHARE_TEXT": "来自 @豌豆荚 云相册照片即时上传"
 }

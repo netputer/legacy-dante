@@ -39,8 +39,8 @@
     "PHOTO_EXTENSION": {
         "H1": "使用浏览器插件访问云相册",
         "DESCRIBE": "只需一点，轻松查看手机最新照片，并可下载或分享给好友。",
-        "CHROME_BUTTON": "Chrome 浏览器安装",
-        "360SE_BUTTON": "360 安全浏览器安装",
+        "CHROME_BUTTON": "Chrome 浏览器",
+        "360SE_BUTTON": "360 安全浏览器",
         "CHROME": "Chrome 浏览器",
         "360SE": "360 安全浏览器",
         "DETAIL": "查看详情",

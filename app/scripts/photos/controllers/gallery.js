@@ -506,9 +506,16 @@ if (wdpPhotoSetting.photoExtensionIntroducesEnabled()) {
     $scope.showPhotoExtensionIntro = false;
 }
 
-$scope.installCloudPhotoExtension = function() {
-    GA('photos:photo_extension:install');
+$scope.installChromePhotoExtension = function() {
+    GA('photos:photo_extension:chrome_install');
     var url = $scope.$root.DICT.app.EXTENSION_STORE_URL;
+    $window.open(url);
+    $scope.hidePhotoExtensionIntro();
+};
+
+$scope.install360PhotoExtension = function() {
+    GA('photos:photo_extension:360se_install');
+    var url = $scope.$root.DICT.app.SE360_EXTENSION_STORE_URL;
     $window.open(url);
     $scope.hidePhotoExtensionIntro();
 };
@@ -517,6 +524,11 @@ $scope.hidePhotoExtensionIntro = function() {
     $scope.addPhotoExtensionIntroHideClass = true;
     wdpPhotoSetting.photoExtensionIntroducesEnabled(true);
 };
+
+// 检测是否安装了云相册的 extension
+if ($scope.$root.READ_ONLY_FLAG && angular.element($window.document.body).hasClass('photos-extension-installed')) {
+    $scope.showPhotoExtensionIntro = false;
+}
 
 }];
 });
