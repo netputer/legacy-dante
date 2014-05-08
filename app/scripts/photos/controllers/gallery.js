@@ -525,5 +525,10 @@ $scope.hidePhotoExtensionIntro = function() {
     wdpPhotoSetting.photoExtensionIntroducesEnabled(true);
 };
 
+// 检测是否安装了云相册的 extension
+if ($scope.$root.READ_ONLY_FLAG && angular.element($window.document.body).hasClass('photos-extension-installed')) {
+    $scope.showPhotoExtensionIntro = false;
+}
+
 }];
 });
