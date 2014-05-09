@@ -13,9 +13,9 @@ return ['$window', function($window) {
         // 介绍安装 photo extension 
         photoExtensionIntroducesEnabled: function(value) {
             if (arguments.length > 0) {
-                $window.localStorage.setItem('photoExtensionIntroHide', value);
+                $window.localStorage.setItem('photoExtensionAdHide', value);
             } else {
-                return $window.localStorage.getItem('photoExtensionIntroHide') !== 'true';
+                return $window.localStorage.getItem('photoExtensionAdHide') !== 'true';
             }
         },
 
