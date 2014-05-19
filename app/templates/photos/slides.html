@@ -31,17 +31,17 @@
             ng-click="download({photo: current});$root.GA('photos:slide:download')"
             ><i class="icon-slidedown"></i></a>
         <a href="" class="action-share"
-            ng-if="!$root.READ_ONLY_FLAG"
-            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_FB}}"
+            ng-if="$root.READ_ONLY_FLAG"
+            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_WEIBO}}"
             data-options="{container: ''}"
-            ng-click="share({photo: current});$root.GA('photos:slide:show_share_modal')"
-            ><i class="icon-facebook"></i></a>
+            ng-click="shareToWeibo(current);$root.GA('photos:slide:share_weibo')"
+            ><i class="icon-slideshare-weibo"></i></a>
         <a href="" class="action-share"
             ng-if="$root.READ_ONLY_FLAG"
-            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
             data-options="{container: ''}"
-            ng-click="share({photo: current});$root.GA('photos:slide:share')"
-            ><i class="icon-slideshare"></i></a>
+            bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_QZONE}}"
+            ng-click="shareToQzone(current);$root.GA('photos:slide:share_qzone')"
+            ><i class="icon-slideshare-qzone"></i></a>
     </div>
     <a href="" class="action-close"
         ng-click="close();$root.GA('photos:slide:close')"

@@ -8,5 +8,5 @@ define([
 'use strict';
     
     angular.module('wdDeviceList',[])
-        .provider('wdDevice', device)
+        .provider('wdDevice', device);
 });

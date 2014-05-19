@@ -36,7 +36,6 @@
     $action-width: icon-width("slideplay") + $action-padding;
 
     %wdp-slide-action {
-        // @include position(absolute, 0 0 20px 50%);
         padding: $action-padding;
         @include button-effect;
     }
@@ -61,8 +60,9 @@
     }
 
     .sc-a {
-        @include position(absolute, 0 0 30px 50%);
-        @include transform(translateX(-50%));
+        @include position(absolute, 0 0 30px 0);
+        width: 100%;
+        text-align: center;
     }
 
 

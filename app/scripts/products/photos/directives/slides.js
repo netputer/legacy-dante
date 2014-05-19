@@ -8,8 +8,8 @@ define([
     angular
 ) {
 'use strict';
-return ['WDP_PLAYING_INTERVAL',   '$rootScope', 'wdViewport', 'wdKey', 'GA', 'wdAlert', '$filter', 'wdDev',
-    function(WDP_PLAYING_INTERVAL, $rootScope,   wdViewport,   wdKey,   GA,   wdAlert,   $filter,   wdDev) {
+return ['WDP_PLAYING_INTERVAL',   '$rootScope', 'wdViewport', 'wdKey', 'GA', 'wdAlert', '$filter', 'wdDev', 'wdSharing',
+    function(WDP_PLAYING_INTERVAL, $rootScope,   wdViewport,   wdKey,   GA,   wdAlert,   $filter,   wdDev,   wdSharing) {
     return {
         template: template,
         replace: true,
@@ -140,13 +140,23 @@ return ['WDP_PLAYING_INTERVAL',   '$rootScope', 'wdViewport', 'wdKey', 'GA', 'wd
                 $scope.rotate = function() {
                     $scope.$broadcast('rotate');
                 };
+
+                $scope.shareToWeibo = function(photo) {
+                    wdSharing.weibo(photo);
+                };
+
+                $scope.shareToQzone = function(photo) {
+                    wdSharing.qzone(photo);
+                };
             }],
         scope: {
             current: '=',
             photos: '=',
             'delete': '&onDelete',
             download: '&onDownload',
-            share: '&onShare'
+            share: '&onShare',
+            shareToWeibo: '&onShareToWeibo',
+            shareToQzone: '&onShareToQzone'
         },
         link: function($scope, element/*, attr, controller*/) {
             // Update dimensions when:

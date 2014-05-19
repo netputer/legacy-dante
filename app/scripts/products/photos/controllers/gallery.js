@@ -376,6 +376,10 @@ $scope.shareToWeibo = function(photo) {
     wdSharing.weibo(photo);
 };
 
+$scope.shareToQzone = function(photo) {
+    wdSharing.qzone(photo);
+};
+
 $scope.connectFacebook = function(photo) {
     var data = photo || shareInfo.photo;
 
