@@ -26,6 +26,8 @@ function($scope,   GA,   wdAlert,   wdDev,    $route,   $rootScope,   $filter,  
         });
         $scope.lastSelectedPhoto = null;
         GA('photos:toolbar:deselect_all');
+
+        $scope.toggleActionbar();
     };
     $scope.select = function(photo, shiftKey) {
         photo.selected = !photo.selected;
@@ -73,12 +75,16 @@ function($scope,   GA,   wdAlert,   wdDev,    $route,   $rootScope,   $filter,  
         if (photo.selected) {
             $scope.lastSelectedPhoto = photo;
         }
+
+        $scope.toggleActionbar();
     };
 
     // Removal logic, delegate real removal to $scope.removePhotos.
     $scope.deleteSelected = function() {
         return confirm().then(function() {
             $scope.removePhotos($scope.selectedPhotos());
+
+            $scope.toggleActionbar();
         });
     };
 
@@ -128,8 +134,13 @@ function($scope,   GA,   wdAlert,   wdDev,    $route,   $rootScope,   $filter,  
             $scope.$root.DICT.photos.CONFIRM_DELETE_CANCEL
         );
     }
+
+    $scope.toggleActionbar = function() {
+       $scope.showActionbar = !!$scope.selectedPhotos().length;
+    };
 }],
-link: function() {
+link: function($scope) {
+    $scope.toggleActionbar();
 }
 
 };

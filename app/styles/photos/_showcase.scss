@@ -1,4 +1,9 @@
 .wdp-showcases-container {
+    @include transition(all $global-transition-duration);
+
+    &.show-actionbar {
+       @include transform(translateY(40px));
+    }
     .load-more {
         font-size: 12px;
         display: inline-block;

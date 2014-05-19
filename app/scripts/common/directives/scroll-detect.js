@@ -6,11 +6,13 @@ return ['$q', function($q) {
             var blocking = false;
 
             $element.on('scroll', function(e) {
+                var elScrollTop = $element.scrollTop();
+                $scope.containerScrolled = elScrollTop > 0 ? true : false;
+                
                 if (blocking) {
                     return;
                 }
                 var elHeight = $element.height();
-                var elScrollTop = $element.scrollTop();
                 var contentHeight = $element.children().outerHeight();
 
                 if (elScrollTop + elHeight + 10 >= contentHeight) {
