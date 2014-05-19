@@ -40,6 +40,10 @@ define([
                 }
                 
                 var prefix = '/api/v2/' + Date.now();
+                
+                // for get string id
+                url += (url.indexOf('?') === -1 ? '?' : '&');
+                url += 'client=web';
 
                 return server + prefix + url;
             },

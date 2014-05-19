@@ -232,8 +232,7 @@ function fetchPhotos(amount) {
     var defer = $q.defer();
     var params = {
         offset: 0,
-        length: amount.toString(),
-        client: 'web'
+        length: amount.toString()
     };
     var lastPhoto = $scope.photos[$scope.photos.length - 1];
     // If photos.length equals 1.
