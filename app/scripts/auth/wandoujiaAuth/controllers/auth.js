@@ -3,9 +3,9 @@ define([
 'use strict';
 
 return  ['$scope',  '$http',      'wdDev',           'wdDevice', 
-         'wdAlert', 'wdBrowser', '$rootScope', 'wdWandoujiaAuth', '$window', '$location', '$route',
+         'wdAlert', 'wdBrowser', '$rootScope', 'wdWandoujiaAuth', '$window', '$location', '$route', 'GA',
 function ($scope,    $http,        wdDev,             wdDevice, 
-          wdAlert,   wdBrowser,   $rootScope,   wdWandoujiaAuth,   $window,  $location, $route) {
+          wdAlert,   wdBrowser,   $rootScope,   wdWandoujiaAuth,   $window,   $location,   $route,   GA) {
     
     $scope.isSupport = window.Modernizr.cors && window.Modernizr.websockets;
     $scope.isSafari = wdBrowser.safari;
@@ -31,6 +31,7 @@ function ($scope,    $http,        wdDev,             wdDevice,
         };
 
         $rootScope.$broadcast('SelectDevice', deviceInfo);
+        GA('perf:webapp:enter_duration:' + (Date.now() - $window.perfTracker.openPageTimestamp));
     };
 
     //进入系统的主逻辑

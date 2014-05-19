@@ -6,9 +6,16 @@ define([
 'use strict';
 return ['$scope', '$resource', '$q', '$http', 'wdpMessagePusher', '$timeout', 'wdAlert',
         'GA', '$route', 'wdVirtualDeviceFactory', '$location', 'wdKey', 'wdDesktopNotification', '$window', '$rootScope', 'wdDev',
+        'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
 function($scope,   $resource,   $q,   $http,   wdpMessagePusher,   $timeout,   wdAlert,
-         GA,   $route,   wdVirtualDeviceFactory,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev) {
-GA('vertical:messages');
+         GA,   $route,   wdVirtualDeviceFactory,   $location,   wdKey,   wdDesktopNotification,   $window,   $rootScope,   wdDev,
+         wdActiveDurationTracker,   wdInteractiveDurationTracker) {
+
+$scope.vertical = 'messages';
+wdInteractiveDurationTracker.count($scope.vertical);
+wdActiveDurationTracker.track($scope.vertical);
+
+GA('vertical:' + $scope.vertical);
 
 var wdmConversations = wdVirtualDeviceFactory.getCurrentDevice().getMessagesService();
 

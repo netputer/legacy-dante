@@ -10,10 +10,14 @@ define([
 'use strict';
 
 return [ '$scope', 'wdAlert',  '$route', 'GA', 'wdVirtualDeviceFactory', '$timeout', 'wdKey', '$location', '$window', 
-         'wdToast', '$q', '$rootScope', '$filter',
+         'wdToast', '$q', '$rootScope', '$filter', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
 function ($scope,   wdAlert,    $route,   GA,   wdVirtualDeviceFactory,   $timeout,   wdKey,   $location,   $window, 
-          wdToast,   $q,   $rootScope,   $filter) {
-    GA('vertical:contacts');
+          wdToast,   $q,   $rootScope,   $filter,   wdActiveDurationTracker,   wdInteractiveDurationTracker) {
+    $scope.vertical = 'contacts';
+    wdInteractiveDurationTracker.count($scope.vertical);
+    wdActiveDurationTracker.track($scope.vertical);
+
+    GA('vertical:' + $scope.vertical);
 
     var wdcContacts = wdVirtualDeviceFactory.getCurrentDevice().getContactsService();
 

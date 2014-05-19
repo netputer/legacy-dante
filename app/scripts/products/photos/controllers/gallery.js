@@ -12,12 +12,16 @@ return [
         '$scope', '$window', '$log', '$route', '$location', 'wdAlert', 'wdSocket',
         'wdViewport', 'GA', 'PhotosLayoutAlgorithm', '$q', 'wdNotification', '$timeout', 'wdShare',
         'wdSharing', 'wdToast', 'wdDevice', 'wdpPhotoSetting', '$rootScope', '$filter',
-        'wdDownload', 'wdVirtualDeviceFactory',
+        'wdDownload', 'wdVirtualDeviceFactory', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
 function($scope,  $window,   $log,   $route,   $location,   wdAlert,    wdSocket,
          wdViewport,   GA,   PhotosLayoutAlgorithm,   $q,   wdNotification,   $timeout,   wdShare,
          wdSharing,   wdToast,   wdDevice,    wdpPhotoSetting,  $rootScope,   $filter,
-         wdDownload,  wdVirtualDeviceFactory) {
-GA('vertical:photos');
+         wdDownload,  wdVirtualDeviceFactory,    wdActiveDurationTracker,    wdInteractiveDurationTracker) {
+$scope.vertical = 'photos';
+wdInteractiveDurationTracker.count($scope.vertical);
+wdActiveDurationTracker.track($scope.vertical);
+
+GA('vertical:' + $scope.vertical);
 
 var wdpPhotos = wdVirtualDeviceFactory.getCurrentDevice().getPhotosService();
 

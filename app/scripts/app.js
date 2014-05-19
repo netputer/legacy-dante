@@ -19,6 +19,7 @@ define([
     'products/applications/main',
     'products/videos/main',
     'products/ebooks/main',
+    'tracker/main',
     'ui/main',
     'jquery'
 ], function(
@@ -42,6 +43,7 @@ define([
     applications,
     videos,
     ebooks,
+    tracker,
     ui,
     jQuery
 ) {
@@ -66,7 +68,7 @@ READ_ONLY_FLAG = !!window.localStorage.getItem('WD_READ_ONLY_FLAG') || READ_ONLY
 var CURRENT_DEVICE_TYPE = 1;
 READ_ONLY_FLAG = true;
 
-angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wd.ui', 'wdAuth', 'wdDeviceList', 'wdData', 'wdPhotos', 
+angular.module('wdApp', ['ng', 'ngRoute', 'ngSanitize', 'wdCommon', 'wdTracker', 'wd.ui', 'wdAuth', 'wdDeviceList', 'wdData', 'wdPhotos', 
                         'wdLanguage', 'wdMessages', 'wdContacts', 'wdApplications', 'wdVideos', 'wdEbooks'])
     .config([   '$routeProvider', '$httpProvider',
         function($routeProvider,   $httpProvider) {

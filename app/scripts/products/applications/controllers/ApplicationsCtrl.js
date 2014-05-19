@@ -11,9 +11,16 @@ define([
     /* jshint eqeqeq:false */
     /* jshint  -W041 */
 
-    return ['$scope', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdVirtualDeviceFactory', 'wdKey', '$rootScope', '$filter', 'wdDownload',
-    function($scope,   wdDev,   wdSocket,   wdAlert,   $route,   GA,   wdVirtualDeviceFactory,   wdKey,   $rootScope,   $filter,   wdDownload){
-        GA('vertical:apps');
+    return ['$scope', 'wdDev', 'wdSocket', 'wdAlert', '$route', 'GA', 'wdVirtualDeviceFactory', 'wdKey', '$rootScope', 
+            '$filter', 'wdDownload', 'wdActiveDurationTracker', 'wdInteractiveDurationTracker',
+    function($scope,   wdDev,   wdSocket,   wdAlert,   $route,   GA,   wdVirtualDeviceFactory,   wdKey,   $rootScope,   
+            $filter,   wdDownload,    wdActiveDurationTracker,   wdInteractiveDurationTracker){
+        
+        $scope.vertical = 'applications';
+        wdInteractiveDurationTracker.count($scope.vertical);
+        wdActiveDurationTracker.track($scope.vertical);
+
+        GA('vertical:' + $scope.vertical);
         
         var wdAppsService = wdVirtualDeviceFactory.getCurrentDevice().getAppsService();
 
