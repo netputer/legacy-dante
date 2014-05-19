@@ -1,8 +1,8 @@
 define([
     'angular',
     'common/main',
-    'contacts/controllers/ContactsCtrl',
-    'contacts/directives/auto-scroll'
+    'products/contacts/controllers/ContactsCtrl',
+    'products/contacts/directives/auto-scroll'
 ], function(
     angular,
     common,

@@ -1,11 +1,11 @@
 define([
     'angular',
-    'data/virtualDeviceFactory',
-    'data/virtualDevices/cloud',
-    'data/virtualDevices/cloudBackup',
-    'data/virtualDevices/cloudLocker',
-    'data/virtualDevices/snapPea',
-    'data/dataChannel/backup/dev',
+    'data/virtual-device-factory',
+    'data/virtual-devices/cloud',
+    'data/virtual-devices/cloud-backup',
+    'data/virtual-devices/cloud-locker',
+    'data/virtual-devices/snapPea',
+    'data/data-channel/backup/dev',
     'data/services/common/applications',
     'data/services/common/contacts',
 
@@ -31,12 +31,13 @@ define([
     'data/services/common/videos',
     'data/services/common/ebooks',
 
-    'data/services/cloudBackup/applications',
-    'data/services/cloudBackup/contacts',
-    'data/services/cloudBackup/messages',
-    'data/services/cloudBackup/photos',
-    'data/services/cloudBackup/videos',
-    'data/services/cloudBackup/ebooks',
+    'data/services/cloud-backup/applications',
+    'data/services/cloud-backup/contacts',
+    'data/services/cloud-backup/messages',
+    'data/services/cloud-backup/photos',
+
+    'data/services/cloud-locker/videos',
+    'data/services/cloud-locker/ebooks',
 
     'data/connection',
 ], function(
@@ -76,8 +77,9 @@ define([
     backupContacts,
     backupMessages,
     backupPhotos,
-    backupVideos,
-    backupEbooks,
+
+    cloudLockerVideos,
+    cloudLockerEbooks,
 
     connection
 ) {
@@ -116,8 +118,8 @@ angular.module('wdData', [])
     .factory('wdBackupContactsService', backupContacts)
     .factory('wdBackupMessagesService', backupMessages)
     .factory('wdBackupPhotosService', backupPhotos)
-    .factory('wdBackupVideosService', backupVideos)
-    .factory('wdBackupEbooksService', backupEbooks)
+    .factory('wdCloudLockerVideosService', cloudLockerVideos)
+    .factory('wdCloudLockerEbooksService', cloudLockerEbooks)
     
     .factory('wdCloudVirtualDevice', cloud)
     .factory('wdCloudLockerVirtualDevice', cloudLocker)

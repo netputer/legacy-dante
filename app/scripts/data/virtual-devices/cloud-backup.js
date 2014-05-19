@@ -6,9 +6,9 @@ define([
     'use strict';
 
     return ['wdBackupChannelDev', '$q', 'wdBackupAppsService', 'wdBackupContactsService', 'wdBackupMessagesService',
-            'wdBackupPhotosService', 'wdBackupVideosService',  'wdBackupEbooksService',
+            'wdBackupPhotosService',
     function(wdBackupChannelDev,   $q,   wdBackupAppsService,   wdBackupContactsService,   wdBackupMessagesService, 
-             wdBackupPhotosService,   wdBackupVideosService,    wdBackupEbooksService
+             wdBackupPhotosService
         ) {
 
         function VirtaulDevice(deviceInfo) {
@@ -69,14 +69,6 @@ define([
 
             getContactsService: function() {
                 return wdBackupContactsService;
-            },
-
-            getVideosService: function() {
-                return wdBackupVideosService;
-            },
-
-            getEbooksService: function() {
-                return wdBackupEbooksService;
             }
         });
 

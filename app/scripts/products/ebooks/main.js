@@ -1,6 +1,6 @@
 define([
 	'angular',
-	'ebooks/controllers/ebooks'
+	'products/ebooks/controllers/ebooks'
 ], function(
 	angular,
 	ebooksController

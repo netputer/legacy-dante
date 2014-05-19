@@ -1,6 +1,6 @@
 define([
 	'angular',
-	'videos/controllers/videos'
+	'products/videos/controllers/videos'
 ], function(
 	angular,
 	videosController

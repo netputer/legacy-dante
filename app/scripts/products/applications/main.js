@@ -1,7 +1,7 @@
 define([
     'angular',
     'common/main',
-    'applications/controllers/ApplicationsCtrl'
+    'products/applications/controllers/ApplicationsCtrl'
 ], function(
     angular,
     common,

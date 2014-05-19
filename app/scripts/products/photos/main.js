@@ -1,17 +1,17 @@
 define([
     'angular',
-    'photos/directives/showcase',
-    'photos/directives/actionbar',
-    'photos/directives/slides',
-    'photos/directives/block',
-    'photos/directives/uploader',
-    'photos/directives/frame',
-    'photos/directives/progress',
-    'photos/directives/repeat',
-    'photos/controllers/gallery',
-    'photos/directives/gallery',
+    'products/photos/directives/showcase',
+    'products/photos/directives/actionbar',
+    'products/photos/directives/slides',
+    'products/photos/directives/block',
+    'products/photos/directives/uploader',
+    'products/photos/directives/frame',
+    'products/photos/directives/progress',
+    'products/photos/directives/repeat',
+    'products/photos/controllers/gallery',
+    'products/photos/directives/gallery',
     'common/main',
-    'photos/filters/custom-size'
+    'products/photos/filters/custom-size'
 ], function(
     angular,
     showcase,
