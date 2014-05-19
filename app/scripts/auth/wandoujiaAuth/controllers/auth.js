@@ -23,21 +23,6 @@ function ($scope,    $http,        wdDev,             wdDevice,
     };
 
     $scope.submit = function() {
-        // var host = HOST;
-        // var port = 80;
-        // $scope.state = 'loading';
-        // wdDev.setServer( host, port );
-
-        // //设置一个比较大的版本号，强制关掉版本控制
-        // wdDev.setMetaData({
-        //     version_code : 9999
-        // });
-        // $scope.state = 'standby';
-        // // TODO: Maybe expiration?
-        // wdDevice.setDevice({ip:host});
-        //$location.url($route.current.params.ref || '/');
-
-        // $rootScope.$broadcast('signin');
         $scope.state = 'standby';
         $rootScope.$broadcast('SignInSucceed');
         var deviceInfo = {
