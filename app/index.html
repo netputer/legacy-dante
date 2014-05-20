@@ -3,7 +3,7 @@
 <html class="no-js" ng-class="{readonly: $root.READ_ONLY_FLAG}">
 <!--<!(endif)-->
 <!--(if target cloud)>
-<html class="no-js zh-cn zh" ng-class="{readonly: $root.READ_ONLY_FLAG}">
+<html class="no-js zh-cn zh" ng-class="{readonly: $root.READ_ONLY_FLAG}" lang='zh'>
 <!(endif)-->
 <head>
     <meta charset="utf-8">
@@ -117,6 +117,11 @@
     </div>
     <div class="ng-cloak" wd-navbar></div>
     <div class="ng-cloak" bs-modal wd-alert></div>
+
+    <script type="text/javascript">
+        var perfTracker = {};
+        perfTracker.openPageTimestamp = Date.now();
+    </script>
 
     <!-- build:js scripts/framework.js -->
     <script src="components/jquery/jquery.js"></script>

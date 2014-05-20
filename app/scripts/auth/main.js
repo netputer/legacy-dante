@@ -1,34 +1,29 @@
 /*global Modernizr*/
 define([
     'angular',
-    'auth/services/device',
-    'auth/services/googleSignIn',
-    'auth/services/wandoujiaSignIn',
-    'auth/controllers/internationalCtrl',
-    'auth/controllers/cloudDataCtrl',
-    'auth/directives/user-profile-button',
-    'auth/services/signInDetection',
-    'auth/services/connect'
+    'auth/internationalAuth/services/auth',
+    'auth/internationalAuth/services/signInDetection',
+    'auth/internationalAuth/controllers/auth',
+    'auth/internationalAuth/directives/user-profile-button',
+    'auth/wandoujiaAuth/services/auth',
+    'auth/wandoujiaAuth/controllers/auth'
 ], function(
     angular,
-    device,
-    googleSignIn,
-    wandoujiaSignIn,
-    internationalCtrl,
-    cloudDataCtrl,
-    userProfileButton,
+    internationalAuth,
     signInDetection,
-    connect
+    internationalAuthController,
+    userProfileButton,
+    wandoujiaAuth,
+    wandoujiaAuthController
 ) {
 'use strict';
 
 angular.module('wdAuth', ['wdCommon'])
-    .provider('wdDevice', device)
-    .factory('wdGoogleSignIn', googleSignIn)
-    .factory('wandoujiaSignIn', wandoujiaSignIn)
-    .controller('internationalController', internationalCtrl)
-    .controller('cloudDataController', cloudDataCtrl)
-    .directive('wdUserProfileButton', userProfileButton)
+    .factory('wdInternationalAuth', internationalAuth)
     .factory('wdSignInDetection', signInDetection)
-    .factory('wdConnect', connect);
+    .controller('internationalAuthController', internationalAuthController)
+    .directive('wdUserProfileButton', userProfileButton)
+
+    .factory('wdWandoujiaAuth', wandoujiaAuth)
+    .controller('wandoujiaAuthController', wandoujiaAuthController);
 });

@@ -1,16 +1,12 @@
 define([
-    'io',
-    'underscore',
-    'jquery'
+    'io'
 ], function(
-    io,
-    _,
-    $
+    io
 ) {
 'use strict';
 
-return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', 'wdGoogleSignIn', 'wdDevice', '$injector', '$q',
-function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   wdGoogleSignIn,   wdDevice,   $injector,   $q) {
+return ['wdEventEmitter', '$rootScope', 'wdDev', '$log', 'GA', '$q',
+function(wdEventEmitter,   $rootScope,   wdDev,   $log,   GA,   $q) {
 
 function Socket() {
     // Mixin event emitter behavior.
@@ -23,9 +19,7 @@ function Socket() {
 Socket.prototype = {
 
     constructor: Socket,
-    RECONNECT_TIMES : 0,
     MAX_RECONNECTION_ATTEMPTS : 2,
-    MAX_SOCKET_CONNECT_TIMES: 3,
     defer: null,
     /**
      * Destroy everything.
@@ -102,7 +96,7 @@ Socket.prototype = {
         this._transport.on('disconnect', function disconnect() {
             $rootScope.$apply(function() {
                 if (wdDev.isRemoteConnection()) {
-                    self.showDisconnectPanel();   
+                    self.trigger('socket:disconnected'); 
                 }
                 self.defer.reject();
             });
@@ -114,7 +108,7 @@ Socket.prototype = {
             $log.log('Socket will try reconnect after ' + reconnectionDelay + ' ms, for ' + reconnectionAttempts + ' times.');
            
             if (reconnectionAttempts === self.MAX_RECONNECTION_ATTEMPTS) {
-                self.showDisconnectPanel();
+                self.trigger('socket:disconnected'); 
             }
         });
 
@@ -170,104 +164,6 @@ Socket.prototype = {
             }
         }
         return this;
-    },
-
-    showDisconnectPanel: function() {
-        this.trigger('socket:disconnected');
-    },
-
-    refreshDeviceAndConnect: function() {
-        var defer = $q.defer();
-        var self = this;
-        GA('connection:request_category:socket');
-
-        //this.MAX_SOCKET_CONNECT_TIMES = 3;
-        wdGoogleSignIn.getDevices().then(function(list) {
-            var device = wdDevice.getDevice();
-
-            var currentOnlineDevice = _.find(list, function(item) {
-                return device && (item.id === device.id);
-            });
-
-            if (currentOnlineDevice) {
-                // 3G
-                if (!currentOnlineDevice.ip) {
-                    $injector.invoke(['wdConnect', function(wdConnect) {
-                        wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data) {
-                            wdDev.setRequestWithRemote(data);
-
-                            wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
-                                wdDev.setRequestWithRemote(false);
-
-                                wdDev.setRemoteConnectionData(data);
-                                self.close();
-                                self.connect().then(function() {
-                                    GA('connection:socket_retry_connect:success_3g');
-                                    $rootScope.$broadcast('connection:changed');
-                                    defer.resolve();
-                                }, function() {
-                                    GA('connection:socket_retry_connect:failed_socket_3g');
-                                    defer.reject();
-                                });
-                            }, function() {
-                                wdDev.setRequestWithRemote(false);
-
-                                GA('connection:socket_retry_connect:failed_connect_3g');
-                                defer.reject();
-                            });
-                        }, function(){
-                            GA('connection:socket_retry_connect:failed_server_3g');
-                            defer.reject();
-                        });
-                    }]);
-                } else {
-                    wdDevice.lightDeviceScreen(device.id);
-                    wdDev.closeRemoteConnection();
-                    $injector.invoke(['wdConnect', function(wdConnect) {
-                        wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
-                            self.close();
-                            self.connect().then(function(){
-                                GA('connection:socket_retry_connect:success_direct');
-                                $rootScope.$broadcast('connection:changed');
-                                defer.resolve();
-                            });
-                        }, function() {
-                            wdConnect.remoteConnectWithRetry(currentOnlineDevice).then(function(data){
-                                wdDev.setRequestWithRemote(data);
-
-                                wdConnect.connectDeviceWithRetry(currentOnlineDevice).then(function() {
-                                    wdDev.setRequestWithRemote(false);
-
-                                    wdDev.setRemoteConnectionData(data);
-                                    self.close();
-                                    self.connect().then(function() {
-                                        $rootScope.$broadcast('connection:changed');
-                                        GA('connection:socket_retry_connect:success_wifi');
-                                        defer.resolve();
-                                    }, function() {
-                                        GA('connection:socket_retry_connect:failed_socket_wifi');
-                                        defer.reject();
-                                    });
-                                }, function() {
-                                    wdDev.setRequestWithRemote(false);
-
-                                    GA('connection:socket_retry_connect:failed_connect_wifi');
-                                    defer.reject();
-                                });
-                            }, function() {
-                                GA('connection:socket_retry_connect:failed_server_wifi');
-                                defer.reject();
-                            });
-                        });
-                    }]);
-                }
-            } else {
-                defer.reject();
-            }
-        }, function(xhr) {
-            defer.reject();
-        });
-        return defer.promise;
     }
 };
 

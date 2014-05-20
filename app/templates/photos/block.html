@@ -9,9 +9,7 @@
     <div class="wd-block-mask" ng-click="selectedPhotos().length ? select(photo, $event.shiftKey) : preview(photo);$root.GA('photos:photo:click')">
     </div>
     <div wd-checkbox class="wd-block-select"
-        ng-if="!$root.READ_ONLY_FLAG"
         ng-click="select(photo, $event.shiftKey);"
-        bs-tooltip="{{checkboxTipText}}"
         ng-checked="photo.selected"></div>
     <div class="wd-block-actions">
         <div class="wd-block-actions-inner" wd-strip>
@@ -33,9 +31,15 @@
 
             <span class="action-share"
                 ng-if="$root.READ_ONLY_FLAG"
-                bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE}}"
-                ng-click="shareToWeibo(photo);$root.GA('photos:photo:share')"
-                ><i class="icon-share"></i></span>
+                bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_WEIBO}}"
+                ng-click="shareToWeibo(photo);$root.GA('photos:photo:share_weibo')"
+                ><i class="icon-share-weibo"></i></span>
+
+             <span class="action-share"
+                ng-if="$root.READ_ONLY_FLAG"
+                bs-tooltip="{{$root.DICT.photos.BLOCK_SHARE_QZONE}}"
+                ng-click="shareToQzone(photo);$root.GA('photos:photo:share_qzone')"
+                ><i class="icon-share-qzone"></i></span>
         </div>
     </div>
     <div class="wdp-progress"></div>

@@ -1,0 +1,17 @@
+.wdj-ebooks {
+    .detail-actions-bar {
+        border-top: 1px solid #dcdcdc;
+        background-color: #f5f5f5;
+    }
+    .mask .video-detail {
+        .delete-videos,
+        .download-ebooks {
+            width: 198px;
+            border: none;
+        }
+
+        .delete-videos {
+            border-right: 1px solid #dcdcdc;
+        }
+    }
+}

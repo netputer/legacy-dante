@@ -31,7 +31,7 @@
         <!-- 新安装的应用列表 end -->
 
         <!-- 已安装的应用列表 -->
-        <dl class="wd-block app-block" ng-repeat="item in list" ng-class="{'confirm':item.confirmTipShow, 'wd-block-selected': item.checked, 'wd-block-selecting': selectedNum}" ng-style="{width:appBlockWidth,height:appBlockHeight}">
+        <dl class="wd-block app-block" ng-repeat="item in list" ng-class="{'confirm':item.confirmTipShow, 'wd-block-selected': item.checked, 'wd-block-selecting': selectedNum}" ng-style="{width:appBlockWidth,height:appBlockHeight}" wd-list-perf-tracker>
             <div class="content">
                 <dt>
                     <i class="icon-app-default" ng-show="$root.remoteConnection && $root.remoteConnection.wap && !$root.remoteConnection.loadPictures"></i>

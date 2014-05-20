@@ -10,12 +10,12 @@ return [function() {
         template: template,
         scope: true,
         controller: [
-                '$scope', 'wdDevice', 'wdGoogleSignIn', 'wdShare',
+                '$scope', 'wdDevice', 'wdInternationalAuth', 'wdShare',
                 'wdAlert', 'GA', '$rootScope', 'wdLanguageEnvironment',
-                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings', 'wdSignInDetection', 'wandoujiaSignIn',
-        function($scope,   wdDevice,  wdGoogleSignIn,   wdShare,
+                '$q', 'wdToast',  '$timeout', '$window', 'wdUserSettings', 'wdSignInDetection', 'wdWandoujiaAuth',
+        function($scope,   wdDevice,  wdInternationalAuth,   wdShare,
                  wdAlert,  GA,    $rootScope,   wdLanguageEnvironment,
-                 $q,   wdToast,   $timeout, $window, wdUserSettings, wdSignInDetection, wandoujiaSignIn) {
+                 $q,   wdToast,   $timeout,    $window,   wdUserSettings,   wdSignInDetection,   wdWandoujiaAuth) {
             $scope.isLoadingDevices = false;
             $scope.isChangeDevicesPopShow = false;
             $scope.wandoujiaSignOutUrl = '';
@@ -41,12 +41,12 @@ return [function() {
 
             $rootScope.$on('sidebar:open', function() {
                 if ($rootScope.READ_ONLY_FLAG) {
-                    $scope.wandoujiaSignOutUrl = wandoujiaSignIn.getSignOutUrl();
-                    wandoujiaSignIn.getProfile().then(function(data) {
+                    $scope.wandoujiaSignOutUrl = wdWandoujiaAuth.getSignOutUrl();
+                    wdWandoujiaAuth.getProfile().then(function(data) {
                         $scope.profileInfo = data;
                     });
                 } else {
-                    wdGoogleSignIn.getProfile().then(function(data) {
+                    wdInternationalAuth.getProfile().then(function(data) {
                         $scope.profileInfo = data;
                     });                    
                 }
@@ -101,7 +101,7 @@ return [function() {
                 var currentDevice = wdDevice.getDevice();
                 GA('connection:request_category:switch_device_sidebar');
                 if(item.id !== currentDevice.id || item.ip !== currentDevice.ip){
-                    wdDevice.signout();
+                    wdDevice.signOut();
                     wdDevice.setDevice(item);
                     $scope.deviceList = [];
                     $scope.isLoadingDevices = true;
@@ -118,7 +118,7 @@ return [function() {
                 $timeout(function() {
                     $scope.isLoadingDevices = true;
                     (function getDevices() {
-                        wdGoogleSignIn.getDevices().then(function(list) {
+                        wdDevice.getDeviceList().then(function(list) {
                             $scope.isLoadingDevices = false;
                             $scope.deviceList = getListData(list);
                         }, function(xhr) {
@@ -129,18 +129,21 @@ return [function() {
             }
 
             function loopRefreshDevices() {
-                $scope.loopRefreshDevices = wdGoogleSignIn.loopGetDevices();
-                $scope.$watch('loopRefreshDevices', function(newData, oldData) {
+                wdDevice.loopGetDeviceList().then(function(list) {
+                    $scope.loopRefreshDevices = list;
+
+                    $scope.$watch('loopRefreshDevices', function(newData, oldData) {
                     
-                    // siderbar 的设备列表中至少有一台设备
-                    if(newData !== oldData) {
-                        $scope.deviceList = getListData(newData);
-                    }
-                }, true);
+                        // siderbar 的设备列表中至少有一台设备
+                        if(newData !== oldData) {
+                            $scope.deviceList = getListData(newData);
+                        }
+                    }, true);
+                });
             }
 
             function stopLoopRefreshDevices() {
-                wdGoogleSignIn.stopLoopGetDevices();
+                wdDevice.stopLoopGetDeviceList();
             }
 
             function getListData(list) {
@@ -162,8 +165,8 @@ return [function() {
             }
 
             $scope.signout = function() {
-                wdGoogleSignIn.removeSignInFlag();
-                var toastPromise = wdGoogleSignIn.signout().then(function() {
+                wdInternationalAuth.removeSignInFlag();
+                var toastPromise = wdInternationalAuth.signout().then(function() {
 
                     // 检测是否在其他页面登陆，或者在弹出窗口登陆等
                     wdSignInDetection.stopSignOutDetection();

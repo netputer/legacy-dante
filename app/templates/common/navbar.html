@@ -29,6 +29,18 @@
                     data-options="{placement: 'right'}"
                     ng-click="$root.GA('navbar:applications')"><i class="icon-app"></i></a>
             </li>
+            <li wd-nav-item="videos" ng-if="$root.READ_ONLY_FLAG === 2">
+                <a href="#/videos"
+                    bs-tooltip=""
+                    data-options="{placement: 'right'}"
+                    ng-click="$root.GA('navbar:videos')"><i class="icon-video"></i></a>
+            </li>
+            <li wd-nav-item="ebooks" ng-if="$root.READ_ONLY_FLAG === 2">
+                <a href="#/ebooks"
+                    bs-tooltip=""
+                    data-options="{placement: 'right'}"
+                    ng-click="$root.GA('navbar:ebooks')"><i class="icon-ebook"></i></a>
+            </li>
         </ul>
         <ul class="nav nav-settings">
             <li ng-show="$root.remoteConnection && $root.remoteConnection.wap" ng-switch="$root.remoteConnection.networkType">

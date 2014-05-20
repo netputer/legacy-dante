@@ -1,0 +1,68 @@
+<div class="wdj-videos wdj-ebooks">
+    <ul class="video-list">
+        <li ng-repeat="item in list" class="wd-block">
+            <img ng-src="{{item.videoBase.cover.l}}" ng-click="showDetailPanel(item);">
+            <div class="title">{{item.videoBase.title}}</div>
+            <div class="actions-bar wd-block-actions">
+                <div class="wd-block-actions-inner">
+                    <span class="action-delete" 
+                    bs-tooltip="{{$root.DICT.photos.BLOCK_DELETE}}"
+                    ng-click="delete(item);$root.GA('videos:video:delete')"
+                    ><i class="icon-delete-dark"></i></span>
+
+                    <span class="action-download"
+                    bs-tooltip="{{$root.DICT.photos.BLOCK_DOWNLOAD}}"
+                    ng-click="download(item);$root.GA('videos:video:download')"
+                    ><i class="icon-down-dark"></i></span>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div class="mask" ng-class="{'show-mask': toggleDetailPanel, 'display-mask': displayMask}" ng-click="closeDetailPanel()">
+        <div class="video-detail" ng-click="$event.stopPropagation();">
+            <span class="close-btn" ng-click="closeDetailPanel()">&times;</span>
+            <div class="video-basic-info">
+                <img ng-src="{{video.videoBase.cover.s}}">
+                <div class="title">{{video.videoBase.title}}</div>
+            </div>
+            <div class="video-info">
+                <ul class="video-meta-list">
+                    <li>
+                        <span class="meta-name">章节:</span>
+                        <span class="meta-value">{{video.videoEpisodes.length}} 章</span>
+                    </li>
+                    <li>
+                        <span class="meta-name">格式:</span>
+                        <span class="meta-value">MP4</span>
+                    </li>
+                    <li>
+                        <span class="meta-name">文件大小:</span>
+                        <span class="meta-value">1024 M</span>
+                    </li>
+                </ul>
+
+                <div class="video-episode-list-wrapper">
+                    <ul class="video-episode-list">
+                        <li ng-repeat="episode in video.videoEpisodes">
+                            <span class="episode-num-title">第 <span class="episode-num">{{ $index + 1 }}</span> 卷</span>
+                            <span class="episode-size">{{ episode.baseInfo.size | sizeFormat }} M</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list-detail-shadow"></div>
+            </div>
+            <div class="detail-actions-bar">
+                <button class="delete-videos" ng-click="deleteVideos();$event.stopPropagation();">
+                    <i class="icon-del-toolbar"></i>
+                    <span>删除</span>
+                </button>
+                <button class="download-ebooks" ng-click="downloadEbooks();$event.stopPropagation();">
+                    <i class="icon-down-toolbar"></i>
+                    <span>下载</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

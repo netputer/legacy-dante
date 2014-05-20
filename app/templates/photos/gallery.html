@@ -15,7 +15,7 @@
         </div>
         <!-- 拍照实时显示的介绍 end -->
 
-        <div class="wdp-showcases-container">  
+        <div class="wdp-showcases-container" ng-class="{'show-actionbar': showActionbar  && !containerScrolled}">  
             <div class="wdp-showcase">
                 <div class="wdp-block"
                     wdp-repeat="photo in photos"
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="wdp-actionbar" ng-if="!$root.READ_ONLY_FLAG"></div>
+        <div class="wdp-actionbar" ng-class="{'show-actionbar': $root.READ_ONLY_FLAG && showActionbar, 'hide-actionbar': $root.READ_ONLY_FLAG}"></div>
         <div class="btn album-settings"
         ng-if="!$root.READ_ONLY_FLAG"
             bs-tooltip="{{$root.DICT.photos.ALBUM_SETTINGS}}"
