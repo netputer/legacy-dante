@@ -35,5 +35,16 @@
     "REC_TITLE": "可以更快速的查看您的照片了噢！",
     "REC_CONTENT": "安装chrome插件可以一键查看所有的照片噢。",
     "REC_ADD_TO_CHROME": "添加至Chrome",
-    "REC_MORE_INFO": "了解更多"
+    "REC_MORE_INFO": "了解更多",
+    "PHOTO_EXTENSION": {
+        "H1": "使用浏览器插件访问云相册",
+        "DESCRIBE": "只需一点，轻松查看手机最新照片，并可下载或分享给好友。",
+        "CHROME_BUTTON": "Chrome 浏览器",
+        "360SE_BUTTON": "360 安全浏览器",
+        "CHROME": "Chrome 浏览器",
+        "360SE": "360 安全浏览器",
+        "DETAIL": "查看详情",
+        "INSTALL": "立即安装",
+        "HOME_PAGE_DESCRIBE": "使用浏览器插件访问云相册，只需一点，轻松查看手机最新照片。 "
+    }
 }

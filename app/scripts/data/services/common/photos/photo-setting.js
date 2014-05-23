@@ -10,6 +10,15 @@ return ['$window', function($window) {
             }
         },
 
+        // 介绍安装 photo extension 
+        photoExtensionIntroducesEnabled: function(value) {
+            if (arguments.length > 0) {
+                $window.localStorage.setItem('photoExtensionAdHide', value);
+            } else {
+                return $window.localStorage.getItem('photoExtensionAdHide') !== 'true';
+            }
+        },
+
         chromePhotoExtensionTipsEnabled: function(value) {
             if (arguments.length > 0) {
                 $window.localStorage.setItem('photosExtensionInstalled', value);

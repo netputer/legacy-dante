@@ -15,7 +15,22 @@
         </div>
         <!-- 拍照实时显示的介绍 end -->
 
-        <div class="wdp-showcases-container" ng-class="{'show-actionbar': showActionbar  && !containerScrolled}">  
+        <!-- 云相册 extenion 的引导安装 -->
+        <div class="photo-extension-intro" ng-class="{hide: addPhotoExtensionIntroHideClass}" ng-if="$root.READ_ONLY_FLAG && showPhotoExtensionIntro">
+            <i class="icon-photo-extension"></i>
+            <div class="describe">
+                <p class="title">{{$root.DICT.photos.PHOTO_EXTENSION.H1}}</p>
+                <p class="des">{{$root.DICT.photos.PHOTO_EXTENSION.DESCRIBE}}</p>
+            </div>
+            <div class="btns">
+                <div class="btn chrome" ng-click="installChromePhotoExtension();">{{$root.DICT.photos.PHOTO_EXTENSION.CHROME}}</div>
+                <div class="btn se360" ng-click="install360PhotoExtension();">{{$root.DICT.photos.PHOTO_EXTENSION.360SE_BUTTON}}</div>
+            </div>
+            <i class="icon-close" ng-click="hidePhotoExtensionIntro();"></i>
+        </div>
+        <!-- 云相册 extenion 的引导安装 end -->
+
+        <div class="wdp-showcases-container" ng-class="{'show-actionbar': showActionbar && !containerScrolled}">  
             <div class="wdp-showcase">
                 <div class="wdp-block"
                     wdp-repeat="photo in photos"

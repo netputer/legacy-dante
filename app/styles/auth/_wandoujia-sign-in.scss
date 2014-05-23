@@ -1,99 +1,141 @@
-.wandou-signin-wrapper{
+.wandou-signin-wrapper {
     @include position(fixed, 0px 0px 0px 0px);
     @include ui-layer-top;
     background: #ffffff;
     overflow-y: auto;
 }
 
-.wandou-signin{
+.wandou-signin {
     width: 960px;
     margin: 0px auto;
-    .header{
+    .header {
         height: 40px;
-        .logo{
+        .logo {
             margin-top: 34px;
             height: 40px;
         }
     }
 
-    .content{
-        height: 580px;
-        min-width:940px;
-        position: absolute;
-        top: 50%;
-        margin-top: -280px;
-        .left{
-            .introduce{
-                $filename: "isolate/introduce.png";
-                @include background-retina("isolate/introduce.png", "isolate/introduce-2x.png");
-                width: image-width($filename);
-                height: image-height($filename);
+    .content {
+        height: 100%;
+        min-height: 800px;
+        min-width: 940px;
+        @include position(absolute, 0px 0 0 0);
+        .vertical-center {
+            height: 560px;
+            margin-top: -300px;
+            @include position(absolute, 50% 0 0 0);
+            .left {
+                .introduce {
+                    $filename: "isolate/introduce.png";
+                    @include background-retina("isolate/introduce.png", "isolate/introduce-2x.png");
+                    width: image-width($filename);
+                    height: image-height($filename);
+                }
+                float: left;
             }
-            float: left;
-        }
-        .right{
-            position: relative;
-            width: 408px;
-            float: left;
-            margin-top: 160px;
-            .title{
-                font-size: 35px;
-                font-weight: $global-font-weight-bold;
-                height: 40px;
-                line-height: 40px;
-                margin: 0px 0px 18px 0px;
-            }
-            .des{
-                color: #999;
-                font-size: 13px;
-                margin-bottom: 40px;
+            .right {
+                position: relative;
+                width: 408px;
+                float: left;
+                margin-top: 160px;
+                .title {
+                    font-size: 32px;
+                    font-weight: $global-font-weight-normal;
+                    height: 40px;
+                    line-height: 40px;
+                    margin: 0px 0px 20px 0px;
+                }
+                .des {
+                    color: #999;
+                    font-size: 14px;
+                    margin-bottom: 40px;
+                    line-height: 24px;
+                }
+
+                .wandou-signin-btn {
+                    color: #ffffff;
+                    width: 200px;
+                    height: 45px;
+                    display: block;
+                    line-height: 45px;
+                    text-align: center;
+                    font-size: 16px;
+                    font-weight: $global-font-weight-normal;
+                    text-decoration: none;
+                }
+
+                .no-support {
+                    @include position(absolute, 120px 0 0 0px);
+                    width: 368px;
+                    margin: 0;
+                    height: auto;
+                    background-color: #eee;
+                    padding: 18px 20px 20px 20px;
+                    font-size: 12px;
+                }
             }
 
-            .wandou-signin-btn{
-                color: #ffffff;
-                width: 110px;
-                height: 30px;
-                display: block;
-                line-height: 30px;
+            .photo-extension-intro {
+                height: 60px;
+                width: 890px;
+                margin: 0 auto;
                 text-align: center;
-                font-size: 15px;
-                font-weight: $global-font-weight-normal;
-                text-decoration: none;
-            }
-
-            .no-support{
-                width: 368px;
-                left: 0;
-                top: 120px;
-                margin: 0;
-                height: auto;
-                background-color: #eee;
-                padding: 18px 20px 20px 20px;
-                font-size: 12px;
+                background-color: #f4f4f4;
+                @include position(absolute, 470px 0 0 55px);
+                @include transition(all $global-transition-duration);
+                &.hide {
+                    display: block;
+                    opacity: 0;
+                    height: 0px;
+                }
+                .icon-photo-extension-small {
+                    display: inline-block;
+                    margin-top: 20px;
+                    margin-right: 10px;
+                }
+                .describe {
+                    text-align: left;
+                    display: inline-block;
+                    margin-top: 24px;
+                    margin-right: 20px;
+                    font-size: 14px;                
+                    .title {
+                        font-size: 20px;
+                    }
+                    .des {
+                        color: #333;
+                        .chrome-link {
+                            margin-right: 10px;
+                        }
+                    }
+                }
             }
         }
-    }
 
-    .footer{
-        border-top: 1px solid #eee;
-        text-align: center;
-        color: #999;
-        display: block;
-        width: 960px;
-        float: left;
-        font-size: 12px;
-        padding-top: 30px;
-        position: absolute;
-        bottom: 20px;
-        a{
+        .footer {
+            border-top: 1px solid #eee;
+            text-align: center;
             color: #999;
-        }
-        p{
-            margin: 0px;
+            display: block;
+            width: 960px;
+            height: 80px;
+            float: left;
+            font-size: 12px;
+            padding-top: 30px;
+            @include position(absolute, 0 0 0px 0);
+            background: #fff;
+            a {
+                color: #999;
+            }
+            p {
+                margin: 0px;
+            }
         }
     }
 
-    .loading{
+
+    .loading {
         background-color: #fff;
         position: fixed;
         left: 0px;
