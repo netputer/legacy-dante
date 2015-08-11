@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <!-- 垂直居中的部分 -->
-                
+
                 <div class="footer">
                     <p class="copyright">&copy; 2010 - 2013 豌豆实验室  北京卓易讯畅科技有限公司
                     </p>
@@ -123,6 +123,21 @@
     </div>
     <div class="ng-cloak" wd-navbar></div>
     <div class="ng-cloak" bs-modal wd-alert></div>
+
+    <div class="modal fade notice-modal" style="width: 600px; margin-left:-300px;">
+        <div class="modal-header" style="padding: 10px 20px 0;">
+            <button type="button" class="close">×</button>
+            <h3>豌豆荚云备份将停止服务</h3>
+        </div>
+        <div class="modal-body" style="padding: 10px 20px 0;">
+            <p>亲爱的用户，</p>
+            <p>非常遗憾地通知您，豌豆荚云备份（包括云相册、短信、联系人、应用备份）将从 2015 年 10 月 11 日 0 时起，停止提供服务。</p>
+            <p>从 7 月 11 日 0 时到停止服务的 3 个月时间内，云备份不再提供图片、短信、联系人、应用的上传和备份服务，仅提供下载和恢复服务，请您及时保存个人资料。如需批量导出，请<a href="http://www.wandoujia.com/sync-exports.html" target="_blank">点击这里</a>并留下您的账号邮箱。如无特殊情况，我们将在 24 小时内将打包内容发送至邮箱。</p>
+            <p>云备份服务的停止不会影响任何其他豌豆荚产品和服务的正常使用。希望豌豆荚继续为您提供更好的应用、游戏发现下载服务。</p>
+            <p>非常感谢云备份用户的陪伴。</p>
+            <p style="text-align:right;">云备份团队</p>
+        </div>
+    </div>
 
     <script type="text/javascript">
         var perfTracker = {};
@@ -165,7 +180,7 @@
 
             if (window.jQuery) {
 
-                //feedback style hack 
+                //feedback style hack
                 var zenboxBtn = jQuery('#zenbox_tab');
                 zenboxBtn.prepend('<div class="background"></div>');
 
