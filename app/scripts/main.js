@@ -24,4 +24,6 @@ require.config({
     }
 });
 
-require(['app'], function() {});
+require(['app'], function() {
+    $('.notice-modal').modal('show');
+});
